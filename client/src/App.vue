@@ -1,19 +1,19 @@
 <template>
 	<div id="app">
 		<nav-bar />
-		<topics />
+
+		<!-- Display the router Stuff -->
+		<router-view :key="routerViewKey" />
 	</div>
 </template>
 
 <script>
-	import NavBar from './components/NavBar'
-	import Topics from './components/Topics'
+	import NavBar from './components/nav/NavBar'
 
 	export default {
 		name: 'App',
 		components: {
 			NavBar,
-			Topics
 		}
 	}
 </script>
@@ -24,11 +24,5 @@
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		color: #2c3e50;
-	}
-	.bg-info {
-		background-color: #3d157d !important;
-	}
-	.text-info {
-		color: #3d157d !important;
 	}
 </style>
