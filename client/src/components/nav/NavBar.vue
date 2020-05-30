@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<div class="py-2 bg-info shadow-sm">
+		<article class="py-2 bg-info shadow-sm">
 			<div class="container">
 				<nav class="navbar navbar-expand-lg navbar-dark bg-info">
 					<a class="navbar-brand" href="#"><i>BlockBased.io</i></a>
@@ -19,18 +19,18 @@
 					</div>
 				</nav>
 			</div>
-		</div>
-		<div class="p-0 bg-secondary shadow-sm">
+		</article>
+		<article class="p-0 bg-secondary shadow-sm">
 			<div class="container">
-				<div class=" navbar">
+				<nav class="navbar">
 					<div class="mr-auto"></div>
 				
 					<div>
 						<button class="ml-2 btn btn-sm btn-info">Login</button>
 						<button class="ml-2 btn btn-sm btn-outline-info">Register</button>
 					</div>
-				</div>
+				</navS>
 			</div>
-		</div>
+		</article>
 	</section>
 </template>
