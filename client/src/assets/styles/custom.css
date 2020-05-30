@@ -1,6 +1,32 @@
+/* BTN BACKGROUND */
 .bg-info {
 	background-color: #3d2f54 !important;
 }
+
+/* BTN INFO */
+.btn-info {
+	color: white;
+	background-color: #3d2f54 !important;
+	border-color: #3d2f54 !important;
+}
+.btn-info:hover {
+	color: white !important;
+	background-color: #3d2f54c9 !important;
+	border-color: #3d2f54 !important;
+}
+
+/* BTN OUTLINE INFO */
+.btn-outline-info {
+	color: #3d2f54 !important;
+	border-color: #3d2f54 !important;
+}
+.btn-outline-info:hover {
+	color: white !important;
+	background-color: #3d2f54 !important;
+	border-color: #3d2f54 !important;
+}
+
+/* TEXT INFO */
 .text-info {
 	color: #3d2f54 !important;
 }

@@ -1,35 +1,36 @@
 <template>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-info shadow-sm">
-		<div class="container">
-			<div class="w-100 row">
-				<button
-					class="navbar-toggler"
-					type="button"
-					data-toggle="collapse"
-					data-target="#navbarTogglerDemo01"
-					aria-controls="navbarTogglerDemo01"
-					aria-expanded="false"
-					aria-label="Toggle navigation"
-				>
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				
-				<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-					<a class="navbar-brand" href="#"><i>BlockBased</i></a>
-					<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-						<li class="nav-item">
-							<a class="nav-link" href="#">Link</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Disabled</a>
-						</li>
-					</ul>
-					<form class="form-inline my-2 my-lg-0">
-						<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-						<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-					</form>
-				</div>
-			</div>	
+	<section>
+		<div class="py-2 bg-info shadow-sm">
+			<div class="container">
+				<nav class="navbar navbar-expand-lg navbar-dark bg-info">
+					<a class="navbar-brand" href="#"><i>BlockBased.io</i></a>
+					<button class="navbar-toggler">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+
+					<div class="collapse navbar-collapse">
+						<div class="navbar-nav mr-auto"></div>
+						<div class="input-group" style="width: 300px;">
+							<input type="text" class="form-control bg-light">
+							<div class="input-group-append">
+								<button class="btn btn-outline-light">Button</button>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</div>
 		</div>
-	</nav>
+		<div class="p-0 bg-secondary shadow-sm">
+			<div class="container">
+				<div class=" navbar">
+					<div class="mr-auto"></div>
+				
+					<div>
+						<button class="ml-2 btn btn-sm btn-info">Login</button>
+						<button class="ml-2 btn btn-sm btn-outline-info">Register</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 </template>
