@@ -5,38 +5,51 @@
 			:key="index"
 			class="m-0 bg-dark"
 		>
-			<a href="/">
-				<article class="d-inline-block w-100">
-					<!-- Image Section -->
-					<div class="p-3 float-left" style="width: 15%;">
-						<img src="../../assets/images/square-placeholder.jpg" class="w-100 rounded-circle">
-					</div>
+			<article
+				@click="redirectToPost(cat.cat_id)"
+				class="d-inline-block w-100"
+			>
+				<!-- Image Section -->
+				<div class="px-2 pt-3 float-left" style="width: 10%;">
+					<img
+						src="../../assets/images/placeholder.jpg"
+						class="w-100 border border-secondary rounded-circle"
+					>
+				</div>
 
-					<!-- Title -->
-					<div class="px-1 py-3 float-right" style="width: 85%;">
-						<h4 class="text-light">{{ cat.title }}</h4>
-						<p class="m-0 text-light">{{ cat.description }}</p>
-					</div>
-				</article>
-			</a>
+				<!-- Title -->
+				<div class="px-1 py-3 float-right" style="width: 90%;">
+					<h3 class="text-light">{{ cat.title }}</h3>
+					<p class="m-0 text-light">{{ cat.description }}</p>
+				</div>
+			</article>
 		</li>
 	</ul>
 </template>
 
 <script>
-export default {
-	props: {
-		cats: {
-			type: Array,
-			required: true
+	/*** [IMPORT] Personal ***/
+	import router from '../../router'
+
+	/*** [EXPORT] ***/
+	export default {
+		props: {
+			cats: {
+				type: Array,
+				required: true
+			}
+		},
+
+		methods: {
+			redirectToPost(cat_id) {
+				router.push({ name: 'post-multiple', params: { cat_id: cat_id } })
+			}
 		}
 	}
-}
 </script>
 
 <style scoped>
 	li { list-style: none; }
 	li { background: #343a40 !important; }
 	li:nth-child(even) { background: #42484e !important; }
-
 </style>

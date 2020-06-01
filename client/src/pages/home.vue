@@ -3,16 +3,14 @@
 		<div class="m-3 row">
 			<!-- Main Content -->
 			<section class="col-12 col-md-9">
-				<cat-list :cats="cats1" class="mt-0" />
+				<cat-list :cats="cats1" class="mt-3" />
 				<cat-list :cats="cats2" class="mt-3" />
 				<cat-list :cats="cats3" class="mt-3" />
 			</section>
 
 			<!-- Side Content -->
 			<section class="col-12 col-md-3">
-				<div class="card card-body bg-dark border-secondary">
-					<h6 class="text-light">this is a card</h6>
-				</div>
+				<side-card />
 			</section>
 		</div>
 	</div>
@@ -20,11 +18,13 @@
 
 <script>
 	import CatList from '../components/home/CatList'
+	import SideCard from '../components/home/SideCard'
 	import { cats } from '../../defaults/cats'
 
 	export default {
 		components: {
-			CatList
+			CatList,
+			SideCard
 		},
 
 		data: function() {

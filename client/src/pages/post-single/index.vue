@@ -26,8 +26,6 @@
 			return {
 				comments: comments,
 				pages: [],
-				
-
 			}
 		},
 

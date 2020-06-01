@@ -7,7 +7,8 @@ import Admin from '../pages/admin'
 import AdminLogin from '../pages/admin/AdminLogin'
 import AdminProfile from '../pages/admin/AdminProfile'
 import AdminRegister from '../pages/admin/AdminRegister'
-import SinglePost from '../pages/post-single'
+import PostMultiple from '../pages/post-multiple'
+import PostSingle from '../pages/post-single'
 import Home from '../pages/home'
 import Login from '../pages/user/Login'
 import Profile from '../pages/user/Profile'
@@ -75,12 +76,21 @@ export default new Router ({
 			}
 		},
 		{
-			path: '/post-single/:id/:page',
-			name: 'post-single',
-			component: SinglePost,
+			path: '/post-multiple/:cat_id',
+			name: 'post-multiple',
+			component: PostMultiple,
 			meta: {
 				auth: true,
-				title: 'Post'
+				title: 'Cat Name Here'
+			}
+		},
+		{
+			path: '/post-single/:id/:page',
+			name: 'post-single',
+			component: PostSingle,
+			meta: {
+				auth: true,
+				title: 'Post Title Here'
 			}
 		},
 		{
