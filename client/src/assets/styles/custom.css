@@ -5,7 +5,7 @@
 
 /* BTN INFO */
 .btn-info {
-	color: white;
+	color: white !important;
 	background-color: #3d2f54 !important;
 	border-color: #3d2f54 !important;
 }

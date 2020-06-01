@@ -14,7 +14,14 @@
 		name: 'App',
 		components: {
 			NavBar,
-		}
+		},
+
+		data() {
+			return {
+				routerViewKey: 0,
+				loggedIn: false,
+			}
+		},
 	}
 </script>
 

@@ -7,7 +7,8 @@ import Admin from '../pages/admin'
 import AdminLogin from '../pages/admin/AdminLogin'
 import AdminProfile from '../pages/admin/AdminProfile'
 import AdminRegister from '../pages/admin/AdminRegister'
-import FrontPage from '../pages/FrontPage'
+import SinglePost from '../pages/post-single'
+import Home from '../pages/home'
 import Login from '../pages/user/Login'
 import Profile from '../pages/user/Profile'
 import Register from '../pages/user/Register'
@@ -21,11 +22,11 @@ export default new Router ({
 	routes: [
 		{
 			path: '/',
-			name: 'FrontPage',
-			component: FrontPage,
+			name: 'Home',
+			component: Home,
 			meta: {
 				auth: true,
-				title: 'RpTide'
+				title: 'BlockBased'
 			}
 		},
 		{
@@ -71,6 +72,15 @@ export default new Router ({
 			meta: {
 				auth: true,
 				title: 'Login'
+			}
+		},
+		{
+			path: '/post-single',
+			name: 'post-single',
+			component: SinglePost,
+			meta: {
+				auth: true,
+				title: 'Post'
 			}
 		},
 		{

@@ -95,7 +95,7 @@ async function loadUsersCollection() {
 			useUnifiedTopology: true
 		}	
 	)
-		console.log('dfsdf',db_name)
+	
 	// [RETURN] //
 	return client.db(db_name).collection(c_name)
 }
