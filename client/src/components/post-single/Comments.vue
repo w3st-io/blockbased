@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<div
-			v-for="(comment, index) in page"
+			v-for="(comment, index) in post"
 			:key="index"
 			class="d-flex my-2 py-2 bg-dark border border-secondary rounded-sm"
 		>
@@ -20,18 +20,21 @@
 </template>
 
 <script>
-import { pages } from '../../../defaults/cats'
-export default {
-	data: function() {
-		return {
-			page: pages[0]
-		}
-	},
+	/*** [IMPORT] Personal ***/
+	import { comments } from '../../../defaults/cats'
 
-	created() {
-		console.log(this.page)
+	/*** [EXPORT] ***/
+	export default {
+		data: function() {
+			return {
+				comments: comments,
+				post: []
+			}
+		},
+
+		created: function() {
+		}
 	}
-}
 </script>
 
 <style scoped>

@@ -75,7 +75,7 @@ export default new Router ({
 			}
 		},
 		{
-			path: '/post-single',
+			path: '/post-single/:id/:page',
 			name: 'post-single',
 			component: SinglePost,
 			meta: {
