@@ -3,14 +3,14 @@
 		<div class="m-3 row">
 			<!-- Main Content -->
 			<section class="col-12 col-md-9">
-				<div class="shadow-sm">
-					<cat-list :cats="cats" />
-				</div>
+				<cat-list :cats="cats" />
 			</section>
 
 			<!-- Side Content -->
 			<section class="col-12 col-md-3">
-				<div class="card card-body">this is a card</div>
+				<div class="card card-body bg-dark border-secondary">
+					<h6 class="text-light">this is a card</h6>
+				</div>
 			</section>
 		</div>
 	</div>

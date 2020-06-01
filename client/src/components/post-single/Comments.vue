@@ -3,17 +3,17 @@
 		<div
 			v-for="(comment, index) in page"
 			:key="index"
-			class="d-flex my-2 p-2 bg-white rounded-sm"
+			class="d-flex my-2 py-2 bg-dark border border-secondary rounded-sm"
 		>
 			<!-- Image Section -->
-			<div class="float-left px-3 py-1 border-right border-light" style="width: 15%;">
+			<div class="float-left px-3 py-1 border-right border-secondary" style="width: 15%;">
 				<img src="../../assets/images/placeholder.png" class="w-100 rounded-lg">
 				<p class="text-center m-0">{{ comment.username }}</p>
 			</div>
 
 			<!-- Comment Section -->
-			<div class="float-right p-1" style="width: 85%; flex-grow: 1;">
-				<p class="m-0 text-info">{{ comment.text }}</p>
+			<div class="float-right p-2" style="width: 85%; flex-grow: 1;">
+				<p class="m-0 text-light">{{ comment.text }}</p>
 			</div>
 		</div>
 	</section>

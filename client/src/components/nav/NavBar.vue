@@ -1,9 +1,9 @@
 <template>
 	<section>
 		<!-- Top Bar -->
-		<article class="py-2 bg-info">
+		<article class="py-2 bg-dark">
 			<div class="container">
-				<nav class=" px-0 navbar navbar-expand-lg navbar-dark bg-info">
+				<nav class=" px-0 navbar navbar-expand-lg navbar-dark">
 					<a class="navbar-brand text-light" href="/"><h4><i>BlockBased</i></h4></a>
 					<button class="navbar-toggler">
 						<span class="navbar-toggler-icon"></span>
@@ -14,9 +14,9 @@
 						<div class="navbar-nav mr-auto"></div>
 						<!-- Search and Button -->
 						<div class="input-group" style="width: 300px;">
-							<input type="text" placeholder="Search" class="form-control text-info">
+							<input type="text" placeholder="Search" class="form-control border-secondary bg-dark text-light">
 							<div class="input-group-append">
-								<button class="btn btn-outline-light">Button</button>
+								<button class="btn btn-outline-secondary">Search</button>
 							</div>
 						</div>
 					</div>
@@ -25,7 +25,7 @@
 		</article>
 		
 		<!-- Bottom Bar -->
-		<article class="p-0 bg-secondary shadow-sm">
+		<article class="p-0 bg-info shadow-sm">
 			<div class="container">
 				<nav class="px-0 py-1 navbar">
 					<div class="mr-auto">
@@ -35,19 +35,19 @@
 				
 					<div>
 						<router-link v-if="!loggedIn" to="/login" class="ml-2">
-							<button class="btn btn-sm btn-info">Login</button>
+							<button class="btn btn-sm btn-secondary">Login</button>
 						</router-link>
 
 						<router-link v-if="!loggedIn" to="/register" class="ml-2">
-							<button class="btn btn-sm btn-outline-info">Register</button>
+							<button class="btn btn-sm btn-outline-light">Register</button>
 						</router-link>
 
 						<router-link v-if="loggedIn" to="/profile" class="ml-2">
-							<button class="btn btn-sm btn-info">Your Account</button>
+							<button class="btn btn-sm btn-secondary">Your Account</button>
 						</router-link>
 
 						<a v-if="loggedIn" v-on:click="logout" href="#" class="ml-2">
-							<button class="btn btn-sm btn-outline-info">Log Out</button>
+							<button class="btn btn-sm btn-outline-light">Log Out</button>
 						</a>
 					</div>
 				</nav>

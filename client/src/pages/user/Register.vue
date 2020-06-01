@@ -1,7 +1,7 @@
 <template>
 	<article>
-		<h3 class="m-3 text-center text-info">Join Something Awesome!</h3>
-		<div class="m-auto p-4 card bg-info border-dark register-terminal">
+		<h3 class="m-3 text-center text-light">Join Something Awesome!</h3>
+		<div class="m-auto p-4 card bg-dark border-secondary register-terminal">
 			<!-- FORM + VEE-VALIDATE -->
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(register)">
@@ -17,7 +17,7 @@
 							v-model="first_name"
 							name="first_name"
 							type="text"
-							class="form-control bg-light border-secondary text-info"
+							class="form-control bg-dark border-secondary text-light"
 							placeholder="John"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -35,7 +35,7 @@
 							v-model="last_name"
 							name="last_name"
 							type="text"
-							class="form-control bg-light text-info border-secondary"
+							class="form-control bg-dark border-secondary text-light"
 							placeholder="Doe"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -53,7 +53,7 @@
 							v-model="username"
 							name="username"
 							type="text"
-							class="form-control bg-light text-info border-secondary"
+							class="form-control bg-dark border-secondary text-light"
 							placeholder="username"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -70,7 +70,7 @@
 						<input
 							name="email"
 							type="email"
-							class="form-control bg-light text-info border-secondary"
+							class="form-control bg-dark border-secondary text-light"
 							placeholder="Example@example.com"
 							v-model="email"
 						>
@@ -89,7 +89,7 @@
 							v-model="password"
 							name="password"
 							type="password"
-							class="form-control bg-light text-info border-secondary"
+							class="form-control bg-dark border-secondary text-light"
 							placeholder="******"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -108,7 +108,7 @@
 							v-model="confirm"
 							name="confirm"
 							type="password"
-							class="form-control bg-light text-info border-secondary"
+							class="form-control bg-dark border-secondary text-light"
 							placeholder="******"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -118,7 +118,7 @@
 					<!-- Submit -->
 					<button
 						type="submit"
-						class="btn btn-lg btn-outline-light btn-block"
+						class="btn btn-lg btn-info btn-block"
 					>Register</button>
 				</form>
 			</ValidationObserver>

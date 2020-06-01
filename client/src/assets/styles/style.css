@@ -1,3 +1,7 @@
 body {
-	background-color: rgb(224, 224, 224);
-} 
+	background-color: rgb(66, 72, 78);
+}
+
+.bg-darkish {
+	background-color: rgb(66, 72, 78);
+}

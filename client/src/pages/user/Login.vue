@@ -1,7 +1,7 @@
 <template>
 	<article>
-		<h3 class="m-3 text-center text-info">Welcome Back</h3>
-		<div class="m-auto p-4 card bg-secondary bg-info border-dark login-terminal">
+		<h3 class="m-3 text-center text-light">Welcome Back</h3>
+		<div class="m-auto p-4 card bg-dark border-secondary login-terminal">
 			<!-- lOG IN FORM -->
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(login)">
@@ -17,7 +17,7 @@
 							v-model="email"
 							name="email"
 							type="email"
-							class="form-control border-secondary text-info"
+							class="form-control bg-dark border-secondary text-light"
 							:class="{ 'is-invalid': errors!='' }"
 							placeholder="Example@example.com"
 						>
@@ -36,7 +36,7 @@
 							v-model="password"
 							name="password"
 							type="password"
-							class="form-control border-secondary text-info"
+							class="form-control bg-dark border-secondary text-light"
 							:class="{ 'is-invalid': errors!='' }"
 							placeholder="******"
 						>
@@ -46,7 +46,7 @@
 
 					<!-- FORM SUBMIT -->
 					<button
-						class="btn btn-lg btn-outline-light btn-block"
+						class="btn btn-lg btn-info btn-block"
 						type="submit"
 						:disabled="submitted"
 					>Login</button>
