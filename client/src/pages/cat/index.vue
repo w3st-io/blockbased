@@ -29,8 +29,8 @@
 
 <script>
 	/*** [IMPORT] Import ***/
-	import TitleHeader from '../../components/catBlocks/TitleHeader'
-	import BlockService from '../../services/BlockService'
+	import TitleHeader from '../../components/cat/TitleHeader'
+	import CatService from '../../services/CatService'
 	import router from '../../router'
 
 	/*** [EXPORT] ***/
@@ -47,7 +47,7 @@
 		},
 
 		created: async function() {
-			this.blocks = await BlockService.getAllBlocks()
+			this.blocks = await CatService.getAllBlocks()
 
 			console.log('created', this.blocks)
 		},

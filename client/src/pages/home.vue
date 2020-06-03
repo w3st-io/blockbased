@@ -17,8 +17,8 @@
 </template>
 
 <script>
-	import CatList from '../components/home/CatList'
-	import SideCard from '../components/home/SideCard'
+	import CatList from '../components/forum/CatList'
+	import SideCard from '../components/forum/SideCard'
 	import { cats } from '../../defaults/cats'
 
 	export default {

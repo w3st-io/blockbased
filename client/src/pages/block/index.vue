@@ -18,7 +18,7 @@
 
 <script>
 	/*** [IMPORT] Personal ***/
-	import BlocksXCommentsService from '../../services/BlocksXCommentsService'
+	import BlockService from '../../services/BlockService'
 	import TitleHeader from '../../components/block/TitleHeader'
 
 	/*** [EXPORT] ***/
@@ -39,7 +39,7 @@
 
 		created: async function() {
 			try {
-				this.commentIds = await BlocksXCommentsService.getCommentIds(this.block_id)
+				this.commentIds = await BlockService.getCommentIds(this.block_id)
 				// Put All Comments Into Sections(pages) //
 				this.pages = this.returnPages(this.commentIds)
 				console.log(this.pages)
