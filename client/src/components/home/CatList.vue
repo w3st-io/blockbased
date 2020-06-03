@@ -6,7 +6,7 @@
 			class="m-0 bg-dark"
 		>
 			<article
-				@click="redirectToPost(cat.cat_id)"
+				@click="redirectToCatBlocks(cat.cat_id)"
 				class="d-inline-block w-100"
 			>
 				<!-- Image Section -->
@@ -19,7 +19,7 @@
 
 				<!-- Title -->
 				<div class="px-1 py-3 float-right" style="width: 90%;">
-					<h3 class="text-light">{{ cat.title }}</h3>
+					<h4 class="text-light">{{ cat.title }}</h4>
 					<p class="m-0 text-light">{{ cat.description }}</p>
 				</div>
 			</article>
@@ -41,8 +41,8 @@
 		},
 
 		methods: {
-			redirectToPost(cat_id) {
-				router.push({ name: 'post-multiple', params: { cat_id: cat_id } })
+			redirectToCatBlocks(cat_id) {
+				router.push({ name: 'CatBlocks', params: { cat_id: cat_id } })
 			}
 		}
 	}
@@ -50,6 +50,10 @@
 
 <style scoped>
 	li { list-style: none; }
+
 	li { background: #343a40 !important; }
 	li:nth-child(even) { background: #42484e !important; }
+
+	li:hover { background: rgb(67, 72, 117) !important; }
+	li:nth-child(even):hover { background: rgb(67, 72, 117) !important; }
 </style>

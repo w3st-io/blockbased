@@ -46,16 +46,16 @@ export const cats = [
 
 export const posts = [
 	{
-		title: 'General Discussion',
-		description: 'description here!'
+		title: 'Lorem ipsum dolor sit amet',
+		description: 'description is here '
 	},
 	{
-		title: 'title 2',
-		description: 'description here!'
+		title: 'consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore',
+		description: 'description is here '
 	},
 	{
-		title: 'title 3',
-		description: 'description here!'
+		title: 'et dolore magna aliqua. Ut enim ad minim veniam',
+		description: 'description is here '
 	},
 ]
 

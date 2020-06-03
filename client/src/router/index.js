@@ -7,8 +7,10 @@ import Admin from '../pages/admin'
 import AdminLogin from '../pages/admin/AdminLogin'
 import AdminProfile from '../pages/admin/AdminProfile'
 import AdminRegister from '../pages/admin/AdminRegister'
-import PostMultiple from '../pages/post-multiple'
-import PostSingle from '../pages/post-single'
+import Block from '../pages/block'
+import BlockCommentCreate from '../pages/block/blockCommentCreate'
+import CatBlocks from '../pages/catBlocks'
+import CreateBlock from '../pages/catBlocks/CreateBlock'
 import Home from '../pages/home'
 import Login from '../pages/user/Login'
 import Profile from '../pages/user/Profile'
@@ -67,30 +69,48 @@ export default new Router ({
 			}
 		},
 		{
-			path: '/login',
-			name: 'Login',
-			component: Login,
+			path: '/block/:block_id/:page',
+			name: 'Block',
+			component: Block,
 			meta: {
 				auth: true,
-				title: 'Login'
+				title: 'Post Title Here'
 			}
 		},
 		{
-			path: '/post-multiple/:cat_id',
-			name: 'post-multiple',
-			component: PostMultiple,
+			path: '/block-comment-create/:block_id',
+			name: 'BlockCommentCreate',
+			component: BlockCommentCreate,
+			meta: {
+				auth: true,
+				title: 'Post Title Here'
+			}
+		},
+		{
+			path: '/cat-blocks/:cat_id',
+			name: 'CatBlocks',
+			component: CatBlocks,
 			meta: {
 				auth: true,
 				title: 'Cat Name Here'
 			}
 		},
 		{
-			path: '/post-single/:id/:page',
-			name: 'post-single',
-			component: PostSingle,
+			path: '/cat-blocks/create-block/:cat_id',
+			name: 'CreateBlock',
+			component: CreateBlock,
 			meta: {
 				auth: true,
-				title: 'Post Title Here'
+				title: 'Create a Block'
+			}
+		},
+		{
+			path: '/login',
+			name: 'Login',
+			component: Login,
+			meta: {
+				auth: true,
+				title: 'Login'
 			}
 		},
 		{
