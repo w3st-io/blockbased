@@ -53,7 +53,6 @@ class BlockService {
 				.get(`/api/blocks/comment-id/read/${comment_id}`)
 				.then((res) => {
 					const data = res.data
-					console.log('bs', data)
 					resolve(
 						data.map((comment) => ({
 							...comment,

@@ -7,9 +7,9 @@
 				
 				<h6
 					class="text-light"
-					v-for="(commentId, index) in commentIds"
+					v-for="(commentAll_id, index) in commentAll_ids"
 					:key="index"
-				>{{ commentId.comment_id }}</h6>
+				>{{ commentAll_id.comment_id }}</h6>
 			</div>
 		</div>
 
@@ -35,47 +35,41 @@
 		data: function() {
 			return {
 				block_id: this.$route.params.block_id,
-				pageNumber: this.$route.params.page,
-				commentIds: [],
+				pageNumber: (this.$route.params.page) - 1,
+				commentAll_ids: [],
 				commentDetails: [],
 				pages: [],
 			}
 		},
 
-		created: async function() {
+		created: async function() {		
 			try {
-				this.commentIds = await BlockService.getCommentIds(this.block_id)
-				this.pages = this.returnPages(this.commentIds)
+				this.commentAll_ids = await BlockService.getCommentIds(this.block_id)
+				this.pages = this.returnPages(this.commentAll_ids)
 			}
 			catch(err) { this.error = err.message }
-
-			// Data Retrieval Successful //
-			if (this.commentIds != []) {
-				// For Each Comment with this page[index]
-				this.pages[this.pageNumber].forEach(async (element) => {
-					
-					try {
-						// Get Details For Each ID // Store Into Array //					
-						let r = await BlockService.getCommentDetailsWithId(element.comment_id)
-
-						this.commentDetails.push(r[0])
-					}
-					catch (e) { console.log('Error', e) }
-				})
-
-				console.log('commentDetails', this.commentDetails)
-				console.log('commentId', this.commentIds)
+			
+			// Get Comment Details for Each ID in Pages[PageNumber] //
+			for (let c in this.pages[this.pageNumber]) {
+				let r = await BlockService.getCommentDetailsWithId(this.pages[this.pageNumber][c].comment_id)
+				this.commentDetails.push(r[0])
 			}
+
+			// [LOG]
+			console.log('Page Number:', this.pageNumber)
+			console.log('commentId', this.commentAll_ids)
+			console.log('pages', this.pages)
+			console.log('commentDetails', this.commentDetails)
 		},
 
 		methods: {
-			returnPages(commentIds) {
+			returnPages(commentAll_ids) {
 				let x = 0
 				let y = 0
 				let parentArray = []
 				let childArray = []
 
-				commentIds.forEach(comm => {
+				commentAll_ids.forEach(comm => {
 					x++
 					y++
 
@@ -87,7 +81,7 @@
 						childArray = []
 					}
 
-					if (y == (commentIds.length)) {
+					if (y == (commentAll_ids.length)) {
 						parentArray.push(childArray)
 						childArray = []
 					}
