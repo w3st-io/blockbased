@@ -9,9 +9,14 @@
 					class="text-light"
 					v-for="(commentId, index) in commentIds"
 					:key="index"
-				>{{ commentId._id }}</h6>
+				>{{ commentId.comment_id }}</h6>
 			</div>
 		</div>
+
+		<h5 v-for="commentDetail in commentDetails" :key="commentDetail._id" class="text-danger">
+			{{ commentDetail._id }} | {{ commentDetail.comment }}
+			
+		</h5>
 		
 	</section>
 </template>
@@ -30,9 +35,9 @@
 		data: function() {
 			return {
 				block_id: this.$route.params.block_id,
-				page: this.$route.params.page,
-				PostXComment: '',
+				pageNumber: this.$route.params.page,
 				commentIds: [],
+				commentDetails: [],
 				pages: [],
 			}
 		},
@@ -40,11 +45,27 @@
 		created: async function() {
 			try {
 				this.commentIds = await BlockService.getCommentIds(this.block_id)
-				// Put All Comments Into Sections(pages) //
 				this.pages = this.returnPages(this.commentIds)
-				console.log(this.pages)
 			}
 			catch(err) { this.error = err.message }
+
+			// Data Retrieval Successful //
+			if (this.commentIds != []) {
+				// For Each Comment with this page[index]
+				this.pages[this.pageNumber].forEach(async (element) => {
+					
+					try {
+						// Get Details For Each ID // Store Into Array //					
+						let r = await BlockService.getCommentDetailsWithId(element.comment_id)
+
+						this.commentDetails.push(r[0])
+					}
+					catch (e) { console.log('Error', e) }
+				})
+
+				console.log('commentDetails', this.commentDetails)
+				console.log('commentId', this.commentIds)
+			}
 		},
 
 		methods: {

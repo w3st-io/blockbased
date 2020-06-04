@@ -26,7 +26,7 @@
 
 <script>
 	/*** [IMPORT] Personal ***/
-	import BlockService from '../../services/BlockService'
+	import CatService from '../../services/CatService'
 	import router from '../../router'
 
 	/*** [EXPORT] ***/
@@ -41,7 +41,7 @@
 		methods: {
 			// [CREATE] Create Post Via PostService Function //
 			async createBlock() {
-				await BlockService.createBlock(
+				await CatService.createBlock(
 					this.title,
 					this.cat_id
 				)
