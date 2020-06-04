@@ -4,32 +4,25 @@
 			<div class="col-12">
 				<p class="text-white"></p>
 				<title-header :block_id="block_id" />
+
+				<comments :commentDetails="commentDetails" />
 				
-				<h6
-					class="text-light"
-					v-for="(commentAll_id, index) in commentAll_ids"
-					:key="index"
-				>{{ commentAll_id.comment_id }}</h6>
 			</div>
 		</div>
-
-		<h5 v-for="commentDetail in commentDetails" :key="commentDetail._id" class="text-danger">
-			{{ commentDetail._id }} | {{ commentDetail.comment }}
-			
-		</h5>
-		
 	</section>
 </template>
 
 <script>
 	/*** [IMPORT] Personal ***/
 	import BlockService from '../../services/BlockService'
+	import Comments from '../../components/block/Comments'
 	import TitleHeader from '../../components/block/TitleHeader'
 
 	/*** [EXPORT] ***/
 	export default {
 		components: {
-			TitleHeader
+			Comments,
+			TitleHeader,
 		},
 
 		data: function() {
