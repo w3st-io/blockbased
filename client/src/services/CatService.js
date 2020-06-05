@@ -8,8 +8,9 @@ import axios from 'axios'
 
 class CatService {
 	// [CREATE] //
-	static createBlock(title, cat_id) {
+	static createBlock(email, title, cat_id) {
 		return axios.post('/api/cats/create', {
+			email,
 			title,
 			cat_id
 		})

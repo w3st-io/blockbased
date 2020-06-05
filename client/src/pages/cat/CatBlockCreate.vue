@@ -34,6 +34,7 @@
 <script>
 	/*** [IMPORT] Personal ***/
 	import CatService from '../../services/CatService'
+	import UserService from '../../services/UserService'
 	import router from '../../router'
 
 	/*** [EXPORT] ***/
@@ -42,10 +43,16 @@
 			return {
 				submitted: false,
 				cat_id: this.$route.params.cat_id,
+				email: '',
 				title: '',
 				status: '',
 				error: '',
 			}
+		},
+
+		created: function() {
+			this.email = UserService.getEmail()
+			console.log('Your Email:', this.email)
 		},
 
 		methods: {
@@ -55,6 +62,7 @@
 
 				try {
 					await CatService.createBlock(
+						this.email,
 						this.title,
 						this.cat_id
 					)

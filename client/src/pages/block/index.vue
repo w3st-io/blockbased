@@ -26,7 +26,7 @@
 			return {
 				block_id: this.$route.params.block_id,
 				pageNumber: (this.$route.params.page) - 1,
-				commentAll_ids: [],
+				allComment_ids: [],
 				commentDetails: [],
 				pages: [],
 			}
@@ -37,10 +37,10 @@
 			console.log('Page Number:', this.pageNumber)
 
 			try {
-				this.commentAll_ids = await BlockService.getCommentIds(this.block_id)
-				this.pages = this.returnPages(this.commentAll_ids)
+				this.allComment_ids = await BlockService.getCommentIds(this.block_id)
+				this.pages = this.returnPages(this.allComment_ids)
 
-				console.log('commentId', this.commentAll_ids)
+				console.log('commentId', this.allComment_ids)
 				console.log('pages', this.pages[0][0]._id)
 			}
 			catch(err) { this.error = err.message }
@@ -55,13 +55,13 @@
 		},
 
 		methods: {
-			returnPages(commentAll_ids) {
+			returnPages(allComment_ids) {
 				let x = 0
 				let y = 0
 				let parentArray = []
 				let childArray = []
 
-				commentAll_ids.forEach(comm => {
+				allComment_ids.forEach(comm => {
 					x++
 					y++
 
@@ -73,7 +73,7 @@
 						childArray = []
 					}
 
-					if (y == (commentAll_ids.length)) {
+					if (y == (allComment_ids.length)) {
 						parentArray.push(childArray)
 						childArray = []
 					}
