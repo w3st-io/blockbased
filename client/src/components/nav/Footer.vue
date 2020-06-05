@@ -13,6 +13,7 @@
 		<div class=" pt-3 pb-5 footer-copyright text-center text-secondary">© Copyright 2020:
 			<a href="https://opall.io/"> opall.io</a>
 		</div>
+		<h6 class="text-info">"Dare I say it..?"</h6>
 	</footer>
 </template>
 
