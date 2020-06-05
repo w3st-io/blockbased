@@ -17,10 +17,10 @@ class CatService {
 	}
 
 	// [READ ALL] //
-	static getAllBlocks() {
+	static getAllBlocks(cat_id) {
 		let result = new Promise ((resolve, reject) => {
 			axios
-				.get(`/api/cats/read-all`)
+				.get(`/api/cats/read-all/${cat_id}`)
 				.then((res) => {
 					const data = res.data
 					resolve(

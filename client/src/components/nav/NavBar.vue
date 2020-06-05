@@ -4,7 +4,13 @@
 		<article class="py-2 bg-dark">
 			<div class="container">
 				<nav class=" px-0 navbar navbar-expand-lg navbar-dark">
-					<a class="navbar-brand text-light" href="/"><h4><i>BlockBased</i></h4></a>
+					<a class="navbar-brand" href="/">
+						<h4>
+							<mark class="bg-info text-light">
+								BlockBased
+							</mark>
+						</h4>
+					</a>
 					<button class="navbar-toggler">
 						<span class="navbar-toggler-icon"></span>
 					</button>

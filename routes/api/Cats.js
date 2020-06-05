@@ -23,14 +23,18 @@ router.post('/create', async (req, res) => {
 		createdAt: new Date()
 	})
 
-	// Set Status // [RES SEND] //
+	// [RES SEND] //
 	res.status(201).send()
 })
 
 // [READ ALL] //
-router.get('/read-all', async (req, res) => {
+router.get('/read-all/:cat_id', async (req, res) => {
 	const blocks = await loadBlocksCollection()
-	let retrievedData = await blocks.find().project({ ss: 0 }).toArray()
+	let retrievedData = await blocks.find(
+		{ cat_id: req.params.cat_id }
+	)
+	.project()
+	.toArray()
 
 	// [RES SEND] //
 	res.send(retrievedData)

@@ -1,8 +1,8 @@
 <template>
 	<!-- Footer -->
-	<footer class="pt-4 page-footer font-small bg-dark">
+	<footer class="mt-5 pt-4 page-footer font-small bg-info border-top border-secondary">
 		<div class="container">
-			<ul class="list-unstyled list-inline text-center py-2">
+			<ul class="py-2 list-unstyled list-inline text-center">
 				<li class="list-inline-item">
 					<h6 class="mb-1 text-secondary">Not Finacial Advice</h6>
 				</li>
@@ -10,7 +10,7 @@
 		</div>
 
 		<!-- Copyright -->
-		<div class=" py-3 footer-copyright text-center text-secondary">© Copyright 2020:
+		<div class=" pt-3 pb-5 footer-copyright text-center text-secondary">© Copyright 2020:
 			<a href="https://opall.io/"> opall.io</a>
 		</div>
 	</footer>

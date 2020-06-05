@@ -9,12 +9,15 @@
 </template>
 
 <script>
+	/*** [IMPORT] Personal ***/
+	import { EventBus } from '../../main'
+
 	/*** [EXPORT] ***/
 	export default {
 		methods: {
 			logout() {
 				localStorage.removeItem('admintoken')
-				this.$emit('adminLoggedOut')
+				EventBus.$emit('admin-logged-out')
 			},
 		},
 	}

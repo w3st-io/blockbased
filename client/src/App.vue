@@ -4,7 +4,6 @@
 		<admin-nav-bar
 			v-if="adminLoggedIn"
 			:key="adminNavBarKey"
-			@adminLoggedOut="forceRerender"
 		/>
 
 		<!-- Top Bar -->
@@ -44,9 +43,12 @@
 		},
 
 		created: function() {
-			// [CHECK IF ADMINLOGGEDIN] // [--> EMIT IN] //
+			// [CHECK IF ADMINLOGGEDIN] //
 			if (localStorage.admintoken) { this.adminLoggedIn = true }
+
+			// [--> EMIT IN] //
 			EventBus.$on('admin-logged-in', () => { this.adminLoggedIn = true })
+			EventBus.$on('admin-logged-out', () => { this.forceRerender() })
 		},
 
 		methods: {

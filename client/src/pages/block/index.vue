@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-12">
 				<title-header :block_id="block_id" />
-				<comments :commentDetails="comments" />
+				<Block-comment-list :commentDetails="comments" />
 			</div>
 		</div>
 	</section>
@@ -12,13 +12,13 @@
 <script>
 	/*** [IMPORT] Personal ***/
 	import BlockService from '../../services/BlockService'
-	import Comments from '../../components/block/Comments'
+	import BlockCommentList from '../../components/block/BlockCommentList'
 	import TitleHeader from '../../components/block/TitleHeader'
 
 	/*** [EXPORT] ***/
 	export default {
 		components: {
-			Comments,
+			BlockCommentList,
 			TitleHeader,
 		},
 

@@ -118,8 +118,10 @@
             else { this.logStatus = status.data.status }
 			},
 
-			// [FUNCTION] Emit //
-			emitMethod() { EventBus.$emit('admin-logged-in') }
+			emitMethod() {
+				// [EMIT -->]
+				EventBus.$emit('admin-logged-in')
+			}
 		}
 	}
 </script>
