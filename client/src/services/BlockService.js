@@ -30,12 +30,12 @@ class BlockService {
 	static getCommentIds(block_id) {
 		let result = new Promise ((resolve, reject) => {
 			axios
-				.get(`/api/blocks/comment-id/read-all/${block_id}`)
+				.get(`/api/blocks/read-all/${block_id}`)
 				.then((res) => {
 					const data = res.data
 					resolve(
-						data.map((blocksXComments) => ({
-							...blocksXComments,
+						data.map((comment) => ({
+							...comment,
 						}))
 					)
 				})

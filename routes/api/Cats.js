@@ -29,7 +29,7 @@ router.post('/create', async (req, res) => {
 // [READ ALL] //
 router.get('/read-all', async (req, res) => {
 	const blocks = await loadBlocksCollection()
-	let retrievedData = await blocks.find({}).toArray()
+	let retrievedData = await blocks.find().project({ ss: 0 }).toArray()
 
 	// [RES SEND] //
 	res.send(retrievedData)

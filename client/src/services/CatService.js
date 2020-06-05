@@ -29,7 +29,7 @@ class CatService {
 						}))
 					)
 				})
-				.catch((err)=> { reject(err) })
+				.catch((err) => { reject(err) })
 		})
 
 		// [RETURN] //

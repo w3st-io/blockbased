@@ -3,6 +3,12 @@
 		<div class="row">
 			<div class="col-12">
 				<p class="text-white"></p>
+				<h6
+					v-for="(commentAll_id, index) in commentAll_ids" 
+					:key="index"
+				>
+					{{ commentAll_id._id}}
+				</h6>
 				<title-header :block_id="block_id" />
 
 				<comments :commentDetails="commentDetails" />
@@ -35,24 +41,26 @@
 			}
 		},
 
-		created: async function() {		
+		created: async function() {	
+			// [LOG]
+			console.log('Page Number:', this.pageNumber)
+
 			try {
 				this.commentAll_ids = await BlockService.getCommentIds(this.block_id)
 				this.pages = this.returnPages(this.commentAll_ids)
+
+				console.log('commentId', this.commentAll_ids)
+				console.log('pages', this.pages[0][0]._id)
 			}
 			catch(err) { this.error = err.message }
 			
 			// Get Comment Details for Each ID in Pages[PageNumber] //
 			for (let c in this.pages[this.pageNumber]) {
-				let r = await BlockService.getCommentDetailsWithId(this.pages[this.pageNumber][c].comment_id)
+				let r = await BlockService.getCommentDetailsWithId(this.pages[this.pageNumber][c]._id)
 				this.commentDetails.push(r[0])
-			}
 
-			// [LOG]
-			console.log('Page Number:', this.pageNumber)
-			console.log('commentId', this.commentAll_ids)
-			console.log('pages', this.pages)
-			console.log('commentDetails', this.commentDetails)
+				console.log('commentDetails', this.commentDetails)
+			}
 		},
 
 		methods: {

@@ -32,6 +32,7 @@
 <script>
 	/*** [IMPORT] Personal ***/
 	import BlockService from '../../services/BlockService'
+	import UserService from '../../services/UserService'
 
 	/*** [EXPORT] ***/
 	export default {
@@ -39,9 +40,14 @@
 			return {
 				block_id: this.$route.params.block_id,
 				comment: '',
-				email: 'a@gmail.com',
+				email: '',
 				error: '',
 			}
+		},
+
+		created: function() {
+			this.email = UserService.getEmail()
+			console.log('Your Email:', this.email)
 		},
 
 		methods: {
@@ -57,15 +63,8 @@
 				}
 				catch(e) { this.error = e }
 				
-				if (result) {
-					try {
-						result = await BlockService.createCommentId(
-							this.block_id,
-							result.data.newCommentId
-						)
-					}
-					catch (e) { this.error = e }
-				}
+				// [LOG]
+				console.log('Result:', result)
 			},
 		}
 	}

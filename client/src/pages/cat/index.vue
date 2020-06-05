@@ -15,7 +15,7 @@
 						class="d-inline-block w-100"
 						@click="redirectToBlock(block._id)"
 					>
-						<!-- Title -->
+						<!-- Title --> 
 						<div class="w-100 p-2 float-right" >
 							<h5 class="text-light">{{ block.title }}</h5>
 							<p class="m-0 text-secondary">Description here</p>
