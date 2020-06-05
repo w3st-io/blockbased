@@ -36,8 +36,7 @@
 	export default {
 		data: function() {
 			// [INIT]
-			const token = localStorage.usertoken
-			const decoded = jwtDecode(token)
+			const decoded = jwtDecode(localStorage.usertoken)
 
 			// [RETURN]
 			return {

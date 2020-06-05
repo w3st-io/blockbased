@@ -29,7 +29,7 @@
 	export default {
 		props: {
 			commentDetails: {
-				type: Object,
+				type: Array,
 				required: true
 			}
 		},

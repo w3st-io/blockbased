@@ -2,17 +2,8 @@
 	<section class="my-3 container">
 		<div class="row">
 			<div class="col-12">
-				<p class="text-white"></p>
-				<h6
-					v-for="(commentAll_id, index) in commentAll_ids" 
-					:key="index"
-				>
-					{{ commentAll_id._id}}
-				</h6>
 				<title-header :block_id="block_id" />
-
 				<comments :commentDetails="commentDetails" />
-				
 			</div>
 		</div>
 	</section>
@@ -58,9 +49,9 @@
 			for (let c in this.pages[this.pageNumber]) {
 				let r = await BlockService.getCommentDetailsWithId(this.pages[this.pageNumber][c]._id)
 				this.commentDetails.push(r[0])
-
-				console.log('commentDetails', this.commentDetails)
 			}
+
+			console.log('commentDetails', this.commentDetails)
 		},
 
 		methods: {

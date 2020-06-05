@@ -9,8 +9,8 @@ import AdminProfile from '../pages/admin/AdminProfile'
 import AdminRegister from '../pages/admin/AdminRegister'
 import Block from '../pages/block'
 import BlockCommentCreate from '../pages/block/blockCommentCreate'
-import cat from '../pages/cat'
-import CreateBlock from '../pages/cat/CreateBlock'
+import Cat from '../pages/cat'
+import CatBlockCreate from '../pages/cat/CatBlockCreate'
 import Home from '../pages/home'
 import Login from '../pages/user/Login'
 import Profile from '../pages/user/Profile'
@@ -89,16 +89,16 @@ export default new Router ({
 		{
 			path: '/cat/:cat_id',
 			name: 'Cat',
-			component: cat,
+			component: Cat,
 			meta: {
 				auth: true,
 				title: 'Cat Name Here'
 			}
 		},
 		{
-			path: '/cat/create-block/:cat_id',
-			name: 'CreateBlock',
-			component: CreateBlock,
+			path: '/cat/cat-block-create/:cat_id',
+			name: 'CatBlockCreate',
+			component: CatBlockCreate,
 			meta: {
 				auth: true,
 				title: 'Create a Block'

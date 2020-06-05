@@ -5,9 +5,9 @@
 		</div>
 		<div class="w-50 float-right text-right">
 			<button
-				@click="redirectToCreateBlock(cat_id)"
+				@click="redirectToCatBlockCreate(cat_id)"
 				class="btn btn-info">
-			{{ cat_id }}</button>
+			Create Block</button>
 		</div>
 		<br>
 	</section>
@@ -26,8 +26,8 @@
 		},
 
 		methods: {
-			redirectToCreateBlock(cat_id) {
-				router.push({ name: 'CreateBlock', params: { cat_id: cat_id } })
+			redirectToCatBlockCreate(cat_id) {
+				router.push({ name: 'CatBlockCreate', params: { cat_id: cat_id } })
 			}
 		}
 	}

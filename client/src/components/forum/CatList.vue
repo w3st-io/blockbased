@@ -42,6 +42,7 @@
 
 		methods: {
 			redirectToCatBlocks(cat_id) {
+				// Push to Cat Page
 				router.push({ name: 'Cat', params: { cat_id: cat_id } })
 			}
 		}

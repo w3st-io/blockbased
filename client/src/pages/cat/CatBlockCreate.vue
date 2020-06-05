@@ -2,7 +2,7 @@
 	<section class="container">
 		<h3 class="my-3 text-light">Create Block in "{{ cat_id }}"</h3>
 		<!-- [FORM] create Post -->
-		<form class="mt-4 form-inline">
+		<form class="my-4 form-inline">
 			<input
 				id="create-post"
 				type="text"
@@ -16,11 +16,18 @@
 					type="submit"
 					class="w-100 ml-3 btn btn-outline-light"
 					v-on:click="createBlock()"
+					:disabled="submitted"
 				>+ Create</button>
 			</div>
 		</form>
-
-		<hr>
+		
+		<!-- [STATUS OR ERRORS] -->
+		<div v-if="status != ''" class="alert alert-success">
+			{{ status }}
+		</div>
+		<div v-if="error" class="alert alert-danger">
+			{{ error }}
+		</div>
 	</section>
 </template>
 
@@ -33,20 +40,31 @@
 	export default {
 		data: function() {
 			return {
+				submitted: false,
 				cat_id: this.$route.params.cat_id,
 				title: '',
+				status: '',
+				error: '',
 			}
 		},
 
 		methods: {
 			// [CREATE] Create Post Via PostService Function //
 			async createBlock() {
-				await CatService.createBlock(
-					this.title,
-					this.cat_id
-				)
+				this.submitted = true
 
-				router.push({ name: 'Cats', params: { cat_id: this.cat_id } })
+				try {
+					await CatService.createBlock(
+						this.title,
+						this.cat_id
+					)
+
+					this.status = "Successfully Created Block. Redirecting.."
+
+					// Redirect to Cat Page
+					router.push({ name: 'Cat', params: { cat_id: this.cat_id } })
+				}
+				catch(e) { this.error = e }
 			},
 		}
 	}

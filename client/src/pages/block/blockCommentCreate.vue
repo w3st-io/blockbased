@@ -17,13 +17,17 @@
 					type="submit"
 					class="w-100 mt-3 btn btn-outline-success"
 					v-on:click="createComment()"
+					:disabled="submitted"
 				>+ Create</button>
 			</div>
 		</form>
 		<hr>
 
-		<!-- [ERRORS] -->
-		<div v-if="error" class="alert alert-danger" role="alert">
+		<!-- [STATUS OR ERRORS] -->
+		<div v-if="status != ''" class="alert alert-success">
+			{{ status }}
+		</div>
+		<div v-if="error" class="alert alert-danger">
 			{{ error }}
 		</div>
 	</section>
@@ -33,14 +37,17 @@
 	/*** [IMPORT] Personal ***/
 	import BlockService from '../../services/BlockService'
 	import UserService from '../../services/UserService'
+	import router from '../../router'
 
 	/*** [EXPORT] ***/
 	export default {
 		data: function() {
 			return {
+				submitted: false,
 				block_id: this.$route.params.block_id,
 				comment: '',
 				email: '',
+				status: '',
 				error: '',
 			}
 		},
@@ -53,18 +60,28 @@
 		methods: {
 			// [CREATE] Create Comment //
 			async createComment() {
-				let result = ''
+				this.submitted = true
+
 				try {
-					result = await BlockService.createComment(
+					await BlockService.createComment(
 						this.block_id,
 						this.email,
 						this.comment
 					)
+
+					this.status = "Successfully Created Comment. Redirecting.."
+
+				// Redirect to Block Page
+				router.push({
+					name: 'Block',
+					params: {
+						block_id: this.block_id,
+						page: 1
+					}
+				})
+
 				}
 				catch(e) { this.error = e }
-				
-				// [LOG]
-				console.log('Result:', result)
 			},
 		}
 	}
