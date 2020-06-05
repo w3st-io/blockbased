@@ -17,46 +17,20 @@ class BlockService {
 		})	
 	}
 
-	/******************* [COMMENT IDS CRUD] *******************/
-	// [CREATE]
-	static createCommentId(block_id, comment_id) {
-		return axios.post(`/api/blocks/comment-id/create`, {
-			block_id,
-			comment_id
-		})
-	}
-
-	// [READ-ALL]
-	static getCommentIds(block_id) {
-		let result = new Promise ((resolve, reject) => {
-			axios
-				.get(`/api/blocks/read-all/${block_id}`)
-				.then((res) => {
-					const data = res.data
-					resolve(
-						data.map((comment) => ({
-							...comment,
-						}))
-					)
-				})
-				.catch((err) => { reject(err) })
-		})
-
-		// [RETURN] //
-		return result
-	}
 
 	// [READ]
-	static getCommentDetailsWithId(comment_id) {
+	static getComments(block_id, pageNumber) {
+		// multiply page nubmer with # comments per page to know how much to skip
+		let skip = pageNumber * 5
+
 		let result = new Promise ((resolve, reject) => {
 			axios
-				.get(`/api/blocks/comment-id/read/${comment_id}`)
+				.get(`/api/blocks/read/${block_id}/${skip}`)
 				.then((res) => {
 					const data = res.data
 					resolve(
 						data.map((comment) => ({
 							...comment,
-							createdAt: new Date(comment.createdAt)
 						}))
 					)
 				})

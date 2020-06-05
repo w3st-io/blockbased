@@ -1,5 +1,5 @@
 <template>
-	<section class="m-3 flex-container w-100">
+	<section class="mb-3 flex-container w-100">
 		<div class="w-50 float-left">
 			<h2 class="text-light">{{ cat_id }}</h2>
 		</div>
@@ -21,7 +21,8 @@
 	export default {
 		props: {
 			cat_id: {
-				type: String
+				type: String,
+				required: true
 			}
 		},
 

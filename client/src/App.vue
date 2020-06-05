@@ -12,12 +12,16 @@
 
 		<!-- Display the router Stuff -->
 		<router-view :key="routerViewKey" />
+
+		<!-- Bottom Footer -->
+		<Footer />
 	</div>
 </template>
 
 <script>
 	/*** [IMPORT] Personal ***/
 	import AdminNavBar from './components/admin/AdminNavBar'
+	import Footer from './components/nav/Footer'
 	import NavBar from './components/nav/NavBar'
 	import { EventBus } from './main'
 
@@ -26,6 +30,7 @@
 		name: 'App',
 		components: {
 			AdminNavBar,
+			Footer,
 			NavBar,
 		},
 

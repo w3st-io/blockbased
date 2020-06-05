@@ -33,8 +33,6 @@
 				required: true
 			}
 		},
-
-		created: function() { console.log(this.commentDetails) }
 	}
 </script>
 

@@ -1,7 +1,7 @@
 <template>
-	<section class="flex-container w-100">
+	<section class="mb-3 flex-container w-100">
 		<div class="w-50 float-left">
-			<h2 class="mb-3 text-light">{{ block_id }}</h2>
+			<h2 class="text-light">{{ block_id }}</h2>
 		</div>
 		<div class="w-50 float-right text-right">
 			<button

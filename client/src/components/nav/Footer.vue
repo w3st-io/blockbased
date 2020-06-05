@@ -4,7 +4,6 @@
 		<div class="container">
 			<ul class="list-unstyled list-inline text-center py-2">
 				<li class="list-inline-item">
-					<h5><a href="https://iexcloud.io">Data provided by IEX Cloud</a></h5>
 					<h6 class="mb-1 text-secondary">Not Finacial Advice</h6>
 				</li>
 			</ul>

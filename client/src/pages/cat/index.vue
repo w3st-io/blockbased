@@ -1,28 +1,30 @@
 <template>
-	<section class="container">
+	<section class="my-3 container">
 		<article class="row">
-			<!-- Title With Create Button -->
-			<title-header :cat_id="cat_id" />
+			<div class="col-12">
+				<!-- Title With Create Button -->
+				<title-header :cat_id="cat_id" />
 
-			<!-- Display All the Blocks -->
-			<ul class="w-100 m-0 px-0 border border-secondary">
-				<li
-					class="m-0 bg-dark"
-					v-for="(block, index) in blocks"
-					:key="index"
-				>
-					<article
-						class="d-inline-block w-100"
-						@click="redirectToBlock(block._id)"
+				<!-- Display All the Blocks -->
+				<ul class="w-100 m-0 px-0 border border-secondary">
+					<li
+						class="m-0 bg-dark"
+						v-for="(block, index) in blocks"
+						:key="index"
 					>
-						<!-- Title --> 
-						<div class="w-100 p-2 float-right" >
-							<h5 class="text-light">{{ block.title }}</h5>
-							<p class="m-0 text-secondary">Description here</p>
-						</div>
-					</article>
-				</li>
-			</ul>
+						<article
+							class="d-inline-block w-100"
+							@click="redirectToBlock(block._id)"
+						>
+							<!-- Title --> 
+							<div class="w-100 p-2 float-right" >
+								<h5 class="text-light">{{ block.title }}</h5>
+								<p class="m-0 text-secondary">Description here</p>
+							</div>
+						</article>
+					</li>
+				</ul>
+			</div>
 		</article>
 	</section>
 </template>

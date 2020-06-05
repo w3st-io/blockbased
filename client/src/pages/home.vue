@@ -1,6 +1,6 @@
 <template>
-	<div class="container">
-		<div class="m-3 row">
+	<div class="my-3 container">
+		<div class="row">
 			<!-- Main Content -->
 			<section class="col-12 col-md-9">
 				<cat-list :cats="cats1" class="mt-3" />
