@@ -14,8 +14,8 @@ require('dotenv').config()
 const router = express.Router()
 
 /******************* [COMMENT CRUD] *******************/
-/*** [CREATE] Add Post ***/
-router.post('/create', async (req, res) => {
+/*** [CREATE] Add Comment ***/
+router.post('/create-comment', async (req, res) => {
 	// [INIT] // Get DB Collection //
 	const comments = await loadCommentsCollection()
 
@@ -34,8 +34,8 @@ router.post('/create', async (req, res) => {
 })
 
 
-// [READ] Get Comment IDs for Specicifc Post ID //
-router.get('/read/:block_id/:skip', async (req, res) => {
+// [READ] Get Comments //
+router.get('/read-comments/:block_id/:skip', async (req, res) => {
 	let skip = parseInt(req.params.skip)
 
 	const comments = await loadCommentsCollection()

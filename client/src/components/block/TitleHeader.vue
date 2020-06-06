@@ -1,7 +1,8 @@
 <template>
 	<section class="mb-3 flex-container w-100">
 		<div class="w-50 float-left">
-			<h2 class="text-light">{{ block_id }}</h2>
+			<p class="text-secondary">{{ block.createdAt }}</p>
+			<h2 class="text-light">{{ block.title }}</h2>
 		</div>
 		<div class="w-50 float-right text-right">
 			<button
@@ -20,8 +21,8 @@
 	/*** [EXPORT] ***/
 	export default {
 		props: {
-			block_id: {
-				type: String,
+			block: {
+				type: Object,
 				required: true,
 			}
 		},

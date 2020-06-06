@@ -10,7 +10,7 @@ class BlockService {
 	/******************* [COMMENT CRUD] *******************/
 	// [CREATE]
 	static createComment(block_id, email, comment) {
-		return axios.post(`/api/blocks/create`, {
+		return axios.post(`/api/blocks/create-comment`, {
 			block_id,
 			email,
 			comment
@@ -24,8 +24,7 @@ class BlockService {
 		let skip = pageNumber * 5
 
 		let result = new Promise ((resolve, reject) => {
-			axios
-				.get(`/api/blocks/read/${block_id}/${skip}`)
+			axios.get(`/api/blocks/read-comments/${block_id}/${skip}`)
 				.then((res) => {
 					const data = res.data
 					resolve(

@@ -40,6 +40,19 @@ router.get('/read-all/:cat_id', async (req, res) => {
 	res.send(retrievedData)
 })
 
+
+// [READ ALL] //
+router.get(`/read/:block_id`, async (req, res) => {
+	const blocks = await loadBlocksCollection()
+	let retrievedData = await blocks.findOne(
+		{ _id: new mongodb.ObjectID(req.params.block_id) }
+	)
+
+	// [RES SEND] //
+	res.send(retrievedData)
+})
+
+
 /*** [FUNCTION] Blocks Collection ***/
 async function loadBlocksCollection() {
 	const uri = process.env.MONGO_URI
