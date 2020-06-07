@@ -6,7 +6,7 @@
 				<nav class=" px-0 navbar navbar-expand-lg navbar-dark">
 					<a class="navbar-brand" href="/">
 						<h4>
-							<mark class="bg-info text-light">
+							<mark class="bg-info border border-secondary text-light">
 								BlockBased
 							</mark>
 						</h4>

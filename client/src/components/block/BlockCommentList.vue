@@ -1,24 +1,40 @@
 <template>
 	<section>
-		<article
-			v-for="commentDetail in commentDetails"
-			:key="commentDetail._id"
-			class="mb-2"
-		>
-			<div class="d-flex py-2 bg-dark border border-secondary rounded-top">
-				<!-- Image Section -->
-				<div class="float-left px-3 py-1 border-right border-secondary" style="width: 15%;">
-					<img src="../../assets/images/placeholder.png" class="w-100 rounded-lg">
-					<p class="m-0 text-center text-light">{{ commentDetail.email }}</p>
-				</div>
+		
 
-				<!-- Comment Section -->
-				<div class="float-right p-2" style="width: 85%; flex-grow: 1;">
-					<p class="m-0 text-light">{{ commentDetail.comment }}</p>
+		<ul class="w-100 m-0 px-0 border border-secondary">
+			<li
+				v-for="commentDetail in commentDetails"
+				:key="commentDetail._id"
+				class="w-100  border-bottom-0 border-secondary"
+			>
+				<article class="w-100 d-flex">
+					<!-- Image Section -->
+					<div class="float-left p-2 border-right border-secondary" style="width: 15%;">
+						<div class="w-100 text-center">
+							<img src="../../assets/images/placeholder.png" class="m-auto w-75 rounded-lg">
+						</div>
+						
+						<p class="m-0 text-center text-light small">
+							{{ commentDetail.email }}
+						</p>
+					</div>
+
+					<!-- Comment Section -->
+					<div class="float-right p-2" style="width: 85%; flex-grow: 1;">
+						<p class="m-0 text-light">
+							{{ commentDetail.comment }}
+						</p>
+					</div>
+				</article>
+				<div class="w-100 p-1 border-top border-secondary text-light">
+					<p class="m-0 small">
+						{{ new Date(commentDetail.createdAt) }}
+						- {{ commentDetail._id }}
+					</p>
 				</div>
-			</div>
-			<div class="w-100 p-1 bg-dark border border-top-0 border-secondary rounded-bottom">{{ commentDetail._id }}</div>
-		</article>
+			</li>
+		</ul>
 	</section>
 </template>
 
@@ -37,4 +53,8 @@
 </script>
 
 <style scoped>
+	li { list-style: none; }
+
+	li { background: #343a40 !important; }
+	li:nth-child(even) { background: rgb(67, 72, 117) !important }
 </style>
