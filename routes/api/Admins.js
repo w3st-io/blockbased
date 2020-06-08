@@ -14,20 +14,17 @@ const router = express.Router().use(cors())
 /*** [INIT] ***/
 const secretKey = process.env.SECRET_KEY || 'secret'
 
+
 /*** [POST] Login ***/
 router.post('/login', async (req, res) => {
-	// [INIT] // Get DB Collection //
 	const admins = await loadAdminsCollection()
 
 	try {
-		// [CHECK FOR EMAIL] //
 		const emailFound = await admins.findOne({ email: req.body.email })
 		
-		// Check if Email Found //
 		if (emailFound) {
 			// [VALIDATE PASSWORD] //
 			if (bcrypt.compareSync(req.body.password, emailFound.password)) {
-				// Set Payload Data to Be Sent Back // SEND ADMIN TRUE //
 				const payload = {
 					_id: emailFound._id,
 					username: emailFound.username,
@@ -39,26 +36,18 @@ router.post('/login', async (req, res) => {
 				// Set Token //
 				let token = jwt.sign(payload, secretKey, { expiresIn: 1440 })
 
-				// [SEND] The login details //
-				res.json({ status: 'success', token: token })
-					.send()
+				res.json({ status: 'success', token: token }).send()
 			}
-			else {
-				res.json({ status: 'incorrect_password' })
-					.send()
-			}
+			else { res.json({ status: 'incorrect_password' }).send() }
 		}
-		else {
-			res.json({ status: 'incorrect_email' })
-				.send
-		}
+		else { res.json({ status: 'incorrect_email' }).send() }
 	}
 	catch (err) { res.send(err) }
 })
 
+
 /*** [POST] Register ***/
 router.post("/register", async (req, res) => {
-	// [INIT] // Get DB Collection // Get Todays Date // Store "Req" Data //
 	const admins = await loadAdminsCollection()
 	const today = new Date()
 	const userData = {
@@ -71,7 +60,6 @@ router.post("/register", async (req, res) => {
 	}
 
 	try {
-		// [READ] Retrieve From Collection // Check if Username is Taken //
 		const emailFound = await admins.findOne({ email: req.body.email })
 		const usernameFound = await admins.findOne({ username: req.body.username })
 
@@ -82,32 +70,22 @@ router.post("/register", async (req, res) => {
 					userData.password = hash
 					
 					try {
-						// [INSERT] User // Set JSON // [RES SEND] //
 						admins.insertOne(userData)
-						res.json({ status: 'success' })
-							.send()
+						res.json({ status: 'success' }).send()
 					}
 					catch(err) { res.send('error:', err) }
 				})
 			}
-			else {
-				// Set Status in res // [SEND RES]
-				res.json({ status: 'username_taken' })
-				.send()
-			}
+			else { res.json({ status: 'username_taken' }).send() }
 		}
-		else {
-			// Set Status in res // [SEND RES] //
-			res.json({ status: 'email_taken' })
-				.send()
-		}
+		else { res.json({ status: 'email_taken' }).send() }
 	}
 	catch(err) { res.send(err) }
 })
 
-// [FUNCTION] admin Collection in Database //
+
+// [LOAD COLLECTION] ADMINS //
 async function loadAdminsCollection() {
-	// [INIT] //
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'
 	const c_name = 'admins'
@@ -120,7 +98,6 @@ async function loadAdminsCollection() {
 		}	
 	)
 
-	// [RETURN] //
 	return client.db(db_name).collection(c_name)
 }
 

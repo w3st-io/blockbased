@@ -15,19 +15,17 @@ const router = express.Router().use(cors())
 /*** [INIT] ***/
 const secretKey = process.env.SECRET_KEY || 'secret'
 
+
 /*** [POST] Login ***/
 router.post('/login', async (req, res) => {
-	// [INIT] // Get DB Collection //
 	const users = await loadUsersCollection()
 
 	try {
-		// [CHECK FOR EMAIL] //
 		const emailFound = await users.findOne({ email: req.body.email })
 		
 		// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
 		if (emailFound) {
 			if (bcrypt.compareSync(req.body.password, emailFound.password)) {
-				// Set Payload Data to Be Sent Back //
 				const payload = {
 					_id: emailFound._id,
 					first_name: emailFound.first_name,
@@ -39,7 +37,6 @@ router.post('/login', async (req, res) => {
 				// Set Token //
 				let token = jwt.sign(payload, secretKey, { expiresIn: 1440 })
 
-				// [SEND] The login details //
 				res.json({ status: 'success', token: token }).send()
 			}
 			else { res.json({ status: 'incorrect_password' }).send() }
@@ -49,14 +46,13 @@ router.post('/login', async (req, res) => {
 	catch (err) { res.send(err) }
 })
 
+
 /*** [POST] Register ***/
 router.post("/register", async (req, res) => {
-	// [INIT] // Get DB Collection // Get Todays Date // Store "Req" Data //
 	const users = await loadUsersCollection()
 	const userData = new UserModel(req.body)
 	
 	try {
-		// [READ] Retrieve From Collection // Check if Email is taken //
 		const emailFound = await users.findOne({ email: userData.email })
 		const usernameFound = await users.findOne({ username: userData.username })
 
@@ -67,7 +63,6 @@ router.post("/register", async (req, res) => {
 					userData.password = hash
 					
 					try {
-						// [INSERT] User // Set JSON // [RES SEND] //
 						users.insertOne(userData)
 						res.json({ status: 'success' }).send()
 					}
@@ -81,9 +76,9 @@ router.post("/register", async (req, res) => {
 	catch(err) { res.send(err) }
 })
 
-// [FUNCTION] User Collection in Database //
+
+// [LOAD COLLECTION] users //
 async function loadUsersCollection() {
-	// [INIT] //
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'
 	const c_name = 'users'
@@ -96,7 +91,6 @@ async function loadUsersCollection() {
 		}	
 	)
 	
-	// [RETURN] //
 	return client.db(db_name).collection(c_name)
 }
 

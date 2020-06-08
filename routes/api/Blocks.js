@@ -14,12 +14,9 @@ require('dotenv').config()
 const router = express.Router()
 
 /******************* [COMMENT CRUD] *******************/
-/*** [CREATE] Add Comment ***/
+/*** [CREATE] Comment ***/
 router.post('/create-comment', async (req, res) => {
-	// [INIT] // Get DB Collection //
 	const comments = await loadCommentsCollection()
-
-	// [INSERT] Into Collection //
 	await comments.insertOne({
 		block_id: req.body.block_id,
 		email: req.body.email,
@@ -29,12 +26,11 @@ router.post('/create-comment', async (req, res) => {
 		res.json({ newCommentId: result.insertedId })
 	})
 
-	// Set Status // [RES SEND] //
 	res.status(201).send()
 })
 
 
-// [READ] Get Comments //
+// [READ] Comments //
 router.get('/read-comments/:block_id/:skip', async (req, res) => {
 	let skip = parseInt(req.params.skip)
 
@@ -45,12 +41,11 @@ router.get('/read-comments/:block_id/:skip', async (req, res) => {
 	.limit(5)
 	.toArray()
 
-	// [RES SEND] //
 	res.send(retrievedData)
 })
 
 
-/*** [FUNCTION] Comments Collection ***/
+/*** [LOAD COLLECTION] COMMENTS ***/
 async function loadCommentsCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'blockbased'
@@ -64,7 +59,6 @@ async function loadCommentsCollection() {
 		}
 	)
 
-	// [RETURN] //
 	return client.db(db_name).collection(c_name)
 }
 

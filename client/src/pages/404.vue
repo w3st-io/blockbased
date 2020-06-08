@@ -4,7 +4,7 @@
 			<h1 class="w-100 mb-3 text-center text-info">404 not found.</h1>
 			<div class="w-100 m-auto text-center">
 				<router-link to="/">
-					<button class="m-auto btn btn-outline-info">Go Home</button>
+					<button class="m-auto btn btn-outline-info">Go to Forum</button>
 				</router-link>
 			</div>
 		</div>

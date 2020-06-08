@@ -13,6 +13,7 @@ require('dotenv').config()
 /*** [INIT] ***/
 const router = express.Router()
 
+
 // [CREATE] //
 router.post('/create', async (req, res) => {
 	const blocks = await loadBlocksCollection()
@@ -23,9 +24,9 @@ router.post('/create', async (req, res) => {
 		createdAt: new Date()
 	})
 
-	// [RES SEND] //
 	res.status(201).send()
 })
+
 
 // [READ ALL] //
 router.get('/read-all/:cat_id', async (req, res) => {
@@ -36,7 +37,6 @@ router.get('/read-all/:cat_id', async (req, res) => {
 	.project()
 	.toArray()
 
-	// [RES SEND] //
 	res.send(retrievedData)
 })
 
@@ -48,12 +48,11 @@ router.get(`/read/:block_id`, async (req, res) => {
 		{ _id: new mongodb.ObjectID(req.params.block_id) }
 	)
 
-	// [RES SEND] //
 	res.send(retrievedData)
 })
 
 
-/*** [FUNCTION] Blocks Collection ***/
+/*** [LOAD COLLECTION] BLOCKS ***/
 async function loadBlocksCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'
@@ -67,7 +66,6 @@ async function loadBlocksCollection() {
 		}
 	)
 
-	// [RETURN] //
 	return client.db(db_name).collection(c_name)
 }
 

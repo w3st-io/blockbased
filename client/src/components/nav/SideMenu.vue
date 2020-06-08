@@ -28,8 +28,8 @@
 
 		<button
 			class="w-100 btn btn-success"
-			v-on:click="homeBtn();"
-		>Home</button>
+			v-on:click="forumBtn();"
+		>Forum</button>
 	</div>
 </template>
 <script>
@@ -66,7 +66,7 @@
 				this.sideMenuOpen = !this.sideMenuOpen
 			},
 
-			homeBtn() {
+			forumBtn() {
 				this.sideMenuOpen = !this.sideMenuOpen
 				router.push({ path: '/' })
 			},

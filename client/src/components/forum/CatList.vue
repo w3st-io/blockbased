@@ -10,11 +10,13 @@
 				class="d-inline-block w-100"
 			>
 				<!-- Image Section -->
-				<div class="px-2 pt-3 float-left" style="width: 10%;">
-					<img
-						src="../../assets/images/placeholder.jpg"
-						class="w-100 border border-secondary rounded-circle"
-					>
+				<div class="px-2 pt-3 float-left border-circle" style="width: 10%;">
+					<div class="w-100 d-inline-block overflow-auto rounded-circle">
+						<img
+							v-bind:src="require('../../assets/images/caticons/' + cat.image)"
+							class="w-100 p-3 bg-info"
+						>
+					</div>
 				</div>
 
 				<!-- Title -->

@@ -11,7 +11,7 @@ import Block from '../pages/block'
 import BlockCommentCreate from '../pages/block/blockCommentCreate'
 import Cat from '../pages/cat'
 import CatBlockCreate from '../pages/cat/CatBlockCreate'
-import Home from '../pages/home'
+import Forum from '../pages/Forum'
 import Login from '../pages/user/Login'
 import Profile from '../pages/user/Profile'
 import Register from '../pages/user/Register'
@@ -25,8 +25,8 @@ export default new Router ({
 	routes: [
 		{
 			path: '/',
-			name: 'Home',
-			component: Home,
+			name: 'Forum',
+			component: Forum,
 			meta: {
 				auth: true,
 				title: 'BlockBased'

@@ -35,7 +35,6 @@
 			<div class="container">
 				<nav class="px-0 py-1 navbar">
 					<div class="mr-auto">
-						<router-link to="/" class="mx-2 text-light">Home</router-link>
 						<router-link to="/" class="mx-2 text-light">Forum</router-link>
 					</div>
 				
