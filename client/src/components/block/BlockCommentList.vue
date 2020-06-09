@@ -1,7 +1,5 @@
 <template>
 	<section>
-		
-
 		<ul class="w-100 m-0 px-0 border border-secondary">
 			<li
 				v-for="commentDetail in commentDetails"
@@ -27,7 +25,7 @@
 						</p>
 					</div>
 				</article>
-				<div class="w-100 p-1 border-top border-secondary text-light">
+				<div class="w-100 p-2 border-top border-bottom border-secondary text-light">
 					<p class="m-0 small">
 						{{ new Date(commentDetail.createdAt) }}
 						- {{ commentDetail._id }}
@@ -55,6 +53,5 @@
 <style scoped>
 	li { list-style: none; }
 
-	li { background: #343a40 !important; }
-	li:nth-child(even) { background: rgb(67, 72, 117) !important }
+	li:nth-child(odd) { background: #343a40 !important; }
 </style>

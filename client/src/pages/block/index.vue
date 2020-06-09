@@ -34,10 +34,7 @@
 			}
 		},
 
-		created: async function() {	
-			// [LOG] //
-			console.log('Page Number:', this.pageNumber)
-
+		created: async function() {
 			// Get Block Details //
 			try {
 				this.block = await CatService.getBlockDetails(this.block_id)
