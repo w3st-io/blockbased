@@ -4,14 +4,16 @@
 		
 		<!-- [FORM] create Post -->
 		<form class="mt-4">
-			<input
-				id="create-post"
-				type="text"
-				class="w-100 form-control text-light bg-dark border-secondary"
-				placeholder="Create a post.."
-				aria-label="Recipient's username"
+			<textarea
+				name="comment"
+				rows="10"
+				cols="60"
+				class="w-100 form-control border-secondary bg-dark text-white"
+				style="resize: none"
+				placeholder="Type comment here.."
 				v-model="comment"
-			>
+			></textarea>
+			
 			<div class="w-100 input-group-append">
 				<button
 					type="submit"

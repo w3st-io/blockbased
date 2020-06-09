@@ -7,8 +7,8 @@
 
 			<div class="py-2">
 				<div class="w-50 btn-group flaot-right">
-					<button class="w-25 btn btn-sm btn-outline-light">Prev</button>
-					<button class="w-25 btn btn-sm btn-outline-light">Next</button>
+					<button @click="prevPage()" class="w-25 btn btn-sm btn-outline-light">Prev</button>
+					<button @click="nextPage()" class="w-25 btn btn-sm btn-outline-light">Next</button>
 				</div>
 				<span class="mx-2 p-2 badge badge-light">
 					{{ pageNumber }}
@@ -30,6 +30,7 @@
 <script>
 	/*** [IMPORT] Personal ***/
 	import router from '../../router'
+	import { EventBus } from '../../main'
 
 	/*** [EXPORT] ***/
 	export default {
@@ -42,14 +43,27 @@
 
 		data: function() {
 			return {
-				pageNumber: (this.$route.params.page)
+				block_id: this.$route.params.block_id,
+				pageNumber: (this.$route.params.page),
 			}
 		},
 
 		methods: {
 			redirectToBlockCommentCreate(block_id) {
 				router.push({ path: `/block-comment-create/${block_id}` })
-			}
+			},
+
+			prevPage() {
+				this.pageNumber--
+				router.push({ path: `/block/${this.block_id}/${this.pageNumber}` })
+				EventBus.$emit('force-rerender')
+			},
+
+			nextPage() {
+				this.pageNumber++
+				router.push({ path: `/block/${this.block_id}/${this.pageNumber}` })
+				EventBus.$emit('force-rerender')
+			},
 		},
 	}
 </script>

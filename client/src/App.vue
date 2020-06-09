@@ -49,6 +49,7 @@
 			// [--> EMIT IN] //
 			EventBus.$on('admin-logged-in', () => { this.adminLoggedIn = true })
 			EventBus.$on('admin-logged-out', () => { this.forceRerender() })
+			EventBus.$on('force-rerender', () => { console.log('fsdf'); this.forceRerender() })
 		},
 
 		methods: {

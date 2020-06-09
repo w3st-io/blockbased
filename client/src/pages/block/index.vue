@@ -15,6 +15,7 @@
 	import TitleHeader from '../../components/block/TitleHeader'
 	import BlockService from '../../services/BlockService'
 	import CatService from '../../services/CatService'
+	//import { EventBus } from '../../main'
 
 
 	/*** [EXPORT] ***/
@@ -48,5 +49,7 @@
 			}
 			catch(e) { this.error = e }
 		},
+
+		methods: {},
 	}
 </script>
