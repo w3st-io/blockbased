@@ -9,10 +9,10 @@
 </template>
 
 <script>
-	/*** [IMPORT] Personal ***/
+	// [IMPORT] Personal //
 	import { EventBus } from '../../main'
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		methods: {
 			logout() {

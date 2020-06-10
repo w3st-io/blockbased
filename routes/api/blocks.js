@@ -3,14 +3,14 @@
  * %%% BLOCKS ROUTE %%% *
  * %%%%%%%%%%%%%%%%%%%% *
 */
-/*** [REQUIRE] ***/
+// [REQUIRE] //
 const express = require('express')
 const mongodb = require('mongodb')
 
-/*** [REQUIRE] Personal ***/
+// [REQUIRE] Personal //
 require('dotenv').config()
 
-/*** [INIT] ***/
+// [INIT] //
 const router = express.Router()
 
 
@@ -52,7 +52,7 @@ router.get(`/read/:block_id`, async (req, res) => {
 })
 
 
-/*** [LOAD COLLECTION] blocks ***/
+// [LOAD COLLECTION] blocks //
 async function loadBlocksCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'
@@ -69,5 +69,5 @@ async function loadBlocksCollection() {
 	return client.db(db_name).collection(c_name)
 }
 
-/*** [EXPORT] ***/
+// [EXPORT] //
 module.exports = router

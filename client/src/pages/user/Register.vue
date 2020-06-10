@@ -143,11 +143,11 @@
 </template>
 
 <script>
-	/*** [IMPORT] Personal ***/
+	// [IMPORT] Personal //
 	import router from '../../router'
 	import UserService from '../../services/UserService'
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		data: function() {
 			return {

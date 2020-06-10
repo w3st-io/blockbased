@@ -27,10 +27,10 @@
 </template>
 
 <script>
-	/*** [IMPORT] ***/
+	// [IMPORT] //
 	import { EventBus } from '../../main'
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		props: {
 			blocks: {

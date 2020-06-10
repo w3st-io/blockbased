@@ -1,18 +1,18 @@
-/*** [REQUIRE] ***/
+// [REQUIRE] //
 const bcrypt = require("bcryptjs")
 const cors = require("cors")
 const express = require("express")
 const jwt = require("jsonwebtoken")
 const mongodb = require('mongodb')
 
-/*** [REQUIRE] Personal ***/
+// [REQUIRE] Personal //
 const UserModel = require('../../models/UserModel')
 require('dotenv').config()
 
-/*** [USE] ***/
+// [USE] //
 const router = express.Router().use(cors())
 
-/*** [INIT] ***/
+// [INIT] //
 const secretKey = process.env.SECRET_KEY || 'secret'
 
 
@@ -94,5 +94,5 @@ async function loadUsersCollection() {
 	return client.db(db_name).collection(c_name)
 }
 
-/*** [EXPORT] ***/
+// [EXPORT] //
 module.exports = router

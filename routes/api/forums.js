@@ -3,14 +3,14 @@
  * %%% FORUMS ROUTE %%% *
  * %%%%%%%%%%%%%%%%%%%% *
 */
-/*** [REQUIRE] ***/
+// [REQUIRE] //
 const express = require('express')
 const mongodb = require('mongodb')
 
-/*** [REQUIRE] Personal ***/
+// [REQUIRE] Personal //
 require('dotenv').config()
 
-/*** [INIT] ***/
+// [INIT] //
 const router = express.Router()
 
 
@@ -33,5 +33,5 @@ async function loadForumsCollection() {
 }
 
 
-/*** [EXPORT] ***/
+// [EXPORT] //
 module.exports = router

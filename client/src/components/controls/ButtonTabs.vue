@@ -19,10 +19,10 @@
 	 * 1) the list of tabs
 	 * 2) what the emit is going to be called
 	 */
-	/*** [IMPORT] Personal ***/
+	// [IMPORT] Personal //
 	import { EventBus } from '../../main'
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		props: {
 			tabs: {

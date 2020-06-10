@@ -37,11 +37,11 @@
 </template>
 
 <script>
-	/*** [IMPORT] Personal ***/
+	// [IMPORT] Personal //
 	import router from '../../router'
 	import { EventBus } from '../../main'
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		props: {
 			block: {

@@ -3,7 +3,7 @@
  * %%% BLOCK SERVICES %%% *
  * %%%%%%%%%%%%%%%%%%%%%% *
 */
-/*** [IMPORT] ***/
+// [IMPORT] //
 import axios from 'axios'
 
 class BlockService {
@@ -61,5 +61,5 @@ class BlockService {
 	*/
 }
 
-/*** [EXPORT] ***/
+// [EXPORT] //
 export default BlockService

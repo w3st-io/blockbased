@@ -3,7 +3,7 @@
  * %%% COMMENT SERVICES %%% *
  * %%%%%%%%%%%%%%%%%%%%%%%% *
 */
-/*** [IMPORT] ***/
+// [IMPORT] //
 import axios from 'axios'
 
 class CommentService {
@@ -40,5 +40,5 @@ class CommentService {
 	}
 }
 
-/*** [EXPORT] ***/
+// [EXPORT] //
 export default CommentService

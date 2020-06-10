@@ -39,9 +39,9 @@
 </template>
 
 <script>
-	/*** [IMPORT] Personal ***/
+	// [IMPORT] Personal //
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		props: {
 			commentDetails: {

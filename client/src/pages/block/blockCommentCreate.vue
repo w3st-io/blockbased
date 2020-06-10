@@ -36,12 +36,12 @@
 </template>
 
 <script>
-	/*** [IMPORT] Personal ***/
+	// [IMPORT] Personal //
 	import CommentService from '../../services/CommentService'
 	import UserService from '../../services/UserService'
 	import router from '../../router'
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		data: function() {
 			return {

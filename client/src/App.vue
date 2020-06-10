@@ -18,13 +18,13 @@
 </template>
 
 <script>
-	/*** [IMPORT] Personal ***/
+	// [IMPORT] Personal //
 	import AdminNavBar from './components/admin/AdminNavBar'
 	import Footer from './components/nav/Footer'
 	import NavBar from './components/nav/NavBar'
 	import { EventBus } from './main'
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		name: 'App',
 		components: {

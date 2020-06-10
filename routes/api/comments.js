@@ -3,18 +3,18 @@
  * %%% COMMENTS ROUTE %%% *
  * %%%%%%%%%%%%%%%%%%%%%% *
 */
-/*** [REQUIRE] ***/
+// [REQUIRE] //
 const express = require('express')
 const mongodb = require('mongodb')
 
-/*** [REQUIRE] Personal ***/
+// [REQUIRE] Personal //
 require('dotenv').config()
 
-/*** [INIT] ***/
+// [INIT] //
 const router = express.Router()
 
 /******************* [COMMENT CRUD] *******************/
-/*** [CREATE] Comment ***/
+// [CREATE] //
 router.post('/create', async (req, res) => {
 	const comments = await loadCommentsCollection()
 	await comments.insertOne({
@@ -30,7 +30,7 @@ router.post('/create', async (req, res) => {
 })
 
 
-// [READ] Comments //
+// [READ] //
 router.get('/read-all/:block_id/:amountPerPage/:skip', async (req, res) => {
 	let skip = parseInt(req.params.skip)
 	let amountPerPage = parseInt(req.params.amountPerPage)
@@ -46,7 +46,7 @@ router.get('/read-all/:block_id/:amountPerPage/:skip', async (req, res) => {
 })
 
 
-/*** [LOAD COLLECTION] COMMENTS ***/
+/*** [LOAD COLLECTION] comments ***/
 async function loadCommentsCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'blockbased'
@@ -64,5 +64,5 @@ async function loadCommentsCollection() {
 }
 
 
-/*** [EXPORT] ***/
+// [EXPORT] //
 module.exports = router

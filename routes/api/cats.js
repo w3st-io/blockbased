@@ -3,14 +3,14 @@
  * %%% CATS ROUTE %%% *
  * %%%%%%%%%%%%%%%%%% *
 */
-/*** [REQUIRE] ***/
+// [REQUIRE] //
 const express = require('express')
 const mongodb = require('mongodb')
 
-/*** [REQUIRE] Personal ***/
+// [REQUIRE] Personal //
 require('dotenv').config()
 
-/*** [INIT] ***/
+// [INIT] //
 const router = express.Router()
 
 
@@ -32,5 +32,5 @@ async function loadCatsCollection() {
 	return client.db(db_name).collection(c_name)
 }
 
-/*** [EXPORT] ***/
+// [EXPORT] //
 module.exports = router

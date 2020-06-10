@@ -3,7 +3,7 @@
  * %%% USER SERVICES %%% *
  * %%%%%%%%%%%%%%%%%%%%% *
 */
-/*** [IMPORT] ***/
+// [IMPORT] //
 import jwtDecode from 'jwt-decode'
 import axios from 'axios'
 
@@ -50,5 +50,5 @@ class UserService {
 	}
 }
 
-/*** [EXPORT] ***/
+// [EXPORT] //
 export default UserService

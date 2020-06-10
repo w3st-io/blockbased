@@ -32,12 +32,12 @@
 </template>
 
 <script>
-	/*** [IMPORT] Personal ***/
+	// [IMPORT] Personal //
 	import BlockService from '../../services/BlockService'
 	import UserService from '../../services/UserService'
 	import router from '../../router'
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		data: function() {
 			return {

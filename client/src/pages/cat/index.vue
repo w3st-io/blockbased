@@ -13,14 +13,14 @@
 </template>
 
 <script>
-	/*** [IMPORT] Personal ***/
+	// [IMPORT] Personal //
 	import CatBlockList from '../../components/cat/CatBlockList'
 	import TitleHeader from '../../components/cat/TitleHeader'
 	import BlockService from '../../services/BlockService'
 	import router from '../../router'
 	import { EventBus } from '../../main'
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		components: {
 			CatBlockList,

@@ -33,11 +33,11 @@
 	</div>
 </template>
 <script>
-	/*** [IMPORT] ***/
+	// [IMPORT] //
 	import { EventBus } from '../../main'
 	import router from '../../router'
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		data: function() {
 			return {

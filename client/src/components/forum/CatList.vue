@@ -30,10 +30,10 @@
 </template>
 
 <script>
-	/*** [IMPORT] Personal ***/
+	// [IMPORT] Personal //
 	import router from '../../router'
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		props: {
 			cats: {

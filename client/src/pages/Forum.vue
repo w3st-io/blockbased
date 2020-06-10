@@ -17,10 +17,12 @@
 </template>
 
 <script>
+	// [IMPORT] //
 	import CatList from '../components/forum/CatList'
 	import SideCard from '../components/forum/SideCard'
 	import { cats } from '../../defaults/cats'
 
+	// [EXPORT] //
 	export default {
 		components: {
 			CatList,

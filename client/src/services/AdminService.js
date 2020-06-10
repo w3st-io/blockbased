@@ -3,7 +3,7 @@
  * %%% ADMIN SERVICES %%% *
  * %%%%%%%%%%%%%%%%%%%%%% *
 */
-/*** [IMPORT] ***/
+// [IMPORT] //
 import jwtDecode from 'jwt-decode'
 import axios from 'axios'
 
@@ -54,5 +54,5 @@ class AdminService {
 	}
 }
 
-/*** [EXPORT] ***/
+// [EXPORT] //
 export default AdminService

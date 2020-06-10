@@ -12,14 +12,14 @@
 </template>
 
 <script>
-	/*** [IMPORT] ***/
+	// [IMPORT] //
 	import BlocksTable from '../../components/admin/index/BlocksTable'
 	import ButtonTabs from '../../components/controls/ButtonTabs'
 	import { EventBus } from '../../main'
 	import router from '../../router'
 	//import AdminService from '../../services/AdminService'
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		components: {
 			BlocksTable,

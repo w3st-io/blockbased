@@ -1,8 +1,8 @@
-/*** [IMPORT] ***/
+// [IMPORT] //
 import Vue from 'vue'
 import Router from 'vue-router'
 
-/*** [IMPORT] Personal ***/
+// [IMPORT] Personal //
 import Admin from '../pages/admin'
 import AdminLogin from '../pages/admin/AdminLogin'
 import AdminProfile from '../pages/admin/AdminProfile'
@@ -17,10 +17,10 @@ import Profile from '../pages/user/Profile'
 import Register from '../pages/user/Register'
 import NotFound from '../pages/404'
 
-/*** [USE] ***/
+// [USE] //
 Vue.use(Router)
 
-/*** [EXPORT] ***/
+// [EXPORT] //
 export default new Router ({
 	routes: [
 		{

@@ -28,11 +28,11 @@
 </template>
 
 <script>
-	/*** [IMPORT] ***/
+	// [IMPORT] //
 	import jwtDecode from 'jwt-decode'
 	import router from '../../router'
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		data: function() {
 			// [INIT]

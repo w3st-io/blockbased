@@ -1,40 +1,43 @@
-
 /**
  * %%%%%%%%%%%%%%%%%%%% *
  * %%% SERVER INDEX %%% *
  * %%%%%%%%%%%%%%%%%%%% *
  * 
 */
-/*** [REQUIRE] ***/
+// [REQUIRE] //
 const bodyParser = require("body-parser")
 const cors = require("cors")
 const express = require("express")
 
-/*** [REQUIRE] Personal + ENV ***/
+
+// [REQUIRE] Personal + ENV //
 const admins = require('./routes/api/admins')
 const blocks = require('./routes/api/blocks')
 const cats = require('./routes/api/cats')
 const comments = require('./routes/api/comments')
 const forums = require('./routes/api/forums')
 const users = require('./routes/api/users')
-
 require('dotenv').config()
 
-/*** [INIT] ***/
+
+// [INIT] //
 const app = express()
 
-/*** [USE] ***/
+
+// [USE] //
 app.use(bodyParser.json())
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-/*** [INIT USE] For "this" route use "this" ***/
+
+// [INIT USE] For "this" route use "this" //
 app.use('/api/admins', admins)
 app.use('/api/blocks', blocks)
 app.use('/api/cats', cats)
 app.use('/api/comments', comments)
 app.use('/api/forums', forums)
 app.use('/api/users', users)
+
 
 /*** [PORT + LISTEN] ***/
 const port = process.env.PORT || 5000

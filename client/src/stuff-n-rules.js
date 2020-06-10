@@ -6,11 +6,11 @@
  * which lets you make forms be verfied for
  * validity before being summited. 
  */
-/*** [IMPORT] ***/
+// [IMPORT] //
 import { extend } from 'vee-validate'
 import { email } from 'vee-validate/dist/rules'
 
-/*** [IMPORT] Personal ***/
+// [IMPORT] Personal //
 import router from './router'
 
 /*** [VEE-VALIDATE] Rules ****/

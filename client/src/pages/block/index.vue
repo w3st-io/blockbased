@@ -10,15 +10,15 @@
 </template>
 
 <script>
-	/*** [IMPORT] Personal ***/
+	// [IMPORT] Personal //
 	import BlockCommentList from '../../components/block/BlockCommentList'
 	import TitleHeader from '../../components/block/TitleHeader'
-	import CommentService from '../../services/CommentService'
 	import BlockService from '../../services/BlockService'
+	import CommentService from '../../services/CommentService'
 	//import { EventBus } from '../../main'
 
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		components: {
 			BlockCommentList,
@@ -27,9 +27,9 @@
 
 		data: function() {
 			return {
-				amountPerPage: 5,
 				block_id: this.$route.params.block_id,
-				pageNumber: (this.$route.params.page) - 1,
+				pageNumber: (this.$route.params.page - 1),
+				amountPerPage: 5,
 				block: {},
 				comments: [],
 				error: '',

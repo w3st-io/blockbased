@@ -73,12 +73,12 @@
 </template>
 
 <script>
-	/*** [IMPORT] Personal ***/
+	// [IMPORT] Personal //
 	import { EventBus } from '../../main'
 	import router from '../../router'
 	import AdminService from '../../services/AdminService'
 
-	/*** [EXPORT] ***/
+	// [EXPORT] //
 	export default {
 		data: function() {
 			return {

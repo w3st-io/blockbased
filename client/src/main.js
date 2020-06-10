@@ -6,12 +6,12 @@
  * here you have the global imports and the global components
  * that are going to be used throughout the application.
  */
-/*** [IMPORT] ***/
+// [IMPORT] //
 import 'bootstrap/dist/css/bootstrap.css'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import Vue from 'vue'
 
-/*** [IMPORT] Personal ***/
+// [IMPORT] Personal //
 import './assets/styles/custom.css'
 import './assets/styles/style.css'
 import './stuff-n-rules'
