@@ -39,7 +39,6 @@
 			// Get Block Details //
 			try {
 				this.block = await CatService.getBlockDetails(this.block_id)
-				console.log('Block', this.block)
 			}
 			catch(e) { this.error = e }
 
@@ -48,8 +47,15 @@
 				this.comments = await BlockService.getComments(this.block_id, this.pageNumber)
 			}
 			catch(e) { this.error = e }
+
+			this.log()
 		},
 
-		methods: {},
+		methods: {
+			log() {
+				console.log('Block:', this.block)
+				console.log('Comments:', this.comments)
+			}
+		},
 	}
 </script>

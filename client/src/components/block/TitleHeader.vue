@@ -1,7 +1,8 @@
 <template>
-	<section class="w-100 mb-1 flex-container">
+	<section class="w-100 mb-3 flex-container">
 		<!-- Left Side -->
 		<div class="w-50 float-left">
+			<!-- Title -->
 			<h3 class="w-auto text-light">
 				{{ block.title }}
 			</h3>

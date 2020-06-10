@@ -54,6 +54,5 @@
 
 <style scoped>
 	li { list-style: none; }
-
 	li:nth-child(odd) { background: #343a40 !important; }
 </style>
