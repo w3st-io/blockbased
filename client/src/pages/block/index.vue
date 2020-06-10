@@ -2,7 +2,15 @@
 	<section class="my-3 container">
 		<div class="row">
 			<div class="col-12">
-				<title-header :block="block" />
+				<!-- Title Header -->
+				<title-header
+					:block="block"
+					:leftBtnEmitName="'block-prev'"
+					:rightBtnEmitName="'block-next'"
+					:badgeValue="$route.params.page"
+				/>
+
+				<!-- Comments -->
 				<Block-comment-list :commentDetails="comments" />
 
 				<!-- [ERROR] -->
@@ -20,7 +28,8 @@
 	import TitleHeader from '../../components/block/TitleHeader'
 	import BlockService from '../../services/BlockService'
 	import CommentService from '../../services/CommentService'
-	//import { EventBus } from '../../main'
+	import router from '../../router'
+	import { EventBus } from '../../main'
 
 
 	// [EXPORT] //
@@ -42,6 +51,10 @@
 		},
 
 		created: async function() {
+			// [--> EMMIT] block-prev, block-next //
+			EventBus.$on('block-prev', () => { this.prevPage() })
+			EventBus.$on('block-next', () => { this.nextPage() })
+			
 			// Get Block Details //
 			try {
 				this.block = await BlockService.getBlockDetails(this.block_id)
@@ -66,7 +79,29 @@
 				console.log('Block:', this.block)
 				console.log('Comments:', this.comments)
 				console.error('error:', this.error)
-			}
+			},
+
+			prevPage() {
+				this.pageNumber++
+
+				// As long as the page is not going into 0 or negative
+				if (this.pageNumber != 1) {
+					this.pageNumber--
+					router.push({ path: `/block/${this.block_id}/${this.pageNumber}` })
+					EventBus.$emit('force-rerender')
+				}
+			},
+
+			nextPage() {
+				this.pageNumber++
+
+				// As long as page does not exceed max Number of Pages
+				if (this.pageNumber == this.pageNumber) {
+					this.pageNumber++
+					router.push({ path: `/block/${this.block_id}/${this.pageNumber}` })
+					EventBus.$emit('force-rerender')
+				}
+			},
 		},
 	}
 </script>

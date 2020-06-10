@@ -8,7 +8,7 @@
 			</h3>
 
 			<!-- Page Nav Control -->
-			<pageNavButtons
+			<page-nav-buttons
 				:leftBtnEmitName="leftBtnEmitName"
 				:rightBtnEmitName="rightBtnEmitName"
 				:badgeValue="badgeValue"
@@ -28,7 +28,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import pageNavButtons from '../controls/PageNavButtons'
+	import PageNavButtons from '../controls/PageNavButtons'
 	import router from '../../router'
 
 	// [EXPORT] //
@@ -56,7 +56,7 @@
 		},
 
 		components: {
-			pageNavButtons,
+			PageNavButtons,
 		},
 
 		methods: {

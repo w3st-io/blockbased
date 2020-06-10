@@ -7,21 +7,12 @@
 				{{ block.title }}
 			</h3>
 
-			<div class="py-2">
-				<div class="w-50 btn-group flaot-right">
-					<button
-						@click="prevPage()"
-						class="w-25 btn btn-sm btn-outline-light"
-					>Prev</button>
-					<button
-						@click="nextPage()"
-						class="w-25 btn btn-sm btn-outline-light"
-					>Next</button>
-				</div>
-				<span class="mx-2 p-2 badge badge-light">
-					{{ pageNumber }}
-				</span>
-			</div>
+			<!-- Page Nav Buttons -->
+			<page-nav-buttons
+				:leftBtnEmitName="leftBtnEmitName"
+				:rightBtnEmitName="rightBtnEmitName"
+				:badgeValue="badgeValue"
+			/>
 		</div>
 
 		<!-- Right Side -->
@@ -38,8 +29,8 @@
 
 <script>
 	// [IMPORT] Personal //
+	import PageNavButtons from '../controls/PageNavButtons'
 	import router from '../../router'
-	import { EventBus } from '../../main'
 
 	// [EXPORT] //
 	export default {
@@ -47,7 +38,26 @@
 			block: {
 				type: Object,
 				required: true,
-			}
+			},
+
+			leftBtnEmitName: {
+				type: String,
+				required: true
+			},
+
+			rightBtnEmitName: {
+				type: String,
+				required: true
+			},
+
+			badgeValue: {
+				type: String,
+				required: true
+			},
+		},
+
+		components: {
+			PageNavButtons
 		},
 
 		data: function() {
@@ -60,24 +70,6 @@
 		methods: {
 			redirectToBlockCommentCreate(block_id) {
 				router.push({ path: `/block-comment-create/${block_id}` })
-			},
-
-			prevPage() {
-				// As long as the page is not going into 0 or negative
-				if (this.pageNumber != 1) {
-					this.pageNumber--
-					router.push({ path: `/block/${this.block_id}/${this.pageNumber}` })
-					EventBus.$emit('force-rerender')
-				}
-			},
-
-			nextPage() {
-				// As long as page does not exceed max Number of Pages
-				if (this.pageNumber == this.pageNumber) {
-					this.pageNumber++
-					router.push({ path: `/block/${this.block_id}/${this.pageNumber}` })
-					EventBus.$emit('force-rerender')
-				}
 			},
 		},
 	}

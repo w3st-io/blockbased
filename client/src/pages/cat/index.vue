@@ -53,6 +53,9 @@
 			EventBus.$on('cat-next', () => { this.nextPage() })
 			EventBus.$on('redirect-to-block', (block_id) => { this.redirectToBlock(block_id) })
 
+			// Get Cat Details //
+			// Work is progress..
+
 			// Get Blocks //
 			try {
 				this.blocks = await BlockService.getAllBlocks(
@@ -76,6 +79,7 @@
 
 			prevPage() {
 				this.pageNumber++
+				
 				// As long as the page is not going into 0 or negative
 				if (this.pageNumber != 1) {
 					this.pageNumber--
@@ -85,8 +89,8 @@
 			},
 
 			nextPage() {
-				console.log('next')
 				this.pageNumber++
+
 				// As long as page does not exceed max Number of Pages
 				if (this.pageNumber == this.pageNumber) {
 					this.pageNumber++
