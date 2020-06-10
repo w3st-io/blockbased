@@ -49,10 +49,8 @@
 		},
 
 		created: function() {
-			// [REDIRECT] If NOT Logged in //
-			if (!localStorage.admintoken) {
-				router.push({ name: 'Dashboard' })
-			}
+			// [REDIRECT] Log Required //
+			if (!localStorage.admintoken) { router.push({ name: 'Dashboard' }) }
 		},
 	}
 </script>

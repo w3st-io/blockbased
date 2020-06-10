@@ -7,38 +7,58 @@
 import axios from 'axios'
 
 class BlockService {
-	/******************* [COMMENT CRUD] *******************/
-	// [CREATE]
-	static createComment(block_id, email, comment) {
-		return axios.post(`/api/blocks/create-comment`, {
-			block_id,
+	// [CREATE] //
+	static createBlock(email, title, cat_id) {
+		return axios.post('/api/blocks/create', {
 			email,
-			comment
-		})	
+			title,
+			cat_id
+		})
 	}
 
-
-	// [READ]
-	static getComments(block_id, pageNumber) {
-		// multiply page nubmer with # comments per page to know how much to skip
-		let skip = pageNumber * 5
-
+	// [READ ALL] //
+	static getAllBlocks(cat_id) {
 		let result = new Promise ((resolve, reject) => {
-			axios.get(`/api/blocks/read-comments/${block_id}/${skip}`)
+			axios
+				.get(`/api/blocks/read-all/${cat_id}`)
 				.then((res) => {
 					const data = res.data
 					resolve(
-						data.map((comment) => ({
-							...comment,
+						data.map((block) => ({
+							...block,
+							createdAt: new Date(block.createdAt)
 						}))
 					)
 				})
 				.catch((err) => { reject(err) })
 		})
 
-		// [RETURN] //
 		return result
 	}
+
+	// [READ] //
+	static getBlockDetails(block_id) {
+		let result = new Promise ((resolve, reject) => {
+			return axios.get(`/api/blocks/read/${block_id}`)
+				.then((res) => {
+					const data = res.data
+					console.log('RETURNED:', data)
+
+					data.createdAt = new Date(data.createdAt)
+					resolve(data)
+				})
+				.catch((err) => { reject(err) })
+		})
+
+		return result
+	}
+
+
+	/* NOT PROGRAMMED YET
+	static deleteBlock(id) {
+		return axios.delete(`/api/cats/delete/${id}`)
+	}
+	*/
 }
 
 /*** [EXPORT] ***/

@@ -37,7 +37,7 @@
 
 <script>
 	/*** [IMPORT] Personal ***/
-	import BlockService from '../../services/BlockService'
+	import CommentService from '../../services/CommentService'
 	import UserService from '../../services/UserService'
 	import router from '../../router'
 
@@ -68,7 +68,7 @@
 				this.submitted = true
 
 				try {
-					await BlockService.createComment(
+					await CommentService.createComment(
 						this.block_id,
 						this.email,
 						this.comment

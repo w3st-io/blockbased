@@ -33,7 +33,7 @@
 
 <script>
 	/*** [IMPORT] Personal ***/
-	import CatService from '../../services/CatService'
+	import BlockService from '../../services/BlockService'
 	import UserService from '../../services/UserService'
 	import router from '../../router'
 
@@ -51,7 +51,7 @@
 		},
 
 		created: function() {
-			// [REDIRECT] Log Needed //
+			// [REDIRECT] Not Log Needed //
 			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
 
 			this.email = UserService.getEmail()
@@ -64,7 +64,7 @@
 				this.submitted = true
 
 				try {
-					await CatService.createBlock(
+					await BlockService.createBlock(
 						this.email,
 						this.title,
 						this.cat_id

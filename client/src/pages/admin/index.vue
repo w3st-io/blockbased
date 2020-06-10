@@ -38,10 +38,8 @@
 		},
 
 		created: async function() {
-			// [REDIRECT] //
-			if (!localStorage.admintoken) {
-				router.push({ name: 'AdminLogin' })
-			}
+			// [REDIRECT] Not Admin Log Required //
+			if (!localStorage.admintoken) { router.push({ name: 'AdminLogin' }) }
 
 			// Detect Tab Clicked //
 			EventBus.$on('tab-clicked', (tabClicked) => {

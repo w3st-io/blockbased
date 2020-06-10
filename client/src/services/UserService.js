@@ -18,26 +18,22 @@ class UserService {
 		if (token != null) { decoded = jwtDecode(token) }
 		else { decoded = { email: '' } }
 
-		// [RETURN] //
 		return decoded.email
 	}
 	
-	// [FUNCTION] Login //
+	// [LOGIN] //
 	static login(email, password) {
-		/*** [PROMISE/POST] ***/
 		let result = new Promise ((resolve, reject) => {
 			axios.post('/api/users/login', { email, password })
 				.then(res => { resolve(res) })
 				.catch(err => { reject(err) })
 		})
 
-		// [RETURN] //
 		return result
 	}
 
-	// [FUNCTION] Register //
+	// [REGISTER] //
 	static register(first_name, last_name, username, email, password) {
-		/*** [PROMISE/POST] ***/
 		let result = new Promise ((resolve, reject) => {
 			axios.post('/api/users/register', {
 				first_name,
@@ -50,7 +46,6 @@ class UserService {
 				.catch((err) => { reject(err) })
 		})
 
-		// [RETURN] //
 		return result
 	}
 }

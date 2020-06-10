@@ -48,7 +48,7 @@
 		},
 
 		created: function() {
-			// [REDIRECT] If NOT Logged in //
+			// [REDIRECT] Not Log Required //
 			if (!localStorage.usertoken) {
 				router.push({ name: 'Dashboard' })
 			}

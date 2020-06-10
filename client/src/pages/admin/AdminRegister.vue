@@ -162,10 +162,8 @@
 		},
 
 		created: function() {
-			// [REDIRECT] If Logged in //
-			if (localStorage.admintoken) {
-				router.push({ name: 'AdminProfile' })
-			}
+			// [REDIRECT] Not Log Reuired //
+			if (localStorage.admintoken) { router.push({ name: 'AdminProfile' }) }
 		},
 
 		methods: {

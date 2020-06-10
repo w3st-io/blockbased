@@ -62,9 +62,7 @@
 				this.query = ''
 			},
 
-			closeMenu() {
-				this.sideMenuOpen = !this.sideMenuOpen
-			},
+			closeMenu() { this.sideMenuOpen = !this.sideMenuOpen },
 
 			forumBtn() {
 				this.sideMenuOpen = !this.sideMenuOpen

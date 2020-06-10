@@ -13,8 +13,8 @@
 	/*** [IMPORT] Personal ***/
 	import BlockCommentList from '../../components/block/BlockCommentList'
 	import TitleHeader from '../../components/block/TitleHeader'
+	import CommentService from '../../services/CommentService'
 	import BlockService from '../../services/BlockService'
-	import CatService from '../../services/CatService'
 	//import { EventBus } from '../../main'
 
 
@@ -27,6 +27,7 @@
 
 		data: function() {
 			return {
+				amountPerPage: 5,
 				block_id: this.$route.params.block_id,
 				pageNumber: (this.$route.params.page) - 1,
 				block: {},
@@ -38,13 +39,17 @@
 		created: async function() {
 			// Get Block Details //
 			try {
-				this.block = await CatService.getBlockDetails(this.block_id)
+				this.block = await BlockService.getBlockDetails(this.block_id)
 			}
 			catch(e) { this.error = e }
 
 			// Get Comments //
 			try {
-				this.comments = await BlockService.getComments(this.block_id, this.pageNumber)
+				this.comments = await CommentService.getComments(
+					this.block_id,
+					this.amountPerPage,
+					this.pageNumber
+				)
 			}
 			catch(e) { this.error = e }
 

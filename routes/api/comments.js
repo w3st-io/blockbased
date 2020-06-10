@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%% *
- * %%% BLOCKS ROUTE %%% *
- * %%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%% *
+ * %%% COMMENTS ROUTE %%% *
+ * %%%%%%%%%%%%%%%%%%%%%% *
 */
 /*** [REQUIRE] ***/
 const express = require('express')
@@ -15,7 +15,7 @@ const router = express.Router()
 
 /******************* [COMMENT CRUD] *******************/
 /*** [CREATE] Comment ***/
-router.post('/create-comment', async (req, res) => {
+router.post('/create', async (req, res) => {
 	const comments = await loadCommentsCollection()
 	await comments.insertOne({
 		block_id: req.body.block_id,
@@ -31,14 +31,15 @@ router.post('/create-comment', async (req, res) => {
 
 
 // [READ] Comments //
-router.get('/read-comments/:block_id/:skip', async (req, res) => {
+router.get('/read-all/:block_id/:amountPerPage/:skip', async (req, res) => {
 	let skip = parseInt(req.params.skip)
+	let amountPerPage = parseInt(req.params.amountPerPage)
 
 	const comments = await loadCommentsCollection()
 	let retrievedData = await comments.find(
 		{ block_id: req.params.block_id }
 	).skip(skip)
-	.limit(5)
+	.limit(amountPerPage)
 	.toArray()
 
 	res.send(retrievedData)

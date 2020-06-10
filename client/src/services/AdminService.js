@@ -17,11 +17,11 @@ class AdminService {
 		if (token != null) { decoded = jwtDecode(token) }
 		else { decoded = { email: '' } }
 
-		// [RETURN] //
 		return decoded.email
 	}
 	
-	// [FUNCTION] Login //
+
+	// [LOGIN] //
 	static login(email, password) {
 		let result = new Promise ((resolve, reject) => {
 			axios.post('/api/admins/login', { email, password })
@@ -29,12 +29,11 @@ class AdminService {
 				.catch(err => { reject(err) })
 		})
 
-		console.log('result', result)
-		// [RETURN] //
 		return result
 	}
 
-	// [FUNCTION] Register //
+	
+	// [REGISTER] //
 	static register(first_name, last_name, username, email, password) {
 		let result = new Promise ((resolve, reject) => {
 			axios.post('/api/admins/register', {
@@ -51,7 +50,6 @@ class AdminService {
 				})
 		})
 
-		// [RETURN] //
 		return result
 	}
 }

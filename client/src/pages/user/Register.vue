@@ -162,10 +162,8 @@
 		},
 
 		created: function() {
-			// [REDIRECT] If Logged in //
-			if (localStorage.usertoken) {
-				router.push({ name: 'Profile' })
-			}
+			// [REDIRECT] Log Required //
+			if (localStorage.usertoken) { router.push({ name: 'Profile' }) }
 		},
 
 		methods: {

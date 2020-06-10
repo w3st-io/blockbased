@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%% *
- * %%% CATS ROUTE %%% *
- * %%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%% *
+ * %%% BLOCKS ROUTE %%% *
+ * %%%%%%%%%%%%%%%%%%%% *
 */
 /*** [REQUIRE] ***/
 const express = require('express')
@@ -41,7 +41,7 @@ router.get('/read-all/:cat_id', async (req, res) => {
 })
 
 
-// [READ ALL] //
+// [READ] //
 router.get(`/read/:block_id`, async (req, res) => {
 	const blocks = await loadBlocksCollection()
 	let retrievedData = await blocks.findOne(
@@ -52,7 +52,7 @@ router.get(`/read/:block_id`, async (req, res) => {
 })
 
 
-/*** [LOAD COLLECTION] BLOCKS ***/
+/*** [LOAD COLLECTION] blocks ***/
 async function loadBlocksCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'

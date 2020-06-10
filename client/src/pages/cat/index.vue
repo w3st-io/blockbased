@@ -16,7 +16,7 @@
 	/*** [IMPORT] Personal ***/
 	import CatBlockList from '../../components/cat/CatBlockList'
 	import TitleHeader from '../../components/cat/TitleHeader'
-	import CatService from '../../services/CatService'
+	import BlockService from '../../services/BlockService'
 	import router from '../../router'
 	import { EventBus } from '../../main'
 
@@ -38,7 +38,7 @@
 			// [--> EMMIT] Redirect
 			EventBus.$on('redirect-to-block', (block_id) => { this.redirectToBlock(block_id) })
 
-			this.blocks = await CatService.getAllBlocks(this.cat_id)
+			this.blocks = await BlockService.getAllBlocks(this.cat_id)
 
 			this.log()
 		},

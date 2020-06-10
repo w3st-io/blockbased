@@ -11,10 +11,12 @@ const cors = require("cors")
 const express = require("express")
 
 /*** [REQUIRE] Personal + ENV ***/
-const admins = require('./routes/api/Admins')
-const blocks = require('./routes/api/Blocks')
-const cats = require('./routes/api/Cats')
-const users = require('./routes/api/Users')
+const admins = require('./routes/api/admins')
+const blocks = require('./routes/api/blocks')
+const cats = require('./routes/api/cats')
+const comments = require('./routes/api/comments')
+const forums = require('./routes/api/forums')
+const users = require('./routes/api/users')
 
 require('dotenv').config()
 
@@ -30,6 +32,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use('/api/admins', admins)
 app.use('/api/blocks', blocks)
 app.use('/api/cats', cats)
+app.use('/api/comments', comments)
+app.use('/api/forums', forums)
 app.use('/api/users', users)
 
 /*** [PORT + LISTEN] ***/
