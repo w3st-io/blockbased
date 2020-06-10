@@ -38,7 +38,8 @@ router.get('/read-all/:block_id/:amountPerPage/:skip', async (req, res) => {
 	const comments = await loadCommentsCollection()
 	let retrievedData = await comments.find(
 		{ block_id: req.params.block_id }
-	).skip(skip)
+	)
+	.skip(skip)
 	.limit(amountPerPage)
 	.toArray()
 

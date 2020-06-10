@@ -87,7 +87,7 @@ export default new Router ({
 			}
 		},
 		{
-			path: '/cat/:cat_id',
+			path: '/cat/:cat_id/:page',
 			name: 'Cat',
 			component: Cat,
 			meta: {

@@ -4,6 +4,11 @@
 			<div class="col-12">
 				<title-header :block="block" />
 				<Block-comment-list :commentDetails="comments" />
+
+				<!-- [ERROR] -->
+				<div v-if="error" class="alert alert-danger">
+					{{ error }}
+				</div>
 			</div>
 		</div>
 	</section>
@@ -45,7 +50,7 @@
 
 			// Get Comments //
 			try {
-				this.comments = await CommentService.getComments(
+				this.comments = await CommentService.getAllComments(
 					this.block_id,
 					this.amountPerPage,
 					this.pageNumber
@@ -60,6 +65,7 @@
 			log() {
 				console.log('Block:', this.block)
 				console.log('Comments:', this.comments)
+				console.error('error:', this.error)
 			}
 		},
 	}

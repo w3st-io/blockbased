@@ -3,7 +3,7 @@
 		<!-- Left Side -->
 		<div class="w-50 float-left">
 			<!-- Title -->
-			<h3 class="w-auto text-light">
+			<h3 class="text-light">
 				{{ block.title }}
 			</h3>
 

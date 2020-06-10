@@ -14,7 +14,7 @@
 					<div class="w-100 d-inline-block overflow-auto rounded-circle">
 						<img
 							v-bind:src="require('../../assets/images/caticons/' + cat.image)"
-							class="w-100 p-3 bg-info"
+							class="w-100 bg-info img-padding"
 						>
 					</div>
 				</div>
@@ -45,13 +45,15 @@
 		methods: {
 			redirectToCatBlocks(cat_id) {
 				// Push to Cat Page
-				router.push({ name: 'Cat', params: { cat_id: cat_id } })
+				router.push({ name: 'Cat', params: { cat_id: cat_id, page: 1 } })
 			}
 		}
 	}
 </script>
 
 <style scoped>
+	.img-padding { padding: 20%; }
+
 	li { list-style: none; }
 
 	li { background: #343a40 !important; }

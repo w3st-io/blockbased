@@ -17,10 +17,13 @@ class BlockService {
 	}
 
 	// [READ ALL] //
-	static getAllBlocks(cat_id) {
+	static getAllBlocks(cat_id, amountPerPage, pageNumber) {
+		// multiply page nubmer with # blocks per page to know how much to skip
+		let skip = pageNumber * amountPerPage
+
 		let result = new Promise ((resolve, reject) => {
 			axios
-				.get(`/api/blocks/read-all/${cat_id}`)
+				.get(`/api/blocks/read-all/${cat_id}/${amountPerPage}/${skip}`)
 				.then((res) => {
 					const data = res.data
 					resolve(

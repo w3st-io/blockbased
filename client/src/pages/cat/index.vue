@@ -3,10 +3,20 @@
 		<article class="row">
 			<div class="col-12">
 				<!-- Title With Create Button -->
-				<title-header :cat_id="cat_id" />
+				<title-header
+					:cat_id="cat_id"
+					:leftBtnEmitName="'cat-prev'"
+					:rightBtnEmitName="'cat-next'"
+					:badgeValue="$route.params.page"
+				/>
 
 				<!-- Display All the Blocks -->
 				<cat-block-list :blocks="blocks" />
+
+				<!-- [ERROR] -->
+				<div v-if="error" class="alert alert-danger">
+					{{ error }}
+				</div>
 			</div>
 		</article>
 	</section>
@@ -30,22 +40,61 @@
 		data: function() {
 			return {
 				cat_id: this.$route.params.cat_id,
+				pageNumber: parseInt(this.$route.params.page - 1),
+				amountPerPage: 5,
 				blocks: [],
+				error: '',
 			}
 		},
 
 		created: async function() {
-			// [--> EMMIT] Redirect
+			// [--> EMMIT] cat-prev, cat-next, redirect-to-block //
+			EventBus.$on('cat-prev', () => { this.prevPage() })
+			EventBus.$on('cat-next', () => { this.nextPage() })
 			EventBus.$on('redirect-to-block', (block_id) => { this.redirectToBlock(block_id) })
 
-			this.blocks = await BlockService.getAllBlocks(this.cat_id)
+			// Get Blocks //
+			try {
+				this.blocks = await BlockService.getAllBlocks(
+					this.cat_id,
+					this.amountPerPage,
+					this.pageNumber
+				)
+			}
+			catch(e) { this.error = e }
 
 			this.log()
 		},
 
 		methods: {
 			log() {
+				console.log('%% Cat Index %%')
+				console.log('Page Number:', this.pageNumber)
 				console.log('blocks:', this.blocks)
+				if (this.error) { console.error('Error:', this.error) }
+			},
+
+			prevPage() {
+				this.pageNumber++
+				// As long as the page is not going into 0 or negative
+				if (this.pageNumber != 1) {
+					this.pageNumber--
+					router.push({ path: `/cat/${this.cat_id}/${this.pageNumber}` })
+					EventBus.$emit('force-rerender')
+				}
+			},
+
+			nextPage() {
+				console.log('next')
+				this.pageNumber++
+				// As long as page does not exceed max Number of Pages
+				if (this.pageNumber == this.pageNumber) {
+					this.pageNumber++
+
+					console.log('pg', this.pageNumber)
+					router.push({ path: `/cat/${this.cat_id}/${this.pageNumber}` })
+					EventBus.$emit('force-rerender')
+				}
 			},
 
 			redirectToBlock(block_id) {

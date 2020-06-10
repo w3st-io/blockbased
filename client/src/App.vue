@@ -49,7 +49,7 @@
 			// [--> EMIT IN] //
 			EventBus.$on('admin-logged-in', () => { this.adminLoggedIn = true })
 			EventBus.$on('admin-logged-out', () => { this.forceRerender() })
-			EventBus.$on('force-rerender', () => { console.log('fsdf'); this.forceRerender() })
+			EventBus.$on('force-rerender', () => { this.forceRerender() })
 		},
 
 		methods: {
@@ -57,6 +57,8 @@
 				this.adminLoggedIn = false
 				this.adminNavBarKey += 1
 				this.routerViewKey += 1
+				
+				console.log('Forced Rerendered')
 			}
 		}
 	}

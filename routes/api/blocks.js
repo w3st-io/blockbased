@@ -29,12 +29,16 @@ router.post('/create', async (req, res) => {
 
 
 // [READ ALL] //
-router.get('/read-all/:cat_id', async (req, res) => {
+router.get('/read-all/:cat_id/:amountPerPage/:skip', async (req, res) => {
+	let skip = parseInt(req.params.skip)
+	let amountPerPage = parseInt(req.params.amountPerPage)
+	
 	const blocks = await loadBlocksCollection()
 	let retrievedData = await blocks.find(
 		{ cat_id: req.params.cat_id }
 	)
-	.project()
+	.skip(skip)
+	.limit(amountPerPage)
 	.toArray()
 
 	res.send(retrievedData)

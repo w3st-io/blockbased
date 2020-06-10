@@ -18,8 +18,8 @@ class CommentService {
 	}
 
 
-	// [READ] //
-	static getComments(block_id, amountPerPage, pageNumber) {
+	// [READ-ALL] //
+	static getAllComments(block_id, amountPerPage, pageNumber) {
 		// multiply page nubmer with # comments per page to know how much to skip
 		let skip = pageNumber * amountPerPage
 
