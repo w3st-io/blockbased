@@ -1,5 +1,6 @@
 <template>
 	<section class="w-100 mb-1 flex-container">
+		<!-- Left Side -->
 		<div class="w-50 float-left">
 			<h3 class="w-auto text-light">
 				{{ block.title }}
@@ -7,15 +8,22 @@
 
 			<div class="py-2">
 				<div class="w-50 btn-group flaot-right">
-					<button @click="prevPage()" class="w-25 btn btn-sm btn-outline-light">Prev</button>
-					<button @click="nextPage()" class="w-25 btn btn-sm btn-outline-light">Next</button>
+					<button
+						@click="prevPage()"
+						class="w-25 btn btn-sm btn-outline-light"
+					>Prev</button>
+					<button
+						@click="nextPage()"
+						class="w-25 btn btn-sm btn-outline-light"
+					>Next</button>
 				</div>
 				<span class="mx-2 p-2 badge badge-light">
 					{{ pageNumber }}
 				</span>
 			</div>
-			
 		</div>
+
+		<!-- Right Side -->
 		<div class="w-50 float-right text-right">
 			<p class="mb-3 text-secondary small">{{ block.createdAt }}</p>
 			<button
@@ -54,15 +62,21 @@
 			},
 
 			prevPage() {
-				this.pageNumber--
-				router.push({ path: `/block/${this.block_id}/${this.pageNumber}` })
-				EventBus.$emit('force-rerender')
+				// As long as the page is not going into 0 or negative
+				if (this.pageNumber != 1) {
+					this.pageNumber--
+					router.push({ path: `/block/${this.block_id}/${this.pageNumber}` })
+					EventBus.$emit('force-rerender')
+				}
 			},
 
 			nextPage() {
-				this.pageNumber++
-				router.push({ path: `/block/${this.block_id}/${this.pageNumber}` })
-				EventBus.$emit('force-rerender')
+				// As long as page does not exceed max Number of Pages
+				if (this.pageNumber == this.pageNumber) {
+					this.pageNumber++
+					router.push({ path: `/block/${this.block_id}/${this.pageNumber}` })
+					EventBus.$emit('force-rerender')
+				}
 			},
 		},
 	}

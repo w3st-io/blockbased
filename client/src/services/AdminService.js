@@ -11,7 +11,6 @@ import axios from 'axios'
 class AdminService {
 	// [FUNCTION] Get Email //
 	static getEmail() {
-		// [INIT] // Check For Token //
 		const token = localStorage.admintoken
 		let decoded = {}
 
@@ -24,7 +23,6 @@ class AdminService {
 	
 	// [FUNCTION] Login //
 	static login(email, password) {
-		/*** [PROMISE/POST] ***/
 		let result = new Promise ((resolve, reject) => {
 			axios.post('/api/admins/login', { email, password })
 				.then(res => { resolve(res) })
@@ -38,7 +36,6 @@ class AdminService {
 
 	// [FUNCTION] Register //
 	static register(first_name, last_name, username, email, password) {
-		/*** [PROMISE/POST] ***/
 		let result = new Promise ((resolve, reject) => {
 			axios.post('/api/admins/register', {
 				first_name,

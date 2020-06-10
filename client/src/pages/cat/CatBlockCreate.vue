@@ -51,6 +51,9 @@
 		},
 
 		created: function() {
+			// [REDIRECT] Log Needed //
+			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
+
 			this.email = UserService.getEmail()
 			console.log('Your Email:', this.email)
 		},

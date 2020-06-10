@@ -12,8 +12,13 @@
 				>
 					<!-- Title --> 
 					<div class="w-100 p-2 float-right" >
-						<h5 class="text-light">{{ block.title }}</h5>
-						<p class="m-0 text-secondary">Description here</p>
+						<h5 class="text-light">
+							{{ block.title }}
+						</h5>
+						<p class="m-0 small text-secondary">
+							<span class="text-light">{{ block.email }}</span>
+							- {{ block.createdAt }}
+						</p>
 					</div>
 				</article>
 			</li>

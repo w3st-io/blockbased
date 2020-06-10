@@ -25,8 +25,10 @@
 						</p>
 					</div>
 				</article>
+
+				<!-- Time Stamp -->
 				<div class="w-100 p-2 border-top border-bottom border-secondary text-light">
-					<p class="m-0 small">
+					<p class="m-0 small text-secondary">
 						{{ new Date(commentDetail.createdAt) }}
 						- {{ commentDetail._id }}
 					</p>

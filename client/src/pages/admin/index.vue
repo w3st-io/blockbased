@@ -1,30 +1,9 @@
 <template>
 	<article class="mx-5">
 		<!-- Button Tabs -->
-		<button-tabs :tabs="tabs" :emitName="'tab-clicked'" class="mt-3" />
+		<button-tabs :tabs="tabs" :emitName="'tab-clicked'" class="my-3" />
 
-		<table v-if="activeTab == 'tab1'" class="my-3 table table-dark table-striped">
-			<thead>
-				<tr>
-					<th>Col 1</th>
-					<th>Col 2</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Data1</td>
-					<td>Data1</td>
-				</tr>
-				<tr>
-					<td>Data1</td>
-					<td>Data1</td>
-				</tr>
-				<tr>
-					<td>Data1</td>
-					<td>Data1</td>
-				</tr>
-			</tbody>
-		</table>
+		<blocks-table v-if="activeTab == 'blocks'" />
 
 		<div v-if="error != ''" class="my-3 alert alert-danger">
 			{{ error }}
@@ -34,6 +13,7 @@
 
 <script>
 	/*** [IMPORT] ***/
+	import BlocksTable from '../../components/admin/index/BlocksTable'
 	import ButtonTabs from '../../components/controls/ButtonTabs'
 	import { EventBus } from '../../main'
 	import router from '../../router'
@@ -42,15 +22,15 @@
 	/*** [EXPORT] ***/
 	export default {
 		components: {
-			ButtonTabs
+			BlocksTable,
+			ButtonTabs,
 		},
 
 		data: function() {
 			return {
 				tabs: [
-					{ name: 'tab1' },
-					{ name: 'tab2' },
-					{ name: 'tab3' }
+					{ name: 'blocks' },
+					{ name: 'comments' },
 				],
 				activeTab: '',
 				error: '',

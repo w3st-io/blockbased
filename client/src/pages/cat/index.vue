@@ -30,7 +30,7 @@
 		data: function() {
 			return {
 				cat_id: this.$route.params.cat_id,
-				blocks: []
+				blocks: [],
 			}
 		},
 
@@ -39,9 +39,15 @@
 			EventBus.$on('redirect-to-block', (block_id) => { this.redirectToBlock(block_id) })
 
 			this.blocks = await CatService.getAllBlocks(this.cat_id)
+
+			this.log()
 		},
 
 		methods: {
+			log() {
+				console.log('blocks:', this.blocks)
+			},
+
 			redirectToBlock(block_id) {
 				router.push({ name: 'Block', params: { block_id: block_id, page: 1 } })
 			}
