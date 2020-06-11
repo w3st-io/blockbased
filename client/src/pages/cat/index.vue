@@ -1,7 +1,7 @@
 <template>
-	<section class="my-3 container card bg-dark card-body">
+	<section class="container">
 		<article class="row">
-			<div class="col-12">
+			<div class="col-12 my-4 card bg-dark card-body">
 				<!-- Title With Create Button -->
 				<title-header
 					:cat_id="cat_id"

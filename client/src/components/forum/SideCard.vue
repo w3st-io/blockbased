@@ -1,5 +1,5 @@
 <template>
-	<div class="card my-3 bg-dark border-secondary box-shadow">
+	<div class="card bg-dark border-secondary box-shadow">
 		<img
 			src="../../assets/images/placeholder.jpg"
 			class="d-block w-100 card-img-top"

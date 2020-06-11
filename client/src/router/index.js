@@ -126,7 +126,7 @@ export default new Router ({
 			}
 		},
 		{
-			path: '/proffile',
+			path: '/profile',
 			name: 'Profile',
 			component: Profile,
 			meta: {

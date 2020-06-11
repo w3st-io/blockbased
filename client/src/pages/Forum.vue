@@ -1,15 +1,15 @@
 <template>
-	<div class="my-3 container">
+	<div class="container">
 		<div class="row">
 			<!-- Main Content -->
-			<section class="card card-body bg-dark col-12 col-md-9">
+			<section class="col-12 col-md-9 my-4 card card-body bg-dark">
 				<cat-list :cats="cats1" class="" />
 				<cat-list :cats="cats2" class="mt-3" />
 				<cat-list :cats="cats3" class="mt-3" />
 			</section>
 
 			<!-- Side Content -->
-			<section class="col-12 col-md-3">
+			<section class="col-12 col-md-3 my-4">
 				<side-card />
 			</section>
 		</div>

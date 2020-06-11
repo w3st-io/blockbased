@@ -1,7 +1,7 @@
 <template>
-	<section class="my-3 container card card-body bg-dark">
+	<section class="container">
 		<div class="row">
-			<div class="col-12">
+			<div class="col-12 my-4 card card-body bg-dark">
 				<!-- Title Header -->
 				<title-header
 					:block="block"
