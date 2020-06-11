@@ -74,9 +74,9 @@
 
 <script>
 	// [IMPORT] Personal //
-	import { EventBus } from '../../main'
-	import router from '../../router'
-	import UserService from '../../services/UserService'
+	import { EventBus } from '@main'
+	import router from '@router'
+	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {

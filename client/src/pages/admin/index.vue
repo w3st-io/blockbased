@@ -13,11 +13,11 @@
 
 <script>
 	// [IMPORT] //
-	import BlocksTable from '../../components/admin/index/BlocksTable'
-	import ButtonTabs from '../../components/controls/ButtonTabs'
-	import { EventBus } from '../../main'
-	import router from '../../router'
-	//import AdminService from '../../services/AdminService'
+	import BlocksTable from '@components/pages/admin/index/BlocksTable'
+	import ButtonTabs from '@components/controls/ButtonTabs'
+	import { EventBus } from '@main'
+	import router from '@router'
+	//import AdminService from '@services/AdminService'
 
 	// [EXPORT] //
 	export default {

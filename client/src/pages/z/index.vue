@@ -13,7 +13,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import CreateComment from '../../components/controls/inputs/CreateComment'
+	import CreateComment from '@components/controls/inputs/CreateComment'
 
 	// [EXPORT] //
 	export default {

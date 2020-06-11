@@ -28,8 +28,8 @@
 
 <script>
 	// [IMPORT] Personal //
-	import PageNavButtons from '../controls/PageNavButtons'
-	import router from '../../router'
+	import PageNavButtons from '@components/controls/PageNavButtons'
+	import router from '@router'
 
 	// [EXPORT] //
 	export default {

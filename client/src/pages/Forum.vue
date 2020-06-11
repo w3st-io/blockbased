@@ -18,9 +18,9 @@
 
 <script>
 	// [IMPORT] //
-	import CatList from '../components/forum/CatList'
-	import SideCard from '../components/forum/SideCard'
-	import { cats } from '../../defaults/cats'
+	import CatList from '@components/pages/forum/CatList'
+	import SideCard from '@components/pages/forum/SideCard'
+	import { cats } from '@defaults/cats'
 
 	// [EXPORT] //
 	export default {

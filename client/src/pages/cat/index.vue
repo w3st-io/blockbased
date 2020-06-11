@@ -24,11 +24,11 @@
 
 <script>
 	// [IMPORT] Personal //
-	import CatBlockList from '../../components/cat/CatBlockList'
-	import TitleHeader from '../../components/cat/TitleHeader'
-	import BlockService from '../../services/BlockService'
-	import router from '../../router'
-	import { EventBus } from '../../main'
+	import CatBlockList from '@components/pages/cat/CatBlockList'
+	import TitleHeader from '@components/pages/cat/TitleHeader'
+	import BlockService from '@services/BlockService'
+	import router from '@router'
+	import { EventBus } from '@main'
 
 	// [EXPORT] //
 	export default {

@@ -53,9 +53,9 @@
 
 <script>
 	// [IMPORT] Personal //
-	import CommentService from '../../services/CommentService'
-	import UserService from '../../services/UserService'
-	import router from '../../router'
+	import CommentService from '@services/CommentService'
+	import UserService from '@services/UserService'
+	import router from '@router'
 
 	// [EXPORT] //
 	export default {

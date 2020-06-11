@@ -150,8 +150,8 @@
 
 <script>
 	// [IMPORT] Personal //
-	import router from '../../router'
-	import UserService from '../../services/UserService'
+	import router from '@router'
+	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {

@@ -16,7 +16,7 @@ import './assets/styles/bootstrap-override.scss'
 import './assets/styles/style.scss'
 import './stuff-n-rules'
 import App from './App.vue'
-import router from './router'
+import router from '@router'
 
 /*** [GLOBAL COMPONENTS] ***/
 Vue.component('ValidationObserver', ValidationObserver)

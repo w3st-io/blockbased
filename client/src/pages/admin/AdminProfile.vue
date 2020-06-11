@@ -30,7 +30,7 @@
 <script>
 	// [IMPORT] //
 	import jwtDecode from 'jwt-decode'
-	import router from '../../router'
+	import router from '@router'
 
 	// [EXPORT] //
 	export default {

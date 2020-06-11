@@ -34,8 +34,8 @@
 </template>
 <script>
 	// [IMPORT] //
-	import { EventBus } from '../../main'
-	import router from '../../router'
+	import { EventBus } from '@main'
+	import router from '@router'
 
 	// [EXPORT] //
 	export default {

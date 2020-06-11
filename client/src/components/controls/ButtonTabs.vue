@@ -20,7 +20,7 @@
 	 * 2) what the emit is going to be called
 	 */
 	// [IMPORT] Personal //
-	import { EventBus } from '../../main'
+	import { EventBus } from '@main'
 
 	// [EXPORT] //
 	export default {

@@ -1,7 +1,7 @@
 <template>
 	<div class="card bg-dark border-secondary box-shadow">
 		<img
-			src="../../assets/images/placeholder.jpg"
+			:src="image"
 			class="d-block w-100 card-img-top"
 		>
 		<div class="card-body">
@@ -18,3 +18,14 @@
 		</div>
 	</div>
 </template>
+
+<script>
+	import image from '@assets/images/placeholder.jpg'
+	export default {
+		data: function() {
+			return {
+				image,
+			}
+		}
+	}
+</script>

@@ -34,7 +34,7 @@
 
 <script>
 	// [IMPORT] //
-	import { EventBus } from '../../main'
+	import { EventBus } from '@main'
 
 	// [EXPORT] //
 	export default {

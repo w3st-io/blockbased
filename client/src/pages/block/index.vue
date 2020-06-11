@@ -24,12 +24,12 @@
 
 <script>
 	// [IMPORT] Personal //
-	import BlockCommentList from '../../components/block/BlockCommentList'
-	import TitleHeader from '../../components/block/TitleHeader'
-	import BlockService from '../../services/BlockService'
-	import CommentService from '../../services/CommentService'
-	import router from '../../router'
-	import { EventBus } from '../../main'
+	import BlockCommentList from '@components/pages/block/BlockCommentList'
+	import TitleHeader from '@components/pages/block/TitleHeader'
+	import BlockService from '@services/BlockService'
+	import CommentService from '@services/CommentService'
+	import router from '@router'
+	import { EventBus } from '@main'
 
 
 	// [EXPORT] //
