@@ -12,8 +12,8 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import Vue from 'vue'
 
 // [IMPORT] Personal //
-import './assets/styles/custom.css'
-import './assets/styles/style.css'
+import './assets/styles/bootstrap-override.scss'
+import './assets/styles/style.scss'
 import './stuff-n-rules'
 import App from './App.vue'
 import router from './router'

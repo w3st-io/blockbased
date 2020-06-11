@@ -16,12 +16,15 @@ import Login from '../pages/user/Login'
 import Profile from '../pages/user/Profile'
 import Register from '../pages/user/Register'
 import NotFound from '../pages/404'
+import z from '../pages/z'
 
 // [USE] //
 Vue.use(Router)
 
 // [EXPORT] //
 export default new Router ({
+	//mode: 'history',
+
 	routes: [
 		{
 			path: '/',
@@ -123,13 +126,18 @@ export default new Router ({
 			}
 		},
 		{
-			path: '/profile',
+			path: '/proffile',
 			name: 'Profile',
 			component: Profile,
 			meta: {
 				auth: true,
 				title: 'Your Profile'
 			}
+		},
+		{
+			path: '/z',
+			name: 'Z',
+			component: z,
 		},
 		{
 			path: '/**',
@@ -139,6 +147,6 @@ export default new Router ({
 				auth: true,
 				title: '404 Not Found..'
 			},
-		}
+		},
 	]
 })

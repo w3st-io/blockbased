@@ -79,4 +79,10 @@
 		color: rgb(0, 226, 0);
 		-webkit-text-stroke-color: rgb(0, 226, 0);
 	}
+
+	.liked {
+		cursor: pointer;
+		color: rgb(0, 226, 0);
+		-webkit-text-stroke-color: rgb(0, 226, 0);
+	}
 </style>
