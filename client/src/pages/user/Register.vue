@@ -18,6 +18,7 @@
 							name="first_name"
 							type="text"
 							class="form-control bg-dark border-secondary text-light"
+							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="John"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -36,6 +37,7 @@
 							name="last_name"
 							type="text"
 							class="form-control bg-dark border-secondary text-light"
+							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="Doe"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -54,6 +56,7 @@
 							name="username"
 							type="text"
 							class="form-control bg-dark border-secondary text-light"
+							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="username"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -71,6 +74,7 @@
 							name="email"
 							type="email"
 							class="form-control bg-dark border-secondary text-light"
+							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="Example@example.com"
 							v-model="email"
 						>
@@ -90,6 +94,7 @@
 							name="password"
 							type="password"
 							class="form-control bg-dark border-secondary text-light"
+							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="******"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -109,6 +114,7 @@
 							name="confirm"
 							type="password"
 							class="form-control bg-dark border-secondary text-light"
+							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="******"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>

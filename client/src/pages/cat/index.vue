@@ -80,7 +80,7 @@
 			prevPage() {
 				this.pageNumber++
 				
-				// As long as the page is not going into 0 or negative
+				// As long as the page is not going into 0 or negative //
 				if (this.pageNumber != 1) {
 					this.pageNumber--
 					router.push({ path: `/cat/${this.cat_id}/${this.pageNumber}` })
@@ -91,7 +91,7 @@
 			nextPage() {
 				this.pageNumber++
 
-				// As long as page does not exceed max Number of Pages
+				// As long as page does not exceed max Number of Pages //
 				if (this.pageNumber == this.pageNumber) {
 					this.pageNumber++
 

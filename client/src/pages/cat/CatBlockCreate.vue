@@ -1,25 +1,38 @@
 <template>
 	<section class="container">
 		<h3 class="my-3 text-light">Create Block in "{{ cat_id }}"</h3>
-		<!-- [FORM] create Post -->
-		<form class="my-4 form-inline">
-			<input
-				id="create-post"
-				type="text"
-				class="w-75 form-control text-light bg-dark border-secondary"
-				placeholder="Create a post.."
-				aria-label="Recipient's username"
-				v-model="title"
-			>
-			<div class="w-25 input-group-append">
+		
+		<!-- [FORM] Create Block -->
+		<ValidationObserver v-slot="{ handleSubmit }">
+			<form @submit.prevent="handleSubmit(createBlock)" class="my-4">
+				<ValidationProvider
+					tag="div"
+					class="form-group" 
+					name="confirmation"
+					rules="required"
+					v-slot="{ errors }"
+				>
+					<input
+						id="create-post"
+						type="text"
+						class="w-100 form-control text-light bg-dark border-secondary"
+						:class="{ 'is-invalid border-danger': errors != '' }"
+						placeholder="Create a post.."
+						aria-label="Recipient's username"
+						v-model="title"
+					>
+					<!-- Error -->
+					<span class="text-danger">{{ errors[0] }}</span>
+				</ValidationProvider>
+
+				<!-- Submit Button -->
 				<button
 					type="submit"
-					class="w-100 ml-3 btn btn-outline-light"
-					v-on:click="createBlock()"
+					class="w-100 btn btn-outline-light"
 					:disabled="submitted"
 				>+ Create</button>
-			</div>
-		</form>
+			</form>
+		</ValidationObserver>
 		
 		<!-- [STATUS OR ERRORS] -->
 		<div v-if="status != ''" class="alert alert-success">
@@ -73,7 +86,7 @@
 					this.status = "Successfully Created Block. Redirecting.."
 
 					// Redirect to Cat Page
-					router.push({ name: 'Cat', params: { cat_id: this.cat_id } })
+					router.push({ name: 'Cat', params: { cat_id: this.cat_id, page: 1 } })
 				}
 				catch(e) { this.error = e }
 			},

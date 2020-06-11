@@ -18,7 +18,7 @@
 							name="email"
 							type="email"
 							class="form-control bg-dark border-secondary text-light"
-							:class="{ 'is-invalid': errors!='' }"
+							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="Example@example.com"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -37,7 +37,7 @@
 							name="password"
 							type="password"
 							class="form-control bg-dark border-secondary text-light"
-							:class="{ 'is-invalid': errors!='' }"
+							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="******"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -92,7 +92,7 @@
 		},
 
 		created: function() {
-			// [REDIRECT] User Logged In Already //
+			// [REDIRECT] Not Logged Required //
 			if (localStorage.usertoken) { router.push({ name: 'Profile' }) }
 		},
 

@@ -2,27 +2,38 @@
 	<section class="container">
 		<h3 class="my-3 text-light">Create Comment in "{{ block_id }}"</h3>
 		
-		<!-- [FORM] create Post -->
-		<form class="mt-4">
-			<textarea
-				name="comment"
-				rows="10"
-				cols="60"
-				class="w-100 form-control border-secondary bg-dark text-white"
-				style="resize: none"
-				placeholder="Type comment here.."
-				v-model="comment"
-			></textarea>
-			
-			<div class="w-100 input-group-append">
+		<!-- [FORM] Create Comment -->
+		<ValidationObserver v-slot="{ handleSubmit }">
+			<form @submit.prevent="handleSubmit(createComment)" class="mt-4">
+				<ValidationProvider
+					tag="div"
+					class="form-group" 
+					name="confirmation"
+					rules="required"
+					v-slot="{ errors }"
+				>
+					<textarea
+						rows="10"
+						cols="60"
+						class="w-100 form-control border-secondary bg-dark text-white"
+						:class="{ 'is-invalid border-danger': errors != '' }"
+						style="resize: none"
+						placeholder="Type comment here.."
+						v-model="comment"
+					></textarea>
+
+					<!-- Error -->
+					<span class="text-danger">{{ errors[0] }}</span>
+				</ValidationProvider>
+				
+				<!-- Submit Button -->
 				<button
 					type="submit"
 					class="w-100 mt-3 btn btn-outline-success"
-					v-on:click="createComment()"
 					:disabled="submitted"
 				>+ Create</button>
-			</div>
-		</form>
+			</form>
+		</ValidationObserver>
 		<hr>
 
 		<!-- [STATUS OR ERRORS] -->
