@@ -1,7 +1,9 @@
+$darkish: rgb(66, 72, 78);
+
 body {
-	background-color: rgb(66, 72, 78);
+	background-color: $darkish !important;
 }
 
 .bg-darkish {
-	background-color: rgb(66, 72, 78);
+	background-color: $darkish !important;;
 }
