@@ -11,7 +11,7 @@
 					@click="redirect(block._id)"
 				>
 					<!-- Title --> 
-					<div class="w-100 p-2 float-right" >
+					<div class="w-75 p-2 float-left" >
 						<h5 class="text-light">
 							{{ block.title }}
 						</h5>
@@ -19,6 +19,12 @@
 							<span class="text-light">{{ block.email }}</span>
 							- {{ block.createdAt }}
 						</p>
+					</div>
+					<div class="w-25 float-right text-right bg">
+						<h4 class="text-white m-2">
+							{{ upvotes }}
+							<span class="h2 unliked">▲</span>
+						</h4>
 					</div>
 				</article>
 			</li>
@@ -37,6 +43,11 @@
 				type: Array,
 				required: true
 			},
+
+			upvotes: {
+				type: Number,
+				default: 0
+			}
 		},
 
 		methods: {
@@ -55,4 +66,10 @@
 
 	li:hover { background: rgb(67, 72, 117) !important; }
 	li:nth-child(even):hover { background: rgb(67, 72, 117) !important; }
+
+	.unliked {
+		color: rgba(0, 0, 0, 0);
+		-webkit-text-stroke-width: 1px;
+		-webkit-text-stroke-color: rgb(255, 255, 255);
+	}
 </style>
