@@ -51,9 +51,9 @@
 
 <script>
 	// [IMPORT] Personal //
-	import BlockService from '../../services/BlockService'
-	import UserService from '../../services/UserService'
-	import router from '../../router'
+	import BlockService from '@services/BlockService'
+	import UserService from '@services/UserService'
+	import router from '@router'
 
 	// [EXPORT] //
 	export default {
