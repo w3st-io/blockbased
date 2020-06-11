@@ -1,5 +1,5 @@
 <template>
-	<div class="p-3 row border border-secondary bg-dark rounded">
+	<div class="p-3 card card-body bg-dark rounded">
 		<!-- Editor -->
 		<editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
 			<div class="mb-2 w-100">
@@ -99,7 +99,7 @@
 		</editor-menu-bar>
 
 		<!-- Text Area -->
-		<editor-content class="w-100 mb-3 p-1 border border-info rounded bg-light" :editor="editor" />
+		<editor-content class="w-100 mb-3 p-1 border border-secondary rounded text-light bg-dark" :editor="editor" />
 	
 	
 		<button class="w-100 btn btn-info">Create Comment</button>
@@ -159,7 +159,7 @@
 						new History(),
 					],
 
-					content: `<h2>Type Here</h2>`,
+					content: `<p>Type Here</p>`,
 				}),
 			}
 		},

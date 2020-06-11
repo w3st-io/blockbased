@@ -4,7 +4,7 @@
 			<li
 				v-for="commentDetail in commentDetails"
 				:key="commentDetail._id"
-				class="w-100  border-bottom-0 border-secondary"
+				class="w-100 border-bottom-0 border-secondary"
 			>
 				<article class="w-100 d-flex">
 					<!-- Image Section -->
@@ -67,7 +67,7 @@
 
 <style scoped>
 	li { list-style: none; }
-	li:nth-child(odd) { background: #343a40 !important; }
+	li:nth-child(even) { background: #42484e !important; }
 
 	.unliked {
 		color: rgba(0, 0, 0, 0);

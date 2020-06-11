@@ -7,7 +7,7 @@
 		>
 			<article
 				@click="redirectToCatBlocks(cat.cat_id)"
-				class="d-inline-block w-100"
+				class="w-100 d-inline-block"
 			>
 				<!-- Image Section -->
 				<div class="px-2 pt-3 float-left border-circle" style="width: 10%;">

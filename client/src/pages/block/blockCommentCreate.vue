@@ -1,10 +1,15 @@
 <template>
 	<section class="container">
-		<h3 class="my-3 text-light">Create Comment in "{{ block_id }}"</h3>
+		<h3 class="my-3 text-light">
+			Create Comment in "{{ block_id }}"
+		</h3>
 		
 		<!-- [FORM] Create Comment -->
 		<ValidationObserver v-slot="{ handleSubmit }">
-			<form @submit.prevent="handleSubmit(createComment)" class="mt-4">
+			<form
+				@submit.prevent="handleSubmit(createComment)"
+				class="mt-4 card card-body bg-dark"
+			>
 				<ValidationProvider
 					tag="div"
 					class="form-group" 
@@ -29,7 +34,7 @@
 				<!-- Submit Button -->
 				<button
 					type="submit"
-					class="w-100 mt-3 btn btn-outline-success"
+					class="w-100 mt-3 btn btn-info"
 					:disabled="submitted"
 				>+ Create</button>
 			</form>

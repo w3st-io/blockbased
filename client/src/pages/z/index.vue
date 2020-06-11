@@ -1,11 +1,13 @@
 <template>
 	<div class="container">
-		<section class="row my-3">
-			<h3 class="text-white">Create Comment</h3>
-		</section>
+		<div class="row">
+			<section class="my-3">
+				<h3 class="text-white">Create Comment</h3>
+			</section>
 
-		<!-- Create Comment Component -->
-		<create-comment />
+			<!-- Create Comment Component -->
+			<create-comment />
+		</div>
 	</div>
 </template>
 

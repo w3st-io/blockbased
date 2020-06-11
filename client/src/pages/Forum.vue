@@ -2,8 +2,8 @@
 	<div class="my-3 container">
 		<div class="row">
 			<!-- Main Content -->
-			<section class="col-12 col-md-9">
-				<cat-list :cats="cats1" class="mt-3" />
+			<section class="card card-body bg-dark col-12 col-md-9">
+				<cat-list :cats="cats1" class="" />
 				<cat-list :cats="cats2" class="mt-3" />
 				<cat-list :cats="cats3" class="mt-3" />
 			</section>

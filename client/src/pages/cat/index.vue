@@ -1,5 +1,5 @@
 <template>
-	<section class="my-3 container">
+	<section class="my-3 container card bg-dark card-body">
 		<article class="row">
 			<div class="col-12">
 				<!-- Title With Create Button -->

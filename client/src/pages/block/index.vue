@@ -1,5 +1,5 @@
 <template>
-	<section class="my-3 container">
+	<section class="my-3 container card card-body bg-dark">
 		<div class="row">
 			<div class="col-12">
 				<!-- Title Header -->
