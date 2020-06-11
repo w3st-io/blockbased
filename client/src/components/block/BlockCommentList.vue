@@ -19,9 +19,17 @@
 					</div>
 
 					<!-- Comment Section -->
-					<div class="float-right p-2" style="width: 85%; flex-grow: 1;">
+					<div class="float-right p-2" style="flex-grow: 1; width: 77%;">
 						<p class="m-0 text-light">
 							{{ commentDetail.comment }}
+						</p>
+					</div>
+
+					<!-- Votes Section -->
+					<div class="float-right text-center" style="flex-grow: 1; width: 8%;">
+						<p class="m-0 pt-3 text-white">
+							<span class="h4">{{ upvotes }}</span><br>
+							<span class="h2 unliked">♦</span>
 						</p>
 					</div>
 				</article>
@@ -47,7 +55,12 @@
 			commentDetails: {
 				type: Array,
 				required: true
-			}
+			},
+
+			upvotes: {
+				type: Number,
+				default: 0
+			},
 		},
 	}
 </script>
@@ -55,4 +68,15 @@
 <style scoped>
 	li { list-style: none; }
 	li:nth-child(odd) { background: #343a40 !important; }
+
+	.unliked {
+		color: rgba(0, 0, 0, 0);
+		-webkit-text-stroke-width: 1px;
+		-webkit-text-stroke-color: rgb(255, 255, 255);
+	}
+	.unliked:hover {
+		cursor: pointer;
+		color: rgb(0, 226, 0);
+		-webkit-text-stroke-color: rgb(0, 226, 0);
+	}
 </style>

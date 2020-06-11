@@ -20,10 +20,10 @@
 							- {{ block.createdAt }}
 						</p>
 					</div>
-					<div class="w-25 float-right text-right bg">
+					<div class="w-25 float-right text-right">
 						<h4 class="text-white m-2">
 							{{ upvotes }}
-							<span class="h2 unliked">▲</span>
+							<span class="ml-2 h2 unliked">♦</span>
 						</h4>
 					</div>
 				</article>
@@ -71,5 +71,10 @@
 		color: rgba(0, 0, 0, 0);
 		-webkit-text-stroke-width: 1px;
 		-webkit-text-stroke-color: rgb(255, 255, 255);
+	}
+	.unliked:hover {
+		cursor: pointer;
+		color: rgb(0, 226, 0);
+		-webkit-text-stroke-color: rgb(0, 226, 0);
 	}
 </style>
