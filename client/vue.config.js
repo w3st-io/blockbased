@@ -5,12 +5,12 @@ module.exports = {
 			'^/users': {
 				target: 'http://localhost:5000',
 				ws: true,
-					changeOrigin: true
+				changeOrigin: true
 			},
 			'^/api': {
 				target: 'http://localhost:5000',
 				ws: true,
-					changeOrigin: true
+				changeOrigin: true
 			}
 		}
 	}

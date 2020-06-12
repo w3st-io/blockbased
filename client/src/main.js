@@ -8,15 +8,21 @@
  */
 // [IMPORT] //
 import 'bootstrap/dist/css/bootstrap.css'
-import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import Vue from 'vue'
+import { ValidationObserver, ValidationProvider } from 'vee-validate'
 
 // [IMPORT] Personal //
-import './assets/styles/bootstrap-override.scss'
-import './assets/styles/style.scss'
+import '@assets/styles/bootstrap-override.scss'
+import '@assets/styles/style.scss'
 import './stuff-n-rules'
 import App from './App.vue'
 import router from '@router'
+
+
+import CKEditor from '@ckeditor/ckeditor5-vue';
+Vue.use( CKEditor );
+
+
 
 /*** [GLOBAL COMPONENTS] ***/
 Vue.component('ValidationObserver', ValidationObserver)

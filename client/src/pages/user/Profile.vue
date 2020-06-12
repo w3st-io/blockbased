@@ -1,27 +1,39 @@
 <template>
 	<div class="container">
-		<section class="row w-100">
-			<h2 class="col-sm-12 my-3 text-white">Your Profile</h2>
-		</section>
+		<div class="row">
+			<!-- Side Content -->
+			<section class="col-12 col-md-3 mt-4 hidden-768">
+				<div class="card card-body bg-dark">
+					<img
+						src="../../assets/images/placeholder.jpg"
+						alt="Profile Image Here"
+						class="w-100"
+					>
+				</div>
+			</section>
 
-		<table class="w-100 table table-borderless table-light bg-secondary rounded">
-			<tr>
-				<td>First Name</td>
-				<td>{{ first_name }}</td>
-			</tr>
-			<tr>
-				<td>Last Name</td>
-				<td>{{ last_name }}</td>
-			</tr>
-			<tr>
-				<td>Username</td>
-				<td>{{ username }}</td>
-			</tr>
-			<tr>
-				<td>Email</td>
-				<td>{{ email }}</td>
-			</tr>
-		</table>
+			<!-- Main Content -->
+			<section class="col-12 col-md-9 mt-4">
+				<div class="card card-body bg-dark">
+					<h4 class="text-light mb-2">Your Profile</h4>
+
+					<table class="w-100 table-sm table-dark">
+						<tr>
+							<td class="w-25">Name</td>
+							<td>{{ first_name }} {{ last_name }}</td>
+						</tr>
+						<tr>
+							<td>Username</td>
+							<td>{{ username }}</td>
+						</tr>
+						<tr>
+							<td>Email</td>
+							<td>{{ email }}</td>
+						</tr>
+					</table>
+				</div>
+			</section>
+		</div>
 
 		<button class="mt-3 btn btn-secondary">Edit Your Profile</button>
 	</div>
@@ -58,4 +70,11 @@
 
 <style scoped>
 	td { color: white; }
+
+	@media screen and (max-width: 768px) {
+		.hidden-768 {
+			display: none !important;
+		}
+	}
+
 </style>

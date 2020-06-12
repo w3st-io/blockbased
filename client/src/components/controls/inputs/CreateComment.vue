@@ -99,9 +99,11 @@
 		</editor-menu-bar>
 
 		<!-- Text Area -->
-		<editor-content class="w-100 mb-3 p-1 border border-secondary rounded text-light bg-dark" :editor="editor" />
-	
-	
+		<editor-content
+			class="w-100 mb-3 p-1 border border-secondary rounded text-light bg-dark"
+			:editor="editor"
+		/>
+
 		<button class="w-100 btn btn-info">Create Comment</button>
 	</div>
 </template>

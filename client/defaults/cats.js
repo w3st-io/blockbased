@@ -35,4 +35,11 @@ export const cats = [
 		description: 'Anything uncategorized',
 		image: 'archive.svg',
 	},
+
+	{
+		cat_id: 'misc',
+		title: 'Misc.',
+		description: 'Anything uncategorized',
+		image: 'archive.svg',
+	},
 ]

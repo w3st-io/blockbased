@@ -20,13 +20,11 @@
 
 					<!-- Comment Section -->
 					<div class="float-right p-2" style="flex-grow: 1; width: 77%;">
-						<p class="m-0 text-light">
-							{{ commentDetail.comment }}
-						</p>
+						<p class="m-0 text-light multiline">{{ commentDetail.comment }}</p>
 					</div>
 
 					<!-- Votes Section -->
-					<div class="float-right text-center" style="flex-grow: 1; width: 8%;">
+					<div class="float-right text-center bg-info" style="flex-grow: 1; width: 8%;">
 						<p class="m-0 pt-3 text-white">
 							<span class="h4">{{ upvotes }}</span><br>
 							<span class="h2 unliked">♦</span>
@@ -65,24 +63,30 @@
 	}
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+	$greenish: rgb(0, 226, 0);
+
 	li { list-style: none; }
 	li:nth-child(even) { background: #42484e !important; }
 
 	.unliked {
 		color: rgba(0, 0, 0, 0);
 		-webkit-text-stroke-width: 1px;
-		-webkit-text-stroke-color: rgb(255, 255, 255);
+		-webkit-text-stroke-color: white;
 	}
 	.unliked:hover {
 		cursor: pointer;
-		color: rgb(0, 226, 0);
-		-webkit-text-stroke-color: rgb(0, 226, 0);
+		color: $greenish;
+		-webkit-text-stroke-color: $greenish;
 	}
 
 	.liked {
 		cursor: pointer;
-		color: rgb(0, 226, 0);
-		-webkit-text-stroke-color: rgb(0, 226, 0);
+		color: $greenish;
+		-webkit-text-stroke-color: $greenish;
 	}
+	
+	// Make Comments Wordwrapped
+	.multiline { white-space: pre-wrap; }
+
 </style>
