@@ -5,15 +5,14 @@
 				<h3 class="text-white">Create Comment</h3>
 			</section>
 
-			<div id="" class="w-100">
+			<div id="" class="w-100 card card-body bg-dark">
 				<!-- Editor -->
 				<ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
 
-				<!-- Save Button -->
-				<p class="my-3 text-white">
-					Output Data:<br>
-					{{ editorData }}
-					</p>
+				<!-- Create Button -->
+				<button class="w-100 my-3 btn btn-info">Create Comment</button>
+
+				<p v-html="editorData" class="text-white"></p>
 			</div>
 		</div>
 	</div>
@@ -29,17 +28,12 @@
 			return {
 				editor: ClassicEditor,
 				editorData: '<p>Content of the editor.</p>',
-				editorConfig: {
-						// The configuration of the editor.
-				}
+				editorConfig: {}
 			}
 		},
 
-		created: function() {
-		},
+		created: function() {},
 
-		methods: {
-		
-		}
+		methods: {},
 	}
 </script>

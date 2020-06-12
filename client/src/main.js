@@ -8,6 +8,7 @@
  */
 // [IMPORT] //
 import 'bootstrap/dist/css/bootstrap.css'
+import CKEditor from '@ckeditor/ckeditor5-vue';
 import Vue from 'vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 
@@ -18,20 +19,17 @@ import './stuff-n-rules'
 import App from './App.vue'
 import router from '@router'
 
+// [USE] //
+Vue.use(CKEditor)
 
-import CKEditor from '@ckeditor/ckeditor5-vue';
-Vue.use( CKEditor );
-
-
-
-/*** [GLOBAL COMPONENTS] ***/
+// [GLOBAL COMPONENTS] //
 Vue.component('ValidationObserver', ValidationObserver)
 Vue.component('ValidationProvider', ValidationProvider)
 
-/*** [EXPORT] Event Bus ***/
+// [EXPORT] Event Bus //
 export const EventBus = new Vue()
 
-/*** [CONFIG + RENDER] ***/
+// [CONFIG + RENDER] //
 Vue.config.productionTip = false
 
 new Vue({
