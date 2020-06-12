@@ -20,7 +20,7 @@
 
 					<!-- Comment Section -->
 					<div class="float-right p-2" style="flex-grow: 1; width: 77%;">
-						<p class="m-0 text-light multiline">{{ commentDetail.comment }}</p>
+						<p v-html="commentDetail.comment" class="m-0 text-light multiline"></p>
 					</div>
 
 					<!-- Votes Section -->

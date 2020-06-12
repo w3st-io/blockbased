@@ -10,6 +10,7 @@
 				@submit.prevent="handleSubmit(createComment)"
 				class="mt-4 card card-body bg-dark"
 			>
+				<!-- Text Aread -->
 				<ValidationProvider
 					tag="div"
 					class="form-group" 
@@ -17,15 +18,13 @@
 					rules="required"
 					v-slot="{ errors }"
 				>
-					<textarea
-						rows="10"
-						cols="60"
+					<ckeditor
+						:editor="editor"
+						:config="editorConfig"
+						v-model="comment"
 						class="w-100 form-control border-secondary bg-dark text-white"
 						:class="{ 'is-invalid border-danger': errors != '' }"
-						style="resize: none"
-						placeholder="Type comment here.."
-						v-model="comment"
-					></textarea>
+					></ckeditor>
 
 					<!-- Error -->
 					<span class="text-danger">{{ errors[0] }}</span>
@@ -52,6 +51,9 @@
 </template>
 
 <script>
+	// [IMPORT] //
+	import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+
 	// [IMPORT] Personal //
 	import CommentService from '@services/CommentService'
 	import UserService from '@services/UserService'
@@ -67,6 +69,13 @@
 				email: '',
 				status: '',
 				error: '',
+
+
+				editor: ClassicEditor,
+				editorData: '<p>Content of the editor.</p>',
+				editorConfig: {
+					//toolbar: [ 'bold', 'italic', '-', 'link' ]
+				}
 			}
 		},
 
