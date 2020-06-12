@@ -5,7 +5,7 @@
 				<h3 class="text-white">Create Comment</h3>
 			</section>
 
-			<div id="" class="w-100 card card-body bg-dark">
+			<div class="w-100 card card-body bg-dark">
 				<!-- Editor -->
 				<ckeditor
 					:editor="editor"
@@ -17,6 +17,7 @@
 				<button class="w-100 my-3 btn btn-info">Create Comment</button>
 
 				<p v-html="editorData" class="text-white"></p>
+				<p class="text-white">{{ editorData }}</p>
 			</div>
 		</div>
 	</div>
@@ -24,7 +25,8 @@
 
 <script>
 	// [Import] //
-	import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+	import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+
 
 	// [EXPORT] //
 	export default {
@@ -32,12 +34,10 @@
 			return {
 				editor: ClassicEditor,
 				editorData: '<p>Content of the editor.</p>',
-				editorConfig: {}
+				editorConfig: {
+					//toolbar: [ 'bold', 'italic', '-', 'link' ]
+				}
 			}
 		},
-
-		created: function() {},
-
-		methods: {},
 	}
 </script>
