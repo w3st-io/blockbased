@@ -5,30 +5,15 @@
 		:class="{ isOpen: sideMenuOpen }"
 	>
 		<button
-			class="w-100 m-0 p-2 btn btn-dark bg-dark text-center text-success"
+			class="w-100 m-0 p-2 btn btn-dark bg-secondary text-center text-info"
 			@click="closeMenu"
 		>
 			<span aria-hidden="true" style="font-size: 2em;">&times;</span>
 		</button>
 
-		<form class="form-inline">
-				<input
-					placeholder="Ticker"
-					class="w-100 form-control border-secondary bg-dark text-white"
-					style="font-size: 2em;"
-					v-model="query"
-				>
-				<button
-					type="submit"
-					class="w-100 btn btn-success my-1"
-					style="font-size: 2em;"
-					v-on:click="redirectToQuote(query)"
-				><span class="glyphicon glyphicon-search">search</span></button>
-			</form>
-
 		<button
-			class="w-100 btn btn-success"
-			v-on:click="forumBtn();"
+			class="w-100 btn btn-info"
+			v-on:click="homeBtn()"
 		>Forum</button>
 	</div>
 </template>
@@ -53,18 +38,9 @@
 		},
 
 		methods: {
-			redirectToQuote(query) {
-				this.sideMenuOpen = !this.sideMenuOpen
-				
-				// [REDIRECT] // [EMIT OUT] --> // Clear Field //
-				router.push({ path: `/quote/${query}` })
-				this.$emit('query')
-				this.query = ''
-			},
-
 			closeMenu() { this.sideMenuOpen = !this.sideMenuOpen },
 
-			forumBtn() {
+			homeBtn() {
 				this.sideMenuOpen = !this.sideMenuOpen
 				router.push({ path: '/' })
 			},

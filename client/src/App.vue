@@ -1,5 +1,8 @@
 <template>
 	<div id="app">
+		<!-- Hidden Side Menu -->
+		<side-menu @query="forceRerender" />
+
 		<!-- Admin Bottom Bar -->
 		<admin-nav-bar
 			v-if="adminLoggedIn"
@@ -22,6 +25,7 @@
 	import AdminNavBar from '@components/pages/admin/AdminNavBar'
 	import Footer from '@components/nav/Footer'
 	import NavBar from '@components/nav/NavBar'
+	import SideMenu from './components/nav/SideMenu'
 	import { EventBus } from '@main'
 
 	// [EXPORT] //
@@ -31,12 +35,13 @@
 			AdminNavBar,
 			Footer,
 			NavBar,
+			SideMenu,
 		},
 
 		data: function() {
 			return {
 				adminNavBarKey: 0,
-				routerViewKey: 0,
+				routerViewKey: 1,
 				adminLoggedIn: false,
 				loggedIn: false,
 			}

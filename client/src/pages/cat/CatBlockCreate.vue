@@ -20,7 +20,7 @@
 					<input
 						id="create-post"
 						type="text"
-						class="w-100 form-control text-light bg-dark border-secondary"
+						class="w-100 form-control text-dark bg-light border-secondary"
 						:class="{ 'is-invalid border-danger': errors != '' }"
 						placeholder="Create a post.."
 						aria-label="Recipient's username"

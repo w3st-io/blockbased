@@ -11,9 +11,12 @@
 							</mark>
 						</h4>
 					</a>
-					<button class="navbar-toggler">
-						<span class="navbar-toggler-icon"></span>
-					</button>
+
+					<!-- Hidden Menu Button -->
+					<button
+						class="navbar-toggler"
+						@click="sideMenuBtnClicked"
+					><span class="navbar-toggler-icon"></span></button>
 
 					<!-- Top Menu -->
 					<div class="collapse navbar-collapse">
