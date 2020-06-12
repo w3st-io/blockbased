@@ -7,7 +7,11 @@
 
 			<div id="" class="w-100 card card-body bg-dark">
 				<!-- Editor -->
-				<ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+				<ckeditor
+					:editor="editor"
+					:config="editorConfig"
+					v-model="editorData"
+				></ckeditor>
 
 				<!-- Create Button -->
 				<button class="w-100 my-3 btn btn-info">Create Comment</button>
