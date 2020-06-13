@@ -40,8 +40,8 @@
 						
 					</div>
 					<div class="m-0 w-25 float-right small text-right text-secondary">
-						<button class="py-0 btn btn-sm text-secondary">edit</button>
-						<button class="py-0 btn btn-sm text-danger">delete</button>
+						<button v-if="owned()" class="py-0 btn btn-sm text-secondary">edit</button>
+						<button v-if="owned()" class="py-0 btn btn-sm text-danger">delete</button>
 						<button class="py-0 btn btn-sm text-danger">report</button>
 					</div>
 				</div>
@@ -66,6 +66,12 @@
 				default: 0
 			},
 		},
+
+		methods: {
+			owned() {
+				return false
+			},
+		}
 	}
 </script>
 

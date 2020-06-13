@@ -17,6 +17,12 @@
 
 		<!-- Right Side -->
 		<div class="w-50 float-right text-right">
+			<div class="mb-2 badge badge-light">
+				<h5 class="m-0">Total Posts: {{ totalCount = 3 }}</h5>
+			</div>
+			<br>
+
+			<!-- Create Button -->
 			<button
 				@click="redirectToCatBlockCreate(cat_id)"
 				class="btn btn-info"

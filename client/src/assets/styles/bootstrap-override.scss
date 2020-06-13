@@ -1,6 +1,11 @@
 $ethereum: rgb(67, 72, 117);
 $ethereum-hover: rgb(98, 104, 144);
 
+/* BADGE */
+.badge-info {
+	background-color: $ethereum  !important;
+}
+
 /* BTN BACKGROUND */
 .bg-info {
 	background-color: $ethereum !important;

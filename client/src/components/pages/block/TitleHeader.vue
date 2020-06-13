@@ -17,7 +17,15 @@
 
 		<!-- Right Side -->
 		<div class="w-50 float-right text-right">
-			<p class="mb-3 text-secondary small">{{ block.createdAt }}</p>
+			<p class="mb-3 text-secondary small">
+				{{ block.createdAt }}
+				<span>
+					<button class="ml-2 btn btn-sm btn-outline-secondary">
+						Follow<span class="ml-2 badge badge-light">0</span>
+					</button>
+				</span>
+			</p>
+			
 			<button
 				@click="redirectToBlockCommentCreate(block._id)"
 				class="btn btn-info"
@@ -70,10 +78,6 @@
 			redirectToBlockCommentCreate(block_id) {
 				router.push({ path: `/block-comment-create/${block_id}` })
 			},
-
-			owned() {
-				return false
-			}
 		},
 	}
 </script>

@@ -21,9 +21,22 @@
 
 				<!-- Title -->
 				<div class="px-1 py-3 float-right" style="width: 90%;">
-					<h4 class="text-light">{{ cat.title }}</h4>
-					<p class="m-0 text-light">{{ cat.description }}</p>
+					<div class="w-75 float-left not-hidden-768">
+						<h4 class="text-light">{{ cat.title }}</h4>
+						<p class="m-0 text-light">{{ cat.description }}</p>
+					</div>
+					<!-- Count -->
+					<div class="w-25 float-left text-center hidden-768">
+						<span class="text-light">
+							<p class="m-0 text-secondary" style="font-size: 2vw;">
+								{{ totalBlocks = "--" }}<br>
+								<span class="m-0" style="font-size: 1.5vw;">Posts</span>
+							</p>
+						</span>
+					</div>
 				</div>
+
+				
 			</article>
 		</li>
 	</ul>
@@ -61,4 +74,14 @@
 
 	li:hover { background: rgb(67, 72, 117) !important; }
 	li:nth-child(even):hover { background: rgb(67, 72, 117) !important; }
+
+	@media screen and (max-width: 768px) {
+		.not-hidden-768 {
+			width: 100%;
+		}
+
+		.hidden-768 {
+			display: none !important;
+		}
+	}
 </style>
