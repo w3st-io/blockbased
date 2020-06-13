@@ -51,7 +51,6 @@
 			},
 
 			badgeValue: {
-				type: String,
 				required: true
 			},
 		},
@@ -71,6 +70,10 @@
 			redirectToBlockCommentCreate(block_id) {
 				router.push({ path: `/block-comment-create/${block_id}` })
 			},
+
+			owned() {
+				return false
+			}
 		},
 	}
 </script>

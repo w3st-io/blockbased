@@ -71,14 +71,16 @@
 			}
 			catch(e) { this.error = e }
 
+			// [LOG] //
 			this.log()
 		},
 
 		methods: {
 			log() {
+				console.log('%% Block Index %%')
 				console.log('Block:', this.block)
 				console.log('Comments:', this.comments)
-				console.error('error:', this.error)
+				if (this.error) { console.error('error:', this.error) }
 			},
 
 			prevPage() {
@@ -89,7 +91,7 @@
 					this.pageNumber--
 					router.push({ path: `/block/${this.block_id}/${this.pageNumber}` })
 					EventBus.$emit('force-rerender')
-				}
+				} 
 			},
 
 			nextPage() {

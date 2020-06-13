@@ -50,7 +50,6 @@
 			},
 
 			badgeValue: {
-				type: String,
 				required: true
 			},
 		},
@@ -62,7 +61,7 @@
 		methods: {
 			redirectToCatBlockCreate(cat_id) {
 				router.push({ name: 'CatBlockCreate', params: { cat_id: cat_id } })
-			}
+			},
 		}
 	}
 </script>

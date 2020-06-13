@@ -66,6 +66,7 @@
 			}
 			catch(e) { this.error = e }
 
+			// [LOG] //
 			this.log()
 		},
 

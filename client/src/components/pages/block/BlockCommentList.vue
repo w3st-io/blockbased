@@ -33,11 +33,17 @@
 				</article>
 
 				<!-- Time Stamp -->
-				<div class="w-100 p-2 border-top border-bottom border-secondary text-light">
-					<p class="m-0 small text-secondary">
+				<div class="w-100 p-2 d-flex border-top border-secondary text-light">
+					<div class="m-0 w-75 float-left small text-secondary">
 						{{ new Date(commentDetail.createdAt) }}
 						- {{ commentDetail._id }}
-					</p>
+						
+					</div>
+					<div class="m-0 w-25 float-right small text-right text-secondary">
+						<button class="py-0 btn btn-sm text-secondary">edit</button>
+						<button class="py-0 btn btn-sm text-danger">delete</button>
+						<button class="py-0 btn btn-sm text-danger">report</button>
+					</div>
 				</div>
 			</li>
 		</ul>
