@@ -4,78 +4,34 @@
 			Create Comment in "{{ block_id }}"
 		</h3>
 		
-		<!-- [FORM] Create Comment -->
-		<ValidationObserver v-slot="{ handleSubmit }">
-			<form
-				@submit.prevent="handleSubmit(createComment)"
-				class="mt-4 card card-body bg-dark"
-			>
-				<!-- Text Aread -->
-				<ValidationProvider
-					tag="div"
-					class="form-group" 
-					name="confirmation"
-					rules="required"
-					v-slot="{ errors }"
-				>
-					<ckeditor
-						:editor="editor"
-						:config="editorConfig"
-						v-model="comment"
-						class="w-100 form-control border-secondary bg-dark text-white"
-						:class="{ 'is-invalid border-danger': errors != '' }"
-					></ckeditor>
-
-					<!-- Error -->
-					<span class="text-danger">{{ errors[0] }}</span>
-				</ValidationProvider>
-				
-				<!-- Submit Button -->
-				<button
-					type="submit"
-					class="w-100 mt-3 btn btn-info"
-					:disabled="submitted"
-				>+ Create</button>
-			</form>
-		</ValidationObserver>
-		<hr>
-
-		<!-- [STATUS OR ERRORS] -->
-		<div v-if="status != ''" class="alert alert-success">
-			{{ status }}
-		</div>
-		<div v-if="error" class="alert alert-danger">
-			{{ error }}
-		</div>
+		<!-- Comment Create Component -->
+		<comment-create
+			:block_id="block_id"
+			:user_id="user_id"
+			:email="email"
+			:username="username"
+		/>
 	</section>
 </template>
 
 <script>
-	// [IMPORT] //
-	import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-
 	// [IMPORT] Personal //
-	import CommentService from '@services/CommentService'
-	import UserService from '@services/UserService'
+	import CommentCreate from '../../components/pages/block/CommentCreate'
 	import router from '@router'
+	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {
+		components: {
+			CommentCreate
+		},
+
 		data: function() {
 			return {
-				submitted: false,
 				block_id: this.$route.params.block_id,
-				comment: '',
-				email: '',
-				status: '',
-				error: '',
-
-
-				editor: ClassicEditor,
-				editorData: '<p>Content of the editor.</p>',
-				editorConfig: {
-					//toolbar: [ 'bold', 'italic', '-', 'link' ]
-				}
+				user_id: 'unset',
+				email: 'unset',
+				username: 'unset',	
 			}
 		},
 
@@ -83,35 +39,20 @@
 			// [REDIRECT] Log Needed //
 			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
 
+			// Retrieve Email //
 			this.email = UserService.getEmail()
-			console.log('Your Email:', this.email)
+			
+			// [LOG] //
+			this.log()
 		},
 
 		methods: {
-			// [CREATE] Create Comment //
-			async createComment() {
-				this.submitted = true
-
-				try {
-					await CommentService.createComment(
-						this.block_id,
-						this.email,
-						this.comment
-					)
-
-					this.status = "Successfully Created Comment. Redirecting.."
-
-				// Redirect to Block Page
-				router.push({
-					name: 'Block',
-					params: {
-						block_id: this.block_id,
-						page: 1
-					}
-				})
-
-				}
-				catch(e) { this.error = e }
+			log() {
+				console.log('%% BlockCommentCreate Page %%')
+				console.log('block_id:', this.block_id)
+				console.log('user_id:', this.user_id)
+				console.log('email:', this.email)
+				console.log('username:', this.username)
 			},
 		}
 	}
