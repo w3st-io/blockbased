@@ -17,7 +17,7 @@
 
 		<!-- Right Side -->
 		<div class="w-50 float-right text-right">
-			<div class="mb-2 badge badge-light">
+			<div class="mb-2 badge badge-light text-info">
 				<h5 class="m-0">Total Posts: {{ totalCount = 3 }}</h5>
 			</div>
 			<br>

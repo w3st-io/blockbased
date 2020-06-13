@@ -27,12 +27,12 @@
 					</div>
 					<!-- Count -->
 					<div class="w-25 float-left text-center hidden-768">
-						<span class="text-light">
-							<p class="m-0 text-secondary" style="font-size: 2vw;">
+						<p class="badge badge-light text-info">
+							<span class="m-0 custom-font-size">
 								{{ totalBlocks = "--" }}<br>
-								<span class="m-0" style="font-size: 1.5vw;">Posts</span>
-							</p>
-						</span>
+								<span class="small">Posts</span>
+							</span>
+						</p>
 					</div>
 				</div>
 
@@ -65,8 +65,6 @@
 </script>
 
 <style scoped>
-	.img-padding { padding: 20%; }
-
 	li { list-style: none; }
 
 	li { background: #343a40 !important; }
@@ -74,6 +72,12 @@
 
 	li:hover { background: rgb(67, 72, 117) !important; }
 	li:nth-child(even):hover { background: rgb(67, 72, 117) !important; }
+
+
+	.custom-font-size { font-size: max(1vw, 16px); }
+
+	.img-padding { padding: 20%; }
+	
 
 	@media screen and (max-width: 768px) {
 		.not-hidden-768 {
