@@ -1,13 +1,13 @@
 <template>
 	<section class="container">
-		<div class="row">
+		<article class="row">
 			<div class="col-12 my-4 card card-body bg-dark">
 				<!-- Title Header -->
 				<title-header
 					:block="block"
 					:leftBtnEmitName="'block-prev'"
 					:rightBtnEmitName="'block-next'"
-					:badgeValue="$route.params.page"
+					:badgeValue="pageNumber"
 				/>
 
 				<!-- Comments -->
@@ -18,7 +18,7 @@
 					{{ error }}
 				</div>
 			</div>
-		</div>
+		</article>
 	</section>
 </template>
 
@@ -42,7 +42,8 @@
 		data: function() {
 			return {
 				block_id: this.$route.params.block_id,
-				pageNumber: (this.$route.params.page - 1),
+				pageNumber: parseInt(this.$route.params.page),
+				pageIndex: (this.$route.params.page - 1),
 				amountPerPage: 5,
 				block: {},
 				comments: [],
@@ -66,7 +67,7 @@
 				this.comments = await CommentService.getAllComments(
 					this.block_id,
 					this.amountPerPage,
-					this.pageNumber
+					this.pageIndex
 				)
 			}
 			catch(e) { this.error = e }
@@ -84,23 +85,23 @@
 			},
 
 			prevPage() {
-				this.pageNumber++
+				this.pageIndex++
 
 				// As long as the page is not going into 0 or negative
-				if (this.pageNumber != 1) {
-					this.pageNumber--
-					router.push({ path: `/block/${this.block_id}/${this.pageNumber}` })
+				if (this.pageIndex != 1) {
+					this.pageIndex--
+					router.push({ path: `/block/${this.block_id}/${this.pageIndex}` })
 					EventBus.$emit('force-rerender')
 				} 
 			},
 
 			nextPage() {
-				this.pageNumber++
+				this.pageIndex++
 
 				// As long as page does not exceed max Number of Pages
-				if (this.pageNumber == this.pageNumber) {
-					this.pageNumber++
-					router.push({ path: `/block/${this.block_id}/${this.pageNumber}` })
+				if (this.pageIndex == this.pageIndex) {
+					this.pageIndex++
+					router.push({ path: `/block/${this.block_id}/${this.pageIndex}` })
 					EventBus.$emit('force-rerender')
 				}
 			},

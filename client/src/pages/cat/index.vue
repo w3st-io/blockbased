@@ -7,7 +7,7 @@
 					:cat_id="cat_id"
 					:leftBtnEmitName="'cat-prev'"
 					:rightBtnEmitName="'cat-next'"
-					:badgeValue="$route.params.page"
+					:badgeValue="pageNumber"
 				/>
 
 				<!-- Display All the Blocks -->
@@ -40,7 +40,8 @@
 		data: function() {
 			return {
 				cat_id: this.$route.params.cat_id,
-				pageNumber: parseInt(this.$route.params.page - 1),
+				pageNumber: parseInt(this.$route.params.page),
+				pageIndex: (this.$route.params.page - 1),
 				amountPerPage: 5,
 				blocks: [],
 				error: '',
@@ -61,7 +62,7 @@
 				this.blocks = await BlockService.getAllBlocks(
 					this.cat_id,
 					this.amountPerPage,
-					this.pageNumber
+					this.pageIndex
 				)
 			}
 			catch(e) { this.error = e }
@@ -73,31 +74,32 @@
 		methods: {
 			log() {
 				console.log('%% Cat Index %%')
-				console.log('Page Number:', this.pageNumber)
+				console.log('pageNumber:', this.pageNumber)
+				console.log('pageIndex:', this.pageIndex)
 				console.log('blocks:', this.blocks)
 				if (this.error) { console.error('Error:', this.error) }
 			},
 
 			prevPage() {
-				this.pageNumber++
+				this.pageIndex++
 				
 				// As long as the page is not going into 0 or negative //
-				if (this.pageNumber != 1) {
-					this.pageNumber--
-					router.push({ path: `/cat/${this.cat_id}/${this.pageNumber}` })
+				if (this.pageIndex != 1) {
+					this.pageIndex--
+					router.push({ path: `/cat/${this.cat_id}/${this.pageIndex}` })
 					EventBus.$emit('force-rerender')
 				}
 			},
 
 			nextPage() {
-				this.pageNumber++
+				this.pageIndex++
 
 				// As long as page does not exceed max Number of Pages //
-				if (this.pageNumber == this.pageNumber) {
-					this.pageNumber++
+				if (this.pageIndex == this.pageIndex) {
+					this.pageIndex++
 
-					console.log('pg', this.pageNumber)
-					router.push({ path: `/cat/${this.cat_id}/${this.pageNumber}` })
+					console.log('pg', this.pageIndex)
+					router.push({ path: `/cat/${this.cat_id}/${this.pageIndex}` })
 					EventBus.$emit('force-rerender')
 				}
 			},

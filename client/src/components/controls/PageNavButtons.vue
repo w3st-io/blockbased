@@ -32,7 +32,7 @@
 				required: true
 			},
 			badgeValue: {
-				type: String,
+				type: Number,
 				required: true
 			}
 		},

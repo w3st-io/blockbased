@@ -107,8 +107,9 @@
 						this.user_id,
 						this.email,
 						this.username,
-						this.comment
+						this.comment,
 					)
+					
 					// [REDIRECT] Block Page //
 					router.push({
 						name: 'Block',
@@ -121,7 +122,7 @@
 				catch(e) {
 					this.loading = false
 					this.error = e
-					}
+				}
 			},
 		},
 	}
