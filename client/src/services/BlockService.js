@@ -8,9 +8,11 @@ import axios from 'axios'
 
 class BlockService {
 	// [CREATE] //
-	static createBlock(email, title, cat_id) {
+	static createBlock(user_id, email, username, title, cat_id) {
 		return axios.post('/api/blocks/create', {
+			user_id,
 			email,
+			username,
 			title,
 			cat_id
 		})

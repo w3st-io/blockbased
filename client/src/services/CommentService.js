@@ -9,11 +9,13 @@ import axios from 'axios'
 class CommentService {
 	/******************* [COMMENT CRUD] *******************/
 	// [CREATE] //
-	static createComment(block_id, email, comment) {
+	static createComment(block_id, user_id, email, username, comment) {
 		return axios.post(`/api/comments/create`, {
 			block_id,
+			user_id,
 			email,
-			comment
+			username,
+			comment,
 		})	
 	}
 

@@ -6,7 +6,7 @@
 				@submit.prevent="handleSubmit(createComment)"
 				class="mt-4 card card-body bg-dark"
 			>
-				<!-- Text Aread -->
+				<!-- Text Area -->
 				<ValidationProvider
 					tag="div"
 					class="form-group" 
@@ -14,12 +14,11 @@
 					rules="required"
 					v-slot="{ errors }"
 				>
+					<!-- CK Editor -->
 					<ckeditor
 						:editor="editor"
 						:config="editorConfig"
 						v-model="comment"
-						class="w-100 form-control border-secondary bg-dark text-white"
-						:class="{ 'is-invalid border-danger': errors != '' }"
 					></ckeditor>
 
 					<!-- Error -->
@@ -37,8 +36,8 @@
 		<hr>
 
 		<!-- [STATUS OR ERRORS] -->
-		<div v-if="status" class="alert alert-success">
-			{{ status }}
+		<div v-if="loading" class="alert alert-warning">
+			Creating comment..
 		</div>
 		<div v-if="error" class="alert alert-danger">
 			{{ error }}
@@ -74,8 +73,8 @@
 		data: function() {
 			return {
 				submitted: false,
+				loading: false,
 				comment: '',
-				status: '',
 				error: '',
 
 				// Editor Stuff //
@@ -100,16 +99,16 @@
 			// [CREATE] Create Comment //
 			async createComment() {
 				this.submitted = true
+				this.loading = true
 
 				try {
 					await CommentService.createComment(
 						this.block_id,
+						this.user_id,
 						this.email,
+						this.username,
 						this.comment
 					)
-
-					this.status = "Successfully Created Comment. Redirecting.."
-
 					// [REDIRECT] Block Page //
 					router.push({
 						name: 'Block',
@@ -119,7 +118,10 @@
 						}
 					})
 				}
-				catch(e) { this.error = e }
+				catch(e) {
+					this.loading = false
+					this.error = e
+					}
 			},
 		},
 	}

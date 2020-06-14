@@ -18,7 +18,9 @@ const router = express.Router()
 router.post('/create', async (req, res) => {
 	const blocks = await loadBlocksCollection()
 	await blocks.insertOne({
+		user_id: req.body.user_id,
 		email: req.body.email,
+		username: req.body.username,
 		cat_id: req.body.cat_id,
 		title: req.body.title,
 		createdAt: new Date()

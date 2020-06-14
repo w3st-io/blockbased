@@ -10,6 +10,7 @@
 				@submit.prevent="handleSubmit(createBlock)"
 				class="my-4 card card-body bg-dark"
 			>
+				<!-- Text Input -->
 				<ValidationProvider
 					tag="div"
 					class="form-group" 
@@ -40,8 +41,8 @@
 		</ValidationObserver>
 		
 		<!-- [STATUS OR ERRORS] -->
-		<div v-if="status != ''" class="alert alert-success">
-			{{ status }}
+		<div v-if="loading" class="alert alert-warning">
+			Creating Block..
 		</div>
 		<div v-if="error" class="alert alert-danger">
 			{{ error }}
@@ -59,11 +60,13 @@
 	export default {
 		data: function() {
 			return {
-				submitted: false,
 				cat_id: this.$route.params.cat_id,
-				email: '',
+				submitted: false,
+				loading: false,
+				user_id: 'unset',
+				email: 'unset',
+				username: 'unset',
 				title: '',
-				status: '',
 				error: '',
 			}
 		},
@@ -72,28 +75,45 @@
 			// [REDIRECT] Not Log Needed //
 			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
 
+			this.user_id = UserService.getUserId()
 			this.email = UserService.getEmail()
-			console.log('Your Email:', this.email)
+			this.username = UserService.getUsername()
+
+			// [LOG] //
+			this.log()
 		},
 
 		methods: {
+			log() {
+				console.log('%% CatBlockCreate Page %%')
+				console.log('cat_id:', this.cat_id)
+				console.log('user_id:', this.user_id)
+				console.log('email:', this.email)
+				console.log('username:', this.username)
+			},
+
 			// [CREATE] Create Post Via PostService Function //
 			async createBlock() {
+				// Disable Button // Set loading //
 				this.submitted = true
+				this.loading = true
 
 				try {
 					await BlockService.createBlock(
+						this.user_id,
 						this.email,
+						this.username,
 						this.title,
 						this.cat_id
 					)
 
-					this.status = "Successfully Created Block. Redirecting.."
-
-					// Redirect to Cat Page
+					// [REDIRECT] Cat Page //
 					router.push({ name: 'Cat', params: { cat_id: this.cat_id, page: 1 } })
 				}
-				catch(e) { this.error = e }
+				catch(e) {
+					this.loading = false
+					this.error = e
+				}
 			},
 		}
 	}

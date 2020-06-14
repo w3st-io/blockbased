@@ -40,7 +40,9 @@
 			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
 
 			// Retrieve Email //
+			this.user_id = UserService.getUserId()
 			this.email = UserService.getEmail()
+			this.username = UserService.getUsername()
 			
 			// [LOG] //
 			this.log()

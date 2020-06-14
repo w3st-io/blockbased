@@ -19,7 +19,9 @@ router.post('/create', async (req, res) => {
 	const comments = await loadCommentsCollection()
 	await comments.insertOne({
 		block_id: req.body.block_id,
+		user_id: req.body.user_id,
 		email: req.body.email,
+		username: req.body.username,
 		comment: req.body.comment,
 		createdAt: new Date()
 	}).then((result) => {

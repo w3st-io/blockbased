@@ -11,14 +11,35 @@ import axios from 'axios'
 class UserService {
 	// [FUNCTION] Get Email //
 	static getEmail() {
-		// [INIT] // Check For Token //
 		const token = localStorage.usertoken
 		let decoded = {}
 
-		if (token != null) { decoded = jwtDecode(token) }
+		if (token) { decoded = jwtDecode(token) }
 		else { decoded = { email: '' } }
 
 		return decoded.email
+	}
+
+	// [FUNCTION] Get User ID //
+	static getUserId() {
+		const token = localStorage.usertoken
+		let decoded = {}
+
+		if (token) { decoded = jwtDecode(token) }
+		else { decoded = { _id: '' } }
+
+		return decoded._id
+	}
+
+	// [FUNCTION] Get User ID //
+	static getUsername() {
+		const token = localStorage.usertoken
+		let decoded = {}
+
+		if (token) { decoded = jwtDecode(token) }
+		else { decoded = { username: '' } }
+
+		return decoded.username
 	}
 	
 	// [LOGIN] //
