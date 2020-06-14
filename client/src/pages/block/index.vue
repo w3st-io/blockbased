@@ -43,7 +43,7 @@
 			return {
 				block_id: this.$route.params.block_id,
 				pageNumber: parseInt(this.$route.params.page),
-				pageIndex: (this.$route.params.page - 1),
+				pageIndex: parseInt(this.$route.params.page - 1),
 				amountPerPage: 5,
 				block: {},
 				comments: [],

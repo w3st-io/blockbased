@@ -41,7 +41,7 @@
 			return {
 				cat_id: this.$route.params.cat_id,
 				pageNumber: parseInt(this.$route.params.page),
-				pageIndex: (this.$route.params.page - 1),
+				pageIndex: parseInt(this.$route.params.page - 1),
 				amountPerPage: 5,
 				blocks: [],
 				error: '',
