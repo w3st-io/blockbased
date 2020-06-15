@@ -27,7 +27,8 @@
 					<div class="float-right text-center bg-info" style="flex-grow: 1; width: 8%;">
 						<p class="m-0 pt-3 text-white">
 							<span class="h4">{{ upvotes }}</span><br>
-							<span class="h2 unliked">♦</span>
+							<span class="h2 unliked-up">▲</span>
+							<span class="h2 unliked-down">▼</span>
 						</p>
 					</div>
 				</article>
@@ -76,29 +77,48 @@
 </script>
 
 <style lang="scss" scoped>
-	$greenish: rgb(0, 226, 0);
+	$green: rgb(0, 226, 0);
+	$red: rgb(226, 0, 0);
 
 	li { list-style: none; }
 	li:nth-child(even) { background: #42484e !important; }
 
-	.unliked {
+	// Make Comments Wordwrapped
+	.multiline { white-space: pre-wrap; }
+
+	/* Up Vote */
+	.liked-up {
+		cursor: pointer;
+		color: $green;
+		-webkit-text-stroke-color: $green;
+	}
+
+	.unliked-up {
 		color: rgba(0, 0, 0, 0);
 		-webkit-text-stroke-width: 1px;
 		-webkit-text-stroke-color: white;
 	}
-	.unliked:hover {
+	.unliked-up:hover {
 		cursor: pointer;
-		color: $greenish;
-		-webkit-text-stroke-color: $greenish;
+		color: $green;
+		-webkit-text-stroke-color: $green;
 	}
 
-	.liked {
+	/* Down Vote */
+	.liked-down {
 		cursor: pointer;
-		color: $greenish;
-		-webkit-text-stroke-color: $greenish;
+		color: $green;
+		-webkit-text-stroke-color: $green;
 	}
-	
-	// Make Comments Wordwrapped
-	.multiline { white-space: pre-wrap; }
 
+	.unliked-down {
+		color: rgba(0, 0, 0, 0);
+		-webkit-text-stroke-width: 1px;
+		-webkit-text-stroke-color: white;
+	}
+	.unliked-down:hover {
+		cursor: pointer;
+		color: $red;
+		-webkit-text-stroke-color: $red;
+	}
 </style>

@@ -58,7 +58,9 @@
 	}
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
+	$green: rgb(0, 226, 0);
+
 	li { list-style: none; }
 
 	li { background: #343a40 !important; }
@@ -74,13 +76,13 @@
 	}
 	.unliked:hover {
 		cursor: pointer;
-		color: rgb(0, 226, 0);
-		-webkit-text-stroke-color: rgb(0, 226, 0);
+		color: $green;
+		-webkit-text-stroke-color: $green;
 	}
 
 	.liked {
 		cursor: pointer;
-		color: rgb(0, 226, 0);
-		-webkit-text-stroke-color: rgb(0, 226, 0);
+		color: $green;
+		-webkit-text-stroke-color: $green;
 	}
 </style>

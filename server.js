@@ -23,19 +23,20 @@ require('dotenv').config()
 // [INIT] //
 const app = express()
 
+
 // [USE] //
 app.use(bodyParser.json())
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 
+
 // [PAGE] Front Page //
 app.get('', async (req, res) => {
-	res.send('BlockBased API Working!')
-})
-
-// [PAGE] Unknown Page //
-app.get('/**', async (req, res) => {
-	res.send('404 Its Not Found Dude.. Lol')
+	res.send(`
+		<h1 style="color: #434875;">
+			BlockBased API
+		</h1>
+	`)
 })
 
 
