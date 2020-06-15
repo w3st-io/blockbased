@@ -25,6 +25,7 @@ router.post('/create', async (req, res) => {
 		username: req.body.username,
 		title: req.body.title,
 		voteCount: 0,
+		voters: []
 	})
 
 	res.status(201).send()

@@ -20,10 +20,15 @@
 							- {{ block.createdAt }}
 						</p>
 					</div>
+
+					<!-- Vote -->
 					<div class="w-25 float-right text-right">
 						<h4 class="text-white m-2">
-							{{ upvotes }}
-							<span class="ml-2 h2 unliked">♦</span>
+							{{ block.voteCount }}
+							<span
+								class="ml-2 h2 unliked"
+								:class="{ 'liked': searchForUsersLike(block.voters) }"
+							>♦</span>
 						</h4>
 					</div>
 				</article>
@@ -39,20 +44,29 @@
 	// [EXPORT] //
 	export default {
 		props: {
+			username: {
+				type: String,
+				required: true
+			},
+
 			blocks: {
 				type: Array,
 				required: true
 			},
-
-			upvotes: {
-				type: Number,
-				default: 0
-			}
 		},
 
 		methods: {
 			redirect(block_id) {
 				EventBus.$emit('redirect-to-block', block_id)
+			},
+
+			searchForUsersLike(block_voters) {
+				let found = block_voters.find((voter) => (
+					voter.username == this.username
+				))
+
+				if (found) { return true }
+				else { return false }
 			}
 		}
 	}
@@ -84,5 +98,11 @@
 		cursor: pointer;
 		color: $green;
 		-webkit-text-stroke-color: $green;
+	}
+	.liked:hover {
+		cursor: pointer;
+		color: rgba(0, 0, 0, 0);
+		-webkit-text-stroke-width: 1px;
+		-webkit-text-stroke-color: rgb(255, 255, 255);
 	}
 </style>
