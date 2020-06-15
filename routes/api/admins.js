@@ -15,7 +15,7 @@ const router = express.Router().use(cors())
 const secretKey = process.env.SECRET_KEY || 'secret'
 
 
-/*** [POST] Login ***/
+// [POST] Login //
 router.post('/login', async (req, res) => {
 	const admins = await loadAdminsCollection()
 
@@ -46,7 +46,7 @@ router.post('/login', async (req, res) => {
 })
 
 
-/*** [POST] Register ***/
+// [POST] Register //
 router.post("/register", async (req, res) => {
 	const admins = await loadAdminsCollection()
 	const today = new Date()

@@ -14,6 +14,7 @@ require('dotenv').config()
 const router = express.Router()
 
 
+/******************* [CRUD] *******************/
 // [CREATE] //
 router.post('/create', async (req, res) => {
 	const blocks = await loadBlocksCollection()
@@ -57,6 +58,32 @@ router.get(`/read/:block_id`, async (req, res) => {
 	)
 
 	res.send(retrievedData)
+})
+
+
+/******************* [OTHER CRUD] *******************/
+// [UPDATE - VoteCount] Increment + Decrement //
+router.post('/update/increment-vote-count/:id', async (req, res) => {
+	const blocks = await loadBlocksCollection()
+
+	blocks.findOneAndUpdate(
+		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ $inc: { voteCount: 1 } },
+		{ upsert: true }
+	)
+
+	res.status(201).send()
+})
+router.post('/update/decrement-vote-count/:id', async (req, res) => {
+	const blocks = await loadBlocksCollection()
+
+	blocks.findOneAndUpdate(
+		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ $inc: { voteCount: -1 } },
+		{ upsert: true }
+	)
+
+	res.status(201).send()
 })
 
 

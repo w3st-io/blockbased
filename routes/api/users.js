@@ -16,7 +16,7 @@ const router = express.Router().use(cors())
 const secretKey = process.env.SECRET_KEY || 'secret'
 
 
-/*** [POST] Login ***/
+// [POST] Login //
 router.post('/login', async (req, res) => {
 	const users = await loadUsersCollection()
 
@@ -47,7 +47,7 @@ router.post('/login', async (req, res) => {
 })
 
 
-/*** [POST] Register ***/
+// [POST] Register //
 router.post("/register", async (req, res) => {
 	const users = await loadUsersCollection()
 	const userData = new UserModel(req.body)
