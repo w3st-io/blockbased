@@ -80,6 +80,7 @@
 		created: function() {
 			if (localStorage.usertoken) { this.loggedIn = true }
 
+			// [--> EMITT] //
 			EventBus.$on('logged-in', () => { this.loggedIn = true })
 		},
 
@@ -90,13 +91,12 @@
 				router.push({ name: 'Login' })
 			},
 			redirectToQuote(query) {
-				// [REDIRECT] // [EMIT OUT] --> // Clear Field //
+				// [REDIRECT] // [EMIT OUT -->] // Clear Field //
 				router.push({ path: `/quote/${query}` })
 				EventBus.$emit('query')
 				this.query = ''
 			},
 			sideMenuBtnClicked() {
-				console.log('clicked')
 				EventBus.$emit('navBarSideMenuBtnClicked')
 			}
 		},

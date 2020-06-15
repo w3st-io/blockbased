@@ -1,8 +1,8 @@
 <template>
-	<div
+	<nav
 		class="bg-dark shadow opacity-90 nav-drawer-menu"
-		style="z-index: 1040;"
 		:class="{ isOpen: sideMenuOpen }"
+		style="z-index: 1040;"
 	>
 		<button
 			class="w-100 m-0 p-2 btn btn-dark bg-secondary text-center text-info"
@@ -15,7 +15,7 @@
 			class="w-100 btn btn-info"
 			v-on:click="homeBtn()"
 		>Forum</button>
-	</div>
+	</nav>
 </template>
 <script>
 	// [IMPORT] //
@@ -32,6 +32,7 @@
 		},
 
 		created: function() {
+			// [--> EMITT] //
 			EventBus.$on('navBarSideMenuBtnClicked', () => {
 				this.sideMenuOpen = !this.sideMenuOpen
 			})

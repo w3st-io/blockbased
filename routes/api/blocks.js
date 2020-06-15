@@ -62,7 +62,8 @@ router.get(`/read/:block_id`, async (req, res) => {
 
 
 /******************* [OTHER CRUD] *******************/
-// [UPDATE - VoteCount] Increment + Decrement //
+/** [VoteCount number field] **/
+// [UPDATE] Increment + Decrement //
 router.post('/update/increment-vote-count/:id', async (req, res) => {
 	const blocks = await loadBlocksCollection()
 
@@ -80,6 +81,39 @@ router.post('/update/decrement-vote-count/:id', async (req, res) => {
 	blocks.findOneAndUpdate(
 		{ _id: new mongodb.ObjectID(req.params.id) },
 		{ $inc: { voteCount: -1 } },
+		{ upsert: true }
+	)
+
+	res.status(201).send()
+})
+
+/** [voters array] **/
+// [UPDATE] Push + Pull //
+router.post('/update/push-voter/:id', async (req, res) => {
+	const blocks = await loadBlocksCollection()
+
+	blocks.update(
+		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ $push:
+			{ 
+				voters: {
+					user_id: req.body.user_id,
+					email: req.body.email,
+					username: req.body.username,
+				} 
+			}
+		},
+		{ upsert: true }
+	)
+
+	res.status(201).send()
+})
+router.post('/update/pull-voter/:id', async (req, res) => {
+	const blocks = await loadBlocksCollection()
+
+	blocks.update(
+		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ $pull: { voters: { user_id: req.body.user_id } } },
 		{ upsert: true }
 	)
 
