@@ -89,7 +89,7 @@
 
 		methods: {
 			log() {
-				console.log('%% CommentCreate Component %%')
+				console.log('%% [COMPONENT] CommentCreate %%')
 				console.log('block_id:', this.block_id)
 				console.log('user_id:', this.user_id)
 				console.log('email:', this.email)

@@ -37,16 +37,12 @@
 			}
 		},
 
-		created() { this.log() },
+		created() {
+			// [LOG] //
+			//this.log()
+		},
 
 		methods: {
-			log() {
-				console.log('%% Page Nav Button Component %%')
-				console.log('leftBtnEmitName:', this.leftBtnEmitName)
-				console.log('rightBtnEmitName:', this.rightBtnEmitName)
-				console.log('badgeValue:', this.badgeValue)
-			},
-
 			leftBtn() {
 				EventBus.$emit(this.leftBtnEmitName)
 			},
@@ -54,6 +50,13 @@
 			rightBtn() {
 				EventBus.$emit(this.rightBtnEmitName)
 			},
-		}
+
+			log() {
+				console.log('%% [COMPONENT] Page Nav Button %%')
+				console.log('leftBtnEmitName:', this.leftBtnEmitName)
+				console.log('rightBtnEmitName:', this.rightBtnEmitName)
+				console.log('badgeValue:', this.badgeValue)
+			},
+		},
 	}
 </script>

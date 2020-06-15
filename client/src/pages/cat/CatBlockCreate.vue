@@ -85,7 +85,7 @@
 
 		methods: {
 			log() {
-				console.log('%% CatBlockCreate Page %%')
+				console.log('%% [PAGE] CatBlockCreate %%')
 				console.log('cat_id:', this.cat_id)
 				console.log('user_id:', this.user_id)
 				console.log('email:', this.email)

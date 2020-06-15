@@ -78,7 +78,7 @@
 
 		methods: {
 			log() {
-				console.log('%% Block Index %%')
+				console.log('%% [PAGE] Block %%')
 				console.log('Block:', this.block)
 				console.log('Comments:', this.comments)
 				if (this.error) { console.error('error:', this.error) }

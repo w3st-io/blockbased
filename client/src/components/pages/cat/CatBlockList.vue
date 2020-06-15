@@ -6,12 +6,9 @@
 				v-for="(block, index) in blocks"
 				:key="index"
 			>
-				<article
-					class="d-inline-block w-100"
-					@click="redirect(block._id)"
-				>
+				<article class="d-inline-block w-100">
 					<!-- Title --> 
-					<div class="w-75 p-2 float-left" >
+					<div class="w-75 p-2 float-left" @click="redirectToBlock(block._id)" >
 						<h5 class="text-light">
 							{{ block.title }}
 						</h5>
@@ -28,36 +25,84 @@
 							<span
 								class="ml-2 h2 unvoted"
 								:class="{ 'voted': searchForUsersVote(block.voters) }"
+								@click="vote()"
 							>♦</span>
 						</h4>
 					</div>
 				</article>
 			</li>
 		</ul>
+		<!-- [ERROR] -->
+		<div v-if="error" class="alert alert-danger">
+			CatBlockList: {{ error }}
+		</div>
 	</section>
 </template>
 
 <script>
 	// [IMPORT] //
-	import { EventBus } from '@main'
+	import router from '@router'
+	import BlockService from '@services/BlockService'
 
 	// [EXPORT] //
 	export default {
 		props: {
-			username: {
+			cat_id: {
+				type: String,
+				required: true,
+			},
+
+			pageIndex: {
+				type: Number,
+				required: true,
+			},
+
+			amountPerPage: {
+				type: Number,
+				required: true
+			},
+
+			user_id: {
 				type: String,
 				required: true
 			},
 
-			blocks: {
-				type: Array,
+			email: {
+				type: String,
+				required: true
+			},
+			
+			username: {
+				type: String,
 				required: true
 			},
 		},
 
+		data: function() {
+			return {
+				blocks: [],
+				error: '',
+			}
+		},
+
+		created: async function() {
+			// Get Blocks //
+			try {
+				this.blocks = await BlockService.getAllBlocks(
+					this.cat_id,
+					this.amountPerPage,
+					this.pageIndex
+				)
+			}
+			catch(e) { this.error = e }
+
+			// [LOG] //
+			this.log()
+		},
+
 		methods: {
-			redirect(block_id) {
-				EventBus.$emit('redirect-to-block', block_id)
+			redirectToBlock(block_id) {
+				router.push({ name: 'Block', params: { block_id: block_id, page: 1 } })
 			},
 
 			searchForUsersVote(block_voters) {
@@ -67,7 +112,31 @@
 
 				if (found) { return true }
 				else { return false }
-			}
+			},
+
+			async vote() {
+				// Get Blocks //
+				try {
+					this.blocks = await BlockService.getAllBlocks(
+						this.cat_id,
+						this.amountPerPage,
+						this.pageIndex
+					)
+				}
+				catch(e) { this.error = e }			
+			},
+
+			log() {
+				console.log('%% [COMPONENT] CatBlockList %%')
+				console.log('cat_id:', this.cat_id)
+				console.log('pageIndex:', this.pageIndex)
+				console.log('amountPerPage:', this.amountPerPage)
+				console.log('user_id:', this.user_id)
+				console.log('email:', this.email)
+				console.log('username:', this.username)
+				console.log('blocks:', this.blocks)
+				if (this.error) { console.error('Error:', this.error) }
+			},
 		}
 	}
 </script>

@@ -50,7 +50,7 @@
 
 		methods: {
 			log() {
-				console.log('%% BlockCommentCreate Page %%')
+				console.log('%% [PAGE] BlockCommentCreate %%')
 				console.log('block_id:', this.block_id)
 				console.log('user_id:', this.user_id)
 				console.log('email:', this.email)
