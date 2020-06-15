@@ -25,6 +25,7 @@ router.post('/create', async (req, res) => {
 		username: req.body.username,
 		comment: req.body.comment,
 		voteCount: 0,
+		voters: [],
 		
 	}).then((result) => {
 		res.json({ newCommentId: result.insertedId })

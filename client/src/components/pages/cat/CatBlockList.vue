@@ -26,8 +26,8 @@
 						<h4 class="text-white m-2">
 							{{ block.voteCount }}
 							<span
-								class="ml-2 h2 unliked"
-								:class="{ 'liked': searchForUsersLike(block.voters) }"
+								class="ml-2 h2 unvoted"
+								:class="{ 'voted': searchForUsersVote(block.voters) }"
 							>♦</span>
 						</h4>
 					</div>
@@ -60,7 +60,7 @@
 				EventBus.$emit('redirect-to-block', block_id)
 			},
 
-			searchForUsersLike(block_voters) {
+			searchForUsersVote(block_voters) {
 				let found = block_voters.find((voter) => (
 					voter.username == this.username
 				))
@@ -73,36 +73,37 @@
 </script>
 
 <style lang='scss' scoped>
-	$green: rgb(0, 226, 0);
+	$ethereum: #434875;
+	$green: #00e200;
 
 	li { list-style: none; }
 
 	li { background: #343a40 !important; }
 	li:nth-child(even) { background: #42484e !important; }
 
-	li:hover { background: rgb(67, 72, 117) !important; }
-	li:nth-child(even):hover { background: rgb(67, 72, 117) !important; }
+	li:hover { background: $ethereum !important; }
+	li:nth-child(even):hover { background: $ethereum !important; }
 
-	.unliked {
+	.unvoted {
 		color: rgba(0, 0, 0, 0);
 		-webkit-text-stroke-width: 1px;
-		-webkit-text-stroke-color: rgb(255, 255, 255);
+		-webkit-text-stroke-color: #ffffff;
 	}
-	.unliked:hover {
+	.unvoted:hover {
 		cursor: pointer;
 		color: $green;
 		-webkit-text-stroke-color: $green;
 	}
 
-	.liked {
+	.voted {
 		cursor: pointer;
 		color: $green;
 		-webkit-text-stroke-color: $green;
 	}
-	.liked:hover {
+	.voted:hover {
 		cursor: pointer;
 		color: rgba(0, 0, 0, 0);
 		-webkit-text-stroke-width: 1px;
-		-webkit-text-stroke-color: rgb(255, 255, 255);
+		-webkit-text-stroke-color: #ffffff;
 	}
 </style>
