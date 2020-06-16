@@ -14,7 +14,8 @@
 						</h5>
 						<p class="m-0 small text-secondary">
 							<span class="text-light">{{ block.email }}</span>
-							- {{ block.createdAt }}
+							- {{ block.createdAt }}<br>
+							{{ block._id }}
 						</p>
 					</div>
 
@@ -24,9 +25,16 @@
 							{{ block.voteCount }}
 							<span
 								class="ml-2 h2 unvoted"
-								:class="{ 'voted': searchForUsersVote(block.voters) }"
-								@click="vote()"
+								:class="{ 'voted': voterInBlockArray(block.voters) }"
+								@click="vote(block._id)"
 							>♦</span>
+							<br>
+							<button
+								class="my-1 btn btn-sm btn-light"
+								@click="unvote(block._id)"
+							>
+								Unlike
+							</button>
 						</h4>
 					</div>
 				</article>
@@ -105,7 +113,7 @@
 				router.push({ name: 'Block', params: { block_id: block_id, page: 1 } })
 			},
 
-			searchForUsersVote(block_voters) {
+			voterInBlockArray(block_voters) {
 				let found = block_voters.find((voter) => (
 					voter.username == this.username
 				))
@@ -114,8 +122,35 @@
 				else { return false }
 			},
 
-			async vote() {
-				// Get Blocks //
+			async vote(block_id) {
+				// Update Block's Voters //
+				try {
+					BlockService.addVote(
+						block_id,
+						this.user_id,
+						this.email,
+						this.username,
+					)
+				}
+				catch(e) { this.error = e }
+
+				this.refreshBlocks()			
+			},
+
+			async unvote(block_id) {
+				// Update Block's Voters //
+				try {
+					BlockService.removeVote(
+						block_id,
+						this.user_id,
+					)
+				}
+				catch(e) { this.error = e }
+
+				this.refreshBlocks()
+			},
+
+			async refreshBlocks() {
 				try {
 					this.blocks = await BlockService.getAllBlocks(
 						this.cat_id,
@@ -123,7 +158,7 @@
 						this.pageIndex
 					)
 				}
-				catch(e) { this.error = e }			
+				catch(e) { this.error = e }	
 			},
 
 			log() {
@@ -142,21 +177,24 @@
 </script>
 
 <style lang='scss' scoped>
+	$white: #ffffff;
+	$dark: #343a40;
+	$grey: #42484e;
 	$ethereum: #434875;
 	$green: #00e200;
+	$clear: #00000000;
 
 	li { list-style: none; }
 
-	li { background: #343a40 !important; }
-	li:nth-child(even) { background: #42484e !important; }
+	li { background: $dark !important; }
+	li:nth-child(even) { background: $grey !important; }
 
 	li:hover { background: $ethereum !important; }
-	li:nth-child(even):hover { background: $ethereum !important; }
 
 	.unvoted {
-		color: rgba(0, 0, 0, 0);
+		color: $clear;
 		-webkit-text-stroke-width: 1px;
-		-webkit-text-stroke-color: #ffffff;
+		-webkit-text-stroke-color: $white;
 	}
 	.unvoted:hover {
 		cursor: pointer;
@@ -171,8 +209,8 @@
 	}
 	.voted:hover {
 		cursor: pointer;
-		color: rgba(0, 0, 0, 0);
+		color: $clear;
 		-webkit-text-stroke-width: 1px;
-		-webkit-text-stroke-color: #ffffff;
+		-webkit-text-stroke-color: $white;
 	}
 </style>

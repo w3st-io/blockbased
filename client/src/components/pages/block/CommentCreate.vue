@@ -88,14 +88,6 @@
 		created: function() { this.log() },
 
 		methods: {
-			log() {
-				console.log('%% [COMPONENT] CommentCreate %%')
-				console.log('block_id:', this.block_id)
-				console.log('user_id:', this.user_id)
-				console.log('email:', this.email)
-				console.log('username:', this.username)
-			},
-
 			// [CREATE] Create Comment //
 			async createComment() {
 				this.submitted = true
@@ -123,6 +115,14 @@
 					this.loading = false
 					this.error = e
 				}
+			},
+
+			log() {
+				console.log('%% [COMPONENT] CommentCreate %%')
+				console.log('block_id:', this.block_id)
+				console.log('user_id:', this.user_id)
+				console.log('email:', this.email)
+				console.log('username:', this.username)
 			},
 		},
 	}

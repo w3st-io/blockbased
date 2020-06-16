@@ -14,8 +14,7 @@ require('dotenv').config()
 const router = express.Router()
 
 
-
-/*** [LOAD COLLECTION] blocks ***/
+/******************* [LOAD COLLECTION] cats *******************/
 async function loadCatsCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'

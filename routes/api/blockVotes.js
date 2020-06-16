@@ -45,7 +45,7 @@ router.delete('/delete/:id', async (req, res) => {
 })
 
 
-/*** [LOAD COLLECTION] blockVotes ***/
+/******************* [LOAD COLLECTION] blockVotes *******************/
 async function loadBlockVotesCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'

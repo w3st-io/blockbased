@@ -77,7 +77,7 @@ router.post("/register", async (req, res) => {
 })
 
 
-// [LOAD COLLECTION] users //
+/******************* [LOAD COLLECTION] users *******************/
 async function loadUsersCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'

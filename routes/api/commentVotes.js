@@ -16,7 +16,7 @@ require('dotenv').config()
 const router = express.Router()
 
 
-/*** [LOAD COLLECTION] commentVotes ***/
+/******************* [LOAD COLLECTION] commentVotes *******************/
 async function loadCommentVotesCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'

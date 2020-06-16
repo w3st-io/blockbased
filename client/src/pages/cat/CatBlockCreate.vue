@@ -84,14 +84,6 @@
 		},
 
 		methods: {
-			log() {
-				console.log('%% [PAGE] CatBlockCreate %%')
-				console.log('cat_id:', this.cat_id)
-				console.log('user_id:', this.user_id)
-				console.log('email:', this.email)
-				console.log('username:', this.username)
-			},
-
 			// [CREATE] Create Post Via PostService Function //
 			async createBlock() {
 				// Disable Button // Set loading //
@@ -114,6 +106,14 @@
 					this.loading = false
 					this.error = e
 				}
+			},
+			
+			log() {
+				console.log('%% [PAGE] CatBlockCreate %%')
+				console.log('cat_id:', this.cat_id)
+				console.log('user_id:', this.user_id)
+				console.log('email:', this.email)
+				console.log('username:', this.username)
 			},
 		}
 	}

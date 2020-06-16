@@ -62,32 +62,7 @@ router.get(`/read/:block_id`, async (req, res) => {
 
 
 /******************* [OTHER CRUD] *******************/
-/** [VoteCount number field] **/
-// [UPDATE] Increment + Decrement //
-router.post('/update/increment-vote-count/:id', async (req, res) => {
-	const blocks = await loadBlocksCollection()
-
-	blocks.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params.id) },
-		{ $inc: { voteCount: 1 } },
-		{ upsert: true }
-	)
-
-	res.status(201).send()
-})
-router.post('/update/decrement-vote-count/:id', async (req, res) => {
-	const blocks = await loadBlocksCollection()
-
-	blocks.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params.id) },
-		{ $inc: { voteCount: -1 } },
-		{ upsert: true }
-	)
-
-	res.status(201).send()
-})
-
-/** [voters array] **/
+// [voters array] //
 // [UPDATE] Push + Pull //
 router.post('/update/push-voter/:id', async (req, res) => {
 	const blocks = await loadBlocksCollection()
@@ -121,7 +96,33 @@ router.post('/update/pull-voter/:id', async (req, res) => {
 })
 
 
-// [LOAD COLLECTION] blocks //
+/** [VoteCount number field] **/
+// [UPDATE] Increment + Decrement //
+router.post('/update/increment-vote-count/:id', async (req, res) => {
+	const blocks = await loadBlocksCollection()
+
+	blocks.findOneAndUpdate(
+		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ $inc: { voteCount: 1 } },
+		{ upsert: true }
+	)
+
+	res.status(201).send()
+})
+router.post('/update/decrement-vote-count/:id', async (req, res) => {
+	const blocks = await loadBlocksCollection()
+
+	blocks.findOneAndUpdate(
+		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ $inc: { voteCount: -1 } },
+		{ upsert: true }
+	)
+
+	res.status(201).send()
+})
+
+
+/******************* [LOAD COLLECTION] blocks *******************/
 async function loadBlocksCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'

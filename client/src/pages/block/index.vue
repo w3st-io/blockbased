@@ -77,13 +77,6 @@
 		},
 
 		methods: {
-			log() {
-				console.log('%% [PAGE] Block %%')
-				console.log('Block:', this.block)
-				console.log('Comments:', this.comments)
-				if (this.error) { console.error('error:', this.error) }
-			},
-
 			prevPage() {
 				this.pageIndex++
 
@@ -104,6 +97,13 @@
 					router.push({ path: `/block/${this.block_id}/${this.pageIndex}` })
 					EventBus.$emit('force-rerender')
 				}
+			},
+
+			log() {
+				console.log('%% [PAGE] Block %%')
+				console.log('Block:', this.block)
+				console.log('Comments:', this.comments)
+				if (this.error) { console.error('error:', this.error) }
 			},
 		},
 	}

@@ -7,6 +7,7 @@
 import axios from 'axios'
 
 class BlockService {
+	/******************* [CRUD] *******************/
 	// [CREATE] //
 	static createBlock(user_id, email, username, title, cat_id) {
 		return axios.post('/api/blocks/create', {
@@ -64,7 +65,33 @@ class BlockService {
 		return axios.delete(`/api/cats/delete/${id}`)
 	}
 	*/
+
+
+	/******************* [OTHER CRUD] *******************/
+	// [UPDATE] Vote System //
+	// ADD/REMOVE VOTE //
+	static addVote(block_id, user_id, email, username) {
+		// Increment the voteCount
+		axios.post(`/api/blocks/update/increment-vote-count/${block_id}`)
+
+		// Add the voter from the Block Object
+		return axios.post(`/api/blocks/update/push-voter/${block_id}`, {
+			user_id,
+			email,
+			username,
+		})
+	}
+	static removeVote(block_id, user_id) {
+		// Decrement the voteCount
+		axios.post(`/api/blocks/update/decrement-vote-count/${block_id}`)
+
+		// Remove the voter from the Block Object
+		return axios.post(`/api/blocks/update/pull-voter/${block_id}`, {
+			user_id,
+		})
+	}
 }
+
 
 // [EXPORT] //
 export default BlockService

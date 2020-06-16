@@ -52,7 +52,7 @@ router.get('/read-all/:block_id/:amountPerPage/:skip', async (req, res) => {
 })
 
 
-/*** [LOAD COLLECTION] comments ***/
+/******************* [LOAD COLLECTION] comments *******************/
 async function loadCommentsCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'blockbased'
