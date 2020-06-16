@@ -14,8 +14,7 @@
 						</h5>
 						<p class="m-0 small text-secondary">
 							<span class="text-light">{{ block.email }}</span>
-							- {{ block.createdAt }}<br>
-							{{ block._id }}
+							- {{ block.createdAt }}
 						</p>
 					</div>
 
