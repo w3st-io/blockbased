@@ -22,7 +22,7 @@
 					<!-- Vote -->
 					<div class="w-25 float-right text-right">
 						<h4 class="text-white m-2">
-							{{ block.voteCount }}
+							{{ voteCountsReplica[block._id] }}
 							<span
 								class="ml-2 h2 unvoted"
 								:class="{ 'voted': voteToggles[block._id] }"
@@ -81,8 +81,9 @@
 
 		data: function() {
 			return {
-				voteToggles: {},
 				blocks: [],
+				voteToggles: {},
+				voteCountsReplica: {},
 				error: '',
 			}
 		},
@@ -98,7 +99,7 @@
 			}
 			catch(e) { this.error = e }
 
-			// Store voted blocks in voted //
+			// Store states in "voteToggles" //
 			this.blocks.forEach(block => {
 				let load = false
 
@@ -107,6 +108,12 @@
 				}
 
 				this.voteToggles[block._id] = load
+			})
+
+			// Store Block "voteCount" in "voteCountsReplica" //
+			this.blocks.forEach(block => {
+				let load = block.voteCount
+				this.voteCountsReplica[block._id] = load
 			})
 
 			// [LOG] //
@@ -127,8 +134,15 @@
 				else { return false }
 			},
 
-			async voteToggle(block_id) {
+			voteIconAndCountHandler(block_id) {
 				this.voteToggles[block_id] = !this.voteToggles[block_id]
+
+				if (this.voteToggles[block_id]) { this.voteCountsReplica[block_id]++ }
+				else { this.voteCountsReplica[block_id]-- } 
+			},
+
+			async voteToggle(block_id) {
+				this.voteIconAndCountHandler(block_id)
 
 				if (this.voteToggles[block_id]) {
 					// ON
@@ -178,6 +192,7 @@
 				console.log('username:', this.username)
 				console.log('blocks:', this.blocks)
 				console.log('voteToggles:', this.voteToggles)
+				console.log('voteCountsReplica:', this.voteCountsReplica)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		}
