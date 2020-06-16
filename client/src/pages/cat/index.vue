@@ -98,7 +98,7 @@
 			},
 
 			log() {
-				console.log('%% [PAGE] Cat %%')
+				console.log('%%% [PAGE] Cat %%%')
 				console.log('cat_id:', this.cat_id)
 				console.log('pageNumber:', this.pageNumber)
 				console.log('pageIndex:', this.pageIndex)

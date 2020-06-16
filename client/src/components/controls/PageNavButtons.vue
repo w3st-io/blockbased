@@ -52,7 +52,7 @@
 			},
 
 			log() {
-				console.log('%% [COMPONENT] Page Nav Button %%')
+				console.log('%%% [COMPONENT] Page Nav Button %%%')
 				console.log('leftBtnEmitName:', this.leftBtnEmitName)
 				console.log('rightBtnEmitName:', this.rightBtnEmitName)
 				console.log('badgeValue:', this.badgeValue)

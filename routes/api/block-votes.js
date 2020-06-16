@@ -34,12 +34,13 @@ router.post('/create', async (req, res) => {
 
 
 // [DELETE] //
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete', async (req, res) => {
 	const blocksVotes = await loadBlockVotesCollection()
 	
-	await blocksVotes.deleteOne(
-		{ _id: new mongodb.ObjectID(req.params.id) }
-	)
+	await blocksVotes.deleteOne({
+		block_id: req.body.block_id,
+		user_id: req.body.user_id
+	})
 
 	res.status(200).send()
 })

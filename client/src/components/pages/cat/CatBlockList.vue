@@ -26,9 +26,9 @@
 								@click="voteToggle(block._id)"
 								class="btn btn-outline-secondary unvoted"
 								style="font-size: 1em;"
-								:class="{ 'voted': voteToggles[block._id] }"
+								:class="{ 'voted': votesReplica[block._id].voted }"
 							>
-								{{ voteCountsReplica[block._id] }} ▲
+								{{ votesReplica[block._id].voteCount }} ▲
 							</button>
 						</h4>
 					</div>
@@ -85,8 +85,7 @@
 			return {
 				disabled: false,
 				blocks: [],
-				voteToggles: {},
-				voteCountsReplica: {},
+				votesReplica: {},
 				error: '',
 			}
 		},
@@ -102,21 +101,15 @@
 			}
 			catch(e) { this.error = e }
 
-			// Store states in "voteToggles" //
+			// Create/store "votesReplica" //
 			this.blocks.forEach(block => {
-				let load = false
+				let load = { voteCount: block.voteCount, voted: false }
 
 				if (this.searchVoterInBlockArray(block.voters)) {
-					load = true
+					load = { voteCount: block.voteCount, voted: true }
 				}
 
-				this.voteToggles[block._id] = load
-			})
-
-			// Store Block "voteCount" in "voteCountsReplica" //
-			this.blocks.forEach(block => {
-				let load = block.voteCount
-				this.voteCountsReplica[block._id] = load
+				this.votesReplica[block._id] = load
 			})
 
 			// [LOG] //
@@ -140,10 +133,10 @@
 			voteIconAndCountHandler(block_id) {
 				this.disabled = true
 
-				this.voteToggles[block_id] = !this.voteToggles[block_id]
+				this.votesReplica[block_id].voted = !this.votesReplica[block_id].voted
 
-				if (this.voteToggles[block_id]) { this.voteCountsReplica[block_id]++ }
-				else { this.voteCountsReplica[block_id]-- } 
+				if (this.votesReplica[block_id].voted) { this.votesReplica[block_id].voteCount++ }
+				else { this.votesReplica[block_id].voteCount-- } 
 
 				// Rerender Blocks //
 				this.getBlocks()
@@ -152,7 +145,7 @@
 			async voteToggle(block_id) {
 				this.voteIconAndCountHandler(block_id)
 
-				if (this.voteToggles[block_id]) {
+				if (this.votesReplica[block_id].voted) {
 					// ON
 					try {
 						await BlockService.addVote(
@@ -191,7 +184,7 @@
 			},
 
 			log() {
-				console.log('%% [COMPONENT] CatBlockList %%')
+				console.log('%%% [COMPONENT] CatBlockList %%%')
 				console.log('cat_id:', this.cat_id)
 				console.log('pageIndex:', this.pageIndex)
 				console.log('amountPerPage:', this.amountPerPage)
@@ -199,8 +192,7 @@
 				console.log('email:', this.email)
 				console.log('username:', this.username)
 				console.log('blocks:', this.blocks)
-				console.log('voteToggles:', this.voteToggles)
-				console.log('voteCountsReplica:', this.voteCountsReplica)
+				console.log('votesReplica:', this.votesReplica)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		}

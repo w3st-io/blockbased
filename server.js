@@ -13,10 +13,12 @@ const express = require("express")
 // [REQUIRE] Personal + ENV //
 const admins = require('./routes/api/admins')
 const blocks = require('./routes/api/blocks')
+const blockVotes = require('./routes/api/block-votes')
 const cats = require('./routes/api/cats')
 const comments = require('./routes/api/comments')
 const forums = require('./routes/api/forums')
 const users = require('./routes/api/users')
+const { use } = require("./routes/api/admins")
 require('dotenv').config()
 
 
@@ -43,6 +45,7 @@ app.get('', async (req, res) => {
 // [INIT USE] For "this" route use "this" //
 app.use('/api/admins', admins)
 app.use('/api/blocks', blocks)
+app.use('/api/block-votes', blockVotes)
 app.use('/api/cats', cats)
 app.use('/api/comments', comments)
 app.use('/api/forums', forums)
