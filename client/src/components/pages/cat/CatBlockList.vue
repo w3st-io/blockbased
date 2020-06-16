@@ -49,6 +49,9 @@
 
 <script>
 	// [IMPORT] //
+	//import axios from 'axios'
+
+	// [IMPORT] Personal //
 	import router from '@router'
 	import BlockService from '@services/BlockService'
 
@@ -125,7 +128,7 @@
 			async vote(block_id) {
 				// Update Block's Voters //
 				try {
-					BlockService.addVote(
+					await BlockService.addVote(
 						block_id,
 						this.user_id,
 						this.email,
@@ -140,7 +143,7 @@
 			async unvote(block_id) {
 				// Update Block's Voters //
 				try {
-					BlockService.removeVote(
+					await BlockService.removeVote(
 						block_id,
 						this.user_id,
 					)
@@ -170,7 +173,7 @@
 				console.log('email:', this.email)
 				console.log('username:', this.username)
 				console.log('blocks:', this.blocks)
-				if (this.error) { console.error('Error:', this.error) }
+				if (this.error) { console.error('error:', this.error) }
 			},
 		}
 	}

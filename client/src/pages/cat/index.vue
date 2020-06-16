@@ -105,7 +105,7 @@
 				console.log('user_id:', this.user_id)
 				console.log('email:', this.email)
 				console.log('username:', this.username)
-				if (this.error) { console.error('Error:', this.error) }
+				if (this.error) { console.error('error:', this.error) }
 			},
 		}
 	}
