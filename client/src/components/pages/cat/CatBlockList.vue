@@ -22,12 +22,15 @@
 					<!-- Vote -->
 					<div class="w-25 float-right text-right">
 						<h4 class="text-white m-2">
-							{{ voteCountsReplica[block._id] }}
-							<span
-								class="ml-2 h2 unvoted"
-								:class="{ 'voted': voteToggles[block._id] }"
+							<button
+								:disabled="disabled"
 								@click="voteToggle(block._id)"
-							>♦</span>
+								class="btn btn-outline-secondary unvoted"
+								style="font-size: 1em;"
+								:class="{ 'voted': voteToggles[block._id] }"
+							>
+								{{ voteCountsReplica[block._id] }} ▲
+							</button>
 						</h4>
 					</div>
 				</article>
@@ -81,6 +84,7 @@
 
 		data: function() {
 			return {
+				disabled: false,
 				blocks: [],
 				voteToggles: {},
 				voteCountsReplica: {},
@@ -135,10 +139,15 @@
 			},
 
 			voteIconAndCountHandler(block_id) {
+				this.disabled = true
+
 				this.voteToggles[block_id] = !this.voteToggles[block_id]
 
 				if (this.voteToggles[block_id]) { this.voteCountsReplica[block_id]++ }
 				else { this.voteCountsReplica[block_id]-- } 
+
+				// Rerender Blocks //
+				this.getBlocks()
 			},
 
 			async voteToggle(block_id) {
@@ -167,11 +176,11 @@
 					catch(e) { this.error = e }
 				}
 
-				// [UPDATE] //
-				this.getBlocks()			
+				this.disabled = false
 			},
 
 			async getBlocks() {
+				// [UPDATE] //
 				try {
 					this.blocks = await BlockService.getAllBlocks(
 						this.cat_id,
@@ -179,7 +188,7 @@
 						this.pageIndex
 					)
 				}
-				catch(e) { this.error = e }	
+				catch(e) { this.error = e }
 			},
 
 			log() {
@@ -205,7 +214,6 @@
 	$grey: #42484e;
 	$ethereum: #434875;
 	$green: #00e200;
-	$clear: #00000000;
 
 	li { list-style: none; }
 
@@ -215,25 +223,15 @@
 	li:hover { background: $ethereum !important; }
 
 	.unvoted {
-		color: $clear;
-		-webkit-text-stroke-width: 1px;
 		-webkit-text-stroke-color: $white;
 	}
 	.unvoted:hover {
-		cursor: pointer;
 		color: $green;
 		-webkit-text-stroke-color: $green;
 	}
 
 	.voted {
-		cursor: pointer;
 		color: $green;
 		-webkit-text-stroke-color: $green;
-	}
-	.voted:hover {
-		cursor: pointer;
-		color: $clear;
-		-webkit-text-stroke-width: 1px;
-		-webkit-text-stroke-color: $white;
 	}
 </style>
