@@ -67,7 +67,7 @@ router.get(`/read/:block_id`, async (req, res) => {
 router.post('/update/push-voter/:id', async (req, res) => {
 	const blocks = await loadBlocksCollection()
 
-	blocks.update(
+	blocks.updateOne(
 		{ _id: new mongodb.ObjectID(req.params.id) },
 		{ $push:
 			{ 
@@ -86,7 +86,7 @@ router.post('/update/push-voter/:id', async (req, res) => {
 router.post('/update/pull-voter/:id', async (req, res) => {
 	const blocks = await loadBlocksCollection()
 
-	blocks.update(
+	blocks.updateOne(
 		{ _id: new mongodb.ObjectID(req.params.id) },
 		{ $pull: { voters: { user_id: req.body.user_id } } },
 		{ upsert: true }

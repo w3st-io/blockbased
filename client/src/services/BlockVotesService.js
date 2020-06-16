@@ -21,12 +21,11 @@ class BlockService {
 			username,
 		})
 	}
-	static async removeVote(block_id, user_id) {
+	static async removeBlockVote(block_id, user_id) {
 		// Remove the voter from the Block Object
-		return await axios.post(`/api/blocks/delete`, {
-			block_id,
-			user_id,
-		})
+		return await axios.delete(
+			`/api/block-votes/delete/${user_id}/${block_id}`
+		)
 	}
 }
 

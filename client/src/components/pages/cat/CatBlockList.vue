@@ -46,6 +46,7 @@
 	// [IMPORT] Personal //
 	import router from '@router'
 	import BlockService from '@services/BlockService'
+	import BlockVotesService from '@services/BlockVotesService'
 
 	// [EXPORT] //
 	export default {
@@ -117,11 +118,8 @@
 		},
 
 		methods: {
-			redirectToBlock(block_id) {
-				router.push({ name: 'Block', params: { block_id: block_id, page: 1 } })
-			},
-
 			searchVoterInBlockArray(block_voters) {
+				// Search For Voters Id in Block's Object //
 				let found = block_voters.find((voter) => (
 					voter.username == this.username
 				))
@@ -130,45 +128,82 @@
 				else { return false }
 			},
 
-			voteIconAndCountHandler(block_id) {
-				this.disabled = true
+			voteToggle(block_id) {
+				// Check if User is logged in
+				if (localStorage.usertoken){
+					// Disable Buttons //
+					this.disabled = true
 
-				this.votesReplica[block_id].voted = !this.votesReplica[block_id].voted
+					// Set Replica Icon and Count // Rerender Blocks //
+					this.voteIconAndCountHandler(block_id)
+					this.getBlocks()
 
-				if (this.votesReplica[block_id].voted) { this.votesReplica[block_id].voteCount++ }
-				else { this.votesReplica[block_id].voteCount-- } 
+					// Conditional DB Actions //
+					if (this.votesReplica[block_id].voted) {
+						this.addVote(block_id)
+					}
+					else { this.removeVote(block_id) }
 
-				// Rerender Blocks //
-				this.getBlocks()
+					// Enable Buttons //
+					this.disabled = false
+				}
+				
 			},
 
-			async voteToggle(block_id) {
-				this.voteIconAndCountHandler(block_id)
+			voteIconAndCountHandler(block_id) {
+				this.votesReplica[block_id].voted = !this.votesReplica[block_id].voted
 
 				if (this.votesReplica[block_id].voted) {
-					// ON
-					try {
-						await BlockService.addVote(
-							block_id,
-							this.user_id,
-							this.email,
-							this.username,
-						)
-					}
-					catch(e) { this.error = e }
+					this.votesReplica[block_id].voteCount++
 				}
 				else {
-					// OFF
-					try {
-						await BlockService.removeVote(
-							block_id,
-							this.user_id,
-						)
-					}
-					catch(e) { this.error = e }
-				}
+					this.votesReplica[block_id].voteCount--
+				} 
+			},
 
-				this.disabled = false
+			async addVote(block_id) {
+				// [CREATE] Like in "blockVotes" Colelction //
+				// [UPDATE] Block Object //
+				try {
+					await BlockVotesService.addBlockVote(
+						block_id,
+						this.user_id,
+						this.email,
+						this.username,
+					)
+				}
+				catch(e) { this.error = e }
+
+				// [UPDATE] Block Object //
+				try {
+					await BlockService.addVote(
+						block_id,
+						this.user_id,
+						this.email,
+						this.username,
+					)
+				}
+				catch(e) { this.error = e }
+			},
+
+			async removeVote(block_id) {
+				// [DELETE] Like in "blockVotes" Collection //
+				try {
+					await BlockVotesService.removeBlockVote(
+						block_id,
+						this.user_id,
+					)
+				}
+				catch(e) { this.error = e }
+
+				// [UPDATE] Block Object //
+				try {
+					await BlockService.removeVote(
+						block_id,
+						this.user_id,
+					)
+				}
+				catch(e) { this.error = e }
 			},
 
 			async getBlocks() {
@@ -181,6 +216,11 @@
 					)
 				}
 				catch(e) { this.error = e }
+			},
+
+			redirectToBlock(block_id) {
+				// [REDIRECT] //
+				router.push({ name: 'Block', params: { block_id: block_id, page: 1 } })
 			},
 
 			log() {
