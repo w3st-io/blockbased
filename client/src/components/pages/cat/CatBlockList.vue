@@ -25,16 +25,9 @@
 							{{ block.voteCount }}
 							<span
 								class="ml-2 h2 unvoted"
-								:class="{ 'voted': voterInBlockArray(block.voters) }"
-								@click="vote(block._id)"
+								:class="{ 'voted': voteToggles[block._id] }"
+								@click="voteToggle(block._id)"
 							>♦</span>
-							<br>
-							<button
-								class="my-1 btn btn-sm btn-light"
-								@click="unvote(block._id)"
-							>
-								Unlike
-							</button>
 						</h4>
 					</div>
 				</article>
@@ -48,9 +41,6 @@
 </template>
 
 <script>
-	// [IMPORT] //
-	//import axios from 'axios'
-
 	// [IMPORT] Personal //
 	import router from '@router'
 	import BlockService from '@services/BlockService'
@@ -91,6 +81,7 @@
 
 		data: function() {
 			return {
+				voteToggles: {},
 				blocks: [],
 				error: '',
 			}
@@ -107,6 +98,17 @@
 			}
 			catch(e) { this.error = e }
 
+			// Store voted blocks in voted //
+			this.blocks.forEach(block => {
+				let load = false
+
+				if (this.searchVoterInBlockArray(block.voters)) {
+					load = true
+				}
+
+				this.voteToggles[block._id] = load
+			})
+
 			// [LOG] //
 			this.log()
 		},
@@ -116,7 +118,7 @@
 				router.push({ name: 'Block', params: { block_id: block_id, page: 1 } })
 			},
 
-			voterInBlockArray(block_voters) {
+			searchVoterInBlockArray(block_voters) {
 				let found = block_voters.find((voter) => (
 					voter.username == this.username
 				))
@@ -125,35 +127,37 @@
 				else { return false }
 			},
 
-			async vote(block_id) {
-				// Update Block's Voters //
-				try {
-					await BlockService.addVote(
-						block_id,
-						this.user_id,
-						this.email,
-						this.username,
-					)
-				}
-				catch(e) { this.error = e }
+			async voteToggle(block_id) {
+				this.voteToggles[block_id] = !this.voteToggles[block_id]
 
-				this.refreshBlocks()			
+				if (this.voteToggles[block_id]) {
+					// ON
+					try {
+						await BlockService.addVote(
+							block_id,
+							this.user_id,
+							this.email,
+							this.username,
+						)
+					}
+					catch(e) { this.error = e }
+				}
+				else {
+					// OFF
+					try {
+						await BlockService.removeVote(
+							block_id,
+							this.user_id,
+						)
+					}
+					catch(e) { this.error = e }
+				}
+
+				// [UPDATE] //
+				this.getBlocks()			
 			},
 
-			async unvote(block_id) {
-				// Update Block's Voters //
-				try {
-					await BlockService.removeVote(
-						block_id,
-						this.user_id,
-					)
-				}
-				catch(e) { this.error = e }
-
-				this.refreshBlocks()
-			},
-
-			async refreshBlocks() {
+			async getBlocks() {
 				try {
 					this.blocks = await BlockService.getAllBlocks(
 						this.cat_id,
@@ -173,6 +177,7 @@
 				console.log('email:', this.email)
 				console.log('username:', this.username)
 				console.log('blocks:', this.blocks)
+				console.log('voteToggles:', this.voteToggles)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		}
