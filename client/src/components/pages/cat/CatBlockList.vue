@@ -25,7 +25,7 @@
 								:disabled="disabled"
 								@click="voteToggle(block._id)"
 								class="btn btn-outline-secondary unvoted"
-								style="font-size: 1em;"
+								style=""
 								:class="{ 'voted': votesReplica[block._id].voted }"
 							>
 								{{ votesReplica[block._id].voteCount }} ▲
@@ -254,15 +254,14 @@
 	li:hover { background: $ethereum !important; }
 
 	.unvoted {
-		-webkit-text-stroke-color: $white;
+		font-size: 1em;
+		color: $white;
 	}
 	.unvoted:hover {
 		color: $green;
-		-webkit-text-stroke-color: $green;
 	}
 
 	.voted {
 		color: $green;
-		-webkit-text-stroke-color: $green;
 	}
 </style>

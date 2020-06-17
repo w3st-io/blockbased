@@ -28,8 +28,8 @@
 						<p class="m-0 text-white">
 							
 							<button
-								class="p-0 btn unliked-up"
-								style="font-size: 2em;"
+								:disabled="disabled"
+								class="w-100 p-0 btn btn-outline-secondary unvote-up"
 							>▲</button>
 
 							<span class="m-0 p-0">
@@ -37,7 +37,8 @@
 							</span>
 
 							<button
-								class="p-0 btn unliked-down"
+								:disabled="disabled"
+								class="w-100 p-0 btn btn-outline-secondary unvote-down"
 								style="font-size: 2em;"
 							>▼</button>
 						</p>
@@ -79,6 +80,12 @@
 			},
 		},
 
+		data: function() {
+			return {
+				disabled: false,
+			}
+		},
+
 		methods: {
 			owned() {
 				return false
@@ -100,28 +107,32 @@
 	.multiline { white-space: pre-wrap; }
 
 	/* Up Vote */
-	.unliked-up { color: $white }
-	.unliked-up:hover {
+	.unvote-up {
+		border: none;
+		color: $white;
+		font-size: 2em;
+	}
+	.unvote-up:hover {
 		color: $green;
-		-webkit-text-stroke-color: $green;
+		background: $clear;
 	}
 
-	.liked-up {
+	.vote-up {
 		color: $green;
-		-webkit-text-stroke-color: $green;
 	}
 
 	/* Down Vote */
-	.unliked-down { color: $white }
-	.unliked-down:hover {
-		cursor: pointer;
+	.unvote-down {
+		border: none;
+		color: $white;
+		font-size: 2em;
+	}
+	.unvote-down:hover {
 		color: $red;
-		-webkit-text-stroke-color: $red;
+		background: $clear;
 	}
 
-	.liked-down {
-		cursor: pointer;
-		color: $green;
-		-webkit-text-stroke-color: $green;
+	.vote-down {
+		color: $red;
 	}
 </style>
