@@ -7,12 +7,14 @@
 				{{ cat_id }}
 			</h3>
 
-			<!-- Page Nav Control -->
-			<page-nav-buttons
-				:leftBtnEmitName="leftBtnEmitName"
-				:rightBtnEmitName="rightBtnEmitName"
-				:badgeValue="badgeValue"
-			/>
+			<div class="w-50">
+				<!-- Page Nav Buttons -->
+				<page-nav-buttons
+					:leftBtnEmitName="leftBtnEmitName"
+					:rightBtnEmitName="rightBtnEmitName"
+					:badgeValue="badgeValue"
+				/>
+			</div>
 		</div>
 
 		<!-- Right Side -->

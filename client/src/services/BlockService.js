@@ -48,7 +48,6 @@ class BlockService {
 			return axios.get(`/api/blocks/read/${block_id}`)
 				.then((res) => {
 					const data = res.data
-					console.log('RETURNED:', data)
 
 					data.createdAt = new Date(data.createdAt)
 					resolve(data)

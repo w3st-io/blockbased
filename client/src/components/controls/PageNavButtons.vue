@@ -1,18 +1,20 @@
 <template>
-	<div class="py-2">
-		<div class="w-50 btn-group flaot-right">
+	<div class="w-100 py-2 flex-container">
+		<div class="flaot-left w-75 btn-group">
 			<button
 				@click="leftBtn()"
-				class="w-25 btn btn-sm btn-outline-light"
+				class=" btn btn-sm btn-outline-light"
 			>Prev</button>
 			<button
 				@click="rightBtn()"
-				class="w-25 btn btn-sm btn-outline-light"
+				class="btn btn-sm btn-outline-light"
 			>Next</button>
 		</div>
-		<span class="mx-2 p-2 badge badge-light">
-			{{ badgeValue }}
-		</span>
+		<div class="flaot-right w-25 px-2 text-center">
+			<h6 class="h-100 mx-1 my-0 p-2 rounded bg-light">
+				{{ badgeValue }}
+			</h6>
+		</div>
 	</div>
 </template>
 
@@ -60,3 +62,11 @@
 		},
 	}
 </script>
+
+<style>
+	.flex-container {
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: unset;
+	}
+</style>

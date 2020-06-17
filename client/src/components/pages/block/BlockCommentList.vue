@@ -29,17 +29,16 @@
 							
 							<button
 								:disabled="disabled"
-								class="w-100 p-0 btn btn-outline-secondary unvote-up"
+								class="w-100 p-0 btn btn-outline-secondary not-up-vote"
 							>▲</button>
 
-							<span class="m-0 p-0">
+							<span>
 								<h4 class="m-0 p-1">{{ upvotes }}</h4>
 							</span>
 
 							<button
 								:disabled="disabled"
-								class="w-100 p-0 btn btn-outline-secondary unvote-down"
-								style="font-size: 2em;"
+								class="w-100 p-0 btn btn-outline-secondary not-down-vote"
 							>▼</button>
 						</p>
 					</div>
@@ -65,12 +64,23 @@
 
 <script>
 	// [IMPORT] Personal //
-
+	import CommentService from '@services/CommentService'
+	
 	// [EXPORT] //
 	export default {
 		props: {
-			commentDetails: {
-				type: Array,
+			block_id: {
+				type: String,
+				required: true,
+			},
+
+			pageIndex: {
+				type: Number,
+				required: true,
+			},
+
+			amountPerPage: {
+				type: Number,
 				required: true
 			},
 
@@ -83,12 +93,30 @@
 		data: function() {
 			return {
 				disabled: false,
+				commentDetails: [],
 			}
+		},
+
+		created: async function() {
+			// Get Comments //
+			try {
+				this.commentDetails = await CommentService.getAllComments(
+					this.block_id,
+					this.amountPerPage,
+					this.pageIndex
+				)
+			}
+			catch(e) { this.error = e }
 		},
 
 		methods: {
 			owned() {
 				return false
+			},
+
+			log() {
+				console.log('%%% [COMPONENT] BlockCommentList %%%')
+				console.log('Comments:', this.comments)
 			},
 		}
 	}
@@ -107,32 +135,28 @@
 	.multiline { white-space: pre-wrap; }
 
 	/* Up Vote */
-	.unvote-up {
+	.not-up-vote {
 		border: none;
 		color: $white;
 		font-size: 2em;
 	}
-	.unvote-up:hover {
+	.not-up-vote:hover {
 		color: $green;
 		background: $clear;
 	}
 
-	.vote-up {
-		color: $green;
-	}
+	.up-vote { color: $green; }
 
 	/* Down Vote */
-	.unvote-down {
+	.not-down-vote {
 		border: none;
 		color: $white;
 		font-size: 2em;
 	}
-	.unvote-down:hover {
+	.not-down-vote:hover {
 		color: $red;
 		background: $clear;
 	}
 
-	.vote-down {
-		color: $red;
-	}
+	.down-vote { color: $red; }
 </style>

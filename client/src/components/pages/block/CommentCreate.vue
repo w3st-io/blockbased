@@ -3,7 +3,7 @@
 		<!-- [FORM] Create Comment -->
 		<ValidationObserver v-slot="{ handleSubmit }">
 			<form
-				@submit.prevent="handleSubmit(createComment)"
+				@submit.prevent="handleSubmit(submit)"
 				class="mt-4 card card-body bg-dark"
 			>
 				<!-- Text Area -->
@@ -89,10 +89,19 @@
 
 		methods: {
 			// [CREATE] Create Comment //
-			async createComment() {
-				this.submitted = true
-				this.loading = true
+			async submit() {
+				if (this.block_id != 'undefined') {
+					this.submitted = true
+					this.loading = true
 
+					this.createComment()
+				}
+				else {
+					this.error = 'Block Undefined..'
+				}
+			},
+
+			async createComment() {
 				try {
 					await CommentService.createComment(
 						this.block_id,
@@ -103,13 +112,15 @@
 					)
 					
 					// [REDIRECT] Block Page //
-					router.push({
-						name: 'Block',
-						params: {
-							block_id: this.block_id,
-							page: 1
+					router.push(
+						{
+							name: 'Block',
+							params: {
+								block_id: this.block_id,
+								page: 1
+							}
 						}
-					})
+					)
 				}
 				catch(e) {
 					this.loading = false

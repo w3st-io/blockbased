@@ -4,14 +4,28 @@
 			<div class="col-12 my-4 card card-body bg-dark">
 				<!-- Title Header -->
 				<title-header
-					:block="block"
+					:block_id="block_id"
 					:leftBtnEmitName="'block-prev'"
 					:rightBtnEmitName="'block-next'"
 					:badgeValue="pageNumber"
 				/>
 
 				<!-- Comments -->
-				<Block-comment-list :commentDetails="comments" />
+				<Block-comment-list
+					:block_id="block_id"
+					:pageIndex="pageIndex"
+					:amountPerPage="5"
+				/>
+
+				<!-- Bottom Page Control -->
+				<div class="mt-2 w-25">
+					<page-nav-buttons
+						:leftBtnEmitName="'block-prev'"
+						:rightBtnEmitName="'block-next'"
+						:badgeValue="pageNumber"
+					/>
+				</div>
+				
 
 				<!-- [ERROR] -->
 				<div v-if="error" class="alert alert-danger">
@@ -24,10 +38,9 @@
 
 <script>
 	// [IMPORT] Personal //
+	import PageNavButtons from '@components/controls/PageNavButtons'
 	import BlockCommentList from '@components/pages/block/BlockCommentList'
 	import TitleHeader from '@components/pages/block/TitleHeader'
-	import BlockService from '@services/BlockService'
-	import CommentService from '@services/CommentService'
 	import router from '@router'
 	import { EventBus } from '@main'
 
@@ -37,6 +50,7 @@
 		components: {
 			BlockCommentList,
 			TitleHeader,
+			PageNavButtons,
 		},
 
 		data: function() {
@@ -44,9 +58,6 @@
 				block_id: this.$route.params.block_id,
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),
-				amountPerPage: 5,
-				block: {},
-				comments: [],
 				error: '',
 			}
 		},
@@ -55,22 +66,6 @@
 			// [--> EMMIT] block-prev, block-next //
 			EventBus.$on('block-prev', () => { this.prevPage() })
 			EventBus.$on('block-next', () => { this.nextPage() })
-			
-			// Get Block Details //
-			try {
-				this.block = await BlockService.getBlockDetails(this.block_id)
-			}
-			catch(e) { this.error = e }
-
-			// Get Comments //
-			try {
-				this.comments = await CommentService.getAllComments(
-					this.block_id,
-					this.amountPerPage,
-					this.pageIndex
-				)
-			}
-			catch(e) { this.error = e }
 
 			// [LOG] //
 			this.log()
@@ -101,8 +96,7 @@
 
 			log() {
 				console.log('%%% [PAGE] Block %%%')
-				console.log('Block:', this.block)
-				console.log('Comments:', this.comments)
+				console.log('block_id:', this.block_id)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		},
