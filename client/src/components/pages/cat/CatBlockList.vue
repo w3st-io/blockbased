@@ -240,15 +240,16 @@
 
 <style lang='scss' scoped>
 	// Import Bootstrap and Bootstrap Override //
+	@import 'bootstrap/scss/bootstrap.scss';
 	@import '../../../assets/styles/bootstrap-override.scss';
 
 	li {
 		list-style: none;
 		color: $dark;
 	}
-	li:hover { background: $ethereum; }
+	li:hover { @extend .bg-info; }
 	li:nth-child(even) { background: $grey; }
-	li:nth-child(even):hover { background: $ethereum; }
+	li:nth-child(even):hover { @extend .bg-info; }
 
 	.unvoted {
 		color: $white;
