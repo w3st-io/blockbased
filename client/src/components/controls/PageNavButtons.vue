@@ -1,19 +1,19 @@
 <template>
-	<div class="w-100 py-2 flex-container">
-		<div class="flaot-left w-75 btn-group">
+	<div class="w-100 h-100 py-2">
+		<div class="float-left w-75 btn-group">
 			<button
 				@click="leftBtn()"
-				class=" btn btn-sm btn-outline-light"
+				class="btn btn-sm btn-outline-light"
 			>Prev</button>
 			<button
 				@click="rightBtn()"
 				class="btn btn-sm btn-outline-light"
 			>Next</button>
 		</div>
-		<div class="flaot-right w-25 px-2 text-center">
-			<h6 class="h-100 mx-1 my-0 p-2 rounded bg-light">
+		<div class="float-right w-25 px-1">
+			<p class="h-100 mx-1 my-0 badge badge-light">
 				{{ badgeValue }}
-			</h6>
+			</p>
 		</div>
 	</div>
 </template>
@@ -62,11 +62,3 @@
 		},
 	}
 </script>
-
-<style>
-	.flex-container {
-		display: flex;
-		flex-wrap: wrap;
-		flex-direction: unset;
-	}
-</style>
