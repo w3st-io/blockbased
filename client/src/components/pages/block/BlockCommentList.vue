@@ -2,8 +2,8 @@
 	<section>
 		<ul class="w-100 m-0 px-0 border border-secondary">
 			<li
-				v-for="commentDetail in commentDetails"
-				:key="commentDetail._id"
+				v-for="comment in comments"
+				:key="comment._id"
 				class="w-100 border-bottom-0 border-secondary"
 			>
 				<article class="w-100 d-flex">
@@ -14,47 +14,32 @@
 						</div>
 						
 						<p class="m-0 text-center text-light small">
-							{{ commentDetail.email }}
+							{{ comment.email }}
 						</p>
 					</div>
 
 					<!-- Comment Section -->
-					<div class="float-right p-2" style="flex-grow: 1; width: 77%;">
-						<p v-html="commentDetail.comment" class="m-0 text-light multiline"></p>
-					</div>
-
-					<!-- Votes Section -->
-					<div class="float-right text-center bg-info" style="flex-grow: 1; width: 8%;">
-						<p class="m-0 text-white">
-							
-							<button
-								:disabled="disabled"
-								class="w-100 p-0 btn btn-outline-secondary not-up-vote"
-							>▲</button>
-
-							<span>
-								<h4 class="m-0 p-1">{{ upvotes }}</h4>
-							</span>
-
-							<button
-								:disabled="disabled"
-								class="w-100 p-0 btn btn-outline-secondary not-down-vote"
-							>▼</button>
-						</p>
+					<div class="float-right p-2" style="flex-grow: 1; width: 85%;">
+						<p v-html="comment.comment" class="m-0 text-light multiline"></p>
 					</div>
 				</article>
 
 				<!-- Time Stamp -->
-				<div class="w-100 p-2 d-flex border-top border-secondary text-light">
-					<div class="m-0 w-75 float-left small text-secondary">
-						{{ new Date(commentDetail.createdAt) }}
-						- {{ commentDetail._id }}
+				<div class="w-100 p-2 d-flex border-top border-bottom border-secondary text-light">
+					<div class="w-50 m-0 float-left small text-secondary">
+						{{ new Date(comment.createdAt) }}
 						
 					</div>
-					<div class="m-0 w-25 float-right small text-right text-secondary">
-						<button v-if="owned()" class="py-0 btn btn-sm text-secondary">edit</button>
-						<button v-if="owned()" class="py-0 btn btn-sm text-danger">delete</button>
+					<div class="w-50 m-0 float-right small text-right text-secondary">
+						<button class="py-0 btn btn-sm text-secondary">edit</button>
+						<button class="py-0 btn btn-sm text-danger">delete</button>
 						<button class="py-0 btn btn-sm text-danger">report</button>
+						<button
+							:disabled="disabled"
+							class=" btn btn-outline-secondary unvoted"
+						>
+							{{ 100 }} ▲
+						</button>
 					</div>
 				</div>
 			</li>
@@ -84,29 +69,44 @@
 				required: true
 			},
 
-			upvotes: {
-				type: Number,
-				default: 0
+			user_id: {
+				type: String,
+				required: true
+			},
+
+			email: {
+				type: String,
+				required: true
+			},
+			
+			username: {
+				type: String,
+				required: true
 			},
 		},
 
 		data: function() {
 			return {
+				upvotes: 1,
 				disabled: false,
-				commentDetails: [],
+				comments: [],
+				votesReplica: {},
+				error: '',
 			}
 		},
 
 		created: async function() {
 			// Get Comments //
 			try {
-				this.commentDetails = await CommentService.getAllComments(
+				this.comments = await CommentService.getAllComments(
 					this.block_id,
 					this.amountPerPage,
 					this.pageIndex
 				)
 			}
 			catch(e) { this.error = e }
+
+			this.log()
 		},
 
 		methods: {
@@ -116,6 +116,11 @@
 
 			log() {
 				console.log('%%% [COMPONENT] BlockCommentList %%%')
+				console.log('pageIndex:', this.pageIndex)
+				console.log('amountPerPage:', this.amountPerPage)
+				console.log('user_id:', this.user_id)
+				console.log('email:', this.email)
+				console.log('username:', this.username)
 				console.log('Comments:', this.comments)
 			},
 		}
@@ -123,40 +128,21 @@
 </script>
 
 <style lang="scss" scoped>
-	$green: #00e200;
-	$red: #e20000;
-	$white: #ffffff;
-	$clear: #00000000;
+	// Import Bootstrap and Bootstrap Override //
+	@import 'bootstrap/scss/bootstrap.scss';
+	@import '../../../assets/styles/bootstrap-override.scss';
 
 	li { list-style: none; }
-	li:nth-child(even) { background: #42484e !important; }
+	li:nth-child(even) { background: $grey; }
 
 	// Make Comments Wordwrapped
 	.multiline { white-space: pre-wrap; }
 
-	/* Up Vote */
-	.not-up-vote {
-		border: none;
+	.unvoted {
+		font-size: 1em;
 		color: $white;
-		font-size: 2em;
 	}
-	.not-up-vote:hover {
-		color: $green;
-		background: $clear;
-	}
+	.unvoted:hover { color: $like; }
 
-	.up-vote { color: $green; }
-
-	/* Down Vote */
-	.not-down-vote {
-		border: none;
-		color: $white;
-		font-size: 2em;
-	}
-	.not-down-vote:hover {
-		color: $red;
-		background: $clear;
-	}
-
-	.down-vote { color: $red; }
+	.voted { color: $like; }
 </style>

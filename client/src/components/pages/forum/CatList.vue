@@ -3,7 +3,7 @@
 		<li
 			v-for="(cat, index) in cats"
 			:key="index"
-			class="m-0 bg-dark"
+			class="m-0 bg-dark list-group"
 		>
 			<article
 				@click="redirectToCatBlocks(cat.cat_id)"
@@ -64,28 +64,22 @@
 	}
 </script>
 
-<style scoped>
-	li { list-style: none; }
+<style lang="scss" scoped>
+	// Import Bootstrap and Bootstrap Override //
+	@import 'bootstrap/scss/bootstrap.scss';
+	@import '../../../assets/styles/bootstrap-override.scss';
 
-	li { background: #343a40 !important; }
-	li:nth-child(even) { background: #42484e !important; }
+	li { @extend .bg-dark; }
+	li:hover { @extend .bg-info; }
+	li:nth-child(even) { background: $grey; }
+	li:nth-child(even):hover { @extend .bg-info; }
 
-	li:hover { background: rgb(67, 72, 117) !important; }
-	li:nth-child(even):hover { background: rgb(67, 72, 117) !important; }
-
-
-	.custom-font-size { font-size: max(1vw, 16px); }
+	.custom-font-size { font-size: 16px; }
 
 	.img-padding { padding: 20%; }
-	
 
 	@media screen and (max-width: 768px) {
-		.not-hidden-768 {
-			width: 100%;
-		}
-
-		.hidden-768 {
-			display: none !important;
-		}
+		.not-hidden-768 { width: 100%; }
+		.hidden-768 { display: none !important; }
 	}
 </style>

@@ -1,40 +1,40 @@
-$ethereum: #434875;
-$ethereum-hover: #626890;
+@import './sass-variables.scss';
 
-/* BADGE */
+// [OVERRIDES] //
+// BADGE //
 .badge-info {
-	background-color: $ethereum  !important;
+	background-color: $ethereum;
 }
 
-/* BTN BACKGROUND */
+// BTN BACKGROUND //
 .bg-info {
-	background-color: $ethereum !important;
+	background-color: $ethereum;
 }
 
-/* BTN INFO */
+// BTN INFO //
 .btn-info {
-	color: white !important;
-	background-color: $ethereum !important;
-	border-color: $ethereum !important;
+	color: $white;
+	background-color: $ethereum;
+	border-color: $ethereum;
 }
 .btn-info:hover {
-	color: white !important;
-	background-color: $ethereum-hover !important;
-	border-color: $ethereum-hover !important;
+	color: $white;
+	background-color: $ethereum-hover;
+	border-color: $ethereum-hover;
 }
 
-/* BTN OUTLINE INFO */
+// BTN OUTLINE INFO //
 .btn-outline-info {
-	color: $ethereum !important;
-	border-color: $ethereum !important;
+	color: $ethereum;
+	border-color: $ethereum;
 }
 .btn-outline-info:hover {
-	color: white !important;
-	background-color: $ethereum !important;
-	border-color: $ethereum !important;
+	color: $white;
+	background-color: $ethereum;
+	border-color: $ethereum;
 }
 
-/* TEXT INFO */
+// TEXT INFO //
 .text-info {
-	color: $ethereum !important;
+	color: $ethereum;
 }

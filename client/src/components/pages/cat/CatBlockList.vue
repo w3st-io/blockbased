@@ -19,13 +19,12 @@
 					</div>
 
 					<!-- Vote -->
-					<div class="w-25 float-right text-right">
+					<div class="float-right w-25 text-right">
 						<h4 class="text-white m-2">
 							<button
 								:disabled="disabled"
 								@click="voteToggle(block._id)"
 								class="btn btn-outline-secondary unvoted"
-								style=""
 								:class="{ 'voted': votesReplica[block._id].voted }"
 							>
 								{{ votesReplica[block._id].voteCount }} ▲
@@ -91,7 +90,7 @@
 			}
 		},
 
-		created: async function() {
+		created: async function () {
 			// Get Blocks //
 			try {
 				this.blocks = await BlockService.getAllBlocks(
@@ -118,9 +117,9 @@
 		},
 
 		methods: {
-			searchVoterInBlockArray(block_voters) {
+			searchVoterInBlockArray(blockVoters) {
 				// Search For Voters Id in Block's Object //
-				let found = block_voters.find((voter) => (
+				let found = blockVoters.find((voter) => (
 					voter.username == this.username
 				))
 
@@ -240,28 +239,22 @@
 </script>
 
 <style lang='scss' scoped>
-	$white: #ffffff;
-	$dark: #343a40;
-	$grey: #42484e;
-	$ethereum: #434875;
-	$green: #00e200;
+	// Import Bootstrap and Bootstrap Override //
+	@import '../../../assets/styles/bootstrap-override.scss';
 
-	li { list-style: none; }
-
-	li { background: $dark !important; }
-	li:nth-child(even) { background: $grey !important; }
-
-	li:hover { background: $ethereum !important; }
+	li {
+		list-style: none;
+		color: $dark;
+	}
+	li:hover { background: $ethereum; }
+	li:nth-child(even) { background: $grey; }
+	li:nth-child(even):hover { background: $ethereum; }
 
 	.unvoted {
-		font-size: 1em;
 		color: $white;
+		font-size: 1em;
 	}
-	.unvoted:hover {
-		color: $green;
-	}
+	.unvoted:hover { color: $like; }
 
-	.voted {
-		color: $green;
-	}
+	.voted { color: $like; }
 </style>

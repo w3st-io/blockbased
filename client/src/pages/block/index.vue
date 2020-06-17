@@ -15,6 +15,9 @@
 					:block_id="block_id"
 					:pageIndex="pageIndex"
 					:amountPerPage="5"
+					:user_id="user_id"
+					:email="email"
+					:username="username"
 				/>
 
 				<!-- Bottom Page Control -->
@@ -42,6 +45,7 @@
 	import BlockCommentList from '@components/pages/block/BlockCommentList'
 	import TitleHeader from '@components/pages/block/TitleHeader'
 	import router from '@router'
+	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
 
 
@@ -58,11 +62,22 @@
 				block_id: this.$route.params.block_id,
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),
+				user_id: 'unset',
+				email: 'unset',
+				username: 'unset',
 				error: '',
 			}
 		},
 
 		created: async function() {
+			// Retrieve User Data //
+			try {
+				this.user_id = await UserService.getUserId()
+				this.email = await UserService.getEmail()
+				this.username = await UserService.getUsername()
+			}
+			catch(e) { this.error = e }
+
 			// [--> EMMIT] block-prev, block-next //
 			EventBus.$on('block-prev', () => { this.prevPage() })
 			EventBus.$on('block-next', () => { this.nextPage() })
@@ -97,6 +112,10 @@
 			log() {
 				console.log('%%% [PAGE] Block %%%')
 				console.log('block_id:', this.block_id)
+				console.log('pageIndex:', this.pageIndex)
+				console.log('user_id:', this.user_id)
+				console.log('email:', this.email)
+				console.log('username:', this.username)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		},
