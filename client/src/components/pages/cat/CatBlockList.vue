@@ -129,8 +129,8 @@
 			},
 
 			voteToggle(block_id) {
-				// Check if User is logged in
-				if (localStorage.usertoken){
+				// [LOG REQUIRED] //
+				if (localStorage.usertoken) {
 					// Disable Buttons //
 					this.disabled = true
 

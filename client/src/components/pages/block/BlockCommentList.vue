@@ -25,10 +25,21 @@
 
 					<!-- Votes Section -->
 					<div class="float-right text-center bg-info" style="flex-grow: 1; width: 8%;">
-						<p class="m-0 pt-3 text-white">
-							<span class="h4">{{ upvotes }}</span><br>
-							<span class="h2 unliked-up">▲</span>
-							<span class="h2 unliked-down">▼</span>
+						<p class="m-0 text-white">
+							
+							<button
+								class="p-0 btn unliked-up"
+								style="font-size: 2em;"
+							>▲</button>
+
+							<span class="m-0 p-0">
+								<h4 class="m-0 p-1">{{ upvotes }}</h4>
+							</span>
+
+							<button
+								class="p-0 btn unliked-down"
+								style="font-size: 2em;"
+							>▼</button>
 						</p>
 					</div>
 				</article>
@@ -77,8 +88,10 @@
 </script>
 
 <style lang="scss" scoped>
-	$green: rgb(0, 226, 0);
-	$red: rgb(226, 0, 0);
+	$green: #00e200;
+	$red: #e20000;
+	$white: #ffffff;
+	$clear: #00000000;
 
 	li { list-style: none; }
 	li:nth-child(even) { background: #42484e !important; }
@@ -87,38 +100,28 @@
 	.multiline { white-space: pre-wrap; }
 
 	/* Up Vote */
-	.liked-up {
-		cursor: pointer;
+	.unliked-up { color: $white }
+	.unliked-up:hover {
 		color: $green;
 		-webkit-text-stroke-color: $green;
 	}
 
-	.unliked-up {
-		color: rgba(0, 0, 0, 0);
-		-webkit-text-stroke-width: 1px;
-		-webkit-text-stroke-color: white;
-	}
-	.unliked-up:hover {
-		cursor: pointer;
+	.liked-up {
 		color: $green;
 		-webkit-text-stroke-color: $green;
 	}
 
 	/* Down Vote */
-	.liked-down {
-		cursor: pointer;
-		color: $green;
-		-webkit-text-stroke-color: $green;
-	}
-
-	.unliked-down {
-		color: rgba(0, 0, 0, 0);
-		-webkit-text-stroke-width: 1px;
-		-webkit-text-stroke-color: white;
-	}
+	.unliked-down { color: $white }
 	.unliked-down:hover {
 		cursor: pointer;
 		color: $red;
 		-webkit-text-stroke-color: $red;
+	}
+
+	.liked-down {
+		cursor: pointer;
+		color: $green;
+		-webkit-text-stroke-color: $green;
 	}
 </style>
