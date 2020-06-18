@@ -7,7 +7,6 @@
  * that are going to be used throughout the application.
  */
 // [IMPORT] //
-import 'bootstrap/dist/css/bootstrap.css'
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import Vue from 'vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'

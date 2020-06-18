@@ -1,46 +1,6 @@
+$theme-colors: (
+	"info": #434875,	
+);
 
 // [IMPORT] //
 @import 'bootstrap/scss/bootstrap.scss';
-
-// [IMPORT] Personal //
-@import './sass-variables.scss';
-
-// [OVERRIDES] //
-// BADGE //
-.badge-info {
-	background-color: $ethereum;
-}
-
-// BTN BACKGROUND //
-.bg-info {
-	background-color: $ethereum;
-}
-
-// BTN INFO //
-.btn-info {
-	color: $white;
-	background-color: $ethereum;
-	border-color: $ethereum;
-	&:hover {
-		color: $white;
-		background-color: $ethereum-hover;
-		border-color: $ethereum-hover;
-	}
-}
-
-// BTN OUTLINE INFO //
-.btn-outline-info {
-	color: $ethereum;
-	border-color: $ethereum;
-
-	&:hover {
-		color: $white;
-		background-color: $ethereum;
-		border-color: $ethereum;
-	}
-}
-
-// TEXT INFO //
-.text-info {
-	color: $ethereum;
-}

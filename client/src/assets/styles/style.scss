@@ -1,9 +1,6 @@
-$darkish: #42484e;
+// [IMPORT] Personal //
+@import './sass-variables.scss';
 
-body {
-	background-color: $darkish !important;
-}
+body { background-color: $darkish; }
 
-.bg-darkish {
-	background-color: $darkish !important;;
-}
+.bg-darkish { background-color: $darkish; }

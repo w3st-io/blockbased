@@ -242,7 +242,7 @@
 
 <style lang="scss" scoped>
 	// [IMPORT] Personal //
-	@import '../../../assets/styles/bootstrap-override.scss';
+	@import 'src/assets/styles/sass-variables.scss';
 
 	li { list-style: none; }
 	li:nth-child(even) { background: $grey; }
@@ -252,7 +252,7 @@
 
 	.unvoted {
 		font-size: 1em;
-		color: $white;
+		color: white;
 
 		&:hover { color: $like; }
 	}

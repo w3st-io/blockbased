@@ -239,11 +239,11 @@
 
 <style lang='scss' scoped>
 	// [IMPORT] Personal //
-	@import '../../../assets/styles/bootstrap-override.scss';
+	@import 'src/assets/styles/bootstrap-override.scss';
+	@import 'src/assets/styles/sass-variables.scss';
 
 	li {
 		list-style: none;
-		color: $dark;
 
 		&:hover { @extend .bg-info; }
 	}
@@ -254,7 +254,7 @@
 	}
 
 	.unvoted {
-		color: $white;
+		color: white;
 		font-size: 1em;
 
 		&:hover { color: $like; }

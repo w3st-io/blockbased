@@ -66,7 +66,9 @@
 
 <style lang="scss" scoped>
 	// [IMPORT] Personal //
-	@import '../../../assets/styles/bootstrap-override.scss';
+	@import 'src/assets/styles/bootstrap-override.scss';
+	@import 'src/assets/styles/sass-variables.scss';
+
 
 	li {
 		@extend .bg-dark;
