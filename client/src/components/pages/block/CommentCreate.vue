@@ -50,6 +50,7 @@
 	import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 	// [IMPORT] Personal //
+	import BlockService from '@services/BlockService'
 	import CommentService from '@services/CommentService'
 	import router from '@router'
 
@@ -74,6 +75,7 @@
 			return {
 				submitted: false,
 				loading: false,
+				blockExistance: false,
 				comment: '',
 				error: '',
 
@@ -85,19 +87,24 @@
 			}
 		},
 
-		created: function() { this.log() },
+		created: async function() { 
+			// Check if Block exists.. //
+			this.blockExistance = await this.validate()
+
+			this.log()
+		},
 
 		methods: {
 			// [CREATE] Create Comment //
 			async submit() {
-				if (this.block_id != 'undefined') {
+				if (localStorage.usertoken && this.blockExistance) {
 					this.submitted = true
 					this.loading = true
 
 					this.createComment()
 				}
 				else {
-					this.error = 'Block Undefined..'
+					this.error = 'Error could not create comment. :('
 				}
 			},
 
@@ -128,9 +135,20 @@
 				}
 			},
 
+			async validate() {
+				let status = false
+
+				try { status = await BlockService.validate(this.block_id) } 
+				catch(e) { this.error = e }
+
+				return status
+			},
+
 			log() {
 				console.log('%%% [COMPONENT] CommentCreate %%%')
+				console.log('localStorage.userToken:', localStorage.usertoken)
 				console.log('block_id:', this.block_id)
+				console.log('BlockExistance:', this.blockExistance)
 				console.log('user_id:', this.user_id)
 				console.log('email:', this.email)
 				console.log('username:', this.username)

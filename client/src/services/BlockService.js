@@ -66,7 +66,7 @@ class BlockService {
 	*/
 
 
-	/******************* [OTHER CRUD] *******************/
+	/******************* [VOTE CRUD] *******************/
 	// [UPDATE] Vote System //
 	// ADD/REMOVE VOTE //
 	static async addVote(block_id, user_id, email, username) {
@@ -89,6 +89,13 @@ class BlockService {
 			user_id,
 		})
 	}
+
+	/******************* [VOTE CRUD] *******************/
+	static async validate(block_id) {
+		let valid = await axios.get(`/api/blocks/validate/${block_id}`)
+		
+		return valid.data
+	}	
 }
 
 

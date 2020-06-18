@@ -61,7 +61,7 @@ router.get(`/read/:block_id`, async (req, res) => {
 })
 
 
-/******************* [OTHER CRUD] *******************/
+/******************* [VOTE CRUD] *******************/
 // [voters array] //
 // [UPDATE] Push + Pull //
 router.post('/update/push-voter/:id', async (req, res) => {
@@ -119,6 +119,26 @@ router.post('/update/decrement-vote-count/:id', async (req, res) => {
 	)
 
 	res.status(201).send()
+})
+
+
+/******************* [VOTE CRUD] *******************/
+// [voters array] //
+// [UPDATE] Push + Pull //
+router.get('/validate/:id', async (req, res) => {
+	let existance = false
+
+	if (mongodb.ObjectID.isValid(req.params.id)) {
+		const blocks = await loadBlocksCollection()
+
+		let retrievedData = await blocks.findOne(
+			{ _id: new mongodb.ObjectID(req.params.id) }
+		)
+
+		if (retrievedData) { existance = true }
+	}
+	
+	res.status(201).send(existance)
 })
 
 
