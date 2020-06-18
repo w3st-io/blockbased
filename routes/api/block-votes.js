@@ -19,9 +19,9 @@ const router = express.Router()
 /******************* [CRUD] *******************/
 // [CREATE] //
 router.post('/create', async (req, res) => {
-	const blocksVotes = await loadBlockVotesCollection()
+	const blockVotes = await loadBlockVotesCollection()
 
-	await blocksVotes.insertOne({
+	await blockVotes.insertOne({
 		createdAt: new Date(),
 		block_id: req.body.block_id,
 		user_id: req.body.user_id,
@@ -35,9 +35,9 @@ router.post('/create', async (req, res) => {
 
 // [DELETE] //
 router.delete('/delete/:user_id/:block_id', async (req, res) => {
-	const blocksVotes = await loadBlockVotesCollection()
+	const blockVotes = await loadBlockVotesCollection()
 
-	await blocksVotes.deleteMany({
+	await blockVotes.deleteMany({
 		block_id: req.params.block_id,
 		user_id: req.params.user_id,
 	})

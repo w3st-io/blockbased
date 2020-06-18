@@ -105,7 +105,7 @@
 			this.blocks.forEach(block => {
 				let load = { voteCount: block.voteCount, voted: false }
 
-				if (this.searchVoterInBlockArray(block.voters)) {
+				if (this.searchVotersArrayInBlock(block.voters)) {
 					load = { voteCount: block.voteCount, voted: true }
 				}
 
@@ -117,7 +117,7 @@
 		},
 
 		methods: {
-			searchVoterInBlockArray(blockVoters) {
+			searchVotersArrayInBlock(blockVoters) {
 				// Search For Voters Id in Block's Object //
 				let found = blockVoters.find((voter) => (
 					voter.username == this.username
@@ -146,7 +146,6 @@
 					// Enable Buttons //
 					this.disabled = false
 				}
-				
 			},
 
 			voteIconAndCountHandler(block_id) {

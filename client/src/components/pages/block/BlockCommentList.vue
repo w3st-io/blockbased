@@ -36,9 +36,11 @@
 						<button class="py-0 btn btn-sm text-danger">report</button>
 						<button
 							:disabled="disabled"
+							@click="voteToggle(comment._id)"
 							class=" btn btn-outline-secondary unvoted"
+							:class="{ 'voted': votesReplica[comment._id].voted }"
 						>
-							{{ 100 }} ▲
+							{{ votesReplica[comment._id].voteCount }} ▲
 						</button>
 					</div>
 				</div>
@@ -50,6 +52,7 @@
 <script>
 	// [IMPORT] Personal //
 	import CommentService from '@services/CommentService'
+	import CommentVotesService from '@services/CommentVotesService'
 	
 	// [EXPORT] //
 	export default {
@@ -106,12 +109,120 @@
 			}
 			catch(e) { this.error = e }
 
+			// Create/store "votesReplica" //
+			this.comments.forEach(comment => {
+				let load = { voteCount: comment.voteCount, voted: false }
+
+				if (this.searchVotersArrayInComment(comment.voters)) {
+					load = { voteCount: comment.voteCount, voted: true }
+				}
+
+				this.votesReplica[comment._id] = load
+			})
+
+			// [LOG] //
 			this.log()
 		},
 
 		methods: {
-			owned() {
-				return false
+			searchVotersArrayInComment(commentVoters) {
+				// Search For Voters Id in Block's Object //
+				let found = commentVoters.find((voter) => (
+					voter.username == this.username
+				))
+
+				if (found) { return true }
+				else { return false }
+			},
+
+			voteToggle(comment_id) {
+				// [LOG REQUIRED] //
+				if (localStorage.usertoken) {
+					// Disable Buttons //
+					this.disabled = true
+
+					// Set Replica Icon and Count // Rerender Blocks //
+					this.voteIconAndCountHandler(comment_id)
+					this.getComments()
+
+					// Conditional DB Actions //
+					if (this.votesReplica[comment_id].voted) {
+						this.addVote(comment_id)
+					}
+					else { this.removeVote(comment_id) }
+
+					// Enable Buttons //
+					this.disabled = false
+				}
+			},
+
+			async addVote(comment_id) {
+				// [CREATE] Like in "CommentVotes" Colelction //
+				try {
+					await CommentVotesService.addCommentVote(
+						comment_id,
+						this.block_id,
+						this.user_id,
+						this.email,
+						this.username,
+					)
+				}
+				catch(e) { this.error = e }
+
+				// [UPDATE] Block Object //
+				try {
+					await CommentService.addVote(
+						comment_id,
+						this.user_id,
+						this.email,
+						this.username,
+					)
+				}
+				catch(e) { this.error = e }
+			},
+
+			async removeVote(comment_id) {
+				// [DELETE] Like in "CommentVotes" Collection //
+				try {
+					await CommentVotesService.removeCommentVote(
+						comment_id,
+						this.user_id,
+					)
+				}
+				catch(e) { this.error = e }
+						
+
+				// [UPDATE] Block Object //
+				try {
+					await CommentService.removeVote(
+						comment_id,
+						this.user_id,
+					)
+				}
+				catch(e) { this.error = e }
+			},
+
+			voteIconAndCountHandler(comment_id) {
+				this.votesReplica[comment_id].voted = !this.votesReplica[comment_id].voted
+
+				if (this.votesReplica[comment_id].voted) {
+					this.votesReplica[comment_id].voteCount++
+				}
+				else {
+					this.votesReplica[comment_id].voteCount--
+				} 
+			},
+
+			async getComments() {
+				// [UPDATE] Comments //
+				try {
+					this.comments = await CommentService.getAllComments(
+						this.block_id,
+						this.amountPerPage,
+						this.pageIndex
+					)
+				}
+				catch(e) { this.error = e }
 			},
 
 			log() {
@@ -122,6 +233,8 @@
 				console.log('email:', this.email)
 				console.log('username:', this.username)
 				console.log('Comments:', this.comments)
+				console.log('votesReplica:', this.votesReplica)
+				if (this.error) { console.error('error:', this.error) }
 			},
 		}
 	}

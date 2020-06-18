@@ -1,12 +1,12 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%% *
- * %%% BLOCK SERVICES %%% *
- * %%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% BLOCK VOTES SERVICES %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [IMPORT] //
 import axios from 'axios'
 
-class BlockService {
+class BlockVotesService {
 	/******************* [CRUD] *******************/
 
 	/******************* [OTHER CRUD] *******************/
@@ -31,4 +31,4 @@ class BlockService {
 
 
 // [EXPORT] //
-export default BlockService
+export default BlockVotesService
