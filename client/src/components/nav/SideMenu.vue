@@ -49,7 +49,7 @@
 	}
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 	.nav-drawer-menu {
 		position: fixed;
 		top: 0;
@@ -65,8 +65,9 @@
 	.nav-drawer-menu button {
 		transition: 0.3s;
 		font-size: 2em;
+
+		&:hover { background: #212529; }
 	}
-	.nav-drawer-menu button:hover { background: #212529; }
 	
 	.isOpen { width: 75%; }
 </style>

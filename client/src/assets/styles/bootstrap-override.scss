@@ -1,3 +1,8 @@
+
+// [IMPORT] //
+@import 'bootstrap/scss/bootstrap.scss';
+
+// [IMPORT] Personal //
 @import './sass-variables.scss';
 
 // [OVERRIDES] //
@@ -16,22 +21,23 @@
 	color: $white;
 	background-color: $ethereum;
 	border-color: $ethereum;
-}
-.btn-info:hover {
-	color: $white;
-	background-color: $ethereum-hover;
-	border-color: $ethereum-hover;
+	&:hover {
+		color: $white;
+		background-color: $ethereum-hover;
+		border-color: $ethereum-hover;
+	}
 }
 
 // BTN OUTLINE INFO //
 .btn-outline-info {
 	color: $ethereum;
 	border-color: $ethereum;
-}
-.btn-outline-info:hover {
-	color: $white;
-	background-color: $ethereum;
-	border-color: $ethereum;
+
+	&:hover {
+		color: $white;
+		background-color: $ethereum;
+		border-color: $ethereum;
+	}
 }
 
 // TEXT INFO //

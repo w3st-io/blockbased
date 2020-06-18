@@ -148,17 +148,6 @@
 				}
 			},
 
-			voteIconAndCountHandler(block_id) {
-				this.votesReplica[block_id].voted = !this.votesReplica[block_id].voted
-
-				if (this.votesReplica[block_id].voted) {
-					this.votesReplica[block_id].voteCount++
-				}
-				else {
-					this.votesReplica[block_id].voteCount--
-				} 
-			},
-
 			async addVote(block_id) {
 				// [CREATE] Like in "blockVotes" Colelction //
 				// [UPDATE] Block Object //
@@ -204,6 +193,17 @@
 				catch(e) { this.error = e }
 			},
 
+			voteIconAndCountHandler(block_id) {
+				this.votesReplica[block_id].voted = !this.votesReplica[block_id].voted
+
+				if (this.votesReplica[block_id].voted) {
+					this.votesReplica[block_id].voteCount++
+				}
+				else {
+					this.votesReplica[block_id].voteCount--
+				} 
+			},
+
 			async getBlocks() {
 				// [UPDATE] //
 				try {
@@ -238,23 +238,27 @@
 </script>
 
 <style lang='scss' scoped>
-	// Import Bootstrap and Bootstrap Override //
-	@import 'bootstrap/scss/bootstrap.scss';
+	// [IMPORT] Personal //
 	@import '../../../assets/styles/bootstrap-override.scss';
 
 	li {
 		list-style: none;
 		color: $dark;
+
+		&:hover { @extend .bg-info; }
 	}
-	li:hover { @extend .bg-info; }
-	li:nth-child(even) { background: $grey; }
-	li:nth-child(even):hover { @extend .bg-info; }
+	
+	li:nth-child(even) {
+		background: $grey;
+		&:hover { @extend .bg-info; }
+	}
 
 	.unvoted {
 		color: $white;
 		font-size: 1em;
+
+		&:hover { color: $like; }
 	}
-	.unvoted:hover { color: $like; }
 
 	.voted { color: $like; }
 </style>

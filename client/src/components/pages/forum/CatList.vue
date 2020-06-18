@@ -65,14 +65,17 @@
 </script>
 
 <style lang="scss" scoped>
-	// Import Bootstrap and Bootstrap Override //
-	@import 'bootstrap/scss/bootstrap.scss';
+	// [IMPORT] Personal //
 	@import '../../../assets/styles/bootstrap-override.scss';
 
-	li { @extend .bg-dark; }
-	li:hover { @extend .bg-info; }
-	li:nth-child(even) { background: $grey; }
-	li:nth-child(even):hover { @extend .bg-info; }
+	li {
+		@extend .bg-dark;
+		&:hover { @extend .bg-info; }
+	}
+	li:nth-child(even) {
+		background: $grey;
+		&:hover { @extend .bg-info; }
+	}
 
 	.custom-font-size { font-size: 16px; }
 

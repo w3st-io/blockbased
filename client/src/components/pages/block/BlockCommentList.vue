@@ -241,8 +241,7 @@
 </script>
 
 <style lang="scss" scoped>
-	// Import Bootstrap and Bootstrap Override //
-	@import 'bootstrap/scss/bootstrap.scss';
+	// [IMPORT] Personal //
 	@import '../../../assets/styles/bootstrap-override.scss';
 
 	li { list-style: none; }
@@ -254,8 +253,9 @@
 	.unvoted {
 		font-size: 1em;
 		color: $white;
+
+		&:hover { color: $like; }
 	}
-	.unvoted:hover { color: $like; }
 
 	.voted { color: $like; }
 </style>

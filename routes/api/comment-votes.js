@@ -36,8 +36,6 @@ router.post('/create', async (req, res) => {
 
 // [DELETE] //
 router.delete('/delete/:user_id/:comment_id', async (req, res) => {
-
-	console.log('user', req.params.user_id, 'comment', req.params.comment_id)
 	const commentVotes = await loadCommentVotesCollection()
 
 	await commentVotes.deleteMany({
