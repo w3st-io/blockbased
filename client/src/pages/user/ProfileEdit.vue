@@ -1,30 +1,35 @@
 <template>
 	<div class="container">
-		<div class="row">
-			<!-- Main Content -->
-			<section class="col-12 mt-4">
-				<div class="card card-body bg-dark">
-					<h4 class="text-light mb-2">Your Profile</h4>
-
-					<table class="w-100 table-sm table-dark">
-						<tr>
-							<td class="w-25">Name</td>
-							<td>{{ first_name }} {{ last_name }}</td>
-						</tr>
-						<tr>
-							<td>Username</td>
-							<td>{{ username }}</td>
-						</tr>
-						<tr>
-							<td>Email</td>
-							<td>{{ email }}</td>
-						</tr>
-					</table>
-				</div>
-			</section>
+		<div v-if="loading" class="row my-3 alert alert-warning">
+			Loading..
 		</div>
 
-		<button class="mt-3 btn btn-secondary">Edit Your Profile</button>
+		<div v-if="!loading" class="row">
+			<div class="my-3 card card-body bg-dark">
+				
+				<label for="profilePicURL" class="text-light">Profile Pic Url</label>
+				<input
+					name="profilePicURL"
+					type="text"
+					class="my-2 form-control"
+					v-model="imgUrl"
+				>
+
+				<div class="w-100 p-3 text-center">
+					<img
+						:src="imgUrl"
+						alt="Profile Pic Here"
+						class="border border-warning"
+						style="width: 200px;"
+					>
+				</div>
+
+				<button
+					@click="updateUserProfileData()"
+					class="w-100 btn btn-secondary"
+				>Edit Your Profile</button>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -37,12 +42,10 @@
 	export default {
 		data: function() {
 			return {
+				loading: true,
+				userTokenData: {},
 				userProfileData: {},
-				user_id: '',
-				email: '',
-				username: '',
-				first_name: '',
-				last_name: '',
+				imgUrl: '',
 			}
 		},
 
@@ -52,26 +55,49 @@
 				router.push({ name: 'Dashboard' })
 			}
 
-			// Retrieve User Data //
+			// Retrieve User Token Decode Data //
 			try {
-				this.userProfileData = await UserService.getUserProfileData()
+				this.userTokenData = await UserService.getUserTokenDecodeData()
 			}
 			catch(e) { this.error = e }
 
-			this.user_id = this.userProfileData._id
-			this.email = this.userProfileData.email
-			this.username = this.userProfileData.username
-			this.first_name = this.userProfileData.first_name
-			this.last_name = this.userProfileData.last_name
+			// Retrieve User Profile Data //
+			try {
+				this.userProfileData = await UserService.getUserProfileData(
+					this.userTokenData._id
+				)
+			}
+			catch(e) { this.error = e }
+
+			// Set Image //
+			this.imgUrl = this.userProfileData.profilePicURL
+
+			// Enable Loading //
+			this.loading = false
 
 			// [LOG] //
 			this.log()
 		},
 
 		methods: {
+			async updateUserProfileData() {
+				try {
+					await UserService.updateUserProfileData(
+						this.userProfileData._id,
+						this.imgUrl,
+					)
+				}
+				catch(e) { this.error = e }
+
+				// [REDIRECT] //
+				router.push({ path: '/profile' })
+			},
+
 			log() {
 				console.log('%%% [PAGE] User Profile %%%')
+				console.log('userTokenData:', this.userTokenData)
 				console.log('userProfileData:', this.userProfileData)
+				console.log('imgUrl:', this.imgUrl)
 			},
 		},
 	}

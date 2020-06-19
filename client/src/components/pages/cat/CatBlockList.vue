@@ -103,13 +103,13 @@
 
 			// Create/store "votesReplica" //
 			this.blocks.forEach(block => {
-				let load = { voteCount: block.voteCount, voted: false }
+				let insert = { voteCount: block.voteCount, voted: false }
 
 				if (this.searchVotersArrayInBlock(block.voters)) {
-					load = { voteCount: block.voteCount, voted: true }
+					insert = { voteCount: block.voteCount, voted: true }
 				}
 
-				this.votesReplica[block._id] = load
+				this.votesReplica[block._id] = insert
 			})
 
 			// [LOG] //

@@ -46,6 +46,10 @@
 				</div>
 			</li>
 		</ul>
+
+		<div v-if="loading" class="my-3 alert alert-warning">
+			<h4 class="w-100 m-0 text-center">Loading..</h4>
+		</div>
 	</section>
 </template>
 
@@ -90,6 +94,7 @@
 
 		data: function() {
 			return {
+				loading: true,
 				upvotes: 1,
 				disabled: false,
 				comments: [],
@@ -111,14 +116,17 @@
 
 			// Create/store "votesReplica" //
 			this.comments.forEach(comment => {
-				let load = { voteCount: comment.voteCount, voted: false }
+				let insert = { voteCount: comment.voteCount, voted: false }
 
 				if (this.searchVotersArrayInComment(comment.voters)) {
-					load = { voteCount: comment.voteCount, voted: true }
+					insert = { voteCount: comment.voteCount, voted: true }
 				}
 
-				this.votesReplica[comment._id] = load
+				this.votesReplica[comment._id] = insert
 			})
+
+			// Disable Loading //
+			this.loading = false
 
 			// [LOG] //
 			this.log()

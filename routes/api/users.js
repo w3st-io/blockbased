@@ -16,6 +16,40 @@ const router = express.Router().use(cors())
 const secretKey = process.env.SECRET_KEY || 'secret'
 
 
+/******************* [USER PROFILE] *******************/
+// [voters array] //
+// [UPDATE] Push + Pull //
+router.get('/read/profile-data/:id', async (req, res) => {
+	const users = await loadUsersCollection()
+
+	let retrievedData = await users.findOne(
+		{ _id: new mongodb.ObjectID(req.params.id) }
+	)
+	
+	res.status(201).send(retrievedData)
+})
+
+
+router.post('/update/profile-data/:id', async (req, res) => {
+	const users = await loadUsersCollection()
+
+	console.log('sdf',req.body.url)
+	users.findOneAndUpdate(
+		{ _id: new mongodb.ObjectID(req.params.id) },
+		{
+			$set: {
+				profilePicURL: req.body.url,
+				
+			}
+		},
+		{ upsert: true }
+	)
+
+	res.status(201).send()
+})
+
+
+/******************* [USER LOGIN/REGISTER] *******************/
 // [POST] Login //
 router.post('/login', async (req, res) => {
 	const users = await loadUsersCollection()
@@ -37,7 +71,7 @@ router.post('/login', async (req, res) => {
 				// Set Token //
 				let token = jwt.sign(payload, secretKey, { expiresIn: 1440 })
 
-				res.json({ status: 'success', token: token }).send()
+				res.status(201).json({ status: 'success', token: token }).send()
 			}
 			else { res.json({ status: 'incorrect_password' }).send() }
 		}

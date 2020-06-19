@@ -10,7 +10,7 @@ import axios from 'axios'
 /*** [CLASS] AdminService ***/
 class AdminService {
 	// [FUNCTION] Get User Profile Stuff //
-	static getAdminProfileData() {
+	static getAdminTokenDecodeData() {
 		let decoded = {}
 
 		if (localStorage.admintoken) {

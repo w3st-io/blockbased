@@ -5,7 +5,7 @@
 			<section class="col-12 col-md-3 mt-4 hidden-768">
 				<div class="card card-body bg-dark">
 					<img
-						:src="profilePicUrl"
+						:src="userProfileData.profilePicURL"
 						alt="Profile Image Here"
 						class="w-100"
 					>
@@ -20,22 +20,25 @@
 					<table class="w-100 table-sm table-dark">
 						<tr>
 							<td class="w-25">Name</td>
-							<td>{{ userProfileData.first_name }} {{ userProfileData.last_name }}</td>
+							<td>{{ userTokenData.first_name }} {{ userTokenData.last_name }}</td>
 						</tr>
 						<tr>
 							<td>Username</td>
-							<td>{{ userProfileData.username }}</td>
+							<td>{{ userTokenData.username }}</td>
 						</tr>
 						<tr>
 							<td>Email</td>
-							<td>{{ userProfileData.email }}</td>
+							<td>{{ userTokenData.email }}</td>
 						</tr>
 					</table>
+
+					<button
+						@click="redirectProfileEdit()"
+						class="w-100 mt-3 btn btn-secondary"
+					>Edit Your Profile</button>
 				</div>
 			</section>
 		</div>
-
-		<button class="mt-3 btn btn-secondary">Edit Your Profile</button>
 	</div>
 </template>
 
@@ -48,6 +51,7 @@
 	export default {
 		data: function() {
 			return {
+				userTokenData: {},
 				userProfileData: {},
 			}
 		},
@@ -58,9 +62,15 @@
 				router.push({ name: 'Dashboard' })
 			}
 
-			// Retrieve User Data //
+			// Retrieve User Token Decode Data //
 			try {
-				this.userProfileData = await UserService.getUserProfileData()
+				this.userTokenData = await UserService.getUserTokenDecodeData()
+			}
+			catch(e) { this.error = e }
+
+			// Retrieve User Profile Data //
+			try {
+				this.userProfileData = await UserService.getUserProfileData(this.userTokenData._id)
 			}
 			catch(e) { this.error = e }
 
@@ -69,8 +79,13 @@
 		},
 
 		methods: {
+			redirectProfileEdit() {
+				router.push({ path: '/profile/edit' })
+			},
+
 			log() {
 				console.log('%%% [PAGE] User Profile %%%')
+				console.log('userTokenData:', this.userTokenData)
 				console.log('userProfileData:', this.userProfileData)
 			},
 		},

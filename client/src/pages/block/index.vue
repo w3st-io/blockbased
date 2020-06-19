@@ -59,6 +59,7 @@
 
 		data: function() {
 			return {
+				loading: true,
 				block_id: this.$route.params.block_id,
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),

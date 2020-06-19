@@ -52,7 +52,7 @@
 
 			// Retrieve User Data //
 			try {
-				this.adminProfileData = await AdminService.getAdminProfileData()
+				this.adminProfileData = await AdminService.getAdminTokenDecodeData()
 			}
 			catch(e) { this.error = e }
 

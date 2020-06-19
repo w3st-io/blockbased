@@ -9,8 +9,10 @@ import axios from 'axios'
 
 /*** [CLASS] UserService ***/
 class UserService {
-	// [READ] Get User Profile Data //
-	static getUserProfileData() {
+
+	/******************* [USER PROFILE] *******************/
+	// [TOKEN DECODE] //
+	static getUserTokenDecodeData() {
 		let decoded = {}
 
 		if (localStorage.usertoken) {
@@ -29,7 +31,23 @@ class UserService {
 		return decoded
 	}
 
+
+	static async getUserProfileData(user_id) {
+		console.log(user_id)
+		let profileData = await axios.get(`/api/users/read/profile-data/${user_id}`)
+
+		return profileData.data
+	}
+
+	static async updateUserProfileData(user_id, url) {
+		console.log(user_id, url)
+		return await axios.post(`/api/users/update/profile-data/${user_id}`,
+			{ url }
+		)
+	}
+
 	
+	/******************* [USER LOGIN/REGISTER] *******************/
 	// [LOGIN] //
 	static login(email, password) {
 		let result = new Promise ((resolve, reject) => {
