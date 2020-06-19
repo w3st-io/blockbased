@@ -24,24 +24,34 @@
 					</div>
 				</article>
 
-				<!-- Time Stamp -->
 				<div class="w-100 p-2 d-flex border-top border-bottom border-secondary text-light">
+					<!-- Time Stamp -->
 					<div class="w-50 m-0 float-left small text-secondary">
 						{{ new Date(comment.createdAt) }}
 						
 					</div>
+
+					<!-- Buttons -->
 					<div class="w-50 m-0 float-right small text-right text-secondary">
-						<button class="py-0 btn btn-sm text-secondary">edit</button>
-						<button class="py-0 btn btn-sm text-danger">delete</button>
-						<button class="py-0 btn btn-sm text-danger">report</button>
+						<button
+							v-if="doesUserOwnThisComment(comment.user_id)"
+							class="py-0 btn btn-sm text-secondary"
+						>edit</button>
+						<button
+							v-if="doesUserOwnThisComment(comment.user_id)"
+							class="py-0 btn btn-sm text-danger"
+						>delete</button>
+						<button
+							v-else
+							class="py-0 btn btn-sm text-danger"
+						>report</button>
+						
 						<button
 							:disabled="disabled"
 							@click="voteToggle(comment._id)"
-							class=" btn btn-outline-secondary unvoted"
+							class="btn btn-outline-secondary unvoted"
 							:class="{ 'voted': votesReplica[comment._id].voted }"
-						>
-							{{ votesReplica[comment._id].voteCount }} ▲
-						</button>
+						>{{ votesReplica[comment._id].voteCount }} ▲</button>
 					</div>
 				</div>
 			</li>
@@ -133,6 +143,11 @@
 		},
 
 		methods: {
+			doesUserOwnThisComment(user_id) {
+				if (user_id == this.user_id) return true
+				else return false 
+			},
+
 			searchVotersArrayInComment(commentVoters) {
 				// Search For Voters Id in Block's Object //
 				let found = commentVoters.find((voter) => (

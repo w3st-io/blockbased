@@ -19,11 +19,11 @@
 					</div>
 
 					<!-- Vote -->
-					<div class="float-right w-25 text-right">
+					<div class="float-right w-25 text-right" v-on:click="redirectToBlock(block._id)">
 						<h4 class="text-white m-2">
 							<button
 								:disabled="disabled"
-								@click="voteToggle(block._id)"
+								@click.prevent.stop="voteToggle(block._id)"
 								class="btn btn-outline-secondary unvoted"
 								:class="{ 'voted': votesReplica[block._id].voted }"
 							>

@@ -41,10 +41,10 @@
 
 			// Retrieve User Data //
 			try {
-				let userProfileData = await UserService.getUserProfileData()
-				this.user_id = userProfileData._id
-				this.email = userProfileData.email
-				this.username = userProfileData.username
+				let userTokenDecodeData = await UserService.getUserTokenDecodeData()
+				this.user_id = userTokenDecodeData._id
+				this.email = userTokenDecodeData.email
+				this.username = userTokenDecodeData.username
 			}
 			catch(e) { this.error = e }
 			

@@ -38,7 +38,7 @@
 		</article>
 
 		<div v-if="error" class="row mt-3 alert alert-warning">
-			<h4>Hey! This Block Doesnt Exist!</h4>
+			Hey! This Block Doesnt Exist!
 		</div>
 	</section>
 </template>
@@ -96,7 +96,7 @@
 				EventBus.$on('block-next', () => { this.nextPage() })
 
 				// [LOG] //
-				this.log()
+				//this.log()
 			}
 			else {
 				this.error = 'Block Doesnt Exist!'
