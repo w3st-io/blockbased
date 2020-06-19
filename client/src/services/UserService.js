@@ -33,7 +33,6 @@ class UserService {
 
 
 	static async getUserProfileData(user_id) {
-		console.log(user_id)
 		let profileData = await axios.get(`/api/users/read/profile-data/${user_id}`)
 
 		return profileData.data

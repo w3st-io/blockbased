@@ -46,6 +46,7 @@
 
 		data: function() {
 			return {
+				userTokenDecodeData: {},
 				cat_id: this.$route.params.cat_id,
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),
@@ -59,10 +60,10 @@
 		created: async function() {
 			// Retrieve User Data //
 			try {
-				let userProfileData = UserService.getUserProfileData()
-				this.user_id = userProfileData._id
-				this.email = userProfileData.email
-				this.username = userProfileData.username
+				let userTokenDecodeData = UserService.getUserTokenDecodeData()
+				this.user_id = userTokenDecodeData._id
+				this.email = userTokenDecodeData.email
+				this.username = userTokenDecodeData.username
 			}
 			catch(e) { this.error = e }
 

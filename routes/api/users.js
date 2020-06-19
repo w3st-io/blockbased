@@ -20,6 +20,10 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 // [voters array] //
 // [UPDATE] Push + Pull //
 router.get('/read/profile-data/:id', async (req, res) => {
+	let valid = mongodb.ObjectID.isValid(req.params.id)
+	if (valid) { console.log('valid') }
+	else { console.log('invalid') }
+
 	const users = await loadUsersCollection()
 
 	let retrievedData = await users.findOne(
@@ -33,7 +37,6 @@ router.get('/read/profile-data/:id', async (req, res) => {
 router.post('/update/profile-data/:id', async (req, res) => {
 	const users = await loadUsersCollection()
 
-	console.log('sdf',req.body.url)
 	users.findOneAndUpdate(
 		{ _id: new mongodb.ObjectID(req.params.id) },
 		{

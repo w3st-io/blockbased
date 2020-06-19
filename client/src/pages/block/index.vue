@@ -60,6 +60,7 @@
 		data: function() {
 			return {
 				loading: true,
+				userTokenDecodeData: {},
 				block_id: this.$route.params.block_id,
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),
@@ -73,16 +74,17 @@
 		created: async function() {
 			// Retrieve User Data //
 			try {
-				let userProfileData = await UserService.getUserProfileData()
-				this.user_id = userProfileData._id
-				this.email = userProfileData.email
-				this.username = userProfileData.username
+				this.userTokenDecodeData = await UserService.getUserTokenDecodeData()
+				this.user_id = this.userTokenDecodeData._id
+				this.email = this.userTokenDecodeData.email
+				this.username = this.userTokenDecodeData.username
 			}
 			catch(e) { this.error = e }
+
 			
 
 			// [--> EMMIT] block-prev, block-next //
-			EventBus.$on('block-prev', () => { this.prevPage() })
+			EventBus.$on('block-prev', () => { console.log('sd'); this.prevPage() })
 			EventBus.$on('block-next', () => { this.nextPage() })
 
 			// [LOG] //
@@ -90,6 +92,10 @@
 		},
 
 		methods: {
+			getUserProfileData() {
+				
+			},
+
 			prevPage() {
 				this.pageIndex++
 
