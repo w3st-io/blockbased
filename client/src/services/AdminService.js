@@ -9,15 +9,24 @@ import axios from 'axios'
 
 /*** [CLASS] AdminService ***/
 class AdminService {
-	// [FUNCTION] Get Email //
-	static getEmail() {
-		const token = localStorage.admintoken
+	// [FUNCTION] Get User Profile Stuff //
+	static getAdminProfileData() {
 		let decoded = {}
 
-		if (token != null) { decoded = jwtDecode(token) }
-		else { decoded = { email: '' } }
+		if (localStorage.admintoken) {
+			decoded = jwtDecode(localStorage.admintoken)
+		}
+		else {
+			decoded = {
+				_id: '',
+				email: '',
+				username: '',
+				first_name: '',
+				last_name: '',
+			}
+		}
 
-		return decoded.email
+		return decoded
 	}
 	
 

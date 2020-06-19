@@ -7,7 +7,7 @@
 		<!-- [FORM] Create Block -->
 		<ValidationObserver v-slot="{ handleSubmit }">
 			<form
-				@submit.prevent="handleSubmit(createBlock)"
+				@submit.prevent="handleSubmit(submit)"
 				class="my-4 card card-body bg-dark"
 			>
 				<!-- Text Input -->
@@ -71,25 +71,37 @@
 			}
 		},
 
-		created: function() {
+		created: async function() {
 			// [REDIRECT] Not Log Needed //
 			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
 
-			this.user_id = UserService.getUserId()
-			this.email = UserService.getEmail()
-			this.username = UserService.getUsername()
+			// Retrieve User Data //
+			try {
+				let userProfileData = await UserService.getUserProfileData()
+				this.user_id = userProfileData._id
+				this.email = userProfileData.email
+				this.username = userProfileData.username
+			}
+			catch(e) { this.error = e }
 
 			// [LOG] //
 			this.log()
 		},
 
 		methods: {
-			// [CREATE] Create Post Via PostService Function //
-			async createBlock() {
+			submit() {
 				// Disable Button // Set loading //
 				this.submitted = true
 				this.loading = true
+				
+				this.createBlock()
 
+				// [REDIRECT] Cat Page //
+				router.push({ name: 'Cat', params: { cat_id: this.cat_id, page: 1 } })
+			},
+
+			// [CREATE] Create Post Via PostService Function //
+			async createBlock() {
 				try {
 					await BlockService.createBlock(
 						this.user_id,
@@ -98,9 +110,6 @@
 						this.title,
 						this.cat_id
 					)
-
-					// [REDIRECT] Cat Page //
-					router.push({ name: 'Cat', params: { cat_id: this.cat_id, page: 1 } })
 				}
 				catch(e) {
 					this.loading = false

@@ -89,7 +89,7 @@
 
 		created: async function() { 
 			// Check if Block exists.. //
-			this.blockExistance = await this.validate()
+			this.blockExistance = await this.validateExistance()
 
 			this.log()
 		},
@@ -135,10 +135,12 @@
 				}
 			},
 
-			async validate() {
+			async validateExistance() {
 				let status = false
 
-				try { status = await BlockService.validate(this.block_id) } 
+				try {
+					status = await BlockService.validateExistance(this.block_id)
+				} 
 				catch(e) { this.error = e }
 
 				return status

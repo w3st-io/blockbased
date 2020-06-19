@@ -14,6 +14,7 @@ import CatBlockCreate from '@pages/cat/CatBlockCreate'
 import Forum from '@pages/Forum'
 import Login from '@pages/user/Login'
 import Profile from '@pages/user/Profile'
+import ProfileEdit from '@pages/user/ProfileEdit'
 import Register from '@pages/user/Register'
 import NotFound from '@pages/404'
 import z from '@pages/z'
@@ -132,6 +133,15 @@ export default new Router ({
 			meta: {
 				auth: true,
 				title: 'Your Profile'
+			}
+		},
+		{
+			path: '/profile/edit',
+			name: 'ProfileEdit',
+			component: ProfileEdit,
+			meta: {
+				auth: true,
+				title: 'Edit Your Profile'
 			}
 		},
 		{

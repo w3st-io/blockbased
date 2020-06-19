@@ -35,14 +35,18 @@
 			}
 		},
 
-		created: function() {
+		created: async function() {
 			// [REDIRECT] Log Needed //
 			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
 
-			// Retrieve Email //
-			this.user_id = UserService.getUserId()
-			this.email = UserService.getEmail()
-			this.username = UserService.getUsername()
+			// Retrieve User Data //
+			try {
+				let userProfileData = await UserService.getUserProfileData()
+				this.user_id = userProfileData._id
+				this.email = userProfileData.email
+				this.username = userProfileData.username
+			}
+			catch(e) { this.error = e }
 			
 			// [LOG] //
 			this.log()

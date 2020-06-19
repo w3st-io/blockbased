@@ -6,20 +6,24 @@
 
 		<table class="w-100 table table-borderless rounded table-dark bg-secondary">
 			<tr>
-				<td>First Name</td>
-				<td>{{ first_name }}</td>
-			</tr>
-			<tr>
-				<td>Last Name</td>
-				<td>{{ last_name }}</td>
+				<td>Admin Id</td>
+				<td>{{ adminProfileData._id }}</td>
 			</tr>
 			<tr>
 				<td>Username</td>
-				<td>{{ username }}</td>
+				<td>{{ adminProfileData.username }}</td>
 			</tr>
 			<tr>
 				<td>Email</td>
-				<td>{{ email }}</td>
+				<td>{{ adminProfileData.email }}</td>
+			</tr>
+			<tr>
+				<td>First Name</td>
+				<td>{{ adminProfileData.first_name }}</td>
+			</tr>
+			<tr>
+				<td>Last Name</td>
+				<td>{{ adminProfileData.last_name }}</td>
 			</tr>
 		</table>
 
@@ -28,29 +32,39 @@
 </template>
 
 <script>
-	// [IMPORT] //
-	import jwtDecode from 'jwt-decode'
+	// [IMPORT] Personal //
 	import router from '@router'
+	import AdminService from '@services/AdminService'
 
 	// [EXPORT] //
 	export default {
 		data: function() {
-			// [INIT]
-			const token = localStorage.admintoken
-			const decoded = jwtDecode(token)
-
-			// [RETURN]
 			return {
-				first_name: decoded.first_name,
-				last_name: decoded.last_name,
-				username: decoded.username,
-				email: decoded.email,
+				adminProfileData: {},
 			}
 		},
 
-		created: function() {
+		created: async function() {
 			// [REDIRECT] Log Required //
-			if (!localStorage.admintoken) { router.push({ name: 'Dashboard' }) }
+			if (!localStorage.admintoken) {
+				router.push({ name: 'Dashboard' })
+			}
+
+			// Retrieve User Data //
+			try {
+				this.adminProfileData = await AdminService.getAdminProfileData()
+			}
+			catch(e) { this.error = e }
+
+			// [LOG] //
+			this.log()
+		},
+
+		methods: {
+			log() {
+				console.log('%%% [PAGE] Admin Profile %%%')
+				console.log('adminProfileData:', this.adminProfileData)
+			},
 		},
 	}
 </script>

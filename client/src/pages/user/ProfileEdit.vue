@@ -1,34 +1,23 @@
 <template>
 	<div class="container">
 		<div class="row">
-			<!-- Side Content -->
-			<section class="col-12 col-md-3 mt-4 hidden-768">
-				<div class="card card-body bg-dark">
-					<img
-						:src="profilePicUrl"
-						alt="Profile Image Here"
-						class="w-100"
-					>
-				</div>
-			</section>
-
 			<!-- Main Content -->
-			<section class="col-12 col-md-9 mt-4">
+			<section class="col-12 mt-4">
 				<div class="card card-body bg-dark">
 					<h4 class="text-light mb-2">Your Profile</h4>
 
 					<table class="w-100 table-sm table-dark">
 						<tr>
 							<td class="w-25">Name</td>
-							<td>{{ userProfileData.first_name }} {{ userProfileData.last_name }}</td>
+							<td>{{ first_name }} {{ last_name }}</td>
 						</tr>
 						<tr>
 							<td>Username</td>
-							<td>{{ userProfileData.username }}</td>
+							<td>{{ username }}</td>
 						</tr>
 						<tr>
 							<td>Email</td>
-							<td>{{ userProfileData.email }}</td>
+							<td>{{ email }}</td>
 						</tr>
 					</table>
 				</div>
@@ -49,6 +38,11 @@
 		data: function() {
 			return {
 				userProfileData: {},
+				user_id: '',
+				email: '',
+				username: '',
+				first_name: '',
+				last_name: '',
 			}
 		},
 
@@ -63,6 +57,12 @@
 				this.userProfileData = await UserService.getUserProfileData()
 			}
 			catch(e) { this.error = e }
+
+			this.user_id = this.userProfileData._id
+			this.email = this.userProfileData.email
+			this.username = this.userProfileData.username
+			this.first_name = this.userProfileData.first_name
+			this.last_name = this.userProfileData.last_name
 
 			// [LOG] //
 			this.log()

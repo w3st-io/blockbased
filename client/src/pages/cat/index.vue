@@ -59,9 +59,10 @@
 		created: async function() {
 			// Retrieve User Data //
 			try {
-				this.user_id = await UserService.getUserId()
-				this.email = await UserService.getEmail()
-				this.username = await UserService.getUsername()
+				let userProfileData = UserService.getUserProfileData()
+				this.user_id = userProfileData._id
+				this.email = userProfileData.email
+				this.username = userProfileData.username
 			}
 			catch(e) { this.error = e }
 

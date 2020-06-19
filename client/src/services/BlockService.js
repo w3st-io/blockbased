@@ -91,7 +91,7 @@ class BlockService {
 	}
 
 	/******************* [VOTE CRUD] *******************/
-	static async validate(block_id) {
+	static async validateExistance(block_id) {
 		let valid = await axios.get(`/api/blocks/validate/${block_id}`)
 		
 		return valid.data
