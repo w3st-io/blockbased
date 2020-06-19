@@ -1,6 +1,6 @@
 <template>
 	<section class="container">
-		<article class="row">
+		<article v-if="existance" class="row">
 			<div class="col-12 my-4 card card-body bg-dark">
 				<!-- Title Header -->
 				<title-header
@@ -36,6 +36,10 @@
 				</div>
 			</div>
 		</article>
+
+		<div v-if="error" class="row mt-3 alert alert-warning">
+			<h4>Hey! This Block Doesnt Exist!</h4>
+		</div>
 	</section>
 </template>
 
@@ -45,6 +49,7 @@
 	import BlockCommentList from '@components/pages/block/BlockCommentList'
 	import TitleHeader from '@components/pages/block/TitleHeader'
 	import router from '@router'
+	import BlockService from '@services/BlockService'
 	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
 
@@ -59,6 +64,7 @@
 
 		data: function() {
 			return {
+				existance: false,
 				loading: true,
 				userTokenDecodeData: {},
 				block_id: this.$route.params.block_id,
@@ -72,30 +78,32 @@
 		},
 
 		created: async function() {
-			// Retrieve User Data //
-			try {
-				this.userTokenDecodeData = await UserService.getUserTokenDecodeData()
-				this.user_id = this.userTokenDecodeData._id
-				this.email = this.userTokenDecodeData.email
-				this.username = this.userTokenDecodeData.username
+			// Check if Block is valid
+			this.existance = await BlockService.validateExistance(this.block_id)
+
+			if (this.existance) {
+				// Retrieve User Data //
+				try {
+					this.userTokenDecodeData = await UserService.getUserTokenDecodeData()
+					this.user_id = this.userTokenDecodeData._id
+					this.email = this.userTokenDecodeData.email
+					this.username = this.userTokenDecodeData.username
+				}
+				catch(e) { this.error = e }
+
+				// [--> EMMIT] block-prev, block-next //
+				EventBus.$on('block-prev', () => { this.prevPage() })
+				EventBus.$on('block-next', () => { this.nextPage() })
+
+				// [LOG] //
+				this.log()
 			}
-			catch(e) { this.error = e }
-
-			
-
-			// [--> EMMIT] block-prev, block-next //
-			EventBus.$on('block-prev', () => { console.log('sd'); this.prevPage() })
-			EventBus.$on('block-next', () => { this.nextPage() })
-
-			// [LOG] //
-			this.log()
+			else {
+				this.error = 'Block Doesnt Exist!'
+			}
 		},
 
 		methods: {
-			getUserProfileData() {
-				
-			},
-
 			prevPage() {
 				this.pageIndex++
 
@@ -121,6 +129,7 @@
 			log() {
 				console.log('%%% [PAGE] Block %%%')
 				console.log('block_id:', this.block_id)
+				console.log('existance:', this.existance)
 				console.log('pageIndex:', this.pageIndex)
 				console.log('user_id:', this.user_id)
 				console.log('email:', this.email)

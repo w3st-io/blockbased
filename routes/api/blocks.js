@@ -126,9 +126,9 @@ router.post('/update/decrement-vote-count/:id', async (req, res) => {
 // [voters array] //
 // [UPDATE] Push + Pull //
 router.get('/validate/:id', async (req, res) => {
-	let existance = false
+	let existance = mongodb.ObjectID.isValid(req.params.id)
 
-	if (mongodb.ObjectID.isValid(req.params.id)) {
+	if (existance) {
 		const blocks = await loadBlocksCollection()
 
 		let retrievedData = await blocks.findOne(

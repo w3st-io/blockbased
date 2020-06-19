@@ -46,12 +46,10 @@
 
 		methods: {
 			leftBtn() {
-				console.log('leftBtnEmitName', this.leftBtnEmitName)
 				EventBus.$emit(this.leftBtnEmitName)
 			},
 
 			rightBtn() {
-				console.log('rightBtnEmitName', this.rightBtnEmitName)
 				EventBus.$emit(this.rightBtnEmitName)
 			},
 
