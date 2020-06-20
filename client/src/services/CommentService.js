@@ -58,9 +58,7 @@ class CommentService {
 	static updateComment(comment_id, comment) {
 		console.log('comment:',comment)
 		let result = new Promise ((resolve, reject) => {
-			axios.post(`/api/comments/comment/${comment_id}`, {
-				comment
-			})
+			axios.post(`/api/comments/update/${comment_id}`, { comment })
 				.then((res) => { resolve(res.data) })
 				.catch((err) => { reject(err) })
 		})

@@ -47,7 +47,7 @@
 
 	// [IMPORT] Personal //
 	import CommentService from '@services/CommentService'
-	//import router from '@router'
+	import router from '@router'
 
 	export default {
 		props: {
@@ -105,7 +105,23 @@
 
 			async validateExistance() {},
 
-			async updateComment() {},
+			async updateComment() {
+				try {
+					await CommentService.updateComment(this.comment_id, this.comment)
+
+					router.push(
+						{
+							name: 'Block',
+							params: {
+								block_id: this.commentDetails.block_id,
+								page: 1
+							}
+						}
+					)
+				}
+				catch(e) { this.error = e }
+				
+			},
 
 			log() {
 				console.log('%%% [COMPONENT] CommentEdit %%%')

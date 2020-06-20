@@ -35,6 +35,7 @@
 					<div class="w-50 m-0 float-right small text-right text-secondary">
 						<button
 							v-if="doesUserOwnThisComment(comment.user_id)"
+							@click="redirectToEdit(comment._id)"
 							class="py-0 btn btn-sm text-secondary"
 						>edit</button>
 						<button
@@ -66,6 +67,7 @@
 
 <script>
 	// [IMPORT] Personal //
+	import router from '@router'
 	import CommentService from '@services/CommentService'
 	import CommentVotesService from '@services/CommentVotesService'
 	
@@ -255,6 +257,16 @@
 				else {
 					this.votesReplica[comment_id].voteCount--
 				} 
+			},
+
+			/******************* [ROUTER] *******************/
+			redirectToEdit(comment_id) {
+				router.push(
+					{
+						name: 'CommentEdit',
+						params: { comment_id: comment_id, }
+					}
+				)
 			},
 
 			log() {

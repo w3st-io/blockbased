@@ -37,7 +37,8 @@
 				comment_id: this.$route.params.comment_id,
 				user_id: 'unset',
 				email: 'unset',
-				username: 'unset',	
+				username: 'unset',
+				error: '',
 			}
 		},
 
@@ -55,7 +56,7 @@
 			catch(e) { this.error = e }
 
 			// Set Loaded //
-			this.loaded = false
+			this.loading = false
 			
 			// [LOG] //
 			this.log()
