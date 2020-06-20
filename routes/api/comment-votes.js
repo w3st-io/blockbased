@@ -34,13 +34,24 @@ router.post('/create', async (req, res) => {
 })
 
 
-// [DELETE] //
+// [DELETE] User's Single Comment Vote //
 router.delete('/delete/:user_id/:comment_id', async (req, res) => {
 	const commentVotes = await loadCommentVotesCollection()
 
 	await commentVotes.deleteMany({
 		comment_id: req.params.comment_id,
 		user_id: req.params.user_id,
+	})
+
+	res.status(200).send()
+})
+
+// [DELETE ALL] Comment's All User Vote //
+router.delete('/delete-all/:comment_id', async (req, res) => {
+	const commentVotes = await loadCommentVotesCollection()
+
+	await commentVotes.deleteMany({
+		comment_id: req.params.comment_id,
 	})
 
 	res.status(200).send()

@@ -40,6 +40,7 @@
 						<button
 							v-if="doesUserOwnThisComment(comment.user_id)"
 							class="py-0 btn btn-sm text-danger"
+							@click="deleteComment(comment._id)"
 						>delete</button>
 						<button
 							v-else
@@ -207,7 +208,7 @@
 			async removeVote(comment_id) {
 				// [DELETE] Like in "CommentVotes" Collection //
 				try {
-					await CommentVotesService.removeCommentVote(
+					await CommentVotesService.removeUsersCommentVote(
 						comment_id,
 						this.user_id,
 					)
@@ -246,6 +247,12 @@
 					)
 				}
 				catch(e) { this.error = e }
+			},
+
+			async deleteComment(comment_id) {
+				await CommentVotesService.removeCommentVotes(comment_id)
+				await CommentService.deleteComment(comment_id)
+				this.getComments()
 			},
 
 			log() {

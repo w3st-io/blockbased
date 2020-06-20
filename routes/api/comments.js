@@ -35,7 +35,7 @@ router.post('/create', async (req, res) => {
 })
 
 
-// [READ] //
+// [READ-ALL] //
 router.get('/read-all/:block_id/:amountPerPage/:skip', async (req, res) => {
 	let skip = parseInt(req.params.skip)
 	let amountPerPage = parseInt(req.params.amountPerPage)
@@ -52,8 +52,38 @@ router.get('/read-all/:block_id/:amountPerPage/:skip', async (req, res) => {
 })
 
 
-/** [VoteCount number field] **/
-// [UPDATE] Increment + Decrement //
+/*** [UPDATE] Add event ***/
+router.post('/update/:id', async (req, res) => {
+	const comments = await loadCommentsCollection()
+
+	comments.findOneAndUpdate(
+		{ _id: new mongodb.ObjectID(req.params.id) },
+		{
+			$set: {
+				comment: req.body.comment,
+			}
+		},
+		{ upsert: true }
+	)
+
+	res.status(201).send()
+})
+
+
+/*** [DELETE] Delete Post ***/
+router.delete('/delete/:id', async (req, res) => {
+	const comments = await loadCommentsCollection()
+	
+	await comments.deleteOne(
+		{ _id: new mongodb.ObjectID(req.params.id) }
+	)
+
+	res.status(200).send()
+})
+
+
+/******************* [VOTE SYSTEM] *******************/
+// INCREMENT + DECREMENT VOTECOUNT //
 router.post('/update/increment-vote-count/:id', async (req, res) => {
 	const comments = await loadCommentsCollection()
 
@@ -77,9 +107,8 @@ router.post('/update/decrement-vote-count/:id', async (req, res) => {
 	res.status(201).send()
 })
 
-/******************* [OTHER CRUD] *******************/
-// [voters array] //
-// [UPDATE] Push + Pull //
+
+// PUSH/PULL USER FROM VOTERS ARRAY //
 router.post('/update/push-voter/:id', async (req, res) => {
 	const comments = await loadCommentsCollection()
 

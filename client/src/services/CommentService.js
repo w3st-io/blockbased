@@ -42,6 +42,12 @@ class CommentService {
 	}
 
 
+	// [READ-ALL] //
+	static deleteComment(comment_id) {
+		return axios.delete(`/api/comments/delete/${comment_id}`)		
+	}
+
+
 	/******************* [OTHER CRUD] *******************/
 	// [UPDATE] Vote System //
 	// ADD/REMOVE VOTE //

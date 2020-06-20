@@ -98,9 +98,7 @@
 				// [LOG] //
 				//this.log()
 			}
-			else {
-				this.error = 'Block Doesnt Exist!'
-			}
+			else { this.error = 'Block Doesnt Exist!' }
 		},
 
 		methods: {

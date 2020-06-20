@@ -50,7 +50,7 @@ router.get('/read-all/:cat_id/:amountPerPage/:skip', async (req, res) => {
 })
 
 
-// [READ] //
+// [READ] // This for Single Block Details //
 router.get(`/read/:block_id`, async (req, res) => {
 	const blocks = await loadBlocksCollection()
 	let retrievedData = await blocks.findOne(
@@ -61,9 +61,33 @@ router.get(`/read/:block_id`, async (req, res) => {
 })
 
 
-/******************* [VOTE CRUD] *******************/
-// [voters array] //
-// [UPDATE] Push + Pull //
+/******************* [VOTE SYSTEM] *******************/
+// INCREMENT + DECREMENT VOTECOUNT //
+router.post('/update/increment-vote-count/:id', async (req, res) => {
+	const blocks = await loadBlocksCollection()
+
+	blocks.findOneAndUpdate(
+		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ $inc: { voteCount: 1 } },
+		{ upsert: true }
+	)
+
+	res.status(201).send()
+})
+router.post('/update/decrement-vote-count/:id', async (req, res) => {
+	const blocks = await loadBlocksCollection()
+
+	blocks.findOneAndUpdate(
+		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ $inc: { voteCount: -1 } },
+		{ upsert: true }
+	)
+
+	res.status(201).send()
+})
+
+
+// PUSH/PULL USER FROM VOTERS ARRAY //
 router.post('/update/push-voter/:id', async (req, res) => {
 	const blocks = await loadBlocksCollection()
 
@@ -89,32 +113,6 @@ router.post('/update/pull-voter/:id', async (req, res) => {
 	blocks.updateOne(
 		{ _id: new mongodb.ObjectID(req.params.id) },
 		{ $pull: { voters: { user_id: req.body.user_id } } },
-		{ upsert: true }
-	)
-
-	res.status(201).send()
-})
-
-
-/** [VoteCount number field] **/
-// [UPDATE] Increment + Decrement //
-router.post('/update/increment-vote-count/:id', async (req, res) => {
-	const blocks = await loadBlocksCollection()
-
-	blocks.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params.id) },
-		{ $inc: { voteCount: 1 } },
-		{ upsert: true }
-	)
-
-	res.status(201).send()
-})
-router.post('/update/decrement-vote-count/:id', async (req, res) => {
-	const blocks = await loadBlocksCollection()
-
-	blocks.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params.id) },
-		{ $inc: { voteCount: -1 } },
 		{ upsert: true }
 	)
 
