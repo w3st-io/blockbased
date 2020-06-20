@@ -66,8 +66,7 @@ class BlockService {
 	*/
 
 
-	/******************* [VOTE CRUD] *******************/
-	// [UPDATE] Vote System //
+	/******************* [VOTE SYSTEM] *******************/
 	// ADD/REMOVE VOTE //
 	static async addVote(block_id, user_id, email, username) {
 		// Increment the voteCount //
@@ -90,11 +89,17 @@ class BlockService {
 		})
 	}
 
-	/******************* [VOTE CRUD] *******************/
+	/******************* [OTHER] *******************/
 	static async validateExistance(block_id) {
 		let valid = await axios.get(`/api/blocks/validate/${block_id}`)
 		
 		return valid.data
+	}
+
+	static async countBlocksForCat(cat_id) {
+		let count = await axios.get(`/api/blocks/count/${cat_id}`)
+
+		return count.data
 	}
 }
 

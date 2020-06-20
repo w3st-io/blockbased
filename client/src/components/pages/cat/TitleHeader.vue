@@ -3,9 +3,7 @@
 		<!-- Left Side -->
 		<div class="w-50 float-left">
 			<!-- Title -->
-			<h3 class="text-light">
-				{{ cat_id }}
-			</h3>
+			<h3 class="text-light">{{ cat_id }}</h3>
 
 			<div class="w-50">
 				<!-- Page Nav Buttons -->

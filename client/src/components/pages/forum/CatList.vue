@@ -29,14 +29,14 @@
 					<div class="w-25 float-left text-center hidden-768">
 						<p class="badge badge-light text-info">
 							<span class="m-0 custom-font-size">
-								{{ totalBlocks = "--" }}<br>
+								<p v-if="!loading" class="m-0">
+									{{ totals[cat.cat_id] }}
+								</p>
 								<span class="small">Posts</span>
 							</span>
 						</p>
 					</div>
 				</div>
-
-				
 			</article>
 		</li>
 	</ul>
@@ -45,6 +45,7 @@
 <script>
 	// [IMPORT] Personal //
 	import router from '@router'
+	import BlockService from '@services/BlockService'
 
 	// [EXPORT] //
 	export default {
@@ -55,11 +56,43 @@
 			}
 		},
 
+		data: function() {
+			return {
+				loading: true,
+				totals: {},
+			}
+		},
+
+		created: async function() {
+			// Get Totals //
+			for (let i = 0; i < this.cats.length; i++) {
+				this.totals[this.cats[i].cat_id] = await this.totalBlocks(
+					this.cats[i].cat_id
+				)
+			}
+
+			// Disable Loading //
+			this.loading = false
+
+			// [LOG] //
+			this.log()
+		},
+
 		methods: {
+			async totalBlocks(cat_id) {
+				let count = await BlockService.countBlocksForCat(cat_id)
+
+				return count
+			},
+
 			redirectToCatBlocks(cat_id) {
 				// Push to Cat Page
 				router.push({ name: 'Cat', params: { cat_id: cat_id, page: 1 } })
-			}
+			},
+
+			log() {
+				console.log('totals', this.totals)
+			},
 		}
 	}
 </script>

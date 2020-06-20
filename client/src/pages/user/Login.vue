@@ -93,7 +93,7 @@
 
 		created: function() {
 			// [REDIRECT] Not Logged Required //
-			if (localStorage.usertoken) { router.push({ name: 'Profile' }) }
+			if (localStorage.usertoken) { router.push({ path: '/' }) }
 		},
 
 		methods: {

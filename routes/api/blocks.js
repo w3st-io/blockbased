@@ -120,9 +120,7 @@ router.post('/update/pull-voter/:id', async (req, res) => {
 })
 
 
-/******************* [VOTE CRUD] *******************/
-// [voters array] //
-// [UPDATE] Push + Pull //
+/******************* [VALIDATION] *******************/
 router.get('/validate/:id', async (req, res) => {
 	let existance = mongodb.ObjectID.isValid(req.params.id)
 
@@ -137,6 +135,21 @@ router.get('/validate/:id', async (req, res) => {
 	}
 	
 	res.status(201).send(existance)
+})
+
+
+/******************* [COUNT] *******************/
+router.get('/count/:cat_id', async (req, res) => {
+	const blocks = await loadBlocksCollection()
+
+	try {
+		const count = await blocks.countDocuments(
+			{ cat_id: req.params.cat_id }
+		)
+
+		res.status(201).send(count.toString())
+	}
+	catch(e) { res.send(e) }
 })
 
 

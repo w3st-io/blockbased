@@ -38,8 +38,12 @@
 			}
 		},
 
+		created: function() {
+
+		},
+
 		methods: {
-			
+		
 		}
 	}
 </script>

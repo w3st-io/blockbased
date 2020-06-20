@@ -52,8 +52,8 @@ class AdminService {
 				email,
 				password,
 			})
-				.then(res => { resolve(res) })
-				.catch(err => {
+				.then((res) => { resolve(res) })
+				.catch((err) => {
 					console.log('err:', err)
 					reject(err)
 				})
