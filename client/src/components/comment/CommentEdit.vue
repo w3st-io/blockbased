@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<!-- [FORM] Create Comment -->
+		<!-- [FORM] Edit Comment -->
 		<ValidationObserver v-slot="{ handleSubmit }">
 			<form	@submit.prevent="handleSubmit(submit)">
 				<!-- Text Area -->
@@ -94,12 +94,12 @@
 					this.submitted = true
 					this.loading = true
 
-					this.createComment()
+					this.updateComment()
 				}
 				else { this.error = 'Error unable to create comment' }
 			},
 
-			async createComment() {},
+			async updateComment() {},
 
 			async validateExistance() {},
 

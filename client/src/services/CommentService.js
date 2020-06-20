@@ -54,6 +54,21 @@ class CommentService {
 	}
 
 
+	// [UPDATE] //
+	static updateComment(comment_id, comment) {
+		console.log('comment:',comment)
+		let result = new Promise ((resolve, reject) => {
+			axios.post(`/api/comments/comment/${comment_id}`, {
+				comment
+			})
+				.then((res) => { resolve(res.data) })
+				.catch((err) => { reject(err) })
+		})
+
+		return result
+	}
+
+
 	// [DELETE] //
 	static deleteComment(comment_id) {
 		let result = new Promise ((resolve, reject) => {

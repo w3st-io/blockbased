@@ -7,8 +7,14 @@
 		
 			<!-- Comment Edit Component -->
 			<comment-edit
+				v-if="loaded"
 				:comment_id="comment_id"
 			/>
+		</div>
+
+		<!-- [ERROR] -->
+		<div v-if="error" class="mt-3 alert alert-danger">
+			{{ error }}
 		</div>
 	</section>
 </template>
@@ -27,6 +33,7 @@
 
 		data: function() {
 			return {
+				loaded: false,
 				comment_id: this.$route.params.comment_id,
 				user_id: 'unset',
 				email: 'unset',
@@ -46,6 +53,13 @@
 				this.username = userTokenDecodeData.username
 			}
 			catch(e) { this.error = e }
+
+			// Check if Comment is Valid //
+			try { console.log('Incomplete') }
+			catch (e) { this.error = e }
+
+			// Set Loaded //
+			this.loaded = true
 			
 			// [LOG] //
 			this.log()
