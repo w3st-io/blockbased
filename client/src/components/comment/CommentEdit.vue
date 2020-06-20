@@ -72,6 +72,10 @@
 		},
 
 		created: async function() { 
+			// Check if Comment is Valid //
+			try { console.log('Incomplete') }
+			catch (e) { this.error = e }
+
 			// Get Comment Details //
 			try {
 				this.commentDetails = await CommentService.getComment(
@@ -99,13 +103,13 @@
 				else { this.error = 'Error unable to create comment' }
 			},
 
-			async updateComment() {},
-
 			async validateExistance() {},
+
+			async updateComment() {},
 
 			log() {
 				console.log('%%% [COMPONENT] CommentEdit %%%')
-				console.log('localStorage.userToken:', localStorage.usertoken)
+				//console.log('localStorage.userToken:', localStorage.usertoken)
 				console.log('comment_id:', this.comment_id)
 				console.log('commentDetails:', this.commentDetails)
 				if (this.error) { console.log('error:', this.error) }

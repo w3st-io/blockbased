@@ -7,7 +7,7 @@
 		
 			<!-- Comment Edit Component -->
 			<comment-edit
-				v-if="loaded"
+				v-if="!loading"
 				:comment_id="comment_id"
 			/>
 		</div>
@@ -33,7 +33,7 @@
 
 		data: function() {
 			return {
-				loaded: false,
+				loading: true,
 				comment_id: this.$route.params.comment_id,
 				user_id: 'unset',
 				email: 'unset',
@@ -54,12 +54,8 @@
 			}
 			catch(e) { this.error = e }
 
-			// Check if Comment is Valid //
-			try { console.log('Incomplete') }
-			catch (e) { this.error = e }
-
 			// Set Loaded //
-			this.loaded = true
+			this.loaded = false
 			
 			// [LOG] //
 			this.log()
@@ -68,6 +64,7 @@
 		methods: {
 			log() {
 				console.log('%%% [PAGE] CommentEdit %%%')
+				//console.log('localStorage.userToken:', localStorage.usertoken)
 				console.log('comment_id:', this.comment_id)
 				console.log('user_id:', this.user_id)
 				console.log('email:', this.email)

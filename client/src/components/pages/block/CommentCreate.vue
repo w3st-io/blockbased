@@ -46,6 +46,7 @@
 	import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 	// [IMPORT] Personal //
+	import BlockService from '@services/BlockService'
 	import CommentService from '@services/CommentService'
 	import router from '@router'
 
@@ -54,11 +55,6 @@
 			block_id: {
 				type: String,
 				required: true
-			},
-			blockExistance: {
-				type: Boolean,
-				required: true,
-				default: false,
 			},
 			user_id: {
 				type: String,
@@ -88,17 +84,29 @@
 		},
 
 		created: async function() {
+			// Check if Block is Valid //
+			try { this.blockExistance = await this.validateExistance() }
+			catch (e) { this.error = e }
+
 			// If Invalid Block => Disable //
-			if (!this.blockExistance) {
-				this.submitted = true
-				this.error = 'Invalid Block'
-			}
+			if (!this.blockExistance) { this.submitted = true }
 
 			// [LOG] //
 			this.log()
 		},
 
 		methods: {
+			async validateExistance() {
+				let status = false
+
+				try {
+					status = await BlockService.validateExistance(this.block_id)
+				} 
+				catch(e) { this.error = e }
+
+				return status
+			},
+
 			// [CREATE] Create Comment //
 			async submit() {
 				if (localStorage.usertoken) {
@@ -141,7 +149,6 @@
 				console.log('%%% [COMPONENT] CommentCreate %%%')
 				//console.log('localStorage.userToken:', localStorage.usertoken)
 				console.log('block_id:', this.block_id)
-				console.log('blockExistance:', this.blockExistance)
 				console.log('user_id:', this.user_id)
 				console.log('email:', this.email)
 				console.log('username:', this.username)
