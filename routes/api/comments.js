@@ -52,54 +52,79 @@ router.get('/read-all/:block_id/:amountPerPage/:skip', async (req, res) => {
 })
 
 
+// [READ] //
+router.get('/read/:_id', async (req, res) => {
+	let validId = mongodb.ObjectID.isValid(req.params._id)
+	
+	if (validId) {
+		const comments = await loadCommentsCollection()
+
+		let retrievedData = await comments.findOne(
+			{ _id: new mongodb.ObjectID(req.params._id) }
+		)
+
+		res.send(retrievedData)
+	}
+	else { res.sendStatus(400) }
+})
+
+
 /*** [UPDATE] Add event ***/
-router.post('/update/:id', async (req, res) => {
-	const comments = await loadCommentsCollection()
+router.post('/update/:_id', async (req, res) => {
+	let validId = mongodb.ObjectID.isValid(req.params._id)
 
-	comments.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params.id) },
-		{
-			$set: {
-				comment: req.body.comment,
-			}
-		},
-		{ upsert: true }
-	)
+	if (validId) {
+		const comments = await loadCommentsCollection()
+		await comments.findOneAndUpdate(
+			{ _id: new mongodb.ObjectID(req.params._id) },
+			{
+				$set: {
+					comment: req.body.comment,
+				}
+			},
+			{ upsert: true }
+		)
 
-	res.status(201).send()
+		res.status(201).send()
+	}
+	else { res.sendStatus(400) }
 })
 
 
 /*** [DELETE] Delete Post ***/
-router.delete('/delete/:id', async (req, res) => {
-	const comments = await loadCommentsCollection()
-	
-	await comments.deleteOne(
-		{ _id: new mongodb.ObjectID(req.params.id) }
-	)
+router.delete('/delete/:_id', async (req, res) => {
+	let validId = mongodb.ObjectID.isValid(req.params._id)
 
-	res.status(200).send()
+	if (validId) {
+		const comments = await loadCommentsCollection()	
+		await comments.deleteOne(
+			{ _id: new mongodb.ObjectID(req.params._id) }
+		)
+
+		res.status(201).send()
+	}
+	else { res.sendStatus(400) }
 })
 
 
 /******************* [VOTE SYSTEM] *******************/
 // INCREMENT + DECREMENT VOTECOUNT //
-router.post('/update/increment-vote-count/:id', async (req, res) => {
+router.post('/update/increment-vote-count/:_id', async (req, res) => {
 	const comments = await loadCommentsCollection()
 
 	comments.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ _id: new mongodb.ObjectID(req.params._id) },
 		{ $inc: { voteCount: 1 } },
 		{ upsert: true }
 	)
 
 	res.status(201).send()
 })
-router.post('/update/decrement-vote-count/:id', async (req, res) => {
+router.post('/update/decrement-vote-count/:_id', async (req, res) => {
 	const comments = await loadCommentsCollection()
 
 	comments.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ _id: new mongodb.ObjectID(req.params._id) },
 		{ $inc: { voteCount: -1 } },
 		{ upsert: true }
 	)
@@ -109,11 +134,11 @@ router.post('/update/decrement-vote-count/:id', async (req, res) => {
 
 
 // PUSH/PULL USER FROM VOTERS ARRAY //
-router.post('/update/push-voter/:id', async (req, res) => {
+router.post('/update/push-voter/:_id', async (req, res) => {
 	const comments = await loadCommentsCollection()
 
 	comments.updateOne(
-		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ _id: new mongodb.ObjectID(req.params._id) },
 		{ $push:
 			{ 
 				voters: {
@@ -128,11 +153,11 @@ router.post('/update/push-voter/:id', async (req, res) => {
 
 	res.status(201).send()
 })
-router.post('/update/pull-voter/:id', async (req, res) => {
+router.post('/update/pull-voter/:_id', async (req, res) => {
 	const comments = await loadCommentsCollection()
 
 	comments.updateOne(
-		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ _id: new mongodb.ObjectID(req.params._id) },
 		{ $pull: { voters: { user_id: req.body.user_id } } },
 		{ upsert: true }
 	)

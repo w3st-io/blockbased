@@ -1,15 +1,14 @@
 <template>
 	<section class="container">
-		<h3 class="my-3 text-light">
-			Create Block in "{{ cat_id }}
-		"</h3>
-	
 		<!-- [FORM] Create Block -->
 		<ValidationObserver v-slot="{ handleSubmit }">
 			<form
 				@submit.prevent="handleSubmit(submit)"
 				class="my-4 card card-body bg-dark"
 			>
+				<!-- Title -->
+				<h3 class="mb-3 text-light">Create Block in "{{ cat_id }}"</h3>
+
 				<!-- Text Input -->
 				<ValidationProvider
 					tag="div"

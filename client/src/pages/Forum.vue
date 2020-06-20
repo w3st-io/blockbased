@@ -37,13 +37,5 @@
 				
 			}
 		},
-
-		created: function() {
-
-		},
-
-		methods: {
-		
-		}
 	}
 </script>

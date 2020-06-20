@@ -42,9 +42,27 @@ class CommentService {
 	}
 
 
-	// [READ-ALL] //
+	// [READ] //
+	static getComment(comment_id) {
+		let result = new Promise ((resolve, reject) => {
+			axios.get(`/api/comments/read/${comment_id}`)
+				.then((res) => { resolve(res.data) })
+				.catch((err) => { reject(err) })
+		})
+
+		return result
+	}
+
+
+	// [DELETE] //
 	static deleteComment(comment_id) {
-		return axios.delete(`/api/comments/delete/${comment_id}`)		
+		let result = new Promise ((resolve, reject) => {
+			axios.delete(`/api/comments/delete/${comment_id}`)
+				.then((res) => { resolve(res) })
+				.catch((err) => { reject(err) })
+		})
+
+		return result	
 	}
 
 

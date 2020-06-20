@@ -9,6 +9,7 @@ import AdminProfile from '@pages/admin/AdminProfile'
 import AdminRegister from '@pages/admin/AdminRegister'
 import Block from '@pages/block'
 import CommentCreate from '@pages/block/CommentCreate'
+import CommentEdit from '@pages/block/CommentEdit'
 import Cat from '@pages/cat'
 import BlockCreate from '@pages/cat/BlockCreate'
 import Forum from '@pages/Forum'
@@ -87,7 +88,16 @@ export default new Router ({
 			component: CommentCreate,
 			meta: {
 				auth: true,
-				title: 'Post Title Here'
+				title: 'Create Comment'
+			}
+		},
+		{
+			path: '/block-comment-edit/:comment_id',
+			name: 'CommentEdit',
+			component: CommentEdit,
+			meta: {
+				auth: true,
+				title: 'Edit Comment'
 			}
 		},
 		{

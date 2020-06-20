@@ -28,17 +28,12 @@
 						:badgeValue="pageNumber"
 					/>
 				</div>
-				
-
-				<!-- [ERROR] -->
-				<div v-if="error" class="alert alert-danger">
-					{{ error }}
-				</div>
 			</div>
 		</article>
 
-		<div v-if="error" class="row mt-3 alert alert-warning">
-			Hey! This Block Doesnt Exist!
+		<!-- [ERROR] -->
+		<div v-if="error" class="row mt-3 alert alert-danger">
+			{{ error }}
 		</div>
 	</section>
 </template>
@@ -79,7 +74,10 @@
 
 		created: async function() {
 			// Check if Block is valid
-			this.existance = await BlockService.validateExistance(this.block_id)
+			try {
+				this.existance = await BlockService.validateExistance(this.block_id)
+			}
+			catch(e) { this.error = e }
 
 			if (this.existance) {
 				// Retrieve User Data //
@@ -94,11 +92,10 @@
 				// [--> EMMIT] block-prev, block-next //
 				EventBus.$on('block-prev', () => { this.prevPage() })
 				EventBus.$on('block-next', () => { this.nextPage() })
-
-				// [LOG] //
-				//this.log()
 			}
-			else { this.error = 'Block Doesnt Exist!' }
+
+			// [LOG] //
+			//this.log()
 		},
 
 		methods: {

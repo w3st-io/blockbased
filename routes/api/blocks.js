@@ -63,22 +63,22 @@ router.get(`/read/:block_id`, async (req, res) => {
 
 /******************* [VOTE SYSTEM] *******************/
 // INCREMENT + DECREMENT VOTECOUNT //
-router.post('/update/increment-vote-count/:id', async (req, res) => {
+router.post('/update/increment-vote-count/:_id', async (req, res) => {
 	const blocks = await loadBlocksCollection()
 
 	blocks.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ _id: new mongodb.ObjectID(req.params._id) },
 		{ $inc: { voteCount: 1 } },
 		{ upsert: true }
 	)
 
 	res.status(201).send()
 })
-router.post('/update/decrement-vote-count/:id', async (req, res) => {
+router.post('/update/decrement-vote-count/:_id', async (req, res) => {
 	const blocks = await loadBlocksCollection()
 
 	blocks.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ _id: new mongodb.ObjectID(req.params._id) },
 		{ $inc: { voteCount: -1 } },
 		{ upsert: true }
 	)
@@ -88,11 +88,11 @@ router.post('/update/decrement-vote-count/:id', async (req, res) => {
 
 
 // PUSH/PULL USER FROM VOTERS ARRAY //
-router.post('/update/push-voter/:id', async (req, res) => {
+router.post('/update/push-voter/:_id', async (req, res) => {
 	const blocks = await loadBlocksCollection()
 
 	blocks.updateOne(
-		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ _id: new mongodb.ObjectID(req.params._id) },
 		{ $push:
 			{ 
 				voters: {
@@ -107,11 +107,11 @@ router.post('/update/push-voter/:id', async (req, res) => {
 
 	res.status(201).send()
 })
-router.post('/update/pull-voter/:id', async (req, res) => {
+router.post('/update/pull-voter/:_id', async (req, res) => {
 	const blocks = await loadBlocksCollection()
 
 	blocks.updateOne(
-		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ _id: new mongodb.ObjectID(req.params._id) },
 		{ $pull: { voters: { user_id: req.body.user_id } } },
 		{ upsert: true }
 	)
@@ -121,20 +121,21 @@ router.post('/update/pull-voter/:id', async (req, res) => {
 
 
 /******************* [VALIDATION] *******************/
-router.get('/validate/:id', async (req, res) => {
-	let existance = mongodb.ObjectID.isValid(req.params.id)
+router.get('/validate/:_id', async (req, res) => {
+	let existance = mongodb.ObjectID.isValid(req.params._id)
 
 	if (existance) {
 		const blocks = await loadBlocksCollection()
 
 		let retrievedData = await blocks.findOne(
-			{ _id: new mongodb.ObjectID(req.params.id) }
+			{ _id: new mongodb.ObjectID(req.params._id) }
 		)
 
 		if (retrievedData) { existance = true }
+
+		res.status(201).send(existance)
 	}
-	
-	res.status(201).send(existance)
+	else { res.sendStatus(400) }
 })
 
 

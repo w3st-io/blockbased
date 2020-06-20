@@ -27,7 +27,7 @@
 					type="submit"
 					class="w-100 btn btn-info"
 					:disabled="submitted"
-				>+ Create</button>
+				>+ Update</button>
 			</form>
 		</ValidationObserver>
 
@@ -46,110 +46,70 @@
 	import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 	// [IMPORT] Personal //
-	import BlockService from '@services/BlockService'
 	import CommentService from '@services/CommentService'
-	import router from '@router'
+	//import router from '@router'
 
 	export default {
 		props: {
-			block_id: {
-				required: true
-			},
-			user_id: {
-				required: true
-			},
-			email: {
+			comment_id: {
 				type: String,
-				required: true,
-			},
-			username: {
-				required: true,
-			},
+				required: true
+			}
 		},
 
 		data: function() {
 			return {
 				submitted: false,
 				loading: false,
-				blockExistance: false,
+				commentDetails: {},
 				comment: '',
 				error: '',
 
-				// Editor Stuff //
+				// CKEditor Stuff //
 				editor: ClassicEditor,
-				editorConfig: {
-					//toolbar: [ 'bold', 'italic', '-', 'link' ]
-				},
+				editorConfig: {},
 			}
 		},
 
 		created: async function() { 
-			// Check if Block exists.. //
-			this.blockExistance = await this.validateExistance()
+			// Get Comment Details //
+			try {
+				this.commentDetails = await CommentService.getComment(
+					this.comment_id
+				)
 
+				// Set Comment To Retrieved Comment //
+				this.comment = this.commentDetails.comment
+			}
+			catch(e) { this.error = e }
+
+			// [LOG] //
 			this.log()
 		},
 
 		methods: {
 			// [CREATE] Create Comment //
 			async submit() {
-				if (localStorage.usertoken && this.blockExistance) {
+				if (localStorage.usertoken) {
 					this.submitted = true
 					this.loading = true
 
 					this.createComment()
 				}
-				else {
-					this.error = 'Error could not create comment. :('
-				}
+				else { this.error = 'Error unable to create comment' }
 			},
 
-			async createComment() {
-				try {
-					await CommentService.createComment(
-						this.block_id,
-						this.user_id,
-						this.email,
-						this.username,
-						this.comment,
-					)
-					
-					// [REDIRECT] Block Page //
-					router.push(
-						{
-							name: 'Block',
-							params: {
-								block_id: this.block_id,
-								page: 1
-							}
-						}
-					)
-				}
-				catch(e) {
-					this.loading = false
-					this.error = e
-				}
+			async createComment() {},
+async validateExistance() {
 			},
-
-			async validateExistance() {
-				let status = false
-
-				try {
-					status = await BlockService.validateExistance(this.block_id)
-				} 
-				catch(e) { this.error = e }
-
-				return status
-			},
+			async validateExistance() {},
 
 			log() {
-				console.log('%%% [COMPONENT] CommentCreate %%%')
+				console.log('%%% [COMPONENT] CommentEdit %%%')
 				console.log('localStorage.userToken:', localStorage.usertoken)
-				console.log('block_id:', this.block_id)
-				console.log('BlockExistance:', this.blockExistance)
-				console.log('user_id:', this.user_id)
-				console.log('email:', this.email)
-				console.log('username:', this.username)
+				console.log('comment_id:', this.comment_id)
+				console.log('commentDetails:', this.commentDetails)
+				if (this.error) { console.log('error:', this.error) }
 			},
 		},
 	}

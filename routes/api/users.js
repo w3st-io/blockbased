@@ -19,22 +19,22 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 /******************* [USER PROFILE] *******************/
 // [voters array] //
 // [UPDATE] Push + Pull //
-router.get('/read/profile-data/:id', async (req, res) => {
+router.get('/read/profile-data/:_id', async (req, res) => {
 	const users = await loadUsersCollection()
 
 	let retrievedData = await users.findOne(
-		{ _id: new mongodb.ObjectID(req.params.id) }
+		{ _id: new mongodb.ObjectID(req.params._id) }
 	)
 	
 	res.status(201).send(retrievedData)
 })
 
 
-router.post('/update/profile-data/:id', async (req, res) => {
+router.post('/update/profile-data/:_id', async (req, res) => {
 	const users = await loadUsersCollection()
 
 	users.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params.id) },
+		{ _id: new mongodb.ObjectID(req.params._id) },
 		{
 			$set: {
 				profilePicURL: req.body.url,

@@ -89,13 +89,14 @@ class BlockService {
 		})
 	}
 
-	/******************* [OTHER] *******************/
+	/******************* [VALIDATION] *******************/
 	static async validateExistance(block_id) {
 		let valid = await axios.get(`/api/blocks/validate/${block_id}`)
 		
 		return valid.data
 	}
 
+	/******************* [COUNT] *******************/
 	static async countBlocksForCat(cat_id) {
 		let count = await axios.get(`/api/blocks/count/${cat_id}`)
 

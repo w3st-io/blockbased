@@ -2,15 +2,12 @@
 	<section class="container">
 		<div class="my-3 card card-body bg-dark">
 			<h3 class="mb-3 text-light">
-				Create Comment in "{{ block_id }}"
+				Edit Comment "{{ comment_id }}"
 			</h3>
 		
-			<!-- Comment Create Component -->
-			<comment-create
-				:block_id="block_id"
-				:user_id="user_id"
-				:email="email"
-				:username="username"
+			<!-- Comment Edit Component -->
+			<comment-edit
+				:comment_id="comment_id"
 			/>
 		</div>
 	</section>
@@ -18,19 +15,19 @@
 
 <script>
 	// [IMPORT] Personal //
-	import CommentCreate from '../../components/pages/block/CommentCreate'
+	import CommentEdit from '@components/comment/CommentEdit'
 	import router from '@router'
 	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {
 		components: {
-			CommentCreate
+			CommentEdit
 		},
 
 		data: function() {
 			return {
-				block_id: this.$route.params.block_id,
+				comment_id: this.$route.params.comment_id,
 				user_id: 'unset',
 				email: 'unset',
 				username: 'unset',	
@@ -56,8 +53,8 @@
 
 		methods: {
 			log() {
-				console.log('%%% [PAGE] BlockCommentCreate %%%')
-				console.log('block_id:', this.block_id)
+				console.log('%%% [PAGE] CommentEdit %%%')
+				console.log('comment_id:', this.comment_id)
 				console.log('user_id:', this.user_id)
 				console.log('email:', this.email)
 				console.log('username:', this.username)
