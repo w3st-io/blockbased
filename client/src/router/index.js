@@ -8,9 +8,9 @@ import AdminLogin from '@pages/admin/AdminLogin'
 import AdminProfile from '@pages/admin/AdminProfile'
 import AdminRegister from '@pages/admin/AdminRegister'
 import Block from '@pages/block'
-import BlockCommentCreate from '@pages/block/blockCommentCreate'
+import CommentCreate from '@pages/block/CommentCreate'
 import Cat from '@pages/cat'
-import CatBlockCreate from '@pages/cat/CatBlockCreate'
+import BlockCreate from '@pages/cat/BlockCreate'
 import Forum from '@pages/Forum'
 import Login from '@pages/user/Login'
 import Profile from '@pages/user/Profile'
@@ -83,8 +83,8 @@ export default new Router ({
 		},
 		{
 			path: '/block-comment-create/:block_id',
-			name: 'BlockCommentCreate',
-			component: BlockCommentCreate,
+			name: 'CommentCreate',
+			component: CommentCreate,
 			meta: {
 				auth: true,
 				title: 'Post Title Here'
@@ -100,9 +100,9 @@ export default new Router ({
 			}
 		},
 		{
-			path: '/cat/cat-block-create/:cat_id',
-			name: 'CatBlockCreate',
-			component: CatBlockCreate,
+			path: '/cat/block-create/:cat_id',
+			name: 'BlockCreate',
+			component: BlockCreate,
 			meta: {
 				auth: true,
 				title: 'Create a Block'

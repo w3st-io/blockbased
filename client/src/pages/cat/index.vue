@@ -11,7 +11,7 @@
 				/>
 
 				<!-- Display All the Blocks -->
-				<cat-block-list
+				<Block-list
 					:cat_id="cat_id"
 					:pageIndex="pageIndex"
 					:amountPerPage="5"
@@ -31,7 +31,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import CatBlockList from '@components/pages/cat/CatBlockList'
+	import BlockList from '@components/pages/cat/BlockList'
 	import TitleHeader from '@components/pages/cat/TitleHeader'
 	import UserService from '@services/UserService'
 	import router from '@router'
@@ -40,7 +40,7 @@
 	// [EXPORT] //
 	export default {
 		components: {
-			CatBlockList,
+			BlockList,
 			TitleHeader,
 		},
 

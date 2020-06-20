@@ -7,7 +7,7 @@
 import axios from 'axios'
 
 class CommentService {
-	/******************* [COMMENT CRUD] *******************/
+	/******************* [COMMENT] *******************/
 	// [CREATE] //
 	static createComment(block_id, user_id, email, username, comment) {
 		return axios.post(`/api/comments/create`, {
@@ -48,8 +48,7 @@ class CommentService {
 	}
 
 
-	/******************* [OTHER CRUD] *******************/
-	// [UPDATE] Vote System //
+	/******************* [VOTE SYSTEM] *******************/
 	// ADD/REMOVE VOTE //
 	static async addVote(comment_id, user_id, email, username) {
 		// Increment the voteCount //

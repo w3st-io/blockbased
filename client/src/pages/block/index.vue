@@ -11,7 +11,7 @@
 				/>
 
 				<!-- Comments -->
-				<Block-comment-list
+				<Comment-list
 					:block_id="block_id"
 					:pageIndex="pageIndex"
 					:amountPerPage="5"
@@ -46,7 +46,7 @@
 <script>
 	// [IMPORT] Personal //
 	import PageNavButtons from '@components/controls/PageNavButtons'
-	import BlockCommentList from '@components/pages/block/BlockCommentList'
+	import CommentList from '@components/pages/block/CommentList'
 	import TitleHeader from '@components/pages/block/TitleHeader'
 	import router from '@router'
 	import BlockService from '@services/BlockService'
@@ -57,7 +57,7 @@
 	// [EXPORT] //
 	export default {
 		components: {
-			BlockCommentList,
+			CommentList,
 			TitleHeader,
 			PageNavButtons,
 		},

@@ -77,7 +77,7 @@
 
 			// Retrieve User Data //
 			try {
-				let userTokenDecodeData = await UserService.GetUserTokenDecodeData()
+				let userTokenDecodeData = await UserService.getUserTokenDecodeData()
 				this.user_id = userTokenDecodeData._id
 				this.email = userTokenDecodeData.email
 				this.username = userTokenDecodeData.username

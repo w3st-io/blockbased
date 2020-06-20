@@ -39,8 +39,8 @@
 						>edit</button>
 						<button
 							v-if="doesUserOwnThisComment(comment.user_id)"
-							class="py-0 btn btn-sm text-danger"
 							@click="deleteComment(comment._id)"
+							class="py-0 btn btn-sm text-danger"
 						>delete</button>
 						<button
 							v-else
@@ -144,11 +144,31 @@
 		},
 
 		methods: {
+			/******************* [COMMENT] *******************/
+			async getComments() {
+				// [UPDATE] Comments //
+				try {
+					this.comments = await CommentService.getAllComments(
+						this.block_id,
+						this.amountPerPage,
+						this.pageIndex
+					)
+				}
+				catch(e) { this.error = e }
+			},
+
+			async deleteComment(comment_id) {
+				await CommentVotesService.removeCommentVotes(comment_id)
+				await CommentService.deleteComment(comment_id)
+				this.getComments()
+			},
+
 			doesUserOwnThisComment(user_id) {
 				if (user_id == this.user_id) return true
 				else return false 
 			},
 
+			/******************* [VOTE SYSTEM] *******************/
 			searchVotersArrayInComment(commentVoters) {
 				// Search For Voters Id in Block's Object //
 				let found = commentVoters.find((voter) => (
@@ -237,26 +257,8 @@
 				} 
 			},
 
-			async getComments() {
-				// [UPDATE] Comments //
-				try {
-					this.comments = await CommentService.getAllComments(
-						this.block_id,
-						this.amountPerPage,
-						this.pageIndex
-					)
-				}
-				catch(e) { this.error = e }
-			},
-
-			async deleteComment(comment_id) {
-				await CommentVotesService.removeCommentVotes(comment_id)
-				await CommentService.deleteComment(comment_id)
-				this.getComments()
-			},
-
 			log() {
-				console.log('%%% [COMPONENT] BlockCommentList %%%')
+				console.log('%%% [COMPONENT] CommentList %%%')
 				console.log('pageIndex:', this.pageIndex)
 				console.log('amountPerPage:', this.amountPerPage)
 				console.log('user_id:', this.user_id)
