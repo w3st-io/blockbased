@@ -53,9 +53,11 @@
 	export default {
 		props: {
 			block_id: {
+				type: String,
 				required: true
 			},
 			user_id: {
+				type: String,
 				required: true
 			},
 			email: {
@@ -63,6 +65,7 @@
 				required: true,
 			},
 			username: {
+				type: String,
 				required: true,
 			},
 		},
@@ -75,18 +78,24 @@
 				comment: '',
 				error: '',
 
-				// Editor Stuff //
+				// CKEditor Stuff //
 				editor: ClassicEditor,
-				editorConfig: {
-					//toolbar: [ 'bold', 'italic', '-', 'link' ]
-				},
+				editorConfig: {},
 			}
 		},
 
 		created: async function() { 
-			// Check if Block exists.. //
-			this.blockExistance = await this.validateExistance()
+			// Check if Block Exists //
+			try { this.blockExistance = await this.validateExistance() }
+			catch (e) { this.error = e }
 
+			// If Invalid Block => Disable //
+			if (!this.blockExistance) {
+				this.submitted = true
+				this.error = 'Invalid Block'
+			}
+
+			// [LOG] //
 			this.log()
 		},
 
@@ -99,9 +108,7 @@
 
 					this.createComment()
 				}
-				else {
-					this.error = 'Error could not create comment. :('
-				}
+				else { this.error = 'Unable to create comment' }
 			},
 
 			async createComment() {

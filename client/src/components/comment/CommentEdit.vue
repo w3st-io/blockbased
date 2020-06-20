@@ -100,8 +100,7 @@
 			},
 
 			async createComment() {},
-async validateExistance() {
-			},
+
 			async validateExistance() {},
 
 			log() {
