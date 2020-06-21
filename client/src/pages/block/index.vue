@@ -1,33 +1,34 @@
 <template>
-	<section class="container">
-		<article v-if="existance" class="row">
-			<div class="col-12 my-4 card card-body bg-dark">
-				<!-- Title Header -->
-				<title-header
-					:block_id="block_id"
+	<section class="my-4">
+		<article v-if="existance" class="container card card-body bg-dark">
+			<!-- Title Header -->
+			<title-header
+				:block_id="block_id"
+				:leftBtnEmitName="'block-prev'"
+				:rightBtnEmitName="'block-next'"
+				:badgeValue="pageNumber"
+				class="mb-3"
+			/>
+
+			<!-- Comments -->
+			<Comment-list
+				:block_id="block_id"
+				:pageIndex="pageIndex"
+				:amountPerPage="5"
+				:user_id="user_id"
+				:email="email"
+				:username="username"
+				class="mb-3"
+			/>
+
+			<!-- Botton Page Control -->
+			<div class="row">
+				<page-nav-buttons
 					:leftBtnEmitName="'block-prev'"
 					:rightBtnEmitName="'block-next'"
 					:badgeValue="pageNumber"
+					class="col-lg-6 col-md-12"
 				/>
-
-				<!-- Comments -->
-				<Comment-list
-					:block_id="block_id"
-					:pageIndex="pageIndex"
-					:amountPerPage="5"
-					:user_id="user_id"
-					:email="email"
-					:username="username"
-				/>
-
-				<!-- Bottom Page Control -->
-				<div class="mt-2 w-25">
-					<page-nav-buttons
-						:leftBtnEmitName="'block-prev'"
-						:rightBtnEmitName="'block-next'"
-						:badgeValue="pageNumber"
-					/>
-				</div>
 			</div>
 		</article>
 

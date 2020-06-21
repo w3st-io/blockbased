@@ -1,21 +1,22 @@
 <template>
-	<div class="w-100 h-100 py-2">
-		<div class="float-left w-75 btn-group">
-			<button
-				@click="leftBtn()"
-				class="btn btn-sm btn-outline-light"
-			>Prev</button>
-			<button
-				@click="rightBtn()"
-				class="btn btn-sm btn-outline-light"
-			>Next</button>
-		</div>
-		<div class="float-right w-25 px-1">
-			<p class="h-100 mx-1 my-0 badge badge-light">
-				{{ badgeValue }}
-			</p>
-		</div>
-	</div>
+	<nav class="w-100 m-0">
+		<ul class="pagination">
+			<!-- Left -->
+			<li class="w-25 page-item text-center">
+				<a @click="leftBtn()" class="page-link text-light bg-dark">Prev</a>
+			</li>
+
+			<!-- Page Number -->
+			<li class="page-item">
+				<a class="page-link">{{ badgeValue }}</a>
+			</li>
+
+			<!-- Right -->
+			<li class="w-25 page-item text-center">
+				<a @click="rightBtn()" class="page-link text-light bg-dark">Next</a>
+			</li>
+		</ul>
+	</nav>
 </template>
 
 <script>

@@ -1,22 +1,19 @@
 <template>
-	<section class="w-100 mb-3 flex-container">
+	<section class="row">
 		<!-- Left Side -->
-		<div class="w-50 float-left">
-			<!-- Title -->
+		<div class="col-lg-6 col-md-12">
+			<!-- Title + Page Nav Buttons -->
 			<h3 class="text-light">{{ block.title }}</h3>
 
-			<div class="w-50">
-				<!-- Page Nav Buttons -->
-				<page-nav-buttons
-					:leftBtnEmitName="leftBtnEmitName"
-					:rightBtnEmitName="rightBtnEmitName"
-					:badgeValue="badgeValue"
-				/>
-			</div>
+			<page-nav-buttons
+				:leftBtnEmitName="leftBtnEmitName"
+				:rightBtnEmitName="rightBtnEmitName"
+				:badgeValue="badgeValue"
+			/>
 		</div>
 
 		<!-- Right Side -->
-		<div class="w-50 float-right text-right">
+		<div class="col-lg-6 col-md-12 col-sm text-right">
 			<p class="mb-3 text-secondary small">
 				{{ block.createdAt }}
 				<span>
@@ -32,7 +29,6 @@
 				class="btn btn-info"
 			>Add Comment</button>
 		</div>
-		<br>
 	</section>
 </template>
 
@@ -105,11 +101,3 @@
 		},
 	}
 </script>
-
-<style scoped>
-	.flex-container {
-		display: flex;
-		flex-wrap: wrap;
-		flex-direction: unset;
-	}
-</style>

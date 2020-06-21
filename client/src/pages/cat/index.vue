@@ -1,29 +1,29 @@
 <template>
-	<section class="container">
-		<article class="row">
-			<div class="col-12 my-4 card bg-dark card-body">
-				<!-- Title With Create Button -->
-				<title-header
-					:cat_id="cat_id"
-					:badgeValue="pageNumber"
-					:leftBtnEmitName="'cat-prev'"
-					:rightBtnEmitName="'cat-next'"
-				/>
+	<section class="my-4">
+		<article class="container card card-body bg-dark">
+			<!-- Title With Create Button -->
+			<title-header
+				:cat_id="cat_id"
+				:badgeValue="pageNumber"
+				:leftBtnEmitName="'cat-prev'"
+				:rightBtnEmitName="'cat-next'"
+				class="mb-3"
+			/>
 
-				<!-- Display All the Blocks -->
-				<Block-list
-					:cat_id="cat_id"
-					:pageIndex="pageIndex"
-					:amountPerPage="5"
-					:user_id="user_id"
-					:email="email"
-					:username="username"
-				/>
+			<!-- Display All the Blocks -->
+			<Block-list
+				:cat_id="cat_id"
+				:pageIndex="pageIndex"
+				:amountPerPage="5"
+				:user_id="user_id"
+				:email="email"
+				:username="username"
+				class="mb-3"
+			/>
 
-				<!-- [ERROR] -->
-				<div v-if="error" class="alert alert-danger">
-					Cat: {{ error }}
-				</div>
+			<!-- [ERROR] -->
+			<div v-if="error" class="alert alert-danger">
+				Cat: {{ error }}
 			</div>
 		</article>
 	</section>

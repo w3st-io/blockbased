@@ -1,22 +1,20 @@
 <template>
-	<section class="w-100 mb-3 flex-container">
+	<section class="row">
 		<!-- Left Side -->
-		<div class="w-50 float-left">
+		<div class="col-lg-6 col-md-12">
 			<!-- Title -->
 			<h3 class="text-light">{{ cat_id }}</h3>
 
-			<div class="w-50">
-				<!-- Page Nav Buttons -->
-				<page-nav-buttons
-					:leftBtnEmitName="leftBtnEmitName"
-					:rightBtnEmitName="rightBtnEmitName"
-					:badgeValue="badgeValue"
-				/>
-			</div>
+			<!-- Page Nav Buttons -->
+			<page-nav-buttons
+				:leftBtnEmitName="leftBtnEmitName"
+				:rightBtnEmitName="rightBtnEmitName"
+				:badgeValue="badgeValue"
+			/>
 		</div>
 
 		<!-- Right Side -->
-		<div class="w-50 float-right text-right">
+		<div class="col-lg-6 col-md-12 text-right">
 			<div class="mb-2 badge badge-light text-info">
 				<h5 class="m-0">Total Posts: {{ totalCount = 3 }}</h5>
 			</div>
@@ -28,7 +26,6 @@
 				class="btn btn-info"
 			>Create Block</button>
 		</div>
-		<br>
 	</section>
 </template>
 
@@ -71,11 +68,3 @@
 		}
 	}
 </script>
-
-<style scoped>
-	.flex-container {
-		display: flex;
-		flex-wrap: wrap;
-		flex-direction: unset;
-	}
-</style>

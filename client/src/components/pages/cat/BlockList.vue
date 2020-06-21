@@ -1,41 +1,44 @@
 <template>
-	<section>
-		<ul class="w-100 m-0 px-0 border border-secondary">
-			<li
-				class="m-0 bg-dark"
-				v-for="(block, index) in blocks"
-				:key="index"
-			>
-				<article class="d-inline-block w-100">
-					<!-- Title --> 
-					<div class="w-75 p-2 float-left" @click="redirectToBlock(block._id)" >
-						<h5 class="text-light">
-							{{ block.title }}
-						</h5>
-						<p class="m-0 small text-secondary">
-							<span class="text-light">{{ block.email }}</span>
-							- {{ block.createdAt }}
-						</p>
-					</div>
+	<section class="row">
+		<div class="col-12">
+			<ul class="m-0 px-0 border border-secondary">
+				<li
+					v-for="(block, index) in blocks"
+					:key="index"
+					class="m-0 bg-dark"
+				>
+					<article class="d-inline-block w-100">
+						<!-- Title --> 
+						<div class="w-75 p-2 float-left" @click="redirectToBlock(block._id)" >
+							<h5 class="text-light">
+								{{ block.title }}
+							</h5>
+							<p class="m-0 small text-secondary">
+								<span class="text-light">{{ block.email }}</span>
+								- {{ block.createdAt }}
+							</p>
+						</div>
 
-					<!-- Vote -->
-					<div class="float-right w-25 text-right" v-on:click="redirectToBlock(block._id)">
-						<h4 class="text-white m-2">
-							<button
-								:disabled="disabled"
-								@click.prevent.stop="voteToggle(block._id)"
-								class="btn btn-outline-secondary unvoted"
-								:class="{ 'voted': votesReplica[block._id].voted }"
-							>
-								{{ votesReplica[block._id].voteCount }} ▲
-							</button>
-						</h4>
-					</div>
-				</article>
-			</li>
-		</ul>
+						<!-- Vote -->
+						<div class="float-right w-25 text-right" v-on:click="redirectToBlock(block._id)">
+							<h4 class="text-white m-2">
+								<button
+									:disabled="disabled"
+									@click.prevent.stop="voteToggle(block._id)"
+									class="btn btn-outline-secondary unvoted"
+									:class="{ 'voted': votesReplica[block._id].voted }"
+								>
+									{{ votesReplica[block._id].voteCount }} ▲
+								</button>
+							</h4>
+						</div>
+					</article>
+				</li>
+			</ul>
+		</div>
+		
 		<!-- [ERROR] -->
-		<div v-if="error" class="alert alert-danger">
+		<div v-if="error" class="col-12 alert alert-danger">
 			CatBlockList: {{ error }}
 		</div>
 	</section>

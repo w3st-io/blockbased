@@ -1,66 +1,68 @@
 <template>
-	<section>
-		<ul class="w-100 m-0 px-0 border border-secondary">
-			<li
-				v-for="comment in comments"
-				:key="comment._id"
-				class="w-100 border-bottom-0 border-secondary"
-			>
-				<article class="w-100 d-flex">
-					<!-- Image Section -->
-					<div class="float-left p-2 border-right border-secondary" style="width: 15%;">
-						<div class="w-100 text-center">
-							<img src="../../../assets/images/placeholder.png" class="m-auto w-75 rounded-lg">
+	<section class="row">
+		<div class="col-12">
+			<ul class="m-0 p-0 border border-secondary">
+				<li
+					v-for="comment in comments"
+					:key="comment._id"
+					class="boder border-bottom border-secondary"
+				>
+					<article class="d-flex w-100">
+						<!-- Image Section -->
+						<div class="float-left p-2 border-right border-secondary" style="width: 15%;">
+							<div class="w-100 text-center">
+								<img src="../../../assets/images/placeholder.png" class="m-auto w-75 rounded-lg">
+							</div>
+							
+							<p class="m-0 text-center text-light small">
+								{{ comment.email }}
+							</p>
 						</div>
-						
-						<p class="m-0 text-center text-light small">
-							{{ comment.email }}
-						</p>
-					</div>
 
-					<!-- Comment Section -->
-					<div class="float-right p-2" style="flex-grow: 1; width: 85%;">
-						<p v-html="comment.comment" class="m-0 text-light multiline"></p>
-					</div>
-				</article>
+						<!-- Comment Section -->
+						<div class="float-right p-2" style="flex-grow: 1; width: 85%;">
+							<p v-html="comment.comment" class="m-0 text-light multiline"></p>
+						</div>
+					</article>
 
-				<div class="w-100 p-2 d-flex border-top border-bottom border-secondary text-light">
-					<!-- Time Stamp -->
-					<div class="w-50 m-0 float-left small text-secondary">
-						{{ new Date(comment.createdAt) }}
-						
-					</div>
+					<div class="w-100 p-2 d-flex border-top border-secondary text-light">
+						<!-- Time Stamp -->
+						<div class="w-50 m-0 float-left small text-secondary">
+							{{ new Date(comment.createdAt) }}
+							
+						</div>
 
-					<!-- Buttons -->
-					<div class="w-50 m-0 float-right small text-right text-secondary">
-						<button
-							v-if="doesUserOwnThisComment(comment.user_id)"
-							@click="redirectToEdit(comment._id)"
-							class="py-0 btn btn-sm text-secondary"
-						>edit</button>
-						<button
-							v-if="doesUserOwnThisComment(comment.user_id)"
-							@click="deleteComment(comment._id)"
-							class="py-0 btn btn-sm text-danger"
-						>delete</button>
-						<button
-							v-else
-							class="py-0 btn btn-sm text-danger"
-						>report</button>
-						
-						<button
-							:disabled="disabled"
-							@click="voteToggle(comment._id)"
-							class="btn btn-outline-secondary unvoted"
-							:class="{ 'voted': votesReplica[comment._id].voted }"
-						>{{ votesReplica[comment._id].voteCount }} ▲</button>
+						<!-- Buttons -->
+						<div class="w-50 m-0 float-right small text-right text-secondary">
+							<button
+								v-if="doesUserOwnThisComment(comment.user_id)"
+								@click="redirectToEdit(comment._id)"
+								class="py-0 btn btn-sm text-secondary"
+							>edit</button>
+							<button
+								v-if="doesUserOwnThisComment(comment.user_id)"
+								@click="deleteComment(comment._id)"
+								class="py-0 btn btn-sm text-danger"
+							>delete</button>
+							<button
+								v-else
+								class="py-0 btn btn-sm text-danger"
+							>report</button>
+							
+							<button
+								:disabled="disabled"
+								@click="voteToggle(comment._id)"
+								class="btn btn-outline-secondary unvoted"
+								:class="{ 'voted': votesReplica[comment._id].voted }"
+							>{{ votesReplica[comment._id].voteCount }} ▲</button>
+						</div>
 					</div>
-				</div>
-			</li>
-		</ul>
-
-		<div v-if="loading" class="my-3 alert alert-warning">
-			<h4 class="w-100 m-0 text-center">Loading..</h4>
+				</li>
+			</ul>
+		</div>
+		
+		<div v-if="loading" class="col-12 alert alert-warning">
+			Loading..
 		</div>
 	</section>
 </template>
