@@ -12,6 +12,7 @@ const express = require('express')
 // [REQUIRE] Personal + ENV //
 const admins = require('./routes/api/admins')
 const adminstration = require('./routes/api/adminstration')
+const admininstrationBlocks = require('./routes/api/adminstration/blocks')
 const blocks = require('./routes/api/blocks')
 const blockVotes = require('./routes/api/block-votes')
 const cats = require('./routes/api/cats')
@@ -32,19 +33,8 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 
-// [PAGE] Front Page //
-app.get('', async (req, res) => {
-	res.send(`
-		<h1 style="color: #434875;">
-			BlockBased API
-		</h1>
-	`)
-})
-
-
-// [INIT USE] For "this" route use "this" //
+// [INIT USE] //
 app.use('/api/admins', admins)
-app.use('/api/admins-master', adminstration)
 app.use('/api/blocks', blocks)
 app.use('/api/block-votes', blockVotes)
 app.use('/api/cats', cats)
@@ -52,6 +42,21 @@ app.use('/api/comments', comments)
 app.use('/api/comment-votes', commentVotes)
 app.use('/api/forums', forums)
 app.use('/api/users', users)
+
+
+// [INIT USE] Adminstration //
+app.use('/api/administration', adminstration)
+app.use('/api/administration/blocks', admininstrationBlocks)
+
+
+// [ROUTE] //
+app.get('', async (req, res) => {
+	res.send(`
+		<h1 style="color: #434875;">
+			BlockBased API
+		</h1>
+	`)
+})
 
 
 /*** [PORT + LISTEN] ***/

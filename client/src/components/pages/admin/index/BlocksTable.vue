@@ -13,9 +13,33 @@
 </template>
 
 <script>
-export default {
-	props: {},
+	// [IMPORT] Personal //
+	import ABlockServices from '@services/administration/BlockService'
 
-	data: function() {},
-}
+	export default {
+		data: function() {
+			return {
+				blocks: {},
+				error: '',
+			}
+		},
+
+		created: async function() {
+			// Get Blocks //
+			try {
+			this.blocks = await ABlockServices.getAllBlocks(100, 0)
+			}
+			catch(e) { this.error = e }
+
+			// [LOG] //
+			this.log()
+		},
+
+		methods: {
+			log() {
+				console.log('%%% [COMPONENT] Admin BlocksTable %%%')
+				console.log('blocks:', this.blocks)
+			},
+		},
+	}
 </script>

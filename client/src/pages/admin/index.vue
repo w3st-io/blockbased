@@ -17,7 +17,7 @@
 	import ButtonTabs from '@components/controls/ButtonTabs'
 	import { EventBus } from '@main'
 	import router from '@router'
-	//import AdminService from '@services/AdminService'
+	//import AdministrationServices from '@services/AdministrationServices'
 
 	// [EXPORT] //
 	export default {

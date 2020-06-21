@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%% *
- * %%% BLOCK ROUTES %%% *
- * %%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% ADMINSTRATION BLOCK ROUTES %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
 const cors = require('cors')
@@ -37,6 +37,21 @@ router.post('/create', async (req, res) => {
 
 
 // [READ ALL] //
+router.get('/read-all/:amountPerPage/:skip', async (req, res) => {
+	let skip = parseInt(req.params.skip)
+	let amountPerPage = parseInt(req.params.amountPerPage)
+	
+	const blocks = await loadBlocksCollection()
+	let retrievedData = await blocks.find()
+		.skip(skip)
+		.limit(amountPerPage)
+		.toArray()
+
+	res.send(retrievedData)
+})
+
+
+// [READ ALL] Within a cat_id //
 router.get('/read-all/:cat_id/:amountPerPage/:skip', async (req, res) => {
 	let skip = parseInt(req.params.skip)
 	let amountPerPage = parseInt(req.params.amountPerPage)
