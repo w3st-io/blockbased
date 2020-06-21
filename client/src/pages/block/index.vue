@@ -1,6 +1,6 @@
 <template>
 	<section class="my-4">
-		<article v-if="existance" class="container card card-body bg-dark">
+		<article class="container card card-body bg-dark">
 			<!-- Title Header -->
 			<title-header
 				:block_id="block_id"
@@ -32,9 +32,15 @@
 			</div>
 		</article>
 
-		<!-- [ERROR] -->
-		<div v-if="error" class="row mt-3 alert alert-danger">
-			{{ error }}
+		<!-- [STATUS + ERROR] -->
+		<div class="container">
+			<div v-if="!loading && !existance" class="row mt-3 alert alert-warning">
+				Block Does Not Exist.
+			</div>
+
+			<div v-if="error" class="row mt-3 alert alert-danger">
+				{{ error }}
+			</div>
 		</div>
 	</section>
 </template>
@@ -94,6 +100,9 @@
 				EventBus.$on('block-prev', () => { this.prevPage() })
 				EventBus.$on('block-next', () => { this.nextPage() })
 			}
+
+			// Disable Loading //
+			this.loading = false
 
 			// [LOG] //
 			//this.log()

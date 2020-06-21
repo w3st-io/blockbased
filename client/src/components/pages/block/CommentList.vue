@@ -1,6 +1,6 @@
 <template>
 	<section class="row">
-		<div class="col-12">
+		<div v-if="!loading" class="col-12 mb-3">
 			<ul class="m-0 p-0 border border-secondary">
 				<li
 					v-for="comment in comments"
@@ -61,8 +61,10 @@
 			</ul>
 		</div>
 		
-		<div v-if="loading" class="col-12 alert alert-warning">
-			Loading..
+		<div v-if="loading" class="col-12">
+			<div class="m-0 alert alert-warning">
+				Loading..
+			</div>
 		</div>
 	</section>
 </template>

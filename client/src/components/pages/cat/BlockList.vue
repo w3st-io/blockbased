@@ -1,6 +1,6 @@
 <template>
 	<section class="row">
-		<div class="col-12">
+		<div v-if="!loading" class="col-12 mb-3">
 			<ul class="m-0 px-0 border border-secondary">
 				<li
 					v-for="(block, index) in blocks"
@@ -37,9 +37,16 @@
 			</ul>
 		</div>
 		
-		<!-- [ERROR] -->
-		<div v-if="error" class="col-12 alert alert-danger">
-			CatBlockList: {{ error }}
+		<!-- [LOADING + ERROR] -->
+		<div v-if="loading" class="col-12">
+			<div class="m-0 alert alert-warning">
+				Loading..
+			</div>
+		</div>
+		<div v-if="error" class="col-12">
+			<div class="m-0 alert alert-danger">
+				CatBlockList: {{ error }}
+			</div>
 		</div>
 	</section>
 </template>
@@ -86,6 +93,7 @@
 
 		data: function() {
 			return {
+				loading: true,
 				disabled: false,
 				blocks: [],
 				votesReplica: {},
@@ -114,6 +122,9 @@
 
 				this.votesReplica[block._id] = insert
 			})
+
+			// Disable Loading //
+			this.loading = false
 
 			// [LOG] //
 			this.log()

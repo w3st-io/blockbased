@@ -1,7 +1,7 @@
 <template>
 	<section class="row">
 		<!-- Left Side -->
-		<div class="col-lg-6 col-md-12">
+		<div class="col-lg-6 col-md-8 col-sm-8">
 			<!-- Title + Page Nav Buttons -->
 			<h3 class="text-light">{{ block.title }}</h3>
 
@@ -13,7 +13,7 @@
 		</div>
 
 		<!-- Right Side -->
-		<div class="col-lg-6 col-md-12 col-sm text-right">
+		<div class="col-lg-6 col-md-4 col-sm-4 text-right">
 			<p class="mb-3 text-secondary small">
 				{{ block.createdAt }}
 				<span>
