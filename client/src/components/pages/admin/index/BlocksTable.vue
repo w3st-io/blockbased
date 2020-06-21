@@ -7,18 +7,15 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>Data1</td>
-				<td>Data1</td>
-			</tr>
-			<tr>
-				<td>Data1</td>
-				<td>Data1</td>
-			</tr>
-			<tr>
-				<td>Data1</td>
-				<td>Data1</td>
-			</tr>
+			<tr></tr>
 		</tbody>
 	</table>
 </template>
+
+<script>
+export default {
+	props: {},
+
+	data: function() {},
+}
+</script>

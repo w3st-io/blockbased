@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%% *
- * %%% CAT ROUTES %%% *
- * %%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% ADMINISTRATION ROUTES %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
 const cors = require('cors')
@@ -17,18 +17,23 @@ require('dotenv').config()
 const router = express.Router().use(cors())
 
 
-/******************* [LOAD COLLECTION] cats *******************/
-async function loadCatsCollection() {
+/* %%%%%%% BLOCKS %%%%%%% */
+
+
+
+
+/******************* [LOAD COLLECTION] blocks *******************/
+async function loadBlocksCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'
-	const c_name = 'cats'
+	const c_name = 'blocks'
 	
 	const client = await mongodb.MongoClient.connect(
 		uri,
 		{
 			useNewUrlParser: true,
 			useUnifiedTopology: true
-		}
+		}	
 	)
 
 	return client.db(db_name).collection(c_name)

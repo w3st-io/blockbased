@@ -80,7 +80,7 @@
 		},
 
 		created: async function() {
-			// Check if Block is valid
+			// Check If Block Is Valid //
 			try {
 				this.existance = await BlockService.validateExistance(this.block_id)
 			}

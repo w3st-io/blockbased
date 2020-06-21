@@ -1,22 +1,27 @@
 /**
  * %%%%%%%%%%%%%%%%%%%%%% *
- * %%% COMMENTS ROUTE %%% *
+ * %%% COMMENTROUTES %%% *
  * %%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
+const cors = require('cors')
 const express = require('express')
 const mongodb = require('mongodb')
+
 
 // [REQUIRE] Personal //
 require('dotenv').config()
 
+
 // [INIT] //
-const router = express.Router()
+const router = express.Router().use(cors())
+
 
 /******************* [COMMENT CRUD] *******************/
 // [CREATE] //
 router.post('/create', async (req, res) => {
 	const comments = await loadCommentsCollection()
+	
 	await comments.insertOne({
 		createdAt: new Date(),
 		block_id: req.body.block_id,

@@ -2,16 +2,16 @@
  * %%%%%%%%%%%%%%%%%%%% *
  * %%% SERVER INDEX %%% *
  * %%%%%%%%%%%%%%%%%%%% *
- * 
 */
 // [REQUIRE] //
-const bodyParser = require("body-parser")
-const cors = require("cors")
-const express = require("express")
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const express = require('express')
 
 
 // [REQUIRE] Personal + ENV //
 const admins = require('./routes/api/admins')
+const adminstration = require('./routes/api/adminstration')
 const blocks = require('./routes/api/blocks')
 const blockVotes = require('./routes/api/block-votes')
 const cats = require('./routes/api/cats')
@@ -19,7 +19,6 @@ const comments = require('./routes/api/comments')
 const commentVotes = require('./routes/api/comment-votes')
 const forums = require('./routes/api/forums')
 const users = require('./routes/api/users')
-const { use } = require("./routes/api/admins")
 require('dotenv').config()
 
 
@@ -45,6 +44,7 @@ app.get('', async (req, res) => {
 
 // [INIT USE] For "this" route use "this" //
 app.use('/api/admins', admins)
+app.use('/api/admins-master', adminstration)
 app.use('/api/blocks', blocks)
 app.use('/api/block-votes', blockVotes)
 app.use('/api/cats', cats)

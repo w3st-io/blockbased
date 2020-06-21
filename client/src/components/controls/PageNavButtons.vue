@@ -2,7 +2,7 @@
 	<nav class="w-100 m-0">
 		<ul class="pagination">
 			<!-- Left -->
-			<li class="w-25 page-item text-center">
+			<li class="page-item text-center" style="width: 64px;">
 				<a @click="leftBtn()" class="page-link text-light bg-dark">Prev</a>
 			</li>
 
@@ -12,7 +12,7 @@
 			</li>
 
 			<!-- Right -->
-			<li class="w-25 page-item text-center">
+			<li class="page-item text-center" style="width: 64px;">
 				<a @click="rightBtn()" class="page-link text-light bg-dark">Next</a>
 			</li>
 		</ul>

@@ -1,16 +1,24 @@
+/**
+ * %%%%%%%%%%%%%%%%%%% *
+ * %%% USERROUTES %%% *
+ * %%%%%%%%%%%%%%%%%%% *
+*/
 // [REQUIRE] //
-const bcrypt = require("bcryptjs")
-const cors = require("cors")
-const express = require("express")
-const jwt = require("jsonwebtoken")
+const bcrypt = require('bcryptjs')
+const cors = require('cors')
+const express = require('express')
+const jwt = require('jsonwebtoken')
 const mongodb = require('mongodb')
+
 
 // [REQUIRE] Personal //
 const UserModel = require('../../models/UserModel')
 require('dotenv').config()
 
+
 // [USE] //
 const router = express.Router().use(cors())
+
 
 // [INIT] //
 const secretKey = process.env.SECRET_KEY || 'secret'

@@ -1,8 +1,13 @@
+/**
+ * %%%%%%%%%%%%%%%%%%% *
+ * %%% ADMIN ROUTE %%% *
+ * %%%%%%%%%%%%%%%%%%% *
+*/
 // [REQUIRE] //
-const bcrypt = require("bcryptjs")
-const cors = require("cors")
-const express = require("express")
-const jwt = require("jsonwebtoken")
+const bcrypt = require('bcryptjs')
+const cors = require('cors')
+const express = require('express')
+const jwt = require('jsonwebtoken')
 const mongodb = require('mongodb')
 
 // [REQUIRE] Personal //
@@ -15,7 +20,8 @@ const router = express.Router().use(cors())
 const secretKey = process.env.SECRET_KEY || 'secret'
 
 
-// [POST] Login //
+/******************* [ACCOUNT] *******************/
+// [LOGIN] //
 router.post('/login', async (req, res) => {
 	const admins = await loadAdminsCollection()
 
@@ -46,7 +52,7 @@ router.post('/login', async (req, res) => {
 })
 
 
-// [POST] Register //
+// [REGISTER] Register //
 router.post("/register", async (req, res) => {
 	const admins = await loadAdminsCollection()
 	const today = new Date()

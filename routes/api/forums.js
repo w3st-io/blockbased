@@ -1,17 +1,20 @@
 /**
  * %%%%%%%%%%%%%%%%%%%% *
- * %%% FORUMS ROUTE %%% *
+ * %%% FORUMROUTES %%% *
  * %%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
+const cors = require('cors')
 const express = require('express')
 const mongodb = require('mongodb')
+
 
 // [REQUIRE] Personal //
 require('dotenv').config()
 
+
 // [INIT] //
-const router = express.Router()
+const router = express.Router().use(cors())
 
 
 /******************* [LOAD COLLECTION] forums *******************/
