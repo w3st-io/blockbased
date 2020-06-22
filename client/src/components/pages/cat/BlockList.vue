@@ -38,12 +38,16 @@
 		</div>
 		
 		<!-- [LOADING + ERROR] -->
-		<div v-if="loading" class="col-12">
-			<div class="m-0 alert alert-warning">
-				Loading..
+		<div v-show="loading" class="col-12">
+			<div class="m-0 alert alert-info">
+				<div class="d-flex justify-content-center">
+					<div class="spinner-grow">
+						<span class="sr-only">Loading...</span>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div v-if="error" class="col-12">
+		<div v-show="error" class="col-12">
 			<div class="m-0 alert alert-danger">
 				CatBlockList: {{ error }}
 			</div>

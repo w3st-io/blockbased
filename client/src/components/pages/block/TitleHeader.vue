@@ -14,14 +14,15 @@
 
 		<!-- Right Side -->
 		<div class="col-lg-6 col-md-4 col-sm-4 text-right">
-			<p class="mb-3 text-secondary small">
-				{{ block.createdAt }}
+			<p class="mb-3 text-secondary small hide-the-ugly">{{ block.createdAt }}</p>
+			
+			<div class="mb-3 hide-the-ugly">
 				<span>
 					<button class="ml-2 btn btn-sm btn-outline-secondary">
 						Follow<span class="ml-2 badge badge-light">0</span>
 					</button>
 				</span>
-			</p>
+			</div>
 			
 			<button
 				:disabled="disabled"
@@ -101,3 +102,10 @@
 		},
 	}
 </script>
+
+<style lang="scss">
+	// Small devices (landscape phones, 576px and up)
+	@media (max-width: 767.98px) { 
+		.hide-the-ugly { display: none; }
+	}
+</style>

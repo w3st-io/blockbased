@@ -27,14 +27,15 @@
 					type="submit"
 					class="w-100 btn btn-info"
 					:disabled="submitted"
-				>+ Update</button>
+				>
+					<span v-show="!loading">+ Update</span>
+					<span v-show="loading" class="spinner-grow"></span>
+					<span v-show="loading" class="sr-only">Loading...</span>
+				</button>
 			</form>
 		</ValidationObserver>
 
-		<!-- [STATUS OR ERRORS] -->
-		<div v-if="loading" class="mt-3 alert alert-warning">
-			Creating comment..
-		</div>
+		<!-- [ERROR] -->
 		<div v-if="error" class="mt-3 alert alert-danger">
 			{{ error }}
 		</div>

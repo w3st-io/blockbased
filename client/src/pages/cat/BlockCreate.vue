@@ -35,7 +35,11 @@
 					type="submit"
 					class="w-100 btn btn-info"
 					:disabled="submitted"
-				>+ Create</button>
+				>
+					<span v-show="!loading">+ Create</span>
+					<span v-show="loading" class="spinner-grow"></span>
+					<span v-show="loading" class="sr-only">Loading...</span>
+				</button>
 			</form>
 		</ValidationObserver>
 		

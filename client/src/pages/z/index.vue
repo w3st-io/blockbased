@@ -1,23 +1,19 @@
 <template>
-	<div class="container">
-		<div class="row">
-			<section class="my-3">
-				<h3 class="text-white">Create Comment</h3>
-			</section>
-
-			<div class="w-100 card card-body bg-dark">
-				<!-- Editor -->
-				<ckeditor
-					:editor="editor"
-					:config="editorConfig"
-					v-model="editorData"
-				></ckeditor>
-
-				<!-- Create Button -->
-				<button class="w-100 my-3 btn btn-info">Create Comment</button>
-
-				<p v-html="editorData" class="text-white"></p>
-				<p class="text-white">{{ editorData }}</p>
+	<div class="my-4 container bg-danger">
+		<div class="row bg-primary">
+			<div class="col-6">
+				<div class="bg-warning">
+					Testing
+					<br>
+					sdfsdf
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="bg-warning">
+					Testing
+					<br>
+					sdfsd
+				</div>
 			</div>
 		</div>
 	</div>

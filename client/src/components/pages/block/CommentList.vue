@@ -61,9 +61,14 @@
 			</ul>
 		</div>
 		
+		<!-- [LOADING] -->
 		<div v-if="loading" class="col-12">
-			<div class="m-0 alert alert-warning">
-				Loading..
+			<div class="m-0 alert alert-info">
+				<div class="d-flex justify-content-center">
+					<div class="spinner-grow">
+						<span class="sr-only">Loading...</span>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
