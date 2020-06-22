@@ -1,13 +1,32 @@
 <template>
-	<table class="my-3 table table-dark table-striped">
+	<table class="table table-sm table-bordered table-striped table-dark">
 		<thead>
 			<tr>
-				<th>Col 1</th>
-				<th>Col 2</th>
+				<th>Cat Id</th>
+				<th>Title</th>
+				<th>Owner Email</th>
+				<th>Owner Username</th>
+				<th>Created At</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr></tr>
+			<tr
+				v-for="block in blocks"
+				:key="block._id"
+			>
+				<td>{{ block.cat_id }}</td>
+				<td>{{ block.title }}</td>
+				<td>{{ block.email }}</td>
+				<td>{{ block.username }}</td>
+				<td>{{ block.createdAt }}</td>
+				<td class="text-center">
+					<button
+						@click="deleteBlock(block._id)"
+						class="btn btn-danger"
+					>Delete</button>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 </template>
@@ -36,6 +55,21 @@
 		},
 
 		methods: {
+			async deleteBlock(comment_id) {
+				console.log(comment_id)
+				//await CommentVotesService.removeCommentVotes(comment_id)
+				//await CommentService.deleteComment(comment_id)
+				this.getBlocks()
+			},
+
+			async getBlocks() {
+				// Get Blocks //
+				try {
+					this.blocks = await ABlockServices.getAllBlocks(100, 0)
+				}
+				catch(e) { this.error = e }
+			},
+
 			log() {
 				console.log('%%% [COMPONENT] Admin BlocksTable %%%')
 				console.log('blocks:', this.blocks)

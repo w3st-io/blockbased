@@ -1,9 +1,11 @@
 <template>
 	<article class="mx-5">
 		<!-- Button Tabs -->
-		<button-tabs :tabs="tabs" :emitName="'tab-clicked'" class="my-3" />
-
-		<blocks-table v-if="activeTab == 'blocks'" />
+		<div class="w-25 my-3">
+			<button-tabs :tabs="tabs" :emitName="'tab-clicked'" />
+		</div>
+		
+		<blocks-table v-if="activeTab == 'blocks'" class="my-3" />
 
 		<div v-if="error != ''" class="my-3 alert alert-danger">
 			{{ error }}
