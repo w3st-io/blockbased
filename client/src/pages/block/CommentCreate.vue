@@ -24,7 +24,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import CommentCreate from '@components/pages/block/CommentCreate'
+	import CommentCreate from '@components/comment/Create'
 	import router from '@router'
 	import UserService from '@services/UserService'
 

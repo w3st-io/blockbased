@@ -48,7 +48,7 @@
 <script>
 	// [IMPORT] Personal //
 	import PageNavButtons from '@components/controls/PageNavButtons'
-	import CommentList from '@components/pages/block/CommentList'
+	import CommentList from '@components/comment/List'
 	import TitleHeader from '@components/pages/block/TitleHeader'
 	import router from '@router'
 	import BlockService from '@services/BlockService'

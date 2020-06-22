@@ -10,7 +10,7 @@ const mongodb = require('mongodb')
 
 
 // [REQUIRE] Personal //
-const UserModel = require('../../models/UserModel')
+const UserModel = require('../../../models/UserModel')
 require('dotenv').config()
 
 
@@ -19,8 +19,18 @@ const router = express.Router().use(cors())
 
 
 /******************* [USER PROFILE] *******************/
-// [voters array] //
-// [UPDATE] Push + Pull //
+// [READ-ALL] //
+// [READ] //
+router.get('/read-all/profile-data', async (req, res) => {
+	const users = await loadUsersCollection()
+	let retrievedData = await users.find()
+		.toArray()
+	
+	res.status(201).send(retrievedData)
+})
+
+
+// [READ] //
 router.get('/read/profile-data/:_id', async (req, res) => {
 	const users = await loadUsersCollection()
 	let retrievedData = await users.findOne(
@@ -31,6 +41,7 @@ router.get('/read/profile-data/:_id', async (req, res) => {
 })
 
 
+// [UPDATE] //
 router.post('/update/profile-data/:_id', async (req, res) => {
 	const users = await loadUsersCollection()
 	await users.findOneAndUpdate(

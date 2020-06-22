@@ -25,8 +25,6 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 
 
 /******************* [USER PROFILE] *******************/
-// [voters array] //
-// [UPDATE] Push + Pull //
 router.get('/read/profile-data/:_id', async (req, res) => {
 	const users = await loadUsersCollection()
 	let retrievedData = await users.findOne(

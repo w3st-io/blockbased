@@ -18,7 +18,7 @@
 
 <script>
 	// [IMPORT] //
-	import CatList from '@components/pages/forum/CatList'
+	import CatList from '@components/cat/List'
 	import SideCard from '@components/pages/forum/SideCard'
 	import { cats } from '@defaults/cats'
 

@@ -31,7 +31,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import BlockList from '@components/pages/cat/BlockList'
+	import BlockList from '@components/block/List'
 	import TitleHeader from '@components/pages/cat/TitleHeader'
 	import UserService from '@services/UserService'
 	import router from '@router'

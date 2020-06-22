@@ -1,5 +1,8 @@
+// [REQUIRE] //
 const mongoose = require("mongoose")
 require('mongoose-type-email')
+
+// [INIT] //
 const Schema = mongoose.Schema
 
 const UserSchema = new Schema({

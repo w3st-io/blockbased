@@ -21,7 +21,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import CommentEdit from '@components/comment/CommentEdit'
+	import CommentEdit from '@components/comment/Edit'
 	import router from '@router'
 	import UserService from '@services/UserService'
 

@@ -13,7 +13,7 @@
 				<div class="px-2 pt-3 float-left border-circle" style="width: 10%;">
 					<div class="w-100 d-inline-block overflow-auto rounded-circle">
 						<img
-							v-bind:src="require('../../../assets/images/caticons/' + cat.image)"
+							v-bind:src="require('../../assets/images/caticons/' + cat.image)"
 							class="w-100 bg-info img-padding"
 						>
 					</div>

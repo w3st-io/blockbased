@@ -11,7 +11,7 @@
 						<!-- Image Section -->
 						<div class="float-left p-2 border-right border-secondary" style="width: 15%;">
 							<div class="w-100 text-center">
-								<img src="../../../assets/images/placeholder.png" class="m-auto w-75 rounded-lg">
+								<img src="../../assets/images/placeholder.png" class="m-auto w-75 rounded-lg">
 							</div>
 							
 							<p class="m-0 text-center text-light small">
