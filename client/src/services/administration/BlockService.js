@@ -15,7 +15,7 @@ class AdminstrationBlockService {
 
 		let result = new Promise ((resolve, reject) => {
 			axios
-				.get(`/api/administration/blocks/read-all//${amountPerPage}/${skip}`)
+				.get(`/api/administration/blocks/read-all/${amountPerPage}/${skip}`)
 				.then((res) => {
 					const data = res.data
 					resolve(
@@ -29,6 +29,17 @@ class AdminstrationBlockService {
 		})
 
 		return result
+	}
+
+	// [DELETE] //
+	static deleteBlock(block_id) {
+		let result = new Promise ((resolve, reject) => {
+			axios.delete(`/api/administration/blocks/delete/${block_id}`)
+				.then((res) => { resolve(res) })
+				.catch((err) => { reject(err) })
+		})
+
+		return result	
 	}
 }
 

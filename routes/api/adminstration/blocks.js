@@ -40,7 +40,7 @@ router.post('/create', async (req, res) => {
 router.get('/read-all/:amountPerPage/:skip', async (req, res) => {
 	let skip = parseInt(req.params.skip)
 	let amountPerPage = parseInt(req.params.amountPerPage)
-	
+
 	const blocks = await loadBlocksCollection()
 	let retrievedData = await blocks.find()
 		.skip(skip)
@@ -76,6 +76,22 @@ router.get(`/read/:block_id`, async (req, res) => {
 	)
 
 	res.send(retrievedData)
+})
+
+
+/*** [DELETE] ***/
+router.delete('/delete/:_id', async (req, res) => {
+	let validId = mongodb.ObjectID.isValid(req.params._id)
+
+	if (validId) {
+		const blocks = await loadBlocksCollection()	
+		await blocks.deleteOne(
+			{ _id: new mongodb.ObjectID(req.params._id) }
+		)
+
+		res.status(201).send()
+	}
+	else { res.sendStatus(400) }
 })
 
 

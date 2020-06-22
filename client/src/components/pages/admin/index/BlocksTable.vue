@@ -46,7 +46,7 @@
 		created: async function() {
 			// Get Blocks //
 			try {
-			this.blocks = await ABlockServices.getAllBlocks(100, 0)
+				this.blocks = await ABlockServices.getAllBlocks(100, 0)
 			}
 			catch(e) { this.error = e }
 
@@ -56,9 +56,10 @@
 
 		methods: {
 			async deleteBlock(comment_id) {
-				console.log(comment_id)
-				//await CommentVotesService.removeCommentVotes(comment_id)
-				//await CommentService.deleteComment(comment_id)
+				try { await ABlockServices.deleteBlock(comment_id) }
+				catch(e) { this.error = e }
+				
+
 				this.getBlocks()
 			},
 
@@ -73,6 +74,7 @@
 			log() {
 				console.log('%%% [COMPONENT] Admin BlocksTable %%%')
 				console.log('blocks:', this.blocks)
+				if (this.error) { console.log('error:', this.error) }
 			},
 		},
 	}

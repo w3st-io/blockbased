@@ -59,9 +59,16 @@ class BlockService {
 	}
 
 
-	/* NOT PROGRAMMED YET
-	static deleteBlock(id) {
-		return axios.delete(`/api/cats/delete/${id}`)
+	/*
+	// [DELETE] //
+	static deleteBlock(block_id) {
+		let result = new Promise ((resolve, reject) => {
+			axios.delete(`/api/blocks/delete/${block_id}`)
+				.then((res) => { resolve(res) })
+				.catch((err) => { reject(err) })
+		})
+
+		return result	
 	}
 	*/
 

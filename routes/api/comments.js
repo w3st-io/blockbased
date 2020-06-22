@@ -96,7 +96,7 @@ router.post('/update/:_id', async (req, res) => {
 })
 
 
-/*** [DELETE] Delete Post ***/
+/*** [DELETE] ***/
 router.delete('/delete/:_id', async (req, res) => {
 	let validId = mongodb.ObjectID.isValid(req.params._id)
 
