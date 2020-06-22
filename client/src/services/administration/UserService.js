@@ -10,7 +10,7 @@ class AdministrationUserService {
 	/******************* [USER PROFILE] *******************/
 	// [READ-ALL] //
 	static async getAllUsersProfileData() {
-		let profileData = await axios.get(`/api/administration/users/read/profile-data`)
+		let profileData = await axios.get(`/api/administration/users/read-all/profile-data`)
 
 		return profileData.data
 	}

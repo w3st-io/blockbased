@@ -21,7 +21,7 @@ const UserSchema = new Schema({
 	password: {
 		type: String
 	},
-	created: {
+	createdAt: {
 		type: Date,
 		default: Date.now
 	}

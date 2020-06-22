@@ -20,7 +20,6 @@ const router = express.Router().use(cors())
 
 /******************* [USER PROFILE] *******************/
 // [READ-ALL] //
-// [READ] //
 router.get('/read-all/profile-data', async (req, res) => {
 	const users = await loadUsersCollection()
 	let retrievedData = await users.find()

@@ -4,6 +4,9 @@
 		<div class="w-25 my-3">
 			<button-tabs :tabs="tabs" :emitName="'tab-clicked'" />
 		</div>
+
+		<!-- Users Table -->
+		<users-table v-show="activeTab == 'users'" class="my-3" />
 		
 		<!-- Blocks Table -->
 		<blocks-table v-show="activeTab == 'blocks'" class="my-3" />
@@ -22,6 +25,7 @@
 	// [IMPORT] //
 	import BlocksTable from '@components/pages/admin/index/BlocksTable'
 	import CommentsTable from '@components/pages/admin/index/CommentsTable'
+	import UsersTable from '@components/pages/admin/index/UsersTable'
 	import ButtonTabs from '@components/controls/ButtonTabs'
 	import { EventBus } from '@main'
 	import router from '@router'
@@ -32,11 +36,13 @@
 			BlocksTable,
 			ButtonTabs,
 			CommentsTable,
+			UsersTable,
 		},
 
 		data: function() {
 			return {
 				tabs: [
+					{ name: 'users' },
 					{ name: 'blocks' },
 					{ name: 'comments' },
 				],
@@ -53,10 +59,6 @@
 			EventBus.$on('tab-clicked', (tabClicked) => {
 				this.activeTab = tabClicked
 			})
-		},
-
-		methods: {
-			// [DELETE] Delete Events, Post, & Tasks //
 		},
 	}
 </script>
