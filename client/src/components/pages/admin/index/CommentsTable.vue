@@ -2,7 +2,7 @@
 	<table class="table table-sm table-bordered table-striped table-dark">
 		<thead>
 			<tr>
-				<th>Cat Id</th>
+				<th>Block Id</th>
 				<th>Comment</th>
 				<th>Owner Email</th>
 				<th>Owner Username</th>

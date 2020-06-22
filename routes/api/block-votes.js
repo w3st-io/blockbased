@@ -21,7 +21,6 @@ const router = express.Router().use(cors())
 // [CREATE] //
 router.post('/create', async (req, res) => {
 	const blockVotes = await loadBlockVotesCollection()
-
 	await blockVotes.insertOne({
 		createdAt: new Date(),
 		block_id: req.body.block_id,
@@ -37,7 +36,6 @@ router.post('/create', async (req, res) => {
 // [DELETE] //
 router.delete('/delete/:user_id/:block_id', async (req, res) => {
 	const blockVotes = await loadBlockVotesCollection()
-
 	await blockVotes.deleteMany({
 		block_id: req.params.block_id,
 		user_id: req.params.user_id,

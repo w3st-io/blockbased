@@ -7,7 +7,6 @@
 import jwtDecode from 'jwt-decode'
 import axios from 'axios'
 
-/*** [CLASS] AdminService ***/
 class AdminService {
 	// [FUNCTION] Get User Profile Stuff //
 	static getAdminTokenDecodeData() {

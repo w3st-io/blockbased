@@ -21,7 +21,6 @@ const router = express.Router().use(cors())
 // [CREATE] //
 router.post('/create', async (req, res) => {
 	const comments = await loadCommentsCollection()
-	
 	await comments.insertOne({
 		createdAt: new Date(),
 		block_id: req.body.block_id,
@@ -78,7 +77,6 @@ router.get('/read/:_id', async (req, res) => {
 	
 	if (validId) {
 		const comments = await loadCommentsCollection()
-
 		let retrievedData = await comments.findOne(
 			{ _id: new mongodb.ObjectID(req.params._id) }
 		)
@@ -131,8 +129,7 @@ router.delete('/delete/:_id', async (req, res) => {
 // INCREMENT + DECREMENT VOTECOUNT //
 router.post('/update/increment-vote-count/:_id', async (req, res) => {
 	const comments = await loadCommentsCollection()
-
-	comments.findOneAndUpdate(
+	await comments.findOneAndUpdate(
 		{ _id: new mongodb.ObjectID(req.params._id) },
 		{ $inc: { voteCount: 1 } },
 		{ upsert: true }
@@ -142,8 +139,7 @@ router.post('/update/increment-vote-count/:_id', async (req, res) => {
 })
 router.post('/update/decrement-vote-count/:_id', async (req, res) => {
 	const comments = await loadCommentsCollection()
-
-	comments.findOneAndUpdate(
+	await comments.findOneAndUpdate(
 		{ _id: new mongodb.ObjectID(req.params._id) },
 		{ $inc: { voteCount: -1 } },
 		{ upsert: true }
@@ -156,8 +152,7 @@ router.post('/update/decrement-vote-count/:_id', async (req, res) => {
 // PUSH/PULL USER FROM VOTERS ARRAY //
 router.post('/update/push-voter/:_id', async (req, res) => {
 	const comments = await loadCommentsCollection()
-
-	comments.updateOne(
+	await comments.updateOne(
 		{ _id: new mongodb.ObjectID(req.params._id) },
 		{ $push:
 			{ 
@@ -175,8 +170,7 @@ router.post('/update/push-voter/:_id', async (req, res) => {
 })
 router.post('/update/pull-voter/:_id', async (req, res) => {
 	const comments = await loadCommentsCollection()
-
-	comments.updateOne(
+	await comments.updateOne(
 		{ _id: new mongodb.ObjectID(req.params._id) },
 		{ $pull: { voters: { user_id: req.body.user_id } } },
 		{ upsert: true }

@@ -29,7 +29,6 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 // [UPDATE] Push + Pull //
 router.get('/read/profile-data/:_id', async (req, res) => {
 	const users = await loadUsersCollection()
-
 	let retrievedData = await users.findOne(
 		{ _id: new mongodb.ObjectID(req.params._id) }
 	)
@@ -40,8 +39,7 @@ router.get('/read/profile-data/:_id', async (req, res) => {
 
 router.post('/update/profile-data/:_id', async (req, res) => {
 	const users = await loadUsersCollection()
-
-	users.findOneAndUpdate(
+	await users.findOneAndUpdate(
 		{ _id: new mongodb.ObjectID(req.params._id) },
 		{
 			$set: {

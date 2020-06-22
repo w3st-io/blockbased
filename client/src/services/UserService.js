@@ -7,9 +7,7 @@
 import jwtDecode from 'jwt-decode'
 import axios from 'axios'
 
-/*** [CLASS] UserService ***/
 class UserService {
-
 	/******************* [USER PROFILE] *******************/
 	// [TOKEN DECODE] //
 	static getUserTokenDecodeData() {
@@ -32,14 +30,16 @@ class UserService {
 	}
 
 
+	// [READ] //
 	static async getUserProfileData(user_id) {
 		let profileData = await axios.get(`/api/users/read/profile-data/${user_id}`)
 
 		return profileData.data
 	}
 
+
+	// [UPDATE] //
 	static async updateUserProfileData(user_id, url) {
-		console.log(user_id, url)
 		return await axios.post(`/api/users/update/profile-data/${user_id}`,
 			{ url }
 		)

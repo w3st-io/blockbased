@@ -11,7 +11,7 @@
 			/>
 
 			<!-- Display All the Blocks -->
-			<Block-list
+			<block-list
 				:cat_id="cat_id"
 				:pageIndex="pageIndex"
 				:amountPerPage="5"

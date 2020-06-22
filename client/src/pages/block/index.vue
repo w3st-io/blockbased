@@ -11,7 +11,7 @@
 			/>
 
 			<!-- Comments -->
-			<Comment-list
+			<comment-list
 				:block_id="block_id"
 				:pageIndex="pageIndex"
 				:amountPerPage="5"
@@ -72,6 +72,7 @@
 				block_id: this.$route.params.block_id,
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),
+				commentListKey: 0,
 				user_id: 'unset',
 				email: 'unset',
 				username: 'unset',
@@ -81,9 +82,7 @@
 
 		created: async function() {
 			// Check If Block Is Valid //
-			try {
-				this.existance = await BlockService.validateExistance(this.block_id)
-			}
+			try { this.existance = await BlockService.validateExistance(this.block_id) }
 			catch(e) { this.error = e }
 
 			if (this.existance) {
@@ -105,7 +104,7 @@
 			this.loading = false
 
 			// [LOG] //
-			//this.log()
+			this.log()
 		},
 
 		methods: {
@@ -117,7 +116,7 @@
 					this.pageIndex--
 					router.push({ path: `/block/${this.block_id}/${this.pageIndex}` })
 					EventBus.$emit('force-rerender')
-				} 
+				}
 			},
 
 			nextPage() {
@@ -126,6 +125,7 @@
 				// As long as page does not exceed max Number of Pages
 				if (this.pageIndex == this.pageIndex) {
 					this.pageIndex++
+					this.pageNumber++
 					router.push({ path: `/block/${this.block_id}/${this.pageIndex}` })
 					EventBus.$emit('force-rerender')
 				}
@@ -136,6 +136,7 @@
 				console.log('block_id:', this.block_id)
 				console.log('existance:', this.existance)
 				console.log('pageIndex:', this.pageIndex)
+				console.log('commentListKey:', this.commentListKey)
 				console.log('user_id:', this.user_id)
 				console.log('email:', this.email)
 				console.log('username:', this.username)
