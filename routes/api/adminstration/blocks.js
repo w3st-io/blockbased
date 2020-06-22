@@ -51,7 +51,7 @@ router.get('/read-all/:amountPerPage/:skip', async (req, res) => {
 })
 
 
-// [READ ALL] Within a cat_id //
+// [READ ALL] Within a Cat //
 router.get('/read-all/:cat_id/:amountPerPage/:skip', async (req, res) => {
 	let skip = parseInt(req.params.skip)
 	let amountPerPage = parseInt(req.params.amountPerPage)
@@ -79,7 +79,7 @@ router.get(`/read/:block_id`, async (req, res) => {
 })
 
 
-/*** [DELETE] ***/
+// [DELETE] //
 router.delete('/delete/:_id', async (req, res) => {
 	let validId = mongodb.ObjectID.isValid(req.params._id)
 

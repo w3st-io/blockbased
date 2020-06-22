@@ -41,6 +41,21 @@ router.post('/create', async (req, res) => {
 
 
 // [READ-ALL] //
+router.get('/read-all/:amountPerPage/:skip', async (req, res) => {
+	let skip = parseInt(req.params.skip)
+	let amountPerPage = parseInt(req.params.amountPerPage)
+
+	const comments = await loadCommentsCollection()
+	let retrievedData = await comments.find()
+		.skip(skip)
+		.limit(amountPerPage)
+		.toArray()
+
+	res.send(retrievedData)
+})
+
+
+// [READ-ALL] Within a Block //
 router.get('/read-all/:block_id/:amountPerPage/:skip', async (req, res) => {
 	let skip = parseInt(req.params.skip)
 	let amountPerPage = parseInt(req.params.amountPerPage)

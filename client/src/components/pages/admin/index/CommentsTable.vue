@@ -3,7 +3,7 @@
 		<thead>
 			<tr>
 				<th>Cat Id</th>
-				<th>Title</th>
+				<th>Comment</th>
 				<th>Owner Email</th>
 				<th>Owner Username</th>
 				<th>Created At</th>
@@ -12,17 +12,17 @@
 		</thead>
 		<tbody>
 			<tr
-				v-for="block in blocks"
-				:key="block._id"
+				v-for="comment in comments"
+				:key="comment._id"
 			>
-				<td>{{ block.cat_id }}</td>
-				<td>{{ block.title }}</td>
-				<td>{{ block.email }}</td>
-				<td>{{ block.username }}</td>
-				<td>{{ block.createdAt }}</td>
+				<td>{{ comment.block_id }}</td>
+				<td>{{ comment.comment }}</td>
+				<td>{{ comment.email }}</td>
+				<td>{{ comment.username }}</td>
+				<td>{{ comment.createdAt }}</td>
 				<td class="text-center">
 					<button
-						@click="deleteBlock(block._id)"
+						@click="deleteComment(comment._id)"
 						class="btn btn-danger"
 					>Delete</button>
 				</td>
@@ -33,20 +33,20 @@
 
 <script>
 	// [IMPORT] Personal //
-	import ABlockService from '@services/administration/BlockService'
+	import ACommentService from '@services/administration/CommentService'
 
 	export default {
 		data: function() {
 			return {
-				blocks: {},
+				comments: {},
 				error: '',
 			}
 		},
 
 		created: async function() {
-			// Get Blocks //
+			// Get Comments //
 			try {
-				this.blocks = await ABlockService.getAllBlocks(100, 0)
+				this.comments = await ACommentService.adminGetAllComments(100, 0)
 			}
 			catch(e) { this.error = e }
 
@@ -55,26 +55,26 @@
 		},
 
 		methods: {
-			async deleteBlock(comment_id) {
-				// Delete Block //
-				try { await ABlockService.deleteBlock(comment_id) }
+			async deleteComment(comment_id) {
+				// Delete Comment //
+				try { await ACommentService.deleteComment(comment_id) }
 				catch(e) { this.error = e }
 				
 				// Refresh Table //
-				this.getBlocks()
+				this.getComments()
 			},
 
-			async getBlocks() {
-				// Get Blocks //
+			async getComments() {
+				// Get Comments //
 				try {
-					this.blocks = await ABlockService.getAllBlocks(100, 0)
+					this.comments = await ACommentService.adminGetAllComments(100, 0)
 				}
 				catch(e) { this.error = e }
 			},
 
 			log() {
-				console.log('%%% [COMPONENT] Admin BlocksTable %%%')
-				console.log('blocks:', this.blocks)
+				console.log('%%% [COMPONENT] Admin CommentsTable %%%')
+				console.log('comments:', this.comments)
 				if (this.error) { console.log('error:', this.error) }
 			},
 		},

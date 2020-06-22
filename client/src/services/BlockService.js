@@ -21,7 +21,7 @@ class BlockService {
 
 	// [READ ALL] //
 	static getAllBlocks(cat_id, amountPerPage, pageNumber) {
-		// multiply page nubmer with # blocks per page to know how much to skip
+		// multiply page number with # blocks per page to know how much to skip
 		let skip = pageNumber * amountPerPage
 
 		let result = new Promise ((resolve, reject) => {

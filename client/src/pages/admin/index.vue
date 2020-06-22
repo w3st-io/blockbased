@@ -5,8 +5,13 @@
 			<button-tabs :tabs="tabs" :emitName="'tab-clicked'" />
 		</div>
 		
-		<blocks-table v-if="activeTab == 'blocks'" class="my-3" />
+		<!-- Blocks Table -->
+		<blocks-table v-show="activeTab == 'blocks'" class="my-3" />
 
+		<!-- Comments Table -->
+		<comments-table v-show="activeTab == 'comments'" class="my-3" />
+
+		<!-- [ERRORS] -->
 		<div v-if="error != ''" class="my-3 alert alert-danger">
 			{{ error }}
 		</div>
@@ -16,16 +21,17 @@
 <script>
 	// [IMPORT] //
 	import BlocksTable from '@components/pages/admin/index/BlocksTable'
+	import CommentsTable from '@components/pages/admin/index/CommentsTable'
 	import ButtonTabs from '@components/controls/ButtonTabs'
 	import { EventBus } from '@main'
 	import router from '@router'
-	//import AdministrationServices from '@services/AdministrationServices'
 
 	// [EXPORT] //
 	export default {
 		components: {
 			BlocksTable,
 			ButtonTabs,
+			CommentsTable,
 		},
 
 		data: function() {

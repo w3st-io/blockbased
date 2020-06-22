@@ -13,6 +13,7 @@ const express = require('express')
 const admins = require('./routes/api/admins')
 const adminstration = require('./routes/api/adminstration')
 const admininstrationBlocks = require('./routes/api/adminstration/blocks')
+const admininstrationComments = require('./routes/api/adminstration/comments')
 const blocks = require('./routes/api/blocks')
 const blockVotes = require('./routes/api/block-votes')
 const cats = require('./routes/api/cats')
@@ -47,6 +48,7 @@ app.use('/api/users', users)
 // [INIT USE] Adminstration //
 app.use('/api/administration', adminstration)
 app.use('/api/administration/blocks', admininstrationBlocks)
+app.use('/api/administration/comments', admininstrationComments)
 
 
 // [ROUTE] //

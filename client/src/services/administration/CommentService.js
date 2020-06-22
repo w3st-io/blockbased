@@ -1,33 +1,42 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% COMMENT SERVICES %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% ADMINISTRATION COMMENT SERVICES %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [IMPORT] //
 import axios from 'axios'
 
-class CommentService {
+class AdministrationCommentService {
 	/******************* [COMMENT] *******************/
-	// [CREATE] //
-	static createComment(block_id, user_id, email, username, comment) {
-		return axios.post(`/api/comments/create`, {
-			block_id,
-			user_id,
-			email,
-			username,
-			comment,
-		})	
+	// [READ-ALL] //
+	static adminGetAllComments(amountPerPage, pageNumber) {
+		// * page number with # comments per page to calc. skip
+
+		let skip = pageNumber * amountPerPage
+
+		let result = new Promise ((resolve, reject) => {
+			axios.get(`/api/administration/comments/read-all/${amountPerPage}/${skip}`)
+				.then((res) => {
+					const data = res.data
+					resolve(
+						data.map((comment) => ({ ...comment }))
+					)
+				})
+				.catch((err) => { reject(err) })
+		})
+
+		return result
 	}
 
 
-	// [READ-ALL] //
+	// [READ-ALL] Within a Block //
 	static getAllComments(block_id, amountPerPage, pageNumber) {
 		// * page number with # comments per page to calc. skip
 
 		let skip = pageNumber * amountPerPage
 
 		let result = new Promise ((resolve, reject) => {
-			axios.get(`/api/comments/read-all/${block_id}/${amountPerPage}/${skip}`)
+			axios.get(`/api/administration/comments/read-all/${block_id}/${amountPerPage}/${skip}`)
 				.then((res) => {
 					const data = res.data
 					resolve(
@@ -44,9 +53,9 @@ class CommentService {
 	// [READ] //
 	static getComment(comment_id) {
 		let result = new Promise ((resolve, reject) => {
-			axios.get(`/api/comments/read/${comment_id}`)
-				.then((res) => { resolve(res.data) })
-				.catch((err) => { reject(err) })
+			axios.get(`/api/administration/comments/read/${comment_id}`)
+			.then((res) => { resolve(res.data) })
+			.catch((err) => { reject(err) })
 		})
 
 		return result
@@ -57,7 +66,7 @@ class CommentService {
 	static updateComment(comment_id, comment) {
 		console.log('comment:',comment)
 		let result = new Promise ((resolve, reject) => {
-			axios.post(`/api/comments/update/${comment_id}`, { comment })
+			axios.post(`/api/administration/comments/update/${comment_id}`, { comment })
 				.then((res) => { resolve(res.data) })
 				.catch((err) => { reject(err) })
 		})
@@ -69,7 +78,7 @@ class CommentService {
 	// [DELETE] //
 	static deleteComment(comment_id) {
 		let result = new Promise ((resolve, reject) => {
-			axios.delete(`/api/comments/delete/${comment_id}`)
+			axios.delete(`/api/administration/comments/delete/${comment_id}`)
 				.then((res) => { resolve(res) })
 				.catch((err) => { reject(err) })
 		})
@@ -82,7 +91,7 @@ class CommentService {
 	// ADD/REMOVE VOTE //
 	static async addVote(comment_id, user_id, email, username) {
 		// Increment the voteCount //
-		await axios.post(`/api/comments/update/increment-vote-count/${comment_id}`)
+		await axios.post(`/api/administration/comments/update/increment-vote-count/${comment_id}`)
 			
 		// Add the voter from the Block Object
 		return await axios.post(`/api/comments/update/push-voter/${comment_id}`, {
@@ -93,7 +102,7 @@ class CommentService {
 	}
 	static async removeVote(block_id, user_id) {
 		// Decrement the voteCount //
-		await axios.post(`/api/comments/update/decrement-vote-count/${block_id}`)
+		await axios.post(`/api/administration/comments/update/decrement-vote-count/${block_id}`)
 
 		// Remove the voter from the Block Object
 		return await axios.post(`/api/comments/update/pull-voter/${block_id}`, {
@@ -103,4 +112,4 @@ class CommentService {
 }
 
 // [EXPORT] //
-export default CommentService
+export default AdministrationCommentService
