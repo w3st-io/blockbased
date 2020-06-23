@@ -91,29 +91,23 @@ class BlockService {
 	/******************* [VOTE SYSTEM] *******************/
 	// ADD/REMOVE VOTE //
 	static async addVote(block_id, user_id, email, username) {
-		let status = ''
-		
-		try {
-			status = await authAxios.post(`/update/push-voter/${block_id}`, {
-				user_id,
-				email,
-				username,
-			})
+		let status = await authAxios.post(`/update/push-voter/${block_id}`, {
+			user_id,
+			email,
+			username,
+		})
 
-			return status
-		}
-		catch(e) {
-			console.error('BlockService.addVote:', e)
-			return status = e
-		}
+		return status
 	}
 
 
 	static async removeVote(block_id, user_id) {
 		// Remove the voter from the Block Object //
-		return await authAxios.post(`/update/pull-voter/${block_id}`, {
+		let status = await authAxios.post(`/update/pull-voter/${block_id}`, {
 			user_id,
 		})
+
+		return status
 	}
 
 	/******************* [VALIDATION] *******************/
