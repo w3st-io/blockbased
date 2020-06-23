@@ -28,7 +28,6 @@ router.post('/create', async (req, res) => {
 		email: req.body.email,
 		username: req.body.username,
 		comment: req.body.comment,
-		voteCount: 0,
 		voters: [],
 		
 	}).then((result) => {
@@ -111,29 +110,6 @@ router.delete('/delete/:_id', async (req, res) => {
 
 
 /******************* [VOTE SYSTEM] *******************/
-// INCREMENT + DECREMENT VOTECOUNT //
-router.post('/update/increment-vote-count/:_id', async (req, res) => {
-	const comments = await loadCommentsCollection()
-	await comments.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params._id) },
-		{ $inc: { voteCount: 1 } },
-		{ upsert: true }
-	)
-
-	res.status(201).send()
-})
-router.post('/update/decrement-vote-count/:_id', async (req, res) => {
-	const comments = await loadCommentsCollection()
-	await comments.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params._id) },
-		{ $inc: { voteCount: -1 } },
-		{ upsert: true }
-	)
-
-	res.status(201).send()
-})
-
-
 // PUSH/PULL USER FROM VOTERS ARRAY //
 router.post('/update/push-voter/:_id', async (req, res) => {
 	const comments = await loadCommentsCollection()

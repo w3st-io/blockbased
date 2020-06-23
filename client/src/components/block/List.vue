@@ -118,10 +118,10 @@
 
 			// Create/store "votesReplica" //
 			this.blocks.forEach(block => {
-				let insert = { voteCount: block.voteCount, voted: false }
+				let insert = { voteCount: block.voters.length, voted: false }
 
 				if (this.searchVotersArrayInBlock(block.voters)) {
-					insert = { voteCount: block.voteCount, voted: true }
+					insert = { voteCount: block.voters.length, voted: true }
 				}
 
 				this.votesReplica[block._id] = insert
@@ -168,7 +168,6 @@
 
 			async addVote(block_id) {
 				// [CREATE] Like in "blockVotes" Colelction //
-				// [UPDATE] Block Object //
 				try {
 					await BlockVotesService.addBlockVote(
 						block_id,
@@ -179,9 +178,9 @@
 				}
 				catch(e) { this.error = e }
 
-				// [UPDATE] Block Object //
+				
 				try {
-					await BlockService.addVote(
+					BlockService.addVote(
 						block_id,
 						this.user_id,
 						this.email,

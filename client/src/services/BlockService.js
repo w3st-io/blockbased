@@ -6,9 +6,12 @@
 // [IMPORT] //
 import axios from 'axios'
 
+
 // [INIT] //
 const token = localStorage.usertoken
 
+
+// [AUTH TOKEN SETUP] //
 const authAxios = axios.create({
 	baseURL: '/api/blocks',
 	headers: {
@@ -16,35 +19,36 @@ const authAxios = axios.create({
 	}
 })
 
+
 class BlockService {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
-	static createBlock(user_id, email, username, title, cat_id) {
-		return authAxios.post('/create', {
+	static async createBlock(user_id, email, username, title, cat_id) {
+		let status = await authAxios.post('/create', {
 			user_id,
 			email,
 			username,
 			title,
 			cat_id
 		})
+
+		return status
 	}
 
+
 	// [READ ALL] //
-	static getAllBlocks(cat_id, amountPerPage, pageNumber) {
+	static async getAllBlocks(cat_id, amountPerPage, pageNumber) {
 		// multiply page number with # blocks per page to know how much to skip
 		let skip = pageNumber * amountPerPage
 
 		let result = new Promise ((resolve, reject) => {
-			axios
-				.get(`/api/blocks/read-all/${cat_id}/${amountPerPage}/${skip}`)
+			authAxios.get(`/read-all/${cat_id}/${amountPerPage}/${skip}`)
 				.then((res) => {
 					const data = res.data
-					resolve(
-						data.map((block) => ({
-							...block,
-							createdAt: new Date(block.createdAt)
-						}))
-					)
+					resolve(data.map((block) => ({
+						...block,
+						createdAt: new Date(block.createdAt)
+					})))
 				})
 				.catch((err) => { reject(err) })
 		})
@@ -52,10 +56,11 @@ class BlockService {
 		return result
 	}
 
+
 	// [READ] //
 	static getBlockDetails(block_id) {
 		let result = new Promise ((resolve, reject) => {
-			return axios.get(`/api/blocks/read/${block_id}`)
+			authAxios.get(`/read/${block_id}`)
 				.then((res) => {
 					const data = res.data
 
@@ -86,36 +91,42 @@ class BlockService {
 	/******************* [VOTE SYSTEM] *******************/
 	// ADD/REMOVE VOTE //
 	static async addVote(block_id, user_id, email, username) {
-		// Increment the voteCount //
-		await axios.post(`/api/blocks/update/increment-vote-count/${block_id}`)
-			
-		// Add the voter from the Block Object
-		return await axios.post(`/api/blocks/update/push-voter/${block_id}`, {
-			user_id,
-			email,
-			username,
-		})
-	}
-	static async removeVote(block_id, user_id) {
-		// Decrement the voteCount //
-		await axios.post(`/api/blocks/update/decrement-vote-count/${block_id}`)
+		let status = ''
+		
+		try {
+			status = await authAxios.post(`/update/push-voter/${block_id}`, {
+				user_id,
+				email,
+				username,
+			})
 
-		// Remove the voter from the Block Object
-		return await axios.post(`/api/blocks/update/pull-voter/${block_id}`, {
+			return status
+		}
+		catch(e) {
+			console.error('BlockService.addVote:', e)
+			return status = e
+		}
+	}
+
+
+	static async removeVote(block_id, user_id) {
+		// Remove the voter from the Block Object //
+		return await authAxios.post(`/update/pull-voter/${block_id}`, {
 			user_id,
 		})
 	}
 
 	/******************* [VALIDATION] *******************/
 	static async validateExistance(block_id) {
-		let valid = await axios.get(`/api/blocks/validate/${block_id}`)
+		let valid = await authAxios.get(`/validate/${block_id}`)
 		
 		return valid.data
 	}
 
+
 	/******************* [COUNT] *******************/
 	static async countBlocksForCat(cat_id) {
-		let count = await axios.get(`/api/blocks/count/${cat_id}`)
+		let count = await authAxios.get(`/count/${cat_id}`)
 
 		return count.data
 	}

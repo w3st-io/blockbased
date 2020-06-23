@@ -138,10 +138,10 @@
 
 			// Create/store "votesReplica" //
 			this.comments.forEach(comment => {
-				let insert = { voteCount: comment.voteCount, voted: false }
+				let insert = { voteCount: comment.voters.length, voted: false }
 
 				if (this.searchVotersArrayInComment(comment.voters)) {
-					insert = { voteCount: comment.voteCount, voted: true }
+					insert = { voteCount: comment.voters.length, voted: true }
 				}
 
 				this.votesReplica[comment._id] = insert

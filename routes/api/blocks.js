@@ -10,7 +10,7 @@ const mongodb = require('mongodb')
 
 
 // [REQUIRE] Personal //
-const AuthMiddleware = require("../../auth/AuthMiddleware")
+const Auth = require("../../auth/AuthMiddleware")
 require('dotenv').config()
 
 
@@ -20,7 +20,7 @@ const router = express.Router().use(cors())
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-router.post('/create', AuthMiddleware.userCheck(), async (req, res) => {
+router.post('/create', Auth.userCheck(), async (req, res) => {
 	const blocks = await loadBlocksCollection()
 	await blocks.insertOne({
 		createdAt: new Date(),
@@ -29,7 +29,6 @@ router.post('/create', AuthMiddleware.userCheck(), async (req, res) => {
 		email: req.body.email,
 		username: req.body.username,
 		title: req.body.title,
-		voteCount: 0,
 		voters: [],
 	})
 
@@ -66,59 +65,43 @@ router.get(`/read/:block_id`, async (req, res) => {
 
 
 /******************* [VOTE SYSTEM] *******************/
-// INCREMENT + DECREMENT VOTECOUNT //
-router.post('/update/increment-vote-count/:_id', async (req, res) => {
+// [VOTERS] PUSH + PULL //
+router.post(
+	'/update/push-voter/:_id',
+	Auth.userCheck(),
+	async (req, res) => {
 	const blocks = await loadBlocksCollection()
-	await blocks.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params._id) },
-		{ $inc: { voteCount: 1 } },
-		{ upsert: true }
-	)
+		await blocks.updateOne(
+			{ _id: new mongodb.ObjectID(req.params._id) },
+			{ $push:
+				{ 
+					voters: {
+						user_id: req.body.user_id,
+						email: req.body.email,
+						username: req.body.username,
+					} 
+				}
+			},
+			{ upsert: true }
+		)
 
-	res.status(201).send()
-})
-router.post('/update/decrement-vote-count/:_id', async (req, res) => {
-	const blocks = await loadBlocksCollection()
+		res.status(201).send()
+	}
+)
+router.post(
+	'/update/pull-voter/:_id',
+	Auth.userCheck(),
+	async (req, res) => {
+		const blocks = await loadBlocksCollection()
+		await blocks.updateOne(
+			{ _id: new mongodb.ObjectID(req.params._id) },
+			{ $pull: { voters: { user_id: req.body.user_id } } },
+			{ upsert: true }
+		)
 
-	blocks.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params._id) },
-		{ $inc: { voteCount: -1 } },
-		{ upsert: true }
-	)
-
-	res.status(201).send()
-})
-
-
-// PUSH/PULL USER FROM VOTERS ARRAY //
-router.post('/update/push-voter/:_id', async (req, res) => {
-	const blocks = await loadBlocksCollection()
-	await blocks.updateOne(
-		{ _id: new mongodb.ObjectID(req.params._id) },
-		{ $push:
-			{ 
-				voters: {
-					user_id: req.body.user_id,
-					email: req.body.email,
-					username: req.body.username,
-				} 
-			}
-		},
-		{ upsert: true }
-	)
-
-	res.status(201).send()
-})
-router.post('/update/pull-voter/:_id', async (req, res) => {
-	const blocks = await loadBlocksCollection()
-	await blocks.updateOne(
-		{ _id: new mongodb.ObjectID(req.params._id) },
-		{ $pull: { voters: { user_id: req.body.user_id } } },
-		{ upsert: true }
-	)
-
-	res.status(201).send()
-})
+		res.status(201).send()
+	}
+)
 
 
 /******************* [VALIDATION] *******************/

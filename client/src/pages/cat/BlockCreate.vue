@@ -76,7 +76,7 @@
 
 		created: async function() {
 			// [REDIRECT] Not Log Needed //
-			//if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
+			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
 
 			// Retrieve User Data //
 			try {
@@ -122,6 +122,7 @@
 			
 			log() {
 				console.log('%%% [PAGE] CatBlockCreate %%%')
+				console.log('usertoken:', localStorage.usertoken)
 				console.log('cat_id:', this.cat_id)
 				console.log('user_id:', this.user_id)
 				console.log('email:', this.email)

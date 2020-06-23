@@ -79,13 +79,12 @@
 			try {
 				this.block = await BlockService.getBlockDetails(this.block_id)
 				
-				// Enable Button
+				// Enable Button //
 				this.disabled = false
 			}
 			catch(e) { this.error = e }
 			
-			
-
+			// [LOG] //
 			this.log()
 		},
 

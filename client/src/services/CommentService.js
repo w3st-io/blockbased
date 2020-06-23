@@ -81,9 +81,6 @@ class CommentService {
 	/******************* [VOTE SYSTEM] *******************/
 	// ADD/REMOVE VOTE //
 	static async addVote(comment_id, user_id, email, username) {
-		// Increment the voteCount //
-		await axios.post(`/api/comments/update/increment-vote-count/${comment_id}`)
-			
 		// Add the voter from the Block Object
 		return await axios.post(`/api/comments/update/push-voter/${comment_id}`, {
 			user_id,
@@ -92,9 +89,6 @@ class CommentService {
 		})
 	}
 	static async removeVote(block_id, user_id) {
-		// Decrement the voteCount //
-		await axios.post(`/api/comments/update/decrement-vote-count/${block_id}`)
-
 		// Remove the voter from the Block Object
 		return await axios.post(`/api/comments/update/pull-voter/${block_id}`, {
 			user_id,

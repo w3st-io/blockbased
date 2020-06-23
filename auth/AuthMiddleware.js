@@ -41,12 +41,13 @@ class AuthMiddleWare {
 	// [ADMIN] //
 	static adminCheck() {
 		return (req, res, next) => {
-			// Get JWT in Headers
-			const token = req.headers.jwt_token
+			// Get Token from Header and remove "Bearer "
+			const token = req.headers.authorization
+			const TokenBody = token.slice(7)
 			
 			// If a token exists =>  Validate JWT //
-			if (token) {
-				jwt.verify(token, secretKey, (err, decoded) => {
+			if (TokenBody) {
+				jwt.verify(TokenBody, secretKey, (err, decoded) => {
 					// [DECODED] //
 					if (decoded) {
 						// Check if the role is admin
