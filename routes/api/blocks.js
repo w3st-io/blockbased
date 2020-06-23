@@ -10,6 +10,7 @@ const mongodb = require('mongodb')
 
 
 // [REQUIRE] Personal //
+const AuthMiddleware = require("../../auth/AuthMiddleware")
 require('dotenv').config()
 
 
@@ -19,7 +20,7 @@ const router = express.Router().use(cors())
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-router.post('/create', async (req, res) => {
+router.post('/create', AuthMiddleware.userCheck(), async (req, res) => {
 	const blocks = await loadBlocksCollection()
 	await blocks.insertOne({
 		createdAt: new Date(),

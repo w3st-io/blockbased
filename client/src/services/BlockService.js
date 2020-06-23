@@ -6,11 +6,21 @@
 // [IMPORT] //
 import axios from 'axios'
 
+// [INIT] //
+const token = localStorage.usertoken
+
+const authAxios = axios.create({
+	baseURL: '/api/blocks',
+	headers: {
+		authorization: `Bearer ${token}`
+	}
+})
+
 class BlockService {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
 	static createBlock(user_id, email, username, title, cat_id) {
-		return axios.post('/api/blocks/create', {
+		return authAxios.post('/create', {
 			user_id,
 			email,
 			username,

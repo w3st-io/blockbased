@@ -76,7 +76,7 @@
 
 		created: async function() {
 			// [REDIRECT] Not Log Needed //
-			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
+			//if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
 
 			// Retrieve User Data //
 			try {
@@ -98,9 +98,6 @@
 				this.loading = true
 				
 				this.createBlock()
-
-				// [REDIRECT] Cat Page //
-				router.push({ name: 'Cat', params: { cat_id: this.cat_id, page: 1 } })
 			},
 
 			// [CREATE] Create Post Via PostService Function //
@@ -113,6 +110,9 @@
 						this.title,
 						this.cat_id
 					)
+
+					// [REDIRECT] Cat Page //
+					router.push({ name: 'Cat', params: { cat_id: this.cat_id, page: '1' } })
 				}
 				catch(e) {
 					this.loading = false
