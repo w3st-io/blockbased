@@ -7,15 +7,11 @@
 import axios from 'axios'
 
 
-// [INIT] //
-const token = localStorage.usertoken
-
-
 // [AUTH TOKEN SETUP] //
 const authAxios = axios.create({
 	baseURL: '/api/blocks',
 	headers: {
-		authorization: `Bearer ${token}`
+		authorization: `Bearer ${localStorage.usertoken}`
 	}
 })
 

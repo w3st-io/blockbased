@@ -47,7 +47,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-show="error" class="col-12">
+		<div v-show="!error" class="col-12">
 			<div class="m-0 alert alert-danger">
 				CatBlockList: {{ error }}
 			</div>
@@ -167,7 +167,7 @@
 			},
 
 			async addVote(block_id) {
-				// [CREATE] Like in "blockVotes" Colelction //
+				// [CREATE] Vote in "blockVotes" Colelction //
 				try {
 					await BlockVotesService.addBlockVote(
 						block_id,
@@ -191,7 +191,7 @@
 			},
 
 			async removeVote(block_id) {
-				// [DELETE] Like in "blockVotes" Collection //
+				// [DELETE] Vote in "blockVotes" Collection //
 				try {
 					await BlockVotesService.removeBlockVote(
 						block_id,

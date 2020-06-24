@@ -6,26 +6,38 @@
 // [IMPORT] //
 import axios from 'axios'
 
+
+// [AUTH TOKEN SETUP] //
+const authAxios = axios.create({
+	baseURL: '/api/block-votes',
+	headers: {
+		authorization: `Bearer ${localStorage.usertoken}`
+	}
+})
+
+
 class BlockVotesService {
 	/******************* [CRUD] *******************/
-
-	/******************* [OTHER CRUD] *******************/
-	// [UPDATE] Vote System //
-	// ADD/REMOVE VOTE //
+	// [CREATE] ADD VOTE //
 	static async addBlockVote(block_id, user_id, email, username) {
 		// Add the voter from the Block Object
-		return await axios.post(`/api/block-votes/create`, {
+		let status = await authAxios.post(`/create`, {
 			block_id,
 			user_id,
 			email,
 			username,
 		})
+
+		return status
 	}
+
+
+	// [DELETE] REMOVE VOTE //
 	static async removeBlockVote(block_id, user_id) {
 		// Remove the voter from the Block Object
-		return await axios.delete(
-			`/api/block-votes/delete/${user_id}/${block_id}`
-		)
+		let status = await authAxios.delete(`/delete/${user_id}/${block_id}`)
+
+		return status
 	}
 }
 
