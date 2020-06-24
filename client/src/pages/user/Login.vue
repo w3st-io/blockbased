@@ -125,7 +125,7 @@
 
 					// Emit // [REDIRECT] //
 					EventBus.$emit('logged-in')
-					router.push({ name: 'Profile' })
+					router.push({ path: '/' })
 				}	
 			},
 		}

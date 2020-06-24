@@ -6,17 +6,29 @@
 // [IMPORT] //
 import axios from 'axios'
 
+
+// [AUTH TOKEN SETUP] //
+const authAxios = axios.create({
+	baseURL: '/api/comments',
+	headers: {
+		authorization: `Bearer ${localStorage.usertoken}`
+	}
+})
+
+
 class CommentService {
 	/******************* [COMMENT] *******************/
 	// [CREATE] //
 	static createComment(block_id, user_id, email, username, comment) {
-		return axios.post(`/api/comments/create`, {
+		let status = authAxios.post(`/create`, {
 			block_id,
 			user_id,
 			email,
 			username,
 			comment,
-		})	
+		})
+
+		return status
 	}
 
 
@@ -27,7 +39,7 @@ class CommentService {
 		let skip = pageNumber * amountPerPage
 
 		let result = new Promise ((resolve, reject) => {
-			axios.get(`/api/comments/read-all/${block_id}/${amountPerPage}/${skip}`)
+			authAxios.get(`/read-all/${block_id}/${amountPerPage}/${skip}`)
 				.then((res) => {
 					const data = res.data
 					resolve(
@@ -44,7 +56,7 @@ class CommentService {
 	// [READ] //
 	static getComment(comment_id) {
 		let result = new Promise ((resolve, reject) => {
-			axios.get(`/api/comments/read/${comment_id}`)
+			authAxios.get(`/read/${comment_id}`)
 				.then((res) => { resolve(res.data) })
 				.catch((err) => { reject(err) })
 		})
@@ -55,9 +67,8 @@ class CommentService {
 
 	// [UPDATE] //
 	static updateComment(comment_id, comment) {
-		console.log('comment:',comment)
 		let result = new Promise ((resolve, reject) => {
-			axios.post(`/api/comments/update/${comment_id}`, { comment })
+			authAxios.post(`/update/${comment_id}`, { comment })
 				.then((res) => { resolve(res.data) })
 				.catch((err) => { reject(err) })
 		})
@@ -69,7 +80,7 @@ class CommentService {
 	// [DELETE] //
 	static deleteComment(comment_id) {
 		let result = new Promise ((resolve, reject) => {
-			axios.delete(`/api/comments/delete/${comment_id}`)
+			authAxios.delete(`/delete/${comment_id}`)
 				.then((res) => { resolve(res) })
 				.catch((err) => { reject(err) })
 		})
@@ -82,19 +93,24 @@ class CommentService {
 	// ADD/REMOVE VOTE //
 	static async addVote(comment_id, user_id, email, username) {
 		// Add the voter from the Block Object
-		return await axios.post(`/api/comments/update/push-voter/${comment_id}`, {
+		let status = await authAxios.post(`/update/push-voter/${comment_id}`, {
 			user_id,
 			email,
 			username,
 		})
+
+		return status
 	}
 	static async removeVote(block_id, user_id) {
 		// Remove the voter from the Block Object
-		return await axios.post(`/api/comments/update/pull-voter/${block_id}`, {
+		let status = await authAxios.post(`/update/pull-voter/${block_id}`, {
 			user_id,
 		})
+
+		return status
 	}
 }
+
 
 // [EXPORT] //
 export default CommentService

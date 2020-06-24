@@ -10,6 +10,7 @@ const mongodb = require('mongodb')
 
 
 // [REQUIRE] Personal //
+const Auth = require('../../auth/AuthMiddleware')
 require('dotenv').config()
 
 
@@ -18,8 +19,8 @@ const router = express.Router().use(cors())
 
 
 /******************* [COMMENT CRUD] *******************/
-// [CREATE] //
-router.post('/create', async (req, res) => {
+// [CREATE] Auth Required //
+router.post('/create', Auth.userCheck(), async (req, res) => {
 	const comments = await loadCommentsCollection()
 	await comments.insertOne({
 		createdAt: new Date(),
@@ -71,8 +72,8 @@ router.get('/read/:_id', async (req, res) => {
 })
 
 
-/*** [UPDATE] Add event ***/
-router.post('/update/:_id', async (req, res) => {
+// [UPDATE] Auth Required //
+router.post('/update/:_id', Auth.userCheck(), async (req, res) => {
 	let validId = mongodb.ObjectID.isValid(req.params._id)
 
 	if (validId) {
@@ -93,8 +94,8 @@ router.post('/update/:_id', async (req, res) => {
 })
 
 
-// [DELETE] //
-router.delete('/delete/:_id', async (req, res) => {
+// [DELETE] Auth Required //
+router.delete('/delete/:_id', Auth.userCheck(), async (req, res) => {
 	let validId = mongodb.ObjectID.isValid(req.params._id)
 
 	if (validId) {
@@ -110,8 +111,8 @@ router.delete('/delete/:_id', async (req, res) => {
 
 
 /******************* [VOTE SYSTEM] *******************/
-// PUSH/PULL USER FROM VOTERS ARRAY //
-router.post('/update/push-voter/:_id', async (req, res) => {
+// [PUSH] Auth Required //
+router.post('/update/push-voter/:_id', Auth.userCheck(), async (req, res) => {
 	const comments = await loadCommentsCollection()
 	await comments.updateOne(
 		{ _id: new mongodb.ObjectID(req.params._id) },
@@ -129,7 +130,10 @@ router.post('/update/push-voter/:_id', async (req, res) => {
 
 	res.status(201).send()
 })
-router.post('/update/pull-voter/:_id', async (req, res) => {
+
+
+// [PULL] Auth Required //
+router.post('/update/pull-voter/:_id', Auth.userCheck(), async (req, res) => {
 	const comments = await loadCommentsCollection()
 	await comments.updateOne(
 		{ _id: new mongodb.ObjectID(req.params._id) },

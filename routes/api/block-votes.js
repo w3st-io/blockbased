@@ -10,6 +10,7 @@ const mongodb = require('mongodb')
 
 
 // [REQUIRE] Personal //
+const Auth = require('../../auth/AuthMiddleware')
 require('dotenv').config()
 
 
@@ -19,7 +20,7 @@ const router = express.Router().use(cors())
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-router.post('/create', async (req, res) => {
+router.post('/create', Auth.userCheck(), async (req, res) => {
 	const blockVotes = await loadBlockVotesCollection()
 	await blockVotes.insertOne({
 		createdAt: new Date(),
@@ -34,7 +35,7 @@ router.post('/create', async (req, res) => {
 
 
 // [DELETE] //
-router.delete('/delete/:user_id/:block_id', async (req, res) => {
+router.delete('/delete/:user_id/:block_id', Auth.userCheck(), async (req, res) => {
 	const blockVotes = await loadBlockVotesCollection()
 	await blockVotes.deleteMany({
 		block_id: req.params.block_id,

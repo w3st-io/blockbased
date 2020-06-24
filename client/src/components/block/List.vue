@@ -47,7 +47,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-show="!error" class="col-12">
+		<div v-show="error" class="col-12">
 			<div class="m-0 alert alert-danger">
 				CatBlockList: {{ error }}
 			</div>
