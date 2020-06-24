@@ -19,7 +19,7 @@ const router = express.Router().use(cors())
 
 
 /******************* [CRUD] *******************/
-// [CREATE] //
+// [CREATE] Auth Required //
 router.post('/create', Auth.userCheck(), async (req, res) => {
 	const commentVotes = await loadCommentVotesCollection()
 	await commentVotes.insertOne({
@@ -35,7 +35,7 @@ router.post('/create', Auth.userCheck(), async (req, res) => {
 })
 
 
-// [DELETE] User's Single Comment Vote //
+// [DELETE] Auth Required - User's Single Comment Vote //
 router.delete('/delete/:user_id/:comment_id', Auth.userCheck(), async (req, res) => {
 	const commentVotes = await loadCommentVotesCollection()
 	await commentVotes.deleteMany({
@@ -46,7 +46,7 @@ router.delete('/delete/:user_id/:comment_id', Auth.userCheck(), async (req, res)
 	res.status(200).send()
 })
 
-// [DELETE ALL] Comment's All User Vote //
+// [DELETE ALL] Auth Required - Comment's All User Vote //
 router.delete('/delete-all/:comment_id', Auth.userCheck(), async (req, res) => {
 	const commentVotes = await loadCommentVotesCollection()
 	await commentVotes.deleteMany({

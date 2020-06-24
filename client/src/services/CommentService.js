@@ -8,10 +8,11 @@ import axios from 'axios'
 
 
 // [AUTH TOKEN SETUP] //
+const token = localStorage.usertoken
 const authAxios = axios.create({
 	baseURL: '/api/comments',
 	headers: {
-		authorization: `Bearer ${localStorage.usertoken}`
+		authorization: `Bearer ${token}`
 	}
 })
 

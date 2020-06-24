@@ -157,8 +157,8 @@
 		methods: {
 			/******************* [COMMENT] *******************/
 			async getComments() {
-				// [UPDATE] Comments //
-				try {
+				// Get Comments //
+			try {
 					this.comments = await CommentService.getAllComments(
 						this.block_id,
 						this.amountPerPage,
@@ -171,7 +171,10 @@
 			async deleteComment(comment_id) {
 				await CommentVotesService.removeCommentVotes(comment_id)
 				await CommentService.deleteComment(comment_id)
+
+				// [UPDATE] Variable on this page //
 				this.getComments()
+				this.setVotesReplica()
 			},
 
 			doesUserOwnThisComment(user_id) {
@@ -266,6 +269,19 @@
 				else {
 					this.votesReplica[comment_id].voteCount--
 				} 
+			},
+
+			setVotesReplica() {
+				// Create/store "votesReplica" //
+				this.comments.forEach(comment => {
+					let insert = { voteCount: comment.voters.length, voted: false }
+
+					if (this.searchVotersArrayInComment(comment.voters)) {
+						insert = { voteCount: comment.voters.length, voted: true }
+					}
+
+					this.votesReplica[comment._id] = insert
+				})
 			},
 
 			/******************* [ROUTER] *******************/

@@ -8,17 +8,18 @@ import axios from 'axios'
 
 
 // [AUTH TOKEN SETUP] //
+const token = localStorage.usertoken
 const authAxios = axios.create({
-	baseURL: '/api/comments-votes',
+	baseURL: '/api/comment-votes',
 	headers: {
-		authorization: `Bearer ${localStorage.usertoken}`
+		authorization: `Bearer ${token}`
 	}
 })
 
 
 class CommentVotesService {
 	/******************* [CRUD] *******************/
-	// [CREATE] //
+	// [CREATE] Auth Required //
 	static async addCommentVote(comment_id, block_id, user_id, email, username) {
 		// Add the voter from the Block Object
 		let status = await authAxios.post(`/create`, {
@@ -31,9 +32,9 @@ class CommentVotesService {
 
 		return status
 	}
-	
 
-	// [DELETE] User's Single Comment Vote //
+
+	// [DELETE] Auth Required - User's Single Comment Vote //
 	static async removeUsersCommentVote(comment_id, user_id) {
 		// Remove the voter from the Block Object
 		let status = await authAxios.delete(`/delete/${user_id}/${comment_id}`)
@@ -42,7 +43,7 @@ class CommentVotesService {
 	}
 
 
-	// [DELETE ALL] Comment's All User Vote //
+	// [DELETE ALL] Auth Required - Comment's All User Vote //
 	static async removeCommentVotes(comment_id) {
 		// Remove the voter from the Block Object
 		let status = await authAxios.delete(
