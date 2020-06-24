@@ -59,8 +59,8 @@
 			<div
 				class="alert alert-danger"
 				v-if="
-					logInStatus === 'incorrect_email' ||
-					logInStatus === 'incorrect_password'
+					status === 'incorrect_email' ||
+					status === 'incorrect_password'
 				"
 			>Incorrect password or email.</div>
 
@@ -85,8 +85,8 @@
 				submitted: false,
 				email: '',
 				password: '',
-				logInStatus: '',
-				token: '',
+				status: '',
+				returned: '',
 				error: '',
 			}
 		},
@@ -100,28 +100,22 @@
 			async login() {
 				try {
 					// Get Status from Login Function //
-					let status = await UserService.login(this.email, this.password)
+					this.returned = await UserService.login(this.email, this.password)
 
-					// Check if Email or Username taken //
-					if (status.data.status != 'incorrect_email') {
-						if (status.data.status != 'incorrect_password') {
-							this.token = status.data.token
-							this.logInStatus = 'success'
-						}
-						// [INCORRECT PASSWORD] //
-						else { this.logInStatus = status.data.status }
-					}
-					// [INCORRECT EMAIL]
-					else { this.logInStatus = status.data.status }
+					// Check Validation Status //
+					if (
+						this.returned.data.status != 'incorrect_email' &&
+						this.returned.data.status != 'incorrect_password'
+					) { this.status = 'success' }
+					else { this.status = this.returned.data.status }
+					
 				}
 				catch(err) { this.error = err }
 
 				// Check Status //
-				if (this.logInStatus == 'success') {
-					// [SET TOKEN] // Rest Form //
-					localStorage.setItem('usertoken', this.token)
-					this.email = ''
-					this.password = ''
+				if (this.status == 'success') {
+					// [SET TOKEN] //
+					localStorage.setItem('usertoken', this.returned.data.token)
 
 					// Emit // [REDIRECT] //
 					EventBus.$emit('logged-in')

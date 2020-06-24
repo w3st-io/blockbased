@@ -127,18 +127,12 @@
 		</div>
 		<br>
 
-		<!-- Errors -->
-		<div
-			v-if="registerStatus === 'email_taken'"
-			class="alert alert-danger" role="alert"
-		>
-			Email is taken. Try Another email.
+		<!-- [STATUS + ERRORS] -->
+		<div v-if="success" class="alert alert-success">
+			Successfully Created Account!
 		</div>
-		<div
-			v-if="registerStatus === 'username_taken'"
-			class="alert alert-danger" role="alert"
-		>
-			Username is taken. Try Another username.
+		<div v-if="error" class="alert alert-danger">
+			{{ error }}
 		</div>
 	</div>
 </template>
@@ -157,7 +151,10 @@
 				username: '',
 				email: '',
 				password: '',
-				registerStatus: ''
+				confirm: '',
+				status: '',
+				success: '',
+				error: '',
 			}
 		},
 
@@ -168,25 +165,35 @@
 
 		methods: {
 			async register() {
-				let status = await AdminService.register(
+				// [REGISTER] //
+			
+				let returned = await AdminService.register(
 					this.first_name,
 					this.last_name,
 					this.username,
 					this.email,
 					this.password,
 				)
-				console.log('status', status)
 
-				// Set "registerStatus" // [LOG] //
-				this.registerStatus = status.data.status
-				console.log('Register Status:', this.registerStatus)
+				this.status = returned.data.status
 
+				console.log(this.returned)
+				
+				
 				// Check Status //
-				if (this.registerStatus == 'success') {
-					// [LOG] // Change Page //
-					console.log('Account successfully created.')
-					router.push({ name: 'AdminLogin' })
-				}
+				if (this.status == 'success') { this.success = true }
+				else if (this.status == 'username_taken') { this.error = 'Username Taken' }
+				else if (this.status == 'email_taken') { this.error = 'Email Taken' }
+
+				console.log('error', this.error)
+
+				// [REDIRECT] //
+				if (this.success == true) router.push({ name: 'AdminLogin' })
+			},
+
+			log() {
+				console.log('%%% [PAGE] Admin Register %%%')
+				console.log('Register Status:', this.status)
 			},
 		}
 	}

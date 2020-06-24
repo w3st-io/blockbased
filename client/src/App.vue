@@ -53,17 +53,33 @@
 
 			// [--> EMIT IN] //
 			EventBus.$on('admin-logged-in', () => { this.adminLoggedIn = true })
-			EventBus.$on('admin-logged-out', () => { this.forceRerender() })
+			EventBus.$on('admin-logged-out', () => { this.adminForceRerender() })
 			EventBus.$on('force-rerender', () => { this.forceRerender() })
+
+			// [LOG] //
+			this.log()
 		},
 
 		methods: {
 			forceRerender() {
-				this.adminLoggedIn = false
 				this.adminNavBarKey += 1
 				this.routerViewKey += 1
 				
 				console.log('Forced Rerendered')
+			},
+
+			adminForceRerender() {
+				this.adminLoggedIn = false
+				this.adminNavBarKey += 1
+				this.routerViewKey += 1
+				
+				console.log('Admin Forced Rerendered')
+			},
+
+			log() {
+				console.log('%%% [APP] App %%%')
+				console.log('usertoken', localStorage.usertoken)
+				console.log('admintoken', localStorage.admintoken)
 			}
 		}
 	}

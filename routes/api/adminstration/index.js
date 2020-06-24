@@ -17,11 +17,6 @@ require('dotenv').config()
 const router = express.Router().use(cors())
 
 
-/* %%%%%%% BLOCKS %%%%%%% */
-
-
-
-
 /******************* [LOAD COLLECTION] blocks *******************/
 async function loadBlocksCollection() {
 	const uri = process.env.MONGO_URI

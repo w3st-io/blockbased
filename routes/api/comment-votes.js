@@ -10,7 +10,7 @@ const mongodb = require('mongodb')
 
 
 // [REQUIRE] Personal //
-const Auth = require('../../auth/AuthMiddleware')
+const Auth = require('../../server-middleware/AuthMiddleware')
 require('dotenv').config()
 
 

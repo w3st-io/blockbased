@@ -55,28 +55,18 @@
 		</div>
 		<br>
 
-		<!-- Errors -->
-		<div
-			class="alert alert-danger" role="alert"
-			v-if="
-				logStatus === 'incorrect_email' 
-			"
-		>Incorrect email.</div>
-
-		<div
-			class="alert alert-danger" role="alert"
-			v-if="
-				logStatus === 'incorrect_password'
-			"
-		>Incorrect password.</div>
+		<!-- [ERRORS] -->
+		<div v-if="error" class="alert alert-danger">
+			{{ error }}
+		</div>
 	</div>
 </template>
 
 <script>
 	// [IMPORT] Personal //
-	import { EventBus } from '@main'
 	import router from '@router'
 	import AdminService from '@services/AdminService'
+	import { EventBus } from '@main'
 
 	// [EXPORT] //
 	export default {
@@ -85,7 +75,8 @@
 				submitted: false,
 				email: '',
 				password: '',
-				logStatus: ''
+				returned: '',
+				error: '',
 			}
 		},
 
@@ -97,30 +88,24 @@
 		methods: {
 			async login() {
 				// Get Status from Login Function //
-				let status = await AdminService.login(this.email, this.password)
+				this.returned = await AdminService.login(this.email, this.password)
 
-				// Check if Email or Username taken //
-            if (status.data.status != 'incorrect_email') {
-               if (status.data.status != 'incorrect_password') {
-                  // [SET TOKEN] //
-                  localStorage.setItem('admintoken', status.data.token)
-                  this.email = ''
-                  this.password = ''
-						router.push({ name: 'AdminDashboard' })
-
-                  // [CALL] //
-                  this.emitMethod()
-               }
-               // [INCORRECT PASSWORD] //
-               else { this.logStatus = status.data.status }
-            }
-            // [INCORRECT EMAIL]
-            else { this.logStatus = status.data.status }
+				// Check Validation Status //
+				if (
+					this.returned.data.token &&
+					this.returned.data.status != 'incorrect_email' &&
+					this.returned.data.status != 'incorrect_password'
+				) { this.successful() }
+            else { this.error = this.returned.data.status }
 			},
 
-			emitMethod() {
-				// [EMIT -->]
+			successful() {
+				// [STORE TOKEN] //
+				localStorage.setItem('admintoken', this.returned.data.token)
+
+				// [EMIT -->] //
 				EventBus.$emit('admin-logged-in')
+				router.push({ name: 'AdminDashboard' })
 			}
 		}
 	}

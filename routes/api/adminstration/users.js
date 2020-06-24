@@ -10,7 +10,7 @@ const mongodb = require('mongodb')
 
 
 // [REQUIRE] Personal //
-const UserModel = require('../../../models/UserModel')
+const Auth = require('../../../server-middleware/AuthMiddleware')
 require('dotenv').config()
 
 
@@ -20,7 +20,7 @@ const router = express.Router().use(cors())
 
 /******************* [USER PROFILE] *******************/
 // [READ-ALL] //
-router.get('/read-all/profile-data', async (req, res) => {
+router.get('/read-all/profile-data', Auth.adminCheck(), async (req, res) => {
 	const users = await loadUsersCollection()
 	let retrievedData = await users.find()
 		.toArray()
