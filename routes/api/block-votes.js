@@ -19,7 +19,7 @@ const router = express.Router().use(cors())
 
 
 /******************* [CRUD] *******************/
-// [CREATE] //
+// [CREATE] Auth Required //
 router.post('/create', Auth.userCheck(), async (req, res) => {
 	const blockVotes = await loadBlockVotesCollection()
 	await blockVotes.insertOne({
@@ -34,7 +34,7 @@ router.post('/create', Auth.userCheck(), async (req, res) => {
 })
 
 
-// [DELETE] //
+// [DELETE] Auth Required //
 router.delete('/delete/:user_id/:block_id', Auth.userCheck(), async (req, res) => {
 	const blockVotes = await loadBlockVotesCollection()
 	await blockVotes.deleteMany({

@@ -10,6 +10,7 @@ const mongodb = require('mongodb')
 
 
 // [REQUIRE] Personal //
+const Auth = require('../../auth/AuthMiddleware')
 require('dotenv').config()
 
 
@@ -19,7 +20,7 @@ const router = express.Router().use(cors())
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-router.post('/create', async (req, res) => {
+router.post('/create', Auth.userCheck(), async (req, res) => {
 	const commentVotes = await loadCommentVotesCollection()
 	await commentVotes.insertOne({
 		createdAt: new Date(),
@@ -35,7 +36,7 @@ router.post('/create', async (req, res) => {
 
 
 // [DELETE] User's Single Comment Vote //
-router.delete('/delete/:user_id/:comment_id', async (req, res) => {
+router.delete('/delete/:user_id/:comment_id', Auth.userCheck(), async (req, res) => {
 	const commentVotes = await loadCommentVotesCollection()
 	await commentVotes.deleteMany({
 		comment_id: req.params.comment_id,
@@ -46,7 +47,7 @@ router.delete('/delete/:user_id/:comment_id', async (req, res) => {
 })
 
 // [DELETE ALL] Comment's All User Vote //
-router.delete('/delete-all/:comment_id', async (req, res) => {
+router.delete('/delete-all/:comment_id', Auth.userCheck(), async (req, res) => {
 	const commentVotes = await loadCommentVotesCollection()
 	await commentVotes.deleteMany({
 		comment_id: req.params.comment_id,

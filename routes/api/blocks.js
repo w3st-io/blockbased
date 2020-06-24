@@ -19,7 +19,7 @@ const router = express.Router().use(cors())
 
 
 /******************* [CRUD] *******************/
-// [CREATE] //
+// [CREATE] Auth Required //
 router.post('/create', Auth.userCheck(), async (req, res) => {
 	const blocks = await loadBlocksCollection()
 	await blocks.insertOne({
@@ -65,7 +65,7 @@ router.get(`/read/:block_id`, async (req, res) => {
 
 
 /******************* [VOTE SYSTEM] *******************/
-// [VOTERS] PUSH + PULL //
+// [PUSH] Auth Required //
 router.post(
 	'/update/push-voter/:_id',
 	Auth.userCheck(),
@@ -88,6 +88,9 @@ router.post(
 		res.status(201).send()
 	}
 )
+
+
+// [PULL] Auth Required //
 router.post(
 	'/update/pull-voter/:_id',
 	Auth.userCheck(),
