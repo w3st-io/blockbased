@@ -19,7 +19,7 @@ const authAxios = axios.create({
 
 class AdminstrationBlockService {
 	/******************* [CRUD] *******************/
-	// [READ ALL] //
+	// [READ ALL] Auth Required //
 	static getAllBlocks(amountPerPage, pageNumber) {
 		// multiply page number with # blocks per page to know how much to skip
 		let skip = pageNumber * amountPerPage
@@ -41,7 +41,7 @@ class AdminstrationBlockService {
 		return result
 	}
 
-	// [DELETE] //
+	// [DELETE] Auth Required //
 	static deleteBlock(block_id) {
 		let result = new Promise ((resolve, reject) => {
 			authAxios.delete(`/blocks/delete/${block_id}`)

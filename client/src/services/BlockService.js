@@ -19,7 +19,7 @@ const authAxios = axios.create({
 
 class BlockService {
 	/******************* [CRUD] *******************/
-	// [CREATE] //
+	// [CREATE] Auth Required //
 	static async createBlock(user_id, email, username, title, cat_id) {
 		let status = await authAxios.post('/create', {
 			user_id,
@@ -54,7 +54,7 @@ class BlockService {
 	}
 
 
-	// [READ] //
+	// [READ] This for Single Block Details //
 	static getBlockDetails(block_id) {
 		let result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read/${block_id}`)

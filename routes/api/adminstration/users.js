@@ -19,7 +19,7 @@ const router = express.Router().use(cors())
 
 
 /******************* [USER PROFILE] *******************/
-// [READ-ALL] //
+// [READ-ALL] Auth Required //
 router.get('/read-all/profile-data', Auth.adminCheck(), async (req, res) => {
 	const users = await loadUsersCollection()
 	let retrievedData = await users.find()
@@ -29,7 +29,7 @@ router.get('/read-all/profile-data', Auth.adminCheck(), async (req, res) => {
 })
 
 
-// [READ] //
+// [READ] Auth Required //
 router.get('/read/profile-data/:_id', Auth.adminCheck(), async (req, res) => {
 	const users = await loadUsersCollection()
 	let retrievedData = await users.findOne(
@@ -40,15 +40,14 @@ router.get('/read/profile-data/:_id', Auth.adminCheck(), async (req, res) => {
 })
 
 
-// [UPDATE] //
+// [UPDATE] Auth Required //
 router.post('/update/profile-data/:_id', Auth.adminCheck(), async (req, res) => {
 	const users = await loadUsersCollection()
 	await users.findOneAndUpdate(
 		{ _id: new mongodb.ObjectID(req.params._id) },
 		{
 			$set: {
-				profilePicURL: req.body.url,
-				
+				profilePicURL: req.body.img_url,
 			}
 		},
 		{ upsert: true }

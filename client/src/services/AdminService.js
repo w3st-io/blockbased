@@ -19,7 +19,7 @@ const authAxios = axios.create({
 
 
 class AdminService {
-	// [FUNCTION] Get User Profile Stuff //
+	// [TOKEN DECODE] //
 	static getAdminTokenDecodeData() {
 		let decoded = {}
 

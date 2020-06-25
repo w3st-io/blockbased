@@ -19,24 +19,24 @@ const authAxios = axios.create({
 
 class AdministrationUserService {
 	/******************* [USER PROFILE] *******************/
-	// [READ-ALL] //
+	// [READ-ALL] Auth Required //
 	static async getAllUsersProfileData() {
 		let profileData = await authAxios.get(`/read-all/profile-data`)
 
 		return profileData.data
 	}
 
-	// [READ] //
+	// [READ] Auth Required //
 	static async getUserProfileData(user_id) {
 		let profileData = await authAxios.get(`/read/profile-data/${user_id}`)
 
 		return profileData.data
 	}
 
-	// [UPDATE] //
-	static async updateUserProfileData(user_id, url) {
+	// [UPDATE] Auth Required //
+	static async updateUserProfileData(user_id, img_url) {
 		return await authAxios.post(`/update/profile-data/${user_id}`,
-			{ url }
+			{ img_url }
 		)
 	}
 }

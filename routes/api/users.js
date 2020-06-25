@@ -25,6 +25,7 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 
 
 /******************* [USER PROFILE] *******************/
+// [READ] //
 router.get('/read/profile-data/:_id', async (req, res) => {
 	const users = await loadUsersCollection()
 	let retrievedData = await users.findOne(
@@ -35,6 +36,7 @@ router.get('/read/profile-data/:_id', async (req, res) => {
 })
 
 
+// [UPDATE] //
 router.post('/update/profile-data/:_id', async (req, res) => {
 	const users = await loadUsersCollection()
 	await users.findOneAndUpdate(
@@ -53,7 +55,7 @@ router.post('/update/profile-data/:_id', async (req, res) => {
 
 
 /******************* [USER LOGIN/REGISTER] *******************/
-// [POST] Login //
+// [LOGIN] //
 router.post('/login', async (req, res) => {
 	const users = await loadUsersCollection()
 
@@ -84,7 +86,7 @@ router.post('/login', async (req, res) => {
 })
 
 
-// [POST] Register //
+// [REGISTER] //
 router.post("/register", async (req, res) => {
 	const users = await loadUsersCollection()
 	const userData = new UserModel(req.body)

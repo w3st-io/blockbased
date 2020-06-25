@@ -19,7 +19,7 @@ const router = express.Router().use(cors())
 
 
 /******************* [COMMENT CRUD] *******************/
-// [READ-ALL] //
+// [READ-ALL] Auth Required //
 router.get('/read-all/:amountPerPage/:skip', Auth.adminCheck(), async (req, res) => {
 	let skip = parseInt(req.params.skip)
 	let amountPerPage = parseInt(req.params.amountPerPage)
@@ -34,7 +34,7 @@ router.get('/read-all/:amountPerPage/:skip', Auth.adminCheck(), async (req, res)
 })
 
 
-// [READ-ALL] Within a Block //
+// [READ-ALL] Auth Required - Within a Block //
 router.get('/read-all/:block_id/:amountPerPage/:skip', Auth.adminCheck(), async (req, res) => {
 	let skip = parseInt(req.params.skip)
 	let amountPerPage = parseInt(req.params.amountPerPage)
@@ -51,7 +51,7 @@ router.get('/read-all/:block_id/:amountPerPage/:skip', Auth.adminCheck(), async 
 })
 
 
-// [READ] //
+// [READ] Auth Required //
 router.get('/read/:_id', Auth.adminCheck(), async (req, res) => {
 	let validId = mongodb.ObjectID.isValid(req.params._id)
 	
@@ -67,7 +67,7 @@ router.get('/read/:_id', Auth.adminCheck(), async (req, res) => {
 })
 
 
-/*** [UPDATE] Add event ***/
+// [UPDATE] Auth Required //
 router.post('/update/:_id', Auth.adminCheck(), async (req, res) => {
 	let validId = mongodb.ObjectID.isValid(req.params._id)
 
@@ -89,7 +89,7 @@ router.post('/update/:_id', Auth.adminCheck(), async (req, res) => {
 })
 
 
-// [DELETE] //
+// [DELETE] Auth Required //
 router.delete('/delete/:_id', Auth.adminCheck(), async (req, res) => {
 	let validId = mongodb.ObjectID.isValid(req.params._id)
 
@@ -106,7 +106,7 @@ router.delete('/delete/:_id', Auth.adminCheck(), async (req, res) => {
 
 
 /******************* [VOTE SYSTEM] *******************/
-// PUSH/PULL USER FROM VOTERS ARRAY //
+// [PUSH] Auth Required //
 router.post('/update/push-voter/:_id', Auth.adminCheck(), async (req, res) => {
 	const comments = await loadCommentsCollection()
 	await comments.updateOne(
@@ -125,6 +125,9 @@ router.post('/update/push-voter/:_id', Auth.adminCheck(), async (req, res) => {
 
 	res.status(201).send()
 })
+
+
+// [PULL] Auth Required //
 router.post('/update/pull-voter/:_id', Auth.adminCheck(), async (req, res) => {
 	const comments = await loadCommentsCollection()
 	await comments.updateOne(

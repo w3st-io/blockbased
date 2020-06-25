@@ -53,7 +53,7 @@ router.get('/read-all/:cat_id/:amountPerPage/:skip', async (req, res) => {
 })
 
 
-// [READ] // This for Single Block Details //
+// [READ] This for Single Block Details //
 router.get(`/read/:block_id`, async (req, res) => {
 	const blocks = await loadBlocksCollection()
 	let retrievedData = await blocks.findOne(

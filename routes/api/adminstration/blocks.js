@@ -19,24 +19,7 @@ const router = express.Router().use(cors())
 
 
 /******************* [CRUD] *******************/
-// [CREATE] //
-router.post('/create', Auth.adminCheck(), async (req, res) => {
-	const blocks = await loadBlocksCollection()
-	await blocks.insertOne({
-		createdAt: new Date(),
-		cat_id: req.body.cat_id,
-		user_id: req.body.user_id,
-		email: req.body.email,
-		username: req.body.username,
-		title: req.body.title,
-		voters: [],
-	})
-
-	res.status(201).send()
-})
-
-
-// [READ ALL] //
+// [READ ALL] Auth Required //
 router.get('/read-all/:amountPerPage/:skip', Auth.adminCheck(), async (req, res) => {
 	let skip = parseInt(req.params.skip)
 	let amountPerPage = parseInt(req.params.amountPerPage)
@@ -51,7 +34,7 @@ router.get('/read-all/:amountPerPage/:skip', Auth.adminCheck(), async (req, res)
 })
 
 
-// [READ ALL] Within a Cat //
+// [READ ALL] Auth Required - Within a Cat //
 router.get('/read-all/:cat_id/:amountPerPage/:skip', Auth.adminCheck(), async (req, res) => {
 	let skip = parseInt(req.params.skip)
 	let amountPerPage = parseInt(req.params.amountPerPage)
@@ -68,7 +51,7 @@ router.get('/read-all/:cat_id/:amountPerPage/:skip', Auth.adminCheck(), async (r
 })
 
 
-// [READ] // Single Block Details //
+// [READ] Auth Required - Single Block Details //
 router.get(`/read/:block_id`, Auth.adminCheck(), async (req, res) => {
 	const blocks = await loadBlocksCollection()
 	let retrievedData = await blocks.findOne(
@@ -79,7 +62,7 @@ router.get(`/read/:block_id`, Auth.adminCheck(), async (req, res) => {
 })
 
 
-// [DELETE] //
+// [DELETE] Auth Required //
 router.delete('/delete/:_id', Auth.adminCheck(), async (req, res) => {
 	let validId = mongodb.ObjectID.isValid(req.params._id)
 
@@ -96,7 +79,7 @@ router.delete('/delete/:_id', Auth.adminCheck(), async (req, res) => {
 
 
 /******************* [VOTE SYSTEM] *******************/
-// PUSH/PULL USER FROM VOTERS ARRAY //
+// [PUSH] Auth Required //
 router.post('/update/push-voter/:_id', Auth.adminCheck(), async (req, res) => {
 	const blocks = await loadBlocksCollection()
 
@@ -116,6 +99,9 @@ router.post('/update/push-voter/:_id', Auth.adminCheck(), async (req, res) => {
 
 	res.status(201).send()
 })
+
+
+// [PULL] Auth Required //
 router.post('/update/pull-voter/:_id', Auth.adminCheck(), async (req, res) => {
 	const blocks = await loadBlocksCollection()
 

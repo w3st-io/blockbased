@@ -19,7 +19,7 @@ const authAxios = axios.create({
 
 class AdministrationCommentService {
 	/******************* [COMMENT] *******************/
-	// [READ-ALL] //
+	// [READ-ALL] Auth Required //
 	static adminGetAllComments(amountPerPage, pageNumber) {
 		// * page number with # comments per page to calc. skip
 
@@ -40,7 +40,7 @@ class AdministrationCommentService {
 	}
 
 
-	// [READ-ALL] Within a Block //
+	// [READ-ALL] Auth Required - Within a Block //
 	static getAllComments(block_id, amountPerPage, pageNumber) {
 		// * page number with # comments per page to calc. skip
 		let skip = pageNumber * amountPerPage

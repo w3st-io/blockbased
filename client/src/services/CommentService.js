@@ -19,7 +19,7 @@ const authAxios = axios.create({
 
 class CommentService {
 	/******************* [COMMENT] *******************/
-	// [CREATE] //
+	// [CREATE] Auth Required //
 	static createComment(block_id, user_id, email, username, comment) {
 		let status = authAxios.post(`/create`, {
 			block_id,
@@ -66,7 +66,7 @@ class CommentService {
 	}
 
 
-	// [UPDATE] //
+	// [UPDATE] Auth Required //
 	static updateComment(comment_id, comment) {
 		let result = new Promise ((resolve, reject) => {
 			authAxios.post(`/update/${comment_id}`, { comment })
@@ -78,7 +78,7 @@ class CommentService {
 	}
 
 
-	// [DELETE] //
+	// [DELETE] Auth Required //
 	static deleteComment(comment_id) {
 		let result = new Promise ((resolve, reject) => {
 			authAxios.delete(`/delete/${comment_id}`)
