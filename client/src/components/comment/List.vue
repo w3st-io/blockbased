@@ -158,7 +158,7 @@
 			/******************* [COMMENT] *******************/
 			async getComments() {
 				// Get Comments //
-			try {
+				try {
 					this.comments = await CommentService.getAllComments(
 						this.block_id,
 						this.amountPerPage,

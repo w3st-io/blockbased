@@ -110,13 +110,13 @@
 
 			// [CREATE] Create Comment //
 			async submit() {
-				//if (localStorage.usertoken) {
+				if (localStorage.usertoken) {
 					this.submitted = true
 					this.loading = true
 
 					this.createComment()
-				//}
-				//else { this.error = 'Unable to create comment' }
+				}
+				else { this.error = 'Unable to create comment' }
 			},
 
 			async createComment() {

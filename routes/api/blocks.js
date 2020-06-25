@@ -7,11 +7,12 @@
 const cors = require('cors')
 const express = require('express')
 const mongodb = require('mongodb')
+require('dotenv').config()
 
 
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
-require('dotenv').config()
+const Collections = require('../../server-collections')
 
 
 // [INIT] //
@@ -21,7 +22,7 @@ const router = express.Router().use(cors())
 /******************* [CRUD] *******************/
 // [CREATE] Auth Required //
 router.post('/create', Auth.userCheck(), async (req, res) => {
-	const blocks = await loadBlocksCollection()
+	const blocks = await Collections.loadBlocksCollection()
 	await blocks.insertOne({
 		createdAt: new Date(),
 		cat_id: req.body.cat_id,
@@ -41,7 +42,7 @@ router.get('/read-all/:cat_id/:amountPerPage/:skip', async (req, res) => {
 	let skip = parseInt(req.params.skip)
 	let amountPerPage = parseInt(req.params.amountPerPage)
 	
-	const blocks = await loadBlocksCollection()
+	const blocks = await Collections.loadBlocksCollection()
 	let retrievedData = await blocks.find(
 		{ cat_id: req.params.cat_id }
 	)
@@ -55,7 +56,7 @@ router.get('/read-all/:cat_id/:amountPerPage/:skip', async (req, res) => {
 
 // [READ] This for Single Block Details //
 router.get(`/read/:block_id`, async (req, res) => {
-	const blocks = await loadBlocksCollection()
+	const blocks = await Collections.loadBlocksCollection()
 	let retrievedData = await blocks.findOne(
 		{ _id: new mongodb.ObjectID(req.params.block_id) }
 	)
@@ -70,7 +71,7 @@ router.post(
 	'/update/push-voter/:_id',
 	Auth.userCheck(),
 	async (req, res) => {
-	const blocks = await loadBlocksCollection()
+	const blocks = await Collections.loadBlocksCollection()
 		await blocks.updateOne(
 			{ _id: new mongodb.ObjectID(req.params._id) },
 			{ $push:
@@ -95,7 +96,7 @@ router.post(
 	'/update/pull-voter/:_id',
 	Auth.userCheck(),
 	async (req, res) => {
-		const blocks = await loadBlocksCollection()
+		const blocks = await Collections.loadBlocksCollection()
 		await blocks.updateOne(
 			{ _id: new mongodb.ObjectID(req.params._id) },
 			{ $pull: { voters: { user_id: req.body.user_id } } },
@@ -112,7 +113,7 @@ router.get('/validate/:_id', async (req, res) => {
 	let existance = mongodb.ObjectID.isValid(req.params._id)
 
 	if (existance) {
-		const blocks = await loadBlocksCollection()
+		const blocks = await Collections.loadBlocksCollection()
 
 		let retrievedData = await blocks.findOne(
 			{ _id: new mongodb.ObjectID(req.params._id) }
@@ -128,7 +129,7 @@ router.get('/validate/:_id', async (req, res) => {
 
 /******************* [COUNT] *******************/
 router.get('/count/:cat_id', async (req, res) => {
-	const blocks = await loadBlocksCollection()
+	const blocks = await Collections.loadBlocksCollection()
 
 	try {
 		const count = await blocks.countDocuments(
@@ -140,23 +141,6 @@ router.get('/count/:cat_id', async (req, res) => {
 	catch(e) { res.send(e) }
 })
 
-
-/******************* [LOAD COLLECTION] blocks *******************/
-async function loadBlocksCollection() {
-	const uri = process.env.MONGO_URI
-	const db_name = process.env.DB || 'db_name'
-	const c_name = 'blocks'
-	
-	const client = await mongodb.MongoClient.connect(
-		uri,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		}
-	)
-
-	return client.db(db_name).collection(c_name)
-}
 
 // [EXPORT] //
 module.exports = router

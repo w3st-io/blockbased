@@ -67,10 +67,10 @@ router.post('/login', async (req, res) => {
 			if (bcrypt.compareSync(req.body.password, emailFound.password)) {
 				const payload = {
 					_id: emailFound._id,
+					email: emailFound.email,
+					username: emailFound.username,
 					first_name: emailFound.first_name,
 					last_name: emailFound.last_name,
-					username: emailFound.username,
-					email: emailFound.email,
 				}
 
 				// Set Token //
