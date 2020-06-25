@@ -78,8 +78,8 @@
 
 			log() {
 				console.log('%%% [APP] App %%%')
-				console.log('usertoken', localStorage.usertoken)
-				console.log('admintoken', localStorage.admintoken)
+				console.log('usertoken:', localStorage.usertoken)
+				console.log('admintoken:', localStorage.admintoken)
 			}
 		}
 	}

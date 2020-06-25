@@ -6,6 +6,17 @@
 // [IMPORT] //
 import axios from 'axios'
 
+
+// [AUTH TOKEN SETUP] //
+const token = localStorage.admintoken
+const authAxios = axios.create({
+	baseURL: '/api/administration/blocks',
+	headers: {
+		authorization2: `Bearer ${token}`
+	}
+})
+
+
 class AdminstrationBlockService {
 	/******************* [CRUD] *******************/
 	// [READ ALL] //
@@ -14,8 +25,7 @@ class AdminstrationBlockService {
 		let skip = pageNumber * amountPerPage
 
 		let result = new Promise ((resolve, reject) => {
-			axios
-				.get(`/api/administration/blocks/read-all/${amountPerPage}/${skip}`)
+			authAxios.get(`/read-all/${amountPerPage}/${skip}`)
 				.then((res) => {
 					const data = res.data
 					resolve(
@@ -34,7 +44,7 @@ class AdminstrationBlockService {
 	// [DELETE] //
 	static deleteBlock(block_id) {
 		let result = new Promise ((resolve, reject) => {
-			axios.delete(`/api/administration/blocks/delete/${block_id}`)
+			authAxios.delete(`/blocks/delete/${block_id}`)
 				.then((res) => { resolve(res) })
 				.catch((err) => { reject(err) })
 		})

@@ -43,8 +43,6 @@ class AuthMiddleWare {
 		return (req, res, next) => {
 			// Get Token from Header and remove "Bearer "
 			const token = req.headers.authorization2
-
-			console.log(token)
 			
 			// If a token exists =>  Validate JWT //
 			if (token) {

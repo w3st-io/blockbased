@@ -152,6 +152,7 @@
 				email: '',
 				password: '',
 				confirm: '',
+				returned: '',
 				status: '',
 				success: '',
 				error: '',
@@ -166,18 +167,19 @@
 		methods: {
 			async register() {
 				// [REGISTER] //
-			
-				let returned = await AdminService.register(
-					this.first_name,
-					this.last_name,
-					this.username,
-					this.email,
-					this.password,
-				)
+				try {
+					this.returned = await AdminService.register(
+						this.first_name,
+						this.last_name,
+						this.username,
+						this.email,
+						this.password,
+					)
+				}
+				catch(e) { this.error = e }
 
-				this.status = returned.data.status
-
-				console.log(this.returned)
+				// Set Status //
+				this.status = this.returned.data.status
 				
 				
 				// Check Status //

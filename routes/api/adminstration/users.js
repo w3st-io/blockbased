@@ -30,7 +30,7 @@ router.get('/read-all/profile-data', Auth.adminCheck(), async (req, res) => {
 
 
 // [READ] //
-router.get('/read/profile-data/:_id', async (req, res) => {
+router.get('/read/profile-data/:_id', Auth.adminCheck(), async (req, res) => {
 	const users = await loadUsersCollection()
 	let retrievedData = await users.findOne(
 		{ _id: new mongodb.ObjectID(req.params._id) }
@@ -41,7 +41,7 @@ router.get('/read/profile-data/:_id', async (req, res) => {
 
 
 // [UPDATE] //
-router.post('/update/profile-data/:_id', async (req, res) => {
+router.post('/update/profile-data/:_id', Auth.adminCheck(), async (req, res) => {
 	const users = await loadUsersCollection()
 	await users.findOneAndUpdate(
 		{ _id: new mongodb.ObjectID(req.params._id) },

@@ -41,7 +41,7 @@ router.post('/update/profile-data/:_id', async (req, res) => {
 		{ _id: new mongodb.ObjectID(req.params._id) },
 		{
 			$set: {
-				profilePicURL: req.body.url,
+				profilePicURL: req.body.img_url,
 				
 			}
 		},

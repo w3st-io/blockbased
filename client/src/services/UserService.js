@@ -39,9 +39,9 @@ class UserService {
 
 
 	// [UPDATE] //
-	static async updateUserProfileData(user_id, url) {
+	static async updateUserProfileData(user_id, img_url) {
 		return await axios.post(`/api/users/update/profile-data/${user_id}`,
-			{ url }
+			{ img_url }
 		)
 	}
 

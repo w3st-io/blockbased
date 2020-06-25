@@ -10,6 +10,7 @@ const mongodb = require('mongodb')
 
 
 // [REQUIRE] Personal //
+const Auth = require('../../../server-middleware/AuthMiddleware')
 require('dotenv').config()
 
 
@@ -18,28 +19,8 @@ const router = express.Router().use(cors())
 
 
 /******************* [COMMENT CRUD] *******************/
-// [CREATE] //
-router.post('/create', async (req, res) => {
-	const comments = await loadCommentsCollection()
-	await comments.insertOne({
-		createdAt: new Date(),
-		block_id: req.body.block_id,
-		user_id: req.body.user_id,
-		email: req.body.email,
-		username: req.body.username,
-		comment: req.body.comment,
-		voters: [],
-		
-	}).then((result) => {
-		res.json({ newCommentId: result.insertedId })
-	})
-
-	res.status(201).send()
-})
-
-
 // [READ-ALL] //
-router.get('/read-all/:amountPerPage/:skip', async (req, res) => {
+router.get('/read-all/:amountPerPage/:skip', Auth.adminCheck(), async (req, res) => {
 	let skip = parseInt(req.params.skip)
 	let amountPerPage = parseInt(req.params.amountPerPage)
 
@@ -54,7 +35,7 @@ router.get('/read-all/:amountPerPage/:skip', async (req, res) => {
 
 
 // [READ-ALL] Within a Block //
-router.get('/read-all/:block_id/:amountPerPage/:skip', async (req, res) => {
+router.get('/read-all/:block_id/:amountPerPage/:skip', Auth.adminCheck(), async (req, res) => {
 	let skip = parseInt(req.params.skip)
 	let amountPerPage = parseInt(req.params.amountPerPage)
 
@@ -71,7 +52,7 @@ router.get('/read-all/:block_id/:amountPerPage/:skip', async (req, res) => {
 
 
 // [READ] //
-router.get('/read/:_id', async (req, res) => {
+router.get('/read/:_id', Auth.adminCheck(), async (req, res) => {
 	let validId = mongodb.ObjectID.isValid(req.params._id)
 	
 	if (validId) {
@@ -87,7 +68,7 @@ router.get('/read/:_id', async (req, res) => {
 
 
 /*** [UPDATE] Add event ***/
-router.post('/update/:_id', async (req, res) => {
+router.post('/update/:_id', Auth.adminCheck(), async (req, res) => {
 	let validId = mongodb.ObjectID.isValid(req.params._id)
 
 	if (validId) {
@@ -109,7 +90,7 @@ router.post('/update/:_id', async (req, res) => {
 
 
 // [DELETE] //
-router.delete('/delete/:_id', async (req, res) => {
+router.delete('/delete/:_id', Auth.adminCheck(), async (req, res) => {
 	let validId = mongodb.ObjectID.isValid(req.params._id)
 
 	if (validId) {
@@ -126,7 +107,7 @@ router.delete('/delete/:_id', async (req, res) => {
 
 /******************* [VOTE SYSTEM] *******************/
 // PUSH/PULL USER FROM VOTERS ARRAY //
-router.post('/update/push-voter/:_id', async (req, res) => {
+router.post('/update/push-voter/:_id', Auth.adminCheck(), async (req, res) => {
 	const comments = await loadCommentsCollection()
 	await comments.updateOne(
 		{ _id: new mongodb.ObjectID(req.params._id) },
@@ -144,7 +125,7 @@ router.post('/update/push-voter/:_id', async (req, res) => {
 
 	res.status(201).send()
 })
-router.post('/update/pull-voter/:_id', async (req, res) => {
+router.post('/update/pull-voter/:_id', Auth.adminCheck(), async (req, res) => {
 	const comments = await loadCommentsCollection()
 	await comments.updateOne(
 		{ _id: new mongodb.ObjectID(req.params._id) },

@@ -3,8 +3,7 @@
 		<article class="row">
 			<div class="w-100 m-5 jumbotron bg-dark">
 				<h1 class="w-100 mb-3 text-center text-light">
-					Dude what..?
-					404 not found LOL!
+					Dude what..? 404 not found LOL!
 				</h1>
 				<div class="w-100 m-auto text-center">
 					<router-link to="/">

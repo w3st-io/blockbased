@@ -54,21 +54,13 @@
 			</ValidationObserver>
 		</div>
 
-		<!-- [ERRORS] Incorrect Email/Password & Connection Failed -->
+		<!-- [STATUS + ERROR] -->
 		<div class="mx-auto my-3 login-terminal">
-			<div
-				class="alert alert-danger"
-				v-if="
-					status === 'incorrect_email' ||
-					status === 'incorrect_password'
-				"
-			>Incorrect password or email.</div>
-
-			<div
-				class="alert alert-danger"
-				v-if="error != ''"
-			>{{ error }}</div>
+			<div v-if="error" class="alert alert-danger">
+				<!-- Dont give them info on whats wrong HAHAHA -->
+				{{ error = 'Incorrect Email or Password' }}
 			</div>
+		</div>
 	</article>
 </template>
 
@@ -85,7 +77,6 @@
 				submitted: false,
 				email: '',
 				password: '',
-				status: '',
 				returned: '',
 				error: '',
 			}
@@ -101,33 +92,28 @@
 				try {
 					// Get Status from Login Function //
 					this.returned = await UserService.login(this.email, this.password)
-
+					
 					// Check Validation Status //
 					if (
+						this.returned.data.token &&
 						this.returned.data.status != 'incorrect_email' &&
 						this.returned.data.status != 'incorrect_password'
-					) { this.status = 'success' }
-					else { this.status = this.returned.data.status }
-					
+					) { this.successful() }
+					else { this.error = this.returned.data.status }
 				}
 				catch(err) { this.error = err }
+			},
 
-				// Check Status //
-				if (this.status == 'success') {
-					// [SET TOKEN] //
-					localStorage.setItem('usertoken', this.returned.data.token)
-
-					// Emit // [REDIRECT] //
-					EventBus.$emit('logged-in')
-					router.push({ path: '/' })
-				}	
+			successful() {
+				// [SET TOKEN] // Emit // [REDIRECT] //
+				localStorage.setItem('usertoken', this.returned.data.token)
+				EventBus.$emit('logged-in')
+				router.push({ path: '/' })
 			},
 		}
 	}
 </script>
 
 <style scoped>
-	.login-terminal {
-		max-width: 350px;
-	}
+	.login-terminal { max-width: 350px; }
 </style>

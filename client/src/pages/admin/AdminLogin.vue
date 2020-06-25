@@ -100,10 +100,8 @@
 			},
 
 			successful() {
-				// [STORE TOKEN] //
+				// [SET TOKEN] // Emit // [REDIRECT] //
 				localStorage.setItem('admintoken', this.returned.data.token)
-
-				// [EMIT -->] //
 				EventBus.$emit('admin-logged-in')
 				router.push({ name: 'AdminDashboard' })
 			}
