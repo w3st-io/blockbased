@@ -61,14 +61,18 @@
 			</ul>
 		</div>
 		
-		<!-- [LOADING] -->
-		<div v-if="loading" class="col-12">
-			<div class="m-0 alert alert-info">
+		<!-- [LOADING + ERROR] -->
+		<div class="col-12">
+			<div v-if="loading" class="m-0 alert alert-info">
 				<div class="d-flex justify-content-center">
 					<div class="spinner-grow">
 						<span class="sr-only">Loading...</span>
 					</div>
 				</div>
+			</div>
+
+			<div v-if="error" class="m-0 alert alert-danger">
+				{{ error }}
 			</div>
 		</div>
 	</section>
@@ -173,7 +177,7 @@
 					await CommentVotesService.removeCommentVotes(comment_id)
 					await CommentService.deleteComment(comment_id)
 				}
-				catch(e) {this.error = e}
+				catch(e) { this.error = e }
 
 				// [UPDATE] Variable on this page //
 				this.getComments()
