@@ -42,7 +42,10 @@ router.post('/create', Auth.userCheck(), async (req, res) => {
 		res.json({ newCommentId: result.insertedId })
 	})
 
-	res.status(201).send()
+	res.status(201).send({
+		auth: true,
+		message: 'Successfully Created Comment'
+	})
 })
 
 
@@ -95,7 +98,10 @@ router.post('/update/:_id', Auth.userCheck(), async (req, res) => {
 			{ upsert: true }
 		)
 
-		res.status(201).send()
+		res.status(201).send({
+			auth: true,
+			message: 'Successfully Updated Comment'
+		})
 	}
 	else { res.sendStatus(400) }
 })
@@ -104,26 +110,47 @@ router.post('/update/:_id', Auth.userCheck(), async (req, res) => {
 // [DELETE] Auth Required //
 router.delete('/delete/:_id', Auth.userCheck(), async (req, res) => {
 	if (mongodb.ObjectID.isValid(req.params._id)) {
-		// Remove "Bearer " //
-		const TokenBody = req.headers.authorization.slice(7)
+		const tokenBody = req.headers.authorization.slice(7)
 
-		// Get Decoded Data and Delete Comment Decoded user_id //
-		jwt.verify(TokenBody, secretKey, async (err, decoded) => {
+		jwt.verify(tokenBody, secretKey, async (err, decoded) => {
 			if (decoded) {
 				const comments = await Collections.loadCommentsCollection()
-				await comments.deleteOne(
-					{
+				let returnedData = await comments.findOne(
+					{	
 						_id: new mongodb.ObjectID(req.params._id),
 						user_id: decoded._id,
 					}
 				)
-			}
-			else { console.log (err) }
-		})
 
-		res.status(201).send()
+				if (returnedData) {
+					await comments.deleteOne(
+						{
+							_id: new mongodb.ObjectID(req.params._id),
+							user_id: decoded._id,
+						}
+					)
+					res.status(201).send({
+						auth: true,
+						message: 'Successfully Deleted Comment'
+					})
+				}
+				else {
+					res.status(401).send({
+						auth: false,
+						message: 'Unauthorized to Delete'
+					})
+				}
+			}
+			else {
+				console.log(`JWT Error: ${err}`)
+				res.status(401).send({
+					auth: false,
+					message: 'Access Denied, Invalid Token'
+				})
+			}
+		})
 	}
-	else { res.sendStatus(400) }
+	else { res.status(400).send({ message: 'Invalid Id'}) }
 })
 
 
