@@ -29,11 +29,19 @@ class AuthMiddleWare {
 					if (decoded) { next() }
 					else {
 						console.log(`JWT Error: ${err}`)
-						return res.status(401).send("Error: Access Denied, User Token Needed")
+						return res.status(401).send({
+							auth: false,
+							error: 'Access Denied, Admin Token Needed'
+						})
 					}
 				})
 			}
-			else { return res.status(401).send("No Token, Access Denied") }
+			else { return res.status(401).
+				send({
+					auth: false,
+					error: 'Access Denied, No Token Passed'
+				})
+			}
 		}
 	}
 
@@ -51,16 +59,28 @@ class AuthMiddleWare {
 					if (decoded) {
 						// Check if the role is admin
 						if (decoded.role == 'admin') { next() }
-						else { return res.status(401).send("Error: Access Denied, Admin Token Needed") }
+						else {
+							return res.status(401).send({
+								auth: false,
+								error: 'Access Denied, Admin Token Needed'
+							})
+						}
 					}
 					// [ERR] //
 					else {
 						console.log(`Admin JWT Error: ${err}`)
-						return res.status(401).send("Error: Access Denied, Invalid Token")
+						return res.status(401).send({
+							error: 'Access Denied, Invalid Token'
+						})
 					}
 				})
 			}
-			else { return res.status(401).send("No Token, Access Denied") }
+			else {
+				return res.status(401).send({
+					auth: false,
+					error: 'Access Denied, No Token Passed'
+				})
+			}
 		}
 	}
 }

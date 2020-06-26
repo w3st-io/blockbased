@@ -137,7 +137,7 @@ router.delete('/delete/:_id', Auth.userCheck(), async (req, res) => {
 				else {
 					res.status(401).send({
 						auth: false,
-						message: 'Unauthorized to Delete'
+						error: 'Unauthorized to Delete'
 					})
 				}
 			}
@@ -145,12 +145,12 @@ router.delete('/delete/:_id', Auth.userCheck(), async (req, res) => {
 				console.log(`JWT Error: ${err}`)
 				res.status(401).send({
 					auth: false,
-					message: 'Access Denied, Invalid Token'
+					error: 'Access Denied, Invalid Token'
 				})
 			}
 		})
 	}
-	else { res.status(400).send({ message: 'Invalid Id'}) }
+	else { res.status(400).send({ error: 'Invalid Id'}) }
 })
 
 
