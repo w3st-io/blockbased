@@ -110,45 +110,28 @@ router.post('/update/:_id', Auth.userCheck(), async (req, res) => {
 // [DELETE] Auth Required //
 router.delete('/delete/:_id', Auth.userCheck(), CommenthAuth.verifyOwnership(), async (req, res) => {
 	if (mongodb.ObjectID.isValid(req.params._id)) {
-		const tokenBody = req.headers.authorization.slice(7)
+		const comment_id = req.params._id
 
-		jwt.verify(tokenBody, secretKey, async (err, decoded) => {
-			if (decoded) {
-				const comments = await Collections.loadCommentsCollection()
-				let returnedData = await comments.findOne(
-					{	
-						_id: new mongodb.ObjectID(req.params._id),
-						user_id: decoded._id,
-					}
-				)
+		if (req.decoded) {
+			const comments = await Collections.loadCommentsCollection()
+			await comments.deleteOne({
+				_id: new mongodb.ObjectID(comment_id),
+				user_id: req.decoded._id,
+			})
 
-				if (returnedData) {
-					await comments.deleteOne(
-						{
-							_id: new mongodb.ObjectID(req.params._id),
-							user_id: decoded._id,
-						}
-					)
-					res.status(201).send({
-						auth: true,
-						message: 'Successfully Deleted Comment'
-					})
-				}
-				else {
-					res.status(401).send({
-						auth: false,
-						error: 'Unauthorized to Delete'
-					})
-				}
-			}
-			else {
-				console.log(`JWT Error: ${err}`)
-				res.status(401).send({
-					auth: false,
-					error: 'Access Denied, Invalid Token'
-				})
-			}
-		})
+			res.status(201).send({
+				auth: true,
+				message: 'Successfully Deleted Comment'
+			})
+		}
+		else {
+			console.log(`JWT Error: ${err}`)
+			res.status(401).send({
+				auth: false,
+				error: 'No Token, did you use Auth.userCheck()..?'
+			})
+		}
+		
 	}
 	else { res.status(400).send({ error: 'Invalid Id'}) }
 })

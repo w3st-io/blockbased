@@ -32,6 +32,11 @@
 							
 						</div>
 
+						<button
+							@click="deleteComment(comment._id)"
+							class="py-0 btn btn-sm text-danger"
+						>delete</button>
+
 						<!-- Buttons -->
 						<div class="w-50 m-0 float-right small text-right text-secondary">
 							<button
@@ -170,7 +175,9 @@
 
 			async deleteComment(comment_id) {
 				await CommentVotesService.removeCommentVotes(comment_id)
-				await CommentService.deleteComment(comment_id)
+				let status = await CommentService.deleteComment(comment_id)
+
+				console.log('Delete Status:', status)
 
 				// [UPDATE] Variable on this page //
 				this.getComments()

@@ -34,7 +34,7 @@ class AuthMiddleWare {
 						console.log(`JWT Error: ${err}`)
 						return res.status(401).send({
 							auth: false,
-							error: 'Access Denied, Admin Token Needed'
+							error: 'Access Denied, Token Needed'
 						})
 					}
 				})

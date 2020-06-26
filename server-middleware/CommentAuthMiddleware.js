@@ -20,8 +20,21 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 class CommentAuthMiddleWare {
 	static verifyOwnership() {
 		return async (req, res, next) => {
-			console.log('req.decoded:', req.decoded)
-			next()
+			const comments = await Collections.loadCommentsCollection()
+			let returnedData = await comments.findOne(
+				{	
+					_id: new mongodb.ObjectID(req.params._id),
+					user_id: req.decoded._id,
+				}
+			)
+
+			if (returnedData) { console.log('d3d');  next() }
+			else {
+				return res.status(401).send({
+					auth: false,
+					error: 'Unauthorized to Delete'
+				})
+			}
 		}
 	}
 }
