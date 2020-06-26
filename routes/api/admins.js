@@ -9,9 +9,10 @@ const cors = require('cors')
 const express = require('express')
 const jwt = require('jsonwebtoken')
 const mongodb = require('mongodb')
+require('dotenv').config()
 
 // [REQUIRE] Personal //
-require('dotenv').config()
+const Collections = require('../../server-collections')
 
 // [USE] //
 const router = express.Router().use(cors())
@@ -23,7 +24,7 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 /******************* [ACCOUNT] *******************/
 // [LOGIN] //
 router.post('/login', async (req, res) => {
-	const admins = await loadAdminsCollection()
+	const admins = await Collections.loadAdminsCollection()
 
 	try {
 		const emailFound = await admins.findOne({ email: req.body.email })
@@ -55,7 +56,7 @@ router.post('/login', async (req, res) => {
 
 // [REGISTER] //
 router.post("/register", async (req, res) => {
-	const admins = await loadAdminsCollection()
+	const admins = await Collections.loadAdminsCollection()
 	const today = new Date()
 	const userData = {
 		//role: 'admin', // Comment about this at the bottom
@@ -91,23 +92,6 @@ router.post("/register", async (req, res) => {
 	catch(err) { res.send(err) }
 })
 
-
-/******************* [LOAD COLLECTION] admins *******************/
-async function loadAdminsCollection() {
-	const uri = process.env.MONGO_URI
-	const db_name = process.env.DB || 'db_name'
-	const c_name = 'admins'
-	
-	const client = await mongodb.MongoClient.connect(
-		uri,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		}	
-	)
-
-	return client.db(db_name).collection(c_name)
-}
 
 // [EXPORT] //
 module.exports = router

@@ -9,11 +9,12 @@ const cors = require('cors')
 const express = require('express')
 const jwt = require('jsonwebtoken')
 const mongodb = require('mongodb')
+require('dotenv').config()
 
 
 // [REQUIRE] Personal //
 const UserModel = require('../../models/UserModel')
-require('dotenv').config()
+const Collections = require('../../server-collections')
 
 
 // [USE] //
@@ -27,7 +28,7 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 /******************* [USER PROFILE] *******************/
 // [READ] //
 router.get('/read/profile-data/:_id', async (req, res) => {
-	const users = await loadUsersCollection()
+	const users = await Collections.loadUsersCollection()
 	let retrievedData = await users.findOne(
 		{ _id: new mongodb.ObjectID(req.params._id) }
 	)
@@ -38,7 +39,7 @@ router.get('/read/profile-data/:_id', async (req, res) => {
 
 // [UPDATE] //
 router.post('/update/profile-data/:_id', async (req, res) => {
-	const users = await loadUsersCollection()
+	const users = await Collections.loadUsersCollection()
 	await users.findOneAndUpdate(
 		{ _id: new mongodb.ObjectID(req.params._id) },
 		{
@@ -57,7 +58,7 @@ router.post('/update/profile-data/:_id', async (req, res) => {
 /******************* [USER LOGIN/REGISTER] *******************/
 // [LOGIN] //
 router.post('/login', async (req, res) => {
-	const users = await loadUsersCollection()
+	const users = await Collections.loadUsersCollection()
 
 	try {
 		const emailFound = await users.findOne({ email: req.body.email })
@@ -74,7 +75,7 @@ router.post('/login', async (req, res) => {
 				}
 
 				// Set Token //
-				let token = jwt.sign(payload, secretKey, { expiresIn: 14400 })
+				let token = jwt.sign(payload, secretKey, { expiresIn: 1440 })
 
 				res.status(201).json({ status: 'success', token: token }).send()
 			}
@@ -88,7 +89,7 @@ router.post('/login', async (req, res) => {
 
 // [REGISTER] //
 router.post("/register", async (req, res) => {
-	const users = await loadUsersCollection()
+	const users = await Collections.loadUsersCollection()
 	const userData = new UserModel(req.body)
 	
 	try {
@@ -115,23 +116,6 @@ router.post("/register", async (req, res) => {
 	catch(err) { res.send(err) }
 })
 
-
-/******************* [LOAD COLLECTION] users *******************/
-async function loadUsersCollection() {
-	const uri = process.env.MONGO_URI
-	const db_name = process.env.DB || 'db_name'
-	const c_name = 'users'
-	
-	const client = await mongodb.MongoClient.connect(
-		uri,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		}	
-	)
-	
-	return client.db(db_name).collection(c_name)
-}
 
 // [EXPORT] //
 module.exports = router

@@ -7,32 +7,16 @@
 const cors = require('cors')
 const express = require('express')
 const mongodb = require('mongodb')
+require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-require('dotenv').config()
+const Collections = require('../../server-collections')
 
 
 // [INIT] //
 const router = express.Router().use(cors())
 
-
-/******************* [LOAD COLLECTION] cats *******************/
-async function loadCatsCollection() {
-	const uri = process.env.MONGO_URI
-	const db_name = process.env.DB || 'db_name'
-	const c_name = 'cats'
-	
-	const client = await mongodb.MongoClient.connect(
-		uri,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		}
-	)
-
-	return client.db(db_name).collection(c_name)
-}
 
 // [EXPORT] //
 module.exports = router

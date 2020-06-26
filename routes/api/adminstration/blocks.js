@@ -7,11 +7,12 @@
 const cors = require('cors')
 const express = require('express')
 const mongodb = require('mongodb')
+require('dotenv').config()
 
 
 // [REQUIRE] Personal //
 const Auth = require('../../../server-middleware/AuthMiddleware')
-require('dotenv').config()
+const Collections = require('../../../server-collections')
 
 
 // [INIT] //
@@ -24,7 +25,7 @@ router.get('/read-all/:amountPerPage/:skip', Auth.adminCheck(), async (req, res)
 	let skip = parseInt(req.params.skip)
 	let amountPerPage = parseInt(req.params.amountPerPage)
 
-	const blocks = await loadBlocksCollection()
+	const blocks = await Collections.loadBlocksCollection()
 	let retrievedData = await blocks.find()
 		.skip(skip)
 		.limit(amountPerPage)
@@ -39,7 +40,7 @@ router.get('/read-all/:cat_id/:amountPerPage/:skip', Auth.adminCheck(), async (r
 	let skip = parseInt(req.params.skip)
 	let amountPerPage = parseInt(req.params.amountPerPage)
 	
-	const blocks = await loadBlocksCollection()
+	const blocks = await Collections.loadBlocksCollection()
 	let retrievedData = await blocks.find(
 		{ cat_id: req.params.cat_id }
 	)
@@ -53,7 +54,7 @@ router.get('/read-all/:cat_id/:amountPerPage/:skip', Auth.adminCheck(), async (r
 
 // [READ] Auth Required - Single Block Details //
 router.get(`/read/:block_id`, Auth.adminCheck(), async (req, res) => {
-	const blocks = await loadBlocksCollection()
+	const blocks = await Collections.loadBlocksCollection()
 	let retrievedData = await blocks.findOne(
 		{ _id: new mongodb.ObjectID(req.params.block_id) }
 	)
@@ -67,7 +68,7 @@ router.delete('/delete/:_id', Auth.adminCheck(), async (req, res) => {
 	let validId = mongodb.ObjectID.isValid(req.params._id)
 
 	if (validId) {
-		const blocks = await loadBlocksCollection()	
+		const blocks = await Collections.loadBlocksCollection()	
 		await blocks.deleteOne(
 			{ _id: new mongodb.ObjectID(req.params._id) }
 		)
@@ -81,7 +82,7 @@ router.delete('/delete/:_id', Auth.adminCheck(), async (req, res) => {
 /******************* [VOTE SYSTEM] *******************/
 // [PUSH] Auth Required //
 router.post('/update/push-voter/:_id', Auth.adminCheck(), async (req, res) => {
-	const blocks = await loadBlocksCollection()
+	const blocks = await Collections.loadBlocksCollection()
 
 	blocks.updateOne(
 		{ _id: new mongodb.ObjectID(req.params._id) },
@@ -103,7 +104,7 @@ router.post('/update/push-voter/:_id', Auth.adminCheck(), async (req, res) => {
 
 // [PULL] Auth Required //
 router.post('/update/pull-voter/:_id', Auth.adminCheck(), async (req, res) => {
-	const blocks = await loadBlocksCollection()
+	const blocks = await Collections.loadBlocksCollection()
 
 	blocks.updateOne(
 		{ _id: new mongodb.ObjectID(req.params._id) },
@@ -114,23 +115,6 @@ router.post('/update/pull-voter/:_id', Auth.adminCheck(), async (req, res) => {
 	res.status(201).send()
 })
 
-
-/******************* [LOAD COLLECTION] blocks *******************/
-async function loadBlocksCollection() {
-	const uri = process.env.MONGO_URI
-	const db_name = process.env.DB || 'db_name'
-	const c_name = 'blocks'
-	
-	const client = await mongodb.MongoClient.connect(
-		uri,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		}
-	)
-
-	return client.db(db_name).collection(c_name)
-}
 
 // [EXPORT] //
 module.exports = router
