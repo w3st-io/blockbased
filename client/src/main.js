@@ -2,12 +2,9 @@
  * %%%%%%%%%%%% *
  * %%% MAIN %%% *
  * %%%%%%%%%%%% *
- * This page is the main component that is runbundleRenderer.
- * here you have the global imports and the global components
- * that are going to be used throughout the application.
  */
 // [IMPORT] //
-import CKEditor from '@ckeditor/ckeditor5-vue';
+import CKEditor from '@ckeditor/ckeditor5-vue'
 import Vue from 'vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 

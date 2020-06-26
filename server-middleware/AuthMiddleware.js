@@ -26,7 +26,10 @@ class AuthMiddleWare {
 			if (token) {
 				const TokenBody = token.slice(7)
 				jwt.verify(TokenBody, secretKey, (err, decoded) => {
-					if (decoded) { next() }
+					if (decoded) {
+						req.decoded = decoded
+						next()
+					}
 					else {
 						console.log(`JWT Error: ${err}`)
 						return res.status(401).send({

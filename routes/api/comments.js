@@ -108,7 +108,7 @@ router.post('/update/:_id', Auth.userCheck(), async (req, res) => {
 
 
 // [DELETE] Auth Required //
-router.delete('/delete/:_id', Auth.userCheck(), async (req, res) => {
+router.delete('/delete/:_id', Auth.userCheck(), CommenthAuth.verifyOwnership(), async (req, res) => {
 	if (mongodb.ObjectID.isValid(req.params._id)) {
 		const tokenBody = req.headers.authorization.slice(7)
 
