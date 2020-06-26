@@ -13,26 +13,20 @@ require('dotenv').config()
 const Collections = require('../server-collections')
 
 
-// [INIT] //
-const secretKey = process.env.SECRET_KEY || 'secret'
-
-
-class CommentAuthMiddleWare {
+class CommentAuthMiddleware {
 	static verifyOwnership() {
 		return async (req, res, next) => {
 			const comments = await Collections.loadCommentsCollection()
-			let returnedData = await comments.findOne(
-				{	
-					_id: new mongodb.ObjectID(req.params._id),
-					user_id: req.decoded._id,
-				}
-			)
+			let returnedData = await comments.findOne({	
+				_id: new mongodb.ObjectID(req.params._id),
+				user_id: req.decoded._id,
+			})
 
-			if (returnedData) { console.log('d3d');  next() }
+			if (returnedData) { next() }
 			else {
 				return res.status(401).send({
 					auth: false,
-					error: 'Unauthorized to Delete'
+					error: 'Sorry man, you dont own this comment!'
 				})
 			}
 		}
@@ -41,4 +35,4 @@ class CommentAuthMiddleWare {
 
 
 // [EXPORT] //
-module.exports = CommentAuthMiddleWare
+module.exports = CommentAuthMiddleware

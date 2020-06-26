@@ -27,8 +27,8 @@
 	import CommentsTable from '@components/pages/admin/index/CommentsTable'
 	import UsersTable from '@components/pages/admin/index/UsersTable'
 	import ButtonTabs from '@components/controls/ButtonTabs'
-	import { EventBus } from '@main'
 	import router from '@router'
+	import { EventBus } from '@main'
 
 	// [EXPORT] //
 	export default {

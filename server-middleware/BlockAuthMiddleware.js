@@ -13,24 +13,28 @@ require('dotenv').config()
 const Collections = require('../server-collections')
 
 
-// [INIT] //
-const secretKey = process.env.SECRET_KEY || 'secret'
+class BlockAuthMiddleware {
+	static verifyOwnership() {
+		return async (req, res, next) => {
+			const blocks = await Collections.loadBlocksCollection()
+			let returnedData = await blocks.findOne(
+				{
+					_id: new mongodb.ObjectID(req.params._id),
+					user_id: req.decoded._id,
+				}
+			)
 
-
-class BlockAuthMiddleWare {
-	/*
-	static async verifyOwnership(block_id) {
-		const blocks = await Collections.loadBlocksCollection()
-		let retrievedData = await blocks.findOne(
-			{ _id: new mongodb.ObjectID('5ef27e139d20424818f88dc3') }
-		)
-		
-		console.log(blocks)
-		console.log(retrievedData)
+			if (returnedData) { next() }
+			else {
+				return res.status(401).send({
+					auth: false,
+					error: 'Sorry man, you dont own this block!'
+				})
+			}
+		}
 	}
-	*/
 }
 
 
 // [EXPORT] //
-module.exports = BlockAuthMiddleWare
+module.exports = BlockAuthMiddleware

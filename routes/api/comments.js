@@ -17,7 +17,7 @@ const Collections = require('../../server-collections')
 
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
-const CommenthAuth = require('../../server-middleware/CommentAuthMiddleware')
+const CommentAuth = require('../../server-middleware/CommentAuthMiddleware')
 
 
 // [INIT] //
@@ -83,10 +83,8 @@ router.get('/read/:_id', async (req, res) => {
 
 
 // [UPDATE] Auth Required //
-router.post('/update/:_id', Auth.userCheck(), async (req, res) => {
-	let validId = mongodb.ObjectID.isValid(req.params._id)
-
-	if (validId) {
+router.post('/update/:_id', Auth.userCheck(), CommentAuth.verifyOwnership(), async (req, res) => {
+	if (mongodb.ObjectID.isValid(req.params._id)) {
 		const comments = await Collections.loadCommentsCollection()
 		await comments.findOneAndUpdate(
 			{ _id: new mongodb.ObjectID(req.params._id) },
@@ -108,7 +106,7 @@ router.post('/update/:_id', Auth.userCheck(), async (req, res) => {
 
 
 // [DELETE] Auth Required //
-router.delete('/delete/:_id', Auth.userCheck(), CommenthAuth.verifyOwnership(), async (req, res) => {
+router.delete('/delete/:_id', Auth.userCheck(), CommentAuth.verifyOwnership(), async (req, res) => {
 	if (mongodb.ObjectID.isValid(req.params._id)) {
 		const comment_id = req.params._id
 
