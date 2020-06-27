@@ -14,7 +14,7 @@
 								{{ block.title }}
 							</h5>
 							<p class="m-0 small text-secondary">
-								<span class="text-light">{{ block.email }}</span>
+								<span class="text-light">{{ block.username }}</span>
 								- {{ block.createdAt }}
 							</p>
 						</div>
@@ -27,9 +27,7 @@
 									@click.prevent.stop="voteToggle(block._id)"
 									class="btn btn-outline-secondary unvoted"
 									:class="{ 'voted': votesReplica[block._id].voted }"
-								>
-									{{ votesReplica[block._id].voteCount }} ▲
-								</button>
+								>{{ votesReplica[block._id].voteCount }} ▲</button>
 							</h4>
 						</div>
 					</article>
@@ -106,27 +104,12 @@
 		},
 
 		created: async function () {
-			// Get Blocks //
-			try {
-				this.blocks = await BlockService.getAllBlocks(
-					this.cat_id,
-					this.amountPerPage,
-					this.pageIndex
-				)
-			}
-			catch(e) { this.error = e }
+			// Initialize Blocks //
+			await this.getBlocks()
 
-			// Create/store "votesReplica" //
-			this.blocks.forEach(block => {
-				let insert = { voteCount: block.voters.length, voted: false }
-
-				if (this.searchVotersArrayInBlock(block.voters)) {
-					insert = { voteCount: block.voters.length, voted: true }
-				}
-
-				this.votesReplica[block._id] = insert
-			})
-
+			// Initialize VotesReplica //
+			this.setVotesReplica()
+			
 			// Disable Loading //
 			this.loading = false
 
@@ -135,6 +118,33 @@
 		},
 
 		methods: {
+			/******************* [BLOCKS] *******************/
+			async getBlocks() {
+				try {
+					this.blocks = await BlockService.getAllBlocks(
+						this.cat_id,
+						this.amountPerPage,
+						this.pageIndex
+					)
+				}
+				catch(e) { this.error = e }
+			},
+
+			/******************* [PROFILE SECTION] *******************/
+
+			/******************* [VOTE SYSTEM] *******************/
+			setVotesReplica() {
+				this.blocks.forEach(block => {
+					let insert = { voteCount: block.voters.length, voted: false }
+
+					if (this.searchVotersArrayInBlock(block.voters)) {
+						insert = { voteCount: block.voters.length, voted: true }
+					}
+
+					this.votesReplica[block._id] = insert
+				})
+			},
+
 			searchVotersArrayInBlock(blockVoters) {
 				// Search For Voters Id in Block's Object //
 				let found = blockVoters.find((voter) => (
@@ -221,18 +231,7 @@
 				} 
 			},
 
-			async getBlocks() {
-				// [UPDATE] //
-				try {
-					this.blocks = await BlockService.getAllBlocks(
-						this.cat_id,
-						this.amountPerPage,
-						this.pageIndex
-					)
-				}
-				catch(e) { this.error = e }
-			},
-
+			/******************* [ROUTER + LOG] *******************/
 			redirectToBlock(block_id) {
 				// [REDIRECT] //
 				router.push({ name: 'Block', params: { block_id: block_id, page: 1 } })

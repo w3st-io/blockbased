@@ -38,13 +38,11 @@ router.post('/create', Auth.userCheck(), async (req, res) => {
 		comment: req.body.comment,
 		voters: [],
 		
-	}).then((result) => {
-		res.json({ newCommentId: result.insertedId })
-	})
-
-	res.status(201).send({
-		auth: true,
-		message: 'Successfully Created Comment'
+	}).then(() => {
+		res.status(201).send({
+			auth: true,
+			message: 'Successfully Created Comment'
+		})
 	})
 })
 

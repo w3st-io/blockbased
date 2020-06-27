@@ -12,6 +12,7 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
+const BlockAuth = require('../../server-middleware/BlockAuthMiddleware')
 const Collections = require('../../server-collections')
 
 
@@ -67,10 +68,7 @@ router.get(`/read/:block_id`, async (req, res) => {
 
 /******************* [VOTE SYSTEM] *******************/
 // [PUSH] Auth Required //
-router.post(
-	'/update/push-voter/:_id',
-	Auth.userCheck(),
-	async (req, res) => {
+router.post('/update/push-voter/:_id', Auth.userCheck(), BlockAuth.verifyOwnership(), async (req, res) => {
 	const blocks = await Collections.loadBlocksCollection()
 		await blocks.updateOne(
 			{ _id: new mongodb.ObjectID(req.params._id) },

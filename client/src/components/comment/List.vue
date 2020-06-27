@@ -11,7 +11,7 @@
 						<!-- Image Section -->
 						<div class="float-left p-2 border-right border-secondary" style="width: 15%;">
 							<div class="w-100 text-center">
-								<img src="../../assets/images/placeholder.png" class="m-auto w-75 rounded-lg">
+								<img :src="require('../../assets/images/placeholder.png')" class="m-auto w-75 rounded-lg">
 							</div>
 							
 							<p class="m-0 text-center text-light small">
@@ -71,6 +71,13 @@
 				</div>
 			</div>
 
+			<div class="m-0 alert alert-info">
+				{{ comments }}
+				<br>
+				<br>
+				{{ votesReplica }}
+			</div>
+
 			<div v-if="error" class="m-0 alert alert-danger">
 				{{ error }}
 			</div>
@@ -83,6 +90,7 @@
 	import router from '@router'
 	import CommentService from '@services/CommentService'
 	import CommentVotesService from '@services/CommentVotesService'
+	//import UserService from '@services/UserService'
 	
 	// [EXPORT] //
 	export default {
@@ -130,26 +138,11 @@
 		},
 
 		created: async function() {
-			// Get Comments //
-			try {
-				this.comments = await CommentService.getAllComments(
-					this.block_id,
-					this.amountPerPage,
-					this.pageIndex
-				)
-			}
-			catch(e) { this.error = e }
+			// Initialize Comments //
+			await this.getComments()
 
-			// Create/store "votesReplica" //
-			this.comments.forEach(comment => {
-				let insert = { voteCount: comment.voters.length, voted: false }
-
-				if (this.searchVotersArrayInComment(comment.voters)) {
-					insert = { voteCount: comment.voters.length, voted: true }
-				}
-
-				this.votesReplica[comment._id] = insert
-			})
+			// Initialize VotesReplica //
+			this.setVotesReplica()
 
 			// Disable Loading //
 			this.loading = false
@@ -159,7 +152,7 @@
 		},
 
 		methods: {
-			/******************* [COMMENT] *******************/
+			/******************* [COMMENTS] *******************/
 			async getComments() {
 				// Get Comments //
 				try {
@@ -188,8 +181,22 @@
 				if (user_id == this.user_id) return true
 				else return false 
 			},
+			
+			/******************* [PROFILE SECTION] *******************/
 
 			/******************* [VOTE SYSTEM] *******************/
+			setVotesReplica() {
+				this.comments.forEach(comment => {
+					let insert = { voteCount: comment.voters.length, voted: false }
+
+					if (this.searchVotersArrayInComment(comment.voters)) {
+						insert = { voteCount: comment.voters.length, voted: true }
+					}
+
+					this.votesReplica[comment._id] = insert
+				})
+			},
+
 			searchVotersArrayInComment(commentVoters) {
 				// Search For Voters Id in Block's Object //
 				let found = commentVoters.find((voter) => (
@@ -278,20 +285,7 @@
 				} 
 			},
 
-			setVotesReplica() {
-				// Create/store "votesReplica" //
-				this.comments.forEach(comment => {
-					let insert = { voteCount: comment.voters.length, voted: false }
-
-					if (this.searchVotersArrayInComment(comment.voters)) {
-						insert = { voteCount: comment.voters.length, voted: true }
-					}
-
-					this.votesReplica[comment._id] = insert
-				})
-			},
-
-			/******************* [ROUTER] *******************/
+			/******************* [ROUTER + LOG] *******************/
 			redirectToEdit(comment_id) {
 				router.push(
 					{

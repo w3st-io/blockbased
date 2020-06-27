@@ -39,8 +39,8 @@ class AuthMiddleWare {
 					}
 				})
 			}
-			else { return res.status(401).
-				send({
+			else {
+				return res.status(401).send({
 					auth: false,
 					error: 'Access Denied, No Token Passed'
 				})

@@ -37,6 +37,17 @@ router.get('/read/profile-data/:_id', async (req, res) => {
 })
 
 
+// [READ] Profile Image //
+router.get('/read/profile-data/profile-pic-url/:_id', async (req, res) => {
+	const users = await Collections.loadUsersCollection()
+	let retrievedData = await users.findOne(
+		{ _id: new mongodb.ObjectID(req.params._id) },
+		{ projection: { profilePicURL: 1 } }
+	)
+	res.status(201).send(retrievedData)
+})
+
+
 // [UPDATE] //
 router.post('/update/profile-data/:_id', async (req, res) => {
 	const users = await Collections.loadUsersCollection()
