@@ -176,7 +176,7 @@
 			/******************* [PROFILE SECTION] *******************/
 			setReplicas() {
 				this.comments.forEach(comment => {
-					// Votes Remplica //
+					// Votes Replica //
 					let insert = { voteCount: comment.voters.length, voted: false }
 
 					if (this.searchVotersArrayInComment(comment.voters)) {
@@ -196,15 +196,15 @@
 			/******************* [PROFILE SECTION] *******************/
 			async setProfilePics() {
 				this.profileReplicas.forEach(async (profile) => {
-					let test = await UserService.getUserProfileData(profile.user_id, 'img')
+					let returnedData = await UserService.getUserProfileData(profile.user_id, 'img')
 
-					profile.profilePicURL = test.profilePicURL
+					profile.profilePicURL = returnedData.profilePicURL
 				})
 			},
 
 			getProfilePic(user_id) {
-				var result = this.profileReplicas.filter(p => {
-					return p.user_id === user_id
+				let result = this.profileReplicas.filter(profile => {
+					return profile.user_id === user_id
 				})
 
 				return result[0].profilePicURL

@@ -51,16 +51,20 @@
 			}
 
 			// Retrieve User Data //
-			try {
-				this.adminProfileData = await AdminService.getAdminTokenDecodeData()
-			}
-			catch(e) { this.error = e }
+			await this.getAdminData()
 
 			// [LOG] //
 			this.log()
 		},
 
 		methods: {
+			async getAdminData() {
+				try {
+					this.adminProfileData = await AdminService.getAdminTokenDecodeData()
+				}
+				catch(e) { this.error = e }
+			},
+
 			log() {
 				console.log('%%% [PAGE] Admin Profile %%%')
 				console.log('adminProfileData:', this.adminProfileData)

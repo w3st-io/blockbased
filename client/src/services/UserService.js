@@ -33,8 +33,8 @@ class UserService {
 	// [READ] //
 	static async getUserProfileData(user_id, field) {
 		let profileData = ''
-		console.log('field', field)
 
+		// If a field was passed
 		if (field == 'pic') {
 			profileData = await axios.get(`/api/users/read/profile-data/profile-pic-url/${user_id}`)
 		}

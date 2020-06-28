@@ -26,7 +26,7 @@
 				<button
 					type="submit"
 					class="w-100 btn btn-info"
-					:disabled="submitted"
+					:disabled="disabled"
 				>
 					<span v-show="!loading">+ Update</span>
 					<span v-show="loading" class="spinner-grow"></span>
@@ -60,7 +60,7 @@
 
 		data: function() {
 			return {
-				submitted: false,
+				disabled: false,
 				loading: false,
 				commentDetails: {},
 				comment: '',
@@ -74,29 +74,35 @@
 
 		created: async function() { 
 			// Check if Comment is Valid //
-			try { console.log('Incomplete') }
-			catch (e) { this.error = e }
+			this.validateExistance()
 
 			// Get Comment Details //
-			try {
-				this.commentDetails = await CommentService.getComment(
-					this.comment_id
-				)
-
-				// Set Comment To Retrieved Comment //
-				this.comment = this.commentDetails.comment
-			}
-			catch(e) { this.error = e }
+			await this.getCommentDetails()
 
 			// [LOG] //
 			this.log()
 		},
 
 		methods: {
-			// [CREATE] Create Comment //
+			async validateExistance() {
+				try { console.log('Incomplete') }
+				catch (e) { this.error = e }
+			},
+			
+			async getCommentDetails() {
+				try {
+					this.commentDetails = await CommentService.getComment(
+						this.comment_id
+					)
+
+					this.comment = this.commentDetails.comment
+				}
+				catch(e) { this.error = e }
+			},
+
 			async submit() {
 				if (localStorage.usertoken) {
-					this.submitted = true
+					this.disabled = true
 					this.loading = true
 
 					this.updateComment()
@@ -104,8 +110,7 @@
 				else { this.error = 'Error unable to create comment' }
 			},
 
-			async validateExistance() {},
-
+			// [UPDATE] Comment //
 			async updateComment() {
 				try {
 					await CommentService.updateComment(this.comment_id, this.comment)
@@ -126,7 +131,6 @@
 
 			log() {
 				console.log('%%% [COMPONENT] CommentEdit %%%')
-				//console.log('localStorage.userToken:', localStorage.usertoken)
 				console.log('comment_id:', this.comment_id)
 				console.log('commentDetails:', this.commentDetails)
 				if (this.error) { console.log('error:', this.error) }

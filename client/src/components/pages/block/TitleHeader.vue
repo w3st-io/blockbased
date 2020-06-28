@@ -77,19 +77,23 @@
 
 		created: async function() {
 			// Get Block Details //
-			try {
-				this.block = await BlockService.getBlockDetails(this.block_id)
-				
-				// Enable Button //
-				this.disabled = false
-			}
-			catch(e) { this.error = e }
+			await this.getBlockDetails()
 			
 			// [LOG] //
 			//this.log()
 		},
 
 		methods: {
+			async getBlockDetails() {
+				try {
+					this.block = await BlockService.getBlockDetails(this.block_id)
+					
+					// Enable Button //
+					this.disabled = false
+				}
+				catch(e) { this.error = e }
+			},
+
 			redirectToBlockCommentCreate(block_id) {
 				router.push({ path: `/block-comment-create/${block_id}` })
 			},

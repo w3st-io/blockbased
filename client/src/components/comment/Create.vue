@@ -26,7 +26,7 @@
 				<button
 					type="submit"
 					class="w-100 btn btn-info"
-					:disabled="submitted"
+					:disabled="disabled"
 				>
 					<span v-show="!loading">+ Create</span>
 					<span v-show="loading" class="spinner-grow"></span>
@@ -73,7 +73,7 @@
 
 		data: function() {
 			return {
-				submitted: false,
+				disabled: false,
 				loading: false,
 				comment: '',
 				error: '',
@@ -85,12 +85,8 @@
 		},
 
 		created: async function() {
-			// Check if Block is Valid //
-			try { this.blockExistance = await this.validateExistance() }
-			catch (e) { this.error = e }
-
 			// If Invalid Block => Disable //
-			if (!this.blockExistance) { this.submitted = true }
+			if (!this.validateExistance()) { this.disabled = true }
 
 			// [LOG] //
 			this.log()
@@ -100,9 +96,7 @@
 			async validateExistance() {
 				let status = false
 
-				try {
-					status = await BlockService.validateExistance(this.block_id)
-				} 
+				try { status = await BlockService.validateExistance(this.block_id) } 
 				catch(e) { this.error = e }
 
 				return status
@@ -111,7 +105,7 @@
 			// [CREATE] Create Comment //
 			async submit() {
 				if (localStorage.usertoken) {
-					this.submitted = true
+					this.disabled = true
 					this.loading = true
 
 					this.createComment()
