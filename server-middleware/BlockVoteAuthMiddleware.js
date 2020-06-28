@@ -16,27 +16,19 @@ const Collections = require('../server-collections')
 class BlockVoteAuthMiddleware {
 	static verifyOwnership() {
 		return async (req, res, next) => {
-			if (req.params.user_id == req.decoded._id) {
-				const blockVotes = await Collections.loadBlockVotesCollection()
-				let returnedData = await blockVotes.findOne(
-					{
-						block_id: req.params.block_id,
-						user_id: req.decoded._id,
-					}
-				)
-
-				if (returnedData) { next() }
-				else {
-					return res.status(401).send({
-						auth: false,
-						error: 'Sorry man, you dont own this block-vote!'
-					})
+			const blockVotes = await Collections.loadBlockVotesCollection()
+			let returnedData = await blockVotes.findOne(
+				{
+					block_id: req.params.block_id,
+					user_id: req.decoded._id,
 				}
-			}
+			)
+
+			if (returnedData) { next() }
 			else {
 				return res.status(401).send({
 					auth: false,
-					error: 'Bro you cant block vote for someone else! LMAO'
+					error: 'Sorry man, you dont own this blockVote!'
 				})
 			}
 		}
@@ -44,27 +36,19 @@ class BlockVoteAuthMiddleware {
 
 	static verifyNonExistance() {
 		return async (req, res, next) => {
-			if (req.body.user_id == req.decoded._id) {
-				const blockVotes = await Collections.loadBlockVotesCollection()
-				let returnedData = await blockVotes.findOne(
-					{
-						block_id: req.body.block_id,
-						user_id: req.decoded._id,
-					}
-				)
-
-				if (!returnedData) { next() }
-				else {
-					return res.status(401).send({
-						auth: true,
-						error: 'Sorry man, block-vote already exists!'
-					})
+			const blockVotes = await Collections.loadBlockVotesCollection()
+			let returnedData = await blockVotes.findOne(
+				{
+					block_id: req.body.block_id,
+					user_id: req.decoded._id,
 				}
-			}
+			)
+
+			if (!returnedData) { next() }
 			else {
 				return res.status(401).send({
-					auth: false,
-					error: 'Bro you cant block vote for someone else! LMAO'
+					auth: true,
+					error: 'Sorry man, blockVote already exists!'
 				})
 			}
 		}

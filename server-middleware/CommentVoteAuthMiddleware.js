@@ -16,27 +16,19 @@ const Collections = require('../server-collections')
 class CommentVoteAuthMiddleware {
 	static verifyOwnership() {
 		return async (req, res, next) => {
-			if (req.params.user_id == req.decoded._id) {
-				const commentVotes = await Collections.loadCommentVotesCollection()
-				let returnedData = await commentVotes.findOne(
-					{
-						comment_id: req.params.comment_id,
-						user_id: req.decoded._id,
-					}
-				)
-
-				if (returnedData) { next() }
-				else {
-					return res.status(401).send({
-						auth: false,
-						error: 'Sorry man, you dont own this block-vote!'
-					})
+			const commentVotes = await Collections.loadCommentVotesCollection()
+			let returnedData = await commentVotes.findOne(
+				{
+					comment_id: req.params.comment_id,
+					user_id: req.decoded._id,
 				}
-			}
+			)
+
+			if (returnedData) { next() }
 			else {
 				return res.status(401).send({
 					auth: false,
-					error: 'Bro you cant comment vote for someone else! LMAO'
+					error: 'Sorry man, you dont own this block-vote!'
 				})
 			}
 		}
@@ -44,28 +36,19 @@ class CommentVoteAuthMiddleware {
 
 	static verifyNonExistance() {
 		return async (req, res, next) => {
-			if (req.body.user_id == req.decoded._id) {
-				const commentVotes = await Collections.loadCommentVotesCollection()
-				let returnedData = await commentVotes.findOne(
-					{
-						comment_id: req.body.comment_id,
-						user_id: req.body.user_id,
-					}
-				)
-				console.log('ret', returnedData)
-
-				if (!returnedData) { next() }
-				else {
-					return res.status(401).send({
-						auth: true,
-						error: 'Sorry man, comment-vote already exists!'
-					})
+			const commentVotes = await Collections.loadCommentVotesCollection()
+			let returnedData = await commentVotes.findOne(
+				{
+					comment_id: req.body.comment_id,
+					user_id: req.body.user_id,
 				}
-			}
+			)
+
+			if (!returnedData) { next() }
 			else {
 				return res.status(401).send({
-					auth: false,
-					error: 'Bro you cant comment vote for someone else! LMAO'
+					auth: true,
+					error: 'Sorry man, comment-vote already exists!'
 				})
 			}
 		}

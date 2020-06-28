@@ -27,16 +27,27 @@ router.post(
 	Auth.userCheck(),
 	BlockVoteAuth.verifyNonExistance(),
 	async (req, res) => {
-		const blockVotes = await Collections.loadBlockVotesCollection()
-		await blockVotes.insertOne({
-			createdAt: new Date(),
-			block_id: req.body.block_id,
-			user_id: req.body.user_id,
-			email: req.body.email,
-			username: req.body.username,
-		})
+		if (req.body.user_id == req.decoded._id) {
+			const blockVotes = await Collections.loadBlockVotesCollection()
+			await blockVotes.insertOne({
+				createdAt: new Date(),
+				block_id: req.body.block_id,
+				user_id: req.body.user_id,
+				email: req.body.email,
+				username: req.body.username,
+			})
 
-		res.status(201).send()
+			res.status(201).send({
+				auth: true,
+				error: 'Created blockVote'
+			})
+		}
+		else {
+			return res.status(401).send({
+				auth: false,
+				error: 'Bro you cant create a blockVote for someone else!'
+			})
+		}
 	}
 )
 
@@ -47,16 +58,24 @@ router.delete(
 	Auth.userCheck(),
 	BlockVoteAuth.verifyOwnership(),
 	async (req, res) => {
-		const blockVotes = await Collections.loadBlockVotesCollection()
-		await blockVotes.deleteMany({
-			block_id: req.params.block_id,
-			user_id: req.params.user_id,
-		})
+		if (req.params.user_id == req.decoded._id) {
+			const blockVotes = await Collections.loadBlockVotesCollection()
+			await blockVotes.deleteMany({
+				block_id: req.params.block_id,
+				user_id: req.params.user_id,
+			})
 
-		res.status(200).send({
-			auth: true,
-			message: 'Deleted!'
-		})
+			res.status(200).send({
+				auth: true,
+				message: 'Deleted blockVote'
+			})
+		}
+		else {
+			return res.status(401).send({
+				auth: false,
+				error: 'Bro you cant delete blockVote for someone else!'
+			})
+		}
 	}
 )
 
