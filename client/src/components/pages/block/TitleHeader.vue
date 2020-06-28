@@ -86,7 +86,7 @@
 			catch(e) { this.error = e }
 			
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {

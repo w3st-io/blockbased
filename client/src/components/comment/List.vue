@@ -11,9 +11,9 @@
 						<!-- Image Section -->
 						<div class="float-left p-2 border-right border-secondary" style="width: 15%;">
 							<div class="w-100 text-center">
-								<img :src="require('../../assets/images/placeholder.png')" class="m-auto w-75 rounded-lg">
+								<img :src="getProfilePic(comment.user_id)" class="m-auto w-75 rounded-lg">
 							</div>
-							
+
 							<p class="m-0 text-center text-light small">
 								{{ comment.email }}
 							</p>
@@ -71,13 +71,6 @@
 				</div>
 			</div>
 
-			<div class="m-0 alert alert-info">
-				{{ comments }}
-				<br>
-				<br>
-				{{ votesReplica }}
-			</div>
-
 			<div v-if="error" class="m-0 alert alert-danger">
 				{{ error }}
 			</div>
@@ -90,7 +83,7 @@
 	import router from '@router'
 	import CommentService from '@services/CommentService'
 	import CommentVotesService from '@services/CommentVotesService'
-	//import UserService from '@services/UserService'
+	import UserService from '@services/UserService'
 	
 	// [EXPORT] //
 	export default {
@@ -99,27 +92,22 @@
 				type: String,
 				required: true,
 			},
-
 			pageIndex: {
 				type: Number,
 				required: true,
 			},
-
 			amountPerPage: {
 				type: Number,
 				required: true
 			},
-
 			user_id: {
 				type: String,
 				required: true
 			},
-
 			email: {
 				type: String,
 				required: true
 			},
-			
 			username: {
 				type: String,
 				required: true
@@ -129,10 +117,10 @@
 		data: function() {
 			return {
 				loading: true,
-				upvotes: 1,
 				disabled: false,
 				comments: [],
 				votesReplica: {},
+				profileReplicas: [],
 				error: '',
 			}
 		},
@@ -141,8 +129,11 @@
 			// Initialize Comments //
 			await this.getComments()
 
-			// Initialize VotesReplica //
-			this.setVotesReplica()
+			// Initialize Replicas //
+			this.setReplicas()
+
+			// Initialize User Profile Pictures in ProfileReplicas //
+			await this.setProfilePics()
 
 			// Disable Loading //
 			this.loading = false
@@ -174,19 +165,18 @@
 
 				// [UPDATE] Variable on this page //
 				this.getComments()
-				this.setVotesReplica()
+				this.setReplicas()
 			},
 
 			doesUserOwnThisComment(user_id) {
 				if (user_id == this.user_id) return true
 				else return false 
 			},
-			
-			/******************* [PROFILE SECTION] *******************/
 
-			/******************* [VOTE SYSTEM] *******************/
-			setVotesReplica() {
+			/******************* [PROFILE SECTION] *******************/
+			setReplicas() {
 				this.comments.forEach(comment => {
+					// Votes Remplica //
 					let insert = { voteCount: comment.voters.length, voted: false }
 
 					if (this.searchVotersArrayInComment(comment.voters)) {
@@ -194,9 +184,33 @@
 					}
 
 					this.votesReplica[comment._id] = insert
+
+					// Profile Replicas //
+					this.profileReplicas.push({
+						user_id: comment.user_id,
+						profilePicURL: require('../../assets/images/placeholder.png')
+					})
 				})
 			},
 
+			/******************* [PROFILE SECTION] *******************/
+			async setProfilePics() {
+				this.profileReplicas.forEach(async (profile) => {
+					let test = await UserService.getUserProfileData(profile.user_id, 'img')
+
+					profile.profilePicURL = test.profilePicURL
+				})
+			},
+
+			getProfilePic(user_id) {
+				var result = this.profileReplicas.filter(p => {
+					return p.user_id === user_id
+				})
+
+				return result[0].profilePicURL
+			},
+
+			/******************* [VOTE SYSTEM] *******************/
 			searchVotersArrayInComment(commentVoters) {
 				// Search For Voters Id in Block's Object //
 				let found = commentVoters.find((voter) => (
@@ -304,6 +318,7 @@
 				console.log('username:', this.username)
 				console.log('Comments:', this.comments)
 				console.log('votesReplica:', this.votesReplica)
+				console.log('profileReplicas:', this.profileReplicas)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		}
