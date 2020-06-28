@@ -39,11 +39,11 @@ router.post(
 
 			res.status(201).send({
 				auth: true,
-				error: 'Created blockVote'
+				message: 'Created blockVote'
 			})
 		}
 		else {
-			return res.status(401).send({
+			res.status(401).send({
 				auth: false,
 				error: 'Bro you cant create a blockVote for someone else!'
 			})
@@ -71,7 +71,7 @@ router.delete(
 			})
 		}
 		else {
-			return res.status(401).send({
+			res.status(401).send({
 				auth: false,
 				error: 'Bro you cant delete blockVote for someone else!'
 			})

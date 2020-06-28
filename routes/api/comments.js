@@ -27,24 +27,35 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 
 /******************* [COMMENT CRUD] *******************/
 // [CREATE] Auth Required //
-router.post('/create', Auth.userCheck(), async (req, res) => {
-	const comments = await Collections.loadCommentsCollection()
-	await comments.insertOne({
-		createdAt: new Date(),
-		block_id: req.body.block_id,
-		user_id: req.body.user_id,
-		email: req.body.email,
-		username: req.body.username,
-		comment: req.body.comment,
-		voters: [],
-		
-	}).then(() => {
-		res.status(201).send({
-			auth: true,
-			message: 'Successfully Created Comment'
-		})
-	})
-})
+router.post(
+	'/create',
+	Auth.userCheck(),
+	async (req, res) => {
+		if (req.body.user_id == req.decoded._id) {
+			const comments = await Collections.loadCommentsCollection()
+			await comments.insertOne({
+				createdAt: new Date(),
+				block_id: req.body.block_id,
+				user_id: req.body.user_id,
+				email: req.body.email,
+				username: req.body.username,
+				comment: req.body.comment,
+				voters: [],
+			})
+
+			res.status(201).send({
+				auth: true,
+				message: 'Created Comment'
+			})
+		}
+		else {
+			res.status(401).send({
+				auth: false,
+				error: 'Bro you cant create a comment for someone else!'
+			})
+		}
+	}
+)
 
 
 // [READ-ALL] //
@@ -81,56 +92,74 @@ router.get('/read/:_id', async (req, res) => {
 
 
 // [UPDATE] Auth Required //
-router.post('/update/:_id', Auth.userCheck(), CommentAuth.verifyOwnership(), async (req, res) => {
-	if (mongodb.ObjectID.isValid(req.params._id)) {
-		const comments = await Collections.loadCommentsCollection()
-		await comments.findOneAndUpdate(
-			{ _id: new mongodb.ObjectID(req.params._id) },
-			{
-				$set: {
-					comment: req.body.comment,
-				}
-			},
-			{ upsert: true }
-		)
-
-		res.status(201).send({
-			auth: true,
-			message: 'Successfully Updated Comment'
-		})
-	}
-	else { res.sendStatus(400) }
-})
-
-
-// [DELETE] Auth Required //
-router.delete('/delete/:_id', Auth.userCheck(), CommentAuth.verifyOwnership(), async (req, res) => {
-	if (mongodb.ObjectID.isValid(req.params._id)) {
-		const comment_id = req.params._id
-
-		if (req.decoded) {
+router.post(
+	'/update/:_id',
+	Auth.userCheck(),
+	CommentAuth.verifyOwnership(),
+	async (req, res) => {
+		if (mongodb.ObjectID.isValid(req.params._id)) {
 			const comments = await Collections.loadCommentsCollection()
-			await comments.deleteOne({
-				_id: new mongodb.ObjectID(comment_id),
-				user_id: req.decoded._id,
-			})
+			await comments.findOneAndUpdate(
+				{ _id: new mongodb.ObjectID(req.params._id) },
+				{
+					$set: {
+						comment: req.body.comment,
+					}
+				},
+				{ upsert: true }
+			)
 
 			res.status(201).send({
 				auth: true,
-				message: 'Successfully Deleted Comment'
+				message: 'Successfully Updated Comment'
 			})
+		}
+		else { res.sendStatus(400) }
+	}
+)
+
+
+// [DELETE] Auth Required //
+router.delete(
+	'/delete/:_id',
+	Auth.userCheck(),
+	CommentAuth.verifyOwnership(),
+	async (req, res) => {
+		if (req.params.user_id == req.decoded._id) {
+			if (mongodb.ObjectID.isValid(req.params._id)) {
+				const comment_id = req.params._id
+
+				if (req.decoded) {
+					const comments = await Collections.loadCommentsCollection()
+					await comments.deleteOne({
+						_id: new mongodb.ObjectID(comment_id),
+						user_id: req.decoded._id,
+					})
+
+					res.status(201).send({
+						auth: true,
+						message: 'Successfully Deleted Comment'
+					})
+				}
+				else {
+					console.log(`JWT Error: ${err}`)
+					res.status(401).send({
+						auth: false,
+						error: 'No Token, did you use Auth.userCheck()..?'
+					})
+				}
+				
+			}
+			else { res.status(400).send({ error: 'Invalid Id'}) }
 		}
 		else {
-			console.log(`JWT Error: ${err}`)
 			res.status(401).send({
 				auth: false,
-				error: 'No Token, did you use Auth.userCheck()..?'
+				error: 'Bro you cant delete comment for someone else!'
 			})
 		}
-		
 	}
-	else { res.status(400).send({ error: 'Invalid Id'}) }
-})
+)
 
 
 /******************* [VOTE SYSTEM] *******************/

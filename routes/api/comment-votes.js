@@ -45,7 +45,7 @@ router.post(
 
 		}
 		else {
-			return res.status(401).send({
+			res.status(401).send({
 				auth: false,
 				error: 'Bro you cant create commentVote for someone else!'
 			})
@@ -72,7 +72,7 @@ router.delete(
 			})
 		}
 		else {
-			return res.status(401).send({
+			res.status(401).send({
 				auth: false,
 				error: 'Bro you cant delete commentVote for someone else!'
 			})
