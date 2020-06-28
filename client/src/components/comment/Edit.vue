@@ -50,12 +50,10 @@
 	import CommentService from '@services/CommentService'
 	import router from '@router'
 
+	// [EXPORT] //
 	export default {
 		props: {
-			comment_id: {
-				type: String,
-				required: true
-			}
+			comment_id: { type: String, required: true, }
 		},
 
 		data: function() {

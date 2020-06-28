@@ -68,7 +68,7 @@ router.get(`/read/:block_id`, async (req, res) => {
 
 /******************* [VOTE SYSTEM] *******************/
 // [PUSH] Auth Required //
-router.post('/update/push-voter/:_id', Auth.userCheck(), BlockAuth.verifyOwnership(), async (req, res) => {
+router.post('/update/push-voter/:_id', Auth.userCheck(), async (req, res) => {
 	const blocks = await Collections.loadBlocksCollection()
 		await blocks.updateOne(
 			{ _id: new mongodb.ObjectID(req.params._id) },
@@ -90,27 +90,22 @@ router.post('/update/push-voter/:_id', Auth.userCheck(), BlockAuth.verifyOwnersh
 
 
 // [PULL] Auth Required //
-router.post(
-	'/update/pull-voter/:_id',
-	Auth.userCheck(),
-	async (req, res) => {
-		const blocks = await Collections.loadBlocksCollection()
-		await blocks.updateOne(
-			{ _id: new mongodb.ObjectID(req.params._id) },
-			{ $pull: { voters: { user_id: req.body.user_id } } },
-			{ upsert: true }
-		)
+router.post('/update/pull-voter/:_id', Auth.userCheck(), async (req, res) => {
+	const blocks = await Collections.loadBlocksCollection()
+	await blocks.updateOne(
+		{ _id: new mongodb.ObjectID(req.params._id) },
+		{ $pull: { voters: { user_id: req.body.user_id } } },
+		{ upsert: true }
+	)
 
-		res.status(201).send()
-	}
-)
+	res.status(201).send()
+})
 
 
 /******************* [VALIDATION] *******************/
+// Check ig Block Exists //
 router.get('/validate/:_id', async (req, res) => {
-	let existance = mongodb.ObjectID.isValid(req.params._id)
-
-	if (existance) {
+	if (mongodb.ObjectID.isValid(req.params._id)) {
 		const blocks = await Collections.loadBlocksCollection()
 
 		let retrievedData = await blocks.findOne(

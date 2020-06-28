@@ -52,18 +52,10 @@
 	// [EXPORT] //
 	export default {
 		props: {
-			cat_id: {
-				required: true,
-			},
-			user_id: {
-				required: true,
-			},
-			email: {
-				required: true,
-			},
-			username: {
-				required: true
-			},
+			cat_id: { type: String, required: true, },
+			user_id: { type: String, required: true, },
+			email: { type: String, required: true, },
+			username: { type: String, required: true },
 		},
 
 		data: function() {

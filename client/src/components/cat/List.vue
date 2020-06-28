@@ -50,10 +50,7 @@
 	// [EXPORT] //
 	export default {
 		props: {
-			cats: {
-				type: Array,
-				required: true
-			}
+			cats: { type: Array, required: true, },
 		},
 
 		data: function() {

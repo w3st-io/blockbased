@@ -1,10 +1,15 @@
 <template>
 	<article class="mx-5">
 		<!-- Button Tabs -->
-		<div class="w-25 my-3">
-			<button-tabs :tabs="tabs" :emitName="'tab-clicked'" />
-		</div>
+		<div class="row">
+			<div class="col-6 my-3">
+				<button-tabs :tabs="tabs" :emitName="'tab-clicked'" />
+			</div>
 
+			<div class="col-6 text-right my-3">
+			</div>
+		</div>
+		
 		<!-- Users Table -->
 		<users-table v-show="activeTab == 'users'" class="my-3" />
 		

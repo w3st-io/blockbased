@@ -35,6 +35,7 @@
 	// [IMPORT] Personal //
 	import ABlockService from '@services/administration/BlockService'
 
+	// [EXPORT] //
 	export default {
 		data: function() {
 			return {
@@ -45,10 +46,7 @@
 
 		created: async function() {
 			// Get Blocks //
-			try {
-				this.blocks = await ABlockService.getAllBlocks(100, 0)
-			}
-			catch(e) { this.error = e }
+			await this.getBlocks()
 
 			// [LOG] //
 			this.log()

@@ -35,6 +35,7 @@
 	// [IMPORT] Personal //
 	import AUserService from '@services/administration/UserService'
 
+	// [EXPORT] //
 	export default {
 		data: function() {
 			return {
@@ -45,10 +46,7 @@
 
 		created: async function() {
 			// Get Users //
-			try {
-				this.users = await AUserService.getAllUsersProfileData()
-			}
-			catch(e) { this.error = e }
+			await this.getUsers()
 
 			// [LOG] //
 			this.log()
@@ -56,7 +54,6 @@
 
 		methods: {
 			async getUsers() {
-				// Get Users //
 				try {
 					this.users = await AUserService.getAllUsersProfileData()
 				}

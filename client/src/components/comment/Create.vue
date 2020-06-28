@@ -51,24 +51,13 @@
 	import CommentService from '@services/CommentService'
 	import router from '@router'
 
+	// [EXPORT] //
 	export default {
 		props: {
-			block_id: {
-				type: String,
-				required: true
-			},
-			user_id: {
-				type: String,
-				required: true
-			},
-			email: {
-				type: String,
-				required: true,
-			},
-			username: {
-				type: String,
-				required: true,
-			},
+			block_id: { type: String, required: true, },
+			user_id: { type: String, required: true, },
+			email: { type: String, required: true, },
+			username: { type: String, required: true, },
 		},
 
 		data: function() {

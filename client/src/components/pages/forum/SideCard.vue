@@ -20,7 +20,10 @@
 </template>
 
 <script>
+	// [IMPORT] Personal //
 	import image from '@assets/images/placeholder.jpg'
+
+	// [EXPORT] //
 	export default {
 		data: function() {
 			return {

@@ -47,24 +47,10 @@
 		},
 		
 		props: {
-			block_id: {
-				type: String,
-				required: true,
-			},
-
-			leftBtnEmitName: {
-				type: String,
-				required: true
-			},
-
-			rightBtnEmitName: {
-				type: String,
-				required: true
-			},
-
-			badgeValue: {
-				required: true
-			},
+			block_id: { type: String, required: true, },
+			leftBtnEmitName: { type: String, required: true, },
+			rightBtnEmitName: { type: String, required: true, },
+			badgeValue: { required: true, },
 		},
 
 		data: function() {

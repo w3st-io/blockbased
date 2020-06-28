@@ -26,18 +26,9 @@
 	// [EXPORT] //
 	export default {
 		props: {
-			leftBtnEmitName: {
-				type: String,
-				required: true
-			},
-			rightBtnEmitName: {
-				type: String,
-				required: true
-			},
-			badgeValue: {
-				type: Number,
-				required: true
-			}
+			leftBtnEmitName: { type: String, required: true, },
+			rightBtnEmitName: { type: String, required: true, },
+			badgeValue: { type: Number, required: true, },
 		},
 
 		created() {

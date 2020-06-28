@@ -45,10 +45,7 @@
 
 		created: async function() {
 			// Get Comments //
-			try {
-				this.comments = await ACommentService.adminGetAllComments(100, 0)
-			}
-			catch(e) { this.error = e }
+			await this.getComments()
 
 			// [LOG] //
 			this.log()

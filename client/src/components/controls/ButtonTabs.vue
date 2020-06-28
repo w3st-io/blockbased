@@ -25,14 +25,8 @@
 	// [EXPORT] //
 	export default {
 		props: {
-			tabs: {
-				type: Array,
-				required: true
-			},
-			emitName: {
-				type: String,
-				required: true
-			}
+			tabs: { type: Array, required: true, },
+			emitName: { type: String, required: true, },
 		},
 
 		data: function() { return { activeTab: '', } },

@@ -62,30 +62,12 @@
 	// [EXPORT] //
 	export default {
 		props: {
-			cat_id: {
-				type: String,
-				required: true,
-			},
-			pageIndex: {
-				type: Number,
-				required: true,
-			},
-			amountPerPage: {
-				type: Number,
-				required: true
-			},
-			user_id: {
-				type: String,
-				required: true
-			},
-			email: {
-				type: String,
-				required: true
-			},
-			username: {
-				type: String,
-				required: true
-			},
+			cat_id: { type: String, required: true, },
+			pageIndex: { type: Number, required: true, },
+			amountPerPage: { type: Number, required: true, },
+			user_id: { type: String, required: true, },
+			email: { type: String, required: true, },
+			username: { type: String, required: true, },
 		},
 
 		data: function() {
