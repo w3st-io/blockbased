@@ -37,8 +37,8 @@
 			</form>
 		</ValidationObserver>
 		
-		<!-- [STATUS OR ERRORS] -->
-		<div v-if="error" class="alert alert-danger">
+		<!-- [ERRORS] -->
+		<div v-if="error" class="mt-3 alert alert-danger">
 			{{ error }}
 		</div>
 	</section>

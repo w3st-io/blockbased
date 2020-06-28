@@ -10,8 +10,8 @@
 					<article class="d-flex w-100">
 						<!-- Image Section -->
 						<div class="float-left p-2 border-right border-secondary" style="width: 15%;">
-							<div class="w-100 text-center">
-								<img :src="getProfilePic(comment.user_id)" class="m-auto w-75 rounded-lg">
+							<div class="d-block m-auto rounded-lg pro-img-holder">
+								<img :src="getProfilePic(comment.user_id)" class="m-auto w-100 pro-img">
 							</div>
 
 							<p class="m-0 text-center text-light small">
@@ -186,10 +186,18 @@
 					this.votesReplica[comment._id] = insert
 
 					// Profile Replicas //
-					this.profileReplicas.push({
+					// If the profile object isnt in the array already..
+					let profileFound = this.profileReplicas.some((profile) => (
+						profile.user_id === comment.user_id
+					))
+
+					if (!profileFound) {
+						this.profileReplicas.push({
 						user_id: comment.user_id,
 						profilePicURL: require('../../assets/images/placeholder.png')
 					})
+					}
+					
 				})
 			},
 
@@ -343,4 +351,18 @@
 	}
 
 	.voted { color: $like; }
+
+	// Profile Image Holder // Profile Image //
+	.pro-img-holder {
+		max-width:100px;
+		max-height:100px;
+		width: auto;
+		height: auto;
+		overflow: hidden;
+		
+	}
+	.pro-img {
+		min-height: 100%;
+		min-width: 100%;
+	}
 </style>
