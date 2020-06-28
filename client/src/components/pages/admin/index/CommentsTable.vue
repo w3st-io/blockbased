@@ -1,40 +1,46 @@
 <template>
-	<table class="table table-sm table-bordered table-striped table-dark">
-		<thead>
-			<tr>
-				<th>Block Id</th>
-				<th>Comment</th>
-				<th>Owner Email</th>
-				<th>Owner Username</th>
-				<th>Created At</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr
-				v-for="comment in comments"
-				:key="comment._id"
-			>
-				<td>{{ comment.block_id }}</td>
-				<td>{{ comment.comment }}</td>
-				<td>{{ comment.email }}</td>
-				<td>{{ comment.username }}</td>
-				<td>{{ comment.createdAt }}</td>
-				<td class="text-center">
-					<button
-						@click="deleteComment(comment._id)"
-						class="btn btn-danger"
-					>Delete</button>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<section>
+		<table class="table table-sm table-bordered table-striped table-dark">
+			<thead>
+				<tr>
+					<th>Block Id</th>
+					<th>Comment</th>
+					<th>Owner Email</th>
+					<th>Owner Username</th>
+					<th>Created At</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr
+					v-for="comment in comments"
+					:key="comment._id"
+				>
+					<td>{{ comment.block_id }}</td>
+					<td>{{ comment.comment }}</td>
+					<td>{{ comment.email }}</td>
+					<td>{{ comment.username }}</td>
+					<td>{{ comment.createdAt }}</td>
+					<td class="text-center">
+						<button
+							@click="deleteComment(comment._id)"
+							class="btn btn-danger"
+						>Delete</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<!-- [ERROR] -->
+		<div v-if="error" class="alert alert-danger">{{ error }}</div>
+	</section>
 </template>
 
 <script>
 	// [IMPORT] Personal //
 	import ACommentService from '@services/administration/CommentService'
 
+	// [EXPORT] //
 	export default {
 		data: function() {
 			return {
@@ -72,7 +78,7 @@
 			log() {
 				console.log('%%% [COMPONENT] Admin CommentsTable %%%')
 				console.log('comments:', this.comments)
-				if (this.error) { console.log('error:', this.error) }
+				if (this.error) { console.error('error:', this.error) }
 			},
 		},
 	}

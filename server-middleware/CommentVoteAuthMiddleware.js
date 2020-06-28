@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% BLOCK VOTE AUTHORIZATION MIDDLEWARE %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% COMMENT VOTE AUTHORIZATION MIDDLEWARE %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
  */
 // [REQUIRE] //
 const jwt = require('jsonwebtoken')
@@ -13,14 +13,14 @@ require('dotenv').config()
 const Collections = require('../server-collections')
 
 
-class BlockVoteAuthMiddleware {
+class CommentVoteAuthMiddleware {
 	static verifyOwnership() {
 		return async (req, res, next) => {
 			if (req.params.user_id == req.decoded._id) {
-				const blockVotes = await Collections.loadBlockVotesCollection()
-				let returnedData = await blockVotes.findOne(
+				const commentVotes = await Collections.loadCommentVotesCollection()
+				let returnedData = await commentVotes.findOne(
 					{
-						block_id: req.params.block_id,
+						comment_id: req.params.comment_id,
 						user_id: req.decoded._id,
 					}
 				)
@@ -36,7 +36,7 @@ class BlockVoteAuthMiddleware {
 			else {
 				return res.status(401).send({
 					auth: false,
-					error: 'Bro you cant block vote for someone else! LMAO'
+					error: 'Bro you cant comment vote for someone else! LMAO'
 				})
 			}
 		}
@@ -45,26 +45,27 @@ class BlockVoteAuthMiddleware {
 	static verifyNonExistance() {
 		return async (req, res, next) => {
 			if (req.body.user_id == req.decoded._id) {
-				const blockVotes = await Collections.loadBlockVotesCollection()
-				let returnedData = await blockVotes.findOne(
+				const commentVotes = await Collections.loadCommentVotesCollection()
+				let returnedData = await commentVotes.findOne(
 					{
-						block_id: req.body.block_id,
-						user_id: req.decoded._id,
+						comment_id: req.body.comment_id,
+						user_id: req.body.user_id,
 					}
 				)
+				console.log('ret', returnedData)
 
 				if (!returnedData) { next() }
 				else {
 					return res.status(401).send({
 						auth: true,
-						error: 'Sorry man, block-vote already exists!'
+						error: 'Sorry man, comment-vote already exists!'
 					})
 				}
 			}
 			else {
 				return res.status(401).send({
 					auth: false,
-					error: 'Bro you cant block vote for someone else! LMAO'
+					error: 'Bro you cant comment vote for someone else! LMAO'
 				})
 			}
 		}
@@ -73,4 +74,4 @@ class BlockVoteAuthMiddleware {
 
 
 // [EXPORT] //
-module.exports = BlockVoteAuthMiddleware
+module.exports = CommentVoteAuthMiddleware

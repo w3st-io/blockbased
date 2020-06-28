@@ -1,34 +1,39 @@
 <template>
-	<table class="table table-sm table-bordered table-striped table-dark">
-		<thead>
-			<tr>
-				<th>Cat Id</th>
-				<th>Title</th>
-				<th>Owner Email</th>
-				<th>Owner Username</th>
-				<th>Created At</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr
-				v-for="block in blocks"
-				:key="block._id"
-			>
-				<td>{{ block.cat_id }}</td>
-				<td>{{ block.title }}</td>
-				<td>{{ block.email }}</td>
-				<td>{{ block.username }}</td>
-				<td>{{ block.createdAt }}</td>
-				<td class="text-center">
-					<button
-						@click="deleteBlock(block._id)"
-						class="btn btn-danger"
-					>Delete</button>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<section>
+		<table class="table table-sm table-bordered table-striped table-dark">
+			<thead>
+				<tr>
+					<th>Cat Id</th>
+					<th>Title</th>
+					<th>Owner Email</th>
+					<th>Owner Username</th>
+					<th>Created At</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr
+					v-for="block in blocks"
+					:key="block._id"
+				>
+					<td>{{ block.cat_id }}</td>
+					<td>{{ block.title }}</td>
+					<td>{{ block.email }}</td>
+					<td>{{ block.username }}</td>
+					<td>{{ block.createdAt }}</td>
+					<td class="text-center">
+						<button
+							@click="deleteBlock(block._id)"
+							class="btn btn-danger"
+						>Delete</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<!-- [ERROR] -->
+		<div v-if="error" class="alert alert-danger">{{ error }}</div>
+	</section>
 </template>
 
 <script>
@@ -73,7 +78,7 @@
 			log() {
 				console.log('%%% [COMPONENT] Admin BlocksTable %%%')
 				console.log('blocks:', this.blocks)
-				if (this.error) { console.log('error:', this.error) }
+				if (this.error) { console.error('error:', this.error) }
 			},
 		},
 	}
