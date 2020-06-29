@@ -1,6 +1,6 @@
 <template>
 	<section class="row">
-		<div v-if="!loading" class="col-12 mb-3">
+		<div v-if="!loading" class="col-12">
 			<ul class="m-0 px-0 border border-secondary">
 				<li
 					v-for="(block, index) in blocks"
@@ -9,13 +9,13 @@
 				>
 					<article class="d-inline-block w-100">
 						<!-- Title --> 
-						<div class="w-75 p-2 float-left" @click="redirectToBlock(block._id)" >
+						<div class="w-75 p-2 float-left" @click="redirectToBlock(block._id)">
 							<h5 class="text-light">
 								{{ block.title }}
 							</h5>
 							<p class="m-0 small text-secondary">
 								<span class="text-light">{{ block.username }}</span>
-								- {{ block.createdAt }}
+								- {{ block.createdAt.toLocaleString() }}
 							</p>
 						</div>
 
@@ -36,7 +36,7 @@
 		</div>
 		
 		<!-- [LOADING + ERROR] -->
-		<div v-show="loading" class="col-12">
+		<div v-show="loading" class="col-12 my-3">
 			<div class="m-0 alert alert-info">
 				<div class="d-flex justify-content-center">
 					<div class="spinner-grow">

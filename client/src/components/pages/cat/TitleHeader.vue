@@ -1,7 +1,7 @@
 <template>
 	<section class="row">
 		<!-- Left Side -->
-		<div class="col-8">
+		<div class="col-lg-6 col-md-8 col-sm-8">
 			<!-- Title -->
 			<h3 class="text-light">{{ cat_id }}</h3>
 
@@ -14,7 +14,7 @@
 		</div>
 
 		<!-- Right Side -->
-		<div class="col-4 text-right">
+		<div class="col-lg-6 col-md-4 col-sm-4 text-right">
 			<div class="mb-2 badge badge-light text-info">
 				<h5 class="m-0">Total Posts: {{ '--' }}</h5>
 			</div>

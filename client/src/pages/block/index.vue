@@ -10,7 +10,7 @@
 				class="mb-3"
 			/>
 
-			<!-- Comments -->
+			<!-- Comments List -->
 			<comment-list
 				:block_id="block_id"
 				:pageIndex="pageIndex"
@@ -18,10 +18,11 @@
 				:user_id="user_id"
 				:email="email"
 				:username="username"
-				class="mb-3"
 			/>
+		</article>
 
-			<!-- Botton Page Control -->
+		<!-- Botton Page Control -->
+		<article class="container mt-3">
 			<div class="row">
 				<page-nav-buttons
 					:leftBtnEmitName="'block-prev'"

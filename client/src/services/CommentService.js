@@ -37,9 +37,10 @@ class CommentService {
 			authAxios.get(`/read-all/${block_id}/${amountPerPage}/${skip}`)
 				.then((res) => {
 					const data = res.data
-					resolve(
-						data.map((comment) => ({ ...comment }))
-					)
+					resolve(data.map((comment) => ({
+						...comment,
+						createdAt: new Date(comment.createdAt)
+					})))
 				})
 				.catch((err) => { reject(err) })
 		})

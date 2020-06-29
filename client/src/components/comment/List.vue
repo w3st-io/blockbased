@@ -1,6 +1,6 @@
 <template>
 	<section class="row">
-		<div v-if="!loading" class="col-12 mb-3">
+		<div v-if="!loading" class="col-12">
 			<ul class="m-0 p-0 border border-secondary">
 				<li
 					v-for="comment in comments"
@@ -27,9 +27,8 @@
 
 					<div class="w-100 p-2 d-flex border-top border-secondary text-light">
 						<!-- Time Stamp -->
-						<div class="w-50 m-0 float-left small text-secondary">
-							{{ new Date(comment.createdAt) }}
-							
+						<div class="w-50 m-0 float-left small text-light">
+							{{ comment.createdAt.toLocaleString() }}
 						</div>
 
 						<!-- Buttons -->
@@ -63,7 +62,7 @@
 		
 		<!-- [LOADING + ERROR] -->
 		<div class="col-12">
-			<div v-if="loading" class="m-0 alert alert-info">
+			<div v-if="loading" class="my-3 alert alert-info">
 				<div class="d-flex justify-content-center">
 					<div class="spinner-grow">
 						<span class="sr-only">Loading...</span>

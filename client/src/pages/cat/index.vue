@@ -1,15 +1,16 @@
 <template>
 	<section class="my-4">
-		<article class="container card card-body bg-dark">
+		<article class="container">
 			<!-- Title With Create Button -->
 			<title-header
 				:cat_id="cat_id"
 				:badgeValue="pageNumber"
 				:leftBtnEmitName="'cat-prev'"
 				:rightBtnEmitName="'cat-next'"
-				class="mb-3"
 			/>
+		</article>
 
+		<article class="container card card-body bg-dark">
 			<!-- Display All the Blocks -->
 			<block-list
 				:cat_id="cat_id"
@@ -18,14 +19,14 @@
 				:user_id="user_id"
 				:email="email"
 				:username="username"
-				class="mb-3"
 			/>
 
-			<!-- [ERROR] -->
-			<div v-if="error" class="alert alert-danger">
-				Cat: {{ error }}
-			</div>
 		</article>
+
+		<!-- [ERROR] -->
+		<div v-show="error" class="mt-3 container alert alert-danger">
+			Cat Page: {{ error }}
+		</div>
 	</section>
 </template>
 
