@@ -31,8 +31,8 @@ router.post(
 		const commentVotes = await Collections.loadCommentVotesCollection()
 		await commentVotes.insertOne({
 			createdAt: new Date(),
-			comment_id: req.body.comment_id,
 			block_id: req.body.block_id,
+			comment_id: req.body.comment_id,
 			user_id: req.decoded._id,
 			email: req.decoded.email,
 			username: req.decoded.username,

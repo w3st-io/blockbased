@@ -20,15 +20,15 @@
 					<table class="w-100 table-sm table-dark">
 						<tr>
 							<td class="w-25">Name</td>
-							<td>{{ userTokenData.first_name }} {{ userTokenData.last_name }}</td>
+							<td>{{ decoded.first_name }} {{ decoded.last_name }}</td>
 						</tr>
 						<tr>
 							<td>Username</td>
-							<td>{{ userTokenData.username }}</td>
+							<td>{{ decoded.username }}</td>
 						</tr>
 						<tr>
 							<td>Email</td>
-							<td>{{ userTokenData.email }}</td>
+							<td>{{ decoded.email }}</td>
 						</tr>
 					</table>
 
@@ -51,7 +51,7 @@
 	export default {
 		data: function() {
 			return {
-				userTokenData: {},
+				decoded: {},
 				userProfileData: {},
 			}
 		},
@@ -64,13 +64,13 @@
 
 			// Retrieve User Token Decode Data //
 			try {
-				this.userTokenData = await UserService.getUserTokenDecodeData()
+				this.decoded = await UserService.getUserTokenDecodeData()
 			}
 			catch(e) { this.error = e }
 
 			// Retrieve User Profile Data //
 			try {
-				this.userProfileData = await UserService.getUserProfileData(this.userTokenData._id)
+				this.userProfileData = await UserService.getUserProfileData(this.decoded._id)
 			}
 			catch(e) { this.error = e }
 
@@ -85,7 +85,7 @@
 
 			log() {
 				console.log('%%% [PAGE] User Profile %%%')
-				console.log('userTokenData:', this.userTokenData)
+				console.log('decoded:', this.decoded)
 				console.log('userProfileData:', this.userProfileData)
 			},
 		},

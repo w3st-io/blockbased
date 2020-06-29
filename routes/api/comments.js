@@ -34,12 +34,12 @@ router.post(
 		const comments = await Collections.loadCommentsCollection()
 		await comments.insertOne({
 			createdAt: new Date(),
-			user_id: req.decoded._id,
-			email: req.decoded.email,
-			username: req.decoded.username,
 			block_id: req.body.block_id,
 			comment: req.body.comment,
 			voters: [],
+			user_id: req.decoded._id,
+			email: req.decoded.email,
+			username: req.decoded.username,
 		})
 
 		res.status(201).send({

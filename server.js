@@ -11,7 +11,6 @@ const express = require('express')
 
 // [REQUIRE] Personal + ENV //
 const admins = require('./routes/api/admins')
-const adminstration = require('./routes/api/adminstration')
 const admininstrationBlocks = require('./routes/api/adminstration/blocks')
 const admininstrationComments = require('./routes/api/adminstration/comments')
 const admininstrationUsers = require('./routes/api/adminstration/users')
@@ -47,7 +46,6 @@ app.use('/api/users', users)
 
 
 // [INIT USE] Adminstration //
-app.use('/api/administration', adminstration)
 app.use('/api/administration/blocks', admininstrationBlocks)
 app.use('/api/administration/comments', admininstrationComments)
 app.use('/api/administration/users', admininstrationUsers)

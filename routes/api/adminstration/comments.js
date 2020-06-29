@@ -106,40 +106,5 @@ router.delete('/delete/:_id', Auth.adminCheck(), async (req, res) => {
 })
 
 
-/******************* [VOTE SYSTEM] *******************/
-// [PUSH] Auth Required //
-router.post('/update/push-voter/:_id', Auth.adminCheck(), async (req, res) => {
-	const comments = await Collections.loadCommentsCollection()
-	await comments.updateOne(
-		{ _id: new mongodb.ObjectID(req.params._id) },
-		{ $push:
-			{ 
-				voters: {
-					user_id: req.body.user_id,
-					email: req.body.email,
-					username: req.body.username,
-				} 
-			}
-		},
-		{ upsert: true }
-	)
-
-	res.status(201).send()
-})
-
-
-// [PULL] Auth Required //
-router.post('/update/pull-voter/:_id', Auth.adminCheck(), async (req, res) => {
-	const comments = await Collections.loadCommentsCollection()
-	await comments.updateOne(
-		{ _id: new mongodb.ObjectID(req.params._id) },
-		{ $pull: { voters: { user_id: req.body.user_id } } },
-		{ upsert: true }
-	)
-
-	res.status(201).send()
-})
-
-
 // [EXPORT] //
 module.exports = router
