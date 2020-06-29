@@ -7,9 +7,6 @@
 			
 			<block-create
 				:cat_id="cat_id"
-				:user_id="user_id"
-				:email="email"
-				:username="username"
 			/>
 		</div>
 	</section>

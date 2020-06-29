@@ -20,7 +20,7 @@ const authAxios = axios.create({
 class CommentVoteService {
 	/******************* [CRUD] *******************/
 	// [CREATE] Auth Required //
-	static async createCommentVote(comment_id, block_id) {
+	static async createCommentVote(block_id, comment_id) {
 		// Add the voter from the Block Object
 		let status = await authAxios.post(`/create`, { block_id, comment_id, })
 

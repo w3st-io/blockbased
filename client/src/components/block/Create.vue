@@ -52,10 +52,7 @@
 	// [EXPORT] //
 	export default {
 		props: {
-			cat_id: { type: String, required: true, },
-			user_id: { type: String, required: true, },
-			email: { type: String, required: true, },
-			username: { type: String, required: true },
+			cat_id: { type: String, required: true, }
 		},
 
 		data: function() {
@@ -98,9 +95,6 @@
 			log() {
 				console.log('%%% [COMPONENT] BlockCreate %%%')
 				console.log('cat_id:', this.cat_id)
-				console.log('user_id:', this.user_id)
-				console.log('email:', this.email)
-				console.log('username:', this.username)
 			},
 		},
 	}

@@ -235,13 +235,7 @@
 			async addVote(comment_id) {
 				// [CREATE] Like in "CommentVotes" Colelction //
 				try {
-					await CommentVoteService.createCommentVote(
-						comment_id,
-						this.block_id,
-						this.user_id,
-						this.email,
-						this.username,
-					)
+					await CommentVoteService.createCommentVote(this.block_id, comment_id)
 				}
 				catch(e) { this.error = e }
 

@@ -9,9 +9,6 @@
 			<comment-create
 				v-if="!loading"
 				:block_id="block_id"
-				:user_id="user_id"
-				:email="email"
-				:username="username"
 			/>
 		</div>
 
