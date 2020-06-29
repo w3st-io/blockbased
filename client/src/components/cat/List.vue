@@ -27,7 +27,7 @@
 					</div>
 					<!-- Count -->
 					<div class="w-25 float-left text-center hidden-768">
-						<p class="badge badge-light text-info">
+						<p class="badge badge-info text-light">
 							<span class="m-0 custom-font-size">
 								<p v-if="!loading" class="m-0">
 									{{ totals[cat.cat_id] }}
