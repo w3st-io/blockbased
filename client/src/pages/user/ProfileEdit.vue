@@ -57,15 +57,13 @@
 
 			// Retrieve User Token Decode Data //
 			try {
-				this.userTokenData = await UserService.getUserTokenDecodeData()
+				this.decoded = await UserService.getUserTokenDecodeData()
 			}
 			catch(e) { this.error = e }
 
 			// Retrieve User Profile Data //
 			try {
-				this.userProfileData = await UserService.getUserProfileData(
-					this.userTokenData._id
-				)
+				this.userProfileData = await UserService.getUserProfileData(this.decoded._id)
 			}
 			catch(e) { this.error = e }
 

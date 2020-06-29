@@ -88,10 +88,10 @@
 			if (this.existance) {
 				// Retrieve User Data //
 				try {
-					this.userTokenDecodeData = await UserService.getUserTokenDecodeData()
-					this.user_id = this.userTokenDecodeData._id
-					this.email = this.userTokenDecodeData.email
-					this.username = this.userTokenDecodeData.username
+					this.decoded = await UserService.getUserTokenDecodeData()
+					this.user_id = this.decoded._id
+					this.email = this.decoded.email
+					this.username = this.decoded.username
 				}
 				catch(e) { this.error = e }
 

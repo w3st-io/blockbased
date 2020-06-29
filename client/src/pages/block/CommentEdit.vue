@@ -48,10 +48,10 @@
 
 			// Retrieve User Data //
 			try {
-				let userTokenDecodeData = await UserService.getUserTokenDecodeData()
-				this.user_id = userTokenDecodeData._id
-				this.email = userTokenDecodeData.email
-				this.username = userTokenDecodeData.username
+				let decoded = await UserService.getUserTokenDecodeData()
+				this.user_id = decoded._id
+				this.email = decoded.email
+				this.username = decoded.username
 			}
 			catch(e) { this.error = e }
 
