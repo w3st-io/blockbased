@@ -65,7 +65,6 @@
 		methods: {
 			log() {
 				console.log('%%% [PAGE] CommentEdit %%%')
-				//console.log('localStorage.userToken:', localStorage.usertoken)
 				console.log('comment_id:', this.comment_id)
 				console.log('user_id:', this.user_id)
 				console.log('email:', this.email)

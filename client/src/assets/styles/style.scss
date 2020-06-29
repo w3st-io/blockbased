@@ -1,6 +1,11 @@
 // [IMPORT] Personal //
 @import './sass-variables.scss';
 
-body { background-color: $darkish; }
+body {
+	background-color: $darkish;
+	background-size: 15px 15px;
+	background-position: 0 0, 50px 50px;
+	background-image: radial-gradient(#a1a1a1 5%, transparent 5%);
+}
 
 .bg-darkish { background-color: $darkish; }
