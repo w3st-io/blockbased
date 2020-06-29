@@ -5,32 +5,69 @@
 				<li
 					v-for="(block, index) in blocks"
 					:key="index"
-					class="m-0 bg-dark"
+					class="m-0 bg-dark row"
 				>
-					<article class="d-inline-block w-100">
-						<!-- Title --> 
-						<div class="w-75 p-2 float-left" @click="redirectToBlock(block._id)">
-							<h5 class="text-light">
-								{{ block.title }}
-							</h5>
-							<p class="m-0 small text-secondary">
-								<span class="text-light">{{ block.username }}</span>
-								- {{ block.createdAt.toLocaleString() }}
-							</p>
-						</div>
+					<!-- Title --> 
+					<div
+						class="
+							col-lg-10
+							col-md-8
+							col-sm-8
+							col-9
+							p-2
+						"
+						@click="redirectToBlock(block._id)"
+					>
+						<h5 class="text-light">
+							{{ block.title }}
+						</h5>
+						<p class="m-0 small text-secondary">
+							<span class="text-light">{{ block.username }}</span>
+							- {{ block.createdAt.toLocaleString() }}
+						</p>
+					</div>
 
-						<!-- Vote -->
-						<div class="float-right w-25 text-right" v-on:click="redirectToBlock(block._id)">
-							<h4 class="text-white m-2">
-								<button
-									:disabled="disabled"
-									@click.prevent.stop="voteToggle(block._id)"
-									class="btn btn-outline-secondary unvoted"
-									:class="{ 'voted': votesReplica[block._id].voted }"
-								>{{ votesReplica[block._id].voteCount }} ▲</button>
-							</h4>
-						</div>
-					</article>
+					<!-- Total Comments -->
+					<div
+						class="
+							col-lg-1
+							col-md-2
+							col-sm-2
+							col-xs-3
+							col-3
+							p-2
+							text-center
+						" 
+						v-on:click="redirectToBlock(block._id)"
+					>
+						<p class="badge badge-info align-self-center text-light">
+							<span class="m-0">
+								<p class="h4 m-0">2</p>
+								<span class="">Posts</span>
+							</span>
+						</p>
+					</div>
+
+					<!-- Vote -->
+					<div
+						class="
+							col-lg-1
+							col-md-2
+							col-sm-2
+							p-2
+							text-center
+						"
+						v-on:click="redirectToBlock(block._id)"
+					>
+						<h4 class="m-0 text-white">
+							<button
+								:disabled="disabled"
+								@click.prevent.stop="voteToggle(block._id)"
+								:class="{ 'voted': votesReplica[block._id].voted }"
+								class="w-100 btn btn-outline-secondary unvoted"
+							>{{ votesReplica[block._id].voteCount }} ▲</button>
+						</h4>
+					</div>
 				</li>
 			</ul>
 		</div>

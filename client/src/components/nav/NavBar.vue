@@ -23,7 +23,11 @@
 						<div class="navbar-nav mr-auto"></div>
 						<!-- Search and Button -->
 						<div class="input-group" style="width: 300px;">
-							<input type="text" placeholder="Search" class="form-control border-secondary bg-dark text-light">
+							<input
+								type="text"
+								placeholder="Search"
+								class="form-control border-secondary bg-dark text-light"
+							>
 							<div class="input-group-append">
 								<button class="btn btn-outline-secondary">Search</button>
 							</div>
@@ -102,3 +106,13 @@
 		},
 	}
 </script>
+
+
+<style lang="scss">
+	.dotted-bg {
+		opacity: 1;
+		background: #343a40;
+		background-image: linear-gradient(#42484e 4px,transparent 0),linear-gradient(90deg,#42484e 4px,transparent 0);
+		background-size: 8px 8px,8px 8px;
+	}
+</style>

@@ -187,7 +187,7 @@
 			/******************* [PROFILE SECTION] *******************/
 			async setProfilePics() {
 				this.profileReplicas.forEach(async (profile) => {
-					let returnedData = await UserService.getUserProfileData(profile.user_id, 'img')
+					let returnedData = await UserService.getUserProfileData(profile.user_id, 'pic')
 
 					profile.profilePicURL = returnedData.profilePicURL
 				})

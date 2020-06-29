@@ -14,7 +14,7 @@
 		</div>
 
 		<!-- Right Side -->
-		<div class="col-lg-6 col-md-4 col-sm-4 text-right">
+		<div class="col-lg-6 col-md-4 col-sm-4 mb-3 text-right">
 			<div class="mb-2 badge badge-light text-info">
 				<h5 class="m-0">Total Posts: {{ '--' }}</h5>
 			</div>

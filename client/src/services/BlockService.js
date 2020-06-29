@@ -35,10 +35,9 @@ class BlockService {
 		let result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read-all/${cat_id}/${amountPerPage}/${skip}`)
 				.then((res) => {
-					const data = res.data
-					resolve(data.map((block) => ({
+					resolve(res.data.map((block) => ({
 						...block,
-						createdAt: new Date(block.createdAt)
+						createdAt: new Date(block.createdAt).toLocaleString()
 					})))
 				})
 				.catch((err) => { reject(err) })
@@ -53,10 +52,8 @@ class BlockService {
 		let result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read/${block_id}`)
 				.then((res) => {
-					const data = res.data
-
-					data.createdAt = new Date(data.createdAt)
-					resolve(data)
+					res.data.createdAt = new Date(res.data.createdAt).toLocaleString()
+					resolve(res.data)
 				})
 				.catch((err) => { reject(err) })
 		})

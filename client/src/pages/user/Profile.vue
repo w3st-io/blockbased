@@ -70,7 +70,7 @@
 
 			// Retrieve User Profile Data //
 			try {
-				this.userProfileData = await UserService.getUserProfileData(this.decoded._id)
+				this.userProfileData = await UserService.getUserProfileData()
 			}
 			catch(e) { this.error = e }
 

@@ -7,6 +7,17 @@
 import jwtDecode from 'jwt-decode'
 import axios from 'axios'
 
+
+// [AUTH TOKEN SETUP] //
+const token = localStorage.usertoken
+const authAxios = axios.create({
+	baseURL: '/api/users',
+	headers: {
+		authorization: `Bearer ${token}`
+	}
+})
+
+
 class UserService {
 	/******************* [USER PROFILE] *******************/
 	// [TOKEN DECODE] //
@@ -36,17 +47,19 @@ class UserService {
 
 		// If a field was passed
 		if (field == 'pic') {
-			profileData = await axios.get(`/api/users/read/profile-data/profile-pic-url/${user_id}`)
+			profileData = await authAxios.get(
+				`/read/profile-data/profile-pic-url/${user_id}`
+			)
 		}
-		else { profileData = await axios.get(`/api/users/read/profile-data/${user_id}`) } 
+		else { profileData = await authAxios.get(`/read/profile-data`) } 
 
 		return profileData.data
 	}
 
 
 	// [UPDATE] //
-	static async updateUserProfileData(user_id, img_url) {
-		return await axios.post(`/api/users/update/profile-data/${user_id}`,
+	static async updateUserProfileData(img_url) {
+		return await authAxios.post(`/update/profile-data`,
 			{ img_url }
 		)
 	}
@@ -56,7 +69,7 @@ class UserService {
 	// [LOGIN] //
 	static login(email, password) {
 		let result = new Promise ((resolve, reject) => {
-			axios.post('/api/users/login', { email, password })
+			authAxios.post('/login', { email, password })
 				.then(res => { resolve(res) })
 				.catch(err => { reject(err) })
 		})
@@ -68,7 +81,7 @@ class UserService {
 	// [REGISTER] //
 	static register(first_name, last_name, username, email, password) {
 		let result = new Promise ((resolve, reject) => {
-			axios.post('/api/users/register', {
+			authAxios.post('/register', {
 				first_name,
 				last_name,
 				username,
@@ -82,6 +95,7 @@ class UserService {
 		return result
 	}
 }
+
 
 // [EXPORT] //
 export default UserService

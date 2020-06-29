@@ -63,7 +63,7 @@
 
 			// Retrieve User Profile Data //
 			try {
-				this.userProfileData = await UserService.getUserProfileData(this.decoded._id)
+				this.userProfileData = await UserService.getUserProfileData()
 			}
 			catch(e) { this.error = e }
 
@@ -79,12 +79,7 @@
 
 		methods: {
 			async updateUserProfileData() {
-				try {
-					await UserService.updateUserProfileData(
-						this.userProfileData._id,
-						this.imgUrl,
-					)
-				}
+				try { await UserService.updateUserProfileData(this.imgUrl) }
 				catch(e) { this.error = e }
 
 				// [REDIRECT] //

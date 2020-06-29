@@ -1,6 +1,6 @@
 <template>
 	<section class="my-4">
-		<article class="container">
+		<article class="container card card-body bg-dark">
 			<!-- Title With Create Button -->
 			<title-header
 				:cat_id="cat_id"
@@ -8,9 +8,7 @@
 				:leftBtnEmitName="'cat-prev'"
 				:rightBtnEmitName="'cat-next'"
 			/>
-		</article>
 
-		<article class="container card card-body bg-dark">
 			<!-- Display All the Blocks -->
 			<block-list
 				:cat_id="cat_id"

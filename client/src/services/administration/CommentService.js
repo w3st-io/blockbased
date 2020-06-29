@@ -28,9 +28,11 @@ class AdministrationCommentService {
 		let result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read-all/${amountPerPage}/${skip}`)
 				.then((res) => {
-					const data = res.data
 					resolve(
-						data.map((comment) => ({ ...comment }))
+						res.data.map((comment) => ({
+							...comment,
+							createdAt: new Date(comment.createdAt).toLocaleString(),
+						}))
 					)
 				})
 				.catch((err) => { reject(err) })

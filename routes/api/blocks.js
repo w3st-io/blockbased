@@ -51,9 +51,7 @@ router.get('/read-all/:cat_id/:amountPerPage/:skip', async (req, res) => {
 	let amountPerPage = parseInt(req.params.amountPerPage)
 	
 	const blocks = await Collections.loadBlocksCollection()
-	let retrievedData = await blocks.find(
-		{ cat_id: req.params.cat_id }
-	)
+	let retrievedData = await blocks.find({ cat_id: req.params.cat_id })
 		.skip(skip)
 		.limit(amountPerPage)
 		.toArray()

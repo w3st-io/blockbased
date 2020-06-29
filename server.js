@@ -53,11 +53,13 @@ app.use('/api/administration/users', admininstrationUsers)
 
 // [ROUTE] //
 app.get('', async (req, res) => {
-	res.send(`
-		<h1 style="color: #434875;">
-			BlockBased API
-		</h1>
-	`)
+	const html = `
+	<h1 style="color: #4d31ce;">
+		BlockBased API
+	</h1>
+`
+
+	res.send(html)
 })
 
 

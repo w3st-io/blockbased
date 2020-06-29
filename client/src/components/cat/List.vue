@@ -3,41 +3,66 @@
 		<li
 			v-for="(cat, index) in cats"
 			:key="index"
-			class="m-0 bg-dark list-group"
+			class="m-0 bg-dark row"
 		>
-			<article
+			
+			<!-- Image Section -->
+			<div
 				@click="redirectToCatBlocks(cat.cat_id)"
-				class="w-100 d-inline-block"
+				class="
+					col-lg-1
+					col-md-2
+					col-sm-2
+					col-2
+					p-2
+					align-self-center
+				"
 			>
-				<!-- Image Section -->
-				<div class="px-2 pt-3 float-left border-circle" style="width: 10%;">
-					<div class="w-100 d-inline-block overflow-auto rounded-circle">
-						<img
-							v-bind:src="require('../../assets/images/caticons/' + cat.image)"
-							class="w-100 bg-info img-padding"
-						>
-					</div>
+				<div class="w-100 overflow-auto rounded-circle">
+					<img
+						v-bind:src="require('../../assets/images/caticons/' + cat.image)"
+						class="w-100 bg-info img-padding"
+					>
 				</div>
+			</div>
 
-				<!-- Title -->
-				<div class="px-1 py-3 float-right" style="width: 90%;">
-					<div class="w-75 float-left not-hidden-768">
-						<h4 class="text-light">{{ cat.title }}</h4>
-						<p class="m-0 text-light">{{ cat.description }}</p>
-					</div>
-					<!-- Count -->
-					<div class="w-25 float-left text-center hidden-768">
-						<p class="badge badge-info text-light">
-							<span class="m-0 custom-font-size">
-								<p v-if="!loading" class="m-0">
-									{{ totals[cat.cat_id] }}
-								</p>
-								<span class="small">Posts</span>
-							</span>
+			<!-- Title -->
+			<div
+				@click="redirectToCatBlocks(cat.cat_id)"
+				class="
+					col-lg-9
+					col-md-8
+					col-sm-8
+					col-8
+					py-3
+				"
+			>
+				<h4 class="text-light">{{ cat.title }}</h4>
+				<p class="m-0 text-light hidden-768">{{ cat.description }}</p>
+			</div>
+
+			<!-- Count -->
+			<div
+				@click="redirectToCatBlocks(cat.cat_id)"
+				class="
+					col-lg-2
+					col-md-2
+					col-sm-2
+					col-2
+					p-3
+					text-right
+					hidden-768
+				"
+			>
+				<p class="badge badge-info text-light">
+					<span class="m-0 custom-font-size">
+						<p v-if="!loading" class="m-0">
+							{{ totals[cat.cat_id] }}
 						</p>
-					</div>
-				</div>
-			</article>
+						<span class="small">Posts</span>
+					</span>
+				</p>
+			</div>
 		</li>
 	</ul>
 </template>

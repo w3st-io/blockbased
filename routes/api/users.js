@@ -15,6 +15,7 @@ require('dotenv').config()
 // [REQUIRE] Personal //
 const UserModel = require('../../models/UserModel')
 const Collections = require('../../server-collections')
+const Auth = require('../../server-middleware/AuthMiddleware')
 
 
 // [USE] //
@@ -27,10 +28,11 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 
 /******************* [USER PROFILE] *******************/
 // [READ] //
-router.get('/read/profile-data/:_id', async (req, res) => {
+router.get('/read/profile-data', Auth.userTokenCheck(), async (req, res) => {
+	const user_id = req.decoded._id
 	const users = await Collections.loadUsersCollection()
 	let retrievedData = await users.findOne(
-		{ _id: new mongodb.ObjectID(req.params._id) }
+		{ _id: new mongodb.ObjectID(user_id) }
 	)
 	
 	res.status(201).send(retrievedData)
@@ -49,10 +51,10 @@ router.get('/read/profile-data/profile-pic-url/:_id', async (req, res) => {
 
 
 // [UPDATE] //
-router.post('/update/profile-data/:_id', async (req, res) => {
+router.post('/update/profile-data', Auth.userTokenCheck(), async (req, res) => {
 	const users = await Collections.loadUsersCollection()
 	await users.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params._id) },
+		{ _id: new mongodb.ObjectID(req.decoded._id) },
 		{
 			$set: {
 				profilePicURL: req.body.img_url,

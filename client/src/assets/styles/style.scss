@@ -4,10 +4,12 @@
 * { border-radius: 0 !important; }
 
 body {
-	background-color: $darkish;
-	background-size: 16px 16px;
-	background-position: 0 0, 50px 50px;
-	background-image: radial-gradient(#7e7e7e 6%, transparent 12%);
+	opacity: 1;
+	background: #343a40;
+	background-image:
+		linear-gradient(#42484e 4px, transparent 0),
+		linear-gradient(90deg,#42484e 4px, transparent 0);
+	background-size: 8px 8px,8px 8px;
 }
 
 

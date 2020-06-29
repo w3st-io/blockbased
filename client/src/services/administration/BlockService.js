@@ -27,11 +27,10 @@ class AdminstrationBlockService {
 		let result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read-all/${amountPerPage}/${skip}`)
 				.then((res) => {
-					const data = res.data
 					resolve(
-						data.map((block) => ({
+						res.data.map((block) => ({
 							...block,
-							createdAt: new Date(block.createdAt)
+							createdAt: new Date(block.createdAt).toLocaleString()
 						}))
 					)
 				})

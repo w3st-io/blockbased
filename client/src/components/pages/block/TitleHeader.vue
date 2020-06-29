@@ -16,7 +16,7 @@
 		<!-- Right Side -->
 		<div class="col-lg-6 col-md-4 col-sm-4 text-right">
 			<p class="mb-3 text-secondary small hide-the-ugly">
-				{{ block.createdAt.toLocaleString() }}
+				{{ block.createdAt }}
 			</p>
 			
 			<div class="mb-3 hide-the-ugly">
