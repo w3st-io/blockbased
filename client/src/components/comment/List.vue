@@ -5,27 +5,46 @@
 				<li
 					v-for="comment in comments"
 					:key="comment._id"
-					class="boder border-bottom border-secondary"
+					class="row m-0 boder border-bottom border-secondary"
 				>
-					<article class="d-flex w-100">
-						<!-- Image Section -->
-						<div class="float-left p-2 border-right border-secondary" style="width: 15%;">
-							<div class="d-block m-auto rounded-lg pro-img-holder">
-								<img :src="getProfilePic(comment.user_id)" class="m-auto w-100 pro-img">
-							</div>
-
-							<p class="m-0 text-center text-light small">
-								{{ comment.email }}
-							</p>
+					<!-- Image Section -->
+					<div
+						class="
+							col-lg-2
+							col-md-2
+							col-sm-2
+							col-12
+							py-3
+							border-secondary
+						"
+					>
+						<div class="d-block m-auto rounded-lg pro-img-holder">
+							<img
+								:src="getProfilePic(comment.user_id)"
+								class="m-auto w-100 pro-img"
+							>
 						</div>
 
-						<!-- Comment Section -->
-						<div class="float-right p-2" style="flex-grow: 1; width: 85%;">
-							<p v-html="comment.comment" class="m-0 text-light multiline"></p>
-						</div>
-					</article>
+						<p class="m-0 text-center text-light small">
+							{{ comment.email }}
+						</p>
+					</div>
 
-					<div class="w-100 p-2 d-flex border-top border-secondary text-light">
+					<!-- Comment Section -->
+					<div
+						class="
+							col-lg-10
+							col-md-10
+							col-sm-10
+							col-12
+							pt-3
+						"
+					>
+						<p v-html="comment.comment" class="m-0 text-light multiline"></p>
+					</div>
+				
+					<!-- Bottom Bar -->
+					<div class="col-12 p-2 border-top border-secondary text-light">
 						<!-- Time Stamp -->
 						<div class="w-50 m-0 float-left small text-light">
 							{{ comment.createdAt.toLocaleString() }}

@@ -3,7 +3,7 @@
 		<li
 			v-for="(cat, index) in cats"
 			:key="index"
-			class="m-0 bg-dark row"
+			class="row m-0 bg-dark"
 		>
 			
 			<!-- Image Section -->

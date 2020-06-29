@@ -5,7 +5,7 @@
 				<li
 					v-for="(block, index) in blocks"
 					:key="index"
-					class="m-0 bg-dark row"
+					class="row m-0 bg-dark"
 				>
 					<!-- Title --> 
 					<div
