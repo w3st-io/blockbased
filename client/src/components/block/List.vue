@@ -155,45 +155,21 @@
 
 			async addVote(block_id) {
 				// [CREATE] Vote in "blockVotes" Colelction //
-				try {
-					await BlockVotesService.addBlockVote(
-						block_id,
-						this.user_id,
-						this.email,
-						this.username,
-					)
-				}
+				try { await BlockVotesService.createBlockVote(block_id) }
 				catch(e) { this.error = e }
 
 				
-				try {
-					BlockService.addVote(
-						block_id,
-						this.user_id,
-						this.email,
-						this.username,
-					)
-				}
+				try { BlockService.addVote(block_id) }
 				catch(e) { this.error = e }
 			},
 
 			async removeVote(block_id) {
 				// [DELETE] Vote in "blockVotes" Collection //
-				try {
-					await BlockVotesService.removeBlockVote(
-						block_id,
-						this.user_id,
-					)
-				}
+				try { await BlockVotesService.deleteBlockVote(block_id) }
 				catch(e) { this.error = e }
 
 				// [UPDATE] Block Object //
-				try {
-					await BlockService.removeVote(
-						block_id,
-						this.user_id,
-					)
-				}
+				try { await BlockService.removeVote(block_id) }
 				catch(e) { this.error = e }
 			},
 

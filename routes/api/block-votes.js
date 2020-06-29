@@ -24,58 +24,42 @@ const router = express.Router().use(cors())
 // [CREATE] Auth Required //
 router.post(
 	'/create',
-	Auth.userCheck(),
+	Auth.userTokenCheck(),
 	BlockVoteAuth.verifyNonExistance(),
 	async (req, res) => {
-		if (req.body.user_id == req.decoded._id) {
-			const blockVotes = await Collections.loadBlockVotesCollection()
-			await blockVotes.insertOne({
-				createdAt: new Date(),
-				block_id: req.body.block_id,
-				user_id: req.body.user_id,
-				email: req.body.email,
-				username: req.body.username,
-			})
+		const blockVotes = await Collections.loadBlockVotesCollection()
+		await blockVotes.insertOne({
+			createdAt: new Date(),
+			block_id: req.body.block_id,
+			user_id: req.decoded._id,
+			email: req.decoded.email,
+			username: req.decoded.username,
+		})
 
-			res.status(201).send({
-				auth: true,
-				message: 'Created blockVote'
-			})
-		}
-		else {
-			res.status(401).send({
-				auth: false,
-				error: 'Bro you cant create a blockVote for someone else!'
-			})
-		}
+		res.status(201).send({
+			auth: true,
+			message: 'Created blockVote'
+		})
 	}
 )
 
 
 // [DELETE] Auth Required //
 router.delete(
-	'/delete/:user_id/:block_id',
-	Auth.userCheck(),
+	'/delete/:block_id',
+	Auth.userTokenCheck(),
 	BlockVoteAuth.verifyOwnership(),
 	async (req, res) => {
-		if (req.params.user_id == req.decoded._id) {
-			const blockVotes = await Collections.loadBlockVotesCollection()
-			await blockVotes.deleteMany({
-				block_id: req.params.block_id,
-				user_id: req.params.user_id,
-			})
+		const blockVotes = await Collections.loadBlockVotesCollection()
+		await blockVotes.deleteMany({
+			block_id: req.params.block_id,
+			user_id: req.decoded._id,
+		})
 
-			res.status(200).send({
-				auth: true,
-				message: 'Deleted blockVote'
-			})
-		}
-		else {
-			res.status(401).send({
-				auth: false,
-				error: 'Bro you cant delete blockVote for someone else!'
-			})
-		}
+		res.status(200).send({
+			auth: true,
+			message: 'Deleted blockVote'
+		})
 	}
 )
 

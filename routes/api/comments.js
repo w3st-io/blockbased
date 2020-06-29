@@ -29,31 +29,23 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 // [CREATE] Auth Required //
 router.post(
 	'/create',
-	Auth.userCheck(),
+	Auth.userTokenCheck(),
 	async (req, res) => {
-		if (req.body.user_id == req.decoded._id) {
-			const comments = await Collections.loadCommentsCollection()
-			await comments.insertOne({
-				createdAt: new Date(),
-				block_id: req.body.block_id,
-				user_id: req.body.user_id,
-				email: req.body.email,
-				username: req.body.username,
-				comment: req.body.comment,
-				voters: [],
-			})
+		const comments = await Collections.loadCommentsCollection()
+		await comments.insertOne({
+			createdAt: new Date(),
+			user_id: req.decoded._id,
+			email: req.decoded.email,
+			username: req.decoded.username,
+			block_id: req.body.block_id,
+			comment: req.body.comment,
+			voters: [],
+		})
 
-			res.status(201).send({
-				auth: true,
-				message: 'Created Comment'
-			})
-		}
-		else {
-			res.status(401).send({
-				auth: false,
-				error: 'Bro you cant create a comment for someone else!'
-			})
-		}
+		res.status(201).send({
+			auth: true,
+			message: 'Created Comment'
+		})
 	}
 )
 
@@ -94,27 +86,24 @@ router.get('/read/:_id', async (req, res) => {
 // [UPDATE] Auth Required //
 router.post(
 	'/update/:_id',
-	Auth.userCheck(),
+	Auth.userTokenCheck(),
 	CommentAuth.verifyOwnership(),
 	async (req, res) => {
-		if (mongodb.ObjectID.isValid(req.params._id)) {
-			const comments = await Collections.loadCommentsCollection()
-			await comments.findOneAndUpdate(
-				{ _id: new mongodb.ObjectID(req.params._id) },
-				{
-					$set: {
-						comment: req.body.comment,
-					}
-				},
-				{ upsert: true }
-			)
+		const comments = await Collections.loadCommentsCollection()
+		await comments.findOneAndUpdate(
+			{ _id: new mongodb.ObjectID(req.params._id) },
+			{
+				$set: {
+					comment: req.body.comment,
+				}
+			},
+			{ upsert: true }
+		)
 
-			res.status(201).send({
-				auth: true,
-				message: 'Successfully Updated Comment'
-			})
-		}
-		else { res.sendStatus(400) }
+		res.status(201).send({
+			auth: true,
+			message: 'Successfully Updated Comment'
+		})
 	}
 )
 
@@ -122,74 +111,59 @@ router.post(
 // [DELETE] Auth Required //
 router.delete(
 	'/delete/:_id',
-	Auth.userCheck(),
+	Auth.userTokenCheck(),
 	CommentAuth.verifyOwnership(),
 	async (req, res) => {
-		if (req.params.user_id == req.decoded._id) {
-			if (mongodb.ObjectID.isValid(req.params._id)) {
-				const comment_id = req.params._id
+		const comments = await Collections.loadCommentsCollection()
+		await comments.deleteOne({
+			_id: new mongodb.ObjectID(req.params._id),
+			user_id: req.decoded._id,
+		})
 
-				if (req.decoded) {
-					const comments = await Collections.loadCommentsCollection()
-					await comments.deleteOne({
-						_id: new mongodb.ObjectID(comment_id),
-						user_id: req.decoded._id,
-					})
-
-					res.status(201).send({
-						auth: true,
-						message: 'Successfully Deleted Comment'
-					})
-				}
-				else {
-					console.log(`JWT Error: ${err}`)
-					res.status(401).send({
-						auth: false,
-						error: 'No Token, did you use Auth.userCheck()..?'
-					})
-				}
-				
-			}
-			else { res.status(400).send({ error: 'Invalid Id'}) }
-		}
-		else {
-			res.status(401).send({
-				auth: false,
-				error: 'Bro you cant delete comment for someone else!'
-			})
-		}
+		res.status(201).send({
+			auth: true,
+			message: 'Successfully Deleted Comment'
+		})
 	}
 )
 
 
 /******************* [VOTE SYSTEM] *******************/
 // [PUSH] Auth Required //
-router.post('/update/push-voter/:_id', Auth.userCheck(), async (req, res) => {
-	const comments = await Collections.loadCommentsCollection()
-	await comments.updateOne(
-		{ _id: new mongodb.ObjectID(req.params._id) },
-		{ $push:
-			{ 
-				voters: {
-					user_id: req.body.user_id,
-					email: req.body.email,
-					username: req.body.username,
-				} 
-			}
-		},
-		{ upsert: true }
-	)
+router.post(
+	'/update/push-voter/:_id',
+	Auth.userTokenCheck(),
+	CommentAuth.voterVerifyNonExistance(),
+	async (req, res) => {
+		const comments = await Collections.loadCommentsCollection()
+		await comments.updateOne(
+			{ _id: new mongodb.ObjectID(req.params._id) },
+			{ $push:
+				{ 
+					voters: {
+						user_id: req.decoded._id,
+						email: req.decoded.email,
+						username: req.decoded.username,
+					} 
+				}
+			},
+			{ upsert: true }
+		)
 
-	res.status(201).send()
-})
+		res.status(201).send()
+	}
+)
 
 
 // [PULL] Auth Required //
-router.post('/update/pull-voter/:_id', Auth.userCheck(), async (req, res) => {
+router.post(
+	'/update/pull-voter/:_id',
+	Auth.userTokenCheck(),
+	async (req, res) => {
 	const comments = await Collections.loadCommentsCollection()
 	await comments.updateOne(
 		{ _id: new mongodb.ObjectID(req.params._id) },
-		{ $pull: { voters: { user_id: req.body.user_id } } },
+		{ $pull: { voters: { user_id: req.decoded._id } } },
 		{ upsert: true }
 	)
 

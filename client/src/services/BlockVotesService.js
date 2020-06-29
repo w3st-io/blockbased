@@ -20,23 +20,18 @@ const authAxios = axios.create({
 class BlockVotesService {
 	/******************* [CRUD] *******************/
 	// [CREATE] Auth Required //
-	static async addBlockVote(block_id, user_id, email, username) {
+	static async createBlockVote(block_id) {
 		// Add the voter from the Block Object
-		let status = await authAxios.post(`/create`, {
-			block_id,
-			user_id,
-			email,
-			username,
-		})
+		let status = await authAxios.post(`/create`, { block_id })
 
 		return status
 	}
 
 
 	// [DELETE] Auth Required //
-	static async removeBlockVote(block_id, user_id) {
+	static async deleteBlockVote(block_id) {
 		// Remove the voter from the Block Object
-		let status = await authAxios.delete(`/delete/${user_id}/${block_id}`)
+		let status = await authAxios.delete(`/delete/${block_id}`)
 
 		return status
 	}

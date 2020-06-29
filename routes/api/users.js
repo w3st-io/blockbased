@@ -86,7 +86,8 @@ router.post('/login', async (req, res) => {
 				}
 
 				// Set Token //
-				let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
+				//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
+				let token = jwt.sign(payload, secretKey, {})
 
 				res.status(201).json({ status: 'success', token: token }).send()
 			}

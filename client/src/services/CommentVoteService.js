@@ -17,38 +17,30 @@ const authAxios = axios.create({
 })
 
 
-class CommentVotesService {
+class CommentVoteService {
 	/******************* [CRUD] *******************/
 	// [CREATE] Auth Required //
-	static async addCommentVote(comment_id, block_id, user_id, email, username) {
+	static async createCommentVote(comment_id, block_id) {
 		// Add the voter from the Block Object
-		let status = await authAxios.post(`/create`, {
-			block_id,
-			comment_id,
-			user_id,
-			email,
-			username,
-		})
+		let status = await authAxios.post(`/create`, { block_id, comment_id, })
 
 		return status
 	}
 
 
 	// [DELETE] Auth Required - User's Single Comment Vote //
-	static async removeUsersCommentVote(comment_id, user_id) {
+	static async deleteCommentVote(comment_id) {
 		// Remove the voter from the Block Object
-		let status = await authAxios.delete(`/delete/${user_id}/${comment_id}`)
+		let status = await authAxios.delete(`/delete/${comment_id}`)
 
 		return status
 	}
 
 
 	// [DELETE ALL] Auth Required - Comment's All User Vote //
-	static async removeCommentVotes(comment_id) {
+	static async deleteAllCommentVotes(comment_id) {
 		// Remove the voter from the Block Object
-		let status = await authAxios.delete(
-			`/delete-all/${comment_id}`
-		)
+		let status = await authAxios.delete(`/delete-all/${comment_id}`)
 
 		return status
 	}
@@ -56,4 +48,4 @@ class CommentVotesService {
 
 
 // [EXPORT] //
-export default CommentVotesService
+export default CommentVoteService

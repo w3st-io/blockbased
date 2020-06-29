@@ -82,7 +82,7 @@
 	// [IMPORT] Personal //
 	import router from '@router'
 	import CommentService from '@services/CommentService'
-	import CommentVotesService from '@services/CommentVotesService'
+	import CommentVoteService from '@services/CommentVoteService'
 	import UserService from '@services/UserService'
 	
 	// [EXPORT] //
@@ -139,10 +139,12 @@
 			},
 
 			async deleteComment(comment_id) {
-				try{
-					await CommentVotesService.removeCommentVotes(comment_id)
-					await CommentService.deleteComment(comment_id)
-				}
+				// [DELETE] Comment Vote //
+				try { await CommentVoteService.deleteAllCommentVotes(comment_id)}
+				catch (e) { this.error = e }
+
+				// [DELETE] Comment //
+				try { await CommentService.deleteComment(comment_id) }
 				catch(e) { this.error = e }
 
 				// [UPDATE] Variable on this page //
@@ -155,7 +157,7 @@
 				else return false 
 			},
 
-			/******************* [PROFILE SECTION] *******************/
+			/******************* [REPLICAS] *******************/
 			setReplicas() {
 				this.comments.forEach(comment => {
 					// Votes Replica //
@@ -222,9 +224,7 @@
 					this.getComments()
 
 					// Conditional DB Actions //
-					if (this.votesReplica[comment_id].voted) {
-						this.addVote(comment_id)
-					}
+					if (this.votesReplica[comment_id].voted) { this.addVote(comment_id) }
 					else { this.removeVote(comment_id) }
 
 					// Enable Buttons //
@@ -235,7 +235,7 @@
 			async addVote(comment_id) {
 				// [CREATE] Like in "CommentVotes" Colelction //
 				try {
-					await CommentVotesService.addCommentVote(
+					await CommentVoteService.createCommentVote(
 						comment_id,
 						this.block_id,
 						this.user_id,
@@ -247,12 +247,7 @@
 
 				// [UPDATE] Block Object //
 				try {
-					await CommentService.addVote(
-						comment_id,
-						this.user_id,
-						this.email,
-						this.username,
-					)
+					await CommentService.addVote(comment_id)
 				}
 				catch(e) { this.error = e }
 			},
@@ -260,20 +255,14 @@
 			async removeVote(comment_id) {
 				// [DELETE] Like in "CommentVotes" Collection //
 				try {
-					await CommentVotesService.removeUsersCommentVote(
-						comment_id,
-						this.user_id,
-					)
+					await CommentVoteService.deleteCommentVote(comment_id)
 				}
 				catch(e) { this.error = e }
 						
 
 				// [UPDATE] Block Object //
 				try {
-					await CommentService.removeVote(
-						comment_id,
-						this.user_id,
-					)
+					await CommentService.removeVote(comment_id)
 				}
 				catch(e) { this.error = e }
 			},

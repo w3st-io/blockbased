@@ -104,13 +104,7 @@
 
 			async createComment() {
 				try {
-					await CommentService.createComment(
-						this.block_id,
-						this.user_id,
-						this.email,
-						this.username,
-						this.comment,
-					)
+					await CommentService.createComment(this.block_id, this.comment)
 					
 					// [REDIRECT] Block Page //
 					router.push(

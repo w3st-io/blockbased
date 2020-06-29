@@ -24,31 +24,23 @@ const router = express.Router().use(cors())
 // [CREATE] Auth Required //
 router.post(
 	'/create',
-	Auth.userCheck(),
+	Auth.userTokenCheck(),
 	async (req, res) => {
-		if (req.body.user_id == req.decoded._id) {
-			const blocks = await Collections.loadBlocksCollection()
-			await blocks.insertOne({
-				createdAt: new Date(),
-				cat_id: req.body.cat_id,
-				user_id: req.body.user_id,
-				email: req.body.email,
-				username: req.body.username,
-				title: req.body.title,
-				voters: [],
-			})
+		const blocks = await Collections.loadBlocksCollection()
+		await blocks.insertOne({
+			createdAt: new Date(),
+			cat_id: req.body.cat_id,
+			title: req.body.title,
+			voters: [],
+			user_id: req.decoded._id,
+			email: req.decoded.email,
+			username: req.decoded.username,
+		})
 
-			res.status(201).send({
-				auth: true,
-				message: 'Created block'
-			})
-		}
-		else {
-			res.status(401).send({
-				auth: false,
-				error: 'Bro you cant create a block for someone else!'
-			})
-		}
+		res.status(201).send({
+			auth: true,
+			message: 'Created block'
+		})
 	}
 )
 
@@ -81,36 +73,49 @@ router.get(`/read/:block_id`, async (req, res) => {
 })
 
 
+// [DELETE] Auth Required //
+router.delete(
+	'/delete/:_id',
+	Auth.userTokenCheck(),
+	BlockAuth.verifyOwnership(),
+	async (req, res) => {
+		const blocks = await Collections.loadBlocksCollection()
+		/*await blocks.deleteOne({
+			_id: new mongodb.ObjectID(req.params.block_id),
+			user_id: req.body.user_id,
+		})*/
+
+		res.status(201).send({
+			auth: true,
+			message: 'Deleted block'
+		})
+	}
+)
+
+
 /******************* [VOTE SYSTEM] *******************/
 // [PUSH] Auth Required //
 router.post(
 	'/update/push-voter/:_id',
-	Auth.userCheck(),
+	Auth.userTokenCheck(),
+	BlockAuth.voterVerifyNonExistance(),
 	async (req, res) => {
-		if (req.body.user_id == req.decoded._id) {
-			const blocks = await Collections.loadBlocksCollection()
-			await blocks.updateOne(
-				{ _id: new mongodb.ObjectID(req.params._id) },
-				{ $push:
-					{ 
-						voters: {
-							user_id: req.body.user_id,
-							email: req.body.email,
-							username: req.body.username,
-						} 
-					}
-				},
-				{ upsert: true }
-			)
+		const blocks = await Collections.loadBlocksCollection()
+		await blocks.updateOne(
+			{ _id: new mongodb.ObjectID(req.params._id) },
+			{ $push:
+				{ 
+					voters: {
+						user_id: req.decoded._id,
+						email: req.decoded.email,
+						username: req.decoded.username,
+					} 
+				}
+			},
+			{ upsert: true }
+		)
 
-			res.status(201).send()
-		}
-		else {
-			res.status(401).send({
-				auth: false,
-				error: 'Bro you cant add blockVote for someone else!'
-			})
-		}
+		res.status(201).send()
 	}
 )
 
@@ -118,30 +123,22 @@ router.post(
 // [PULL] Auth Required //
 router.post(
 	'/update/pull-voter/:_id',
-	Auth.userCheck(),
+	Auth.userTokenCheck(),
 	async (req, res) => {
-		if (req.body.user_id == req.decoded._id) {
-			const blocks = await Collections.loadBlocksCollection()
-			await blocks.updateOne(
-				{ _id: new mongodb.ObjectID(req.params._id) },
-				{ $pull: { voters: { user_id: req.body.user_id } } },
-				{ upsert: true }
-			)
+		const blocks = await Collections.loadBlocksCollection()
+		await blocks.updateOne(
+			{ _id: new mongodb.ObjectID(req.params._id) },
+			{ $pull: { voters: { user_id: req.decoded._id } } },
+			{ upsert: true }
+		)
 
-			res.status(201).send()
-		}
-		else {
-			res.status(401).send({
-				auth: false,
-				error: 'Bro you cant remove blockVote for someone else!'
-			})
-		}
+		res.status(201).send()
 	}
 )
 
 
 /******************* [VALIDATION] *******************/
-// Check ig Block Exists //
+// Check Block Exists //
 router.get('/validate/:_id', async (req, res) => {
 	if (mongodb.ObjectID.isValid(req.params._id)) {
 		const blocks = await Collections.loadBlocksCollection()
@@ -156,6 +153,17 @@ router.get('/validate/:_id', async (req, res) => {
 	}
 	else { res.status(400).send({ error: 'Invalid Token' }) }
 })
+
+
+// Check Block Ownership (Should be Used only on the client) //
+router.get(
+	'/verify-ownership/:_id',
+	BlockAuth.verifyOwnership(),
+	async (req, res) => {
+		existance = true
+		res.status(201).send(existance)
+	}
+)
 
 
 /******************* [COUNT] *******************/

@@ -84,13 +84,7 @@
 			// [CREATE] Create Post Via PostService Function //
 			async createBlock() {
 				try {
-					await BlockService.createBlock(
-						this.user_id,
-						this.email,
-						this.username,
-						this.title,
-						this.cat_id
-					)
+					await BlockService.createBlock(this.title, this.cat_id)
 
 					// [REDIRECT] Cat Page //
 					router.push({ name: 'Cat', params: { cat_id: this.cat_id, page: '1' } })

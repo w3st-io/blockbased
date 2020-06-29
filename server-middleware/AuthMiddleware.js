@@ -17,7 +17,7 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 
 class AuthMiddleWare {
 	// [USER] //
-	static userCheck() {
+	static userTokenCheck() {
 		return (req, res, next) => {
 			// Get Token from Header and remove "Bearer "
 			const token = req.headers.authorization
@@ -34,7 +34,7 @@ class AuthMiddleWare {
 						console.log(`JWT Error: ${err}`)
 						return res.status(401).send({
 							auth: false,
-							error: 'Access Denied, Token Needed'
+							error: 'Access Denied, Token Invalid'
 						})
 					}
 				})
@@ -82,6 +82,21 @@ class AuthMiddleWare {
 				return res.status(401).send({
 					auth: false,
 					error: 'Access Denied, No Token Passed'
+				})
+			}
+		}
+	}
+
+	static bodyIdVsDecodedId() {
+		return (req, res, next) => {
+			//console.log('req.body.user_id:', req.body.user_id)
+			//console.log('req.decoded._id:', req.decoded._id)
+
+			if (req.body.user_id == req.decoded._id) { next() }
+			else {
+				res.status(401).send({
+					auth: false,
+					error: 'body.user_id Does not match decoded._id'
 				})
 			}
 		}

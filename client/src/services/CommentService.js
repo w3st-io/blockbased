@@ -20,14 +20,8 @@ const authAxios = axios.create({
 class CommentService {
 	/******************* [COMMENT] *******************/
 	// [CREATE] Auth Required //
-	static createComment(block_id, user_id, email, username, comment) {
-		let status = authAxios.post(`/create`, {
-			block_id,
-			user_id,
-			email,
-			username,
-			comment,
-		})
+	static createComment(block_id, comment) {
+		let status = authAxios.post(`/create`, { block_id, comment })
 
 		return status
 	}
@@ -92,21 +86,15 @@ class CommentService {
 
 	/******************* [VOTE SYSTEM] *******************/
 	// ADD/REMOVE VOTE //
-	static async addVote(comment_id, user_id, email, username) {
+	static async addVote(comment_id) {
 		// Add the voter from the Block Object
-		let status = await authAxios.post(`/update/push-voter/${comment_id}`, {
-			user_id,
-			email,
-			username,
-		})
+		let status = await authAxios.post(`/update/push-voter/${comment_id}`)
 
 		return status
 	}
-	static async removeVote(block_id, user_id) {
+	static async removeVote(comment_id) {
 		// Remove the voter from the Block Object
-		let status = await authAxios.post(`/update/pull-voter/${block_id}`, {
-			user_id,
-		})
+		let status = await authAxios.post(`/update/pull-voter/${comment_id}`)
 
 		return status
 	}
