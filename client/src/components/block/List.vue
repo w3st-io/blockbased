@@ -42,7 +42,9 @@
 					>
 						<p class="badge badge-info align-self-center text-light">
 							<span class="m-0">
-								<p class="h4 m-0">2</p>
+								<p class="h4 m-0">
+									{{ commentCounts[block._id] }}
+								</p>
 								<span class="">Posts</span>
 							</span>
 						</p>
@@ -95,6 +97,7 @@
 	import router from '@router'
 	import BlockService from '@services/BlockService'
 	import BlockVotesService from '@services/BlockVotesService'
+	import CommentService from '@services/CommentService'
 
 	// [EXPORT] //
 	export default {
@@ -113,6 +116,7 @@
 				disabled: false,
 				blocks: [],
 				votesReplica: {},
+				commentCounts: {},
 				error: '',
 			}
 		},
@@ -124,6 +128,10 @@
 			// Initialize VotesReplica //
 			this.setVotesReplica()
 			
+
+			// //
+			await this.totalComments()
+
 			// Disable Loading //
 			this.loading = false
 
@@ -146,7 +154,20 @@
 
 			/******************* [PROFILE SECTION] *******************/
 
-			/******************* [VOTE SYSTEM] *******************/
+			/******************* [COUNT SECTION] *******************/
+			async totalComments() {
+				console.log('@#$@#$@#$')
+				// For the Size of the # of Cats.. //
+				for (let i = 0; i < this.blocks.length; i++) {
+					let block_id = this.blocks[i]._id
+
+					this.commentCounts[block_id] = await CommentService.countCommentsForBlock(block_id)
+
+					console.log('block_Id', block_id)
+				}
+			},
+
+			/******************* [VOTE SECTION] *******************/
 			setVotesReplica() {
 				this.blocks.forEach(block => {
 					let insert = { voteCount: block.voters.length, voted: false }

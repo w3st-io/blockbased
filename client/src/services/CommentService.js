@@ -99,6 +99,14 @@ class CommentService {
 
 		return status
 	}
+
+
+	/******************* [COUNT] *******************/
+	static async countCommentsForBlock(block_id) {
+		let count = await authAxios.get(`/count/${block_id}`)
+
+		return count.data
+	}
 }
 
 

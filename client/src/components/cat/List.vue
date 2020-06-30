@@ -86,12 +86,8 @@
 		},
 
 		created: async function() {
-			// Get Totals //
-			for (let i = 0; i < this.cats.length; i++) {
-				this.totals[this.cats[i].cat_id] = await this.totalBlocks(
-					this.cats[i].cat_id
-				)
-			}
+			// Set Totals //
+			await this.totalBlocks()
 
 			// Disable Loading //
 			this.loading = false
@@ -101,19 +97,24 @@
 		},
 
 		methods: {
-			async totalBlocks(cat_id) {
-				let count = await BlockService.countBlocksForCat(cat_id)
+			async totalBlocks() {
+				// For the Size of the # of Cats.. //
+				for (let i = 0; i < this.cats.length; i++) {
+					let cat_id = this.cats[i].cat_id
 
-				return count
+					this.totals[cat_id] = await BlockService.countBlocksForCat(cat_id)
+				}
 			},
 
 			redirectToCatBlocks(cat_id) {
-				// Push to Cat Page
+				// [REDIRECT] Cat Page //
 				router.push({ name: 'Cat', params: { cat_id: cat_id, page: 1 } })
 			},
 
 			log() {
-				console.log('totals', this.totals)
+				console.log('%%% [COMPONENT] Cat List %%%')
+				console.log('cats:', this.cats)
+				console.log('totals:', this.totals)
 			},
 		}
 	}

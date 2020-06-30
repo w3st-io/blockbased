@@ -171,5 +171,18 @@ router.post(
 })
 
 
+/******************* [COUNT] *******************/
+router.get('/count/:block_id', async (req, res) => {
+	const comments = await Collections.loadCommentsCollection()
+	try {
+		const count = await comments.countDocuments(
+			{ block_id: req.params.block_id }
+		)
+		res.status(201).send(count.toString())
+	}
+	catch(e) { res.send(e) }
+})
+
+
 // [EXPORT] //
 module.exports = router
