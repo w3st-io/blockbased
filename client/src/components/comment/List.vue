@@ -31,6 +31,7 @@
 						<div class="w-50 m-0 float-left small text-light">
 							<!-- Drop Down Menu Button Component -->
 							<dropDownMenuBtn
+								:_id="comment._id"
 								:btnName="'Report'"
 								:BSColor="'outline-danger'"
 								:list="[
@@ -97,6 +98,7 @@
 	import CommentService from '@services/CommentService'
 	import CommentVoteService from '@services/CommentVoteService'
 	import UserService from '@services/UserService'
+	import { EventBus } from '@main'
 	
 	// [EXPORT] //
 	export default {
@@ -134,6 +136,23 @@
 
 			// Disable Loading //
 			this.loading = false
+
+			// [--> EMMIT] //
+			EventBus.$on('Innapropiate', (comment_id) => {
+				this.reportInnapropiate(comment_id)
+			})
+			EventBus.$on('Offensive', (comment_id) => {
+				this.reportOffensive(comment_id)
+			})
+			EventBus.$on('Scam', (comment_id) => {
+				this.reportScam(comment_id)
+			})
+			EventBus.$on('Bot', (comment_id) => {
+				this.reportBot(comment_id)
+			})
+			EventBus.$on('Other', (comment_id) => {
+				this.reportOther(comment_id)
+			})
 
 			// [LOG] //
 			this.log()
@@ -285,6 +304,27 @@
 				else {
 					this.votesReplica[comment_id].voteCount--
 				} 
+			},
+
+			/******************* [REPORT] *******************/
+			reportInnapropiate(comment_id) {
+				console.log('Innapropiate:', comment_id)
+			},
+
+			reportOffensive(comment_id) {
+				console.log('Offensive:', comment_id)
+			},
+
+			reportScam(comment_id) {
+				console.log('Scam:', comment_id)
+			},
+
+			reportBot(comment_id) {
+				console.log('Bot:', comment_id)
+			},
+
+			reportOther(comment_id) {
+				console.log('Other:', comment_id)
 			},
 
 			/******************* [ROUTER + LOG] *******************/

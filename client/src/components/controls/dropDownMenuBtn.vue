@@ -1,5 +1,5 @@
 <template>
-	<popper trigger="clickToOpen" :options="popperOptions">
+	<popper trigger="clickToToggle" :options="popperOptions">
 		<button
 			slot="reference"
 			class="btn btn-sm dropdown-toggle"
@@ -10,6 +10,7 @@
 			<a
 				v-for="(listItem, index) in list"
 				:key="index"
+				@click="emit(listItem, _id)"
 				class="dropdown-item bg-dark text-light"
 			>{{ listItem }}</a>
 		</div>
@@ -20,12 +21,16 @@
 	// [IMPORT] // 
 	import 'vue-popperjs/dist/vue-popper.css';
 	import popper from 'vue-popperjs';
+
+	// [IMPORT] Personal //
+	import { EventBus } from '@main'
  
 	// [EXPORT] //
 	export default {
 		components: { popper },
 
 		props: {
+			_id: {type: String, required: true, },
 			btnName: { type: String, default: 'DDMB' },
 			BSColor: { type: String, default: 'light' },
 			list: { type: Array, required: true },
@@ -41,12 +46,20 @@
 		},
 
 		created: function() {
-			
+			// [LOG] //
+			//this.log()
 		},
 
 		methods: {
+			emit(listItem, _id) {
+				EventBus.$emit(listItem, _id)
+			},
+
 			log() {
 				console.log('%%% [COMPONENT] dropDownMenuBtn %%%')
+				console.log('_id:', this._id)
+				console.log('btnName:', this.btnName)
+				console.log('BSColor:', this.BSColor)
 				console.log('list:', this.list)
 			}
 		}
