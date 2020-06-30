@@ -4,6 +4,7 @@
  * %%%%%%%%%%%% *
  */
 // [IMPORT] //
+import 'vue-popperjs/dist/vue-popper.css'
 import CKEditor from '@ckeditor/ckeditor5-vue'
 import Vue from 'vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'

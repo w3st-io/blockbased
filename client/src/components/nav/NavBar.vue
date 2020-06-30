@@ -70,14 +70,15 @@
 
 <script>
 	// [IMPORT] Personal //
-	import { EventBus } from '@main'
 	import router from '@router'
+	import { EventBus } from '@main'
 
 	// [EXPORT] //
 	export default {
+
 		data: function() {
 			return {
-				loggedIn: false
+				loggedIn: false,
 			}
 		},
 

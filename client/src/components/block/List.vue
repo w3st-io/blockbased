@@ -45,7 +45,7 @@
 								<p class="h4 m-0">
 									{{ commentCounts[block._id] }}
 								</p>
-								<span class="">Posts</span>
+								<span>Comments</span>
 							</span>
 						</p>
 					</div>

@@ -8,16 +8,7 @@
 					class="row m-0 boder border-bottom border-secondary"
 				>
 					<!-- Image Section -->
-					<div
-						class="
-							col-lg-2
-							col-md-2
-							col-sm-2
-							col-12
-							py-3
-							border-secondary
-						"
-					>
+					<div class="col-lg-2 col-md-2 col-sm-2 col-12 px-0 py-3 border-secondary">
 						<div class="d-block m-auto rounded-lg pro-img-holder">
 							<img
 								:src="getProfilePic(comment.user_id)"
@@ -31,23 +22,23 @@
 					</div>
 
 					<!-- Comment Section -->
-					<div
-						class="
-							col-lg-10
-							col-md-10
-							col-sm-10
-							col-12
-							pt-3
-						"
-					>
+					<div class="col-lg-10 col-md-10 col-sm-10 col-12 px-2 pt-3">
 						<p v-html="comment.comment" class="m-0 text-light multiline"></p>
 					</div>
 				
 					<!-- Bottom Bar -->
 					<div class="col-12 p-2 border-top border-secondary text-light">
-						<!-- Time Stamp -->
 						<div class="w-50 m-0 float-left small text-light">
-							{{ comment.createdAt.toLocaleString() }}
+							<!-- Drop Down Menu Button Component -->
+							<dropDownMenuBtn
+								btnName="Report"
+								BSColor="outline-danger"
+							/>
+
+							<!-- Time Stamp -->
+							<span class="ml-3">
+								{{ comment.createdAt.toLocaleString() }}
+							</span>
 						</div>
 
 						<!-- Buttons -->
@@ -62,10 +53,6 @@
 								@click="deleteComment(comment._id)"
 								class="py-0 btn btn-sm text-danger"
 							>delete</button>
-							<button
-								v-else
-								class="py-0 btn btn-sm text-danger"
-							>report</button>
 							
 							<button
 								:disabled="disabled"
@@ -98,6 +85,7 @@
 
 <script>
 	// [IMPORT] Personal //
+	import dropDownMenuBtn from '../../components/controls/dropDownMenuBtn'
 	import router from '@router'
 	import CommentService from '@services/CommentService'
 	import CommentVoteService from '@services/CommentVoteService'
@@ -105,6 +93,8 @@
 	
 	// [EXPORT] //
 	export default {
+		components: { dropDownMenuBtn },
+		
 		props: {
 			block_id: { type: String, required: true, },
 			pageIndex: { type: Number, required: true, },
