@@ -31,8 +31,15 @@
 						<div class="w-50 m-0 float-left small text-light">
 							<!-- Drop Down Menu Button Component -->
 							<dropDownMenuBtn
-								btnName="Report"
-								BSColor="outline-danger"
+								:btnName="'Report'"
+								:BSColor="'outline-danger'"
+								:list="[
+									'Innapropiate',
+									'Offensive',
+									'Scam',
+									'Bot',
+									'Other'
+								]"
 							/>
 
 							<!-- Time Stamp -->

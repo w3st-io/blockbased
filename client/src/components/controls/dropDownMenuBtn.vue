@@ -7,15 +7,11 @@
 		>{{ btnName }}</button>
 
 		<div class="p-1 bg-dark border border-secondary shadow rounded z-index">
-			<a class="dropdown-item bg-dark text-light">
-				Action
-			</a>
-			<a class="dropdown-item bg-dark text-light">
-				Another action
-			</a>
-			<a class="dropdown-item bg-dark text-light">
-				Something else here
-			</a>
+			<a
+				v-for="(listItem, index) in list"
+				:key="index"
+				class="dropdown-item bg-dark text-light"
+			>{{ listItem }}</a>
 		</div>
 	</popper>
 </template>
@@ -32,6 +28,7 @@
 		props: {
 			btnName: { type: String, default: 'DDMB' },
 			BSColor: { type: String, default: 'light' },
+			list: { type: Array, required: true },
 		},
 
 		data: function() {
@@ -42,6 +39,17 @@
 				}
 			}
 		},
+
+		created: function() {
+			
+		},
+
+		methods: {
+			log() {
+				console.log('%%% [COMPONENT] dropDownMenuBtn %%%')
+				console.log('list:', this.list)
+			}
+		}
 	}
 </script>
 
