@@ -1,47 +1,60 @@
 <template>
-	<popper trigger="clickToToggle" :options="popperOptions">
+	<span> 
 		<button
-			slot="reference"
-			class="btn btn-sm dropdown-toggle"
+			@click="showPopper = !showPopper"
 			:class="'btn-'+ BSColor"
+			class="position-relative btn btn-sm dropdown-toggle z-index-button"
 		>{{ btnName }}</button>
 
-		<div class="p-1 bg-dark border border-secondary shadow rounded z-index">
+		<div
+			v-show="showPopper"
+			class="
+				position-absolute
+				p-1
+				bg-dark
+				border
+				border-secondary
+				shadow
+				rounded
+				z-index-menu
+			"
+		>
 			<a
 				v-for="(listItem, index) in list"
 				:key="index"
-				@click="emit(listItem, _id)"
+				@click="
+					emit(listItem, _id);
+					showPopper = !showPopper;
+				"
 				class="dropdown-item bg-dark text-light"
 			>{{ listItem }}</a>
 		</div>
-	</popper>
+		
+		<div
+			v-show="showPopper"
+			@click="showPopper = !showPopper"
+			class="position-fixed w-100 h-100 p-0 m-0 z-index-backdrop backdrop"
+		></div>
+	</span>
 </template>
  
 <script>
-	// [IMPORT] // 
-	import 'vue-popperjs/dist/vue-popper.css';
-	import popper from 'vue-popperjs';
-
 	// [IMPORT] Personal //
 	import { EventBus } from '@main'
  
 	// [EXPORT] //
 	export default {
-		components: { popper },
 
 		props: {
 			_id: {type: String, required: true, },
+			list: { type: Array, required: true },
 			btnName: { type: String, default: 'DDMB' },
 			BSColor: { type: String, default: 'light' },
-			list: { type: Array, required: true },
 		},
 
 		data: function() {
 			return {
-				popperOptions: {
-					placement: 'bottom',
-					modifiers: { offset: { offset: '0px, 5px' } }
-				}
+				showPopper: false,
 			}
 		},
 
@@ -58,14 +71,25 @@
 			log() {
 				console.log('%%% [COMPONENT] dropDownMenuBtn %%%')
 				console.log('_id:', this._id)
+				console.log('list:', this.list)
 				console.log('btnName:', this.btnName)
 				console.log('BSColor:', this.BSColor)
-				console.log('list:', this.list)
 			}
 		}
 	}
 </script>
 
-<style>
-	.z-index { z-index: 1000; }
+<style scoped>
+	.z-index-button { z-index: 1001 !important; }
+
+	.z-index-menu { z-index: 1000 !important; }
+
+	.z-index-backdrop { z-index: 999 !important; }
+
+	.backdrop {
+		top:0;
+		left:0;
+
+		background:rgba(255, 255, 255, 0.05);
+	}
 </style>

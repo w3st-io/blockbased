@@ -25,7 +25,7 @@ const router = express.Router().use(cors())
 const secretKey = process.env.SECRET_KEY || 'secret'
 
 
-/******************* [COMMENT CRUD] *******************/
+/******************* [CRUD] *******************/
 // [CREATE] Auth Required //
 router.post(
 	'/create',

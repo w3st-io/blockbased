@@ -1,5 +1,5 @@
 <template>
-	<article class="mx-5">
+	<article class="mx-5 my-3 card card-body bg-dark">
 		<!-- Button Tabs -->
 		<div class="row">
 			<div class="col-6 my-3">
@@ -46,11 +46,7 @@
 
 		data: function() {
 			return {
-				tabs: [
-					{ name: 'users' },
-					{ name: 'blocks' },
-					{ name: 'comments' },
-				],
+				tabs: ['users', 'blocks', 'comments'],
 				activeTab: '',
 				error: '',
 			}

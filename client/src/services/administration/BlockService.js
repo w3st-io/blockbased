@@ -19,7 +19,7 @@ const authAxios = axios.create({
 
 class AdminstrationBlockService {
 	/******************* [CRUD] *******************/
-	// [READ ALL] Auth Required //
+	// [READ ALL] ALL - Auth Required //
 	static getAllBlocks(amountPerPage, pageNumber) {
 		// multiply page number with # blocks per page to know how much to skip
 		let skip = pageNumber * amountPerPage

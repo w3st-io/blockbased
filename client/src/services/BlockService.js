@@ -63,10 +63,10 @@ class BlockService {
 
 
 	/*
-	// [DELETE] //
+	// [DELETE] Auth Required //
 	static deleteBlock(block_id) {
 		let result = new Promise ((resolve, reject) => {
-			axios.delete(`/api/blocks/delete/${block_id}`)
+			authAxios.delete(`/blocks/delete/${block_id}`)
 				.then((res) => { resolve(res) })
 				.catch((err) => { reject(err) })
 		})

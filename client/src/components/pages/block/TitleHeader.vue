@@ -95,7 +95,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	// Small devices (landscape phones, 576px and up)
 	@media (max-width: 767.98px) { 
 		.hide-the-ugly { display: none; }

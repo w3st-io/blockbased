@@ -93,10 +93,11 @@
 
 <script>
 	// [IMPORT] Personal //
-	import dropDownMenuBtn from '../../components/controls/dropDownMenuBtn'
+	import dropDownMenuBtn from '@components/controls/dropDownMenuBtn'
 	import router from '@router'
 	import CommentService from '@services/CommentService'
 	import CommentVoteService from '@services/CommentVoteService'
+	import ReportService from '@services/ReportService'
 	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
 	
@@ -308,23 +309,23 @@
 
 			/******************* [REPORT] *******************/
 			reportInnapropiate(comment_id) {
-				console.log('Innapropiate:', comment_id)
+				ReportService.createReport(this.block_id, comment_id,'Innapropiate')
 			},
 
 			reportOffensive(comment_id) {
-				console.log('Offensive:', comment_id)
+				ReportService.createReport(this.block_id, comment_id,'Offensive')
 			},
 
 			reportScam(comment_id) {
-				console.log('Scam:', comment_id)
+				ReportService.createReport(this.block_id, comment_id,'Scam')
 			},
 
 			reportBot(comment_id) {
-				console.log('Bot:', comment_id)
+				ReportService.createReport(this.block_id, comment_id,'Bot')
 			},
 
 			reportOther(comment_id) {
-				console.log('Other:', comment_id)
+				ReportService.createReport(this.block_id, comment_id,'Other')
 			},
 
 			/******************* [ROUTER + LOG] *******************/

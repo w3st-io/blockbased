@@ -1,14 +1,13 @@
 <template>
-	<div class="w-100 btn-group btn-group-toggle" data-toggle="buttons">
+	<div class="w-100 btn-group btn-group-toggle">
 		<!-- For Each Passed Item in Tabs Array -->
 		<label
 			v-for="(tab, index) in tabs" :key="index"
-			:class="{ active: activeTab == tab.name }"
-			
+			:class="{ active: activeTab == tab }"
 			class="btn btn-outline-primary"
 		>
-			<input @click="toggleActive(index)" type="radio" autocomplete="off">
-			{{ tab.name }}
+			<input @click="toggler(index)" type="radio" autocomplete="off">
+			{{ tab }}
 		</label>
 	</div>
 </template>
@@ -29,16 +28,23 @@
 			emitName: { type: String, required: true, },
 		},
 
-		data: function() { return { activeTab: '', } },
+		data: function() {
+			return {
+				activeTab: '',
+			}
+		},
 
 		created: function() {
-			this.activeTab = this.tabs[0].name
+			// Set Active Tab //
+			this.activeTab = this.tabs[0]
+
+			// [EMIT -->] //
 			EventBus.$emit(this.emitName, this.activeTab)
 		},
 
 		methods: {
-			toggleActive(index) {
-				this.activeTab = this.tabs[index].name
+			toggler(index) {
+				this.activeTab = this.tabs[index]
 				EventBus.$emit(this.emitName, this.activeTab)
 			}
 		}

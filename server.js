@@ -20,6 +20,7 @@ const cats = require('./routes/api/cats')
 const comments = require('./routes/api/comments')
 const commentVotes = require('./routes/api/comment-votes')
 const forums = require('./routes/api/forums')
+const reports = require('./routes/api/reports')
 const users = require('./routes/api/users')
 require('dotenv').config()
 
@@ -42,6 +43,7 @@ app.use('/api/cats', cats)
 app.use('/api/comments', comments)
 app.use('/api/comment-votes', commentVotes)
 app.use('/api/forums', forums)
+app.use('/api/reports', reports),
 app.use('/api/users', users)
 
 
