@@ -6,7 +6,7 @@
 				<nav class=" px-0 navbar navbar-expand-lg navbar-dark">
 					<a class="navbar-brand" href="/">
 						<h4>
-							<mark class="bg-info border border-secondary text-light">
+							<mark class="bg-primary border border-secondary text-light">
 								BlockBased
 							</mark>
 						</h4>
@@ -38,7 +38,7 @@
 		</article>
 		
 		<!-- Bottom Bar -->
-		<article class="p-0 bg-info shadow-sm">
+		<article class="p-0 bg-primary shadow-sm">
 			<div class="container">
 				<nav class="px-0 py-1 navbar">
 					<div class="mr-auto">

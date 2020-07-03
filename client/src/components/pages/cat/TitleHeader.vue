@@ -15,7 +15,7 @@
 
 		<!-- Right Side -->
 		<div class="col-lg-6 col-md-4 col-sm-4 mb-3 text-right">
-			<div class="mb-2 badge badge-light text-info">
+			<div class="mb-2 badge badge-light text-primary">
 				<h5 class="m-0">Total Posts: {{ '--' }}</h5>
 			</div>
 			<br>
@@ -23,7 +23,7 @@
 			<!-- Create Button -->
 			<button
 				@click="redirectToCatBlockCreate(cat_id)"
-				class="btn btn-info"
+				class="btn btn-primary"
 			>Create Block</button>
 		</div>
 	</section>

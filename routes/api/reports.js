@@ -34,7 +34,7 @@ router.post(
 			createdAt: new Date(),
 			block_id: req.body.block_id,
 			comment_id: req.body.comment_id,
-			reportType: req.body.reportType,
+			type: req.body.reportType,
 			user_id: req.decoded._id,
 			email: req.decoded.email,
 			username: req.decoded.username,

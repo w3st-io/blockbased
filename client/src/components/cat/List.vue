@@ -21,7 +21,7 @@
 				<div class="w-100 overflow-auto rounded-circle">
 					<img
 						v-bind:src="require('../../assets/images/caticons/' + cat.image)"
-						class="w-100 bg-info img-padding"
+						class="w-100 bg-primary img-padding"
 					>
 				</div>
 			</div>
@@ -54,7 +54,7 @@
 					hidden-768
 				"
 			>
-				<p class="badge badge-info text-light">
+				<p class="badge badge-primary text-light">
 					<span class="m-0 custom-font-size">
 						<p v-if="!loading" class="m-0">
 							{{ totals[cat.cat_id] }}
@@ -128,11 +128,11 @@
 
 	li {
 		@extend .bg-dark;
-		&:hover { @extend .bg-info; }
+		&:hover { @extend .bg-primary; }
 	}
 	li:nth-child(even) {
 		background: $grey;
-		&:hover { @extend .bg-info; }
+		&:hover { @extend .bg-primary; }
 	}
 
 	.custom-font-size { font-size: 16px; }

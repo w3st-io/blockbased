@@ -3,17 +3,17 @@
 		<ul class="pagination">
 			<!-- Left -->
 			<li class="page-item text-center" style="width: 64px;">
-				<a @click="leftBtn()" class="page-link text-light bg-info">Prev</a>
+				<a @click="leftBtn()" class="page-link text-light bg-primary">Prev</a>
 			</li>
 
 			<!-- Page Number -->
 			<li class="page-item">
-				<a class="page-link text-light bg-info">{{ badgeValue }}</a>
+				<a class="page-link text-light bg-primary">{{ badgeValue }}</a>
 			</li>
 
 			<!-- Right -->
 			<li class="page-item text-center" style="width: 64px;">
-				<a @click="rightBtn()" class="page-link text-light bg-info">Next</a>
+				<a @click="rightBtn()" class="page-link text-light bg-primary">Next</a>
 			</li>
 		</ul>
 	</nav>

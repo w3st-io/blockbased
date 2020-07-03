@@ -46,7 +46,7 @@
 
 					<!-- FORM SUBMIT -->
 					<button
-						class="btn btn-lg btn-info border-danger btn-block"
+						class="btn btn-lg btn-primary border-danger btn-block"
 						type="submit"
 						:disabled="submitted"
 					>Login</button>

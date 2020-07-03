@@ -54,13 +54,10 @@ app.use('/api/administration/comments', admininstrationComments)
 app.use('/api/administration/reports', admininstrationReports)
 app.use('/api/administration/users', admininstrationUsers)
 
+
 // [ROUTE] //
 app.get('', async (req, res) => {
-	const html = `
-	<h1 style="color: #4d31ce;">
-		BlockBased API
-	</h1>
-`
+	const html = `<h1 style="color: #4d31ce;">BlockBased API</h1>W`
 
 	res.send(html)
 })
@@ -68,7 +65,4 @@ app.get('', async (req, res) => {
 
 /*** [PORT + LISTEN] ***/
 const port = process.env.PORT || 5000
-
-app.listen(port, function () {
-	console.log(`Server Running on Port: ${port}`)
-})
+app.listen(port, function () { console.log(`Server Running on Port: ${port}`) })

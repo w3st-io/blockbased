@@ -21,9 +21,6 @@ class AdminstrationReportService {
 	/******************* [CRUD] *******************/
 	// [READ ALL] ALL - Auth Required //
 	static getAllReports() {
-		// multiply page number with # blocks per page to know how much to skip
-		let skip = pageNumber * amountPerPage
-
 		let result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read-all`)
 				.then((res) => {

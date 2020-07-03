@@ -58,21 +58,21 @@
 		},
 
 		methods: {
-			async deleteBlock(comment_id) {
-				// Delete Block //
-				try { await ABlockService.deleteBlock(comment_id) }
-				catch(e) { this.error = e }
-				
-				// Refresh Table //
-				this.getBlocks()
-			},
-
 			async getBlocks() {
 				// Get Blocks //
 				try {
 					this.blocks = await ABlockService.getAllBlocks(100, 0)
 				}
 				catch(e) { this.error = e }
+			},
+
+			async deleteBlock(block_id) {
+				// Delete Block //
+				try { await ABlockService.deleteBlock(block_id) }
+				catch(e) { this.error = e }
+				
+				// Refresh Table //
+				this.getBlocks()
 			},
 
 			log() {

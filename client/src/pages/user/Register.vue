@@ -124,7 +124,7 @@
 					<!-- Submit -->
 					<button
 						type="submit"
-						class="btn btn-lg btn-info btn-block"
+						class="btn btn-lg btn-primary btn-block"
 					>Register</button>
 				</form>
 			</ValidationObserver>

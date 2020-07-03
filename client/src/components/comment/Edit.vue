@@ -25,7 +25,7 @@
 				<!-- Submit Button -->
 				<button
 					type="submit"
-					class="w-100 btn btn-info"
+					class="w-100 btn btn-primary"
 					:disabled="disabled"
 				>
 					<span v-show="!loading">+ Update</span>

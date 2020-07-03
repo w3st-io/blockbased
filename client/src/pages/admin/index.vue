@@ -10,14 +10,17 @@
 			</div>
 		</div>
 		
-		<!-- Users Table -->
-		<users-table v-show="activeTab == 'users'" class="my-3" />
+		<!-- Users -->
+		<users v-show="activeTab == 'users'" class="my-3" />
 		
-		<!-- Blocks Table -->
-		<blocks-table v-show="activeTab == 'blocks'" class="my-3" />
+		<!-- Blocks -->
+		<blocks v-show="activeTab == 'blocks'" class="my-3" />
 
-		<!-- Comments Table -->
-		<comments-table v-show="activeTab == 'comments'" class="my-3" />
+		<!-- Comments -->
+		<comments v-show="activeTab == 'comments'" class="my-3" />
+
+		<!-- Reports -->
+		<reports v-show="activeTab == 'reports'" class="my-3" />
 
 		<!-- [ERRORS] -->
 		<div v-if="error != ''" class="my-3 alert alert-danger">
@@ -28,9 +31,10 @@
 
 <script>
 	// [IMPORT] //
-	import BlocksTable from '@components/pages/admin/index/BlocksTable'
-	import CommentsTable from '@components/pages/admin/index/CommentsTable'
-	import UsersTable from '@components/pages/admin/index/UsersTable'
+	import Blocks from '@components/pages/admin/index/Blocks'
+	import Comments from '@components/pages/admin/index/Comments'
+	import Reports from '@components/pages/admin/index/Reports'
+	import Users from '@components/pages/admin/index/Users'
 	import ButtonTabs from '@components/controls/ButtonTabs'
 	import router from '@router'
 	import { EventBus } from '@main'
@@ -38,15 +42,16 @@
 	// [EXPORT] //
 	export default {
 		components: {
-			BlocksTable,
+			Blocks,
 			ButtonTabs,
-			CommentsTable,
-			UsersTable,
+			Comments,
+			Reports,
+			Users,
 		},
 
 		data: function() {
 			return {
-				tabs: ['users', 'blocks', 'comments'],
+				tabs: ['users', 'blocks', 'comments', 'reports'],
 				activeTab: '',
 				error: '',
 			}

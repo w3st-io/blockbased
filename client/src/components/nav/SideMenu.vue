@@ -5,14 +5,14 @@
 		style="z-index: 1040;"
 	>
 		<button
-			class="w-100 m-0 p-2 btn btn-dark bg-secondary text-center text-info"
+			class="w-100 m-0 p-2 btn btn-dark bg-secondary text-center text-primary"
 			@click="closeMenu"
 		>
 			<span aria-hidden="true" style="font-size: 2em;">&times;</span>
 		</button>
 
 		<button
-			class="w-100 btn btn-info"
+			class="w-100 btn btn-primary"
 			v-on:click="homeBtn()"
 		>Forum</button>
 	</nav>

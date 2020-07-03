@@ -30,7 +30,7 @@
 			<button
 				:disabled="disabled"
 				@click="redirectToBlockCommentCreate(block._id)"
-				class="btn btn-info"
+				class="btn btn-primary"
 			>Add Comment</button>
 		</div>
 	</section>

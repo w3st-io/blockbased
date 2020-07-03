@@ -7,7 +7,7 @@
 				</h1>
 				<div class="w-100 m-auto text-center">
 					<router-link to="/">
-						<button class="m-auto btn btn-info">Go to Forum</button>
+						<button class="m-auto btn btn-primary">Go to Forum</button>
 					</router-link>
 				</div>
 			</div>

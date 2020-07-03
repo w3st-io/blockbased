@@ -27,7 +27,7 @@
 				<!-- Submit Button -->
 				<button
 					type="submit"
-					class="w-100 btn btn-info"
+					class="w-100 btn btn-primary"
 					:disabled="submitted"
 				>
 					<span v-show="!loading">+ Create</span>

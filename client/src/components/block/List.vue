@@ -40,7 +40,7 @@
 						" 
 						v-on:click="redirectToBlock(block._id)"
 					>
-						<p class="badge badge-info align-self-center text-light">
+						<p class="badge badge-primary align-self-center text-light">
 							<span class="m-0">
 								<p class="h4 m-0">
 									{{ commentCounts[block._id] }}
@@ -76,7 +76,7 @@
 		
 		<!-- [LOADING + ERROR] -->
 		<div v-show="loading" class="col-12 my-3">
-			<div class="m-0 alert alert-info">
+			<div class="m-0 alert alert-primary">
 				<div class="d-flex justify-content-center">
 					<div class="spinner-grow">
 						<span class="sr-only">Loading...</span>
@@ -272,12 +272,12 @@
 	li {
 		list-style: none;
 
-		&:hover { @extend .bg-info; }
+		&:hover { @extend .bg-primary; }
 	}
 	
 	li:nth-child(even) {
 		background: $grey;
-		&:hover { @extend .bg-info; }
+		&:hover { @extend .bg-primary; }
 	}
 
 	.unvoted {

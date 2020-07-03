@@ -76,7 +76,7 @@
 		
 		<!-- [LOADING + ERROR] -->
 		<div class="col-12">
-			<div v-if="loading" class="my-3 alert alert-info">
+			<div v-if="loading" class="my-3 alert alert-primary">
 				<div class="d-flex justify-content-center">
 					<div class="spinner-grow">
 						<span class="sr-only">Loading...</span>
