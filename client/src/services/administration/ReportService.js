@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% ADMINISTRATION BLOCK SERVICES %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% ADMINISTRATION REPORTS SERVICES %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [IMPORT] //
 import axios from 'axios'
@@ -10,27 +10,27 @@ import axios from 'axios'
 // [AUTH TOKEN SETUP] //
 const token = localStorage.admintoken
 const authAxios = axios.create({
-	baseURL: '/api/administration/blocks',
+	baseURL: '/api/administration/reports',
 	headers: {
 		authorization2: `Bearer ${token}`
 	}
 })
 
 
-class AdminstrationBlockService {
+class AdminstrationReportService {
 	/******************* [CRUD] *******************/
 	// [READ ALL] ALL - Auth Required //
-	static getAllBlocks(amountPerPage, pageNumber) {
+	static getAllReports() {
 		// multiply page number with # blocks per page to know how much to skip
 		let skip = pageNumber * amountPerPage
 
 		let result = new Promise ((resolve, reject) => {
-			authAxios.get(`/read-all/${amountPerPage}/${skip}`)
+			authAxios.get(`/read-all`)
 				.then((res) => {
 					resolve(
-						res.data.map((block) => ({
-							...block,
-							createdAt: new Date(block.createdAt).toLocaleString()
+						res.data.map((report) => ({
+							...report,
+							createdAt: new Date(report.createdAt).toLocaleString()
 						}))
 					)
 				})
@@ -41,9 +41,9 @@ class AdminstrationBlockService {
 	}
 
 	// [DELETE] Auth Required //
-	static deleteBlock(block_id) {
+	static deleteReport(report_id) {
 		let result = new Promise ((resolve, reject) => {
-			authAxios.delete(`/delete/${block_id}`)
+			authAxios.delete(`/delete/${report_id}`)
 				.then((res) => { resolve(res) })
 				.catch((err) => { reject(err) })
 		})
@@ -53,4 +53,4 @@ class AdminstrationBlockService {
 }
 
 // [EXPORT] //
-export default AdminstrationBlockService
+export default AdminstrationReportService
