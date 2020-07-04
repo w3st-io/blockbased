@@ -17,12 +17,10 @@ class CommentVoteAuthMiddleware {
 	static verifyOwnership() {
 		return async (req, res, next) => {
 			const commentVotes = await Collections.loadCommentVotesCollection()
-			let returnedData = await commentVotes.findOne(
-				{
-					comment_id: req.params.comment_id,
-					user_id: req.decoded._id,
-				}
-			)
+			let returnedData = await commentVotes.findOne({
+				comment_id: req.params.comment_id,
+				user_id: req.decoded._id,
+			})
 
 			if (returnedData) { next() }
 			else {
@@ -37,12 +35,10 @@ class CommentVoteAuthMiddleware {
 	static verifyNonExistance() {
 		return async (req, res, next) => {
 			const commentVotes = await Collections.loadCommentVotesCollection()
-			let returnedData = await commentVotes.findOne(
-				{
-					comment_id: req.body.comment_id,
-					user_id: req.body.user_id,
-				}
-			)
+			let returnedData = await commentVotes.findOne({
+				comment_id: req.body.comment_id,
+				user_id: req.decoded._id,
+			})
 
 			if (!returnedData) { next() }
 			else {

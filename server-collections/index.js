@@ -2,12 +2,12 @@
 const mongodb = require('mongodb')
 require('dotenv').config()
 
+const uri = process.env.MONGO_URI
+const db_name = process.env.DB || 'db_name'
 
 class ServerCollections {
 	// [ADMINS] //
 	static async loadAdminsCollection() {
-		const uri = process.env.MONGO_URI
-		const db_name = process.env.DB || 'db_name'
 		const c_name = 'admins'
 		
 		const client = await mongodb.MongoClient.connect(
@@ -24,8 +24,6 @@ class ServerCollections {
 
 	// [BLOCKS] //
 	static async loadBlocksCollection() {
-		const uri = process.env.MONGO_URI
-		const db_name = process.env.DB || 'db_name'
 		const c_name = 'blocks'
 
 		const client = await mongodb.MongoClient.connect(
@@ -42,8 +40,6 @@ class ServerCollections {
 
 	// [BLOCK-VOTES] //
 	static async loadBlockVotesCollection() {
-		const uri = process.env.MONGO_URI
-		const db_name = process.env.DB || 'db_name'
 		const c_name = 'blockVotes'
 		
 		const client = await mongodb.MongoClient.connect(
@@ -60,8 +56,6 @@ class ServerCollections {
 
 	// [CATS] //
 	static async loadCatsCollection() {
-		const uri = process.env.MONGO_URI
-		const db_name = process.env.DB || 'db_name'
 		const c_name = 'cats'
 		
 		const client = await mongodb.MongoClient.connect(
@@ -78,8 +72,6 @@ class ServerCollections {
 
 	// [COMMENTS] //
 	static async loadCommentsCollection() {
-		const uri = process.env.MONGO_URI
-		const db_name = process.env.DB || 'db_name'
 		const c_name = 'comments'
 
 		const client = await mongodb.MongoClient.connect(
@@ -96,8 +88,6 @@ class ServerCollections {
 
 	// [COMMENT-VOTES] //
 	static async loadCommentVotesCollection() {
-		const uri = process.env.MONGO_URI
-		const db_name = process.env.DB || 'db_name'
 		const c_name = 'commentVotes'
 		
 		const client = await mongodb.MongoClient.connect(
@@ -110,11 +100,23 @@ class ServerCollections {
 		return client.db(db_name).collection(c_name)
 	}
 
+	// [FORUMS] //
+	static async loadFollowsCollection() {
+		const c_name = 'follows'
+		
+		const client = await mongodb.MongoClient.connect(
+			uri,
+			{
+				useNewUrlParser: true,
+				useUnifiedTopology: true
+			}
+		)
+	
+		return client.db(db_name).collection(c_name)
+	}
 
 	// [FORUMS] //
 	static async loadForumsCollection() {
-		const uri = process.env.MONGO_URI
-		const db_name = process.env.DB || 'db_name'
 		const c_name = 'forums'
 		
 		const client = await mongodb.MongoClient.connect(
@@ -131,8 +133,6 @@ class ServerCollections {
 
 	// [REPORTS] // 
 	static async loadReportsCollection() {
-		const uri = process.env.MONGO_URI
-		const db_name = process.env.DB || 'db_name'
 		const c_name = 'reports'
 		
 		const client = await mongodb.MongoClient.connect(
@@ -149,8 +149,6 @@ class ServerCollections {
 
 	// [USERS] //
 	static async loadUsersCollection() {
-		const uri = process.env.MONGO_URI
-		const db_name = process.env.DB || 'db_name'
 		const c_name = 'users'
 		
 		const client = await mongodb.MongoClient.connect(

@@ -57,11 +57,27 @@ class CommentAuthMiddleware {
 
 	
 	static voterVerifyNonExistance() {
-		// This function should check if a voter 
-		// does exist in the comments array this 
-		// is to prevent multiple insertion of the
-		// same voter
-		return async (req, res, next) => { next() }
+		return async (req, res, next) => {
+			const comments = await Collections.loadCommentsCollection()
+			let returnedValue = await comments.find({
+				_id: mongodb.ObjectID(req.params._id),
+				voters: {
+					user_id: req.decoded._id,
+					email: req.decoded.email,
+					username: req.decoded.username,
+				}
+			}).toArray()
+
+			if (!returnedValue[0]) {
+				next()
+			}
+			else {
+				return res.status(401).send({
+					auth: false,
+					error: 'Sorry man, you already voted!'
+				})
+			} 
+		}
 	}
 }
 

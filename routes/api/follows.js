@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%% *
- * %%% COMMENT ROUTES %%% *
- * %%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%% *
+ * %%% FOLLOW ROUTES %%% *
+ * %%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
 const cors = require('cors')
@@ -17,7 +17,6 @@ const Collections = require('../../server-collections')
 
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
-const CommentAuth = require('../../server-middleware/CommentAuthMiddleware')
 
 
 // [INIT] //
@@ -144,7 +143,7 @@ router.post(
 						user_id: req.decoded._id,
 						email: req.decoded.email,
 						username: req.decoded.username,
-					}
+					} 
 				}
 			},
 			{ upsert: true }
