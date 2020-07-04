@@ -25,12 +25,19 @@
 		<div v-show="error" class="mt-3 container alert alert-danger">
 			Cat Page: {{ error }}
 		</div>
+
+		<pop-up-banner
+			v-show="message"
+			:message="message"
+			:BSColor="'info'"
+		/>
 	</section>
 </template>
 
 <script>
 	// [IMPORT] Personal //
 	import BlockList from '@components/block/List'
+	import PopUpBanner from '@components/misc/PopUpBanner'
 	import TitleHeader from '@components/pages/cat/TitleHeader'
 	import UserService from '@services/UserService'
 	import router from '@router'
@@ -40,6 +47,7 @@
 	export default {
 		components: {
 			BlockList,
+			PopUpBanner,
 			TitleHeader,
 		},
 
@@ -53,6 +61,7 @@
 				email: 'unset',
 				username: 'unset',
 				error: '',
+				message: '',
 			}
 		},
 

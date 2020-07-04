@@ -83,10 +83,6 @@
 					</div>
 				</div>
 			</div>
-
-			<div v-if="error" class="m-0 alert alert-danger">
-				{{ error }}
-			</div>
 		</div>
 	</section>
 </template>
@@ -103,7 +99,9 @@
 	
 	// [EXPORT] //
 	export default {
-		components: { dropDownMenuBtn },
+		components: {
+			dropDownMenuBtn,
+		},
 		
 		props: {
 			block_id: { type: String, required: true, },
@@ -122,6 +120,7 @@
 				votesReplica: {},
 				profileReplicas: [],
 				error: '',
+				message: 'message',
 			}
 		},
 

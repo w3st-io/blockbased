@@ -10,17 +10,19 @@
 			</div>
 		</div>
 		
-		<!-- Users -->
-		<users v-show="activeTab == 'users'" class="my-3" />
-		
-		<!-- Blocks -->
-		<blocks v-show="activeTab == 'blocks'" class="my-3" />
+		<div class="my-3">
+			<!-- Users -->
+			<users v-show="activeTab == 'users'" />
+			
+			<!-- Blocks -->
+			<blocks v-show="activeTab == 'blocks'" />
 
-		<!-- Comments -->
-		<comments v-show="activeTab == 'comments'" class="my-3" />
+			<!-- Comments -->
+			<comments v-show="activeTab == 'comments'" />
 
-		<!-- Reports -->
-		<reports v-show="activeTab == 'reports'" class="my-3" />
+			<!-- Reports -->
+			<reports v-show="activeTab == 'reports'" />
+		</div>
 
 		<!-- [ERRORS] -->
 		<div v-if="error != ''" class="my-3 alert alert-danger">

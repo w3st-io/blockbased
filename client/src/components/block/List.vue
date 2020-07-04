@@ -156,7 +156,6 @@
 
 			/******************* [COUNT SECTION] *******************/
 			async totalComments() {
-				console.log('@#$@#$@#$')
 				// For the Size of the # of Cats.. //
 				for (let i = 0; i < this.blocks.length; i++) {
 					let block_id = this.blocks[i]._id
