@@ -17,7 +17,7 @@ const Collections = require('../../server-collections')
 
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
-const CommentM = require('../../server-middleware/CommentMiddleware')
+const CommentsM = require('../../server-middleware/CommentsMiddleware')
 
 
 // [INIT] //
@@ -50,43 +50,49 @@ router.post(
 
 
 // [READ-ALL] //
-router.get('/read-all/:block_id/:amountPerPage/:skip', async (req, res) => {
-	let skip = parseInt(req.params.skip)
-	let amountPerPage = parseInt(req.params.amountPerPage)
+router.get(
+	'/read-all/:block_id/:amountPerPage/:skip',
+	async (req, res) => {
+		let skip = parseInt(req.params.skip)
+		let amountPerPage = parseInt(req.params.amountPerPage)
 
-	const comments = await Collections.loadCommentsCollection()
-	let retrievedData = await comments.find(
-		{ block_id: req.params.block_id }
-	)
-		.skip(skip)
-		.limit(amountPerPage)
-		.toArray()
-
-	res.send(retrievedData)
-})
-
-
-// [READ] //
-router.get('/read/:_id', async (req, res) => {
-	let validId = mongodb.ObjectID.isValid(req.params._id)
-	
-	if (validId) {
 		const comments = await Collections.loadCommentsCollection()
-		let retrievedData = await comments.findOne(
-			{ _id: new mongodb.ObjectID(req.params._id) }
+		let retrievedData = await comments.find(
+			{ block_id: req.params.block_id }
 		)
+			.skip(skip)
+			.limit(amountPerPage)
+			.toArray()
 
 		res.send(retrievedData)
 	}
-	else { res.sendStatus(400) }
-})
+)
+
+
+// [READ] //
+router.get(
+	'/read/:_id',
+	async (req, res) => {
+		let validId = mongodb.ObjectID.isValid(req.params._id)
+		
+		if (validId) {
+			const comments = await Collections.loadCommentsCollection()
+			let retrievedData = await comments.findOne(
+				{ _id: new mongodb.ObjectID(req.params._id) }
+			)
+
+			res.send(retrievedData)
+		}
+		else { res.sendStatus(400) }
+	}
+)
 
 
 // [UPDATE] Auth Required //
 router.post(
 	'/update/:_id',
 	Auth.userTokenCheck(),
-	CommentM.verifyOwnership(),
+	CommentsM.verifyOwnership(),
 	async (req, res) => {
 		const comments = await Collections.loadCommentsCollection()
 		await comments.findOneAndUpdate(
@@ -111,7 +117,7 @@ router.post(
 router.delete(
 	'/delete/:_id',
 	Auth.userTokenCheck(),
-	CommentM.verifyOwnership(),
+	CommentsM.verifyOwnership(),
 	async (req, res) => {
 		const comments = await Collections.loadCommentsCollection()
 		await comments.deleteOne({
@@ -132,7 +138,7 @@ router.delete(
 router.post(
 	'/update/push-voter/:_id',
 	Auth.userTokenCheck(),
-	CommentM.voterVerifyNonExistance(),
+	CommentsM.voterVerifyNonExistance(),
 	async (req, res) => {
 		const comments = await Collections.loadCommentsCollection()
 		await comments.updateOne(

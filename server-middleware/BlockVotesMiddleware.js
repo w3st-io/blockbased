@@ -13,7 +13,7 @@ require('dotenv').config()
 const Collections = require('../server-collections')
 
 
-class BlockVoteMiddleware {
+class BlockVotesMiddleware {
 	static verifyOwnership() {
 		return async (req, res, next) => {
 			const blockVotes = await Collections.loadBlockVotesCollection()
@@ -57,4 +57,4 @@ class BlockVoteMiddleware {
 
 
 // [EXPORT] //
-module.exports = BlockVoteMiddleware
+module.exports = BlockVotesMiddleware

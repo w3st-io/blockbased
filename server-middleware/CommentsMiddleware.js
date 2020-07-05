@@ -13,7 +13,7 @@ require('dotenv').config()
 const Collections = require('../server-collections')
 
 
-class CommentMiddleware {
+class CommentsMiddleware {
 	// 
 	static verifyOwnership() {
 		return async (req, res, next) => {
@@ -81,4 +81,4 @@ class CommentMiddleware {
 
 
 // [EXPORT] //
-module.exports = CommentMiddleware
+module.exports = CommentsMiddleware

@@ -12,7 +12,7 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
-const BlockVoteM = require('../../server-middleware/BlockVoteMiddleware')
+const BlockVotesM = require('../../server-middleware/BlockVotesMiddleware')
 const Collections = require('../../server-collections')
 
 
@@ -25,7 +25,7 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userTokenCheck(),
-	BlockVoteM.verifyNonExistance(),
+	BlockVotesM.verifyNonExistance(),
 	async (req, res) => {
 		const blockVotes = await Collections.loadBlockVotesCollection()
 		await blockVotes.insertOne({
@@ -48,7 +48,7 @@ router.post(
 router.delete(
 	'/delete/:block_id',
 	Auth.userTokenCheck(),
-	BlockVoteM.verifyOwnership(),
+	BlockVotesM.verifyOwnership(),
 	async (req, res) => {
 		const blockVotes = await Collections.loadBlockVotesCollection()
 		await blockVotes.deleteMany({

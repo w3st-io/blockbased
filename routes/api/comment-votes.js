@@ -12,8 +12,8 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
-const CommentM = require('../../server-middleware/CommentMiddleware')
-const CommentVoteM = require('../../server-middleware/CommentVoteMiddleware')
+const CommentsM = require('../../server-middleware/CommentsMiddleware')
+const CommentVoteM = require('../../server-middleware/CommentVotesMiddleware')
 const Collections = require('../../server-collections')
 
 
@@ -68,7 +68,7 @@ router.delete(
 router.delete(
 	'/delete-all/:comment_id',
 	Auth.userTokenCheck(),
-	CommentM.verifyOwnershipCommentId(),
+	CommentsM.verifyOwnershipCommentId(),
 	async (req, res) => {
 		const comment_id = req.params.comment_id
 

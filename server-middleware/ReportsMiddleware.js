@@ -11,7 +11,7 @@ require('dotenv').config()
 const Collections = require('../server-collections')
 
 
-class ReportMiddleware {
+class ReportsMiddleware {
 	// Verify that User is not Double Inserting //
 	static verifyNonExistance() {
 		return async (req, res, next) => {
@@ -35,4 +35,4 @@ class ReportMiddleware {
 
 
 // [EXPORT] //
-module.exports = ReportMiddleware
+module.exports = ReportsMiddleware

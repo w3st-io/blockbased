@@ -17,7 +17,7 @@ const Collections = require('../../server-collections')
 
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
-const ReportAuth = require('../../server-middleware/ReportMiddleware')
+const ReportsM = require('../../server-middleware/ReportsMiddleware')
 
 
 // [INIT] //
@@ -29,7 +29,7 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userTokenCheck(),
-	ReportAuth.verifyNonExistance(),
+	ReportsM.verifyNonExistance(),
 	async (req, res) => {
 		const reports = await Collections.loadReportsCollection()
 		await reports.insertOne({
