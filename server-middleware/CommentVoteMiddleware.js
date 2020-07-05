@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% COMMENT VOTE AUTHORIZATION MIDDLEWARE %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% COMMENT VOTE MIDDLEWARE %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
  */
 // [REQUIRE] //
 const jwt = require('jsonwebtoken')
@@ -40,13 +40,13 @@ class CommentVoteMiddleware {
 				user_id: req.decoded._id,
 			})
 
-			if (!returnedData) { next() }
-			else {
+			if (returnedData) {
 				return res.status(401).send({
 					auth: true,
 					error: 'Sorry man, comment-vote already exists!'
 				})
 			}
+			else { next() }
 		}
 	}
 }
