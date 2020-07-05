@@ -17,12 +17,11 @@ const Collections = require('../../server-collections')
 
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
-const CommentAuth = require('../../server-middleware/CommentAuthMiddleware')
+const CommentM = require('../../server-middleware/CommentMiddleware')
 
 
 // [INIT] //
 const router = express.Router().use(cors())
-const secretKey = process.env.SECRET_KEY || 'secret'
 
 
 /******************* [CRUD] *******************/
@@ -87,7 +86,7 @@ router.get('/read/:_id', async (req, res) => {
 router.post(
 	'/update/:_id',
 	Auth.userTokenCheck(),
-	CommentAuth.verifyOwnership(),
+	CommentM.verifyOwnership(),
 	async (req, res) => {
 		const comments = await Collections.loadCommentsCollection()
 		await comments.findOneAndUpdate(
@@ -112,7 +111,7 @@ router.post(
 router.delete(
 	'/delete/:_id',
 	Auth.userTokenCheck(),
-	CommentAuth.verifyOwnership(),
+	CommentM.verifyOwnership(),
 	async (req, res) => {
 		const comments = await Collections.loadCommentsCollection()
 		await comments.deleteOne({
@@ -133,7 +132,7 @@ router.delete(
 router.post(
 	'/update/push-voter/:_id',
 	Auth.userTokenCheck(),
-	CommentAuth.voterVerifyNonExistance(),
+	CommentM.voterVerifyNonExistance(),
 	async (req, res) => {
 		const comments = await Collections.loadCommentsCollection()
 		await comments.updateOne(

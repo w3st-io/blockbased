@@ -68,9 +68,7 @@ class CommentAuthMiddleware {
 				}
 			}).toArray()
 
-			if (!returnedValue[0]) {
-				next()
-			}
+			if (!returnedValue[0]) { next() }
 			else {
 				return res.status(401).send({
 					auth: false,

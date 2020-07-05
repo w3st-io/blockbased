@@ -12,7 +12,7 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
-const BlockAuth = require('../../server-middleware/BlockAuthMiddleware')
+const BlockM = require('../../server-middleware/BlockMiddleware')
 const Collections = require('../../server-collections')
 
 
@@ -75,7 +75,7 @@ router.get(`/read/:block_id`, async (req, res) => {
 router.delete(
 	'/delete/:_id',
 	Auth.userTokenCheck(),
-	BlockAuth.verifyOwnership(),
+	BlockM.verifyOwnership(),
 	async (req, res) => {
 		const blocks = await Collections.loadBlocksCollection()
 		/*await blocks.deleteOne({
@@ -96,7 +96,7 @@ router.delete(
 router.post(
 	'/update/push-voter/:_id',
 	Auth.userTokenCheck(),
-	BlockAuth.voterVerifyNonExistance(),
+	BlockM.voterVerifyNonExistance(),
 	async (req, res) => {
 		const blocks = await Collections.loadBlocksCollection()
 		await blocks.updateOne(
@@ -156,7 +156,7 @@ router.get('/validate/:_id', async (req, res) => {
 // Check Block Ownership (Should be Used only on the client) //
 router.get(
 	'/verify-ownership/:_id',
-	BlockAuth.verifyOwnership(),
+	BlockM.verifyOwnership(),
 	async (req, res) => {
 		existance = true
 		res.status(201).send(existance)

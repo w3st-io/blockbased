@@ -12,8 +12,8 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
-const CommentAuth = require('../../server-middleware/CommentAuthMiddleware')
-const CommentVoteAuth = require('../../server-middleware/CommentVoteAuthMiddleware')
+const CommentM = require('../../server-middleware/CommentMiddleware')
+const CommentVoteM = require('../../server-middleware/CommentVoteMiddleware')
 const Collections = require('../../server-collections')
 
 
@@ -26,7 +26,7 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userTokenCheck(),
-	CommentVoteAuth.verifyNonExistance(),
+	CommentVoteM.verifyNonExistance(),
 	async (req, res) => {
 		const commentVotes = await Collections.loadCommentVotesCollection()
 		await commentVotes.insertOne({
@@ -68,7 +68,7 @@ router.delete(
 router.delete(
 	'/delete-all/:comment_id',
 	Auth.userTokenCheck(),
-	CommentAuth.verifyOwnershipCommentId(),
+	CommentM.verifyOwnershipCommentId(),
 	async (req, res) => {
 		const comment_id = req.params.comment_id
 

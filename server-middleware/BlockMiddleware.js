@@ -13,7 +13,7 @@ require('dotenv').config()
 const Collections = require('../server-collections')
 
 
-class BlockAuthMiddleware {
+class BlockMiddleware {
 	static verifyOwnership() {
 		return async (req, res, next) => {
 			if (mongodb.ObjectID.isValid(req.params._id)) {
@@ -47,4 +47,4 @@ class BlockAuthMiddleware {
 
 
 // [EXPORT] //
-module.exports = BlockAuthMiddleware
+module.exports = BlockMiddleware

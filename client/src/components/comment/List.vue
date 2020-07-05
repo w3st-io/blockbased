@@ -68,9 +68,6 @@
 								class="btn btn-outline-secondary unvoted"
 								:class="{ 'voted': votesReplica[comment._id].voted }"
 							>{{ votesReplica[comment._id].voteCount }} ▲</button>
-
-
-							<button @click="addVote(comment._id)">d</button>
 						</div>
 					</div>
 				</li>
