@@ -18,10 +18,12 @@ class CommentsMiddleware {
 	static verifyOwnership() {
 		return async (req, res, next) => {
 			const comments = await Collections.loadCommentsCollection()
-			let returnedData = await comments.findOne({	
-				_id: new mongodb.ObjectID(req.params._id),
-				user_id: req.decoded._id,
-			})
+			let returnedData = await comments.findOne(
+				{	
+					_id: new mongodb.ObjectID(req.params._id),
+					user_id: req.decoded._id,
+				}
+			)
 
 			if (returnedData) { next() }
 			else {
@@ -39,10 +41,12 @@ class CommentsMiddleware {
 	static verifyOwnershipCommentId() {
 		return async (req, res, next) => {
 			const comments = await Collections.loadCommentsCollection()
-			let returnedData = await comments.findOne({	
-				_id: new mongodb.ObjectID(req.params.comment_id),
-				user_id: req.decoded._id,
-			})
+			let returnedData = await comments.findOne(
+				{	
+					_id: new mongodb.ObjectID(req.params.comment_id),
+					user_id: req.decoded._id,
+				}
+			)
 
 			if (returnedData) { next() }
 			else {

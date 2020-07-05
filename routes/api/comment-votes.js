@@ -17,7 +17,7 @@ const CommentVoteM = require('../../server-middleware/CommentVotesMiddleware')
 const Collections = require('../../server-collections')
 
 
-// [INIT] //
+// [EXPRESS + USE] //
 const router = express.Router().use(cors())
 
 

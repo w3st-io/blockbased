@@ -6,21 +6,17 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
-const jwt = require('jsonwebtoken')
 const mongodb = require('mongodb')
 require('dotenv').config()
 
 
 // [REQUIRE] Personal //
 const Collections = require('../../server-collections')
-
-
-// [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
 const ReportsM = require('../../server-middleware/ReportsMiddleware')
 
 
-// [INIT] //
+// [EXPRESS + USE] //
 const router = express.Router().use(cors())
 
 

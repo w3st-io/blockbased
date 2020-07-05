@@ -14,11 +14,13 @@ require('dotenv').config()
 // [REQUIRE] Personal //
 const Collections = require('../../server-collections')
 
-// [USE] //
-const router = express.Router().use(cors())
 
 // [INIT] //
 const secretKey = process.env.SECRET_KEY || 'secret'
+
+
+// [EXPRESS + USE] //
+const router = express.Router().use(cors())
 
 
 /******************* [ACCOUNT] *******************/

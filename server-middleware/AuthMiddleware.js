@@ -15,7 +15,7 @@ require('dotenv').config()
 const secretKey = process.env.SECRET_KEY || 'secret'
 
 
-class AuthMiddleWare {
+class AuthMiddleware {
 	// [USER] //
 	static userTokenCheck() {
 		return (req, res, next) => {
@@ -102,4 +102,4 @@ class AuthMiddleWare {
 
 
 // [EXPORT] //
-module.exports = AuthMiddleWare
+module.exports = AuthMiddleware

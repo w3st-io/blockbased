@@ -16,7 +16,7 @@ const BlocksM = require('../../server-middleware/BlocksMiddleware')
 const Collections = require('../../server-collections')
 
 
-// [INIT] //
+// [EXPRESS + USE] //
 const router = express.Router().use(cors())
 
 

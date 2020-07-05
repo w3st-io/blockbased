@@ -13,14 +13,11 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const Collections = require('../../server-collections')
-
-
-// [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
 const CommentsM = require('../../server-middleware/CommentsMiddleware')
 
 
-// [INIT] //
+// [EXPRESS + USE] //
 const router = express.Router().use(cors())
 
 

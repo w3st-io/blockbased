@@ -16,7 +16,7 @@ const BlockVotesM = require('../../server-middleware/BlockVotesMiddleware')
 const Collections = require('../../server-collections')
 
 
-// [INIT] //
+// [EXPRESS + USE] //
 const router = express.Router().use(cors())
 
 

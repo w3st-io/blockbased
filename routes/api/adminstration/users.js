@@ -15,7 +15,7 @@ const Auth = require('../../../server-middleware/AuthMiddleware')
 const Collections = require('../../../server-collections')
 
 
-// [USE] //
+// [EXPRESS + USE] //
 const router = express.Router().use(cors())
 
 

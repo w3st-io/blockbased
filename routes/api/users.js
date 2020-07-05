@@ -18,12 +18,12 @@ const Collections = require('../../server-collections')
 const Auth = require('../../server-middleware/AuthMiddleware')
 
 
-// [USE] //
-const router = express.Router().use(cors())
-
-
 // [INIT] //
 const secretKey = process.env.SECRET_KEY || 'secret'
+
+
+// [EXPRESS + USE] //
+const router = express.Router().use(cors())
 
 
 /******************* [USER PROFILE] *******************/
