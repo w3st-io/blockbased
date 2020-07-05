@@ -46,29 +46,35 @@ router.post(
 
 
 // [READ ALL] //
-router.get('/read-all/:cat_id/:amountPerPage/:skip', async (req, res) => {
-	let skip = parseInt(req.params.skip)
-	let amountPerPage = parseInt(req.params.amountPerPage)
-	
-	const blocks = await Collections.loadBlocksCollection()
-	let retrievedData = await blocks.find({ cat_id: req.params.cat_id })
-		.skip(skip)
-		.limit(amountPerPage)
-		.toArray()
+router.get(
+	'/read-all/:cat_id/:amountPerPage/:skip',
+	async (req, res) => {
+		let skip = parseInt(req.params.skip)
+		let amountPerPage = parseInt(req.params.amountPerPage)
+		
+		const blocks = await Collections.loadBlocksCollection()
+		let retrievedData = await blocks.find({ cat_id: req.params.cat_id })
+			.skip(skip)
+			.limit(amountPerPage)
+			.toArray()
 
-	res.send(retrievedData)
-})
+		res.send(retrievedData)
+	}
+)
 
 
 // [READ] This for Single Block Details //
-router.get(`/read/:block_id`, async (req, res) => {
-	const blocks = await Collections.loadBlocksCollection()
-	let retrievedData = await blocks.findOne(
-		{ _id: new mongodb.ObjectID(req.params.block_id) }
-	)
+router.get(
+	'/read/:block_id',
+	async (req, res) => {
+		const blocks = await Collections.loadBlocksCollection()
+		let retrievedData = await blocks.findOne(
+			{ _id: new mongodb.ObjectID(req.params.block_id) }
+		)
 
-	res.send(retrievedData)
-})
+		res.send(retrievedData)
+	}
+)
 
 
 // [DELETE] Auth Required //
@@ -80,7 +86,7 @@ router.delete(
 		const blocks = await Collections.loadBlocksCollection()
 		/*await blocks.deleteOne({
 			_id: new mongodb.ObjectID(req.params.block_id),
-			user_id: req.body.user_id,
+			user_id: req.decoded._id,
 		})*/
 
 		res.status(201).send({
@@ -137,20 +143,23 @@ router.post(
 
 /******************* [VALIDATION] *******************/
 // Check Block Exists //
-router.get('/validate/:_id', async (req, res) => {
-	if (mongodb.ObjectID.isValid(req.params._id)) {
-		const blocks = await Collections.loadBlocksCollection()
+router.get(
+	'/validate/:_id',
+	async (req, res) => {
+		if (mongodb.ObjectID.isValid(req.params._id)) {
+			const blocks = await Collections.loadBlocksCollection()
 
-		let retrievedData = await blocks.findOne(
-			{ _id: new mongodb.ObjectID(req.params._id) }
-		)
+			let retrievedData = await blocks.findOne(
+				{ _id: new mongodb.ObjectID(req.params._id) }
+			)
 
-		if (retrievedData) { existance = true }
+			if (retrievedData) { existance = true }
 
-		res.status(201).send(existance)
+			res.status(201).send(existance)
+		}
+		else { res.status(400).send({ error: 'Invalid Token' }) }
 	}
-	else { res.status(400).send({ error: 'Invalid Token' }) }
-})
+)
 
 
 // Check Block Ownership (Should be Used only on the client) //
@@ -165,16 +174,19 @@ router.get(
 
 
 /******************* [COUNT] *******************/
-router.get('/count/:cat_id', async (req, res) => {
-	const blocks = await Collections.loadBlocksCollection()
-	try {
-		const count = await blocks.countDocuments(
-			{ cat_id: req.params.cat_id }
-		)
-		res.status(201).send(count.toString())
+router.get(
+	'/count/:cat_id',
+	async (req, res) => {
+		const blocks = await Collections.loadBlocksCollection()
+		try {
+			const count = await blocks.countDocuments(
+				{ cat_id: req.params.cat_id }
+			)
+			res.status(201).send(count.toString())
+		}
+		catch(e) { res.send(e) }
 	}
-	catch(e) { res.send(e) }
-})
+)
 
 
 // [EXPORT] //

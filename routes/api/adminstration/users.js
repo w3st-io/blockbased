@@ -21,41 +21,53 @@ const router = express.Router().use(cors())
 
 /******************* [USER PROFILE] *******************/
 // [READ-ALL] Auth Required //
-router.get('/read-all/profile-data', Auth.adminCheck(), async (req, res) => {
-	const users = await Collections.loadUsersCollection()
-	let retrievedData = await users.find()
-		.toArray()
-	
-	res.status(201).send(retrievedData)
-})
+router.get(
+	'/read-all/profile-data',
+	Auth.adminCheck(),
+	async (req, res) => {
+		const users = await Collections.loadUsersCollection()
+		let retrievedData = await users.find()
+			.toArray()
+		
+		res.status(201).send(retrievedData)
+	}
+)
 
 
 // [READ] Auth Required //
-router.get('/read/profile-data/:_id', Auth.adminCheck(), async (req, res) => {
-	const users = await Collections.loadUsersCollection()
-	let retrievedData = await users.findOne(
-		{ _id: new mongodb.ObjectID(req.params._id) }
-	)
-	
-	res.status(201).send(retrievedData)
-})
+router.get(
+	'/read/profile-data/:_id',
+	Auth.adminCheck(),
+	async (req, res) => {
+		const users = await Collections.loadUsersCollection()
+		let retrievedData = await users.findOne(
+			{ _id: new mongodb.ObjectID(req.params._id) }
+		)
+		
+		res.status(201).send(retrievedData)
+	}
+)
 
 
 // [UPDATE] Auth Required //
-router.post('/update/profile-data/:_id', Auth.adminCheck(), async (req, res) => {
-	const users = await Collections.loadUsersCollection()
-	await users.findOneAndUpdate(
-		{ _id: new mongodb.ObjectID(req.params._id) },
-		{
-			$set: {
-				profilePicURL: req.body.img_url,
-			}
-		},
-		{ upsert: true }
-	)
+router.post(
+	'/update/profile-data/:_id',
+	Auth.adminCheck(),
+	async (req, res) => {
+		const users = await Collections.loadUsersCollection()
+		await users.findOneAndUpdate(
+			{ _id: new mongodb.ObjectID(req.params._id) },
+			{
+				$set: {
+					profilePicURL: req.body.img_url,
+				}
+			},
+			{ upsert: true }
+		)
 
-	res.status(201).send()
-})
+		res.status(201).send()
+	}
+)
 
 
 // [EXPORT] //

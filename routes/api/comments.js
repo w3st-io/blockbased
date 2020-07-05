@@ -159,28 +159,32 @@ router.post(
 	'/update/pull-voter/:_id',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-	const comments = await Collections.loadCommentsCollection()
-	await comments.updateOne(
-		{ _id: new mongodb.ObjectID(req.params._id) },
-		{ $pull: { voters: { user_id: req.decoded._id } } },
-		{ upsert: true }
-	)
+		const comments = await Collections.loadCommentsCollection()
+		await comments.updateOne(
+			{ _id: new mongodb.ObjectID(req.params._id) },
+			{ $pull: { voters: { user_id: req.decoded._id } } },
+			{ upsert: true }
+		)
 
-	res.status(201).send()
-})
+		res.status(201).send()
+	}
+)
 
 
 /******************* [COUNT] *******************/
-router.get('/count/:block_id', async (req, res) => {
-	const comments = await Collections.loadCommentsCollection()
-	try {
-		const count = await comments.countDocuments(
-			{ block_id: req.params.block_id }
-		)
-		res.status(201).send(count.toString())
+router.get(
+	'/count/:block_id',
+	async (req, res) => {
+		const comments = await Collections.loadCommentsCollection()
+		try {
+			const count = await comments.countDocuments(
+				{ block_id: req.params.block_id }
+			)
+			res.status(201).send(count.toString())
+		}
+		catch(e) { res.send(e) }
 	}
-	catch(e) { res.send(e) }
-})
+)
 
 
 // [EXPORT] //

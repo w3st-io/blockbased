@@ -89,9 +89,6 @@ class AuthMiddleWare {
 
 	static bodyIdVsDecodedId() {
 		return (req, res, next) => {
-			//console.log('req.body.user_id:', req.body.user_id)
-			//console.log('req.decoded._id:', req.decoded._id)
-
 			if (req.body.user_id == req.decoded._id) { next() }
 			else {
 				res.status(401).send({

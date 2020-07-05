@@ -13,7 +13,7 @@ require('dotenv').config()
 const Collections = require('../server-collections')
 
 
-class CommentVoteAuthMiddleware {
+class CommentVoteMiddleware {
 	static verifyOwnership() {
 		return async (req, res, next) => {
 			const commentVotes = await Collections.loadCommentVotesCollection()
@@ -53,4 +53,4 @@ class CommentVoteAuthMiddleware {
 
 
 // [EXPORT] //
-module.exports = CommentVoteAuthMiddleware
+module.exports = CommentVoteMiddleware
