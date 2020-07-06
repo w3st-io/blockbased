@@ -35,6 +35,23 @@ class FollowsService {
 
 		return status
 	}
+
+
+	/******************* [VOTE SYSTEM] *******************/
+	// ADD/REMOVE VOTE //
+	static async addFollower(block_id) {
+		let status = await authAxios.post(`/update/push-voter/${block_id}`)
+
+		return status
+	}
+
+
+	static async removeFollower(block_id) {
+		// Remove the voter from the Block Object //
+		let status = await authAxios.post(`/update/pull-voter/${block_id}`)
+
+		return status
+	}
 }
 
 

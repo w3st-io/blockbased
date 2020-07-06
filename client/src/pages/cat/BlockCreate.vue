@@ -4,8 +4,6 @@
 			<h3 class="col-12 mb-3 text-light">
 				Create Block in "{{ cat_id }}"
 			</h3>
-
-			{{ username }}
 			
 			<block-create
 				:cat_id="cat_id"
