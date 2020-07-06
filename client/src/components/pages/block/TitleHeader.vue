@@ -19,11 +19,20 @@
 				{{ block.createdAt }}
 			</p>
 			
-			<div class="mb-3 hide-the-ugly">
+			<div class="mb-3">
 				<span>
-					<button class="ml-2 btn btn-sm btn-outline-secondary">
-						Follow<span class="ml-2 badge badge-light">0</span>
-					</button>
+					<span class="ml-2 badge badge-light">
+							{{ followsReplica.followersCount }}
+						</span>
+					<button
+						:disabled="disabled" 
+						@click="followBtn()"
+						class="ml-2 btn btn-sm"
+						:class="{
+							'btn-outline-secondary': !followsReplica.voted,
+							'btn-outline-success': followsReplica.voted
+						}"
+					>{{ followBtnText }}</button>
 				</span>
 			</div>
 			
@@ -60,18 +69,25 @@
 				disabled: true,
 				pageNumber: (this.$route.params.page),
 				block: {},
+				followsReplica: {},
+				followBtnText: 'Unset',
+				error: '',
 			}
 		},
 
 		created: async function() {
 			// Get Block Details //
 			await this.getBlockDetails()
+
+			// Set Follows Replica //
+			this.setFollowsReplica()
 			
 			// [LOG] //
-			//this.log()
+			this.log()
 		},
 
 		methods: {
+			/******************* [INIT] Block *******************/
 			async getBlockDetails() {
 				try {
 					this.block = await BlockService.getBlockDetails(this.block_id)
@@ -82,6 +98,84 @@
 				catch(e) { this.error = e }
 			},
 
+			/******************* [INIT] Follow *******************/
+			setFollowsReplica() {
+				let insert = {
+					followersCount: this.block.followers.length,
+					following: false
+				}
+
+				if (this.searchForUserInFollowers(this.block.followers)) {
+					insert = {
+						followersCount: this.block.followers.length,
+						following: true
+					}
+				}
+
+				this.followsReplica = insert
+
+				// Set Follow Text //
+				this.setFollowBtnText()
+			},
+
+			searchForUserInFollowers(followers) {
+				// Search For Voters Id in Block's Object //
+				let found = followers.find((follower) => (
+					follower.user_id == this.user_id
+				))
+
+				if (found) { return true }
+				else { return false }
+			},
+
+			setFollowBtnText() {
+				if (this.followsReplica.voted) { this.followBtnText = 'following ✓' }
+				else { this.followBtnText = 'follow' }
+			},
+
+			/******************* [BTN] FOLLOW *******************/
+			followBtn() {
+				// [LOG REQUIRED] //
+				if (localStorage.usertoken) {
+					// Disable Buttons //
+					this.disabled = true
+
+					// Set Replica Icon and Count // Rerender Blocks //
+					this.followIconAndCountHandler()
+					this.getBlockDetails()
+
+					// Conditional DB Actions //
+					if (this.followsReplica.voted) { this.addFollow() }
+					else { this.removeFollow() }
+
+					// Enable Buttons //
+					this.disabled = false
+				}
+			},
+
+			async addFollow() {
+				// [CREATE] Vote in "blockVotes" Colelction //
+				try { console.log('add') }
+				catch(e) { this.error = e }
+			},
+
+			async removeFollow() {
+				// [DELETE] Vote in "blockVotes" Collection //
+				try { console.log('remove') }
+				catch(e) { this.error = e }
+			},
+
+			followIconAndCountHandler() {
+				this.followsReplica.voted = !this.followsReplica.voted
+
+				if (this.followsReplica.voted) { this.followsReplica.followersCount++ }
+				else { this.followsReplica.followersCount-- }
+
+				// Set Follow Text //
+				this.setFollowBtnText()
+			},
+
+			/******************* [ROUTER + LOG] *******************/
 			redirectToBlockCommentCreate(block_id) {
 				router.push({ path: `/block-comment-create/${block_id}` })
 			},
@@ -90,6 +184,8 @@
 				console.log('%%% [COMPONENT] TitleHeader %%%')
 				console.log('block_id:', this.block_id)
 				console.log('block:', this.block)
+				console.log('followsReplica:', this.followsReplica)
+				if (this.error) { console.error('error:', this.error) }
 			},
 		},
 	}

@@ -107,6 +107,9 @@
 			successful() {
 				// [SET TOKEN] // Emit // [REDIRECT] //
 				localStorage.setItem('usertoken', this.returned.data.token)
+
+				UserService.getUserTokenDecodeData()
+
 				EventBus.$emit('logged-in')
 				router.push({ path: '/' })
 			},

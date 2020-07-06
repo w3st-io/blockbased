@@ -23,7 +23,6 @@
 	// [IMPORT] Personal //
 	import CommentCreate from '@components/comment/Create'
 	import router from '@router'
-	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {
@@ -35,25 +34,13 @@
 			return {
 				loading: true,
 				block_id: this.$route.params.block_id,
-				user_id: 'unset',
-				email: 'unset',
-				username: 'unset',
 				error: '',
 			}
 		},
 
 		created: async function() {
 			// [REDIRECT] Log Needed //
-			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
-
-			// Retrieve User Data //
-			try {
-				let decoded = await UserService.getUserTokenDecodeData()
-				this.user_id = decoded._id
-				this.email = decoded.email
-				this.username = decoded.username
-			}
-			catch(e) { this.error = e }
+			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }			
 			
 			// Set Loaded //
 			this.loading = false
@@ -65,7 +52,6 @@
 		methods: {
 			log() {
 				console.log('%%% [PAGE] BlockCommentCreate %%%')
-				//console.log('localStorage.userToken:', localStorage.usertoken)
 				console.log('block_id:', this.block_id)
 				console.log('user_id:', this.user_id)
 				console.log('email:', this.email)

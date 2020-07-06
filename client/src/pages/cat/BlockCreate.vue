@@ -4,6 +4,8 @@
 			<h3 class="col-12 mb-3 text-light">
 				Create Block in "{{ cat_id }}"
 			</h3>
+
+			{{ username }}
 			
 			<block-create
 				:cat_id="cat_id"
@@ -38,14 +40,11 @@
 			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
 
 			// Retrieve User Data //
-			try {
-				let decoded = await UserService.getUserTokenDecodeData()
-				this.user_id = decoded._id
-				this.email = decoded.email
-				this.username = decoded.username
-			}
-			catch(e) { this.error = e }
-
+			let decoded = UserService.getUserTokenDecodeData()
+			this.user_id = decoded._id
+			this.email = decoded.email
+			this.username = decoded.username
+			
 			// [LOG] //
 			this.log()
 		},

@@ -8,7 +8,7 @@ import axios from 'axios'
 
 
 // [AUTH TOKEN SETUP] //
-const token = localStorage.usertoken
+let token = localStorage.usertoken
 const authAxios = axios.create({
 	baseURL: '/api/blocks',
 	headers: {

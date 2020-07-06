@@ -55,7 +55,7 @@
 						</router-link>
 
 						<router-link v-if="loggedIn" to="/profile" class="ml-2">
-							<button class="btn btn-sm btn-secondary">Your Account</button>
+							<button class="btn btn-sm btn-secondary">{{ username }}</button>
 						</router-link>
 
 						<a v-if="loggedIn" v-on:click="logout" href="#" class="ml-2">
@@ -71,6 +71,7 @@
 <script>
 	// [IMPORT] Personal //
 	import router from '@router'
+	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
 
 	// [EXPORT] //
@@ -79,11 +80,24 @@
 		data: function() {
 			return {
 				loggedIn: false,
+				user_id: 'unset',
+				email: 'unset',
+				username: 'unset',
 			}
 		},
 
 		created: function() {
-			if (localStorage.usertoken) { this.loggedIn = true }
+			if (localStorage.usertoken) {
+				// Set Status //
+				this.loggedIn = true
+
+				// Retrieve User Data //
+				let decoded = UserService.getUserTokenDecodeData()
+				this.user_id = decoded._id
+				this.email = decoded.email
+				this.username = decoded.username
+
+			}
 
 			// [--> EMITT] //
 			EventBus.$on('logged-in', () => { this.loggedIn = true })

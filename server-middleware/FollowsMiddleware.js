@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% BLOCK MIDDLEWARE %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% FOLLOWS MIDDLEWARE %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%% *
  */
 // [REQUIRE] //
 const mongodb = require('mongodb')
@@ -12,12 +12,12 @@ require('dotenv').config()
 const Collections = require('../server-collections')
 
 
-class BlocksMiddleware {
+class FollowsMiddleware {
 	static verifyOwnership() {
 		return async (req, res, next) => {
 			if (mongodb.ObjectID.isValid(req.params._id)) {
-				const blocks = await Collections.loadBlocksCollection()
-				let returnedData = await blocks.findOne(
+				const follows = await Collections.loadFollowsCollection()
+				let returnedData = await follows.findOne(
 					{
 						_id: new mongodb.ObjectID(req.params._id),
 						user_id: req.decoded._id,
@@ -28,7 +28,7 @@ class BlocksMiddleware {
 				else {
 					return res.status(401).send({
 						auth: false,
-						error: 'Sorry man, you dont own this block!'
+						error: 'Sorry man, you dont own this follow!'
 					})
 				}
 			}
@@ -36,8 +36,8 @@ class BlocksMiddleware {
 		}
 	}
 
-	
-	static voterVerifyNonExistance() {
+
+	static verifyNonExistance() {
 		// This function should check if a voter 
 		// does exist in the comments array
 		return async (req, res, next) => { next() }
@@ -46,4 +46,4 @@ class BlocksMiddleware {
 
 
 // [EXPORT] //
-module.exports = BlocksMiddleware
+module.exports = FollowsMiddleware

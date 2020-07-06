@@ -87,17 +87,17 @@ router.post(
 		const users = await Collections.loadUsersCollection()
 
 		try {
-			const emailFound = await users.findOne({ email: req.body.email })
+			const accountFound = await users.findOne({ email: req.body.email })
 			
 			// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
-			if (emailFound) {
-				if (bcrypt.compareSync(req.body.password, emailFound.password)) {
+			if (accountFound) {
+				if (bcrypt.compareSync(req.body.password, accountFound.password)) {
 					const payload = {
-						_id: emailFound._id,
-						email: emailFound.email,
-						username: emailFound.username,
-						first_name: emailFound.first_name,
-						last_name: emailFound.last_name,
+						_id: accountFound._id,
+						email: accountFound.email,
+						username: accountFound.username,
+						first_name: accountFound.first_name,
+						last_name: accountFound.last_name,
 					}
 
 					// Set Token //
@@ -120,20 +120,20 @@ router.post(
 	'/register',
 	async (req, res) => {
 		const users = await Collections.loadUsersCollection()
-		const userData = new UserModel(req.body)
+		const formData = new UserModel(req.body)
 		
 		try {
-			const emailFound = await users.findOne({ email: userData.email })
-			const usernameFound = await users.findOne({ username: userData.username })
+			const accountFound = await users.findOne({ email: formData.email })
+			const usernameFound = await users.findOne({ username: formData.username })
 
-			if (!emailFound) {
+			if (!accountFound) {
 				if (!usernameFound) {
 					// Hash Data //
-					bcrypt.hash(userData.password, 10, (err, hash) => {
-						userData.password = hash
+					bcrypt.hash(formData.password, 10, (err, hash) => {
+						formData.password = hash
 						
 						try {
-							users.insertOne(userData)
+							users.insertOne(formData)
 							res.json({ status: 'success' }).send()
 						}
 						catch(err) { res.send('error:', err) }

@@ -4,7 +4,6 @@
  * %%%%%%%%%%%%%%%%%%%%%%%% *
  */
 // [REQUIRE] //
-const jwt = require('jsonwebtoken')
 const mongodb = require('mongodb')
 require('dotenv').config()
 
@@ -14,7 +13,7 @@ const Collections = require('../server-collections')
 
 
 class CommentsMiddleware {
-	// 
+	// Check if this item exists if not then ownership is not true //
 	static verifyOwnership() {
 		return async (req, res, next) => {
 			const comments = await Collections.loadCommentsCollection()

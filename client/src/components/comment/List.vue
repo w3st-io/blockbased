@@ -64,7 +64,7 @@
 							
 							<button
 								:disabled="disabled"
-								@click="voteToggle(comment._id)"
+								@click="voteBtn(comment._id)"
 								class="btn btn-outline-secondary unvoted"
 								:class="{ 'voted': votesReplica[comment._id].voted }"
 							>{{ votesReplica[comment._id].voteCount }} ▲</button>
@@ -158,7 +158,7 @@
 		},
 
 		methods: {
-			/******************* [COMMENTS] *******************/
+			/******************* [INIT] Comments *******************/
 			async getComments() {
 				// Get Comments //
 				try {
@@ -190,7 +190,7 @@
 				else return false 
 			},
 
-			/******************* [REPLICAS] *******************/
+			/******************* [INIT] Replicas *******************/
 			setReplicas() {
 				this.comments.forEach(comment => {
 					// Votes Replica //
@@ -218,7 +218,7 @@
 				})
 			},
 
-			/******************* [PROFILE SECTION] *******************/
+			/******************* [INIT] Profile *******************/
 			async setProfilePics() {
 				this.profileReplicas.forEach(async (profile) => {
 					let returnedData = await UserService.getUserProfileData(profile.user_id, 'pic')
@@ -235,18 +235,19 @@
 				return result[0].profilePicURL
 			},
 
-			/******************* [VOTE SYSTEM] *******************/
+			/******************* [INIT] Vote *******************/
 			searchVotersArrayInComment(commentVoters) {
 				// Search For Voters Id in Block's Object //
 				let found = commentVoters.find((voter) => (
-					voter.username == this.username
+					voter.user_id == this.user_id
 				))
 
 				if (found) { return true }
 				else { return false }
 			},
-
-			voteToggle(comment_id) {
+			
+			/******************* [BTN] Vote *******************/
+			voteBtn(comment_id) {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
 					// Disable Buttons //
@@ -328,12 +329,10 @@
 
 			/******************* [ROUTER + LOG] *******************/
 			redirectToEdit(comment_id) {
-				router.push(
-					{
-						name: 'CommentEdit',
-						params: { comment_id: comment_id, }
-					}
-				)
+				router.push({
+					name: 'CommentEdit',
+					params: { comment_id: comment_id, }
+				})
 			},
 
 			log() {

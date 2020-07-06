@@ -2,9 +2,12 @@
 const mongoose = require("mongoose")
 require('mongoose-type-email')
 
-// [INIT] //
+
+// [SCEMA] //
 const Schema = mongoose.Schema
 
+
+// [SCHEMA MODEL] //
 const UserSchema = new Schema({
 	first_name: {
 		type: String
@@ -27,4 +30,5 @@ const UserSchema = new Schema({
 	}
 })
 
+// [EXPORTS] //
 module.exports = User = mongoose.model('users', UserSchema)

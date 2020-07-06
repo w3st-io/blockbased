@@ -94,11 +94,7 @@ router.post(
 		const comments = await Collections.loadCommentsCollection()
 		await comments.findOneAndUpdate(
 			{ _id: new mongodb.ObjectID(req.params._id) },
-			{
-				$set: {
-					comment: req.body.comment,
-				}
-			},
+			{ $set: { comment: req.body.comment, } },
 			{ upsert: true }
 		)
 
@@ -140,15 +136,12 @@ router.post(
 		const comments = await Collections.loadCommentsCollection()
 		await comments.updateOne(
 			{ _id: new mongodb.ObjectID(req.params._id) },
-			{ $push:
-				{ 
-					voters: {
-						user_id: req.decoded._id,
-						email: req.decoded.email,
-						username: req.decoded.username,
-					}
+			{ $push: { 
+				voters: {
+					user_id: req.decoded._id,
+					email: req.decoded.email,
 				}
-			},
+			} },
 			{ upsert: true }
 		)
 

@@ -67,13 +67,10 @@
 
 		created: async function() {
 			// Retrieve User Data //
-			try {
-				let decoded = await UserService.getUserTokenDecodeData()
-				this.user_id = decoded._id
-				this.email = decoded.email
-				this.username = decoded.username
-			}
-			catch(e) { this.error = e }
+			let decoded = UserService.getUserTokenDecodeData()
+			this.user_id = decoded._id
+			this.email = decoded.email
+			this.username = decoded.username
 
 			// [--> EMMIT] cat-prev, cat-next, redirect-to-block //
 			EventBus.$on('cat-prev', () => { this.prevPage() })

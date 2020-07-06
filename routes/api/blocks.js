@@ -32,6 +32,7 @@ router.post(
 			cat_id: req.body.cat_id,
 			title: req.body.title,
 			voters: [],
+			followers: [],
 			user_id: req.decoded._id,
 			email: req.decoded.email,
 			username: req.decoded.username,
@@ -107,15 +108,13 @@ router.post(
 		const blocks = await Collections.loadBlocksCollection()
 		await blocks.updateOne(
 			{ _id: new mongodb.ObjectID(req.params._id) },
-			{ $push:
-				{ 
-					voters: {
-						user_id: req.decoded._id,
-						email: req.decoded.email,
-						username: req.decoded.username,
-					} 
-				}
-			},
+			{ $push: { 
+				voters: {
+					user_id: req.decoded._id,
+					email: req.decoded.email,
+					username: req.decoded.username,
+				} 
+			} },
 			{ upsert: true }
 		)
 

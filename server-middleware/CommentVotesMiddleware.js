@@ -4,7 +4,6 @@
  * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
  */
 // [REQUIRE] //
-const jwt = require('jsonwebtoken')
 const mongodb = require('mongodb')
 require('dotenv').config()
 

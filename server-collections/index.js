@@ -2,8 +2,11 @@
 const mongodb = require('mongodb')
 require('dotenv').config()
 
+
+// [INIT] //
 const uri = process.env.MONGO_URI
 const db_name = process.env.DB || 'db_name'
+
 
 class ServerCollections {
 	// [ADMINS] //
@@ -100,7 +103,7 @@ class ServerCollections {
 		return client.db(db_name).collection(c_name)
 	}
 
-	// [FORUMS] //
+	// [FOLLOWS] //
 	static async loadFollowsCollection() {
 		const c_name = 'follows'
 		

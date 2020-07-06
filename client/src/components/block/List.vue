@@ -64,7 +64,7 @@
 						<h4 class="m-0 text-white">
 							<button
 								:disabled="disabled"
-								@click.prevent.stop="voteToggle(block._id)"
+								@click.prevent.stop="voteBtn(block._id)"
 								:class="{ 'voted': votesReplica[block._id].voted }"
 								class="w-100 btn btn-outline-secondary unvoted"
 							>{{ votesReplica[block._id].voteCount }} ▲</button>
@@ -129,7 +129,7 @@
 			this.setVotesReplica()
 			
 
-			// //
+			// Set Total Comments //
 			await this.totalComments()
 
 			// Disable Loading //
@@ -140,7 +140,7 @@
 		},
 
 		methods: {
-			/******************* [BLOCKS] *******************/
+			/******************* [INIT] Block *******************/
 			async getBlocks() {
 				try {
 					this.blocks = await BlockService.getAllBlocks(
@@ -152,21 +152,20 @@
 				catch(e) { this.error = e }
 			},
 
-			/******************* [PROFILE SECTION] *******************/
+			/******************* [INIT] Profile *******************/
+			// Add a Profile Data Section of the person who created the block
 
-			/******************* [COUNT SECTION] *******************/
+			/******************* [INIT] Count *******************/
 			async totalComments() {
 				// For the Size of the # of Cats.. //
 				for (let i = 0; i < this.blocks.length; i++) {
 					let block_id = this.blocks[i]._id
 
 					this.commentCounts[block_id] = await CommentService.countCommentsForBlock(block_id)
-
-					console.log('block_Id', block_id)
 				}
 			},
 
-			/******************* [VOTE SECTION] *******************/
+			/******************* [INIT] Vote *******************/
 			setVotesReplica() {
 				this.blocks.forEach(block => {
 					let insert = { voteCount: block.voters.length, voted: false }
@@ -182,14 +181,15 @@
 			searchVotersArrayInBlock(blockVoters) {
 				// Search For Voters Id in Block's Object //
 				let found = blockVoters.find((voter) => (
-					voter.username == this.username
+					voter.user_id == this.user_id
 				))
 
 				if (found) { return true }
 				else { return false }
 			},
 
-			voteToggle(block_id) {
+			/******************* [BTN] Vote *******************/
+			voteBtn(block_id) {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
 					// Disable Buttons //
@@ -236,9 +236,7 @@
 				if (this.votesReplica[block_id].voted) {
 					this.votesReplica[block_id].voteCount++
 				}
-				else {
-					this.votesReplica[block_id].voteCount--
-				} 
+				else { this.votesReplica[block_id].voteCount-- } 
 			},
 
 			/******************* [ROUTER + LOG] *******************/
@@ -270,7 +268,6 @@
 
 	li {
 		list-style: none;
-
 		&:hover { @extend .bg-primary; }
 	}
 	
