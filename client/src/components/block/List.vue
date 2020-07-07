@@ -23,7 +23,7 @@
 						</h5>
 						<p class="m-0 small text-secondary">
 							<span class="text-light">{{ block.username }}</span>
-							- {{ block.createdAt.toLocaleString() }}
+							- {{ block.createdAt }}
 						</p>
 					</div>
 
@@ -40,7 +40,9 @@
 						" 
 						v-on:click="redirectToBlock(block._id)"
 					>
-						<p class="badge badge-primary align-self-center text-light">
+						<p class="
+							pb-0 m-0 badge badge-primary align-self-center text-light
+						">
 							<span class="m-0">
 								<p class="h4 m-0">
 									{{ commentCounts[block._id] }}
@@ -64,10 +66,10 @@
 						<h4 class="m-0 text-white">
 							<button
 								:disabled="disabled"
-								@click.prevent.stop="voteBtn(block._id)"
-								:class="{ 'voted': votesReplica[block._id].voted }"
+								@click.prevent.stop="voteBtn(block)"
+								:class="{ 'voted': checkForUserVote(block) }"
 								class="w-100 btn btn-outline-secondary unvoted"
-							>{{ votesReplica[block._id].voteCount }} ▲</button>
+							>{{ block.voters.length }} ▲</button>
 						</h4>
 					</div>
 				</li>
@@ -115,21 +117,16 @@
 				loading: true,
 				disabled: false,
 				blocks: [],
-				votesReplica: {},
 				commentCounts: {},
 				error: '',
 			}
 		},
 
 		created: async function () {
-			// Initialize Blocks //
+			// [INIT] Blocks //
 			await this.getBlocks()
-
-			// Initialize VotesReplica //
-			this.setVotesReplica()
 			
-
-			// Set Total Comments //
+			// [INIT] Total Comments //
 			await this.totalComments()
 
 			// Disable Loading //
@@ -166,21 +163,9 @@
 			},
 
 			/******************* [INIT] Vote *******************/
-			setVotesReplica() {
-				this.blocks.forEach(block => {
-					let insert = { voteCount: block.voters.length, voted: false }
-
-					if (this.searchVotersArrayInBlock(block.voters)) {
-						insert = { voteCount: block.voters.length, voted: true }
-					}
-
-					this.votesReplica[block._id] = insert
-				})
-			},
-
-			searchVotersArrayInBlock(blockVoters) {
+			checkForUserVote(block) {
 				// Search For Voters Id in Block's Object //
-				let found = blockVoters.find((voter) => (
+				let found = block.voters.find((voter) => (
 					voter.user_id == this.user_id
 				))
 
@@ -189,28 +174,19 @@
 			},
 
 			/******************* [BTN] Vote *******************/
-			voteBtn(block_id) {
+			voteBtn(block) {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
-					// Disable Buttons //
-					this.disabled = true
-
-					// Set Replica Icon and Count // Rerender Blocks //
-					this.voteIconAndCountHandler(block_id)
-					this.getBlocks()
-
 					// Conditional DB Actions //
-					if (this.votesReplica[block_id].voted) {
-						this.addVote(block_id)
-					}
-					else { this.removeVote(block_id) }
-
-					// Enable Buttons //
-					this.disabled = false
+					if (this.checkForUserVote(block)) { console.log('sdfsd'); this.removeVote(block._id) }
+					else { this.addVote(block._id) }
 				}
 			},
 
 			async addVote(block_id) {
+				// Disable Buttons //
+				this.disabled = true
+
 				// [CREATE] Vote in "blockVotes" Colelction //
 				try { await BlockVotesService.createBlockVote(block_id) }
 				catch(e) { this.error = e }
@@ -218,9 +194,18 @@
 				
 				try { BlockService.addVote(block_id) }
 				catch(e) { this.error = e }
+
+				// [READ] Blocks //
+				await this.getBlocks()
+
+				// Enable Buttons //
+				this.disabled = false
 			},
 
 			async removeVote(block_id) {
+				// Disable Buttons //
+				this.disabled = true
+
 				// [DELETE] Vote in "blockVotes" Collection //
 				try { await BlockVotesService.deleteBlockVote(block_id) }
 				catch(e) { this.error = e }
@@ -228,15 +213,12 @@
 				// [UPDATE] Block Object //
 				try { await BlockService.removeVote(block_id) }
 				catch(e) { this.error = e }
-			},
 
-			voteIconAndCountHandler(block_id) {
-				this.votesReplica[block_id].voted = !this.votesReplica[block_id].voted
+				// [READ] Blocks //
+				await this.getBlocks()
 
-				if (this.votesReplica[block_id].voted) {
-					this.votesReplica[block_id].voteCount++
-				}
-				else { this.votesReplica[block_id].voteCount-- } 
+				// Disable Buttons //
+				this.disabled = false
 			},
 
 			/******************* [ROUTER + LOG] *******************/
@@ -254,7 +236,6 @@
 				console.log('email:', this.email)
 				console.log('username:', this.username)
 				console.log('blocks:', this.blocks)
-				console.log('votesReplica:', this.votesReplica)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		}

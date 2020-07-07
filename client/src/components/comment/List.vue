@@ -128,16 +128,14 @@
 			// [INIT] Comments //
 			await this.getComments()
 
+			// [INIT] Replicas //
+			this.SetProfileReplicas()
+
+			// [INIT] User Profile Pictures //
+			await this.setProfilePics()
+			
 			// Disable Loading //
 			this.loading = false
-
-			// [INIT] Replicas //
-			if (!this.loading) {
-				this.SetProfileReplicas()
-
-				// [INIT] User Profile Pictures in ProfileReplicas //
-				await this.setProfilePics()
-			}
 
 			// [--> EMMIT] //
 			EventBus.$on('Innapropiate', (comment_id) => {
@@ -183,8 +181,8 @@
 				try { await CommentService.deleteComment(comment_id) }
 				catch(e) { this.error = e }
 
-				// [UPDATE] Variable on this page //
-				this.getComments()
+				// [READ] Comments //
+				await this.getComments()
 			},
 
 			doesUserOwnThisComment(user_id) {
@@ -239,23 +237,13 @@
 				if (found) { return true }
 				else { return false }
 			},
-
-			searchVotersArrayInComment(commentVoters) {
-				// Search For Voters Id in Block's Object //
-				let found = commentVoters.find((voter) => (
-					voter.user_id == this.user_id
-				))
-
-				if (found) { return true }
-				else { return false }
-			},
 			
 			/******************* [BTN] Vote *******************/
 			voteBtn(comment) {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
 					// Conditional DB Actions //
-					if (this.searchVotersArrayInComment(comment.voters)) {
+					if (this.checkForUserVote(comment)) {
 						this.removeVote(comment)
 					}
 					else { this.addVote(comment) }		
@@ -276,6 +264,7 @@
 				try { await CommentService.addVote(comment._id) }
 				catch(e) { this.error = e }
 
+				// [READ] Comments //
 				await this.getComments()
 
 				// Enable Buttons //
@@ -295,6 +284,7 @@
 				try { await CommentService.removeVote(comment._id) }
 				catch(e) { this.error = e }
 
+				// [READ] Comments //
 				await this.getComments()
 
 				// Enable Buttons //
@@ -338,7 +328,6 @@
 				console.log('email:', this.email)
 				console.log('username:', this.username)
 				console.log('Comments:', this.comments)
-				console.log('votesReplica:', this.votesReplica)
 				console.log('profileReplicas:', this.profileReplicas)
 				if (this.error) { console.error('error:', this.error) }
 			},
