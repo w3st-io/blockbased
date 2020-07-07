@@ -30,7 +30,6 @@ class CommentService {
 	// [READ-ALL] //
 	static getAllComments(block_id, amountPerPage, pageNumber) {
 		// * page number with # comments per page to calc. skip
-
 		let skip = pageNumber * amountPerPage
 
 		let result = new Promise ((resolve, reject) => {
@@ -39,7 +38,7 @@ class CommentService {
 					const data = res.data
 					resolve(data.map((comment) => ({
 						...comment,
-						createdAt: new Date(comment.createdAt)
+						createdAt: new Date(comment.createdAt).toLocaleString()
 					})))
 				})
 				.catch((err) => { reject(err) })

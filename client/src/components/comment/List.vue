@@ -8,7 +8,9 @@
 					class="row m-0 boder border-bottom border-secondary"
 				>
 					<!-- Image Section -->
-					<div class="col-lg-2 col-md-2 col-sm-2 col-12 px-0 py-3 border-secondary">
+					<div class="
+						col-lg-2 col-md-2 col-sm-2 col-12 px-0 py-3 border-secondary
+					">
 						<div class="d-block m-auto rounded-lg pro-img-holder">
 							<img
 								:src="getProfilePic(comment.user_id)"
@@ -45,7 +47,7 @@
 
 							<!-- Time Stamp -->
 							<span class="ml-3">
-								{{ comment.createdAt.toLocaleString() }}
+								{{ comment.createdAt }}
 							</span>
 						</div>
 
@@ -64,10 +66,10 @@
 							
 							<button
 								:disabled="disabled"
-								@click="voteBtn(comment._id)"
+								@click="voteBtn(comment)"
 								class="btn btn-outline-secondary unvoted"
-								:class="{ 'voted': votesReplica[comment._id].voted }"
-							>{{ votesReplica[comment._id].voteCount }} ▲</button>
+								:class="{ 'voted': checkForUserVote(comment) }"
+							>{{ comment.voters.length }} ▲</button>
 						</div>
 					</div>
 				</li>
@@ -117,24 +119,25 @@
 				loading: true,
 				disabled: false,
 				comments: [],
-				votesReplica: {},
 				profileReplicas: [],
 				error: '',
 			}
 		},
 
 		created: async function() {
-			// Initialize Comments //
+			// [INIT] Comments //
 			await this.getComments()
-
-			// Initialize Replicas //
-			this.setReplicas()
-
-			// Initialize User Profile Pictures in ProfileReplicas //
-			await this.setProfilePics()
 
 			// Disable Loading //
 			this.loading = false
+
+			// [INIT] Replicas //
+			if (!this.loading) {
+				this.SetProfileReplicas()
+
+				// [INIT] User Profile Pictures in ProfileReplicas //
+				await this.setProfilePics()
+			}
 
 			// [--> EMMIT] //
 			EventBus.$on('Innapropiate', (comment_id) => {
@@ -182,7 +185,6 @@
 
 				// [UPDATE] Variable on this page //
 				this.getComments()
-				this.setReplicas()
 			},
 
 			doesUserOwnThisComment(user_id) {
@@ -191,37 +193,29 @@
 			},
 
 			/******************* [INIT] Replicas *******************/
-			setReplicas() {
-				this.comments.forEach(comment => {
-					// Votes Replica //
-					let insert = { voteCount: comment.voters.length, voted: false }
-
-					if (this.searchVotersArrayInComment(comment.voters)) {
-						insert = { voteCount: comment.voters.length, voted: true }
-					}
-
-					this.votesReplica[comment._id] = insert
-
-					// Profile Replicas //
+			SetProfileReplicas() {
+				this.comments.forEach((comment) => {
 					// If the profile object isnt in the array already..
-					let profileFound = this.profileReplicas.some((profile) => (
-						profile.user_id === comment.user_id
-					))
+					let profileFound = this.profileReplicas.some(
+						(profile) => (profile.user_id === comment.user_id)
+					)
 
 					if (!profileFound) {
 						this.profileReplicas.push({
-						user_id: comment.user_id,
-						profilePicURL: require('../../assets/images/placeholder.png')
-					})
+							user_id: comment.user_id,
+							profilePicURL: require('../../assets/images/placeholder.png')
+						})
 					}
-					
 				})
 			},
 
 			/******************* [INIT] Profile *******************/
 			async setProfilePics() {
 				this.profileReplicas.forEach(async (profile) => {
-					let returnedData = await UserService.getUserProfileData(profile.user_id, 'pic')
+					let returnedData = await UserService.getUserProfileData(
+						profile.user_id,
+						'pic'
+					)
 
 					profile.profilePicURL = returnedData.profilePicURL
 				})
@@ -236,6 +230,16 @@
 			},
 
 			/******************* [INIT] Vote *******************/
+			checkForUserVote(comment) {
+				// Search For Voters Id in Block's Object //
+				let found = comment.voters.find((voter) => (
+					voter.user_id == this.user_id
+				))
+
+				if (found) { return true }
+				else { return false }
+			},
+
 			searchVotersArrayInComment(commentVoters) {
 				// Search For Voters Id in Block's Object //
 				let found = commentVoters.find((voter) => (
@@ -247,63 +251,54 @@
 			},
 			
 			/******************* [BTN] Vote *******************/
-			voteBtn(comment_id) {
+			voteBtn(comment) {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
-					// Disable Buttons //
-					this.disabled = true
-
-					// Set Replica Icon and Count // Rerender Blocks //
-					this.voteIconAndCountHandler(comment_id)
-					this.getComments()
-
 					// Conditional DB Actions //
-					if (this.votesReplica[comment_id].voted) { this.addVote(comment_id) }
-					else { this.removeVote(comment_id) }
-
-					// Enable Buttons //
-					this.disabled = false
+					if (this.searchVotersArrayInComment(comment.voters)) {
+						this.removeVote(comment)
+					}
+					else { this.addVote(comment) }		
 				}
 			},
 
-			async addVote(comment_id) {
+			async addVote(comment) {
+				// Disable Buttons //
+				this.disabled = true
+
 				// [CREATE] Like in "CommentVotes" Colelction //
 				try {
-					await CommentVoteService.createCommentVote(this.block_id, comment_id)
+					await CommentVoteService.createCommentVote(this.block_id, comment._id)
 				}
 				catch(e) { this.error = e }
 
 				// [UPDATE] Block Object //
-				try {
-					await CommentService.addVote(comment_id)
-				}
+				try { await CommentService.addVote(comment._id) }
 				catch(e) { this.error = e }
+
+				await this.getComments()
+
+				// Enable Buttons //
+				this.disabled = false
 			},
 
-			async removeVote(comment_id) {
+			async removeVote(comment) {
+				// Disable Buttons //
+				this.disabled = true
+
 				// [DELETE] Like in "CommentVotes" Collection //
-				try {
-					await CommentVoteService.deleteCommentVote(comment_id)
-				}
+				try { await CommentVoteService.deleteCommentVote(comment._id) }
 				catch(e) { this.error = e }
 						
 
 				// [UPDATE] Block Object //
-				try {
-					await CommentService.removeVote(comment_id)
-				}
+				try { await CommentService.removeVote(comment._id) }
 				catch(e) { this.error = e }
-			},
 
-			voteIconAndCountHandler(comment_id) {
-				this.votesReplica[comment_id].voted = !this.votesReplica[comment_id].voted
+				await this.getComments()
 
-				if (this.votesReplica[comment_id].voted) {
-					this.votesReplica[comment_id].voteCount++
-				}
-				else {
-					this.votesReplica[comment_id].voteCount--
-				} 
+				// Enable Buttons //
+				this.disabled = false
 			},
 
 			/******************* [REPORT] *******************/
