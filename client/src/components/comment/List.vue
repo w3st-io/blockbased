@@ -243,51 +243,40 @@
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
 					// Conditional DB Actions //
-					if (this.checkForUserVote(comment)) {
-						this.removeVote(comment)
-					}
+					if (this.checkForUserVote(comment)) { this.removeVote(comment) }
 					else { this.addVote(comment) }		
 				}
 			},
 
 			async addVote(comment) {
-				// Disable Buttons //
 				this.disabled = true
 
 				// [CREATE] Like in "CommentVotes" Colelction //
 				try {
-					await CommentVoteService.createCommentVote(this.block_id, comment._id)
+					await CommentService.addVote(comment._id)
+					CommentVoteService.createCommentVote(this.block_id, comment._id)
 				}
 				catch(e) { this.error = e }
 
-				// [UPDATE] Block Object //
-				try { await CommentService.addVote(comment._id) }
-				catch(e) { this.error = e }
-
-				// [READ] Comments //
+				// [READ] Update Comments //
 				await this.getComments()
 
-				// Enable Buttons //
 				this.disabled = false
 			},
 
 			async removeVote(comment) {
-				// Disable Buttons //
 				this.disabled = true
 
 				// [DELETE] Like in "CommentVotes" Collection //
-				try { await CommentVoteService.deleteCommentVote(comment._id) }
-				catch(e) { this.error = e }
-						
-
-				// [UPDATE] Block Object //
-				try { await CommentService.removeVote(comment._id) }
+				try {
+					await CommentService.removeVote(comment._id)
+					CommentVoteService.deleteCommentVote(comment._id)
+				}
 				catch(e) { this.error = e }
 
-				// [READ] Comments //
+				// [READ] Update Comments //
 				await this.getComments()
 
-				// Enable Buttons //
 				this.disabled = false
 			},
 

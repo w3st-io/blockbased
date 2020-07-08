@@ -71,8 +71,10 @@
 		},
 
 		created: async function() {
+			let valid = await this.validateExistance()
+
 			// If Invalid Block => Disable //
-			if (!this.validateExistance()) { this.disabled = true }
+			if (!valid) { this.disabled = true }
 
 			// [LOG] //
 			this.log()

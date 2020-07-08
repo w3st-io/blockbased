@@ -10,10 +10,11 @@
 					<!-- Title --> 
 					<div
 						class="
-							col-lg-10
+							col-lg-9
 							col-md-8
 							col-sm-8
-							col-9
+							col-xs-8
+							col-8
 							p-2
 						"
 						@click="redirectToBlock(block._id)"
@@ -30,11 +31,11 @@
 					<!-- Total Comments -->
 					<div
 						class="
-							col-lg-1
+							col-lg-2
 							col-md-2
 							col-sm-2
 							col-xs-3
-							col-3
+							col-4
 							p-2
 							text-center
 						" 
@@ -133,7 +134,7 @@
 			this.loading = false
 
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {
@@ -177,66 +178,52 @@
 			voteBtn(block) {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
-					// Conditional DB Actions //
-					if (this.checkForUserVote(block)) { console.log('sdfsd'); this.removeVote(block._id) }
+					if (this.checkForUserVote(block)) { this.removeVote(block._id) }
 					else { this.addVote(block._id) }
 				}
 			},
 
 			async addVote(block_id) {
-				// Disable Buttons //
 				this.disabled = true
 
-				// [CREATE] Vote in "blockVotes" Colelction //
-				try { await BlockVotesService.createBlockVote(block_id) }
+				// [CREATE] //
+				try {
+					await BlockService.addVote(block_id)
+					await BlockVotesService.createBlockVote(block_id)
+				}
 				catch(e) { this.error = e }
-
 				
-				try { BlockService.addVote(block_id) }
-				catch(e) { this.error = e }
-
-				// [READ] Blocks //
+				// [READ] Update Blocks //
 				await this.getBlocks()
-
-				// Enable Buttons //
+				
 				this.disabled = false
 			},
 
 			async removeVote(block_id) {
-				// Disable Buttons //
 				this.disabled = true
 
-				// [DELETE] Vote in "blockVotes" Collection //
-				try { await BlockVotesService.deleteBlockVote(block_id) }
+				// [DELETE] //
+				try {
+					await BlockService.removeVote(block_id)
+					await BlockVotesService.deleteBlockVote(block_id)
+				}
 				catch(e) { this.error = e }
 
-				// [UPDATE] Block Object //
-				try { await BlockService.removeVote(block_id) }
-				catch(e) { this.error = e }
-
-				// [READ] Blocks //
+				// [READ] Update Blocks //
 				await this.getBlocks()
 
-				// Disable Buttons //
 				this.disabled = false
 			},
 
 			/******************* [ROUTER + LOG] *******************/
 			redirectToBlock(block_id) {
-				// [REDIRECT] //
-				router.push({ name: 'Block', params: { block_id: block_id, page: 1 } })
-			},
-
-			log() {
-				console.log('%%% [COMPONENT] CatBlockList %%%')
-				console.log('cat_id:', this.cat_id)
-				console.log('pageIndex:', this.pageIndex)
-				console.log('amountPerPage:', this.amountPerPage)
-				console.log('user_id:', this.user_id)
-				console.log('email:', this.email)
-				console.log('username:', this.username)
-				console.log('blocks:', this.blocks)
-				if (this.error) { console.error('error:', this.error) }
+				if (!this.disabled) {
+					// [REDIRECT] //
+					router.push({
+						name: 'Block',
+						params: { block_id: block_id, page: 1 }
+					})
+				}
 			},
 		}
 	}

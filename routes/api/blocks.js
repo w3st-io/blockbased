@@ -14,6 +14,7 @@ require('dotenv').config()
 const Auth = require('../../server-middleware/AuthMiddleware')
 const BlocksM = require('../../server-middleware/BlocksMiddleware')
 const Collections = require('../../server-collections')
+const BlocksCollection = require('../../server-collections/BlocksCollection')
 
 
 // [EXPRESS + USE] //
@@ -26,17 +27,7 @@ router.post(
 	'/create',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		const blocks = await Collections.loadBlocksCollection()
-		await blocks.insertOne({
-			createdAt: new Date(),
-			cat_id: req.body.cat_id,
-			title: req.body.title,
-			voters: [],
-			followers: [],
-			user_id: req.decoded._id,
-			email: req.decoded.email,
-			username: req.decoded.username,
-		})
+		await BlocksCollection.create(req)
 
 		res.status(201).send({
 			auth: true,
@@ -46,32 +37,22 @@ router.post(
 )
 
 
-// [READ ALL] //
+// [READ ALL] Within Cat //
 router.get(
 	'/read-all/:cat_id/:amountPerPage/:skip',
 	async (req, res) => {
-		let skip = parseInt(req.params.skip)
-		let amountPerPage = parseInt(req.params.amountPerPage)
-		
-		const blocks = await Collections.loadBlocksCollection()
-		let retrievedData = await blocks.find({ cat_id: req.params.cat_id })
-			.skip(skip)
-			.limit(amountPerPage)
-			.toArray()
+		let retrievedData = await BlocksCollection.readAll(req)
 
 		res.send(retrievedData)
 	}
 )
 
 
-// [READ] This for Single Block Details //
+// [READ] Single Block //
 router.get(
 	'/read/:block_id',
 	async (req, res) => {
-		const blocks = await Collections.loadBlocksCollection()
-		let retrievedData = await blocks.findOne(
-			{ _id: new mongodb.ObjectID(req.params.block_id) }
-		)
+		let retrievedData = await BlocksCollection.read(req)
 
 		res.send(retrievedData)
 	}
@@ -84,11 +65,7 @@ router.delete(
 	Auth.userTokenCheck(),
 	BlocksM.verifyOwnership(),
 	async (req, res) => {
-		const blocks = await Collections.loadBlocksCollection()
-		/*await blocks.deleteOne({
-			_id: new mongodb.ObjectID(req.params.block_id),
-			user_id: req.decoded._id,
-		})*/
+		await BlocksCollection.delete(req)
 
 		res.status(201).send({
 			auth: true,
@@ -105,18 +82,7 @@ router.post(
 	Auth.userTokenCheck(),
 	BlocksM.voterVerifyNonExistance(),
 	async (req, res) => {
-		const blocks = await Collections.loadBlocksCollection()
-		await blocks.updateOne(
-			{ _id: new mongodb.ObjectID(req.params._id) },
-			{ $push: { 
-				voters: {
-					user_id: req.decoded._id,
-					email: req.decoded.email,
-					username: req.decoded.username,
-				} 
-			} },
-			{ upsert: true }
-		)
+		await BlocksCollection.pushVoter(req)
 
 		res.status(201).send()
 	}
@@ -128,35 +94,28 @@ router.post(
 	'/update/pull-voter/:_id',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		const blocks = await Collections.loadBlocksCollection()
-		await blocks.updateOne(
-			{ _id: new mongodb.ObjectID(req.params._id) },
-			{ $pull: { voters: { user_id: req.decoded._id } } },
-			{ upsert: true }
-		)
+		await BlocksCollection.pullVoter(req)
 
 		res.status(201).send()
 	}
 )
 
 
-/******************* [VALIDATION] *******************/
-// Check Block Exists //
+/******************* [VALIDATE] *******************/
 router.get(
 	'/validate/:_id',
 	async (req, res) => {
 		if (mongodb.ObjectID.isValid(req.params._id)) {
-			const blocks = await Collections.loadBlocksCollection()
-
-			let retrievedData = await blocks.findOne(
-				{ _id: new mongodb.ObjectID(req.params._id) }
-			)
-
-			if (retrievedData) { existance = true }
+			let existance = await BlocksCollection.validate(req)
 
 			res.status(201).send(existance)
 		}
-		else { res.status(400).send({ error: 'Invalid Token' }) }
+		else {
+			res.status(400).send({
+				auth: true,
+				message: 'Invalid Block Id.'
+			})
+		}
 	}
 )
 
@@ -166,7 +125,8 @@ router.get(
 	'/verify-ownership/:_id',
 	BlocksM.verifyOwnership(),
 	async (req, res) => {
-		existance = true
+		let existance = await blockCollections.verifyOwnership(req)
+
 		res.status(201).send(existance)
 	}
 )
@@ -176,14 +136,9 @@ router.get(
 router.get(
 	'/count/:cat_id',
 	async (req, res) => {
-		const blocks = await Collections.loadBlocksCollection()
-		try {
-			const count = await blocks.countDocuments(
-				{ cat_id: req.params.cat_id }
-			)
-			res.status(201).send(count.toString())
-		}
-		catch(e) { res.send(e) }
+		let count = await BlocksCollection.count(req)
+
+		res.status(201).send(count.toString())
 	}
 )
 
