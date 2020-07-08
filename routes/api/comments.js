@@ -13,6 +13,7 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const Collections = require('../../server-collections')
+const CommentsCollections = require('../../server-collections/CommentsCollection')
 const Auth = require('../../server-middleware/AuthMiddleware')
 const CommentsM = require('../../server-middleware/CommentsMiddleware')
 
@@ -26,18 +27,8 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userTokenCheck(),
+	CommentsCollections.create(),
 	async (req, res) => {
-		const comments = await Collections.loadCommentsCollection()
-		await comments.insertOne({
-			createdAt: new Date(),
-			block_id: req.body.block_id,
-			comment: req.body.comment,
-			voters: [],
-			user_id: req.decoded._id,
-			email: req.decoded.email,
-			username: req.decoded.username,
-		})
-
 		res.status(201).send({
 			auth: true,
 			message: 'Created Comment'
@@ -49,39 +40,16 @@ router.post(
 // [READ-ALL] //
 router.get(
 	'/read-all/:block_id/:amountPerPage/:skip',
-	async (req, res) => {
-		let skip = parseInt(req.params.skip)
-		let amountPerPage = parseInt(req.params.amountPerPage)
-
-		const comments = await Collections.loadCommentsCollection()
-		let retrievedData = await comments.find(
-			{ block_id: req.params.block_id }
-		)
-			.skip(skip)
-			.limit(amountPerPage)
-			.toArray()
-
-		res.send(retrievedData)
-	}
+	CommentsCollections.readAll(),
+	async (req, res) => { res.status(201).send(req.retrievedData) }
 )
 
 
 // [READ] //
 router.get(
 	'/read/:_id',
-	async (req, res) => {
-		let validId = mongodb.ObjectID.isValid(req.params._id)
-		
-		if (validId) {
-			const comments = await Collections.loadCommentsCollection()
-			let retrievedData = await comments.findOne(
-				{ _id: new mongodb.ObjectID(req.params._id) }
-			)
-
-			res.send(retrievedData)
-		}
-		else { res.sendStatus(400) }
-	}
+	CommentsCollections.read(),
+	async (req, res) => { res.status(201).send(req.retrievedData) }
 )
 
 
