@@ -13,7 +13,7 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const Collections = require('../../server-collections')
-const CommentsCollections = require('../../server-collections/CommentsCollection')
+const CommentsCollection = require('../../server-collections/CommentsCollection')
 const Auth = require('../../server-middleware/AuthMiddleware')
 const CommentsM = require('../../server-middleware/CommentsMiddleware')
 
@@ -27,7 +27,7 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userTokenCheck(),
-	CommentsCollections.create(),
+	CommentsCollection.create(),
 	async (req, res) => {
 		res.status(201).send({
 			auth: true,
@@ -40,7 +40,7 @@ router.post(
 // [READ-ALL] //
 router.get(
 	'/read-all/:block_id/:amountPerPage/:skip',
-	CommentsCollections.readAll(),
+	CommentsCollection.readAll(),
 	async (req, res) => { res.status(201).send(req.retrievedData) }
 )
 
@@ -48,7 +48,7 @@ router.get(
 // [READ] //
 router.get(
 	'/read/:_id',
-	CommentsCollections.read(),
+	CommentsCollection.read(),
 	async (req, res) => { res.status(201).send(req.retrievedData) }
 )
 
@@ -58,14 +58,8 @@ router.post(
 	'/update/:_id',
 	Auth.userTokenCheck(),
 	CommentsM.verifyOwnership(),
+	CommentsCollection.update(),
 	async (req, res) => {
-		const comments = await Collections.loadCommentsCollection()
-		await comments.findOneAndUpdate(
-			{ _id: new mongodb.ObjectID(req.params._id) },
-			{ $set: { comment: req.body.comment, } },
-			{ upsert: true }
-		)
-
 		res.status(201).send({
 			auth: true,
 			message: 'Successfully Updated Comment'
@@ -79,13 +73,8 @@ router.delete(
 	'/delete/:_id',
 	Auth.userTokenCheck(),
 	CommentsM.verifyOwnership(),
+	CommentsCollection.delete(),
 	async (req, res) => {
-		const comments = await Collections.loadCommentsCollection()
-		await comments.deleteOne({
-			_id: new mongodb.ObjectID(req.params._id),
-			user_id: req.decoded._id,
-		})
-
 		res.status(201).send({
 			auth: true,
 			message: 'Successfully Deleted Comment'
@@ -100,21 +89,8 @@ router.post(
 	'/update/push-voter/:_id',
 	Auth.userTokenCheck(),
 	CommentsM.voterVerifyNonExistance(),
-	async (req, res) => {
-		const comments = await Collections.loadCommentsCollection()
-		await comments.updateOne(
-			{ _id: new mongodb.ObjectID(req.params._id) },
-			{ $push: { 
-				voters: {
-					user_id: req.decoded._id,
-					email: req.decoded.email,
-				}
-			} },
-			{ upsert: true }
-		)
-
-		res.status(201).send()
-	}
+	CommentsCollection.pushVoter(),
+	async (req, res) => { res.status(201).send() }
 )
 
 
@@ -122,32 +98,20 @@ router.post(
 router.post(
 	'/update/pull-voter/:_id',
 	Auth.userTokenCheck(),
-	async (req, res) => {
-		const comments = await Collections.loadCommentsCollection()
-		await comments.updateOne(
-			{ _id: new mongodb.ObjectID(req.params._id) },
-			{ $pull: { voters: { user_id: req.decoded._id } } },
-			{ upsert: true }
-		)
-
-		res.status(201).send()
-	}
+	CommentsCollection.pullVoter(),
+	async (req, res) => { res.status(201).send() }
 )
+
+
+/******************* [VALIDATE] *******************/
+// WIP
 
 
 /******************* [COUNT] *******************/
 router.get(
 	'/count/:block_id',
-	async (req, res) => {
-		const comments = await Collections.loadCommentsCollection()
-		try {
-			const count = await comments.countDocuments(
-				{ block_id: req.params.block_id }
-			)
-			res.status(201).send(count.toString())
-		}
-		catch(e) { res.send(e) }
-	}
+	CommentsCollection.count(),
+	async (req, res) => { res.status(201).send(req.count.toString()) }
 )
 
 

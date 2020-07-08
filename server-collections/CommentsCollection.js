@@ -41,13 +41,13 @@ class CommentsCollection {
 			let amountPerPage = parseInt(req.params.amountPerPage)
 
 			const comments = await loadCommentsCollection()
-			let retrievedData = await comments.find(
+			const retrievedData = await comments.find(
 				{ block_id: req.params.block_id }
 			).skip(skip).limit(amountPerPage).toArray()
 
 			// If Data Retrieved Store //
 			if (retrievedData) { req.retrievedData = retrievedData }
-			else { retrievedData = '' }
+			else { req.retrievedData = '' }
 			
 			next()
 		}
@@ -60,14 +60,14 @@ class CommentsCollection {
 			let validId = mongodb.ObjectID.isValid(req.params._id)
 		
 			if (validId) {
-				const comments = await Collections.loadCommentsCollection()
-				let retrievedData = await comments.findOne(
+				const comments = await loadCommentsCollection()
+				const retrievedData = await comments.findOne(
 					{ _id: new mongodb.ObjectID(req.params._id) }
 				)
 				
 				// If Data Retrieved Store //
 				if (retrievedData) { req.retrievedData = retrievedData }
-				else { retrievedData = '' }
+				else { req.retrievedData = '' }
 				
 				next()
 			}
@@ -77,6 +77,83 @@ class CommentsCollection {
 					message: 'Invalid Comment ID.'
 				})
 			}
+		}
+	}
+
+
+	// [UPDATE] //
+	static update() {
+		return async (req, res, next) => {
+			const comments = await loadCommentsCollection()
+			await comments.findOneAndUpdate(
+				{ _id: new mongodb.ObjectID(req.params._id) },
+				{ $set: { comment: req.body.comment, } },
+				{ upsert: true }
+			)
+				.then( next() )
+				.catch( res.status(400) )
+		}
+	}
+
+
+	// [DELETE] //
+	static delete() {
+		return async (req, res, next) => {
+			const comments = await loadCommentsCollection()
+			await comments.deleteOne({
+				_id: new mongodb.ObjectID(req.params._id),
+				user_id: req.decoded._id,
+			}).then( next() )
+		}
+	}
+
+
+	/******************* [VOTE SYSTEM] *******************/
+	static pushVoter() {
+		return async (req, res, next) => {
+			const comments = await loadCommentsCollection()
+			await comments.updateOne(
+				{ _id: new mongodb.ObjectID(req.params._id) },
+				{ $push: { 
+					voters: {
+						user_id: req.decoded._id,
+						email: req.decoded.email,
+					}
+				} },
+				{ upsert: true }
+			)
+				.then( next() )
+				.catch( res.status(400) )
+		}
+	}
+
+
+	static pullVoter() {
+		return async (req, res, next) => {
+			const comments = await loadCommentsCollection()
+			await comments.updateOne(
+				{ _id: new mongodb.ObjectID(req.params._id) },
+				{ $pull: { voters: { user_id: req.decoded._id } } },
+				{ upsert: true }
+			)
+				.then( next() )
+				.catch( res.status(400) )
+		}
+	}
+
+
+	/******************* [VOTE SYSTEM] *******************/
+	static count() {
+		return async (req, res, next) => {
+			const comments = await loadCommentsCollection()
+			const count = await comments.countDocuments(
+				{ block_id: req.params.block_id }
+			)
+
+			if (count) { req.count = count }
+			else { req.count = 0 }
+
+			next()
 		}
 	}
 }

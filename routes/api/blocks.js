@@ -26,9 +26,8 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userTokenCheck(),
+	BlocksCollection.create(),
 	async (req, res) => {
-		await BlocksCollection.create(req)
-
 		res.status(201).send({
 			auth: true,
 			message: 'Created block'
@@ -40,22 +39,16 @@ router.post(
 // [READ ALL] Within Cat //
 router.get(
 	'/read-all/:cat_id/:amountPerPage/:skip',
-	async (req, res) => {
-		let retrievedData = await BlocksCollection.readAll(req)
-
-		res.send(retrievedData)
-	}
+	BlocksCollection.readAll(),
+	async (req, res) => { res.send(req.retrievedData) }
 )
 
 
 // [READ] Single Block //
 router.get(
 	'/read/:block_id',
-	async (req, res) => {
-		let retrievedData = await BlocksCollection.read(req)
-
-		res.send(retrievedData)
-	}
+	BlocksCollection.read(),
+	async (req, res) => { res.send(req.retrievedData) }
 )
 
 
@@ -106,42 +99,25 @@ router.post(
 /******************* [VALIDATE] *******************/
 router.get(
 	'/validate/:_id',
-	async (req, res) => {
-		if (mongodb.ObjectID.isValid(req.params._id)) {
-			let existance = await BlocksCollection.validate(req)
-
-			res.status(201).send(existance)
-		}
-		else {
-			res.status(400).send({
-				auth: true,
-				message: 'Invalid Block Id.'
-			})
-		}
-	}
+	BlocksCollection.validate(),
+	async (req, res) => { res.status(201).send(true) }
 )
 
 
-// Check Block Ownership (Should be Used only on the client) //
+// Check Block Ownership (Should be Used only on the client //
 router.get(
 	'/verify-ownership/:_id',
 	BlocksM.verifyOwnership(),
-	async (req, res) => {
-		let existance = await BlocksCollection.verifyOwnership(req)
-
-		res.status(201).send(existance)
-	}
+	BlocksCollection.verifyOwnership(),
+	async (req, res) => { res.status(201).send(existance) }
 )
 
 
 /******************* [COUNT] *******************/
 router.get(
 	'/count/:cat_id',
-	async (req, res) => {
-		let count = await BlocksCollection.count(req)
-
-		res.status(201).send(count.toString())
-	}
+	BlocksCollection.count(),
+	async (req, res) => { res.status(201).send(req.count.toString()) }
 )
 
 
