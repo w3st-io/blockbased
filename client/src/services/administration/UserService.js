@@ -28,14 +28,14 @@ class AdministrationUserService {
 
 	// [READ] Auth Required //
 	static async getUserProfileData(user_id) {
-		let profileData = await authAxios.get(`/read/profile-data/${user_id}`)
+		let profileData = await authAxios.get(`/read/${user_id}`)
 
 		return profileData.data
 	}
 
 	// [UPDATE] Auth Required //
 	static async updateUserProfileData(user_id, img_url) {
-		return await authAxios.post(`/update/profile-data/${user_id}`,
+		return await authAxios.post(`/update/${user_id}`,
 			{ img_url }
 		)
 	}

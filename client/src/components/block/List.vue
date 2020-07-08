@@ -99,7 +99,6 @@
 	// [IMPORT] Personal //
 	import router from '@router'
 	import BlockService from '@services/BlockService'
-	import BlockVotesService from '@services/BlockVotesService'
 	import CommentService from '@services/CommentService'
 
 	// [EXPORT] //
@@ -187,10 +186,7 @@
 				this.disabled = true
 
 				// [CREATE] //
-				try {
-					await BlockService.addVote(block_id)
-					await BlockVotesService.createBlockVote(block_id)
-				}
+				try { await BlockService.addVote(block_id) }
 				catch(e) { this.error = e }
 				
 				// [READ] Update Blocks //
@@ -203,10 +199,7 @@
 				this.disabled = true
 
 				// [DELETE] //
-				try {
-					await BlockService.removeVote(block_id)
-					await BlockVotesService.deleteBlockVote(block_id)
-				}
+				try { await BlockService.removeVote(block_id) }
 				catch(e) { this.error = e }
 
 				// [READ] Update Blocks //

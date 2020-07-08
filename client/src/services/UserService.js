@@ -48,10 +48,10 @@ class UserService {
 		// If a field was passed
 		if (field == 'pic') {
 			profileData = await authAxios.get(
-				`/read/profile-data/profile-pic-url/${user_id}`
+				`/read/profile-pic-url/${user_id}`
 			)
 		}
-		else { profileData = await authAxios.get(`/read/profile-data`) } 
+		else { profileData = await authAxios.get(`/read`) } 
 
 		return profileData.data
 	}
@@ -59,7 +59,7 @@ class UserService {
 
 	// [UPDATE] //
 	static async updateUserProfileData(img_url) {
-		return await authAxios.post(`/update/profile-data`,
+		return await authAxios.post(`/update`,
 			{ img_url }
 		)
 	}

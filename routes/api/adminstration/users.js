@@ -36,7 +36,7 @@ router.get(
 
 // [READ] Auth Required //
 router.get(
-	'/read/profile-data/:_id',
+	'/read/:_id',
 	Auth.adminCheck(),
 	async (req, res) => {
 		const users = await Collections.loadUsersCollection()
@@ -51,7 +51,7 @@ router.get(
 
 // [UPDATE] Auth Required //
 router.post(
-	'/update/profile-data/:_id',
+	'/update/:_id',
 	Auth.adminCheck(),
 	async (req, res) => {
 		const users = await Collections.loadUsersCollection()

@@ -154,13 +154,11 @@
 			},
 
 			async addFollow() {
-				// [CREATE] Vote in "blockVotes" Colelction //
 				try { console.log('add') }
 				catch(e) { this.error = e }
 			},
 
 			async removeFollow() {
-				// [DELETE] Vote in "blockVotes" Collection //
 				try { console.log('remove') }
 				catch(e) { this.error = e }
 			},

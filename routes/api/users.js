@@ -15,6 +15,7 @@ require('dotenv').config()
 // [REQUIRE] Personal //
 const UserModel = require('../../models/UserModel')
 const Collections = require('../../server-collections')
+const UsersCollection = require('../../server-collections/UsersCollection')
 const Auth = require('../../server-middleware/AuthMiddleware')
 
 
@@ -29,14 +30,10 @@ const router = express.Router().use(cors())
 /******************* [USER PROFILE] *******************/
 // [READ] //
 router.get(
-	'/read/profile-data',
+	'/read',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const users = await Collections.loadUsersCollection()
-		let retrievedData = await users.findOne(
-			{ _id: new mongodb.ObjectID(user_id) }
-		)
+		let retrievedData = await UsersCollection.read(req)
 		
 		res.status(201).send(retrievedData)
 	}
@@ -45,34 +42,21 @@ router.get(
 
 // [READ] Profile Image //
 router.get(
-	'/read/profile-data/profile-pic-url/:_id',
+	'/read/profile-pic-url/:_id',
 	async (req, res) => {
-		const users = await Collections.loadUsersCollection()
-		let retrievedData = await users.findOne(
-			{ _id: new mongodb.ObjectID(req.params._id) },
-			{ projection: { profilePicURL: 1 } }
-		)
+		let retrievedData = await UsersCollection.readProfilePic(req)
+
 		res.status(201).send(retrievedData)
 	}
 )
 
 
-// [UPDATE] //
+// [UPDATE] Auth Required //
 router.post(
-	'/update/profile-data',
+	'/update',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		const users = await Collections.loadUsersCollection()
-		await users.findOneAndUpdate(
-			{ _id: new mongodb.ObjectID(req.decoded._id) },
-			{
-				$set: {
-					profilePicURL: req.body.img_url,
-					
-				}
-			},
-			{ upsert: true }
-		)
+		UsersCollection.update(req)
 
 		res.status(201).send()
 	}

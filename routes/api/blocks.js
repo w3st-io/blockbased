@@ -13,8 +13,8 @@ require('dotenv').config()
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
 const BlocksM = require('../../server-middleware/BlocksMiddleware')
-const Collections = require('../../server-collections')
 const BlocksCollection = require('../../server-collections/BlocksCollection')
+const BlockVotesCollections = require('../../server-collections/BlockVotesCollection')
 
 
 // [EXPRESS + USE] //
@@ -78,10 +78,11 @@ router.delete(
 /******************* [VOTE SYSTEM] *******************/
 // [PUSH] Auth Required //
 router.post(
-	'/update/push-voter/:_id',
+	'/vote/:_id',
 	Auth.userTokenCheck(),
 	BlocksM.voterVerifyNonExistance(),
 	async (req, res) => {
+		await BlockVotesCollections.create(req)
 		await BlocksCollection.pushVoter(req)
 
 		res.status(201).send()
@@ -91,9 +92,10 @@ router.post(
 
 // [PULL] Auth Required //
 router.post(
-	'/update/pull-voter/:_id',
+	'/unvote/:_id',
 	Auth.userTokenCheck(),
 	async (req, res) => {
+		await BlockVotesCollections.delete(req)
 		await BlocksCollection.pullVoter(req)
 
 		res.status(201).send()
@@ -125,7 +127,7 @@ router.get(
 	'/verify-ownership/:_id',
 	BlocksM.verifyOwnership(),
 	async (req, res) => {
-		let existance = await blockCollections.verifyOwnership(req)
+		let existance = await BlocksCollection.verifyOwnership(req)
 
 		res.status(201).send(existance)
 	}

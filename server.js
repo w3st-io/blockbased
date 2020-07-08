@@ -13,7 +13,6 @@ require('dotenv').config()
 // [REQUIRE] Personal //
 const admins = require('./routes/api/admins')
 const blocks = require('./routes/api/blocks')
-const blockVotes = require('./routes/api/block-votes')
 const comments = require('./routes/api/comments')
 const commentVotes = require('./routes/api/comment-votes')
 const follows = require('./routes/api/follows')
@@ -42,7 +41,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // [USE] Personal //
 app.use('/api/admins', admins)
 app.use('/api/blocks', blocks)
-app.use('/api/block-votes', blockVotes)
 app.use('/api/comments', comments)
 app.use('/api/comment-votes', commentVotes)
 app.use('/api/follows', follows)
@@ -66,6 +64,7 @@ app.listen(port, function() { console.log(`Server Running on Port: ${port}`) })
 // [MAIN ROUTE] //
 app.get('', async (req, res) => {
 	const html = `<h1 style="color: #4d31ce;">BlockBased API</h1>W`
+	console.log('req:', req)
 
 	res.send(html)
 })

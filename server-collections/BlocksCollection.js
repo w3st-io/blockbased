@@ -8,7 +8,7 @@ const mongodb = require('mongodb')
 require('dotenv').config()
 
 
-class blockCollections {
+class BlocksCollection {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
 	static async create(req) {
@@ -88,6 +88,10 @@ class blockCollections {
 	}
 
 
+	// Check if User Voted For This Block
+	static async checkForVote(req) {}
+
+
 	/******************* [VALIDATE] *******************/
 	// Check Block Exists //
 	static async validate(req) {
@@ -104,10 +108,9 @@ class blockCollections {
 	}
 
 
+	// Verify Ownership //
 	static async verifyOwnership(req) {
-		existance = true
-
-		return existance
+		return existance = true
 	}
 
 
@@ -142,4 +145,4 @@ async function loadBlocksCollection() {
 
 
 // [EXPORT] //
-module.exports = blockCollections
+module.exports = BlocksCollection
