@@ -94,7 +94,6 @@
 	import dropDownMenuBtn from '@components/controls/dropDownMenuBtn'
 	import router from '@router'
 	import CommentService from '@services/CommentService'
-	import CommentVoteService from '@services/CommentVoteService'
 	import ReportService from '@services/ReportService'
 	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
@@ -173,10 +172,6 @@
 			},
 
 			async deleteComment(comment_id) {
-				// [DELETE] Comment Vote //
-				try { await CommentVoteService.deleteAllCommentVotes(comment_id)}
-				catch (e) { this.error = e }
-
 				// [DELETE] Comment //
 				try { await CommentService.deleteComment(comment_id) }
 				catch(e) { this.error = e }
@@ -242,7 +237,6 @@
 			voteBtn(comment) {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
-					// Conditional DB Actions //
 					if (this.checkForUserVote(comment)) { this.removeVote(comment) }
 					else { this.addVote(comment) }		
 				}
@@ -252,10 +246,7 @@
 				this.disabled = true
 
 				// [CREATE] Like in "CommentVotes" Colelction //
-				try {
-					await CommentService.addVote(comment._id)
-					CommentVoteService.createCommentVote(this.block_id, comment._id)
-				}
+				try { await CommentService.addVote(this.block_id, comment._id) }
 				catch(e) { this.error = e }
 
 				// [READ] Update Comments //
@@ -268,10 +259,7 @@
 				this.disabled = true
 
 				// [DELETE] Like in "CommentVotes" Collection //
-				try {
-					await CommentService.removeVote(comment._id)
-					CommentVoteService.deleteCommentVote(comment._id)
-				}
+				try { await CommentService.removeVote(comment._id) }
 				catch(e) { this.error = e }
 
 				// [READ] Update Comments //

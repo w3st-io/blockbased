@@ -158,7 +158,7 @@ class BlocksCollection {
 
 
 	// Verify Ownership //
-	static async verifyOwnership() {
+	static verifyOwnership() {
 		return async (req, res, next) => { next() }
 	}
 

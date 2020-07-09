@@ -14,6 +14,7 @@ require('dotenv').config()
 // [REQUIRE] Personal //
 const Collections = require('../../server-collections')
 const CommentsCollection = require('../../server-collections/CommentsCollection')
+const CommentVotesCollection = require('../../server-collections/CommentVotesCollection')
 const Auth = require('../../server-middleware/AuthMiddleware')
 const CommentsM = require('../../server-middleware/CommentsMiddleware')
 
@@ -74,6 +75,7 @@ router.delete(
 	Auth.userTokenCheck(),
 	CommentsM.verifyOwnership(),
 	CommentsCollection.delete(),
+	CommentVotesCollection.deleteAll(),
 	async (req, res) => {
 		res.status(201).send({
 			auth: true,
@@ -86,19 +88,21 @@ router.delete(
 /******************* [VOTE SYSTEM] *******************/
 // [PUSH] Auth Required //
 router.post(
-	'/update/push-voter/:_id',
+	'/vote/:_id/:block_id',
 	Auth.userTokenCheck(),
 	CommentsM.voterVerifyNonExistance(),
 	CommentsCollection.pushVoter(),
+	CommentVotesCollection.create(),
 	async (req, res) => { res.status(201).send() }
 )
 
 
 // [PULL] Auth Required //
 router.post(
-	'/update/pull-voter/:_id',
+	'/unvote/:_id',
 	Auth.userTokenCheck(),
 	CommentsCollection.pullVoter(),
+	CommentVotesCollection.delete(),
 	async (req, res) => { res.status(201).send() }
 )
 

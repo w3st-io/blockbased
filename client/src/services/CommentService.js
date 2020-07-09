@@ -86,15 +86,15 @@ class CommentService {
 
 	/******************* [VOTE SYSTEM] *******************/
 	// ADD/REMOVE VOTE //
-	static async addVote(comment_id) {
+	static async addVote(block_id, comment_id) {
 		// Add the voter from the Block Object
-		let status = await authAxios.post(`/update/push-voter/${comment_id}`)
+		let status = await authAxios.post(`/vote/${comment_id}/${block_id}`)
 
 		return status
 	}
 	static async removeVote(comment_id) {
 		// Remove the voter from the Block Object
-		let status = await authAxios.post(`/update/pull-voter/${comment_id}`)
+		let status = await authAxios.post(`/unvote/${comment_id}`)
 
 		return status
 	}

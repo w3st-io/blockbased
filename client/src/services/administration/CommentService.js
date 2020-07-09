@@ -97,28 +97,6 @@ class AdministrationCommentService {
 
 		return result	
 	}
-
-
-	/******************* [VOTE SYSTEM] *******************/
-	// ADD/REMOVE VOTE //
-	static async addVote(comment_id, user_id, email, username) {
-		// Add the voter from the Block Object
-		let status = await authAxios.post(`/update/push-voter/${comment_id}`, {
-			user_id,
-			email,
-			username,
-		})
-
-		return status
-	}
-	static async removeVote(block_id, user_id) {
-		// Remove the voter from the Block Object
-		let status = await authAxios.post(`/update/pull-voter/${block_id}`, {
-			user_id,
-		})
-
-		return status
-	}
 }
 
 
