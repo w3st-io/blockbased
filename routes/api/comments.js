@@ -6,17 +6,14 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
-const jwt = require('jsonwebtoken')
-const mongodb = require('mongodb')
 require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const Collections = require('../../server-collections')
 const CommentsCollection = require('../../server-collections/CommentsCollection')
 const CommentVotesCollection = require('../../server-collections/CommentVotesCollection')
 const Auth = require('../../server-middleware/AuthMiddleware')
-const CommentsM = require('../../server-middleware/CommentsMiddleware')
+const CommentsMiddleware = require('../../server-middleware/CommentsMiddleware')
 
 
 // [EXPRESS + USE] //
@@ -58,7 +55,7 @@ router.get(
 router.post(
 	'/update/:_id',
 	Auth.userTokenCheck(),
-	CommentsM.verifyOwnership(),
+	CommentsMiddleware.verifyOwnership(),
 	CommentsCollection.update(),
 	async (req, res) => {
 		res.status(201).send({
@@ -73,7 +70,7 @@ router.post(
 router.delete(
 	'/delete/:_id',
 	Auth.userTokenCheck(),
-	CommentsM.verifyOwnership(),
+	CommentsMiddleware.verifyOwnership(),
 	CommentsCollection.delete(),
 	CommentVotesCollection.deleteAll(),
 	async (req, res) => {
@@ -90,7 +87,7 @@ router.delete(
 router.post(
 	'/vote/:_id/:block_id',
 	Auth.userTokenCheck(),
-	CommentsM.voterVerifyNonExistance(),
+	CommentsMiddleware.voterVerifyNonExistance(),
 	CommentsCollection.pushVoter(),
 	CommentVotesCollection.create(),
 	async (req, res) => { res.status(201).send() }

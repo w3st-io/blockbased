@@ -13,7 +13,7 @@ require('dotenv').config()
 // [REQUIRE] Personal //
 const Collections = require('../../server-collections')
 const Auth = require('../../server-middleware/AuthMiddleware')
-const ReportsM = require('../../server-middleware/ReportsMiddleware')
+const ReportsMiddleware = require('../../server-middleware/ReportsMiddleware')
 
 
 // [EXPRESS + USE] //
@@ -25,7 +25,7 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userTokenCheck(),
-	ReportsM.verifyNonExistance(),
+	ReportsMiddleware.verifyNonExistance(),
 	async (req, res) => {
 		const reports = await Collections.loadReportsCollection()
 		await reports.insertOne({

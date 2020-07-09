@@ -6,8 +6,6 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
-const jwt = require('jsonwebtoken')
-const mongodb = require('mongodb')
 require('dotenv').config()
 
 

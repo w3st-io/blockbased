@@ -13,7 +13,7 @@ require('dotenv').config()
 // [REQUIRE] Personal //
 const Collections = require('../../server-collections')
 const Auth = require('../../server-middleware/AuthMiddleware')
-const FollowsM = require('../../server-middleware/FollowsMiddleware')
+const FollowsMiddleware = require('../../server-middleware/FollowsMiddleware')
 
 
 // [EXPRESS + USE] //
@@ -25,7 +25,7 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userTokenCheck(),
-	FollowsM.verifyNonExistance(),
+	FollowsMiddleware.verifyNonExistance(),
 	async (req, res) => {
 		const follows = await Collections.loadFollowsCollection()
 		await follows.insertOne({
@@ -48,7 +48,7 @@ router.post(
 router.delete(
 	'/delete/:block_id',
 	Auth.userTokenCheck(),
-	FollowsM.verifyOwnership(),
+	FollowsMiddleware.verifyOwnership(),
 	async (req, res) => {
 		const follows = await Collections.loadFollowsCollection()
 		await follows.deleteMany({
