@@ -93,6 +93,7 @@ class CommentService {
 		return status
 	}
 	static async removeVote(comment_id) {
+		console.log('unvote called', comment_id)
 		// Remove the voter from the Block Object
 		let status = await authAxios.post(`/unvote/${comment_id}`)
 

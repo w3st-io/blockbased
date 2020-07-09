@@ -57,10 +57,11 @@ class CommentVotesCollection {
 	// [DELETE] //
 	static delete() {
 		return async (req, res, next) => { 
+			console.log('comment',req.params._id)
 			try {
 				const commentVotes = await loadCommentVotesCollection()
 				await commentVotes.deleteMany({
-					comment_id: req.params.comment_id,
+					comment_id: req.params._id,
 					user_id: req.decoded._id,
 				})
 				
