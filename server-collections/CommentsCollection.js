@@ -31,23 +31,25 @@ class CommentsCollection {
 	// [CREATE] //
 	static create() {
 		return async (req, res, next) => {
-			const comments = await loadCommentsCollection()
-			await comments.insertOne({
-				createdAt: new Date(),
-				block_id: req.body.block_id,
-				comment: req.body.comment,
-				voters: [],
-				user_id: req.decoded._id,
-				email: req.decoded.email,
-				username: req.decoded.username,
-			})
-				.then( next() )
-				.catch(
-					res.status(400).send({
-						auth: true,
-						message: 'Could Not Create Comment.'
-					})
-				)
+			try {
+				const comments = await loadCommentsCollection()
+				await comments.insertOne({
+					createdAt: new Date(),
+					block_id: req.body.block_id,
+					comment: req.body.comment,
+					voters: [],
+					user_id: req.decoded._id,
+					email: req.decoded.email,
+					username: req.decoded.username,
+				})
+				next()
+			}
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `Caught Error: ${e}`,
+				})
+			}
 		}
 	}
 
@@ -55,19 +57,27 @@ class CommentsCollection {
 	// [READ-ALL] //
 	static readAll() {
 		return async (req, res, next) => {
-			let skip = parseInt(req.params.skip)
-			let amountPerPage = parseInt(req.params.amountPerPage)
+			try {
+				let skip = parseInt(req.params.skip)
+				let amountPerPage = parseInt(req.params.amountPerPage)
 
-			const comments = await loadCommentsCollection()
-			const retrievedData = await comments.find(
-				{ block_id: req.params.block_id }
-			).skip(skip).limit(amountPerPage).toArray()
+				const comments = await loadCommentsCollection()
+				const retrievedData = await comments.find(
+					{ block_id: req.params.block_id }
+				).skip(skip).limit(amountPerPage).toArray()
 
-			// If Data Retrieved Store //
-			if (retrievedData) { req.retrievedData = retrievedData }
-			else { req.retrievedData = '' }
-			
-			next()
+				// If Data Retrieved Store //
+				if (retrievedData) { req.retrievedData = retrievedData }
+				else { req.retrievedData = '' }
+				
+				next()
+			}
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `Caught Error: ${e}`,
+				})
+			}
 		}
 	}
 
@@ -75,24 +85,32 @@ class CommentsCollection {
 	// [READ] //
 	static read() {
 		return async (req, res, next) => {
-			let validId = mongodb.ObjectID.isValid(req.params._id)
-		
-			if (validId) {
-				const comments = await loadCommentsCollection()
-				const retrievedData = await comments.findOne(
-					{ _id: new mongodb.ObjectID(req.params._id) }
-				)
-				
-				// If Data Retrieved Store //
-				if (retrievedData) { req.retrievedData = retrievedData }
-				else { req.retrievedData = '' }
-				
-				next()
+			try {
+				let validId = mongodb.ObjectID.isValid(req.params._id)
+			
+				if (validId) {
+					const comments = await loadCommentsCollection()
+					const retrievedData = await comments.findOne(
+						{ _id: new mongodb.ObjectID(req.params._id) }
+					)
+					
+					// If Data Retrieved Store //
+					if (retrievedData) { req.retrievedData = retrievedData }
+					else { req.retrievedData = '' }
+					
+					next()
+				}
+				else {
+					res.status(400).send({
+						auth: true,
+						message: 'Invalid Comment ID.'
+					})
+				}
 			}
-			else {
+			catch(e) {
 				res.status(400).send({
 					auth: true,
-					message: 'Invalid Comment ID.'
+					message: `Caught Error: ${e}`,
 				})
 			}
 		}
@@ -102,14 +120,22 @@ class CommentsCollection {
 	// [UPDATE] //
 	static update() {
 		return async (req, res, next) => {
-			const comments = await loadCommentsCollection()
-			await comments.findOneAndUpdate(
-				{ _id: new mongodb.ObjectID(req.params._id) },
-				{ $set: { comment: req.body.comment, } },
-				{ upsert: true }
-			)
-				.then( next() )
-				.catch( res.status(400) )
+			try {
+				const comments = await loadCommentsCollection()
+				await comments.findOneAndUpdate(
+					{ _id: new mongodb.ObjectID(req.params._id) },
+					{ $set: { comment: req.body.comment, } },
+					{ upsert: true }
+				)
+
+				next()
+			}
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `Caught Error: ${e}`,
+				})
+			}
 		}
 	}
 
@@ -117,11 +143,21 @@ class CommentsCollection {
 	// [DELETE] //
 	static delete() {
 		return async (req, res, next) => {
-			const comments = await loadCommentsCollection()
-			await comments.deleteOne({
-				_id: new mongodb.ObjectID(req.params._id),
-				user_id: req.decoded._id,
-			}).then( next() )
+			try {
+				const comments = await loadCommentsCollection()
+				await comments.deleteOne({
+					_id: new mongodb.ObjectID(req.params._id),
+					user_id: req.decoded._id,
+				})
+				
+				next()
+			}
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `Caught Error: ${e}`,
+				})
+			}
 		}
 	}
 
@@ -129,33 +165,49 @@ class CommentsCollection {
 	/******************* [VOTE SYSTEM] *******************/
 	static pushVoter() {
 		return async (req, res, next) => {
-			const comments = await loadCommentsCollection()
-			await comments.updateOne(
-				{ _id: new mongodb.ObjectID(req.params._id) },
-				{ $push: { 
-					voters: {
-						user_id: req.decoded._id,
-						email: req.decoded.email,
-					}
-				} },
-				{ upsert: true }
-			)
-				.then( next() )
-				.catch( res.status(400) )
+			try {
+				const comments = await loadCommentsCollection()
+				await comments.updateOne(
+					{ _id: new mongodb.ObjectID(req.params._id) },
+					{ $push: { 
+						voters: {
+							user_id: req.decoded._id,
+							email: req.decoded.email,
+						}
+					} },
+					{ upsert: true }
+				)
+				
+				next()
+			}
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `Caught Error: ${e}`,
+				})
+			}
 		}
 	}
 
 
 	static pullVoter() {
 		return async (req, res, next) => {
-			const comments = await loadCommentsCollection()
-			await comments.updateOne(
-				{ _id: new mongodb.ObjectID(req.params._id) },
-				{ $pull: { voters: { user_id: req.decoded._id } } },
-				{ upsert: true }
-			)
-				.then( next() )
-				.catch( res.status(400) )
+			try {
+				const comments = await loadCommentsCollection()
+				await comments.updateOne(
+					{ _id: new mongodb.ObjectID(req.params._id) },
+					{ $pull: { voters: { user_id: req.decoded._id } } },
+					{ upsert: true }
+				)
+
+				next()
+			}
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `Caught Error: ${e}`,
+				})
+			}
 		}
 	}
 
@@ -163,15 +215,23 @@ class CommentsCollection {
 	/******************* [COUNT] *******************/
 	static count() {
 		return async (req, res, next) => {
-			const comments = await loadCommentsCollection()
-			const count = await comments.countDocuments(
-				{ block_id: req.params.block_id }
-			)
+			try {
+				const comments = await loadCommentsCollection()
+				const count = await comments.countDocuments({
+					block_id: req.params.block_id
+				})
 
-			if (count) { req.count = count }
-			else { req.count = 0 }
+				if (count) { req.count = count }
+				else { req.count = 0 }
 
-			next()
+				next()
+			}
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `Caught Error: ${e}`,
+				})
+			}
 		}
 	}
 }

@@ -31,22 +31,16 @@ const router = express.Router().use(cors())
 router.get(
 	'/read',
 	Auth.userTokenCheck(),
-	async (req, res) => {
-		let retrievedData = await UsersCollection.read(req)
-		
-		res.status(201).send(retrievedData)
-	}
+	UsersCollection.read(),
+	async (req, res) => { res.status(200).send(req.retrievedData) }
 )
 
 
 // [READ] Profile Image //
 router.get(
 	'/read/profile-pic-url/:_id',
-	async (req, res) => {
-		let retrievedData = await UsersCollection.readProfilePic(req)
-
-		res.status(201).send(retrievedData)
-	}
+	UsersCollection.readProfilePic(),
+	async (req, res) => { res.status(200).send(req.retrievedData) }
 )
 
 
@@ -54,11 +48,8 @@ router.get(
 router.post(
 	'/update',
 	Auth.userTokenCheck(),
-	async (req, res) => {
-		UsersCollection.update(req)
-
-		res.status(201).send()
-	}
+	UsersCollection.update(),
+	async (req, res) => { res.status(201).send() }
 )
 
 

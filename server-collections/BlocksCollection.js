@@ -49,7 +49,7 @@ class BlocksCollection {
 			catch(e) {
 				res.status(400).send({
 					auth: true,
-					message: `${e}`,
+					message: `Caught Error: ${e}`,
 				})
 			}
 		}
@@ -235,7 +235,7 @@ class BlocksCollection {
 				catch(e) {
 					res.status(400).send({
 						auth: true,
-						message: `Caugqqht Error: ${e}`,
+						message: `Caught Error: ${e}`,
 					})
 				}
 			}

@@ -46,7 +46,7 @@ class BlockVotesCollection {
 			catch(e) {
 				res.status(400).send({
 					auth: true,
-					message: `${e}`,
+					message: `Caught Error: ${e}`,
 				})
 			}
 
@@ -68,7 +68,7 @@ class BlockVotesCollection {
 			catch(e) {
 				res.status(400).send({
 					auth: true,
-					message: `${e}`,
+					message: `Caught Error: ${e}`,
 				})
 			}
 		}
@@ -89,7 +89,7 @@ class BlockVotesCollection {
 			catch(e) {
 				res.status(400).send({
 					auth: true,
-					message: `${e}`,
+					message: `Caught Error: ${e}`,
 				})
 			}
 		}
