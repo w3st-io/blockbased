@@ -11,25 +11,43 @@ require('dotenv').config()
 class BlockVotesCollection {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
-	static async create(req) {
-		const blockVotes = await loadBlockVotesCollection()
-		await blockVotes.insertOne({
-			createdAt: new Date(),
-			block_id: req.body.block_id,
-			user_id: req.decoded._id,
-			email: req.decoded.email,
-			username: req.decoded.username,
-		})
+	static create() {
+		return async (req, res, next) => { 
+			const blockVotes = await loadBlockVotesCollection()
+			await blockVotes.insertOne({
+				createdAt: new Date(),
+				block_id: req.body.block_id,
+				user_id: req.decoded._id,
+				email: req.decoded.email,
+				username: req.decoded.username,
+			})
+			.then( next() )
+		}
 	}
 
 
 	// [DELETE] //
-	static async delete(req) {
-		const blockVotes = await loadBlockVotesCollection()
-		await blockVotes.deleteMany({
-			block_id: req.params.block_id,
-			user_id: req.decoded._id,
-		})
+	static async delete() {
+		return async (req, res, next) => { 
+			const blockVotes = await loadBlockVotesCollection()
+			await blockVotes.deleteMany({
+				block_id: req.params.block_id,
+				user_id: req.decoded._id,
+			})
+				.then( next() )
+		}
+	}
+
+
+	// [DELETE ALL] //
+	static deleteAll() {
+		return async (req, res, next) => { 
+			const blockVotes = await loadBlockVotesCollection()
+			await blockVotes.deleteMany({
+				block_id: req.params.block_id,
+			})
+				.then( next() )
+		}
 	}
 }
 	

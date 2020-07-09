@@ -13,8 +13,8 @@ class CommentVotesCollection {
 	// [CREATE] //
 	static create() {
 		return async (req, res, next) => { 
-			const blockVotes = await loadCommentVotesCollection()
-			await blockVotes.insertOne({
+			const commentVotes = await loadCommentVotesCollection()
+			await commentVotes.insertOne({
 				createdAt: new Date(),
 				block_id: req.params.block_id,
 				comment_id: req.params._id,
@@ -30,8 +30,8 @@ class CommentVotesCollection {
 	// [DELETE] //
 	static delete() {
 		return async (req, res, next) => { 
-			const blockVotes = await loadCommentVotesCollection()
-			await blockVotes.deleteMany({
+			const commentVotes = await loadCommentVotesCollection()
+			await commentVotes.deleteMany({
 				comment_id: req.params.comment_id,
 				user_id: req.decoded._id,
 			})
@@ -40,11 +40,11 @@ class CommentVotesCollection {
 	}
 
 
-	// [DELETE] //
+	// [DELETE ALL] //
 	static deleteAll() {
 		return async (req, res, next) => { 
-			const blockVotes = await loadCommentVotesCollection()
-			await blockVotes.deleteMany({
+			const commentVotes = await loadCommentVotesCollection()
+			await commentVotes.deleteMany({
 				comment_id: req.params.comment_id,
 			})
 				.then( next() )

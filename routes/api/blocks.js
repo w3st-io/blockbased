@@ -6,7 +6,6 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
-const mongodb = require('mongodb')
 require('dotenv').config()
 
 
@@ -57,9 +56,8 @@ router.delete(
 	'/delete/:_id',
 	Auth.userTokenCheck(),
 	BlocksM.verifyOwnership(),
+	BlocksCollection.delete(),
 	async (req, res) => {
-		await BlocksCollection.delete(req)
-
 		res.status(201).send({
 			auth: true,
 			message: 'Deleted block'
@@ -74,12 +72,9 @@ router.post(
 	'/vote/:_id',
 	Auth.userTokenCheck(),
 	BlocksM.voterVerifyNonExistance(),
-	async (req, res) => {
-		await BlockVotesCollections.create(req)
-		await BlocksCollection.pushVoter(req)
-
-		res.status(201).send()
-	}
+	BlocksCollection.pushVoter(),
+	BlockVotesCollections.create(),
+	async (req, res) => { res.status(201).send() }
 )
 
 
@@ -87,12 +82,9 @@ router.post(
 router.post(
 	'/unvote/:_id',
 	Auth.userTokenCheck(),
-	async (req, res) => {
-		await BlockVotesCollections.delete(req)
-		await BlocksCollection.pullVoter(req)
-
-		res.status(201).send()
-	}
+	BlocksCollection.pullVoter(),
+	BlockVotesCollections.delete(),
+	async (req, res) => { res.status(201).send() }
 )
 
 

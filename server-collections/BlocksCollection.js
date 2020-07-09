@@ -83,7 +83,7 @@ class BlocksCollection {
 	}
 
 	// [DELETE] //
-	static async delete() {
+	static delete() {
 		return async (req, res, next) => {
 			/*const blocks = await loadBlocksCollection()
 			await blocks.deleteOne({
@@ -131,7 +131,7 @@ class BlocksCollection {
 
 
 	// Check if User Voted For This Block
-	static async checkForVote(req) {}
+	static checkForVote() { next() }
 
 
 	/******************* [VALIDATE] *******************/
