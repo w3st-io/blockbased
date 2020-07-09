@@ -18,7 +18,6 @@
 				:email="email"
 				:username="username"
 			/>
-
 		</article>
 
 		<!-- [ERROR] -->

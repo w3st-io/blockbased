@@ -27,8 +27,6 @@ class ServerCollections {
 
 	// [BLOCKS] //
 	static async loadBlocksCollection() {
-		const uri = process.env.MONGO_URI
-		const db_name = process.env.DB || 'db_name'
 		const c_name = 'blocks'
 
 		const client = await mongodb.MongoClient.connect(
@@ -45,8 +43,6 @@ class ServerCollections {
 
 	// [BLOCK-VOTES] //
 	static async loadBlockVotesCollection() {
-		const uri = process.env.MONGO_URI
-		const db_name = process.env.DB || 'db_name'
 		const c_name = 'blockVotes'
 
 		const client = await mongodb.MongoClient.connect(

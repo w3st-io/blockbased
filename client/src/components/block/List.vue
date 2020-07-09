@@ -1,7 +1,7 @@
 <template>
-	<section class="row">
-		<div v-if="!loading" class="col-12">
-			<ul class="m-0 px-0 border border-secondary">
+	<article class="row">
+		<section v-if="!loading" class="col-12">
+			<ul v-if="blocks != ''" class="m-0 px-0 border border-secondary">
 				<li
 					v-for="(block, index) in blocks"
 					:key="index"
@@ -75,10 +75,13 @@
 					</div>
 				</li>
 			</ul>
-		</div>
+
+			<!-- [DEFAULT] If No content -->
+			<no-content v-if="blocks == ''" />
+		</section>
 		
 		<!-- [LOADING + ERROR] -->
-		<div v-show="loading" class="col-12 my-3">
+		<section v-show="loading" class="col-12 my-3">
 			<div class="m-0 alert alert-primary">
 				<div class="d-flex justify-content-center">
 					<div class="spinner-grow">
@@ -86,23 +89,28 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div v-show="error" class="col-12">
+		</section>
+		<section v-show="error" class="col-12">
 			<div class="m-0 alert alert-danger">
 				CatBlockList: {{ error }}
 			</div>
-		</div>
-	</section>
+		</section>
+	</article>
 </template>
 
 <script>
 	// [IMPORT] Personal //
+	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import BlockService from '@services/BlockService'
 	import CommentService from '@services/CommentService'
 
 	// [EXPORT] //
 	export default {
+		components: {
+			NoContent,
+		},
+
 		props: {
 			cat_id: { type: String, required: true, },
 			pageIndex: { type: Number, required: true, },

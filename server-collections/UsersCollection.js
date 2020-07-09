@@ -37,7 +37,7 @@ async function loadUsersCollection() {
 
 
 class UsersCollection {
-	/******************* [CRUD] *******************/
+	/******************* [CRRUD] *******************/
 	// [READ] //
 	static read() {
 		return async (req, res, next) => {

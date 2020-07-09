@@ -18,7 +18,7 @@ const authAxios = axios.create({
 
 
 class ReportService {
-	/******************* [CRUD] *******************/
+	/******************* [CRRUD] *******************/
 	// [CREATE] Auth Required //
 	static async createReport(block_id, comment_id, reportType) {
 		let status = await authAxios.post('/create', {

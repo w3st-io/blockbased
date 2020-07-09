@@ -18,7 +18,7 @@ const authAxios = axios.create({
 
 
 class AdminstrationReportService {
-	/******************* [CRUD] *******************/
+	/******************* [CRRUD] *******************/
 	// [READ ALL] ALL - Auth Required //
 	static getAllReports() {
 		let result = new Promise ((resolve, reject) => {

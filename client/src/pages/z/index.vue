@@ -16,6 +16,10 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="bg-secondary p-5">
+			<div class="bg-warning border border-secondary">sdfsd</div>
+		</div>
 	</div>
 </template>
 

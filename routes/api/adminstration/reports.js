@@ -19,7 +19,7 @@ const Collections = require('../../../server-collections')
 const router = express.Router().use(cors())
 
 
-/******************* [CRUD] *******************/
+/******************* [CRRUD] *******************/
 // [READ ALL] Auth Required //
 router.get(
 	'/read-all',

@@ -1,7 +1,10 @@
 <template>
-	<section class="row">
-		<div v-if="!loading" class="col-12">
-			<ul class="m-0 p-0 border border-secondary">
+	<article class="row">
+		<section v-if="!loading" class="col-12">
+			<ul
+				v-if="comments != ''"
+				class="m-0 p-0 border border-bottom-0 border-secondary"
+			>
 				<li
 					v-for="comment in comments"
 					:key="comment._id"
@@ -67,17 +70,24 @@
 							<button
 								:disabled="disabled"
 								@click="voteBtn(comment)"
-								class="btn btn-outline-secondary unvoted"
-								:class="{ 'voted': checkForUserVote(comment) }"
+								class="btn"
+								:class="{
+									'btn-outline-success': checkForUserVote(comment),
+									'btn-outline-secondary': !checkForUserVote(comment)
+								}"
+								style="font-size: 1em;"
 							>{{ comment.voters.length }} ▲</button>
 						</div>
 					</div>
 				</li>
 			</ul>
-		</div>
+
+			<!-- [DEFAULT] If No content -->
+			<no-content v-if="comments == ''" />
+		</section>
 		
 		<!-- [LOADING + ERROR] -->
-		<div class="col-12">
+		<section class="col-12">
 			<div v-if="loading" class="my-3 alert alert-primary">
 				<div class="d-flex justify-content-center">
 					<div class="spinner-grow">
@@ -85,13 +95,14 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</article>
 </template>
 
 <script>
 	// [IMPORT] Personal //
 	import dropDownMenuBtn from '@components/controls/dropDownMenuBtn'
+	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import CommentService from '@services/CommentService'
 	import ReportService from '@services/ReportService'
@@ -102,6 +113,7 @@
 	export default {
 		components: {
 			dropDownMenuBtn,
+			NoContent,
 		},
 		
 		props: {
@@ -324,15 +336,6 @@
 
 	// Make Comments Wordwrapped
 	.multiline { white-space: pre-wrap; }
-
-	.unvoted {
-		font-size: 1em;
-		color: white;
-
-		&:hover { color: $like; }
-	}
-
-	.voted { color: $like; }
 
 	// Profile Image Holder // Profile Image //
 	.pro-img-holder {

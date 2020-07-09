@@ -1,15 +1,16 @@
 // [IMPORT] Personal //
 @import './sass-variables.scss';
 
-* { border-radius: 0 !important; }
+
 
 body {
 	opacity: 1;
-	background: #343a40;
+	background: #4d31ce;
+	background: #a8a8a8;
+	background-size: 24px 24px,24px 24px;
 	background-image:
-		linear-gradient(#42484e 4px, transparent 0),
-		linear-gradient(90deg,#42484e 4px, transparent 0);
-	background-size: 8px 8px,8px 8px;
+		linear-gradient(#42484e 22px, transparent 0),
+		linear-gradient(90deg,#42484e 22px, transparent 0);
 }
 
 

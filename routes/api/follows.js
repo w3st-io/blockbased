@@ -20,7 +20,7 @@ const FollowsMiddleware = require('../../server-middleware/FollowsMiddleware')
 const router = express.Router().use(cors())
 
 
-/******************* [CRUD] *******************/
+/******************* [CRRUD] *******************/
 // [CREATE] Auth Required //
 router.post(
 	'/create',

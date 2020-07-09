@@ -20,7 +20,7 @@ const BlockVotesCollections = require('../../server-collections/BlockVotesCollec
 const router = express.Router().use(cors())
 
 
-/******************* [CRUD] *******************/
+/******************* [CRRUD] *******************/
 // [CREATE] Auth Required //
 router.post(
 	'/create',

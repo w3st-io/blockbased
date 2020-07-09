@@ -18,7 +18,7 @@ const authAxios = axios.create({
 
 
 class FollowsService {
-	/******************* [CRUD] *******************/
+	/******************* [CRRUD] *******************/
 	// [CREATE] Auth Required //
 	static async createFollow(block_id) {
 		// Add the voter from the Block Object

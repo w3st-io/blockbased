@@ -27,7 +27,7 @@ async function loadCommentVotesCollection() {
 
 
 class CommentVotesCollection {
-	/******************* [CRUD] *******************/
+	/******************* [CRRUD] *******************/
 	// [CREATE] //
 	static create() {
 		return async (req, res, next) => { 

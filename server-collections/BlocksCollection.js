@@ -27,7 +27,7 @@ async function loadBlocksCollection() {
 
 
 class BlocksCollection {
-	/******************* [CRUD] *******************/
+	/******************* [CRRUD] *******************/
 	// [CREATE] //
 	static create() {
 		return async (req, res, next) => {

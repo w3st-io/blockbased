@@ -20,7 +20,7 @@ const ReportsMiddleware = require('../../server-middleware/ReportsMiddleware')
 const router = express.Router().use(cors())
 
 
-/******************* [CRUD] *******************/
+/******************* [CRRUD] *******************/
 // [CREATE] Auth Required //
 router.post(
 	'/create',

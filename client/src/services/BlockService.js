@@ -18,7 +18,7 @@ const authAxios = axios.create({
 
 
 class BlockService {
-	/******************* [CRUD] *******************/
+	/******************* [CRRUD] *******************/
 	// [CREATE] Auth Required //
 	static async createBlock(title, cat_id) {
 		let status = await authAxios.post('/create', { title, cat_id })
