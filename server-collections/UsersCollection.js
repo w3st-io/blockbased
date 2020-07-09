@@ -4,8 +4,18 @@
  * %%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 const mongodb = require('mongodb')
 require('dotenv').config()
+
+
+// [REQUIRE] Personal //
+const UserModel = require('../models/UserModel')
+
+
+// [INIT] //
+const secretKey = process.env.SECRET_KEY || 'secret'
 
 
 // [LOAD COLLECTION] users //
@@ -107,7 +117,74 @@ class UsersCollection {
 	}
 
 
-	/******************* [VALIDATE] *******************/
+	/******************* [USER LOGIN/REGISTER] *******************/
+	static login() {
+		return async (req, res, next) => {
+			const users = await loadUsersCollection()
+
+			try {
+				const accountFound = await users.findOne({ email: req.body.email })
+				
+				// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
+				if (accountFound) {
+					if (bcrypt.compareSync(req.body.password, accountFound.password)) {
+						const payload = {
+							_id: accountFound._id,
+							email: accountFound.email,
+							username: accountFound.username,
+							first_name: accountFound.first_name,
+							last_name: accountFound.last_name,
+						}
+	
+						// Set Token //
+						//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
+						let token = jwt.sign(payload, secretKey, {})
+	
+						res.status(201).json({ status: 'success', token: token }).send()
+					}
+					else { res.json({ status: 'incorrect_password' }).send() }
+				}
+				else { res.json({ status: 'incorrect_email' }).send() }
+			}
+			catch (err) { res.send(err) }
+		}
+	}
+
+
+	static register() {
+		return async (req, res, next) => {
+			const users = await loadUsersCollection()
+			const formData = new UserModel(req.body)
+			
+			try {
+				const accountFound = await users.findOne({
+					email: formData.email
+				})
+				const usernameFound = await users.findOne({
+					username: formData.username
+				})
+
+				if (!accountFound) {
+					if (!usernameFound) {
+						// Hash Data //
+						bcrypt.hash(formData.password, 10, (err, hash) => {
+							formData.password = hash
+							
+							try {
+								users.insertOne(formData)
+								res.json({ status: 'success' }).send()
+							}
+							catch(err) { res.send('error:', err) }
+						})
+					}
+					else { res.json({ status: 'username_taken' }).send() }
+				}
+				else { res.json({ status: 'email_taken' }).send() }
+			}
+			catch(err) { res.send(err) }
+		}
+	}
+
 	/******************* [COUNT] *******************/
 }
 
