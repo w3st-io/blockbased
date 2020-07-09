@@ -8,50 +8,7 @@ const mongodb = require('mongodb')
 require('dotenv').config()
 
 
-class BlockVotesCollection {
-	/******************* [CRUD] *******************/
-	// [CREATE] //
-	static create() {
-		return async (req, res, next) => { 
-			const blockVotes = await loadBlockVotesCollection()
-			await blockVotes.insertOne({
-				createdAt: new Date(),
-				block_id: req.body.block_id,
-				user_id: req.decoded._id,
-				email: req.decoded.email,
-				username: req.decoded.username,
-			})
-			.then( next() )
-		}
-	}
-
-
-	// [DELETE] //
-	static async delete() {
-		return async (req, res, next) => { 
-			const blockVotes = await loadBlockVotesCollection()
-			await blockVotes.deleteMany({
-				block_id: req.params.block_id,
-				user_id: req.decoded._id,
-			})
-				.then( next() )
-		}
-	}
-
-
-	// [DELETE ALL] //
-	static deleteAll() {
-		return async (req, res, next) => { 
-			const blockVotes = await loadBlockVotesCollection()
-			await blockVotes.deleteMany({
-				block_id: req.params.block_id,
-			})
-				.then( next() )
-		}
-	}
-}
-	
-// [BLOCK-VOTES] //
+// [LOAD COLLECTION] blockVotes //
 async function loadBlockVotesCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'
@@ -66,6 +23,77 @@ async function loadBlockVotesCollection() {
 	)
 
 	return client.db(db_name).collection(c_name)
+}
+
+
+class BlockVotesCollection {
+	/******************* [CRUD] *******************/
+	// [CREATE] //
+	static create() {
+		return async (req, res, next) => {
+			try {
+				const blockVotes = await loadBlockVotesCollection()
+				await blockVotes.insertOne({
+					createdAt: new Date(),
+					block_id: req.body.block_id,
+					user_id: req.decoded._id,
+					email: req.decoded.email,
+					username: req.decoded.username,
+				})
+				
+				next()
+			}
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `${e}`,
+				})
+			}
+
+		}
+	}
+
+
+	// [DELETE] //
+	static delete() {
+		return async (req, res, next) => {
+			try {
+				const blockVotes = await loadBlockVotesCollection()
+				await blockVotes.deleteMany({
+					block_id: req.params.block_id,
+					user_id: req.decoded._id,
+				})
+				next()
+			}
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `${e}`,
+				})
+			}
+		}
+	}
+
+
+	// [DELETE ALL] //
+	static deleteAll() {
+		return async (req, res, next) => { 
+			try {
+				const blockVotes = await loadBlockVotesCollection()
+				await blockVotes.deleteMany({
+					block_id: req.params.block_id,
+				})
+
+				next()
+			}
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `${e}`,
+				})
+			}
+		}
+	}
 }
 
 

@@ -8,6 +8,24 @@ const mongodb = require('mongodb')
 require('dotenv').config()
 
 
+// [LOAD COLLECTION] comments //
+async function loadCommentsCollection() {
+	const uri = process.env.MONGO_URI
+	const db_name = process.env.DB || 'db_name'
+	const c_name = 'comments'
+
+	const client = await mongodb.MongoClient.connect(
+		uri,
+		{
+			useNewUrlParser: true,
+			useUnifiedTopology: true
+		}
+	)
+
+	return client.db(db_name).collection(c_name)
+}
+
+
 class CommentsCollection {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
@@ -142,7 +160,7 @@ class CommentsCollection {
 	}
 
 
-	/******************* [VOTE SYSTEM] *******************/
+	/******************* [COUNT] *******************/
 	static count() {
 		return async (req, res, next) => {
 			const comments = await loadCommentsCollection()
@@ -156,24 +174,6 @@ class CommentsCollection {
 			next()
 		}
 	}
-}
-
-
-// [COMMENTS] //
-async function loadCommentsCollection() {
-	const uri = process.env.MONGO_URI
-	const db_name = process.env.DB || 'db_name'
-	const c_name = 'comments'
-
-	const client = await mongodb.MongoClient.connect(
-		uri,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		}
-	)
-
-	return client.db(db_name).collection(c_name)
 }
 
 

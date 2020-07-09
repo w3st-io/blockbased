@@ -25,6 +25,42 @@ class ServerCollections {
 	}
 
 
+	// [BLOCKS] //
+	static async loadBlocksCollection() {
+		const uri = process.env.MONGO_URI
+		const db_name = process.env.DB || 'db_name'
+		const c_name = 'blocks'
+
+		const client = await mongodb.MongoClient.connect(
+			uri,
+			{
+				useNewUrlParser: true,
+				useUnifiedTopology: true
+			}
+		)
+
+		return client.db(db_name).collection(c_name)
+	}
+
+
+	// [BLOCK-VOTES] //
+	static async loadBlockVotesCollection() {
+		const uri = process.env.MONGO_URI
+		const db_name = process.env.DB || 'db_name'
+		const c_name = 'blockVotes'
+
+		const client = await mongodb.MongoClient.connect(
+			uri,
+			{
+				useNewUrlParser: true,
+				useUnifiedTopology: true
+			}
+		)
+
+		return client.db(db_name).collection(c_name)
+	}
+
+
 	// [CATS] //
 	static async loadCatsCollection() {
 		const c_name = 'cats'

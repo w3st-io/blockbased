@@ -11,7 +11,7 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
-const BlocksM = require('../../server-middleware/BlocksMiddleware')
+const BlocksMiddleware = require('../../server-middleware/BlocksMiddleware')
 const BlocksCollection = require('../../server-collections/BlocksCollection')
 const BlockVotesCollections = require('../../server-collections/BlockVotesCollection')
 
@@ -29,7 +29,7 @@ router.post(
 	async (req, res) => {
 		res.status(201).send({
 			auth: true,
-			message: 'Created block'
+			message: 'Created block.'
 		})
 	}
 )
@@ -45,7 +45,7 @@ router.get(
 
 // [READ] Single Block //
 router.get(
-	'/read/:block_id',
+	'/read/:_id',
 	BlocksCollection.read(),
 	async (req, res) => { res.send(req.retrievedData) }
 )
@@ -55,12 +55,12 @@ router.get(
 router.delete(
 	'/delete/:_id',
 	Auth.userTokenCheck(),
-	BlocksM.verifyOwnership(),
+	BlocksMiddleware.verifyOwnership(),
 	BlocksCollection.delete(),
 	async (req, res) => {
 		res.status(201).send({
 			auth: true,
-			message: 'Deleted block'
+			message: 'Deleted block.'
 		})
 	}
 )
@@ -71,7 +71,7 @@ router.delete(
 router.post(
 	'/vote/:_id',
 	Auth.userTokenCheck(),
-	BlocksM.voterVerifyNonExistance(),
+	BlocksMiddleware.voterVerifyNonExistance(),
 	BlocksCollection.pushVoter(),
 	BlockVotesCollections.create(),
 	async (req, res) => { res.status(201).send() }
@@ -92,16 +92,14 @@ router.post(
 router.get(
 	'/validate/:_id',
 	BlocksCollection.validate(),
-	async (req, res) => { res.status(201).send(true) }
 )
 
 
 // Check Block Ownership (Should be Used only on the client //
 router.get(
 	'/verify-ownership/:_id',
-	BlocksM.verifyOwnership(),
+	Auth.userTokenCheck(),
 	BlocksCollection.verifyOwnership(),
-	async (req, res) => { res.status(201).send(existance) }
 )
 
 
@@ -109,7 +107,6 @@ router.get(
 router.get(
 	'/count/:cat_id',
 	BlocksCollection.count(),
-	async (req, res) => { res.status(201).send(req.count.toString()) }
 )
 
 
