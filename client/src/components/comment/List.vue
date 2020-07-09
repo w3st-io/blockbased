@@ -47,7 +47,7 @@
 
 							<!-- Time Stamp -->
 							<span class="ml-3">
-								{{ comment.createdAt }}
+								{{ comment.createdAt }} - {{ comment._id }}
 							</span>
 						</div>
 
@@ -291,10 +291,13 @@
 
 			/******************* [ROUTER + LOG] *******************/
 			redirectToEdit(comment_id) {
-				router.push({
-					name: 'CommentEdit',
-					params: { comment_id: comment_id, }
-				})
+				if (!this.disabled) {
+					// [REDIRECT] //
+					router.push({
+						name: 'CommentEdit',
+						params: { comment_id: comment_id, }
+					})
+				}
 			},
 
 			log() {

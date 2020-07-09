@@ -35,7 +35,7 @@ class BlockVotesCollection {
 				const blockVotes = await loadBlockVotesCollection()
 				await blockVotes.insertOne({
 					createdAt: new Date(),
-					block_id: req.body.block_id,
+					block_id: req.params._id,
 					user_id: req.decoded._id,
 					email: req.decoded.email,
 					username: req.decoded.username,
@@ -60,7 +60,7 @@ class BlockVotesCollection {
 			try {
 				const blockVotes = await loadBlockVotesCollection()
 				await blockVotes.deleteMany({
-					block_id: req.params.block_id,
+					block_id: req.params._id,
 					user_id: req.decoded._id,
 				})
 				next()
