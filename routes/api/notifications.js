@@ -10,7 +10,6 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const Collections = require('../../server-collections')
 const Auth = require('../../server-middleware/AuthMiddleware')
 
 

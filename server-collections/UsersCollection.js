@@ -117,7 +117,7 @@ class UsersCollection {
 	}
 
 
-	/******************* [USER LOGIN/REGISTER] *******************/
+	/******************* [LOGIN/REGISTER] *******************/
 	static login() {
 		return async (req, res, next) => {
 			const users = await loadUsersCollection()
@@ -157,15 +157,15 @@ class UsersCollection {
 			const formData = new UserModel(req.body)
 			
 			try {
-				const accountFound = await users.findOne({
+				const emailFound = await users.findOne({
 					email: formData.email
 				})
 				const usernameFound = await users.findOne({
 					username: formData.username
 				})
 
-				if (!accountFound) {
-					if (!usernameFound) {
+				if (!usernameFound) {
+					if (!emailFound) {
 						// Hash Data //
 						bcrypt.hash(formData.password, 10, (err, hash) => {
 							formData.password = hash
@@ -177,9 +177,9 @@ class UsersCollection {
 							catch(err) { res.send('error:', err) }
 						})
 					}
-					else { res.json({ status: 'username_taken' }).send() }
+					else { res.json({ status: 'email_taken' }).send() }
 				}
-				else { res.json({ status: 'email_taken' }).send() }
+				else { res.json({ status: 'username_taken' }).send() }
 			}
 			catch(err) { res.send(err) }
 		}
