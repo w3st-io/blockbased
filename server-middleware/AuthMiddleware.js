@@ -28,21 +28,23 @@ class AuthMiddleware {
 				jwt.verify(TokenBody, secretKey, (err, decoded) => {
 					if (decoded) {
 						req.decoded = decoded
+
 						next()
 					}
 					else {
 						console.log(`JWT Error: ${err}`)
-						return res.status(401).send({
+
+						res.status(401).send({
 							auth: false,
-							error: 'Access Denied, Token Invalid'
+							error: 'Access Denied, Token Invalid.'
 						})
 					}
 				})
 			}
 			else {
-				return res.status(401).send({
+				res.status(401).send({
 					auth: false,
-					error: 'Access Denied, No Token Passed'
+					error: 'Access Denied, No Token Passed.'
 				})
 			}
 		}
@@ -63,7 +65,7 @@ class AuthMiddleware {
 						// Check if the role is admin
 						if (decoded.role == 'admin') { next() }
 						else {
-							return res.status(401).send({
+							res.status(401).send({
 								auth: false,
 								error: 'Access Denied, Admin Token Needed'
 							})
@@ -72,28 +74,18 @@ class AuthMiddleware {
 					// [ERR] //
 					else {
 						console.log(`Admin JWT Error: ${err}`)
-						return res.status(401).send({
+
+						res.status(401).send({
+							auth: false,
 							error: 'Access Denied, Invalid Token'
 						})
 					}
 				})
 			}
 			else {
-				return res.status(401).send({
-					auth: false,
-					error: 'Access Denied, No Token Passed'
-				})
-			}
-		}
-	}
-
-	static bodyIdVsDecodedId() {
-		return (req, res, next) => {
-			if (req.body.user_id == req.decoded._id) { next() }
-			else {
 				res.status(401).send({
 					auth: false,
-					error: 'body.user_id Does not match decoded._id'
+					error: 'Access Denied, No Token Passed'
 				})
 			}
 		}

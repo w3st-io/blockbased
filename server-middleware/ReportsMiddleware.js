@@ -4,7 +4,7 @@
  * %%%%%%%%%%%%%%%%%%%%%%%%% *
  */
 // [REQUIRE] //
-require('dotenv').config()
+const mongodb = require('mongodb')
 
 
 // [REQUIRE] Personal //
@@ -15,20 +15,37 @@ class ReportsMiddleware {
 	// Verify that User is not Double Inserting //
 	static verifyNonExistance() {
 		return async (req, res, next) => {
-			const reports = await Collections.loadReportsCollection()
-			let returnedData = await reports.findOne({	
-				comment_id: req.body.comment_id,
-				user_id: req.decoded._id,
-			})
+			const validId = mongodb.ObjectID.isValid(req.body.comment_id)
 
-			if (returnedData) {
-				console.log('error')
-				return res.status(401).send({
-					auth: false,
-					error: 'You have already reported this comment.'
+			if (validId) {
+				try {
+					const reports = await Collections.loadReportsCollection()
+					const returnedData = await reports.findOne({	
+						comment_id: req.body.comment_id,
+						user_id: req.decoded._id,
+					})
+
+					if (returnedData) {
+						return res.status(400).send({
+							auth: true,
+							error: 'You have already reported this comment.'
+						})
+					}
+					else { next() }
+				}
+				catch(e) {
+					res.status(400).send({
+						auth: true,
+						message: `Caught Error: ${e}`,
+					})
+				}
+			}
+			else {
+				res.status(400).send({
+					auth: true,
+					message: 'Invalid Block Id.'
 				})
 			}
-			else { next() }
 		}
 	}
 }
