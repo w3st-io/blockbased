@@ -16,7 +16,6 @@ const blocks = require('./routes/api/blocks')
 const comments = require('./routes/api/comments')
 const follows = require('./routes/api/follows')
 const notifications = require('./routes/api/notifications')
-const reports = require('./routes/api/reports')
 const users = require('./routes/api/users')
 
 
@@ -43,7 +42,6 @@ app.use('/api/blocks', blocks)
 app.use('/api/comments', comments)
 app.use('/api/follows', follows)
 app.use('/api/notifications', notifications)
-app.use('/api/reports', reports),
 app.use('/api/users', users)
 
 

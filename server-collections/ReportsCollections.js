@@ -31,12 +31,14 @@ class ReportsCollection {
 	// [CREATE] //
 	static create() {
 		return async (req, res, next) => {
+			const comment_id = req.params._id
+
 			try {
 				const reports = await loadReportsCollection()
 				await reports.insertOne({
 					createdAt: new Date(),
 					block_id: req.body.block_id,
-					comment_id: req.body.comment_id,
+					comment_id: comment_id,
 					type: req.body.reportType,
 					user_id: req.decoded._id,
 					email: req.decoded.email,
@@ -51,7 +53,6 @@ class ReportsCollection {
 					message: `Caught Error: ${e}`,
 				})
 			}
-
 		}
 	}
 
@@ -124,6 +125,57 @@ class ReportsCollection {
 				res.status(400).send({
 					auth: true,
 					message: `Caught Error: ${e}`,
+				})
+			}
+		}
+	}
+
+	/******************* [EXISTANCE] *******************/
+	// Verify that User is not Double Inserting //
+	static existance(existanceState) {
+		return async (req, res, next) => {
+			const validId = mongodb.ObjectID.isValid(req.params._id)
+
+			if (validId) {
+				try {
+					const reports = await loadReportsCollection()
+					const returnedData = await reports.findOne({	
+						comment_id: req.params._id,
+						user_id: req.decoded._id,
+					})
+
+					// Report Does Exist //
+					if (existanceState == true) {
+						if (returnedData) { next() }
+						else {
+							res.status(400).send({
+								auth: true,
+								error: 'You have already reported this comment.'
+							})
+						}
+					}
+					// Report Does Not Exist //
+					if (existanceState == false) {
+						if (!returnedData) { next() }
+						else {
+							res.status(400).send({
+								auth: true,
+								error: 'Report does not exist.'
+							})
+						}
+					}
+				}
+				catch(e) {
+					res.status(400).send({
+						auth: true,
+						message: `Caught Error: ${e}`,
+					})
+				}
+			}
+			else {
+				res.status(400).send({
+					auth: true,
+					message: 'Invalid Block ID.'
 				})
 			}
 		}

@@ -14,6 +14,7 @@ const Auth = require('../../server-middleware/AuthMiddleware')
 const CommentsCollection = require('../../server-collections/CommentsCollection')
 const CommentsMiddleware = require('../../server-middleware/CommentsMiddleware')
 const CommentVotesCollection = require('../../server-collections/CommentVotesCollection')
+const ReportsCollection = require('../../server-collections/ReportsCollections')
 
 
 // [EXPRESS + USE] //
@@ -104,7 +105,16 @@ router.post(
 )
 
 
-/******************* [VALIDATE] *******************/
+/******************* [REPORTS] *******************/
+router.post(
+	'/report/:_id',
+	Auth.userTokenCheck(),
+	ReportsCollection.existance(false),
+	ReportsCollection.create(),
+	async (req, res) => { res.status(201).send() }
+)
+
+/******************* [EXISTANCE] *******************/
 // WIP
 
 

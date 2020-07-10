@@ -18,7 +18,7 @@ const authAxios = axios.create({
 
 
 class CommentService {
-	/******************* [COMMENT] *******************/
+	/******************* [CRRUD] *******************/
 	// [CREATE] Auth Required //
 	static createComment(block_id, comment) {
 		let status = authAxios.post(`/create`, { block_id, comment })
@@ -96,6 +96,17 @@ class CommentService {
 		console.log('unvote called', comment_id)
 		// Remove the voter from the Block Object
 		let status = await authAxios.post(`/unvote/${comment_id}`)
+
+		return status
+	}
+
+
+	/******************* [REPORT] *******************/
+	static async report(block_id, comment_id, reportType) {
+		let status = await authAxios.post(
+			`/report/${comment_id}`,
+			{ block_id, reportType }
+		)
 
 		return status
 	}

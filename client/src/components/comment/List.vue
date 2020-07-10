@@ -105,7 +105,6 @@
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import CommentService from '@services/CommentService'
-	import ReportService from '@services/ReportService'
 	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
 	
@@ -282,23 +281,23 @@
 
 			/******************* [REPORT] *******************/
 			reportInnapropiate(comment_id) {
-				ReportService.createReport(this.block_id, comment_id,'Innapropiate')
+				CommentService.report(this.block_id, comment_id,'Innapropiate')
 			},
 
 			reportOffensive(comment_id) {
-				ReportService.createReport(this.block_id, comment_id,'Offensive')
+				CommentService.report(this.block_id, comment_id,'Offensive')
 			},
 
 			reportScam(comment_id) {
-				ReportService.createReport(this.block_id, comment_id,'Scam')
+				CommentService.report(this.block_id, comment_id,'Scam')
 			},
 
 			reportBot(comment_id) {
-				ReportService.createReport(this.block_id, comment_id,'Bot')
+				CommentService.report(this.block_id, comment_id,'Bot')
 			},
 
 			reportOther(comment_id) {
-				ReportService.createReport(this.block_id, comment_id,'Other')
+				CommentService.report(this.block_id, comment_id,'Other')
 			},
 
 			/******************* [ROUTER + LOG] *******************/
