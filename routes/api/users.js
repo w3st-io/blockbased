@@ -44,18 +44,22 @@ router.post(
 )
 
 
-/******************* [USER LOGIN/REGISTER] *******************/
+/******************* [LOGIN/REGISTER] *******************/
 // [LOGIN] //
 router.post(
 	'/login',
 	UsersCollection.login(),
+	async (req, res) => {
+		res.json({ status: 'success', token: res.token }).status(200).send()
+	}
 )
 
 
 // [REGISTER] //
 router.post(
 	'/register',
-	UsersCollection.register()
+	UsersCollection.register(),
+	async (req, res) => { res.json({ status: 'success' }).status(201).send() }
 )
 
 

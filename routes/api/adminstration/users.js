@@ -7,7 +7,6 @@
 const cors = require('cors')
 const express = require('express')
 const mongodb = require('mongodb')
-require('dotenv').config()
 
 
 // [REQUIRE] Personal //

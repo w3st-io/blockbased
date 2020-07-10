@@ -55,15 +55,20 @@ class BlocksCollection {
 	
 						// Set Token //
 						//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
-						let token = jwt.sign(payload, secretKey, {})
+						res.token = jwt.sign(payload, secretKey, {})
 	
-						res.status(201).json({ status: 'success', token: token }).send()
+						next()
 					}
-					else { res.json({ status: 'incorrect_password' }).send() }
+					else { res.json({ status: 'incorrect_password' }).status(400).send() }
 				}
-				else { res.json({ status: 'incorrect_email' }).send() }
+				else { res.json({ status: 'incorrect_email' }).status(400).send() }
 			}
-			catch (err) { res.send(err) }
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `Caught Error: ${e}`,
+				})
+			}
 		}
 	}
 
@@ -99,16 +104,22 @@ class BlocksCollection {
 							
 							try {
 								admins.insertOne(formData)
-								res.json({ status: 'success' }).send()
+								
+								next()
 							}
-							catch(err) { res.send('error:', err) }
+							catch(err) { res.status(400).send('error:', err) }
 						})
 					}
-					else { res.json({ status: 'email_taken' }).send() }
+					else { res.json({ status: 'email_taken' }).status(400).send() }
 				}
-				else { res.json({ status: 'username_taken' }).send() }
+				else { res.json({ status: 'username_taken' }).status(400).send() }
 			}
-			catch(err) { res.send(err) }
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `Caught Error: ${e}`,
+				})
+			}
 		}
 	}
 }

@@ -67,22 +67,32 @@ class UsersCollection {
 	// [READ] Profile Image //
 	static readProfilePic() {
 		return async (req, res, next) => {
-			try {
-				const users = await loadUsersCollection()
-				const retrievedData = await users.findOne(
-					{ _id: new mongodb.ObjectID(req.params._id) },
-					{ projection: { profilePicURL: 1 } }
-				)
+			const validId = mongodb.ObjectID.isValid(req.params._id)
 
-				if (retrievedData) { req.retrievedData = retrievedData }
-				else { req.retrievedData = '' }
+			if (validId) {
+				try {
+					const users = await loadUsersCollection()
+					const retrievedData = await users.findOne(
+						{ _id: new mongodb.ObjectID(req.params._id) },
+						{ projection: { profilePicURL: 1 } }
+					)
 
-				next()
+					if (retrievedData) { req.retrievedData = retrievedData }
+					else { req.retrievedData = '' }
+
+					next()
+				}
+				catch(e) {
+					res.status(400).send({
+						auth: true,
+						message: `Caught Error: ${e}`,
+					})
+				}
 			}
-			catch(e) {
+			else {
 				res.status(400).send({
 					auth: true,
-					message: `Caught Error: ${e}`,
+					message: 'Invalid Block Id.'
 				})
 			}
 		}
@@ -138,15 +148,20 @@ class UsersCollection {
 	
 						// Set Token //
 						//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
-						let token = jwt.sign(payload, secretKey, {})
+						res.token = jwt.sign(payload, secretKey, {})
 	
-						res.status(201).json({ status: 'success', token: token }).send()
+						next()
 					}
-					else { res.json({ status: 'incorrect_password' }).send() }
+					else { res.json({ status: 'incorrect_password' }).status(400).send() }
 				}
-				else { res.json({ status: 'incorrect_email' }).send() }
+				else { res.json({ status: 'incorrect_email' }).status(400).send() }
 			}
-			catch (err) { res.send(err) }
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `Caught Error: ${e}`,
+				})
+			}
 		}
 	}
 
@@ -172,16 +187,22 @@ class UsersCollection {
 							
 							try {
 								users.insertOne(formData)
-								res.json({ status: 'success' }).send()
+								
+								next()
 							}
 							catch(err) { res.send('error:', err) }
 						})
 					}
-					else { res.json({ status: 'email_taken' }).send() }
+					else { res.json({ status: 'email_taken' }).status(400).send() }
 				}
-				else { res.json({ status: 'username_taken' }).send() }
+				else { res.json({ status: 'username_taken' }).status(400).send() }
 			}
-			catch(err) { res.send(err) }
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `Caught Error: ${e}`,
+				})
+			}
 		}
 	}
 

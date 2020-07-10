@@ -6,7 +6,6 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
-require('dotenv').config()
 
 // [REQUIRE] Personal //
 const AdminsCollection = require('../../server-collections/AdminsCollection')
@@ -16,11 +15,15 @@ const AdminsCollection = require('../../server-collections/AdminsCollection')
 const router = express.Router().use(cors())
 
 
-/******************* [ACCOUNT] *******************/
+/******************* [LOGIN/REGISTER] *******************/
 // [LOGIN] //
 router.post(
 	'/login',
 	AdminsCollection.login(),
+	async (req, res) => {
+		res.json({ status: 'success', token: res.token }).status(201).send()
+	}
+	
 )
 
 
@@ -28,6 +31,7 @@ router.post(
 router.post(
 	'/register',
 	AdminsCollection.register(),
+	async (req, res) => { res.json({ status: 'success' }).status(201).send() }
 )
 
 
