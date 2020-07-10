@@ -38,16 +38,72 @@ async function loadUsersCollection() {
 
 class UsersCollection {
 	/******************* [CRRUD] *******************/
+	// [READ-ALL] //
+	static readAll() {
+		return async (req, res, next) => {
+			try {
+				const users = await loadUsersCollection()
+				const retrievedData = await users.find().toArray()
+
+				if (retrievedData) { req.retrievedData = retrievedData }
+				else { req.retrievedData = '' }
+
+				next()
+			}
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `Caught Error: ${e}`,
+				})
+			}
+		}
+	}
+
+	
 	// [READ] //
 	static read() {
+		return async (req, res, next) => {
+			const validId = mongodb.ObjectID.isValid(req.params._id)
+
+			if (validId) {
+				try {
+					const users = await loadUsersCollection()
+					const retrievedData = await users.findOne(
+						{ _id: new mongodb.ObjectID(req.params._id) }
+					)
+
+					if (retrievedData) { req.retrievedData = retrievedData }
+					else { req.retrievedData = '' }
+
+					next()
+				}
+				catch(e) {
+					res.status(400).send({
+						auth: true,
+						message: `Caught Error: ${e}`,
+					})
+				}
+			}
+			else {
+				res.status(400).send({
+					auth: true,
+					message: 'Invalid ID.'
+				})
+			}
+		}
+	}
+
+
+	// [READ] Decoded //
+	static readDecoded() {
 		return async (req, res, next) => {
 			const user_id = req.decoded._id
 			
 			try {
 				const users = await loadUsersCollection()
-				const retrievedData = await users.findOne({
-					_id: new mongodb.ObjectID(user_id)
-				})
+				const retrievedData = await users.findOne(
+					{ _id: new mongodb.ObjectID(user_id) }
+				)
 
 				if (retrievedData) { req.retrievedData = retrievedData }
 				else { req.retrievedData = '' }
@@ -92,26 +148,52 @@ class UsersCollection {
 			else {
 				res.status(400).send({
 					auth: true,
-					message: 'Invalid Block Id.'
+					message: 'Invalid ID.'
+				})
+			}
+		}
+	}
+
+	// [UPDATE] Profile Picture //
+	static update() {
+		return async (req, res, next) => {
+			const validId = mongodb.ObjectID.isValid(req.params._id)
+			if (validId) {
+				try {
+					const users = await loadUsersCollection()
+					await users.findOneAndUpdate(
+						{ _id: new mongodb.ObjectID(req.params._id) },
+						{ $set: { profilePicURL: req.body.img_url, } },
+						{ upsert: true }
+					)
+
+					next()
+				}
+				catch(e) {
+					res.status(400).send({
+						auth: true,
+						message: `Caught Error: ${e}`,
+					})
+				}
+			}
+			else {
+				res.status(400).send({
+					auth: true,
+					message: 'Invalid ID.'
 				})
 			}
 		}
 	}
 
 
-	// [UPDATE] //
-	static update() {
+	// [UPDATE] Decoded - Profile Picture //
+	static updateDecoded() {
 		return async (req, res, next) => {
 			try {
 				const users = await loadUsersCollection()
 				await users.findOneAndUpdate(
 					{ _id: new mongodb.ObjectID(req.decoded._id) },
-					{
-						$set: {
-							profilePicURL: req.body.img_url,
-							
-						}
-					},
+					{ $set: { profilePicURL: req.body.img_url, } },
 					{ upsert: true }
 				)
 

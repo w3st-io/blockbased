@@ -74,11 +74,7 @@ router.post(
 		const blocks = await Collections.loadBlocksCollection()
 		await blocks.updateOne(
 			{ _id: new mongodb.ObjectID(req.params._id) },
-			{ $push: { 
-				followers: {
-					user_id: req.decoded._id,
-				}
-			} },
+			{ $push: { followers: { user_id: req.decoded._id, } } },
 			{ upsert: true }
 		)
 

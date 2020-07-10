@@ -7,6 +7,7 @@
 const cors = require('cors')
 const express = require('express')
 
+
 // [REQUIRE] Personal //
 const AdminsCollection = require('../../server-collections/AdminsCollection')
 

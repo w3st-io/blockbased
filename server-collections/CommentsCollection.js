@@ -117,7 +117,7 @@ class CommentsCollection {
 			else {
 				res.status(400).send({
 					auth: true,
-					message: 'Invalid Block Id.'
+					message: 'Invalid Block ID.'
 				})
 			}
 		}

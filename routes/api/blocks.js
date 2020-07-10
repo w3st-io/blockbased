@@ -58,7 +58,7 @@ router.delete(
 	BlocksMiddleware.verifyOwnership(),
 	BlocksCollection.delete(),
 	async (req, res) => {
-		res.status(201).send({
+		res.status(200).send({
 			auth: true,
 			message: 'Deleted block.'
 		})

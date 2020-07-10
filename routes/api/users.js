@@ -22,7 +22,7 @@ const router = express.Router().use(cors())
 router.get(
 	'/read',
 	Auth.userTokenCheck(),
-	UsersCollection.read(),
+	UsersCollection.readDecoded(),
 	async (req, res) => { res.status(200).send(req.retrievedData) }
 )
 
@@ -39,7 +39,7 @@ router.get(
 router.post(
 	'/update',
 	Auth.userTokenCheck(),
-	UsersCollection.update(),
+	UsersCollection.updateDecoded(),
 	async (req, res) => { res.status(201).send() }
 )
 

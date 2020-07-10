@@ -10,10 +10,10 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const CommentsCollection = require('../../server-collections/CommentsCollection')
-const CommentVotesCollection = require('../../server-collections/CommentVotesCollection')
 const Auth = require('../../server-middleware/AuthMiddleware')
+const CommentsCollection = require('../../server-collections/CommentsCollection')
 const CommentsMiddleware = require('../../server-middleware/CommentsMiddleware')
+const CommentVotesCollection = require('../../server-collections/CommentVotesCollection')
 
 
 // [EXPRESS + USE] //

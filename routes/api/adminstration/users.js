@@ -6,12 +6,11 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
-const mongodb = require('mongodb')
 
 
 // [REQUIRE] Personal //
 const Auth = require('../../../server-middleware/AuthMiddleware')
-const Collections = require('../../../server-collections')
+const UsersCollection = require('../../../server-collections/UsersCollection')
 
 
 // [EXPRESS + USE] //
@@ -23,13 +22,8 @@ const router = express.Router().use(cors())
 router.get(
 	'/read-all/profile-data',
 	Auth.adminCheck(),
-	async (req, res) => {
-		const users = await Collections.loadUsersCollection()
-		let retrievedData = await users.find()
-			.toArray()
-		
-		res.status(201).send(retrievedData)
-	}
+	UsersCollection.readAll(),
+	async (req, res) => { res.status(201).send(req.retrievedData) }
 )
 
 
@@ -37,14 +31,8 @@ router.get(
 router.get(
 	'/read/:_id',
 	Auth.adminCheck(),
-	async (req, res) => {
-		const users = await Collections.loadUsersCollection()
-		let retrievedData = await users.findOne(
-			{ _id: new mongodb.ObjectID(req.params._id) }
-		)
-		
-		res.status(201).send(retrievedData)
-	}
+	UsersCollection.read(),
+	async (req, res) => { res.status(200).send(req.retrievedData) }
 )
 
 
@@ -52,20 +40,8 @@ router.get(
 router.post(
 	'/update/:_id',
 	Auth.adminCheck(),
-	async (req, res) => {
-		const users = await Collections.loadUsersCollection()
-		await users.findOneAndUpdate(
-			{ _id: new mongodb.ObjectID(req.params._id) },
-			{
-				$set: {
-					profilePicURL: req.body.img_url,
-				}
-			},
-			{ upsert: true }
-		)
-
-		res.status(201).send()
-	}
+	UsersCollection.update(),
+	async (req, res) => { res.status(201).send() }
 )
 
 

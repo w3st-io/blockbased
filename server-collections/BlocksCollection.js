@@ -144,7 +144,7 @@ class BlocksCollection {
 			else {
 				res.status(400).send({
 					auth: true,
-					message: 'Invalid Block Id.'
+					message: 'Invalid Block ID.'
 				})
 			}
 		}
@@ -174,7 +174,7 @@ class BlocksCollection {
 			else {
 				res.status(400).send({
 					auth: true,
-					message: 'Invalid Block Id.'
+					message: 'Invalid Block ID.'
 				})
 			}
 		}
@@ -252,7 +252,7 @@ class BlocksCollection {
 				else {
 					res.status(400).send({
 						auth: true,
-						message: 'Invalid Block Id.'
+						message: 'Invalid Block ID.'
 					})
 				}
 			}
@@ -290,7 +290,7 @@ class BlocksCollection {
 			else {
 				res.status(400).send({
 					auth: true,
-					message: 'Invalid Block Id.'
+					message: 'Invalid Block ID.'
 				})
 			}
 		}
