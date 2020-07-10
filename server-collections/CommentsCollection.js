@@ -54,17 +54,18 @@ class CommentsCollection {
 	}
 
 
-	// [READ-ALL] //
-	static readAll() {
+	// [READ-ALL] Within a Block //
+	static readAllAll() {
 		return async (req, res, next) => {
+			const skip = parseInt(req.params.skip)
+			const amountPerPage = parseInt(req.params.amountPerPage)
+			
 			try {
-				let skip = parseInt(req.params.skip)
-				let amountPerPage = parseInt(req.params.amountPerPage)
-
 				const comments = await loadCommentsCollection()
-				const retrievedData = await comments.find(
-					{ block_id: req.params.block_id }
-				).skip(skip).limit(amountPerPage).toArray()
+				const retrievedData = await comments.find()
+				.skip(skip)
+				.limit(amountPerPage)
+				.toArray()
 
 				// If Data Retrieved Store //
 				if (retrievedData) { req.retrievedData = retrievedData }
@@ -80,15 +81,56 @@ class CommentsCollection {
 			}
 		}
 	}
+	
+
+
+	// [READ-ALL] Within a Block //
+	static readAll() {
+		return async (req, res, next) => {
+			const validId = mongodb.ObjectID.isValid(req.params.block_id)
+			const skip = parseInt(req.params.skip)
+			const amountPerPage = parseInt(req.params.amountPerPage)
+			
+			if (validId) {
+				try {
+					const comments = await loadCommentsCollection()
+					const retrievedData = await comments.find(
+						{ block_id: req.params.block_id }
+					)
+					.skip(skip)
+					.limit(amountPerPage)
+					.toArray()
+
+					// If Data Retrieved Store //
+					if (retrievedData) { req.retrievedData = retrievedData }
+					else { req.retrievedData = '' }
+					
+					next()
+				}
+				catch(e) {
+					res.status(400).send({
+						auth: true,
+						message: `Caught Error: ${e}`,
+					})
+				}
+			}
+			else {
+				res.status(400).send({
+					auth: true,
+					message: 'Invalid Block Id.'
+				})
+			}
+		}
+	}
 
 
 	// [READ] //
 	static read() {
 		return async (req, res, next) => {
-			try {
-				let validId = mongodb.ObjectID.isValid(req.params._id)
+			const validId = mongodb.ObjectID.isValid(req.params._id)
 			
-				if (validId) {
+			if (validId) {
+				try {
 					const comments = await loadCommentsCollection()
 					const retrievedData = await comments.findOne(
 						{ _id: new mongodb.ObjectID(req.params._id) }
@@ -100,17 +142,17 @@ class CommentsCollection {
 					
 					next()
 				}
-				else {
+				catch(e) {
 					res.status(400).send({
 						auth: true,
-						message: 'Invalid Comment ID.'
+						message: `Caught Error: ${e}`,
 					})
 				}
 			}
-			catch(e) {
+			else {
 				res.status(400).send({
 					auth: true,
-					message: `Caught Error: ${e}`,
+					message: 'Invalid Comment ID.'
 				})
 			}
 		}
@@ -120,20 +162,30 @@ class CommentsCollection {
 	// [UPDATE] //
 	static update() {
 		return async (req, res, next) => {
-			try {
-				const comments = await loadCommentsCollection()
-				await comments.findOneAndUpdate(
-					{ _id: new mongodb.ObjectID(req.params._id) },
-					{ $set: { comment: req.body.comment, } },
-					{ upsert: true }
-				)
+			const validId = mongodb.ObjectID.isValid(req.params._id)
 
-				next()
+			if (validId) {
+				try {
+					const comments = await loadCommentsCollection()
+					await comments.findOneAndUpdate(
+						{ _id: new mongodb.ObjectID(req.params._id) },
+						{ $set: { comment: req.body.comment, } },
+						{ upsert: true }
+					)
+
+					next()
+				}
+				catch(e) {
+					res.status(400).send({
+						auth: true,
+						message: `Caught Error: ${e}`,
+					})
+				}
 			}
-			catch(e) {
+			else {
 				res.status(400).send({
 					auth: true,
-					message: `Caught Error: ${e}`,
+					message: 'Invalid Comment ID.'
 				})
 			}
 		}
@@ -143,19 +195,29 @@ class CommentsCollection {
 	// [DELETE] //
 	static delete() {
 		return async (req, res, next) => {
-			try {
-				const comments = await loadCommentsCollection()
-				await comments.deleteOne({
-					_id: new mongodb.ObjectID(req.params._id),
-					user_id: req.decoded._id,
-				})
-				
-				next()
+			const validId = mongodb.ObjectID.isValid(req.params._id)
+
+			if (validId) {
+				try {
+					const comments = await loadCommentsCollection()
+					await comments.deleteOne({
+						_id: new mongodb.ObjectID(req.params._id),
+						user_id: req.decoded._id,
+					})
+					
+					next()
+				}
+				catch(e) {
+					res.status(400).send({
+						auth: true,
+						message: `Caught Error: ${e}`,
+					})
+				}
 			}
-			catch(e) {
+			else {
 				res.status(400).send({
 					auth: true,
-					message: `Caught Error: ${e}`,
+					message: 'Invalid Comment ID.'
 				})
 			}
 		}
@@ -165,25 +227,35 @@ class CommentsCollection {
 	/******************* [VOTE SYSTEM] *******************/
 	static pushVoter() {
 		return async (req, res, next) => {
-			try {
-				const comments = await loadCommentsCollection()
-				await comments.updateOne(
-					{ _id: new mongodb.ObjectID(req.params._id) },
-					{ $push: { 
-						voters: {
-							user_id: req.decoded._id,
-							email: req.decoded.email,
-						}
-					} },
-					{ upsert: true }
-				)
-				
-				next()
+			const validId = mongodb.ObjectID.isValid(req.params._id)
+
+			if (validId) {
+				try {
+					const comments = await loadCommentsCollection()
+					await comments.updateOne(
+						{ _id: new mongodb.ObjectID(req.params._id) },
+						{ $push: { 
+							voters: {
+								user_id: req.decoded._id,
+								email: req.decoded.email,
+							}
+						} },
+						{ upsert: true }
+					)
+					
+					next()
+				}
+				catch(e) {
+					res.status(400).send({
+						auth: true,
+						message: `Caught Error: ${e}`,
+					})
+				}
 			}
-			catch(e) {
+			else {
 				res.status(400).send({
 					auth: true,
-					message: `Caught Error: ${e}`,
+					message: 'Invalid Comment ID.'
 				})
 			}
 		}
@@ -192,20 +264,30 @@ class CommentsCollection {
 
 	static pullVoter() {
 		return async (req, res, next) => {
-			try {
-				const comments = await loadCommentsCollection()
-				await comments.updateOne(
-					{ _id: new mongodb.ObjectID(req.params._id) },
-					{ $pull: { voters: { user_id: req.decoded._id } } },
-					{ upsert: true }
-				)
+			const validId = mongodb.ObjectID.isValid(req.params._id)
 
-				next()
+			if (validId) {
+				try {
+					const comments = await loadCommentsCollection()
+					await comments.updateOne(
+						{ _id: new mongodb.ObjectID(req.params._id) },
+						{ $pull: { voters: { user_id: req.decoded._id } } },
+						{ upsert: true }
+					)
+
+					next()
+				}
+				catch(e) {
+					res.status(400).send({
+						auth: true,
+						message: `Caught Error: ${e}`,
+					})
+				}
 			}
-			catch(e) {
+			else {
 				res.status(400).send({
 					auth: true,
-					message: `Caught Error: ${e}`,
+					message: 'Invalid Comment ID.'
 				})
 			}
 		}

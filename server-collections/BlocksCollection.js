@@ -56,6 +56,35 @@ class BlocksCollection {
 	}
 
 
+	// [READ ALL] //
+	static readAllAll() {
+		return async (req, res, next) => {
+			const skip = parseInt(req.params.skip)
+			const amountPerPage = parseInt(req.params.amountPerPage)
+			
+			try {
+				const blocks = await loadBlocksCollection()
+				const retrievedData = await blocks.find()
+					.skip(skip)
+					.limit(amountPerPage)
+					.toArray()
+
+				// If Data Retrieved Store //
+				if (retrievedData) { req.retrievedData = retrievedData }
+				else { req.retrievedData = '' }
+		
+				next()
+			}
+			catch(e) {
+				res.status(400).send({
+					auth: true,
+					message: `Caught Error: ${e}`,
+				})
+			}	
+		}
+	}
+
+
 	// [READ ALL] Within Cat //
 	static readAll() {
 		return async (req, res, next) => {
@@ -64,7 +93,9 @@ class BlocksCollection {
 
 			try {
 				const blocks = await loadBlocksCollection()
-				const retrievedData = await blocks.find({ cat_id: req.params.cat_id })
+				const retrievedData = await blocks.find(
+					{ cat_id: req.params.cat_id }
+				)
 					.skip(skip)
 					.limit(amountPerPage)
 					.toArray()
@@ -80,7 +111,7 @@ class BlocksCollection {
 					auth: true,
 					message: `Caught Error: ${e}`,
 				})
-			}	
+			}
 		}
 	}
 
@@ -88,7 +119,7 @@ class BlocksCollection {
 	// [READ] Single Block //
 	static read() {
 		return async (req, res, next) => {
-			let validId = mongodb.ObjectID.isValid(req.params._id)
+			const validId = mongodb.ObjectID.isValid(req.params._id)
 		
 			if (validId) {
 				try {
@@ -122,13 +153,30 @@ class BlocksCollection {
 	// [DELETE] //
 	static delete() {
 		return async (req, res, next) => {
-			/*const blocks = await loadBlocksCollection()
-			await blocks.deleteOne({
-				_id: new mongodb.ObjectID(req.params.block_id),
-				user_id: req.decoded._id,
-			})*/
+			const validId = mongodb.ObjectID.isValid(req.params._id)
 
-			next()
+			if (validId) {
+				try {
+					const blocks = await loadBlocksCollection()
+					await blocks.deleteOne(
+						{ _id: new mongodb.ObjectID(req.params._id) }
+					)
+
+					next()
+				}
+				catch(e) {
+					res.status(400).send({
+						auth: true,
+						message: `Caught Error: ${e}`,
+					})
+				}
+			}
+			else {
+				res.status(400).send({
+					auth: true,
+					message: 'Invalid Block Id.'
+				})
+			}
 		}
 	}
 

@@ -1,18 +1,16 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%% *
- * %%% COMMENT ROUTES %%% *
- * %%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% ADMINISTRATION COMMENT ROUTES %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
-const mongodb = require('mongodb')
-require('dotenv').config()
 
 
 // [REQUIRE] Personal //
 const Auth = require('../../../server-middleware/AuthMiddleware')
-const Collections = require('../../../server-collections')
+const CommentsCollection = require('../../../server-collections/CommentsCollection')
 
 
 // [EXPRESS + USE] //
@@ -24,18 +22,8 @@ const router = express.Router().use(cors())
 router.get(
 	'/read-all/:amountPerPage/:skip',
 	Auth.adminCheck(),
-	async (req, res) => {
-		let skip = parseInt(req.params.skip)
-		let amountPerPage = parseInt(req.params.amountPerPage)
-
-		const comments = await Collections.loadCommentsCollection()
-		let retrievedData = await comments.find()
-			.skip(skip)
-			.limit(amountPerPage)
-			.toArray()
-
-		res.send(retrievedData)
-	}
+	CommentsCollection.readAllAll(),
+	async (req, res) => { res.status(200).send(req.retrievedData) }
 )
 
 
@@ -43,20 +31,8 @@ router.get(
 router.get(
 	'/read-all/:block_id/:amountPerPage/:skip',
 	Auth.adminCheck(),
-	async (req, res) => {
-		let skip = parseInt(req.params.skip)
-		let amountPerPage = parseInt(req.params.amountPerPage)
-
-		const comments = await Collections.loadCommentsCollection()
-		let retrievedData = await comments.find(
-			{ block_id: req.params.block_id }
-		)
-			.skip(skip)
-			.limit(amountPerPage)
-			.toArray()
-
-		res.send(retrievedData)
-	}
+	CommentsCollection.readAll(),
+	async (req, res) => { res.status(200).send(req.retrievedData) }
 )
 
 
@@ -64,19 +40,8 @@ router.get(
 router.get(
 	'/read/:_id',
 	Auth.adminCheck(),
-	async (req, res) => {
-		let validId = mongodb.ObjectID.isValid(req.params._id)
-		
-		if (validId) {
-			const comments = await Collections.loadCommentsCollection()
-			let retrievedData = await comments.findOne(
-				{ _id: new mongodb.ObjectID(req.params._id) }
-			)
-
-			res.send(retrievedData)
-		}
-		else { res.sendStatus(400) }
-	}
+	CommentsCollection.read(),
+	async (req, res) => { res.status(200).send(req.retrievedData) }
 )
 
 
@@ -84,25 +49,8 @@ router.get(
 router.post(
 	'/update/:_id',
 	Auth.adminCheck(),
-	async (req, res) => {
-		let validId = mongodb.ObjectID.isValid(req.params._id)
-
-		if (validId) {
-			const comments = await Collections.loadCommentsCollection()
-			await comments.findOneAndUpdate(
-				{ _id: new mongodb.ObjectID(req.params._id) },
-				{
-					$set: {
-						comment: req.body.comment,
-					}
-				},
-				{ upsert: true }
-			)
-
-			res.status(201).send()
-		}
-		else { res.sendStatus(400) }
-	}
+	CommentsCollection.update(),
+	async (req, res) => { res.status(201).send(req.retrievedData) }
 )
 
 
@@ -110,19 +58,8 @@ router.post(
 router.delete(
 	'/delete/:_id',
 	Auth.adminCheck(),
-	async (req, res) => {
-		let validId = mongodb.ObjectID.isValid(req.params._id)
-
-		if (validId) {
-			const comments = await Collections.loadCommentsCollection()
-			await comments.deleteOne(
-				{ _id: new mongodb.ObjectID(req.params._id) }
-			)
-
-			res.status(201).send()
-		}
-		else { res.sendStatus(400) }
-	}
+	CommentsCollection.delete(),
+	async (req, res) => { res.sendStatus(200) }
 )
 
 
