@@ -95,6 +95,53 @@ class CommentVotesCollection {
 			}
 		}
 	}
+
+
+	/******************* [EXISTANCE] *******************/
+	static existance(comment_id, user_id, checkExistance) {
+		if (mongodb.ObjectID.isValid(comment_id)) {
+			try {
+				const commentVotes = await Collections.loadCommentVotesCollection()
+				const retrievedData = await commentVotes.findOne({
+					comment_id: comment_id,
+					user_id: user_id,
+				})
+	
+				// If Existance True/False Check //
+				if (checkExistance) {
+					if (retrievedData) { return true }
+					else { return false }
+				}
+				else if (!checkExistance) {
+					if (retrievedData) { return false }
+					else { return true }
+				}
+				else { return false }
+			}
+			catch(e) { return `Caught Error: ${e}` }
+		}
+		else { return 'Invalid Block ID.' }
+	}
+	
+
+	/******************* [OWNERSHIP] *******************/
+	static verifyOwnership() {
+		return async (req, res, next) => {
+			const commentVotes = await Collections.loadCommentVotesCollection()
+			let returnedData = await commentVotes.findOne({
+				comment_id: req.params.comment_id,
+				user_id: req.decoded._id,
+			})
+
+			if (returnedData) { next() }
+			else {
+				return res.status(401).send({
+					auth: false,
+					error: 'Sorry man, you dont own this block-vote!'
+				})
+			}
+		}
+	}
 }
 
 

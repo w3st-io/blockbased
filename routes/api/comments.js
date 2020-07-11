@@ -11,8 +11,8 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
+const BlocksCollection = require('../../server-collections/BlocksCollection')
 const CommentsCollection = require('../../server-collections/CommentsCollection')
-const CommentsMiddleware = require('../../server-middleware/CommentsMiddleware')
 const CommentVotesCollection = require('../../server-collections/CommentVotesCollection')
 const ReportsCollection = require('../../server-collections/ReportsCollections')
 
@@ -26,6 +26,13 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userTokenCheck(),
+	async (req, res, next) => {
+		// If Existance True/False Check //
+		let existance = await BlocksCollection.existance(req.body.block_id, true)
+		
+		if (existance == true) { next() }
+		else { res.status(400).send(false) }
+	},
 	CommentsCollection.create(),
 	async (req, res) => {
 		res.status(201).send({
@@ -56,7 +63,7 @@ router.get(
 router.post(
 	'/update/:_id',
 	Auth.userTokenCheck(),
-	CommentsMiddleware.verifyOwnership(),
+	CommentsCollection.verifyOwnership(),
 	CommentsCollection.update(),
 	async (req, res) => {
 		res.status(201).send({
@@ -71,7 +78,7 @@ router.post(
 router.delete(
 	'/delete/:_id',
 	Auth.userTokenCheck(),
-	CommentsMiddleware.verifyOwnership(),
+	CommentsCollection.verifyOwnership(),
 	CommentsCollection.delete(),
 	CommentVotesCollection.deleteAll(),
 	async (req, res) => {
@@ -88,7 +95,7 @@ router.delete(
 router.post(
 	'/vote/:_id/:block_id',
 	Auth.userTokenCheck(),
-	CommentsMiddleware.voterVerifyNonExistance(),
+	CommentsCollection.voterExistance(false),
 	CommentsCollection.pushVoter(),
 	CommentVotesCollection.create(),
 	async (req, res) => { res.status(201).send() }

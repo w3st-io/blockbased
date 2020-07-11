@@ -11,9 +11,8 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
-const BlocksMiddleware = require('../../server-middleware/BlocksMiddleware')
 const BlocksCollection = require('../../server-collections/BlocksCollection')
-const BlockVotesCollections = require('../../server-collections/BlockVotesCollection')
+const BlockVotesCollection = require('../../server-collections/BlockVotesCollection')
 
 
 // [EXPRESS + USE] //
@@ -55,7 +54,7 @@ router.get(
 router.delete(
 	'/delete/:_id',
 	Auth.userTokenCheck(),
-	BlocksMiddleware.verifyOwnership(),
+	BlocksCollection.verifyOwnership(),
 	BlocksCollection.delete(),
 	async (req, res) => {
 		res.status(200).send({
@@ -71,9 +70,9 @@ router.delete(
 router.post(
 	'/vote/:_id',
 	Auth.userTokenCheck(),
-	BlocksMiddleware.voterVerifyNonExistance(),
+	BlocksCollection.voterExistance(true),
 	BlocksCollection.pushVoter(),
-	BlockVotesCollections.create(),
+	BlockVotesCollection.create(),
 	async (req, res) => { res.status(201).send() }
 )
 
@@ -83,7 +82,7 @@ router.post(
 	'/unvote/:_id',
 	Auth.userTokenCheck(),
 	BlocksCollection.pullVoter(),
-	BlockVotesCollections.delete(),
+	BlockVotesCollection.delete(),
 	async (req, res) => { res.status(201).send() }
 )
 
@@ -91,7 +90,13 @@ router.post(
 /******************* [VALIDATE] *******************/
 router.get(
 	'/validate/:_id',
-	BlocksCollection.validate(),
+	async (req, res) => {
+		// If Existance True/False Check //
+		let existance = await BlocksCollection.existance(req.params._id, true)
+
+		if (existance == true) { res.status(200).send(true) }
+		else { res.status(400).send(false) }
+	},
 )
 
 

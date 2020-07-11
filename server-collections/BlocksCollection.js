@@ -235,38 +235,41 @@ class BlocksCollection {
 	static checkForVote() { next() }
 
 
-	/******************* [VALIDATE] *******************/
-	// Check Block Exists //
-	static validate() {
-		return async (req, res, next) => {
+	/******************* [EXISTANCE] *******************/
+	static async existance(block_id, checkExistance) {
+		if (mongodb.ObjectID.isValid(block_id)) {
 			try {
-				if (mongodb.ObjectID.isValid(req.params._id)) {
-					const blocks = await loadBlocksCollection()
-					const retrievedData = await blocks.findOne(
-						{ _id: new mongodb.ObjectID(req.params._id) }
-					)
+				const blocks = await loadBlocksCollection()
+				const retrievedData = await blocks.findOne(
+					{ _id: new mongodb.ObjectID(block_id) }
+				)
 
-					if (retrievedData) { res.status(200).send(true) }
-					else { res.status(200).send(false) }
+				// If Existance True/False Check //
+				if (checkExistance) {
+					if (retrievedData) { return true }
+					else { return false }
 				}
-				else {
-					res.status(400).send({
-						auth: true,
-						message: 'Invalid Block ID.'
-					})
+				else if (!checkExistance) {
+					if (retrievedData) { return false }
+					else { return true }
 				}
+				else { return false }
 			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+			catch(e) { return `Caught Error: ${e}` }
+		}
+		else { return 'Invalid Block ID.' }
+	}
+
+
+	static voterExistance(existanceState) {
+		return async (req, res, next) => {
+			if (existanceState) { next() }
+			else { res.send(400) }
 		}
 	}
 
 
-	// Verify Ownership //
+	/******************* [OWNERSHIP] *******************/
 	static verifyOwnership() {
 		return async (req, res, next) => {
 			if (mongodb.ObjectID.isValid(req.params._id)) {
@@ -277,8 +280,13 @@ class BlocksCollection {
 						user_id: req.decoded._id,
 					})
 
-					if (returnedData) { res.status(200).send(true) }
-					else { res.status(401).send(false) }
+					if (returnedData) { next() }
+					else {
+						return res.status(401).send({
+							auth: true,
+							error: `${req.decoded.username} does not own this block.`
+						})
+					}
 				}
 				catch(e) {
 					res.status(400).send({

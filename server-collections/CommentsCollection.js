@@ -5,6 +5,7 @@
 */
 // [REQUIRE] //
 const mongodb = require('mongodb')
+const { existance } = require('./BlocksCollection')
 require('dotenv').config()
 
 
@@ -288,6 +289,65 @@ class CommentsCollection {
 				res.status(400).send({
 					auth: true,
 					message: 'Invalid Comment ID.'
+				})
+			}
+		}
+	}
+
+
+	/******************* [EXISTANCE] *******************/
+	static voterExistance(existanceState) {
+		return async (req, res, next) => {
+			const comments = await loadCommentsCollection()
+			const returnedValue = await comments.find({
+				_id: mongodb.ObjectID(req.params._id),
+				voters: {
+					user_id: req.decoded._id,
+					email: req.decoded.email,
+					username: req.decoded.username,
+				}
+			}).toArray()
+
+			if (existanceState) {
+				if (returnedValue[0]) { next() }
+				else {
+					return res.status(401).send({
+						auth: false,
+						error: 'Vote Exist.'
+					})
+				}
+			}
+			else if (!existanceState) {
+				if (!returnedValue[0]) { next() }
+				else {
+					return res.status(401).send({
+						auth: false,
+						error: 'Vote Exist.'
+					})
+				}
+			}
+			else { res.status(400).send() }
+		}
+	}
+
+	
+	/******************* [OWNERSHIP] *******************/
+	static verifyOwnership() {
+		return async (req, res, next) => {
+			const comments = await loadCommentsCollection()
+			const returnedData = await comments.findOne(
+				{	
+					_id: new mongodb.ObjectID(req.params._id),
+					user_id: req.decoded._id,
+				}
+			)
+
+			if (returnedData) { next() }
+			else {
+				console.log('error')
+				return res.status(401).send({
+					auth: false,
+					error: 'Sorry man, you dont own this comment!'
 				})
 			}
 		}
