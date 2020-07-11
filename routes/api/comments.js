@@ -26,12 +26,14 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userTokenCheck(),
-	async (req, res, next) => {
-		// If Existance True/False Check //
-		let existance = await BlocksCollection.existance(req.body.block_id, true)
-		
-		if (existance == true) { next() }
-		else { res.status(400).send(false) }
+	async (req, res, next) => { 
+		if (req.body.block_id) {
+			const existance = await BlocksCollection.existance(req.body.block_id, true)
+
+			if (existance == true) { next() }
+			else { res.status(400).send() }
+		}
+		else { res.status(400).send() }
 	},
 	CommentsCollection.create(),
 	async (req, res) => {
@@ -106,6 +108,7 @@ router.post(
 router.post(
 	'/unvote/:_id',
 	Auth.userTokenCheck(),
+	CommentsCollection.voterExistance(true),
 	CommentsCollection.pullVoter(),
 	CommentVotesCollection.delete(),
 	async (req, res) => { res.status(201).send() }

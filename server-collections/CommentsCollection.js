@@ -299,7 +299,7 @@ class CommentsCollection {
 	static voterExistance(existanceState) {
 		return async (req, res, next) => {
 			const comments = await loadCommentsCollection()
-			const returnedValue = await comments.find({
+			const retrievedData = await comments.find({
 				_id: mongodb.ObjectID(req.params._id),
 				voters: {
 					user_id: req.decoded._id,
@@ -309,22 +309,12 @@ class CommentsCollection {
 			}).toArray()
 
 			if (existanceState) {
-				if (returnedValue[0]) { next() }
-				else {
-					return res.status(401).send({
-						auth: false,
-						error: 'Vote Exist.'
-					})
-				}
+				if (retrievedData[0]) { next() }
+				else { return res.status(401).send(false) }
 			}
 			else if (!existanceState) {
-				if (!returnedValue[0]) { next() }
-				else {
-					return res.status(401).send({
-						auth: false,
-						error: 'Vote Exist.'
-					})
-				}
+				if (!retrievedData[0]) { next() }
+				else { return res.status(401).send(false) }
 			}
 			else { res.status(400).send() }
 		}
@@ -344,10 +334,9 @@ class CommentsCollection {
 
 			if (returnedData) { next() }
 			else {
-				console.log('error')
 				return res.status(401).send({
 					auth: false,
-					error: 'Sorry man, you dont own this comment!'
+					error: 'This comment is not yours.'
 				})
 			}
 		}
