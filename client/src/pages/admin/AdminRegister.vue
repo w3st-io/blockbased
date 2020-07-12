@@ -128,9 +128,6 @@
 		<br>
 
 		<!-- [STATUS + ERRORS] -->
-		<div v-if="success" class="alert alert-success">
-			Successfully Created Account!
-		</div>
 		<div v-if="error" class="alert alert-danger">
 			{{ error }}
 		</div>
@@ -152,9 +149,8 @@
 				email: '',
 				password: '',
 				confirm: '',
-				returned: '',
+				returnedData: '',
 				status: '',
-				success: '',
 				error: '',
 			}
 		},
@@ -168,7 +164,7 @@
 			async register() {
 				// [REGISTER] //
 				try {
-					this.returned = await AdminService.register(
+					this.returnedData = await AdminService.register(
 						this.first_name,
 						this.last_name,
 						this.username,
@@ -179,18 +175,23 @@
 				catch(e) { this.error = e }
 
 				// Set Status //
-				this.status = this.returned.data.status
+				this.status = this.returnedData.data.status
 				
 				
 				// Check Status //
-				if (this.status == 'success') { this.success = true }
+				if (this.status == 'success') { this.redirect() }
 				else if (this.status == 'username_taken') { this.error = 'Username Taken' }
 				else if (this.status == 'email_taken') { this.error = 'Email Taken' }
+				else { this.error = this.status }
 
 				console.log('error', this.error)
 
+			},
+
+			redirect() {
 				// [REDIRECT] //
-				if (this.success == true) router.push({ name: 'AdminLogin' })
+				console.log('redicre')
+				router.push({ path: 'admin-login' })
 			},
 
 			log() {

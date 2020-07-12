@@ -34,102 +34,90 @@ async function loadAdminsCollection() {
 
 class BlocksCollection {
 	/******************* [LOGIN/REGISTER] *******************/
-	static login() {
-		return async (req, res, next) => {
-			const admins = await loadAdminsCollection()
+	static async login(req) {
+		const admins = await loadAdminsCollection()
 
-			try {
-				const accountFound = await admins.findOne({ email: req.body.email })
-				
-				// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
-				if (accountFound) {
-					if (bcrypt.compareSync(req.body.password, accountFound.password)) {
-						const payload = {
-							_id: accountFound._id,
-							role: accountFound.role,
-							email: accountFound.email,
-							username: accountFound.username,
-							first_name: accountFound.first_name,
-							last_name: accountFound.last_name,
-						}
-	
-						// Set Token //
-						//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
-						res.token = jwt.sign(payload, secretKey, {})
-	
-						next()
+		try {
+			const accountFound = await admins.findOne({ email: req.body.email })
+			
+			// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
+			if (accountFound) {
+				if (bcrypt.compareSync(req.body.password, accountFound.password)) {
+					const payload = {
+						_id: accountFound._id,
+						role: accountFound.role,
+						email: accountFound.email,
+						username: accountFound.username,
+						first_name: accountFound.first_name,
+						last_name: accountFound.last_name,
 					}
-					else { res.json({ status: 'incorrect_password' }).status(400).send() }
+
+					// Set Token //
+					//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
+					const token = jwt.sign(payload, secretKey, {})
+
+					return {
+						auth: true,
+						status: 'success',
+						token: token,
+					}
 				}
-				else { res.json({ status: 'incorrect_email' }).status(400).send() }
+				else { return { auth: false, status: 'incorrect_password' } }
 			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+			else { return { auth: false, status: 'incorrect_email' } }
 		}
+		catch(e) { return { auth: false, status: `Caught Error: ${e}` } }
 	}
 
 
 	// [REGISTER] //
-	static register() {
-		return async (req, res, next) => {
-			const admins = await loadAdminsCollection()
-			const today = new Date()
-			const formData = {
-				//role: 'admin', /** Comment about this at the bottom **/
-				first_name: req.body.first_name,
-				last_name: req.body.last_name,
-				email: req.body.email,
-				username: req.body.username,
-				password: req.body.password,
-				createdAt: today
-			}
-
-			try {
-				const usernameFound = await admins.findOne({
-					username: req.body.username
-				})
-				const emailFound = await admins.findOne({
-					email: req.body.email
-				})
-
-				if (!usernameFound) {
-					if (!emailFound) {
-						// Hash Data //
-						bcrypt.hash(req.body.password, 10, (err, hash) => {
-							formData.password = hash
-							
-							try {
-								admins.insertOne(formData)
-								
-								next()
-							}
-							catch(err) { res.status(400).send('error:', err) }
-						})
-					}
-					else { res.json({ status: 'email_taken' }).status(400).send() }
-				}
-				else { res.json({ status: 'username_taken' }).status(400).send() }
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+	static async register(req) {
+		const admins = await loadAdminsCollection()
+		const today = new Date()
+		const formData = {
+			/*
+				if you uncomment that then you will allow
+				a REAL admin to be created.
+			*/
+			//role: 'admin',
+			first_name: req.body.first_name,
+			last_name: req.body.last_name,
+			email: req.body.email,
+			username: req.body.username,
+			password: req.body.password,
+			createdAt: today
 		}
+
+		try {
+			const usernameFound = await admins.findOne({
+				username: req.body.username
+			})
+			const emailFound = await admins.findOne({
+				email: req.body.email
+			})
+
+			if (!usernameFound) {
+				if (!emailFound) {
+					// Hash Data //
+					bcrypt.hash(req.body.password, 10, (err, hash) => {
+						formData.password = hash
+					})
+					
+					try {
+						admins.insertOne(formData)
+
+						return { status: 'success' }
+					}
+					catch(e) { return { status: `Caught Error: ${e}` } }
+				}
+				else { return { status: 'email_taken' } }
+			}
+			else { return { status: 'username_taken' } }
+		}
+		catch(e) { return { status: `Caught Error: ${e}` } }
 	}
 }
 
 
 // [EXPORT] //
 module.exports = BlocksCollection
-
-
-
-/**
- * if you uncomment that then you will allow a REAL admin to be created. 
- */

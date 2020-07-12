@@ -39,254 +39,181 @@ async function loadUsersCollection() {
 class UsersCollection {
 	/******************* [CRRUD] *******************/
 	// [READ-ALL] //
-	static readAll() {
-		return async (req, res, next) => {
-			try {
-				const users = await loadUsersCollection()
-				const retrievedData = await users.find().toArray()
+	static async readAll(req) {
+		try {
+			const users = await loadUsersCollection()
+			const returnedData = await users.find().toArray()
 
-				if (retrievedData) { req.retrievedData = retrievedData }
-				else { req.retrievedData = '' }
-
-				next()
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+			return returnedData
 		}
+		catch(e) { return `Caught Error: ${e}` }
 	}
 
 	
 	// [READ] //
-	static read() {
-		return async (req, res, next) => {
-			const validId = mongodb.ObjectID.isValid(req.params._id)
+	static async read(req) {
+		const validId = mongodb.ObjectID.isValid(req.params._id)
 
-			if (validId) {
-				try {
-					const users = await loadUsersCollection()
-					const retrievedData = await users.findOne(
-						{ _id: new mongodb.ObjectID(req.params._id) }
-					)
+		if (validId) {
+			try {
+				const users = await loadUsersCollection()
+				const returnedData = await users.findOne(
+					{ _id: new mongodb.ObjectID(req.params._id) }
+				)
 
-					if (retrievedData) { req.retrievedData = retrievedData }
-					else { req.retrievedData = '' }
-
-					next()
-				}
-				catch(e) {
-					res.status(400).send({
-						auth: true,
-						message: `Caught Error: ${e}`,
-					})
-				}
+				return returnedData
 			}
-			else {
-				res.status(400).send({
-					auth: true,
-					message: 'Invalid ID.'
-				})
-			}
+			catch(e) { return `Caught Error: ${e}` }
 		}
+		else { return 'Invalid ID.' }
 	}
 
 
 	// [READ] Decoded //
-	static readDecoded() {
-		return async (req, res, next) => {
-			const user_id = req.decoded._id
-			
-			try {
-				const users = await loadUsersCollection()
-				const retrievedData = await users.findOne(
-					{ _id: new mongodb.ObjectID(user_id) }
-				)
+	static async readDecoded(req) {
+		try {
+			const users = await loadUsersCollection()
+			const returnedData = await users.findOne(
+				{ _id: new mongodb.ObjectID(req.decoded._id) }
+			)
 
-				if (retrievedData) { req.retrievedData = retrievedData }
-				else { req.retrievedData = '' }
-
-				next()
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+			return returnedData
 		}
+		catch(e) { return `Caught Error: ${e}` }
 	}
 
 
 	// [READ] Profile Image //
-	static readProfilePic() {
-		return async (req, res, next) => {
-			const validId = mongodb.ObjectID.isValid(req.params._id)
+	static async readProfilePic(req) {
+		const validId = mongodb.ObjectID.isValid(req.params._id)
 
-			if (validId) {
-				try {
-					const users = await loadUsersCollection()
-					const retrievedData = await users.findOne(
-						{ _id: new mongodb.ObjectID(req.params._id) },
-						{ projection: { profilePicURL: 1 } }
-					)
+		if (validId) {
+			try {
+				const users = await loadUsersCollection()
+				const returnedData = await users.findOne(
+					{ _id: new mongodb.ObjectID(req.params._id) },
+					{ projection: { profilePicURL: 1 } }
+				)
 
-					if (retrievedData) { req.retrievedData = retrievedData }
-					else { req.retrievedData = '' }
-
-					next()
-				}
-				catch(e) {
-					res.status(400).send({
-						auth: true,
-						message: `Caught Error: ${e}`,
-					})
-				}
+				return returnedData
 			}
-			else {
-				res.status(400).send({
-					auth: true,
-					message: 'Invalid ID.'
-				})
-			}
+			catch(e) { return `Caught Error: ${e}` }
 		}
+		else { return 'Invalid ID.' }
 	}
+
 
 	// [UPDATE] Profile Picture //
-	static update() {
-		return async (req, res, next) => {
-			const validId = mongodb.ObjectID.isValid(req.params._id)
-			if (validId) {
-				try {
-					const users = await loadUsersCollection()
-					await users.findOneAndUpdate(
-						{ _id: new mongodb.ObjectID(req.params._id) },
-						{ $set: { profilePicURL: req.body.img_url, } },
-						{ upsert: true }
-					)
+	static async update() {
+		const validId = mongodb.ObjectID.isValid(req.params._id)
 
-					next()
-				}
-				catch(e) {
-					res.status(400).send({
-						auth: true,
-						message: `Caught Error: ${e}`,
-					})
-				}
-			}
-			else {
-				res.status(400).send({
-					auth: true,
-					message: 'Invalid ID.'
-				})
-			}
-		}
-	}
-
-
-	// [UPDATE] Decoded - Profile Picture //
-	static updateDecoded() {
-		return async (req, res, next) => {
+		if (validId) {
 			try {
 				const users = await loadUsersCollection()
 				await users.findOneAndUpdate(
-					{ _id: new mongodb.ObjectID(req.decoded._id) },
+					{ _id: new mongodb.ObjectID(req.params._id) },
 					{ $set: { profilePicURL: req.body.img_url, } },
 					{ upsert: true }
 				)
 
-				next()
+				return
 			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+			catch(e) { return `Caught Error: ${e}` }
+		}
+		else { return 'Invalid ID.' }
+	}
+
+
+	// [UPDATE] Decoded - Profile Picture //
+	static async updateDecoded(req) {
+		try {
+			const users = await loadUsersCollection()
+			await users.findOneAndUpdate(
+				{ _id: new mongodb.ObjectID(req.decoded._id) },
+				{ $set: { profilePicURL: req.body.img_url, } },
+				{ upsert: true }
+			)
+
+			next()
+		}
+		catch(e) {
+			res.status(400).send({
+				auth: true,
+				message: `Caught Error: ${e}`,
+			})
 		}
 	}
 
 
 	/******************* [LOGIN/REGISTER] *******************/
-	static login() {
-		return async (req, res, next) => {
-			const users = await loadUsersCollection()
+	static async login() {
+		const users = await loadUsersCollection()
 
-			try {
-				const accountFound = await users.findOne({ email: req.body.email })
-				
-				// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
-				if (accountFound) {
-					if (bcrypt.compareSync(req.body.password, accountFound.password)) {
-						const payload = {
-							_id: accountFound._id,
-							email: accountFound.email,
-							username: accountFound.username,
-							first_name: accountFound.first_name,
-							last_name: accountFound.last_name,
-						}
-	
-						// Set Token //
-						//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
-						res.token = jwt.sign(payload, secretKey, {})
-	
-						next()
-					}
-					else { res.json({ status: 'incorrect_password' }).status(400).send() }
-				}
-				else { res.json({ status: 'incorrect_email' }).status(400).send() }
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
-		}
-	}
-
-
-	static register() {
-		return async (req, res, next) => {
-			const users = await loadUsersCollection()
-			const formData = new UserModel(req.body)
+		try {
+			const accountFound = await users.findOne({ email: req.body.email })
 			
-			try {
-				const emailFound = await users.findOne({
-					email: formData.email
-				})
-				const usernameFound = await users.findOne({
-					username: formData.username
-				})
-
-				if (!usernameFound) {
-					if (!emailFound) {
-						// Hash Data //
-						bcrypt.hash(formData.password, 10, (err, hash) => {
-							formData.password = hash
-							
-							try {
-								users.insertOne(formData)
-								
-								next()
-							}
-							catch(err) { res.send('error:', err) }
-						})
+			// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
+			if (accountFound) {
+				if (bcrypt.compareSync(req.body.password, accountFound.password)) {
+					const payload = {
+						_id: accountFound._id,
+						email: accountFound.email,
+						username: accountFound.username,
+						first_name: accountFound.first_name,
+						last_name: accountFound.last_name,
 					}
-					else { res.json({ status: 'email_taken' }).status(400).send() }
+
+					// Set Token //
+					//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
+					res.token = jwt.sign(payload, secretKey, {})
+
+					return {
+						auth: true,
+						status: 'success',
+						token: token,
+					}
 				}
-				else { res.json({ status: 'username_taken' }).status(400).send() }
+				else { return { auth: false, status: 'incorrect_password' } }
 			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+			else { return { auth: false, status: 'incorrect_email' } }
 		}
+		catch(e) { return { auth: false, status: `Caught Error: ${e}` } }
 	}
+
+
+	static async register(req) {
+		const users = await loadUsersCollection()
+		const formData = new UserModel(req.body)
+		
+		try {
+			const emailFound = await users.findOne({
+				email: formData.email
+			})
+			const usernameFound = await users.findOne({
+				username: formData.username
+			})
+
+			if (!usernameFound) {
+				if (!emailFound) {
+					// Hash Data //
+					bcrypt.hash(formData.password, 10, (err, hash) => {
+						formData.password = hash
+					})
+
+					try {
+						users.insertOne(formData)
+						
+						return { status: 'success' }
+					}
+					catch(e) { return { status: `Caught Error: ${e}` } }
+				}
+				else { return { status: 'email_taken' } }
+			}
+			else { return { status: 'username_taken' } }
+		}
+		catch(e) { return { status: `Caught Error: ${e}` } }
+	}
+
 
 	/******************* [COUNT] *******************/
 }

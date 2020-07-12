@@ -26,21 +26,15 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userTokenCheck(),
-	async (req, res, next) => { 
-		if (req.body.block_id) {
-			const existance = await BlocksCollection.existance(req.body.block_id, true)
+	async (req, res) => { 
+		const existance = await BlocksCollection.existance(true, req.body.block_id)
 
-			if (existance == true) { next() }
-			else { res.status(400).send() }
+		if (existance == true) {
+			await CommentsCollection.create(req)
+			
+			res.status(201).send()
 		}
 		else { res.status(400).send() }
-	},
-	CommentsCollection.create(),
-	async (req, res) => {
-		res.status(201).send({
-			auth: true,
-			message: 'Created Comment'
-		})
 	}
 )
 
@@ -48,16 +42,22 @@ router.post(
 // [READ-ALL] //
 router.get(
 	'/read-all/:block_id/:amountPerPage/:skip',
-	CommentsCollection.readAll(),
-	async (req, res) => { res.status(201).send(req.retrievedData) }
+	async (req, res) => {
+		const returnedData = await CommentsCollection.readAll(req)
+
+		res.status(201).send(returnedData)
+	}
 )
 
 
 // [READ] //
 router.get(
 	'/read/:_id',
-	CommentsCollection.read(),
-	async (req, res) => { res.status(201).send(req.retrievedData) }
+	async (req, res) => {
+		const returnedData = await CommentsCollection.read(req)
+
+		res.status(201).send(returnedData)
+	}
 )
 
 
@@ -65,13 +65,14 @@ router.get(
 router.post(
 	'/update/:_id',
 	Auth.userTokenCheck(),
-	CommentsCollection.verifyOwnership(),
-	CommentsCollection.update(),
 	async (req, res) => {
-		res.status(201).send({
-			auth: true,
-			message: 'Successfully Updated Comment'
-		})
+		const owned = await CommentsCollection.verifyOwnership(req)
+
+		if (owned == true) {
+			await CommentsCollection.update(req)
+			res.status(201).send()
+		}
+		else { res.status(400).send() }
 	}
 )
 
@@ -80,14 +81,16 @@ router.post(
 router.delete(
 	'/delete/:_id',
 	Auth.userTokenCheck(),
-	CommentsCollection.verifyOwnership(),
-	CommentsCollection.delete(),
-	CommentVotesCollection.deleteAll(),
 	async (req, res) => {
-		res.status(201).send({
-			auth: true,
-			message: 'Successfully Deleted Comment'
-		})
+		const owned = await CommentsCollection.verifyOwnership(req)
+
+		if (owned == true) {
+			await CommentsCollection.delete(req)
+			await CommentVotesCollection.deleteAll(req)
+
+			res.status(201).send()
+		}
+		else { res.status(400).send() }
 	}
 )
 
@@ -97,10 +100,17 @@ router.delete(
 router.post(
 	'/vote/:_id/:block_id',
 	Auth.userTokenCheck(),
-	CommentsCollection.voterExistance(false),
-	CommentsCollection.pushVoter(),
-	CommentVotesCollection.create(),
-	async (req, res) => { res.status(201).send() }
+	async (req, res) => {
+		const existance = await CommentsCollection.voterExistance(req)
+
+		// go back and fix existance is blocks
+		if (existance) {
+			await CommentsCollection.pushVoter(req)
+			await CommentVotesCollection.create(req)
+		}
+		
+		res.status(201).send()
+	}
 )
 
 
@@ -108,10 +118,16 @@ router.post(
 router.post(
 	'/unvote/:_id',
 	Auth.userTokenCheck(),
-	CommentsCollection.voterExistance(true),
-	CommentsCollection.pullVoter(),
-	CommentVotesCollection.delete(),
-	async (req, res) => { res.status(201).send() }
+	async (req, res) => {
+		const existance = await CommentsCollection.voterExistance(req)
+		
+		if (!existance) {
+			await CommentsCollection.pullVoter(req)
+			await CommentVotesCollection.delete(req)
+		}
+		
+		res.status(201).send()
+	}
 )
 
 
@@ -119,9 +135,15 @@ router.post(
 router.post(
 	'/report/:_id',
 	Auth.userTokenCheck(),
-	ReportsCollection.existance(false),
-	ReportsCollection.create(),
-	async (req, res) => { res.status(201).send() }
+	async (req, res) => {
+		const existance = await ReportsCollection.existance(req)
+		
+		if (!existance) {
+			await ReportsCollection.create(req)
+			res.status(201).send()
+		}
+		else { res.status(400).send() }
+	}
 )
 
 /******************* [EXISTANCE] *******************/
@@ -131,8 +153,11 @@ router.post(
 /******************* [COUNT] *******************/
 router.get(
 	'/count/:block_id',
-	CommentsCollection.count(),
-	async (req, res) => { res.status(201).send(req.count.toString()) }
+	async (req, res) => {
+		const count = (await CommentsCollection.count(req)).toString()
+
+		res.status(201).send(count)
+	}
 )
 
 

@@ -22,8 +22,11 @@ const router = express.Router().use(cors())
 router.get(
 	'/read-all/:amountPerPage/:skip',
 	Auth.adminCheck(),
-	CommentsCollection.readAllAll(),
-	async (req, res) => { res.status(200).send(req.retrievedData) }
+	async (req, res) => {
+		const returnedData = await CommentsCollection.readAllAll(req)
+
+		res.status(200).send(returnedData)
+	}
 )
 
 
@@ -31,8 +34,11 @@ router.get(
 router.get(
 	'/read-all/:block_id/:amountPerPage/:skip',
 	Auth.adminCheck(),
-	CommentsCollection.readAll(),
-	async (req, res) => { res.status(200).send(req.retrievedData) }
+	async (req, res) => {
+		const returnedData = await CommentsCollection.readAll(req)
+
+		res.status(200).send(returnedData)
+	}
 )
 
 
@@ -40,8 +46,11 @@ router.get(
 router.get(
 	'/read/:_id',
 	Auth.adminCheck(),
-	CommentsCollection.read(),
-	async (req, res) => { res.status(200).send(req.retrievedData) }
+	async (req, res) => {
+		const returnedData = await CommentsCollection.read(req)
+
+		res.status(200).send(returnedData)
+	}
 )
 
 
@@ -49,8 +58,11 @@ router.get(
 router.post(
 	'/update/:_id',
 	Auth.adminCheck(),
-	CommentsCollection.update(),
-	async (req, res) => { res.status(201).send(req.retrievedData) }
+	async (req, res) => {
+		const returnedData = await CommentsCollection.update(req)
+
+		res.status(201).send(returnedData)
+	}
 )
 
 
@@ -58,8 +70,10 @@ router.post(
 router.delete(
 	'/delete/:_id',
 	Auth.adminCheck(),
-	CommentsCollection.delete(),
-	async (req, res) => { res.sendStatus(200) }
+	async (req, res) => {
+		await CommentsCollection.delete(req)
+		res.sendStatus(200)
+	}
 )
 
 

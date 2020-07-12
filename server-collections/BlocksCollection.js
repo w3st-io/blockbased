@@ -29,188 +29,124 @@ async function loadBlocksCollection() {
 class BlocksCollection {
 	/******************* [CRRUD] *******************/
 	// [CREATE] //
-	static create() {
-		return async (req, res, next) => {
-			try {
-				const blocks = await loadBlocksCollection()
-				await blocks.insertOne({
-					createdAt: new Date(),
-					cat_id: req.body.cat_id,
-					title: req.body.title,
-					voters: [],
-					followers: [],
-					user_id: req.decoded._id,
-					email: req.decoded.email,
-					username: req.decoded.username,
-				})
+	static async create(req) {
+		try {
+			const blocks = await loadBlocksCollection()
+			await blocks.insertOne({
+				createdAt: new Date(),
+				cat_id: req.body.cat_id,
+				title: req.body.title,
+				voters: [],
+				followers: [],
+				user_id: req.decoded._id,
+				email: req.decoded.email,
+				username: req.decoded.username,
+			})
 
-				next()
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+			return
 		}
+		catch(e) { return `Caught Error: ${e}`	}
 	}
 
 
 	// [READ ALL] //
-	static readAllAll() {
-		return async (req, res, next) => {
-			const skip = parseInt(req.params.skip)
-			const amountPerPage = parseInt(req.params.amountPerPage)
-			
-			try {
-				const blocks = await loadBlocksCollection()
-				const retrievedData = await blocks.find()
-					.skip(skip)
-					.limit(amountPerPage)
-					.toArray()
-
-				// If Data Retrieved Store //
-				if (retrievedData) { req.retrievedData = retrievedData }
-				else { req.retrievedData = '' }
+	static async readAllAll(req) {
+		const skip = parseInt(req.params.skip)
+		const amountPerPage = parseInt(req.params.amountPerPage)
 		
-				next()
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}	
+		try {
+			const blocks = await loadBlocksCollection()
+			const returnedData = await blocks.find()
+				.skip(skip)
+				.limit(amountPerPage)
+				.toArray()
+	
+			return returnedData
 		}
+		catch(e) { return `Caught Error: ${e}` }
 	}
 
 
 	// [READ ALL] Within Cat //
-	static readAll() {
-		return async (req, res, next) => {
-			const skip = parseInt(req.params.skip)
-			const amountPerPage = parseInt(req.params.amountPerPage)
+	static async readAll(req) {
+		const skip = parseInt(req.params.skip)
+		const amountPerPage = parseInt(req.params.amountPerPage)
 
-			try {
-				const blocks = await loadBlocksCollection()
-				const retrievedData = await blocks.find(
-					{ cat_id: req.params.cat_id }
-				)
-					.skip(skip)
-					.limit(amountPerPage)
-					.toArray()
+		try {
+			const blocks = await loadBlocksCollection()
+			const returnedData = await blocks.find(
+				{ cat_id: req.params.cat_id }
+			)
+				.skip(skip)
+				.limit(amountPerPage)
+				.toArray()
 
-				// If Data Retrieved Store //
-				if (retrievedData) { req.retrievedData = retrievedData }
-				else { req.retrievedData = '' }
-
-				next()
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+			return returnedData
 		}
+		catch(e) { return `Caught Error: ${e}` }
 	}
 
 
 	// [READ] Single Block //
-	static read() {
-		return async (req, res, next) => {
-			const validId = mongodb.ObjectID.isValid(req.params._id)
-		
-			if (validId) {
-				try {
-					const blocks = await loadBlocksCollection()
-					const retrievedData = await blocks.findOne({
-						_id: new mongodb.ObjectID(req.params._id)
-					})
-					
-					// If Data Retrieved Store //
-					if (retrievedData) { req.retrievedData = retrievedData }
-					else { req.retrievedData = '' }
-
-					next()
-				}
-				catch(e) {
-					res.status(400).send({
-						auth: true,
-						message: `Caught Error: ${e}`,
-					})
-				}
+	static async read(req) {
+		const validId = mongodb.ObjectID.isValid(req.params._id)
+	
+		if (validId) {
+			try {
+				const blocks = await loadBlocksCollection()
+				const returnedData = await blocks.findOne(
+					{ _id: new mongodb.ObjectID(req.params._id) }
+				)
+				
+				return returnedData
 			}
-			else {
-				res.status(400).send({
-					auth: true,
-					message: 'Invalid Block ID.'
-				})
-			}
+			catch(e) { return `Caught Error: ${e}` }
 		}
+		else { return 'Invalid Block ID.' }
 	}
 
+
 	// [DELETE] //
-	static delete() {
-		return async (req, res, next) => {
-			const validId = mongodb.ObjectID.isValid(req.params._id)
+	static async delete(req) {
+		const validId = mongodb.ObjectID.isValid(req.params._id)
 
-			if (validId) {
-				try {
-					const blocks = await loadBlocksCollection()
-					await blocks.deleteOne(
-						{ _id: new mongodb.ObjectID(req.params._id) }
-					)
+		if (validId) {
+			try {
+				const blocks = await loadBlocksCollection()
+				await blocks.deleteOne(
+					{ _id: new mongodb.ObjectID(req.params._id) }
+				)
 
-					next()
-				}
-				catch(e) {
-					res.status(400).send({
-						auth: true,
-						message: `Caught Error: ${e}`,
-					})
-				}
+				return
 			}
-			else {
-				res.status(400).send({
-					auth: true,
-					message: 'Invalid Block ID.'
-				})
-			}
+			catch(e) { return `Caught Error: ${e}` }
 		}
+		else { return 'Invalid Block ID.' }
 	}
 
 
 	/******************* [VOTE SYSTEM] *******************/
-	static pushVoter() {
-		return async (req, res, next) => {
-			try {
-				const blocks = await loadBlocksCollection()
-				await blocks.updateOne(
-					{ _id: new mongodb.ObjectID(req.params._id) },
-					{ $push: { 
-						voters: {
-							user_id: req.decoded._id,
-							email: req.decoded.email,
-						}
-					} },
-					{ upsert: true }
-				)
+	static async pushVoter(req) {
+		try {
+			const blocks = await loadBlocksCollection()
+			await blocks.updateOne(
+				{ _id: new mongodb.ObjectID(req.params._id) },
+				{ $push: { 
+					voters: {
+						user_id: req.decoded._id,
+						email: req.decoded.email,
+					}
+				} },
+				{ upsert: true }
+			)
 
-				next()
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+			return
 		}
+		catch(e) {return `Caught Error: ${e}` }
 	}
 
 
-	static pullVoter() {
-		return async (req, res, next) => {
+	static async pullVoter(req) {
 			try {
 				const blocks = await loadBlocksCollection()
 				await blocks.updateOne(
@@ -219,38 +155,36 @@ class BlocksCollection {
 					{ upsert: true }
 				)
 
-				next()
+				return
 			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
-		}
+			catch(e) { return `Caught Error: ${e}` }
 	}
 
+	static async voteExistance(existanceState) {
+		if (existanceState == true) { return true }
+		else { return false }
+	}
 
 	// Check if User Voted For This Block
-	static checkForVote() { next() }
+	static async checkForVote() { return }
 
 
 	/******************* [EXISTANCE] *******************/
-	static async existance(block_id, checkExistance) {
+	static async existance(existance, block_id) {
 		if (mongodb.ObjectID.isValid(block_id)) {
 			try {
 				const blocks = await loadBlocksCollection()
-				const retrievedData = await blocks.findOne(
+				const returnedData = await blocks.findOne(
 					{ _id: new mongodb.ObjectID(block_id) }
 				)
 
 				// If Existance True/False Check //
-				if (checkExistance) {
-					if (retrievedData) { return true }
+				if (existance) {
+					if (returnedData) { return true }
 					else { return false }
 				}
-				else if (!checkExistance) {
-					if (retrievedData) { return false }
+				else if (existance) {
+					if (returnedData) { return false }
 					else { return true }
 				}
 				else { return false }
@@ -261,68 +195,44 @@ class BlocksCollection {
 	}
 
 
-	static voterExistance(existanceState) {
-		return async (req, res, next) => {
-			if (existanceState) { next() }
-			else { res.send(400) }
-		}
-	}
-
-
 	/******************* [OWNERSHIP] *******************/
-	static verifyOwnership() {
-		return async (req, res, next) => {
-			if (mongodb.ObjectID.isValid(req.params._id)) {
-				try {
-					const blocks = await loadBlocksCollection()
-					const returnedData = await blocks.findOne({
-						_id: new mongodb.ObjectID(req.params._id),
-						user_id: req.decoded._id,
-					})
-
-					if (returnedData) { next() }
-					else {
-						return res.status(401).send({
-							auth: true,
-							error: `${req.decoded.username} does not own this block.`
-						})
-					}
-				}
-				catch(e) {
-					res.status(400).send({
-						auth: true,
-						message: `Caught Error: ${e}`,
-					})
-				}
-			}
-			else {
-				res.status(400).send({
-					auth: true,
-					message: 'Invalid Block ID.'
+	static async verifyOwnership(existance, req) {
+		if (mongodb.ObjectID.isValid(req.params._id)) {
+			try {
+				const blocks = await loadBlocksCollection()
+				const returnedData = await blocks.findOne({
+					_id: new mongodb.ObjectID(req.params._id),
+					user_id: req.decoded._id,
 				})
+
+				// If Existance True/False Check //
+				if (existance) {
+					if (returnedData) { return true }
+					else { return false }
+				}
+				else if (existance) {
+					if (returnedData) { return false }
+					else { return true }
+				}
+				else { return false }
 			}
+			catch(e) { return `Caught Error: ${e}` }
 		}
+		else { return 'Invalid Block ID.' }
 	}
 
 
 	/******************* [COUNT] *******************/
-	static count() {
-		return async (req, res, next) => {
-			try {
-				const blocks = await loadBlocksCollection()
-				const count = await blocks.countDocuments({
-					cat_id: req.params.cat_id
-				})
+	static async count(req) {
+		try {
+			const blocks = await loadBlocksCollection()
+			const count = await blocks.countDocuments(
+				{ cat_id: req.params.cat_id }
+			)
 
-				res.status(201).send(count.toString())
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+			return count
 		}
+		catch(e) { return `Caught Error: ${e}` }
 	}
 }
 

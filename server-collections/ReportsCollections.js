@@ -29,156 +29,86 @@ async function loadReportsCollection() {
 class ReportsCollection {
 	/******************* [CRRUD] *******************/
 	// [CREATE] //
-	static create() {
-		return async (req, res, next) => {
-			const comment_id = req.params._id
-
-			try {
-				const reports = await loadReportsCollection()
-				await reports.insertOne({
-					createdAt: new Date(),
-					block_id: req.body.block_id,
-					comment_id: comment_id,
-					type: req.body.reportType,
-					user_id: req.decoded._id,
-					email: req.decoded.email,
-					username: req.decoded.username,
-				})
-				
-				next()
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+	static async create(req) {
+		try {
+			const reports = await loadReportsCollection()
+			await reports.insertOne({
+				createdAt: new Date(),
+				block_id: req.body.block_id,
+				comment_id: req.params._id,
+				type: req.body.reportType,
+				user_id: req.decoded._id,
+				email: req.decoded.email,
+				username: req.decoded.username,
+			})
+			
+			return
 		}
+		catch(e) { return `Caught Error: ${e}` }
 	}
 
 
 	// [READ ALL] //
-	static readAll() {
-		return async (req, res, next) => {
-			try {
-				const reports = await loadReportsCollection()
-				const retrievedData = await reports.find()
-				.toArray()
+	static async readAll(req) {
+		try {
+			const reports = await loadReportsCollection()
+			const returnedData = await reports.find().toArray()
 
-				// If Data Retrieved Store //
-				if (retrievedData) { req.retrievedData = retrievedData }
-				else { req.retrievedData = '' }
-
-				next()
-			}
-			catch (e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+			return returnedData
 		}
+		catch (e) { return `Caught Error: ${e}` }
 	}
 
 
 	// [DELETE] Single Report //
-	static delete() {
-		return async (req, res, next) => {
-			let validId = mongodb.ObjectID.isValid(req.params._id)
+	static async delete(req) {
+		let validId = mongodb.ObjectID.isValid(req.params._id)
 
-			if (validId) {
-				try {
-					const reports = await loadReportsCollection()
-					await reports.deleteOne(
-						{ _id: new mongodb.ObjectID(req.params._id) }
-					)
+		if (validId) {
+			try {
+				const reports = await loadReportsCollection()
+				await reports.deleteOne(
+					{ _id: new mongodb.ObjectID(req.params._id) }
+				)
 
-					next()
-				}
-				catch(e) {
-					res.status(400).send({
-						auth: true,
-						message: `Caught Error: ${e}`,
-					})
-				}
+				return
 			}
-			else {
-				res.status(400).send({
-					auth: true,
-					message: 'Invalid Block ID.'
-				})
-			}
+			catch(e) { return `Caught Error: ${e}` }
 		}
+		else { return 'Invalid Block ID.' }
 	}
 
 
 	// [DELETE ALL] //
-	static deleteAll() {
-		return async (req, res, next) => { 
-			try {
-				const reports = await loadReportsCollection()
-				await reports.deleteMany()
+	static async deleteAll(req) {
+		try {
+			const reports = await loadReportsCollection()
+			await reports.deleteMany()
 
-				next()
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+			return
 		}
+		catch(e) { return `Caught Error: ${e}` }
 	}
 
 	/******************* [EXISTANCE] *******************/
 	// Verify that User is not Double Inserting //
-	static existance(existanceState) {
-		return async (req, res, next) => {
-			const validId = mongodb.ObjectID.isValid(req.params._id)
+	static async existance(req) {
+		const validId = mongodb.ObjectID.isValid(req.params._id)
 
-			if (validId) {
-				try {
-					const reports = await loadReportsCollection()
-					const returnedData = await reports.findOne({	
-						comment_id: req.params._id,
-						user_id: req.decoded._id,
-					})
-
-					// Report Does Exist //
-					if (existanceState == true) {
-						if (returnedData) { next() }
-						else {
-							res.status(400).send({
-								auth: true,
-								error: 'You have already reported this comment.'
-							})
-						}
-					}
-					// Report Does Not Exist //
-					if (existanceState == false) {
-						if (!returnedData) { next() }
-						else {
-							res.status(400).send({
-								auth: true,
-								error: 'Report does not exist.'
-							})
-						}
-					}
-				}
-				catch(e) {
-					res.status(400).send({
-						auth: true,
-						message: `Caught Error: ${e}`,
-					})
-				}
-			}
-			else {
-				res.status(400).send({
-					auth: true,
-					message: 'Invalid Block ID.'
+		if (validId) {
+			try {
+				const reports = await loadReportsCollection()
+				const returnedData = await reports.findOne({	
+					comment_id: req.params._id,
+					user_id: req.decoded._id,
 				})
+
+				if (returnedData) { return true }
+				else { return false }
 			}
+			catch(e) { return `Caught Error: ${e}` }
 		}
+		else { return'Invalid Block ID.' }
 	}
 }
 

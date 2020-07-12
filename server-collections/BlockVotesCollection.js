@@ -29,90 +29,67 @@ async function loadBlockVotesCollection() {
 class BlockVotesCollection {
 	/******************* [CRRUD] *******************/
 	// [CREATE] //
-	static create() {
-		return async (req, res, next) => {
-			try {
-				const blockVotes = await loadBlockVotesCollection()
-				await blockVotes.insertOne({
-					createdAt: new Date(),
-					block_id: req.params._id,
-					user_id: req.decoded._id,
-					email: req.decoded.email,
-					username: req.decoded.username,
-				})
-				
-				next()
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
-
+	static async create(req) {
+		try {
+			const blockVotes = await loadBlockVotesCollection()
+			await blockVotes.insertOne({
+				createdAt: new Date(),
+				block_id: req.params._id,
+				user_id: req.decoded._id,
+				email: req.decoded.email,
+				username: req.decoded.username,
+			})
+			
+			return
 		}
+		catch(e) { return `Caught Error: ${e}` }
 	}
 
 
 	// [DELETE] //
-	static delete() {
-		return async (req, res, next) => {
+	static async delete(req) {
 			try {
 				const blockVotes = await loadBlockVotesCollection()
 				await blockVotes.deleteMany({
 					block_id: req.params._id,
 					user_id: req.decoded._id,
 				})
-				next()
+
+				return
 			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
-		}
+			catch(e) { return `Caught Error: ${e}` }
 	}
 
 
 	// [DELETE ALL] //
-	static deleteAll() {
-		return async (req, res, next) => { 
-			try {
-				const blockVotes = await loadBlockVotesCollection()
-				await blockVotes.deleteMany({
-					block_id: req.params.block_id,
-				})
+	static async deleteAll() {
+		try {
+			const blockVotes = await loadBlockVotesCollection()
+			await blockVotes.deleteMany({ block_id: req.params.block_id, })
 
-				next()
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+			return
 		}
+		catch(e) { return `Caught Error: ${e}` }
 	}
 
 
 	/******************* [EXISTANCE] *******************/
-	static existance(block_id, user_id, checkExistance) {
+	static async existance(block_id, user_id, checkExistance) {
 		if (mongodb.ObjectID.isValid(block_id)) {
 			try {
 				const commentVotes = await Collections.loadCommentVotesCollection()
-				const retrievedData = await commentVotes.findOne({
+				const returnedData = await commentVotes.findOne({
 					block_id: block_id,
 					user_id: user_id,
 				})
 	
 				// If Existance True/False Check //
 				if (checkExistance) {
-					if (retrievedData) { return true }
+					if (returnedData) { return true }
 					else { return false }
 				}
 				else if (!checkExistance) {
-					if (retrievedData) { return false }
+					if (returnedData) { return false }
 					else { return true }
 				}
 				else { return false }
@@ -124,24 +101,17 @@ class BlockVotesCollection {
 	
 
 	/******************* [OWNERSHIP] *******************/
-	static verifyOwnership() {
-		return async (req, res, next) => {
-			const blockVotes = await loadBlockVotesCollection()
-			let returnedData = await blockVotes.findOne(
-				{
-					block_id: req.params.block_id,
-					user_id: req.decoded._id,
-				}
-			)
-
-			if (returnedData) { next() }
-			else {
-				return res.status(401).send({
-					auth: false,
-					error: 'Sorry man, you dont own this blockVote!'
-				})
+	static async verifyOwnership(req) {
+		const blockVotes = await loadBlockVotesCollection()
+		const returnedData = await blockVotes.findOne(
+			{
+				block_id: req.params.block_id,
+				user_id: req.decoded._id,
 			}
-		}
+		)
+
+		if (returnedData) { return true }
+		else { return false }
 	}
 }
 

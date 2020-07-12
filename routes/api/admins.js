@@ -20,19 +20,21 @@ const router = express.Router().use(cors())
 // [LOGIN] //
 router.post(
 	'/login',
-	AdminsCollection.login(),
 	async (req, res) => {
-		res.json({ status: 'success', token: res.token }).status(201).send()
-	}
-	
-)
+		const returnedData = await AdminsCollection.login(req)
 
+		res.status(200).send(returnedData)
+	}
+)
 
 // [REGISTER] //
 router.post(
 	'/register',
-	AdminsCollection.register(),
-	async (req, res) => { res.json({ status: 'success' }).status(201).send() }
+	async (req, res) => {
+		const returnedData = await AdminsCollection.register(req)
+
+		res.status(201).send(returnedData)
+	}
 )
 
 

@@ -29,91 +29,70 @@ async function loadCommentVotesCollection() {
 class CommentVotesCollection {
 	/******************* [CRRUD] *******************/
 	// [CREATE] //
-	static create() {
-		return async (req, res, next) => { 
-			try {
-				const commentVotes = await loadCommentVotesCollection()
-				await commentVotes.insertOne({
-					createdAt: new Date(),
-					block_id: req.params.block_id,
-					comment_id: req.params._id,
-					user_id: req.decoded._id,
-					email: req.decoded.email,
-					username: req.decoded.username,
-				})
+	static async create() {
+		try {
+			const commentVotes = await loadCommentVotesCollection()
+			await commentVotes.insertOne({
+				createdAt: new Date(),
+				block_id: req.params.block_id,
+				comment_id: req.params._id,
+				user_id: req.decoded._id,
+				email: req.decoded.email,
+				username: req.decoded.username,
+			})
 
-				next()
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+			return
 		}
+		catch(e) { `Caught Error: ${e}` }
 	}
 
 
 	// [DELETE] //
-	static delete() {
-		return async (req, res, next) => {
-			try {
-				const commentVotes = await loadCommentVotesCollection()
-				await commentVotes.deleteMany({
-					comment_id: req.params._id,
-					user_id: req.decoded._id,
-				})
-				
-				next()
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+	static async delete(req) {
+		try {
+			const commentVotes = await loadCommentVotesCollection()
+			await commentVotes.deleteMany({
+				comment_id: req.params._id,
+				user_id: req.decoded._id,
+			})
+			
+			return
 		}
+		catch(e) { return `Caught Error: ${e}` }
 	}
 
 
 	// [DELETE ALL] //
-	static deleteAll() {
-		return async (req, res, next) => {
-			try {
-				const commentVotes = await loadCommentVotesCollection()
-				await commentVotes.deleteMany({
-					comment_id: req.params.comment_id,
-				})
-				
-				next()
-			}
-			catch(e) {
-				res.status(400).send({
-					auth: true,
-					message: `Caught Error: ${e}`,
-				})
-			}
+	static async deleteAll(req) {
+		try {
+			const commentVotes = await loadCommentVotesCollection()
+			await commentVotes.deleteMany(
+				{ comment_id: req.params.comment_id, }
+			)
+			
+			return
 		}
+		catch(e) { return `Caught Error: ${e}` }
 	}
 
 
 	/******************* [EXISTANCE] *******************/
-	static existance(comment_id, user_id, checkExistance) {
+	static async existance(comment_id, user_id, checkExistance) {
 		if (mongodb.ObjectID.isValid(comment_id)) {
 			try {
 				const commentVotes = await Collections.loadCommentVotesCollection()
-				const retrievedData = await commentVotes.findOne({
+				const returnedData = await commentVotes.findOne({
 					comment_id: comment_id,
 					user_id: user_id,
 				})
 	
 				// If Existance True/False Check //
 				if (checkExistance) {
-					if (retrievedData) { return true }
+					if (returnedData) { return true }
 					else { return false }
 				}
 				else if (!checkExistance) {
-					if (retrievedData) { return false }
+					if (returnedData) { return false }
 					else { return true }
 				}
 				else { return false }
@@ -128,18 +107,13 @@ class CommentVotesCollection {
 	static verifyOwnership() {
 		return async (req, res, next) => {
 			const commentVotes = await Collections.loadCommentVotesCollection()
-			let returnedData = await commentVotes.findOne({
+			const returnedData = await commentVotes.findOne({
 				comment_id: req.params.comment_id,
 				user_id: req.decoded._id,
 			})
 
-			if (returnedData) { next() }
-			else {
-				return res.status(401).send({
-					auth: false,
-					error: 'Sorry man, you dont own this block-vote!'
-				})
-			}
+			if (returnedData) { return true }
+			else { return false }
 		}
 	}
 }

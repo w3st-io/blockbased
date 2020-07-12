@@ -22,8 +22,11 @@ const router = express.Router().use(cors())
 router.get(
 	'/read-all/:amountPerPage/:skip',
 	Auth.adminCheck(),
-	BlocksCollection.readAllAll(),
-	async (req, res) => { res.status(200).send(req.retrievedData) }
+	async (req, res) => {
+		const returnedData = await BlocksCollection.readAllAll(req)
+
+		res.status(200).send(returnedData)
+	}
 )
 
 
@@ -31,8 +34,10 @@ router.get(
 router.get(
 	'/read-all/:cat_id/:amountPerPage/:skip',
 	Auth.adminCheck(),
-	BlocksCollection.readAll(),
-	async (req, res) => { res.status(200).send(req.retrievedData) }
+	async (req, res) => {
+		const returnedData = await BlocksCollection.readAll(req)
+		res.status(200).send(returnedData)
+	}
 )
 
 
@@ -40,8 +45,10 @@ router.get(
 router.get(
 	'/read/:_id',
 	Auth.adminCheck(),
-	BlocksCollection.read(),
-	async (req, res) => { res.status(200).send(req.retrievedData) }
+	async (req, res) => {
+		const returnedData = await BlocksCollection.read(req)
+		res.status(200).send(returnedData)
+	}
 )
 
 
@@ -49,8 +56,10 @@ router.get(
 router.delete(
 	'/delete/:_id',
 	Auth.adminCheck(),
-	BlocksCollection.delete(),
-	async (req, res) => { res.sendStatus(200) }
+	async (req, res) => {
+		BlocksCollection.delete(req)
+		res.sendStatus(200)
+	}
 )
 
 

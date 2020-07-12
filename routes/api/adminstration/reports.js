@@ -22,8 +22,11 @@ const router = express.Router().use(cors())
 router.get(
 	'/read-all',
 	Auth.adminCheck(),
-	ReportsCollection.readAll(),
-	async (req, res) => { res.status(200).send(req.retrievedData) }
+	async (req, res) => {
+		const returnedData = await ReportsCollection.readAll(req)
+
+		res.status(200).send(returnedData)
+	}
 )
 
 
@@ -31,8 +34,11 @@ router.get(
 router.delete(
 	'/delete/:_id',
 	Auth.adminCheck(),
-	ReportsCollection.delete(),
-	async (req, res) => { res.status(200).send() }
+	async (req, res) => {
+		await ReportsCollection.delete(req)
+		
+		res.status(200).send()
+	}
 )
 
 

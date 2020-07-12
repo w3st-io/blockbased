@@ -75,7 +75,7 @@
 				submitted: false,
 				email: '',
 				password: '',
-				returned: '',
+				returnedData: '',
 				error: '',
 			}
 		},
@@ -88,20 +88,22 @@
 		methods: {
 			async login() {
 				// Get Status from Login Function //
-				this.returned = await AdminService.login(this.email, this.password)
+				try {
+					this.returnedData = await AdminService.login(
+						this.email,
+						this.password
+					)
+				}
+				catch(e) { this.error = e }
 
 				// Check Validation Status //
-				if (
-					this.returned.data.token &&
-					this.returned.data.status != 'incorrect_email' &&
-					this.returned.data.status != 'incorrect_password'
-				) { this.successful() }
-            else { this.error = this.returned.data.status }
+				if (this.returnedData.data.auth) { this.successful() }
+            else { this.error = this.returnedData.data.status }
 			},
 
 			successful() {
 				// [SET TOKEN] // Emit // [REDIRECT] //
-				localStorage.setItem('admintoken', this.returned.data.token)
+				localStorage.setItem('admintoken', this.returnedData.data.token)
 				EventBus.$emit('admin-logged-in')
 				router.push({ name: 'AdminDashboard' })
 			}

@@ -18,20 +18,26 @@ const router = express.Router().use(cors())
 
 
 /******************* [USER PROFILE] *******************/
-// [READ] //
+// [READ] Decoded //
 router.get(
 	'/read',
 	Auth.userTokenCheck(),
-	UsersCollection.readDecoded(),
-	async (req, res) => { res.status(200).send(req.retrievedData) }
+	async (req, res) => {
+		const returnedData = await UsersCollection.readDecoded(req)
+
+		res.status(200).send(returnedData)
+	}
 )
 
 
 // [READ] Profile Image //
 router.get(
 	'/read/profile-pic-url/:_id',
-	UsersCollection.readProfilePic(),
-	async (req, res) => { res.status(200).send(req.retrievedData) }
+	async (req, res) => {
+		const returnedData = await UsersCollection.readProfilePic(req)
+
+		res.status(200).send(returnedData)
+	}
 )
 
 
@@ -39,8 +45,11 @@ router.get(
 router.post(
 	'/update',
 	Auth.userTokenCheck(),
-	UsersCollection.updateDecoded(),
-	async (req, res) => { res.status(201).send() }
+	async (req, res) => {
+		await UsersCollection.updateDecoded(req)
+
+		res.status(201).send()
+	}
 )
 
 
@@ -48,9 +57,10 @@ router.post(
 // [LOGIN] //
 router.post(
 	'/login',
-	UsersCollection.login(),
 	async (req, res) => {
-		res.json({ status: 'success', token: res.token }).status(200).send()
+		const returnedData = await UsersCollection.login(req)
+
+		res.status(200).send(returnedData)
 	}
 )
 
@@ -58,8 +68,11 @@ router.post(
 // [REGISTER] //
 router.post(
 	'/register',
-	UsersCollection.register(),
-	async (req, res) => { res.json({ status: 'success' }).status(201).send() }
+	async (req, res) => {
+		const returnedData = await UsersCollection.register(req)
+
+		res.status(201).send(returnedData)
+	}
 )
 
 

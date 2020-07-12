@@ -22,8 +22,11 @@ const router = express.Router().use(cors())
 router.get(
 	'/read-all/profile-data',
 	Auth.adminCheck(),
-	UsersCollection.readAll(),
-	async (req, res) => { res.status(201).send(req.retrievedData) }
+	async (req, res) => {
+		const returnedData = await UsersCollection.readAll(req)
+
+		res.status(201).send(returnedData)
+	}
 )
 
 
@@ -31,8 +34,11 @@ router.get(
 router.get(
 	'/read/:_id',
 	Auth.adminCheck(),
-	UsersCollection.read(),
-	async (req, res) => { res.status(200).send(req.retrievedData) }
+	async (req, res) => {
+		const returnedData = await UsersCollection.read(req)
+
+		res.status(200).send(returnedData)
+	}
 )
 
 
@@ -40,8 +46,11 @@ router.get(
 router.post(
 	'/update/:_id',
 	Auth.adminCheck(),
-	UsersCollection.update(),
-	async (req, res) => { res.status(201).send() }
+	async (req, res) => {
+		await UsersCollection.update()
+
+		res.status(201).send()
+	}
 )
 
 
