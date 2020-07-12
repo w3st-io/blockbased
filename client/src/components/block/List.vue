@@ -114,7 +114,7 @@
 		props: {
 			cat_id: { type: String, required: true, },
 			pageIndex: { type: Number, required: true, },
-			amountPerPage: { type: Number, required: true, },
+			amount: { type: Number, required: true, },
 			user_id: { type: String, required: true, },
 			email: { type: String, required: true, },
 			username: { type: String, required: true, },
@@ -132,7 +132,7 @@
 
 		created: async function () {
 			// [INIT] Blocks //
-			await this.getBlocks()
+			await this.blocksReadAll()
 			
 			// [INIT] Total Comments //
 			await this.totalComments()
@@ -146,11 +146,11 @@
 
 		methods: {
 			/******************* [INIT] Block *******************/
-			async getBlocks() {
+			async blocksReadAll() {
 				try {
-					this.blocks = await BlockService.getAllBlocks(
+					this.blocks = await BlockService.readAll(
 						this.cat_id,
-						this.amountPerPage,
+						this.amount,
 						this.pageIndex
 					)
 				}
@@ -166,7 +166,7 @@
 				for (let i = 0; i < this.blocks.length; i++) {
 					let block_id = this.blocks[i]._id
 
-					this.commentCounts[block_id] = await CommentService.countCommentsForBlock(block_id)
+					this.commentCounts[block_id] = await CommentService.count(block_id)
 				}
 			},
 
@@ -185,33 +185,33 @@
 			voteBtn(block) {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
-					if (this.checkForUserVote(block)) { this.removeVote(block._id) }
-					else { this.addVote(block._id) }
+					if (this.checkForUserVote(block)) { this.blockVote(block._id) }
+					else { this.blockUnvote(block._id) }
 				}
 			},
 
-			async addVote(block_id) {
+			async blockVote(block_id) {
 				this.disabled = true
 
 				// [CREATE] //
-				try { await BlockService.addVote(block_id) }
+				try { await BlockService.vote(block_id) }
 				catch(e) { this.error = e }
 				
 				// [READ] Update Blocks //
-				await this.getBlocks()
+				await this.blocksReadAll()
 				
 				this.disabled = false
 			},
 
-			async removeVote(block_id) {
+			async blockUnvote(block_id) {
 				this.disabled = true
 
 				// [DELETE] //
-				try { await BlockService.removeVote(block_id) }
+				try { await BlockService.unvote(block_id) }
 				catch(e) { this.error = e }
 
 				// [READ] Update Blocks //
-				await this.getBlocks()
+				await this.blocksReadAll()
 
 				this.disabled = false
 			},

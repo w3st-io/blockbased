@@ -20,12 +20,12 @@ const authAxios = axios.create({
 class AdminstrationBlockService {
 	/******************* [CRRUD] *******************/
 	// [READ ALL] ALL - Auth Required //
-	static getAllBlocks(amountPerPage, pageNumber) {
+	static getAllBlocks(amount, pageNumber) {
 		// multiply page number with # blocks per page to know how much to skip
-		let skip = pageNumber * amountPerPage
+		let skip = pageNumber * amount
 
 		let result = new Promise ((resolve, reject) => {
-			authAxios.get(`/read-all/${amountPerPage}/${skip}`)
+			authAxios.get(`/read-all/${amount}/${skip}`)
 				.then((res) => {
 					resolve(
 						res.data.map((block) => ({

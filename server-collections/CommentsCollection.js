@@ -51,13 +51,13 @@ class CommentsCollection {
 	// [READ-ALL-ALL] //
 	static async readAllAll(req) {
 		const skip = parseInt(req.params.skip)
-		const amountPerPage = parseInt(req.params.amountPerPage)
+		const amount = parseInt(req.params.amount)
 		
 		try {
 			const comments = await loadCommentsCollection()
 			const returnedData = await comments.find()
 			.skip(skip)
-			.limit(amountPerPage)
+			.limit(amount)
 			.toArray()
 			
 			return returnedData
@@ -71,7 +71,7 @@ class CommentsCollection {
 	static async readAll(req) {
 		const validId = mongodb.ObjectID.isValid(req.params.block_id)
 		const skip = parseInt(req.params.skip)
-		const amountPerPage = parseInt(req.params.amountPerPage)
+		const amount = parseInt(req.params.amount)
 		
 		if (validId) {
 			try {
@@ -80,7 +80,7 @@ class CommentsCollection {
 					{ block_id: req.params.block_id }
 				)
 				.skip(skip)
-				.limit(amountPerPage)
+				.limit(amount)
 				.toArray()
 
 				return returnedData

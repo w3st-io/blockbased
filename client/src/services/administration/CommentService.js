@@ -20,13 +20,13 @@ const authAxios = axios.create({
 class AdministrationCommentService {
 	/******************* [COMMENT] *******************/
 	// [READ-ALL] Auth Required //
-	static adminGetAllComments(amountPerPage, pageNumber) {
+	static readAllAll(amount, pageNumber) {
 		// * page number with # comments per page to calc. skip
 
-		let skip = pageNumber * amountPerPage
+		let skip = pageNumber * amount
 
 		let result = new Promise ((resolve, reject) => {
-			authAxios.get(`/read-all/${amountPerPage}/${skip}`)
+			authAxios.get(`/read-all-all/${amount}/${skip}`)
 				.then((res) => {
 					resolve(
 						res.data.map((comment) => ({
@@ -43,17 +43,17 @@ class AdministrationCommentService {
 
 
 	// [READ-ALL] Auth Required - Within a Block //
-	static getAllComments(block_id, amountPerPage, pageNumber) {
-		// * page number with # comments per page to calc. skip
-		let skip = pageNumber * amountPerPage
+	static readAll(block_id, amount, pageNumber) {
+		const skip = pageNumber * amount
 
-		let result = new Promise ((resolve, reject) => {
-			authAxios.get(`/read-all/${block_id}/${amountPerPage}/${skip}`)
+		const result = new Promise ((resolve, reject) => {
+			authAxios.get(`/read-all/${block_id}/${amount}/${skip}`)
 				.then((res) => {
 					const data = res.data
-					resolve(
-						data.map((comment) => ({ ...comment }))
-					)
+					resolve(data.map((comment) => ({
+						...comment,
+						createdAt: new Date(comment.createdAt).toLocaleString()
+					})))
 				})
 				.catch((err) => { reject(err) })
 		})
@@ -63,7 +63,7 @@ class AdministrationCommentService {
 
 
 	// [READ] //
-	static getComment(comment_id) {
+	static read(comment_id) {
 		let result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read/${comment_id}`)
 			.then((res) => { resolve(res.data) })
@@ -75,8 +75,7 @@ class AdministrationCommentService {
 
 
 	// [UPDATE] //
-	static updateComment(comment_id, comment) {
-		console.log('comment:',comment)
+	static update(comment_id, comment) {
 		let result = new Promise ((resolve, reject) => {
 			authAxios.post(`/update/${comment_id}`, { comment })
 				.then((res) => { resolve(res.data) })
@@ -88,7 +87,7 @@ class AdministrationCommentService {
 
 
 	// [DELETE] //
-	static deleteComment(comment_id) {
+	static delete(comment_id) {
 		let result = new Promise ((resolve, reject) => {
 			authAxios.delete(`/delete/${comment_id}`)
 				.then((res) => { resolve(res) })

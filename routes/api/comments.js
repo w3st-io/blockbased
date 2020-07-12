@@ -21,7 +21,7 @@ const ReportsCollection = require('../../server-collections/ReportsCollections')
 const router = express.Router().use(cors())
 
 
-/******************* [CRRUD] *******************/
+/******************* [COMMENT] *******************/
 // [CREATE] Auth Required //
 router.post(
 	'/create',
@@ -39,9 +39,20 @@ router.post(
 )
 
 
+// [READ-ALL-ALL] //
+router.get(
+	'/read-all-all/:amount/:skip',
+	async (req, res) => {
+		const returnedData = await CommentsCollection.readAllAll(req)
+
+		res.status(200).send(returnedData)
+	}
+)
+
+
 // [READ-ALL] //
 router.get(
-	'/read-all/:block_id/:amountPerPage/:skip',
+	'/read-all/:block_id/:amount/:skip',
 	async (req, res) => {
 		const returnedData = await CommentsCollection.readAll(req)
 
@@ -133,6 +144,7 @@ router.post(
 
 
 /******************* [REPORTS] *******************/
+// [CREATE] //
 router.post(
 	'/report/:_id',
 	Auth.userTokenCheck(),

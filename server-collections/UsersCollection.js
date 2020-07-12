@@ -189,14 +189,12 @@ class UsersCollection {
 					// Hash Data //
 					bcrypt.hash(formData.password, 10, (err, hash) => {
 						formData.password = hash
+						
+						try { users.insertOne(formData) }
+						catch(e) { return { status: `Caught Error: ${e}` } }
 					})
 
-					try {
-						users.insertOne(formData)
-						
-						return { status: 'success' }
-					}
-					catch(e) { return { status: `Caught Error: ${e}` } }
+					return { status: 'success' }
 				}
 				else { return { status: 'email_taken' } }
 			}

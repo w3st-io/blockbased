@@ -18,9 +18,9 @@ const router = express.Router().use(cors())
 
 
 /******************* [CRRUD] *******************/
-// [READ-ALL] Auth Required //
+// [READ-ALL-ALL] //
 router.get(
-	'/read-all/:amountPerPage/:skip',
+	'/read-all-all/:amount/:skip',
 	Auth.adminCheck(),
 	async (req, res) => {
 		const returnedData = await CommentsCollection.readAllAll(req)
@@ -32,7 +32,7 @@ router.get(
 
 // [READ-ALL] Auth Required - Within a Block //
 router.get(
-	'/read-all/:block_id/:amountPerPage/:skip',
+	'/read-all/:block_id/:amount/:skip',
 	Auth.adminCheck(),
 	async (req, res) => {
 		const returnedData = await CommentsCollection.readAll(req)

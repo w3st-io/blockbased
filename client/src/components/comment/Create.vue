@@ -96,14 +96,14 @@
 					this.disabled = true
 					this.loading = true
 
-					this.createComment()
+					this.create()
 				}
 				else { this.error = 'Unable to create comment' }
 			},
 
-			async createComment() {
+			async create() {
 				try {
-					await CommentService.createComment(this.block_id, this.comment)
+					await CommentService.create(this.block_id, this.comment)
 					
 					// [REDIRECT] Block Page //
 					router.push(

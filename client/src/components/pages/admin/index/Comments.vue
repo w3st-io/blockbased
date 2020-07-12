@@ -70,7 +70,7 @@
 			async getComments() {
 				// Get Comments //
 				try {
-					this.comments = await ACommentService.adminGetAllComments(100, 0)
+					this.comments = await ACommentService.readAllAll(100, 0)
 				}
 				catch(e) { this.error = e }
 			},

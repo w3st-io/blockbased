@@ -14,7 +14,7 @@
 			<comment-list
 				:block_id="block_id"
 				:pageIndex="pageIndex"
-				:amountPerPage="5"
+				:amount="5"
 				:user_id="user_id"
 				:email="email"
 				:username="username"

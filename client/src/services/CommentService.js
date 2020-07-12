@@ -20,20 +20,42 @@ const authAxios = axios.create({
 class CommentService {
 	/******************* [CRRUD] *******************/
 	// [CREATE] Auth Required //
-	static createComment(block_id, comment) {
+	static create(block_id, comment) {
 		let status = authAxios.post(`/create`, { block_id, comment })
 
 		return status
 	}
 
 
-	// [READ-ALL] //
-	static getAllComments(block_id, amountPerPage, pageNumber) {
+	// [READ-ALL] Auth Required //
+	static readAllAll(amount, pageNumber) {
 		// * page number with # comments per page to calc. skip
-		let skip = pageNumber * amountPerPage
+
+		let skip = pageNumber * amount
 
 		let result = new Promise ((resolve, reject) => {
-			authAxios.get(`/read-all/${block_id}/${amountPerPage}/${skip}`)
+			authAxios.get(`/read-all-all/${amount}/${skip}`)
+				.then((res) => {
+					resolve(
+						res.data.map((comment) => ({
+							...comment,
+							createdAt: new Date(comment.createdAt).toLocaleString(),
+						}))
+					)
+				})
+				.catch((err) => { reject(err) })
+		})
+
+		return result
+	}
+
+
+	// [READ-ALL] //
+	static readAll(block_id, amount, pageNumber) {
+		const skip = pageNumber * amount
+
+		const result = new Promise ((resolve, reject) => {
+			authAxios.get(`/read-all/${block_id}/${amount}/${skip}`)
 				.then((res) => {
 					const data = res.data
 					resolve(data.map((comment) => ({
@@ -49,7 +71,7 @@ class CommentService {
 
 
 	// [READ] //
-	static getComment(comment_id) {
+	static read(comment_id) {
 		let result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read/${comment_id}`)
 				.then((res) => { resolve(res.data) })
@@ -61,7 +83,7 @@ class CommentService {
 
 
 	// [UPDATE] Auth Required //
-	static updateComment(comment_id, comment) {
+	static update(comment_id, comment) {
 		let result = new Promise ((resolve, reject) => {
 			authAxios.post(`/update/${comment_id}`, { comment })
 				.then((res) => { resolve(res.data) })
@@ -73,7 +95,7 @@ class CommentService {
 
 
 	// [DELETE] Auth Required //
-	static deleteComment(comment_id) {
+	static delete(comment_id) {
 		let result = new Promise ((resolve, reject) => {
 			authAxios.delete(`/delete/${comment_id}`)
 				.then((res) => { resolve(res) })
@@ -86,13 +108,13 @@ class CommentService {
 
 	/******************* [VOTE SYSTEM] *******************/
 	// ADD/REMOVE VOTE //
-	static async addVote(block_id, comment_id) {
+	static async vote(block_id, comment_id) {
 		// Add the voter from the Block Object
 		let status = await authAxios.post(`/vote/${comment_id}/${block_id}`)
 
 		return status
 	}
-	static async removeVote(comment_id) {
+	static async unvote(comment_id) {
 		// Remove the voter from the Block Object
 		let status = await authAxios.post(`/unvote/${comment_id}`)
 
@@ -112,7 +134,7 @@ class CommentService {
 
 
 	/******************* [COUNT] *******************/
-	static async countCommentsForBlock(block_id) {
+	static async count(block_id) {
 		let count = await authAxios.get(`/count/${block_id}`)
 
 		return count.data

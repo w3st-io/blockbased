@@ -77,7 +77,7 @@
 
 		created: async function() {
 			// Get Block Details //
-			await this.getBlockDetails()
+			await this.blockRead()
 
 			// Set Follows Replica //
 			this.setFollowsReplica()
@@ -88,9 +88,9 @@
 
 		methods: {
 			/******************* [INIT] Block *******************/
-			async getBlockDetails() {
+			async blockRead() {
 				try {
-					this.block = await BlockService.getBlockDetails(this.block_id)
+					this.block = await BlockService.read(this.block_id)
 					
 					// Enable Button //
 					this.disabled = false
@@ -142,7 +142,7 @@
 
 					// Set Replica Icon and Count // Rerender Blocks //
 					this.followIconAndCountHandler()
-					this.getBlockDetails()
+					this.blockRead()
 
 					// Conditional DB Actions //
 					if (this.followsReplica.voted) { this.addFollow() }

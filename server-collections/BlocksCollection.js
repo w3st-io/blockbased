@@ -52,13 +52,13 @@ class BlocksCollection {
 	// [READ ALL] //
 	static async readAllAll(req) {
 		const skip = parseInt(req.params.skip)
-		const amountPerPage = parseInt(req.params.amountPerPage)
+		const amount = parseInt(req.params.amount)
 		
 		try {
 			const blocks = await loadBlocksCollection()
 			const returnedData = await blocks.find()
 				.skip(skip)
-				.limit(amountPerPage)
+				.limit(amount)
 				.toArray()
 	
 			return returnedData
@@ -70,7 +70,7 @@ class BlocksCollection {
 	// [READ ALL] Within Cat //
 	static async readAll(req) {
 		const skip = parseInt(req.params.skip)
-		const amountPerPage = parseInt(req.params.amountPerPage)
+		const amount = parseInt(req.params.amount)
 
 		try {
 			const blocks = await loadBlocksCollection()
@@ -78,7 +78,7 @@ class BlocksCollection {
 				{ cat_id: req.params.cat_id }
 			)
 				.skip(skip)
-				.limit(amountPerPage)
+				.limit(amount)
 				.toArray()
 
 			return returnedData

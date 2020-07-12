@@ -118,7 +118,7 @@
 		props: {
 			block_id: { type: String, required: true, },
 			pageIndex: { type: Number, required: true, },
-			amountPerPage: { type: Number, required: true },
+			amount: { type: Number, required: true },
 			user_id: { type: String, required: true },
 			email: { type: String, required: true },
 			username: { type: String, required: true },
@@ -136,7 +136,7 @@
 
 		created: async function() {
 			// [INIT] Comments //
-			await this.getComments()
+			await this.commentReadAll()
 
 			// [INIT] Replicas //
 			this.SetProfileReplicas()
@@ -170,12 +170,12 @@
 
 		methods: {
 			/******************* [INIT] Comments *******************/
-			async getComments() {
+			async commentReadAll() {
 				// Get Comments //
 				try {
-					this.comments = await CommentService.getAllComments(
+					this.comments = await CommentService.readAll(
 						this.block_id,
-						this.amountPerPage,
+						this.amount,
 						this.pageIndex
 					)
 				}
@@ -184,11 +184,11 @@
 
 			async deleteComment(comment_id) {
 				// [DELETE] Comment //
-				try { await CommentService.deleteComment(comment_id) }
+				try { await CommentService.delete(comment_id) }
 				catch(e) { this.error = e }
 
 				// [READ] Comments //
-				await this.getComments()
+				await this.commentReadAll()
 			},
 
 			doesUserOwnThisComment(user_id) {
@@ -248,33 +248,33 @@
 			voteBtn(comment) {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
-					if (this.checkForUserVote(comment)) { this.removeVote(comment) }
-					else { this.addVote(comment) }		
+					if (this.checkForUserVote(comment)) { this.commentUnvote(comment) }
+					else { this.commentVote(comment) }		
 				}
 			},
 
-			async addVote(comment) {
+			async commentVote(comment) {
 				this.disabled = true
 
 				// [CREATE] Like in "CommentVotes" Colelction //
-				try { await CommentService.addVote(this.block_id, comment._id) }
+				try { await CommentService.vote(this.block_id, comment._id) }
 				catch(e) { this.error = e }
 
 				// [READ] Update Comments //
-				await this.getComments()
+				await this.commentReadAll()
 
 				this.disabled = false
 			},
 
-			async removeVote(comment) {
+			async commentUnvote(comment) {
 				this.disabled = true
 
 				// [DELETE] Like in "CommentVotes" Collection //
-				try { await CommentService.removeVote(comment._id) }
+				try { await CommentService.unvote(comment._id) }
 				catch(e) { this.error = e }
 
 				// [READ] Update Comments //
-				await this.getComments()
+				await this.commentReadAll()
 
 				this.disabled = false
 			},
@@ -314,7 +314,7 @@
 			log() {
 				console.log('%%% [COMPONENT] CommentList %%%')
 				console.log('pageIndex:', this.pageIndex)
-				console.log('amountPerPage:', this.amountPerPage)
+				console.log('amount:', this.amount)
 				console.log('user_id:', this.user_id)
 				console.log('email:', this.email)
 				console.log('username:', this.username)

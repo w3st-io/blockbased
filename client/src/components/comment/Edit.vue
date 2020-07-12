@@ -89,9 +89,7 @@
 			
 			async getCommentDetails() {
 				try {
-					this.commentDetails = await CommentService.getComment(
-						this.comment_id
-					)
+					this.commentDetails = await CommentService.read(this.comment_id)
 
 					this.comment = this.commentDetails.comment
 				}
@@ -103,15 +101,15 @@
 					this.disabled = true
 					this.loading = true
 
-					this.updateComment()
+					this.update()
 				}
 				else { this.error = 'Error unable to create comment' }
 			},
 
 			// [UPDATE] Comment //
-			async updateComment() {
+			async update() {
 				try {
-					await CommentService.updateComment(this.comment_id, this.comment)
+					await CommentService.update(this.comment_id, this.comment)
 
 					router.push(
 						{

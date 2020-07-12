@@ -34,7 +34,7 @@ router.post(
 
 // [READ ALL] Within Cat //
 router.get(
-	'/read-all/:cat_id/:amountPerPage/:skip',
+	'/read-all/:cat_id/:amount/:skip',
 	async (req, res) => {
 		const returnedData = await BlocksCollection.readAll(req)
 		res.status(200).send(returnedData)

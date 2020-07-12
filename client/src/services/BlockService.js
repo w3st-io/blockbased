@@ -20,20 +20,20 @@ const authAxios = axios.create({
 class BlockService {
 	/******************* [CRRUD] *******************/
 	// [CREATE] Auth Required //
-	static async createBlock(title, cat_id) {
-		let status = await authAxios.post('/create', { title, cat_id })
+	static async create(title, cat_id) {
+		const status = await authAxios.post('/create', { title, cat_id })
 
 		return status
 	}
 
 
 	// [READ ALL] //
-	static async getAllBlocks(cat_id, amountPerPage, pageNumber) {
+	static async readAll(cat_id, amount, pageNumber) {
 		// multiply page number with # blocks per page to know how much to skip
-		let skip = pageNumber * amountPerPage
+		const skip = pageNumber * amount
 
-		let result = new Promise ((resolve, reject) => {
-			authAxios.get(`/read-all/${cat_id}/${amountPerPage}/${skip}`)
+		const result = new Promise ((resolve, reject) => {
+			authAxios.get(`/read-all/${cat_id}/${amount}/${skip}`)
 				.then((res) => {
 					resolve(res.data.map((block) => ({
 						...block,
@@ -48,8 +48,8 @@ class BlockService {
 
 
 	// [READ] This for Single Block Details //
-	static getBlockDetails(block_id) {
-		let result = new Promise ((resolve, reject) => {
+	static read(block_id) {
+		const result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read/${block_id}`)
 				.then((res) => {
 					res.data.createdAt = new Date(res.data.createdAt).toLocaleString()
@@ -80,14 +80,14 @@ class BlockService {
 
 	/******************* [VOTE SYSTEM] *******************/
 	// ADD/REMOVE VOTE //
-	static async addVote(block_id) {
+	static async vote(block_id) {
 		let status = await authAxios.post(`/vote/${block_id}`)
 
 		return status
 	}
 
 
-	static async removeVote(block_id) {
+	static async unvote(block_id) {
 		// Remove the voter from the Block Object //
 		let status = await authAxios.post(`/unvote/${block_id}`)
 
@@ -103,7 +103,7 @@ class BlockService {
 
 
 	/******************* [COUNT] *******************/
-	static async countBlocksForCat(cat_id) {
+	static async countWithinCat(cat_id) {
 		let count = await authAxios.get(`/count/${cat_id}`)
 
 		return count.data

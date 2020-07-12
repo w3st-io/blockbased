@@ -97,14 +97,14 @@ class BlocksCollection {
 					// Hash Data //
 					bcrypt.hash(req.body.password, 10, (err, hash) => {
 						formData.password = hash
+
+						try { admins.insertOne(formData) }
+						catch(e) { return { status: `Caught Error: ${e}` } }
 					})
 					
-					try {
-						admins.insertOne(formData)
-
-						return { status: 'success' }
-					}
-					catch(e) { return { status: `Caught Error: ${e}` } }
+					return { status: 'success' }
+					
+					
 				}
 				else { return { status: 'email_taken' } }
 			}
