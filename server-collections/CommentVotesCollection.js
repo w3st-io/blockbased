@@ -76,7 +76,7 @@ class CommentVotesCollection {
 	}
 
 
-	/******************* [EXISTANCE] *******************/
+	/******************* [EXISTANCE + OWNERSHIP] *******************/
 	static async existance(comment_id, user_id, checkExistance) {
 		if (mongodb.ObjectID.isValid(comment_id)) {
 			try {
@@ -103,8 +103,7 @@ class CommentVotesCollection {
 	}
 	
 
-	/******************* [OWNERSHIP] *******************/
-	static async verifyOwnership(req) {
+	static async ownership(req) {
 		const commentVotes = await Collections.loadCommentVotesCollection()
 		const returnedData = await commentVotes.findOne({
 			comment_id: req.params.comment_id,

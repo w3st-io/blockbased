@@ -73,7 +73,7 @@ class BlockVotesCollection {
 	}
 
 
-	/******************* [EXISTANCE] *******************/
+	/******************* [EXISTANCE + OWNERSHIP] *******************/
 	static async existance(block_id, user_id, checkExistance) {
 		if (mongodb.ObjectID.isValid(block_id)) {
 			try {
@@ -100,8 +100,7 @@ class BlockVotesCollection {
 	}
 	
 
-	/******************* [OWNERSHIP] *******************/
-	static async verifyOwnership(req) {
+	static async ownership(req) {
 		const blockVotes = await loadBlockVotesCollection()
 		const returnedData = await blockVotes.findOne(
 			{
