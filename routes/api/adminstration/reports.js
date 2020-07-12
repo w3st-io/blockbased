@@ -10,7 +10,7 @@ const express = require('express')
 
 // [REQUIRE] Personal //
 const Auth = require('../../../server-middleware/AuthMiddleware')
-const ReportsCollection = require('../../../server-collections/ReportsCollections')
+const CommentReportsCollection = require('../../../server-collections/CommentReportsCollections')
 
 
 // [EXPRESS + USE] //
@@ -23,7 +23,7 @@ router.get(
 	'/read-all',
 	Auth.adminCheck(),
 	async (req, res) => {
-		const returnedData = await ReportsCollection.readAll(req)
+		const returnedData = await CommentReportsCollection.readAll(req)
 
 		res.status(200).send(returnedData)
 	}

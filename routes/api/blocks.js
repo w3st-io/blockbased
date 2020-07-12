@@ -57,7 +57,7 @@ router.delete(
 	'/delete/:_id',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		const owned = await BlocksCollection.verifyOwnership(true, req)
+		const owned = await BlocksCollection.ownership(req)
 		
 		if (owned == true) {
 			await BlocksCollection.delete(req)
@@ -105,11 +105,11 @@ router.post(
 )
 
 
-/******************* [VALIDATE] *******************/
+/******************* [EXISTANCE + OWNERSHIP] *******************/
+// [EXISTANCE] //
 router.get(
 	'/existance/:_id',
 	async (req, res) => {
-		// If Existance True/False Check //
 		const existance = await BlocksCollection.existance(req.params._id)
 
 		if (existance == true) { res.status(200).send(true) }
@@ -118,12 +118,12 @@ router.get(
 )
 
 
-// Check Block Ownership (should be used only on the client) //
+// [OWNERSHIP] //
 router.get(
 	'/ownership/:_id',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		const owned = await BlocksCollection.verifyOwnership(true, req)
+		const owned = await BlocksCollection.ownership(req)
 
 		if (owned == true) { res.status(200).send(true) }
 		else { res.status(200).send(false) }

@@ -33,10 +33,10 @@
 
 <script>
 	// [IMPORT] //
-	import Blocks from '@components/pages/admin/index/Blocks'
-	import Comments from '@components/pages/admin/index/Comments'
-	import Reports from '@components/pages/admin/index/Reports'
-	import Users from '@components/pages/admin/index/Users'
+	import Blocks from '@components/admin/index/Blocks'
+	import Comments from '@components/admin/index/Comments'
+	import Reports from '@components/admin/index/Reports'
+	import Users from '@components/admin/index/Users'
 	import ButtonTabs from '@components/controls/ButtonTabs'
 	import router from '@router'
 	import { EventBus } from '@main'

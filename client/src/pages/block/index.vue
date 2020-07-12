@@ -57,7 +57,7 @@
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import CommentList from '@components/comment/List'
 	import PopUpBanner from '@components/misc/PopUpBanner'
-	import TitleHeader from '@components/pages/block/TitleHeader'
+	import TitleHeader from '@components/block/TitleHeader'
 	import router from '@router'
 	import BlockService from '@services/BlockService'
 	import UserService from '@services/UserService'

@@ -166,13 +166,14 @@ class BlocksCollection {
 	static async checkForVote(req) { return }
 
 
-	/******************* [EXISTANCE] *******************/
-	static async existance(block_id) {
-		if (mongodb.ObjectID.isValid(block_id)) {
+	/******************* [EXISTANCE + OWNERSHIP] *******************/
+	// [EXISTANCE] //
+	static async existance(_id) {
+		if (mongodb.ObjectID.isValid(_id)) {
 			try {
 				const blocks = await loadBlocksCollection()
 				const returnedData = await blocks.findOne(
-					{ _id: new mongodb.ObjectID(block_id) }
+					{ _id: new mongodb.ObjectID(_id) }
 				)
 				
 				if (returnedData) { return true }
@@ -184,25 +185,19 @@ class BlocksCollection {
 	}
 
 
-	/******************* [OWNERSHIP] *******************/
-	static async verifyOwnership(existance, req) {
+	// [OWNERSHIP] //
+	static async ownership(req) {
 		if (mongodb.ObjectID.isValid(req.params._id)) {
 			try {
 				const blocks = await loadBlocksCollection()
-				const returnedData = await blocks.findOne({
-					_id: new mongodb.ObjectID(req.params._id),
-					user_id: req.decoded._id,
-				})
+				const returnedData = await blocks.findOne(
+					{
+						_id: new mongodb.ObjectID(req.params._id),
+						user_id: req.decoded._id,
+					}
+				)
 
-				// If Existance True/False Check //
-				if (existance) {
-					if (returnedData) { return true }
-					else { return false }
-				}
-				else if (existance) {
-					if (returnedData) { return false }
-					else { return true }
-				}
+				if (returnedData) { return true }
 				else { return false }
 			}
 			catch(e) { return `Caught Error: ${e}` }

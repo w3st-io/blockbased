@@ -14,7 +14,7 @@ const Auth = require('../../server-middleware/AuthMiddleware')
 const BlocksCollection = require('../../server-collections/BlocksCollection')
 const CommentsCollection = require('../../server-collections/CommentsCollection')
 const CommentVotesCollection = require('../../server-collections/CommentVotesCollection')
-const ReportsCollection = require('../../server-collections/ReportsCollections')
+const CommentReportsCollection = require('../../server-collections/CommentReportsCollections')
 
 
 // [EXPRESS + USE] //
@@ -77,7 +77,7 @@ router.post(
 	'/update/:_id',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		const owned = await CommentsCollection.verifyOwnership(req)
+		const owned = await CommentsCollection.ownership(req)
 
 		if (owned == true) {
 			await CommentsCollection.update(req)
@@ -93,7 +93,7 @@ router.delete(
 	'/delete/:_id',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		const owned = await CommentsCollection.verifyOwnership(req)
+		const owned = await CommentsCollection.ownership(req)
 
 		if (owned == true) {
 			await CommentsCollection.delete(req)
@@ -149,18 +149,40 @@ router.post(
 	'/report/:_id',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		const existance = await ReportsCollection.existance(req)
+		const existance = await CommentReportsCollection.existance(req)
 		
 		if (!existance) {
-			await ReportsCollection.create(req)
+			await CommentReportsCollection.create(req)
 			res.status(201).send()
 		}
 		else { res.status(400).send() }
 	}
 )
 
-/******************* [EXISTANCE] *******************/
-// WIP
+/******************* [EXISTANCE + OWNERSHIP] *******************/
+// [EXISTANCE] //
+router.get(
+	'/existance/:_id',
+	async (req, res) => {
+		const existance = await CommentsCollection.existance(req.params._id)
+
+		if (existance == true) { res.status(200).send(true) }
+		else { res.status(400).send(false) }
+	},
+)
+
+
+// [OWNERSHIP] //
+router.get(
+	'/ownership/:_id',
+	Auth.userTokenCheck(),
+	async (req, res) => {
+		const owned = await CommentsCollection.ownership(req)
+
+		if (owned == true) { res.status(200).send(true) }
+		else { res.status(200).send(false) }
+	}
+)
 
 
 /******************* [COUNT] *******************/

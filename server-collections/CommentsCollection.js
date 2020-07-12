@@ -216,18 +216,43 @@ class CommentsCollection {
 	}
 
 	
-	/******************* [OWNERSHIP] *******************/
-	static async verifyOwnership(req) {
-		const comments = await loadCommentsCollection()
-		const returnedData = await comments.findOne(
-			{	
-				_id: new mongodb.ObjectID(req.params._id),
-				user_id: req.decoded._id,
+	/******************* [EXISTANCE + OWNERSHIP] *******************/
+	// [EXISTANCE] //
+	static async existance(_id) {
+		if (mongodb.ObjectID.isValid(_id)) {
+			try {
+				const comments = await loadCommentsCollection()
+				const returnedData = await comments.findOne(
+					{ _id: new mongodb.ObjectID(_id) }
+				)
+				
+				if (returnedData) { return true }
+				else { return false }
 			}
-		)
+			catch(e) { return `Caught Error: ${e}` }
+		}
+		else { return 'Invalid Block ID.' }
+	}
 
-		if (returnedData) { return true }
-		else { return false }
+
+	// [OWNERSHIP] //
+	static async ownership(req) {
+		if (mongodb.ObjectID.isValid(req.params._id)) {
+			try {
+				const comments = await loadCommentsCollection()
+				const returnedData = await comments.findOne(
+					{	
+						_id: new mongodb.ObjectID(req.params._id),
+						user_id: req.decoded._id,
+					}
+				)
+
+				if (returnedData) { return true }
+				else { return false }
+			}
+			catch(e) { return `Caught Error: ${e}` }
+		}
+		else { return 'Invalid Block ID.' }
 	}
 
 

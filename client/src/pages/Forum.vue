@@ -19,7 +19,7 @@
 <script>
 	// [IMPORT] //
 	import CatList from '@components/cat/List'
-	import SideCard from '@components/pages/forum/SideCard'
+	import SideCard from '@components/forum/SideCard'
 	import { cats } from '@defaults/cats'
 
 	// [EXPORT] //

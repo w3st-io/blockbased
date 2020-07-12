@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% REPORTS COLLECTION %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% COMMENTS REPORTS COLLECTION %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
 const mongodb = require('mongodb')
@@ -12,7 +12,7 @@ require('dotenv').config()
 async function loadReportsCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'
-	const c_name = 'reports'
+	const c_name = 'commentReports'
 	
 	const client = await mongodb.MongoClient.connect(
 		uri,
@@ -26,7 +26,7 @@ async function loadReportsCollection() {
 }
 
 
-class ReportsCollection {
+class CommentReportsCollection {
 	/******************* [CRRUD] *******************/
 	// [CREATE] //
 	static async create(req) {
@@ -114,4 +114,4 @@ class ReportsCollection {
 
 
 // [EXPORT] //
-module.exports = ReportsCollection
+module.exports = CommentReportsCollection

@@ -37,7 +37,7 @@
 	// [IMPORT] Personal //
 	import BlockList from '@components/block/List'
 	import PopUpBanner from '@components/misc/PopUpBanner'
-	import TitleHeader from '@components/pages/cat/TitleHeader'
+	import TitleHeader from '@components/cat/TitleHeader'
 	import UserService from '@services/UserService'
 	import router from '@router'
 	import { EventBus } from '@main'

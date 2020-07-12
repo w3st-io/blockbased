@@ -22,7 +22,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import AdminNavBar from '@components/pages/admin/AdminNavBar'
+	import AdminNavBar from '@components/admin/AdminNavBar'
 	import Footer from '@components/nav/Footer'
 	import NavBar from '@components/nav/NavBar'
 	import SideMenu from './components/nav/SideMenu'
