@@ -48,16 +48,16 @@ class BlockVotesCollection {
 
 	// [DELETE] //
 	static async delete(req) {
-			try {
-				const blockVotes = await loadBlockVotesCollection()
-				await blockVotes.deleteMany({
-					block_id: req.params._id,
-					user_id: req.decoded._id,
-				})
+		try {
+			const blockVotes = await loadBlockVotesCollection()
+			await blockVotes.deleteMany({
+				block_id: req.params._id,
+				user_id: req.decoded._id,
+			})
 
-				return
-			}
-			catch(e) { return `Caught Error: ${e}` }
+			return
+		}
+		catch(e) { return `Caught Error: ${e}` }
 	}
 
 

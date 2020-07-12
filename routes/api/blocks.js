@@ -110,7 +110,7 @@ router.get(
 	'/existance/:_id',
 	async (req, res) => {
 		// If Existance True/False Check //
-		const existance = await BlocksCollection.existance(true, req.params._id)
+		const existance = await BlocksCollection.existance(req.params._id)
 
 		if (existance == true) { res.status(200).send(true) }
 		else { res.status(400).send(false) }

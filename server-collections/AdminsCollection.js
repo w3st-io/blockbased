@@ -56,11 +56,7 @@ class BlocksCollection {
 					//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
 					const token = jwt.sign(payload, secretKey, {})
 
-					return {
-						auth: true,
-						status: 'success',
-						token: token,
-					}
+					return { auth: true, status: 'success', token: token, }
 				}
 				else { return { auth: false, status: 'incorrect_password' } }
 			}

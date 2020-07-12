@@ -27,7 +27,7 @@ router.post(
 	'/create',
 	Auth.userTokenCheck(),
 	async (req, res) => { 
-		const existance = await BlocksCollection.existance(true, req.body.block_id)
+		const existance = await BlocksCollection.existance(req.body.block_id)
 
 		if (existance == true) {
 			await CommentsCollection.create(req)

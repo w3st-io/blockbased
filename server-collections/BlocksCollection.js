@@ -170,23 +170,15 @@ class BlocksCollection {
 
 
 	/******************* [EXISTANCE] *******************/
-	static async existance(existance, block_id) {
+	static async existance(block_id) {
 		if (mongodb.ObjectID.isValid(block_id)) {
 			try {
 				const blocks = await loadBlocksCollection()
 				const returnedData = await blocks.findOne(
 					{ _id: new mongodb.ObjectID(block_id) }
 				)
-
-				// If Existance True/False Check //
-				if (existance) {
-					if (returnedData) { return true }
-					else { return false }
-				}
-				else if (existance) {
-					if (returnedData) { return false }
-					else { return true }
-				}
+				
+				if (returnedData) { return true }
 				else { return false }
 			}
 			catch(e) { return `Caught Error: ${e}` }

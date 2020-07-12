@@ -104,17 +104,15 @@ class CommentVotesCollection {
 	
 
 	/******************* [OWNERSHIP] *******************/
-	static verifyOwnership() {
-		return async (req, res, next) => {
-			const commentVotes = await Collections.loadCommentVotesCollection()
-			const returnedData = await commentVotes.findOne({
-				comment_id: req.params.comment_id,
-				user_id: req.decoded._id,
-			})
+	static async verifyOwnership(req) {
+		const commentVotes = await Collections.loadCommentVotesCollection()
+		const returnedData = await commentVotes.findOne({
+			comment_id: req.params.comment_id,
+			user_id: req.decoded._id,
+		})
 
-			if (returnedData) { return true }
-			else { return false }
-		}
+		if (returnedData) { return true }
+		else { return false }
 	}
 }
 

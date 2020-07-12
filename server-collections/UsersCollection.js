@@ -134,14 +134,9 @@ class UsersCollection {
 				{ upsert: true }
 			)
 
-			next()
+			return
 		}
-		catch(e) {
-			res.status(400).send({
-				auth: true,
-				message: `Caught Error: ${e}`,
-			})
-		}
+		catch(e) { return `Caught Error: ${e}` }
 	}
 
 
@@ -165,13 +160,9 @@ class UsersCollection {
 
 					// Set Token //
 					//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
-					res.token = jwt.sign(payload, secretKey, {})
+					const token = jwt.sign(payload, secretKey, {})
 
-					return {
-						auth: true,
-						status: 'success',
-						token: token,
-					}
+					return { auth: true, status: 'success', token: token, }
 				}
 				else { return { auth: false, status: 'incorrect_password' } }
 			}

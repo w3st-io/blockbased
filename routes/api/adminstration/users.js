@@ -47,7 +47,7 @@ router.post(
 	'/update/:_id',
 	Auth.adminCheck(),
 	async (req, res) => {
-		await UsersCollection.update()
+		await UsersCollection.update(req)
 
 		res.status(201).send()
 	}
