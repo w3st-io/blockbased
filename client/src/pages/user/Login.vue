@@ -77,7 +77,7 @@
 				submitted: false,
 				email: '',
 				password: '',
-				returned: '',
+				returnedData: '',
 				error: '',
 			}
 		},
@@ -91,22 +91,18 @@
 			async login() {
 				try {
 					// Get Status from Login Function //
-					this.returned = await UserService.login(this.email, this.password)
+					this.returnedData = await UserService.login(this.email, this.password)
 					
 					// Check Validation Status //
-					if (
-						this.returned.data.token &&
-						this.returned.data.status != 'incorrect_email' &&
-						this.returned.data.status != 'incorrect_password'
-					) { this.successful() }
-					else { this.error = this.returned.data.status }
+					if (this.returnedData.data.auth) { this.successful() }
+					else { this.error = this.returnedData.data.status }
 				}
 				catch(err) { this.error = err }
 			},
 
 			successful() {
 				// [SET TOKEN] // Emit // [REDIRECT] //
-				localStorage.setItem('usertoken', this.returned.data.token)
+				localStorage.setItem('usertoken', this.returnedData.data.token)
 
 				UserService.getUserTokenDecodeData()
 

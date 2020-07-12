@@ -206,7 +206,6 @@ class CommentsCollection {
 				voters: {
 					user_id: req.decoded._id,
 					email: req.decoded.email,
-					username: req.decoded.username,
 				}
 			}).toArray()
 

@@ -104,7 +104,7 @@ class UsersCollection {
 
 
 	// [UPDATE] Profile Picture //
-	static async update() {
+	static async update(req) {
 		const validId = mongodb.ObjectID.isValid(req.params._id)
 
 		if (validId) {
@@ -141,7 +141,7 @@ class UsersCollection {
 
 
 	/******************* [LOGIN/REGISTER] *******************/
-	static async login() {
+	static async login(req) {
 		const users = await loadUsersCollection()
 
 		try {

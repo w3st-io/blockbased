@@ -103,13 +103,13 @@ router.post(
 	async (req, res) => {
 		const existance = await CommentsCollection.voterExistance(req)
 
-		// go back and fix existance is blocks
-		if (existance) {
+		if (!existance) {
 			await CommentsCollection.pushVoter(req)
 			await CommentVotesCollection.create(req)
+
+			res.status(201).send()
 		}
-		
-		res.status(201).send()
+		else { res.status(400).send('CommentVote already exists.') }
 	}
 )
 
@@ -121,12 +121,13 @@ router.post(
 	async (req, res) => {
 		const existance = await CommentsCollection.voterExistance(req)
 		
-		if (!existance) {
+		if (existance) {
 			await CommentsCollection.pullVoter(req)
 			await CommentVotesCollection.delete(req)
+
+			res.status(201).send()
 		}
-		
-		res.status(201).send()
+		else { res.status(400).send('CommentVote does not exists.') }
 	}
 )
 

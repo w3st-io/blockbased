@@ -142,7 +142,7 @@ class BlocksCollection {
 
 			return
 		}
-		catch(e) {return `Caught Error: ${e}` }
+		catch(e) { return `Caught Error: ${e}` }
 	}
 
 
@@ -160,13 +160,10 @@ class BlocksCollection {
 			catch(e) { return `Caught Error: ${e}` }
 	}
 
-	static async voteExistance(existanceState) {
-		if (existanceState == true) { return true }
-		else { return false }
-	}
+	static async voteExistance(req) { return true }
 
 	// Check if User Voted For This Block
-	static async checkForVote() { return }
+	static async checkForVote(req) { return }
 
 
 	/******************* [EXISTANCE] *******************/

@@ -74,7 +74,7 @@ router.post(
 	'/vote/:_id',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		const voteExistance = await BlocksCollection.voteExistance(true)
+		const voteExistance = await BlocksCollection.voteExistance(req)
 		
 		if (voteExistance == true) {
 			await BlocksCollection.pushVoter(req)
@@ -92,7 +92,7 @@ router.post(
 	'/unvote/:_id',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		const voteExistance = await BlocksCollection.voteExistance(false)
+		const voteExistance = await BlocksCollection.voteExistance(req)
 		
 		if (voteExistance == true) {
 			await BlocksCollection.pullVoter(req)

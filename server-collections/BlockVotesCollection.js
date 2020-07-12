@@ -62,7 +62,7 @@ class BlockVotesCollection {
 
 
 	// [DELETE ALL] //
-	static async deleteAll() {
+	static async deleteAll(req) {
 		try {
 			const blockVotes = await loadBlockVotesCollection()
 			await blockVotes.deleteMany({ block_id: req.params.block_id, })

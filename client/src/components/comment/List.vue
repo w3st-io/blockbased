@@ -36,6 +36,7 @@
 						<div class="w-50 m-0 float-left small text-light">
 							<!-- Drop Down Menu Button Component -->
 							<dropDownMenuBtn
+								:disabled="disabled"
 								:_id="comment._id"
 								:btnName="'Report'"
 								:BSColor="'outline-danger'"
@@ -68,12 +69,11 @@
 							>delete</button>
 							
 							<button
-								:disabled="disabled"
 								@click="voteBtn(comment)"
 								class="btn"
 								:class="{
 									'btn-outline-success': checkForUserVote(comment),
-									'btn-outline-secondary': !checkForUserVote(comment)
+									'btn-outline-light': !checkForUserVote(comment)
 								}"
 								style="font-size: 1em;"
 							>{{ comment.voters.length }} ▲</button>

@@ -29,7 +29,7 @@ async function loadCommentVotesCollection() {
 class CommentVotesCollection {
 	/******************* [CRRUD] *******************/
 	// [CREATE] //
-	static async create() {
+	static async create(req) {
 		try {
 			const commentVotes = await loadCommentVotesCollection()
 			await commentVotes.insertOne({
