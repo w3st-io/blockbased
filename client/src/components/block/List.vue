@@ -53,7 +53,7 @@
 						</p>
 					</div>
 
-					<!-- Vote -->
+					<!-- Like -->
 					<div
 						class="
 							col-lg-1
@@ -67,10 +67,10 @@
 						<h4 class="m-0 text-white">
 							<button
 								:disabled="disabled"
-								@click.prevent.stop="voteBtn(block)"
-								:class="{ 'voted': checkForUserVote(block) }"
-								class="w-100 btn btn-outline-secondary unvoted"
-							>{{ block.voters.length }} ▲</button>
+								@click.prevent.stop="likeBtn(block)"
+								:class="{ 'liked': checkForUserLike(block) }"
+								class="w-100 btn btn-outline-secondary unliked"
+							>{{ block.likers.length }} ▲</button>
 						</h4>
 					</div>
 				</li>
@@ -141,7 +141,7 @@
 			this.loading = false
 
 			// [LOG] //
-			//this.log()
+			this.log()
 		},
 
 		methods: {
@@ -170,31 +170,34 @@
 				}
 			},
 
-			/******************* [INIT] Vote *******************/
-			checkForUserVote(block) {
-				// Search For Voters Id in Block's Object //
-				let found = block.voters.find((voter) => (
-					voter.user_id == this.user_id
+			/******************* [INIT] Like *******************/
+			checkForUserLike(block) {
+				// Search For Likers Id in Block's Object //
+				let found = block.likers.find((liker) => (
+					liker.user_id == this.user_id
 				))
 
-				if (found) { return true }
+				console.log('found:', found)
+
+				if (found != null) { return true }
 				else { return false }
 			},
 
-			/******************* [BTN] Vote *******************/
-			voteBtn(block) {
+			/******************* [BTN] Like *******************/
+			likeBtn(block) {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
-					if (this.checkForUserVote(block)) { this.blockVote(block._id) }
-					else { this.blockUnvote(block._id) }
+					if (this.checkForUserLike(block)) { this.blockUnlike(block._id) }
+					else { this.blockLike(block._id) }
 				}
 			},
 
-			async blockVote(block_id) {
+			async blockLike(block_id) {
+				console.log('sdfsdf')
 				this.disabled = true
 
 				// [CREATE] //
-				try { await BlockService.vote(block_id) }
+				try { await BlockService.like(block_id) }
 				catch(e) { this.error = e }
 				
 				// [READ] Update Blocks //
@@ -203,11 +206,11 @@
 				this.disabled = false
 			},
 
-			async blockUnvote(block_id) {
+			async blockUnlike(block_id) {
 				this.disabled = true
 
 				// [DELETE] //
-				try { await BlockService.unvote(block_id) }
+				try { await BlockService.unlike(block_id) }
 				catch(e) { this.error = e }
 
 				// [READ] Update Blocks //
@@ -225,6 +228,12 @@
 						params: { block_id: block_id, page: 1 }
 					})
 				}
+			},
+
+			log() {
+				console.log('%%% [COMPONENT] BlockList %%%')
+				console.log('block:', this.blocks)
+				if (this.error) { console.error('error:', this.error) }
 			},
 		}
 	}
@@ -245,12 +254,12 @@
 		&:hover { @extend .bg-primary; }
 	}
 
-	.unvoted {
+	.unliked {
 		color: white;
 		font-size: 1em;
 
 		&:hover { color: $like; }
 	}
 
-	.voted { color: $like; }
+	.liked { color: $like; }
 </style>

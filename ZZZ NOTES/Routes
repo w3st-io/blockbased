@@ -5,8 +5,8 @@
 /api/blocks/read/:_id
 /api/blocks/delete/:_id
 
-/api/blocks/vote/:_id
-/api/blocks/unvote/:_id
+/api/blocks/like/:_id
+/api/blocks/unlike/:_id
 
 /api/blocks/existance/:_id
 /api/blocks/ownership/:_id
@@ -22,8 +22,10 @@
 /api/comments/update/:_id
 /api/comments/delete/:_id
 
-/api/comments/vote/:_id
-/api/comments/unvote/:_id
+/api/comments/like/:_id
+/api/comments/unlike/:_id
+
+/api/comments/follow/:_id
 
 /api/comments/report/:_id
 

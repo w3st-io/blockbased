@@ -7,7 +7,7 @@
 const mongodb = require('mongodb')
 
 
-// [LOAD COLLECTION] commentVotes //
+// [LOAD COLLECTION] commentLikes //
 async function loadFollowsCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'

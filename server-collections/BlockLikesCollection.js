@@ -8,11 +8,11 @@ const mongodb = require('mongodb')
 require('dotenv').config()
 
 
-// [LOAD COLLECTION] blockVotes //
-async function loadBlockVotesCollection() {
+// [LOAD COLLECTION] blockLikes //
+async function loadBlockLikesCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'
-	const c_name = 'blockVotes'
+	const c_name = 'blockLikes'
 	
 	const client = await mongodb.MongoClient.connect(
 		uri,
@@ -26,16 +26,16 @@ async function loadBlockVotesCollection() {
 }
 
 
-class BlockVotesCollection {
+class BlockLikesCollection {
 	/******************* [CRRUD] *******************/
 	// [CREATE] //
 	static async create(req) {
 		try {
-			const blockVotes = await loadBlockVotesCollection()
-			await blockVotes.insertOne({
+			const blockLikes = await loadBlockLikesCollection()
+			await blockLikes.insertOne({
 				createdAt: new Date(),
-				block_id: req.params._id,
-				user_id: req.decoded._id,
+				block_id: new mongodb.ObjectID(req.params._id),
+				user_id: new mongodb.ObjectID(req.decoded._id),
 				email: req.decoded.email,
 				username: req.decoded.username,
 			})
@@ -49,10 +49,10 @@ class BlockVotesCollection {
 	// [DELETE] //
 	static async delete(req) {
 		try {
-			const blockVotes = await loadBlockVotesCollection()
-			await blockVotes.deleteMany({
-				block_id: req.params._id,
-				user_id: req.decoded._id,
+			const blockLikes = await loadBlockLikesCollection()
+			await blockLikes.deleteMany({
+				block_id: new mongodb.ObjectID(req.params._id),
+				user_id: new mongodb.ObjectID(req.decoded._id),
 			})
 
 			return
@@ -64,8 +64,12 @@ class BlockVotesCollection {
 	// [DELETE ALL] //
 	static async deleteAll(req) {
 		try {
-			const blockVotes = await loadBlockVotesCollection()
-			await blockVotes.deleteMany({ block_id: req.params.block_id, })
+			const blockLikes = await loadBlockLikesCollection()
+			await blockLikes.deleteMany(
+				{
+					block_id: new mongodb.ObjectID(req.params.block_id)
+				}
+			)
 
 			return
 		}
@@ -74,25 +78,19 @@ class BlockVotesCollection {
 
 
 	/******************* [EXISTANCE + OWNERSHIP] *******************/
-	static async existance(block_id, user_id, checkExistance) {
+	static async existance(block_id, user_id) {
 		if (mongodb.ObjectID.isValid(block_id)) {
 			try {
-				const commentVotes = await Collections.loadCommentVotesCollection()
-				const returnedData = await commentVotes.findOne({
-					block_id: block_id,
-					user_id: user_id,
-				})
+				const blockLikes = await loadBlockLikesCollection()
+				const returnedData = await blockLikes.findOne(
+					{
+						block_id: new mongodb.ObjectID(block_id),
+						user_id: new mongodb.ObjectID(user_id),
+					}
+				)
 	
-				// If Existance True/False Check //
-				if (checkExistance) {
-					if (returnedData) { return true }
-					else { return false }
-				}
-				else if (!checkExistance) {
-					if (returnedData) { return false }
-					else { return true }
-				}
-				else { return false }
+				if (returnedData) { return false }
+				else { return true }
 			}
 			catch(e) { return `Caught Error: ${e}` }
 		}
@@ -101,11 +99,11 @@ class BlockVotesCollection {
 	
 
 	static async ownership(req) {
-		const blockVotes = await loadBlockVotesCollection()
-		const returnedData = await blockVotes.findOne(
+		const blockLikes = await loadBlockLikesCollection()
+		const returnedData = await blockLikes.findOne(
 			{
-				block_id: req.params.block_id,
-				user_id: req.decoded._id,
+				block_id: new mongodb.ObjectID(req.params.block_id),
+				user_id: new mongodb.ObjectID(req.decoded._id),
 			}
 		)
 
@@ -116,4 +114,4 @@ class BlockVotesCollection {
 
 
 // [EXPORT] //
-module.exports = BlockVotesCollection
+module.exports = BlockLikesCollection

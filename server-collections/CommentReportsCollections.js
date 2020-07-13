@@ -34,12 +34,10 @@ class CommentReportsCollection {
 			const reports = await loadReportsCollection()
 			await reports.insertOne({
 				createdAt: new Date(),
-				block_id: req.body.block_id,
-				comment_id: req.params._id,
+				block_id: new mongodb.ObjectID(req.body.block_id),
+				comment_id: new mongodb.ObjectID(req.params._id),
+				user_id: new mongodb.ObjectID(req.decoded._id),
 				type: req.body.reportType,
-				user_id: req.decoded._id,
-				email: req.decoded.email,
-				username: req.decoded.username,
 			})
 			
 			return
@@ -99,8 +97,8 @@ class CommentReportsCollection {
 			try {
 				const reports = await loadReportsCollection()
 				const returnedData = await reports.findOne({	
-					comment_id: req.params._id,
-					user_id: req.decoded._id,
+					comment_id: new mongodb.ObjectID(req.params._id),
+					user_id: new mongodb.ObjectID(req.decoded._id),
 				})
 
 				if (returnedData) { return true }

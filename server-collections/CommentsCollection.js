@@ -34,12 +34,12 @@ class CommentsCollection {
 			const comments = await loadCommentsCollection()
 			await comments.insertOne({
 				createdAt: new Date(),
-				block_id: req.body.block_id,
-				comment: req.body.comment,
-				voters: [],
-				user_id: req.decoded._id,
-				email: req.decoded.email,
+				block_id: new mongodb.ObjectID(req.body.block_id),
+				user_id: new mongodb.ObjectID(req.decoded._id),
 				username: req.decoded.username,
+				email: req.decoded.email,
+				comment: req.body.comment,
+				likers: [],
 			})
 			
 			return
@@ -56,10 +56,10 @@ class CommentsCollection {
 		try {
 			const comments = await loadCommentsCollection()
 			const returnedData = await comments.find()
-			.skip(skip)
-			.limit(amount)
-			.toArray()
-			
+				.skip(skip)
+				.limit(amount)
+				.toArray()
+				
 			return returnedData
 		}
 		catch(e) { return `Caught Error: ${e}` }
@@ -77,11 +77,12 @@ class CommentsCollection {
 			try {
 				const comments = await loadCommentsCollection()
 				const returnedData = await comments.find(
-					{ block_id: req.params.block_id }
+					{ block_id: new mongodb.ObjectID(req.params.block_id) }
 				)
-				.skip(skip)
-				.limit(amount)
-				.toArray()
+					.skip(skip)
+					.limit(amount)
+					.toArray()
+					//.then( returnedData.find() )
 
 				return returnedData
 			}
@@ -140,7 +141,7 @@ class CommentsCollection {
 				const comments = await loadCommentsCollection()
 				await comments.deleteOne({
 					_id: new mongodb.ObjectID(req.params._id),
-					user_id: req.decoded._id,
+					user_id: new mongodb.ObjectID(req.decoded._id),
 				})
 				
 				next()
@@ -152,7 +153,7 @@ class CommentsCollection {
 
 
 	/******************* [VOTE SYSTEM] *******************/
-	static async pushVoter(req) {
+	static async like(req) {
 		const validId = mongodb.ObjectID.isValid(req.params._id)
 
 		if (validId) {
@@ -160,11 +161,8 @@ class CommentsCollection {
 				const comments = await loadCommentsCollection()
 				await comments.updateOne(
 					{ _id: new mongodb.ObjectID(req.params._id) },
-					{ $push: { 
-						voters: {
-							user_id: req.decoded._id,
-							email: req.decoded.email,
-						}
+					{ $addToSet: {
+						likers: { user_id: new mongodb.ObjectID(req.decoded._id) }
 					} },
 					{ upsert: true }
 				)
@@ -177,7 +175,7 @@ class CommentsCollection {
 	}
 
 
-	static async pullVoter(req) {
+	static async unlike(req) {
 		const validId = mongodb.ObjectID.isValid(req.params._id)
 
 		if (validId) {
@@ -185,7 +183,9 @@ class CommentsCollection {
 				const comments = await loadCommentsCollection()
 				await comments.updateOne(
 					{ _id: new mongodb.ObjectID(req.params._id) },
-					{ $pull: { voters: { user_id: req.decoded._id } } },
+					{ $pull: {
+						likers: { user_id: new mongodb.ObjectID(req.decoded._id) }
+					} },
 					{ upsert: true }
 				)
 
@@ -198,14 +198,13 @@ class CommentsCollection {
 
 
 	/******************* [EXISTANCE] *******************/
-	static async voterExistance(req) {
+	static async LikeExistance(req) {
 		try {
 			const comments = await loadCommentsCollection()
 			const returnedData = await comments.find({
-				_id: mongodb.ObjectID(req.params._id),
-				voters: {
-					user_id: req.decoded._id,
-					email: req.decoded.email,
+				_id: new mongodb.ObjectID(req.params._id),
+				likers: {
+					user_id: new mongodb.ObjectID(req.decoded._id),
 				}
 			}).toArray()
 
@@ -218,12 +217,12 @@ class CommentsCollection {
 	
 	/******************* [EXISTANCE + OWNERSHIP] *******************/
 	// [EXISTANCE] //
-	static async existance(_id) {
-		if (mongodb.ObjectID.isValid(_id)) {
+	static async existance(comment_id) {
+		if (mongodb.ObjectID.isValid(comment_id)) {
 			try {
 				const comments = await loadCommentsCollection()
 				const returnedData = await comments.findOne(
-					{ _id: new mongodb.ObjectID(_id) }
+					{ _id: new mongodb.ObjectID(comment_id) }
 				)
 				
 				if (returnedData) { return true }
@@ -243,7 +242,7 @@ class CommentsCollection {
 				const returnedData = await comments.findOne(
 					{	
 						_id: new mongodb.ObjectID(req.params._id),
-						user_id: req.decoded._id,
+						user_id: new mongodb.ObjectID(req.decoded._id),
 					}
 				)
 
@@ -261,7 +260,7 @@ class CommentsCollection {
 		try {
 			const comments = await loadCommentsCollection()
 			const count = await comments.countDocuments({
-				block_id: req.params.block_id
+				block_id: new mongodb.ObjectID(req.params.block_id)
 			})
 
 			return count

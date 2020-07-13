@@ -29,8 +29,8 @@
 						@click="followBtn()"
 						class="ml-2 btn btn-sm"
 						:class="{
-							'btn-outline-secondary': !followsReplica.voted,
-							'btn-outline-success': followsReplica.voted
+							'btn-outline-secondary': !followsReplica.liked,
+							'btn-outline-success': followsReplica.liked
 						}"
 					>{{ followBtnText }}</button>
 				</span>
@@ -119,7 +119,7 @@
 			},
 
 			searchForUserInFollowers(followers) {
-				// Search For Voters Id in Block's Object //
+				// Search For Likers Id in Block's Object //
 				let found = followers.find((follower) => (
 					follower.user_id == this.user_id
 				))
@@ -129,7 +129,7 @@
 			},
 
 			setFollowBtnText() {
-				if (this.followsReplica.voted) { this.followBtnText = 'following ✓' }
+				if (this.followsReplica.liked) { this.followBtnText = 'following ✓' }
 				else { this.followBtnText = 'follow' }
 			},
 
@@ -145,7 +145,7 @@
 					this.blockRead()
 
 					// Conditional DB Actions //
-					if (this.followsReplica.voted) { this.addFollow() }
+					if (this.followsReplica.liked) { this.addFollow() }
 					else { this.removeFollow() }
 
 					// Enable Buttons //
@@ -164,9 +164,9 @@
 			},
 
 			followIconAndCountHandler() {
-				this.followsReplica.voted = !this.followsReplica.voted
+				this.followsReplica.liked = !this.followsReplica.liked
 
-				if (this.followsReplica.voted) { this.followsReplica.followersCount++ }
+				if (this.followsReplica.liked) { this.followsReplica.followersCount++ }
 				else { this.followsReplica.followersCount-- }
 
 				// Set Follow Text //

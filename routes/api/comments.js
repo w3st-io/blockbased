@@ -13,7 +13,7 @@ require('dotenv').config()
 const Auth = require('../../server-middleware/AuthMiddleware')
 const BlocksCollection = require('../../server-collections/BlocksCollection')
 const CommentsCollection = require('../../server-collections/CommentsCollection')
-const CommentVotesCollection = require('../../server-collections/CommentVotesCollection')
+const CommentLikesCollection = require('../../server-collections/CommentLikesCollection')
 const CommentReportsCollection = require('../../server-collections/CommentReportsCollections')
 
 
@@ -30,9 +30,7 @@ router.post(
 		const existance = await BlocksCollection.existance(req.body.block_id)
 
 		if (existance == true) {
-			await CommentsCollection.create(req)
-			
-			res.status(201).send()
+			await CommentsCollection.create(req).then(res.status(201).send())
 		}
 		else { res.status(400).send() }
 	}
@@ -44,8 +42,7 @@ router.get(
 	'/read-all-all/:amount/:skip',
 	async (req, res) => {
 		const returnedData = await CommentsCollection.readAllAll(req)
-
-		res.status(200).send(returnedData)
+			.then(res.status(200).send(returnedData))
 	}
 )
 
@@ -55,8 +52,8 @@ router.get(
 	'/read-all/:block_id/:amount/:skip',
 	async (req, res) => {
 		const returnedData = await CommentsCollection.readAll(req)
-
-		res.status(201).send(returnedData)
+			.then(res.status(200).send(returnedData))
+		
 	}
 )
 
@@ -66,8 +63,7 @@ router.get(
 	'/read/:_id',
 	async (req, res) => {
 		const returnedData = await CommentsCollection.read(req)
-
-		res.status(201).send(returnedData)
+			.then(res.status(201).send(returnedData))
 	}
 )
 
@@ -80,8 +76,7 @@ router.post(
 		const owned = await CommentsCollection.ownership(req)
 
 		if (owned == true) {
-			await CommentsCollection.update(req)
-			res.status(201).send()
+			await CommentsCollection.update(req).then(res.status(201).send())
 		}
 		else { res.status(400).send() }
 	}
@@ -97,7 +92,7 @@ router.delete(
 
 		if (owned == true) {
 			await CommentsCollection.delete(req)
-			await CommentVotesCollection.deleteAll(req)
+			await CommentLikesCollection.deleteAll(req)
 
 			res.status(201).send()
 		}
@@ -109,36 +104,36 @@ router.delete(
 /******************* [VOTE SYSTEM] *******************/
 // [PUSH] Auth Required //
 router.post(
-	'/vote/:_id/:block_id',
+	'/like/:_id/:block_id',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		const existance = await CommentsCollection.voterExistance(req)
+		const existance = await CommentsCollection.LikeExistance(req)
 
 		if (!existance) {
-			await CommentsCollection.pushVoter(req)
-			await CommentVotesCollection.create(req)
+			await CommentsCollection.like(req)
+			await CommentLikesCollection.create(req)
 
 			res.status(201).send()
 		}
-		else { res.status(400).send('CommentVote already exists.') }
+		else { res.status(400).send('CommentLike already exists.') }
 	}
 )
 
 
 // [PULL] Auth Required //
 router.post(
-	'/unvote/:_id',
+	'/unlike/:_id',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		const existance = await CommentsCollection.voterExistance(req)
+		const existance = await CommentsCollection.LikeExistance(req)
 		
 		if (existance) {
-			await CommentsCollection.pullVoter(req)
-			await CommentVotesCollection.delete(req)
+			await CommentsCollection.unlike(req)
+			await CommentLikesCollection.delete(req)
 
 			res.status(201).send()
 		}
-		else { res.status(400).send('CommentVote does not exists.') }
+		else { res.status(400).send('CommentLike does not exists.') }
 	}
 )
 
@@ -153,7 +148,7 @@ router.post(
 		
 		if (!existance) {
 			await CommentReportsCollection.create(req)
-			res.status(201).send()
+				.then(res.status(201).send())
 		}
 		else { res.status(400).send() }
 	}
@@ -190,7 +185,7 @@ router.get(
 	'/count/:block_id',
 	async (req, res) => {
 		const count = (await CommentsCollection.count(req)).toString()
-
+	
 		res.status(201).send(count)
 	}
 )

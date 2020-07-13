@@ -14,6 +14,10 @@ const Auth = require('../../server-middleware/AuthMiddleware')
 const NotificationsCollection = require('../../server-collections/NotificationsCollections')
 
 
+// [EXPRESS + USE] //
+const router = express.Router().use(cors())
+
+
 // [READ-ALL] //
 router.get(
 	'/read-all/:amount/:skip',
@@ -24,10 +28,6 @@ router.get(
 		res.status(200).send(returnedData)
 	}
 )
-
-
-// [EXPRESS + USE] //
-const router = express.Router().use(cors())
 
 
 // [EXPORT] //

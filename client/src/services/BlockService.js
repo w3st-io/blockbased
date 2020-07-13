@@ -80,16 +80,16 @@ class BlockService {
 
 	/******************* [VOTE SYSTEM] *******************/
 	// ADD/REMOVE VOTE //
-	static async vote(block_id) {
-		let status = await authAxios.post(`/vote/${block_id}`)
+	static async like(block_id) {
+		let status = await authAxios.post(`/like/${block_id}`)
 
 		return status
 	}
 
 
-	static async unvote(block_id) {
-		// Remove the voter from the Block Object //
-		let status = await authAxios.post(`/unvote/${block_id}`)
+	static async unlike(block_id) {
+		// Remove the liker from the Block Object //
+		let status = await authAxios.post(`/unlike/${block_id}`)
 
 		return status
 	}

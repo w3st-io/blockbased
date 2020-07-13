@@ -12,7 +12,7 @@ require('dotenv').config()
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
 const BlocksCollection = require('../../server-collections/BlocksCollection')
-const BlockVotesCollection = require('../../server-collections/BlockVotesCollection')
+const BlockLikesCollection = require('../../server-collections/BlockLikesCollection')
 
 
 // [EXPRESS + USE] //
@@ -25,7 +25,7 @@ router.post(
 	'/create',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		await BlocksCollection.create(req)
+		await BlocksCollection.create2(req)
 
 		res.status(201).send()
 	}
@@ -71,14 +71,13 @@ router.delete(
 /******************* [VOTE SYSTEM] *******************/
 // [PUSH] Auth Required //
 router.post(
-	'/vote/:_id',
+	'/like/:_id',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		const voteExistance = await BlocksCollection.voteExistance(req)
-		
-		if (voteExistance == true) {
-			await BlocksCollection.pushVoter(req)
-			await BlockVotesCollection.create(req)
+		const likeExistance = await BlocksCollection.likeExistance(req)
+		if (likeExistance == true) {
+			await BlocksCollection.like(req)
+			await BlockLikesCollection.create(req)
 			
 			res.status(201).send()
 		}
@@ -89,14 +88,14 @@ router.post(
 
 // [PULL] Auth Required //
 router.post(
-	'/unvote/:_id',
+	'/unlike/:_id',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		const voteExistance = await BlocksCollection.voteExistance(req)
+		const likeExistance = await BlocksCollection.likeExistance(req)
 		
-		if (voteExistance == true) {
-			await BlocksCollection.pullVoter(req)
-			await BlockVotesCollection.delete(req)
+		if (likeExistance == true) {
+			await BlocksCollection.unlike(req)
+			await BlockLikesCollection.delete(req)
 			
 			res.status(201).send()
 		}

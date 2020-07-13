@@ -102,6 +102,27 @@ class UsersCollection {
 		else { return 'Invalid ID.' }
 	}
 
+	// [READ] Profile Image //
+	static async readProfilePic2(id) {
+		const validId = mongodb.ObjectID.isValid(id)
+
+		if (validId) {
+			try {
+				const users = await loadUsersCollection()
+				const returnedData = await users.findOne(
+					{ _id: new mongodb.ObjectID(id) },
+					{ projection: { profilePicURL: 1 } }
+				)
+				
+				console.log(returnedData)
+
+				return returnedData
+			}
+			catch(e) { return `Caught Error: ${e}` }
+		}
+		else { return 'Invalid ID.' }
+	}
+
 
 	// [UPDATE] Profile Picture //
 	static async update(req) {
@@ -112,7 +133,7 @@ class UsersCollection {
 				const users = await loadUsersCollection()
 				await users.findOneAndUpdate(
 					{ _id: new mongodb.ObjectID(req.params._id) },
-					{ $set: { profilePicURL: req.body.img_url, } },
+					{ $set: { profilePicURL: mongodb.ObjectID(req.body.img_url), } },
 					{ upsert: true }
 				)
 

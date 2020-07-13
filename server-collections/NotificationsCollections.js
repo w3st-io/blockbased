@@ -92,7 +92,7 @@ class ReportsCollection {
 				const returnedData = await reports.findOne(
 					{
 						_id: new mongodb.ObjectID(req.params._id),
-						user_id: req.decoded._id,
+						user_id: new mongodb.ObjectID(req.decoded._id),
 					}
 				)
 
@@ -110,7 +110,7 @@ class ReportsCollection {
 		try {
 			const reports = await loadReportsCollection()
 			const count = await reports.countDocuments(
-				{ user_id: req.decoded.user_id }
+				{ user_id: new mongodb.ObjectID(req.decoded.user_id) }
 			)
 
 			return count

@@ -8,11 +8,11 @@ const mongodb = require('mongodb')
 require('dotenv').config()
 
 
-// [LOAD COLLECTION] commentVotes //
-async function loadCommentVotesCollection() {
+// [LOAD COLLECTION] commentLikes //
+async function loadCommentLikesCollection() {
 	const uri = process.env.MONGO_URI
 	const db_name = process.env.DB || 'db_name'
-	const c_name = 'commentVotes'
+	const c_name = 'commentLikes'
 	
 	const client = await mongodb.MongoClient.connect(
 		uri,
@@ -26,17 +26,17 @@ async function loadCommentVotesCollection() {
 }
 
 
-class CommentVotesCollection {
+class CommentLikesCollection {
 	/******************* [CRRUD] *******************/
 	// [CREATE] //
 	static async create(req) {
 		try {
-			const commentVotes = await loadCommentVotesCollection()
-			await commentVotes.insertOne({
+			const commentLikes = await loadCommentLikesCollection()
+			await commentLikes.insertOne({
 				createdAt: new Date(),
-				block_id: req.params.block_id,
-				comment_id: req.params._id,
-				user_id: req.decoded._id,
+				block_id: new mongodb.ObjectID(req.params.block_id),
+				comment_id: new mongodb.ObjectID(req.params._id),
+				user_id: new mongodb.ObjectID(req.decoded._id),
 				email: req.decoded.email,
 				username: req.decoded.username,
 			})
@@ -50,10 +50,10 @@ class CommentVotesCollection {
 	// [DELETE] //
 	static async delete(req) {
 		try {
-			const commentVotes = await loadCommentVotesCollection()
-			await commentVotes.deleteMany({
-				comment_id: req.params._id,
-				user_id: req.decoded._id,
+			const commentLikes = await loadCommentLikesCollection()
+			await commentLikes.deleteMany({
+				comment_id: new mongodb.ObjectID(req.params._id),
+				user_id: new mongodb.ObjectID(req.decoded._id),
 			})
 			
 			return
@@ -65,9 +65,9 @@ class CommentVotesCollection {
 	// [DELETE ALL] //
 	static async deleteAll(req) {
 		try {
-			const commentVotes = await loadCommentVotesCollection()
-			await commentVotes.deleteMany(
-				{ comment_id: req.params.comment_id, }
+			const commentLikes = await loadCommentLikesCollection()
+			await commentLikes.deleteMany(
+				{ comment_id: new mongodb.ObjectID(req.params.comment_id), }
 			)
 			
 			return
@@ -77,24 +77,16 @@ class CommentVotesCollection {
 
 
 	/******************* [EXISTANCE + OWNERSHIP] *******************/
-	static async existance(comment_id, user_id, checkExistance) {
+	static async existance(comment_id, user_id) {
 		if (mongodb.ObjectID.isValid(comment_id)) {
 			try {
-				const commentVotes = await Collections.loadCommentVotesCollection()
-				const returnedData = await commentVotes.findOne({
-					comment_id: comment_id,
-					user_id: user_id,
+				const commentLikes = await Collections.loadCommentLikesCollection()
+				const returnedData = await commentLikes.findOne({
+					comment_id: new mongodb.ObjectID(comment_id),
+					user_id: new mongodb.ObjectID(user_id),
 				})
 	
-				// If Existance True/False Check //
-				if (checkExistance) {
-					if (returnedData) { return true }
-					else { return false }
-				}
-				else if (!checkExistance) {
-					if (returnedData) { return false }
-					else { return true }
-				}
+				if (returnedData) { return true }
 				else { return false }
 			}
 			catch(e) { return `Caught Error: ${e}` }
@@ -104,10 +96,10 @@ class CommentVotesCollection {
 	
 
 	static async ownership(req) {
-		const commentVotes = await Collections.loadCommentVotesCollection()
-		const returnedData = await commentVotes.findOne({
-			comment_id: req.params.comment_id,
-			user_id: req.decoded._id,
+		const commentLikes = await Collections.loadCommentLikesCollection()
+		const returnedData = await commentLikes.findOne({
+			comment_id: new mongodb.ObjectID(req.params.comment_id),
+			user_id: new mongodb.ObjectID(req.decoded._id),
 		})
 
 		if (returnedData) { return true }
@@ -117,4 +109,4 @@ class CommentVotesCollection {
 
 
 // [EXPORT] //
-module.exports = CommentVotesCollection
+module.exports = CommentLikesCollection

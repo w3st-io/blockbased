@@ -69,14 +69,14 @@
 							>delete</button>
 							
 							<button
-								@click="voteBtn(comment)"
+								@click="likeBtn(comment)"
 								class="btn"
 								:class="{
-									'btn-outline-success': checkForUserVote(comment),
-									'btn-outline-light': !checkForUserVote(comment)
+									'btn-outline-success': checkForUserLike(comment),
+									'btn-outline-light': !checkForUserLike(comment)
 								}"
 								style="font-size: 1em;"
-							>{{ comment.voters.length }} ▲</button>
+							>{{ comment.likers.length }} ▲</button>
 						</div>
 					</div>
 				</li>
@@ -233,44 +233,42 @@
 				return result[0].profilePicURL
 			},
 
-			/******************* [INIT] Vote *******************/
-			checkForUserVote(comment) {
-				// Search For Voters Id in Block's Object //
-				let found = comment.voters.find((voter) => (
-					voter.user_id == this.user_id
+			/******************* [INIT] Like *******************/
+			checkForUserLike(comment) {
+				// Search For Likers Id in Block's Object //
+				let found = comment.likers.find((liker) => (
+					liker.user_id == this.user_id
 				))
 
 				if (found) { return true }
 				else { return false }
 			},
 			
-			/******************* [BTN] Vote *******************/
-			voteBtn(comment) {
+			/******************* [BTN] Like *******************/
+			likeBtn(comment) {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
-					if (this.checkForUserVote(comment)) { this.commentUnvote(comment) }
-					else { this.commentVote(comment) }		
+					if (this.checkForUserLike(comment)) { this.commentUnlike(comment) }
+					else { this.commentLike(comment) }		
 				}
 			},
 
-			async commentVote(comment) {
+			async commentLike(comment) {
 				this.disabled = true
 
-				// [CREATE] Like in "CommentVotes" Colelction //
-				try { await CommentService.vote(this.block_id, comment._id) }
+				// [CREATE] Like in "CommentLikes" Colelction //
+				try { await CommentService.like(this.block_id, comment._id) }
 				catch(e) { this.error = e }
 
 				// [READ] Update Comments //
 				await this.commentReadAll()
-
-				this.disabled = false
 			},
 
-			async commentUnvote(comment) {
+			async commentUnlike(comment) {
 				this.disabled = true
 
-				// [DELETE] Like in "CommentVotes" Collection //
-				try { await CommentService.unvote(comment._id) }
+				// [DELETE] Like in "CommentLikes" Collection //
+				try { await CommentService.unlike(comment._id) }
 				catch(e) { this.error = e }
 
 				// [READ] Update Comments //

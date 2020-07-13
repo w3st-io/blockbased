@@ -5,15 +5,20 @@
 */
 // [REQUIRE] //
 const mongodb = require('mongodb')
+const mongoose = require('mongoose')
 require('dotenv').config()
 
 
-// [LOAD COLLECTION] blocks //
-async function loadBlocksCollection() {
-	const uri = process.env.MONGO_URI
-	const db_name = process.env.DB || 'db_name'
-	const c_name = 'blocks'
+// [REQUIRE] //
+const BlockModel = require('../models/BlockModel')
 
+// [INIT] //
+const uri = process.env.MONGO_URI
+const db_name = process.env.DB || 'db_name'
+const c_name = 'blocks'
+
+// [LOAD COLLECTION] blocks //
+const loadBlocksCollection = async () => {
 	const client = await mongodb.MongoClient.connect(
 		uri,
 		{
@@ -25,25 +30,45 @@ async function loadBlocksCollection() {
 	return client.db(db_name).collection(c_name)
 }
 
+// [MONGOOSE CONNECT] //
+mongoose.connect(
+	uri,
+	{
+		useNewUrlParser: true,
+		useUnifiedTopology: true
+	}
+)
+
 
 class BlocksCollection {
+	static async create2(req) {
+		const blockModel = new BlockModel({
+			_id: mongoose.Types.ObjectId(),
+			user: req.decoded._id,
+			email: req.decoded.email,
+			username: req.decoded.username,
+			cat_id: req.body.cat_id,
+			title: req.body.title,
+		})
+		blockModel.save()
+	}
+	
 	/******************* [CRRUD] *******************/
 	// [CREATE] //
 	static async create(req) {
 		try {
-			const blocks = await loadBlocksCollection()
-			await blocks.insertOne({
-				createdAt: new Date(),
-				cat_id: req.body.cat_id,
-				title: req.body.title,
-				voters: [],
-				followers: [],
-				user_id: req.decoded._id,
-				email: req.decoded.email,
-				username: req.decoded.username,
+			const formData = new BlockModel({
+					createdAt: new Date(),
+					user_id: new mongodb.ObjectID(req.decoded._id),
+					email: req.decoded.email,
+					username: req.decoded.username,
+					cat_id: req.body.cat_id,
+					title: req.body.title,
 			})
+			
+			formData.save()
 
-			return
+			return 'Created block.'
 		}
 		catch(e) { return `Caught Error: ${e}`	}
 	}
@@ -53,14 +78,17 @@ class BlocksCollection {
 	static async readAllAll(req) {
 		const skip = parseInt(req.params.skip)
 		const amount = parseInt(req.params.amount)
-		
+
 		try {
-			const blocks = await loadBlocksCollection()
-			const returnedData = await blocks.find()
+			const returnedData = await BlockModel.find()
 				.skip(skip)
 				.limit(amount)
-				.toArray()
-	
+				.populate(
+					'user',
+					'first_name last_name username email profileImg'
+				)
+				.exec()
+
 			return returnedData
 		}
 		catch(e) { return `Caught Error: ${e}` }
@@ -73,13 +101,16 @@ class BlocksCollection {
 		const amount = parseInt(req.params.amount)
 
 		try {
-			const blocks = await loadBlocksCollection()
-			const returnedData = await blocks.find(
+			const returnedData = await BlockModel.find(
 				{ cat_id: req.params.cat_id }
 			)
 				.skip(skip)
 				.limit(amount)
-				.toArray()
+				.populate(
+					'user',
+					'first_name last_name username email profileImg'
+				)
+				.exec()
 
 			return returnedData
 		}
@@ -93,10 +124,13 @@ class BlocksCollection {
 	
 		if (validId) {
 			try {
-				const blocks = await loadBlocksCollection()
-				const returnedData = await blocks.findOne(
-					{ _id: new mongodb.ObjectID(req.params._id) }
-				)
+				const returnedData = await BlockModel
+					.findById(req.params._id)
+					.populate(
+						'user',
+						'first_name last_name username email profileImg'
+					)
+					.exec()
 				
 				return returnedData
 			}
@@ -112,12 +146,13 @@ class BlocksCollection {
 
 		if (validId) {
 			try {
-				const blocks = await loadBlocksCollection()
-				await blocks.deleteOne(
-					{ _id: new mongodb.ObjectID(req.params._id) }
+				await BlockModel.findByIdAndDelete(
+					req.params._id,
+					function (e, block) {
+						if (e) { return (e) }
+						else { return `Deleted: ${block}` }
+					}
 				)
-
-				return
 			}
 			catch(e) { return `Caught Error: ${e}` }
 		}
@@ -126,19 +161,14 @@ class BlocksCollection {
 
 
 	/******************* [VOTE SYSTEM] *******************/
-	static async pushVoter(req) {
+	static async like(req) {
 		try {
-			const blocks = await loadBlocksCollection()
-			await blocks.updateOne(
+			await BlockModel.updateOne(
 				{ _id: new mongodb.ObjectID(req.params._id) },
-				{ $push: { 
-					voters: {
-						user_id: req.decoded._id,
-						email: req.decoded.email,
-					}
-				} },
-				{ upsert: true }
-			)
+				{ '$addToSet': { 
+					'likers': { 'user_id': new mongodb.ObjectID(req.decoded._id) }
+				} }
+		  )
 
 			return
 		}
@@ -146,24 +176,22 @@ class BlocksCollection {
 	}
 
 
-	static async pullVoter(req) {
-			try {
-				const blocks = await loadBlocksCollection()
-				await blocks.updateOne(
-					{ _id: new mongodb.ObjectID(req.params._id) },
-					{ $pull: { voters: { user_id: req.decoded._id } } },
-					{ upsert: true }
-				)
-
-				return
-			}
-			catch(e) { return `Caught Error: ${e}` }
+	static async unlike(req) {
+		try {
+			await BlockModel.updateOne(
+				{ _id: new mongodb.ObjectID(req.params._id) },
+				{ '$pull': { 
+					'likers': { 'user_id': new mongodb.ObjectID(req.decoded._id) }
+				} }
+		  )
+		}
+		catch(e) { return `Caught Error: ${e}` }
 	}
 
-	static async voteExistance(req) { return true }
+	static async likeExistance(req) { return true }
 
-	// Check if User Voted For This Block
-	static async checkForVote(req) { return }
+	// Check if User Liked For This Block
+	static async checkForLike(req) { return }
 
 
 	/******************* [EXISTANCE + OWNERSHIP] *******************/
@@ -188,12 +216,12 @@ class BlocksCollection {
 	// [OWNERSHIP] //
 	static async ownership(req) {
 		if (mongodb.ObjectID.isValid(req.params._id)) {
-			try {
-				const blocks = await loadBlocksCollection()
-				const returnedData = await blocks.findOne(
+			console.log(req.decoded._id)
+			try {	
+				const returnedData = await BlockModel.findOne(
 					{
 						_id: new mongodb.ObjectID(req.params._id),
-						user_id: req.decoded._id,
+						user: new mongodb.ObjectID(req.decoded._id),
 					}
 				)
 
@@ -209,8 +237,7 @@ class BlocksCollection {
 	/******************* [COUNT] *******************/
 	static async count(req) {
 		try {
-			const blocks = await loadBlocksCollection()
-			const count = await blocks.countDocuments(
+			const count = await BlockModel.countDocuments(
 				{ cat_id: req.params.cat_id }
 			)
 
