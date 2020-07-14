@@ -177,8 +177,6 @@
 					liker.user_id == this.user_id
 				))
 
-				console.log('found:', found)
-
 				if (found != null) { return true }
 				else { return false }
 			},
@@ -193,7 +191,6 @@
 			},
 
 			async blockLike(block_id) {
-				console.log('sdfsdf')
 				this.disabled = true
 
 				// [CREATE] //

@@ -62,6 +62,7 @@ router.delete(
 		const owned = await BlocksCollection.ownership(req)
 		
 		if (owned == true) {
+			await BlocksCollection.delete(req.params._id)
 			const returnedData = await BlocksCollection.delete(req)
 
 			res.status(200).send(returnedData)
@@ -99,9 +100,9 @@ router.post(
 		
 		if (likeExistance == true) {
 			await BlocksCollection.unlike(req)
-			await BlockLikesCollection.delete(req)
+			const returnedData = await BlockLikesCollection.delete(req)
 			
-			res.status(201).send()
+			res.status(201).send(returnedData)
 		}
 		else { res.status(400).send() }
 	}

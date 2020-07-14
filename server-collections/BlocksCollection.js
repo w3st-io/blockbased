@@ -124,7 +124,6 @@ class BlocksCollection {
 
 	/******************* [VOTE SYSTEM] *******************/
 	static async like(req) {
-		console.log('test')
 		try {
 			await BlockModel.updateOne(
 				{ _id: mongoose.Types.ObjectId(req.params._id) },
@@ -153,9 +152,10 @@ class BlocksCollection {
 		catch(e) { return `Caught Error: ${e}` }
 	}
 
+
 	static async likeExistance(req) { return true }
 
-	// Check if User Liked For This Block
+
 	static async checkForLike(req) { return }
 
 
@@ -164,9 +164,7 @@ class BlocksCollection {
 	static async existance(_id) {
 		if (mongoose.isValidObjectId(_id)) {
 			try {	
-				const returnedData = await BlockModel.findOne(
-					{ _id: mongoose.Types.ObjectId(_id) }
-				)
+				const returnedData = await BlockModel.findOne({ _id: _id })
 
 				if (returnedData) { return true }
 				else { return false }
@@ -183,8 +181,8 @@ class BlocksCollection {
 			try {	
 				const returnedData = await BlockModel.findOne(
 					{
-						_id: mongoose.Types.ObjectId(req.params._id),
-						user: mongoose.Types.ObjectId(req.decoded._id),
+						_id: req.params._id,
+						user: req.decoded._id,
 					}
 				)
 

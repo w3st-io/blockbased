@@ -11,6 +11,7 @@ const express = require('express')
 // [REQUIRE] Personal //
 const Auth = require('../../../server-middleware/AuthMiddleware')
 const BlocksCollection = require('../../../server-collections/BlocksCollection')
+const BlockLikesCollection = require('../../../server-collections/BlockLikesCollection')
 
 
 // [EXPRESS + USE] //
@@ -58,6 +59,7 @@ router.delete(
 	Auth.adminCheck(),
 	async (req, res) => {
 		BlocksCollection.delete(req)
+		BlockLikesCollection.deleteAll(req.params._id)
 		res.sendStatus(200)
 	}
 )

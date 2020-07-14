@@ -18,8 +18,8 @@
 				>
 					<td>{{ block.cat_id }}</td>
 					<td>{{ block.title }}</td>
-					<td>{{ block.email }}</td>
-					<td>{{ block.username }}</td>
+					<td>{{ block.user.email }}</td>
+					<td>{{ block.user.username }}</td>
 					<td>{{ block.createdAt }}</td>
 					<td class="text-center">
 						<button

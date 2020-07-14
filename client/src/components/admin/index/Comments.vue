@@ -18,8 +18,8 @@
 				>
 					<td>{{ comment.block_id }}</td>
 					<td>{{ comment.text }}</td>
-					<td>{{ comment.email }}</td>
-					<td>{{ comment.username }}</td>
+					<td>{{ comment.user.email }}</td>
+					<td>{{ comment.user.username }}</td>
 					<td>{{ comment.createdAt }}</td>
 					<td class="text-center">
 						<button

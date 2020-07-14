@@ -11,7 +11,10 @@ const BlockLikeScema = mongoose.Schema({
 		ref: 'User'
 	},
 
-	block_id: mongoose.Schema.Types.ObjectId,
+	block: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Block'
+	},
 
 	createdAt: {
 		type: Date,
@@ -21,4 +24,4 @@ const BlockLikeScema = mongoose.Schema({
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('CommentLike', BlockLikeScema)
+module.exports = mongoose.model('BlockLike', BlockLikeScema)

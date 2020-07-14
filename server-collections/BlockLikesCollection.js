@@ -31,6 +31,7 @@ class BlockLikesCollection {
 
 	// [DELETE] //
 	static async delete(req) {
+		console.log(req.params._id)
 		try {
 			await BlockLikeModel.deleteMany(
 				{
@@ -46,8 +47,11 @@ class BlockLikesCollection {
 
 
 	// [DELETE-ALL] //
-	static async deleteAll(req) {
-		try { await BlockLikeModel.deleteMany({ block: req.params.block_id }) }
+	static async deleteAll(block_id) {
+		try { await BlockLikeModel.deleteMany(
+			{ block: block_id }
+		)
+		}
 		catch(e) { return `Caught Error: ${e}` }
 
 		return
