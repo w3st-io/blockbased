@@ -9,7 +9,7 @@ require('dotenv').config()
 
 
 // [REQUIRE] //
-const BlockModel = require('../models/BlockModel')
+const BlockModel = require('../server-models/BlockModel')
 
 
 // [MONGOOSE CONNECT] //

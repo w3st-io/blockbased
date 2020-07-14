@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
-const CommentReportModel = require('../models/CommentReportModel')
+const CommentReportModel = require('../server-models/CommentReportModel')
 
 
 class CommentReportsCollection {

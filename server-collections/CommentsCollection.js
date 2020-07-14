@@ -9,7 +9,7 @@ require('dotenv').config()
 
 
 // [REQUIRE] //
-const CommentModel = require('../models/CommentModel')
+const CommentModel = require('../server-models/CommentModel')
 
 
 // [MONGOOSE CONNECT] //

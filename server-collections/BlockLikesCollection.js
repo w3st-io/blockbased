@@ -4,77 +4,53 @@
  * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
-const mongodb = require('mongodb')
 const mongoose = require('mongoose')
-require('dotenv').config()
 
 
-// [LOAD COLLECTION] blockLikes //
-async function loadBlockLikesCollection() {
-	const uri = process.env.MONGO_URI
-	const db_name = process.env.DB || 'db_name'
-	const c_name = 'blockLikes'
-	
-	const client = await mongodb.MongoClient.connect(
-		uri,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		}
-	)
-
-	return client.db(db_name).collection(c_name)
-}
+// [REQUIRE] Personal //
+const BlockLikeModel = require('../server-models/BlockLikeModel')
 
 
 class BlockLikesCollection {
 	/******************* [CRRUD] *******************/
 	// [CREATE] //
 	static async create(req) {
-		try {
-			const blockLikes = await loadBlockLikesCollection()
-			await blockLikes.insertOne({
-				createdAt: new Date(),
-				block_id: mongoose.Types.ObjectId(req.params._id),
-				user_id: mongoose.Types.ObjectId(req.decoded._id),
-				email: req.decoded.email,
-				username: req.decoded.username,
-			})
-			
-			return
-		}
+		const formData = new BlockLikeModel(
+			{
+				_id: mongoose.Types.ObjectId(),
+				user: req.decoded._id,
+				block: req.params._id,
+			}
+		)
+		try { formData.save() }
 		catch(e) { return `Caught Error: ${e}` }
+			
+		return
 	}
 
 
 	// [DELETE] //
 	static async delete(req) {
 		try {
-			const blockLikes = await loadBlockLikesCollection()
-			await blockLikes.deleteMany({
-				block_id: mongoose.Types.ObjectId(req.params._id),
-				user_id: mongoose.Types.ObjectId(req.decoded._id),
-			})
-
-			return
+			await BlockLikeModel.deleteMany(
+				{
+					block: req.params._id,
+					user: req.decoded._id,
+				}
+			)
 		}
 		catch(e) { return `Caught Error: ${e}` }
+		 
+		return
 	}
 
 
 	// [DELETE-ALL] //
 	static async deleteAll(req) {
-		try {
-			const blockLikes = await loadBlockLikesCollection()
-			await blockLikes.deleteMany(
-				{
-					block_id: mongoose.Types.ObjectId(req.params.block_id)
-				}
-			)
-
-			return
-		}
+		try { await BlockLikeModel.deleteMany({ block: req.params.block_id }) }
 		catch(e) { return `Caught Error: ${e}` }
+
+		return
 	}
 
 
@@ -82,11 +58,10 @@ class BlockLikesCollection {
 	static async existance(block_id, user_id) {
 		if (mongoose.isValidObjectId(block_id)) {
 			try {
-				const blockLikes = await loadBlockLikesCollection()
-				const returnedData = await blockLikes.findOne(
+				const returnedData = await BlockLikeModel.findOne(
 					{
-						block_id: mongoose.Types.ObjectId(block_id),
-						user_id: mongoose.Types.ObjectId(user_id),
+						block: block_id,
+						user: user_id,
 					}
 				)
 	
@@ -100,11 +75,10 @@ class BlockLikesCollection {
 	
 
 	static async ownership(req) {
-		const blockLikes = await loadBlockLikesCollection()
-		const returnedData = await blockLikes.findOne(
+		const returnedData = await BlockLikeModel.findOne(
 			{
-				block_id: mongoose.Types.ObjectId(req.params.block_id),
-				user_id: mongoose.Types.ObjectId(req.decoded._id),
+				block: req.params.block_id,
+				user: req.decoded._id,
 			}
 		)
 
