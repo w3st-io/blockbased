@@ -5,75 +5,58 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
-const mongodb = require('mongodb')
-require('dotenv').config()
 
 
-// [LOAD COLLECTION] commentLikes //
-async function loadCommentLikesCollection() {
-	const uri = process.env.MONGO_URI
-	const db_name = process.env.DB || 'db_name'
-	const c_name = 'commentLikes'
-	
-	const client = await mongodb.MongoClient.connect(
-		uri,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		}
-	)
-
-	return client.db(db_name).collection(c_name)
-}
+// [REQUIRE] Personal //
+const CommentLikeModel = require('../models/CommetLikeModel')
 
 
 class CommentLikesCollection {
 	/******************* [CRRUD] *******************/
 	// [CREATE] //
 	static async create(req) {
-		try {
-			const commentLikes = await loadCommentLikesCollection()
-			await commentLikes.insertOne({
-				createdAt: new Date(),
-				block_id: mongoose.Types.ObjectId(req.params.block_id),
-				comment_id: mongoose.Types.ObjectId(req.params._id),
-				user_id: mongoose.Types.ObjectId(req.decoded._id),
-				email: req.decoded.email,
-				username: req.decoded.username,
-			})
-
-			return
-		}
+		const formData = new CommentLikeModel(
+			{
+				_id: mongoose.Types.ObjectId(),
+				user: req.decoded._id,
+				block_id: req.body.block_id,
+				comment: req.params._id,
+			}
+		)
+		
+		try { formData.save() }
 		catch(e) { `Caught Error: ${e}` }
+
+		return
 	}
 
 
 	// [DELETE] //
 	static async delete(req) {
 		try {
-			const commentLikes = await loadCommentLikesCollection()
-			await commentLikes.deleteMany({
-				comment_id: mongoose.Types.ObjectId(req.params._id),
-				user_id: mongoose.Types.ObjectId(req.decoded._id),
-			})
-			
-			return
+			await CommentLikeModel.deleteMany(
+				{
+					comment: req.params._id,
+					user: req.decoded._id,
+				}
+			)
 		}
 		catch(e) { return `Caught Error: ${e}` }
+			
+		return 'Deleted CommentLike.'
 	}
 
 
 	// [DELETE-ALL] //
 	static async deleteAll(req) {
 		try {
-			const commentLikes = await loadCommentLikesCollection()
-			await commentLikes.deleteMany(
-				{ comment_id: mongoose.Types.ObjectId(req.params.comment_id), }
+			await CommentLikeModel.deleteMany(
+				{ comment: req.params._id }
 			)
-			
-			return
 		}
 		catch(e) { return `Caught Error: ${e}` }
+
+		return 'Deleted all CommentLikes for comment.'
 	}
 
 
@@ -81,11 +64,12 @@ class CommentLikesCollection {
 	static async existance(comment_id, user_id) {
 		if (mongoose.isValidObjectId(comment_id)) {
 			try {
-				const commentLikes = await Collections.loadCommentLikesCollection()
-				const returnedData = await commentLikes.findOne({
-					comment_id: mongoose.Types.ObjectId(comment_id),
-					user_id: mongoose.Types.ObjectId(user_id),
-				})
+				const returnedData = await CommentLikeModel.findOne(
+					{
+						comment_id: mongoose.Types.ObjectId(comment_id),
+						user_id: mongoose.Types.ObjectId(user_id),
+					}
+				)
 	
 				if (returnedData) { return true }
 				else { return false }
@@ -97,11 +81,12 @@ class CommentLikesCollection {
 	
 
 	static async ownership(req) {
-		const commentLikes = await Collections.loadCommentLikesCollection()
-		const returnedData = await commentLikes.findOne({
-			comment_id: mongoose.Types.ObjectId(req.params.comment_id),
-			user_id: mongoose.Types.ObjectId(req.decoded._id),
-		})
+		const returnedData = await CommentLikeModel.findOne(
+			{
+				comment_id: mongoose.Types.ObjectId(req.params.comment_id),
+				user_id: mongoose.Types.ObjectId(req.decoded._id),
+			}
+		)
 
 		if (returnedData) { return true }
 		else { return false }

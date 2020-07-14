@@ -135,7 +135,6 @@ router.post(
 		const existance = await CommentsCollection.LikeExistance(req)
 		
 		if (existance) {
-			console.log('sdf')
 			await CommentsCollection.unlike(req)
 			await CommentLikesCollection.delete(req)
 

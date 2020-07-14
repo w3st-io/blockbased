@@ -134,9 +134,9 @@ class CommentsCollection {
 
 		if (validId) {
 			try {
-				await CommentModel.findOne({
+				await CommentModel.findOneAndRemove({
 					_id: req.params._id,
-					user_id: req.decoded._id,
+					user: req.decoded._id,
 				})
 				
 				return

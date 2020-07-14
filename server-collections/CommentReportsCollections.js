@@ -15,21 +15,18 @@ class CommentReportsCollection {
 	/******************* [CRRUD] *******************/
 	// [CREATE] //
 	static async create(req) {
-		try {
-			const formData = new CommentReportModel({
-				_id: mongoose.Types.ObjectId(),
-				block_id: mongoose.Types.ObjectId(req.body.block_id),
-				user_id: mongoose.Types.ObjectId(req.decoded._id),
-				comment: mongoose.Types.ObjectId(req.params._id),
-				reportType: req.body.reportType,
-			})
-			
-			try { await formData.save() }
-			catch(e) { return `Caught Error: ${e}` }
-			
-			return 'Created comment report.'
-		}
+		const formData = new CommentReportModel({
+			_id: mongoose.Types.ObjectId(),
+			block_id: mongoose.Types.ObjectId(req.body.block_id),
+			user_id: mongoose.Types.ObjectId(req.decoded._id),
+			comment: mongoose.Types.ObjectId(req.params._id),
+			reportType: req.body.reportType,
+		})
+		
+		try { await formData.save() }
 		catch(e) { return `Caught Error: ${e}` }
+		
+		return 'Created comment report.'
 	}
 
 

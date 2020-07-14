@@ -5,6 +5,7 @@
 */
 // [REQUIRE] //
 const mongodb = require('mongodb')
+const mongoose = require('mongoose')
 require('dotenv').config()
 
 

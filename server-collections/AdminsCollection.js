@@ -7,6 +7,7 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const mongodb = require('mongodb')
+const mongoose = require('mongoose')
 require('dotenv').config()
 
 
