@@ -58,12 +58,12 @@
 						<!-- Buttons -->
 						<div class="w-50 m-0 float-right small text-right text-secondary">
 							<button
-								v-if="doesUserOwnThisComment(comment.user_id)"
+								v-if="doesUserOwnThisComment(comment.user._id)"
 								@click="redirectToEdit(comment._id)"
 								class="py-0 btn btn-sm text-secondary"
 							>edit</button>
 							<button
-								v-if="doesUserOwnThisComment(comment.user_id)"
+								v-if="doesUserOwnThisComment(comment.user._id)"
 								@click="deleteComment(comment._id)"
 								class="py-0 btn btn-sm text-danger"
 							>delete</button>
@@ -194,7 +194,7 @@
 			checkForUserLike(comment) {
 				// Search For Likers Id in Block's Object //
 				let found = comment.likers.find((liker) => (
-					liker.user_id == this.user_id
+					liker._id == this.user_id
 				))
 
 				if (found) { return true }

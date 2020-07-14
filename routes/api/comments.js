@@ -122,8 +122,7 @@ router.post(
 
 			res.status(201).send()
 		}
-		else { console.log('thiddds')
-		res.status(400).send('CommentLike already exists.') }
+		else { res.status(400).send('Comment like already exists.') }
 	}
 )
 
@@ -136,13 +135,14 @@ router.post(
 		const existance = await CommentsCollection.LikeExistance(req)
 		
 		if (existance) {
+			console.log('sdf')
 			await CommentsCollection.unlike(req)
 			await CommentLikesCollection.delete(req)
 
 			res.status(201).send()
 		}
 		else { 
-			console.log('this')
+			console.log('/unlike/400')
 			res.status(400).send('CommentLike does not exists.') }
 	}
 )

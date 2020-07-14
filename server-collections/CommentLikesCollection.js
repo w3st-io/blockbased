@@ -78,7 +78,7 @@ class CommentLikesCollection {
 
 	/******************* [EXISTANCE + OWNERSHIP] *******************/
 	static async existance(comment_id, user_id) {
-		if (mongodb.ObjectID.isValid(comment_id)) {
+		if (mongoose.isValidObjectId(comment_id)) {
 			try {
 				const commentLikes = await Collections.loadCommentLikesCollection()
 				const returnedData = await commentLikes.findOne({

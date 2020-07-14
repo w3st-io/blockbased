@@ -52,7 +52,7 @@ class UsersCollection {
 	
 	// [READ] //
 	static async read(req) {
-		const validId = mongodb.ObjectID.isValid(req.params._id)
+		const validId = mongoose.isValidObjectId(req.params._id)
 
 		if (validId) {
 			try {
@@ -85,7 +85,7 @@ class UsersCollection {
 
 	// [READ] Profile Image //
 	static async readProfilePic(req) {
-		const validId = mongodb.ObjectID.isValid(req.params._id)
+		const validId = mongoose.isValidObjectId(req.params._id)
 
 		if (validId) {
 			try {
@@ -104,7 +104,7 @@ class UsersCollection {
 
 	// [READ] Profile Image //
 	static async readProfilePic2(id) {
-		const validId = mongodb.ObjectID.isValid(id)
+		const validId = mongoose.isValidObjectId(id)
 
 		if (validId) {
 			try {
@@ -126,7 +126,7 @@ class UsersCollection {
 
 	// [UPDATE] Profile Picture //
 	static async update(req) {
-		const validId = mongodb.ObjectID.isValid(req.params._id)
+		const validId = mongoose.isValidObjectId(req.params._id)
 
 		if (validId) {
 			try {

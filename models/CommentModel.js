@@ -19,11 +19,8 @@ const CommentScema = mongoose.Schema({
 	comment: { type: String },
 
 	likers: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User'
-		}
-],
+		{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+	],
 
 	createdAt: {
 		type: Date,

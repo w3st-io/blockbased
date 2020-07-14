@@ -31,7 +31,8 @@ class BlocksCollection {
 			title: req.body.title,
 		})
 
-		formData.save()
+		try { await formData.save() }
+		catch(e) { return `Caught Error: ${e}` }
 
 		return 'Created block.'
 	}
@@ -83,12 +84,11 @@ class BlocksCollection {
 
 	// [READ] Single Block //
 	static async read(req) {
-		const validId = mongodb.ObjectID.isValid(req.params._id)
+		const validId = mongoose.isValidObjectId(req.params._id)
 	
 		if (validId) {
 			try {
-				const returnedData = await BlockModel
-					.findById(req.params._id)
+				const returnedData = await BlockModel.findById(req.params._id)
 					.populate(
 						'user',
 						'first_name last_name username email profileImg'
@@ -105,7 +105,7 @@ class BlocksCollection {
 
 	// [DELETE] //
 	static async delete(req) {
-		const validId = mongodb.ObjectID.isValid(req.params._id)
+		const validId = mongoose.isValidObjectId(req.params._id)
 
 		if (validId) {
 			try {
@@ -125,13 +125,14 @@ class BlocksCollection {
 
 	/******************* [VOTE SYSTEM] *******************/
 	static async like(req) {
+		console.log('test')
 		try {
 			await BlockModel.updateOne(
 				{ _id: new mongodb.ObjectID(req.params._id) },
 				{ '$addToSet': { 
 					'likers': { 'user_id': new mongodb.ObjectID(req.decoded._id) }
 				} }
-		  )
+			)
 
 			return
 		}
@@ -146,7 +147,9 @@ class BlocksCollection {
 				{ '$pull': { 
 					'likers': { 'user_id': new mongodb.ObjectID(req.decoded._id) }
 				} }
-		  )
+			)
+
+			return
 		}
 		catch(e) { return `Caught Error: ${e}` }
 	}
@@ -160,7 +163,7 @@ class BlocksCollection {
 	/******************* [EXISTANCE + OWNERSHIP] *******************/
 	// [EXISTANCE] //
 	static async existance(_id) {
-		if (mongodb.ObjectID.isValid(_id)) {
+		if (mongoose.isValidObjectId(_id)) {
 			try {	
 				const returnedData = await BlockModel.findOne(
 					{ _id: new mongodb.ObjectID(_id) }
@@ -177,7 +180,7 @@ class BlocksCollection {
 
 	// [OWNERSHIP] //
 	static async ownership(req) {
-		if (mongodb.ObjectID.isValid(req.params._id)) {
+		if (mongoose.isValidObjectId(req.params._id)) {
 			try {	
 				const returnedData = await BlockModel.findOne(
 					{

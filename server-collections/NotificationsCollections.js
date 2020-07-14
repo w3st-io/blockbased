@@ -48,7 +48,7 @@ class ReportsCollection {
 
 	// [DELETE] //
 	static async delete(req) {
-		const validId = mongodb.ObjectID.isValid(req.params._id)
+		const validId = mongoose.isValidObjectId(req.params._id)
 
 		if (validId) {
 			try {
@@ -68,7 +68,7 @@ class ReportsCollection {
 	/******************* [EXISTANCE + OWNERSHIP] *******************/
 	// [EXISTANCE] //
 	static async existance(_id) {
-		if (mongodb.ObjectID.isValid(_id)) {
+		if (mongoose.isValidObjectId(_id)) {
 			try {
 				const reports = await loadReportsCollection()
 				const returnedData = await reports.findOne(
@@ -86,7 +86,7 @@ class ReportsCollection {
 
 	// [OWNERSHIP] //
 	static async ownership(req) {
-		if (mongodb.ObjectID.isValid(req.params._id)) {
+		if (mongoose.isValidObjectId(req.params._id)) {
 			try {
 				const reports = await loadReportsCollection()
 				const returnedData = await reports.findOne(

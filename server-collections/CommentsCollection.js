@@ -4,7 +4,6 @@
  * %%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
-const mongodb = require('mongodb')
 const mongoose = require('mongoose')
 require('dotenv').config()
 
@@ -12,23 +11,6 @@ require('dotenv').config()
 // [REQUIRE] //
 const CommentModel = require('../models/CommentModel')
 
-
-// [LOAD COLLECTION] comments //
-async function loadCommentsCollection() {
-	const uri = process.env.MONGO_URI
-	const db_name = process.env.DB || 'db_name'
-	const c_name = 'comments'
-
-	const client = await mongodb.MongoClient.connect(
-		uri,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		}
-	)
-
-	return client.db(db_name).collection(c_name)
-}
 
 // [MONGOOSE CONNECT] //
 mongoose.connect(process.env.MONGO_URI, {
@@ -49,9 +31,10 @@ class CommentsCollection {
 			likers: [],
 		})
 
-		formData.save()
+		try { await formData.save() }
+		catch(e) { return `Caught Error: ${e}` }
 
-		return 'Created block.'
+		return 'Created Comment.'
 	}
 
 
@@ -61,12 +44,15 @@ class CommentsCollection {
 		const amount = parseInt(req.params.amount)
 		
 		try {
-			const comments = await loadCommentsCollection()
-			const returnedData = await comments.find()
+			const returnedData = await CommentModel.find()
 				.skip(skip)
 				.limit(amount)
-				.toArray()
-				
+				.populate(
+					'user',
+					'first_name last_name username email profileImg'
+				)
+				.exec()
+
 			return returnedData
 		}
 		catch(e) { return `Caught Error: ${e}` }
@@ -79,38 +65,42 @@ class CommentsCollection {
 		const skip = parseInt(req.params.skip)
 		const amount = parseInt(req.params.amount)
 
-		try {
-			const returnedData = await CommentModel.find(
-				{ block_id: new mongodb.ObjectID(req.params.block_id) }
-			)
-				.skip(skip)
-				.limit(amount)
-				.populate(
-					'user',
-					'first_name last_name username email profileImg'
-				)
-				.populate('user_id')
-				.exec()
+		const returnedData = await CommentModel.find(
+			{ block_id: req.params.block_id }
+		)
+			.skip(skip)
+			.limit(amount)
+			.populate({
+				path: 'user',
+				select: 'first_name last_name username email profileImg'
+			})
+			.populate({
+				path: 'likers',
+				select: 'first_name last_name username email profileImg'
+			})
+			.exec()
 
-				console.log(returnedData)
-				
-				return returnedData
-		}
-		catch(e) { return `Caught Error: ${e}` }
+		return returnedData
 	}
 
 
 	// [READ] //
 	static async read(req) {
-		const validId = mongodb.ObjectID.isValid(req.params._id)
-		
+		const validId = mongoose.isValidObjectId(req.params._id)
+	
 		if (validId) {
 			try {
-				const comments = await loadCommentsCollection()
-				const returnedData = await comments.findOne(
-					{ _id: new mongodb.ObjectID(req.params._id) }
-				)
-				
+				const returnedData = await CommentModel.findById(req.params._id)
+					.populate({
+						path: 'user',
+						select: 'first_name last_name username email profileImg'
+					})
+					.populate({
+						path: 'likers',
+						select: '_id'
+					})
+					.exec()
+
 				return returnedData
 			}
 			catch(e) { return `Caught Error: ${e}` }
@@ -121,15 +111,13 @@ class CommentsCollection {
 
 	// [UPDATE] //
 	static async update(req) {
-		const validId = mongodb.ObjectID.isValid(req.params._id)
+		const validId = mongoose.isValidObjectId(req.params._id)
 
 		if (validId) {
 			try {
-				const comments = await loadCommentsCollection()
-				await comments.findOneAndUpdate(
-					{ _id: new mongodb.ObjectID(req.params._id) },
-					{ $set: { comment: req.body.comment, } },
-					{ upsert: true }
+				await CommentModel.updateOne(
+					{ _id: req.params._id },
+					{ '$set': { 'comment': req.body.comment } },
 				)
 
 				return
@@ -142,17 +130,16 @@ class CommentsCollection {
 
 	// [DELETE] //
 	static async delete(req) {
-		const validId = mongodb.ObjectID.isValid(req.params._id)
+		const validId = mongoose.isValidObjectId(req.params._id)
 
 		if (validId) {
 			try {
-				const comments = await loadCommentsCollection()
-				await comments.deleteOne({
-					_id: new mongodb.ObjectID(req.params._id),
-					user_id: new mongodb.ObjectID(req.decoded._id),
+				await CommentModel.findOne({
+					_id: req.params._id,
+					user_id: req.decoded._id,
 				})
 				
-				next()
+				return
 			}
 			catch(e) { return `Caught Error: ${e}` }
 		}
@@ -162,17 +149,15 @@ class CommentsCollection {
 
 	/******************* [VOTE SYSTEM] *******************/
 	static async like(req) {
-		const validId = mongodb.ObjectID.isValid(req.params._id)
+		const validId = mongoose.isValidObjectId(req.params._id)
 
 		if (validId) {
 			try {
-				const comments = await loadCommentsCollection()
-				await comments.updateOne(
-					{ _id: new mongodb.ObjectID(req.params._id) },
-					{ $addToSet: {
-						likers: { user_id: new mongodb.ObjectID(req.decoded._id) }
-					} },
-					{ upsert: true }
+				await CommentModel.updateOne(
+					{ _id: req.params._id },
+					{ '$addToSet': { 
+						'likers': mongoose.Types.ObjectId(req.decoded._id)
+					} }
 				)
 				
 				return
@@ -184,17 +169,15 @@ class CommentsCollection {
 
 
 	static async unlike(req) {
-		const validId = mongodb.ObjectID.isValid(req.params._id)
+		const validId = mongoose.isValidObjectId(req.params._id)
 
 		if (validId) {
 			try {
-				const comments = await loadCommentsCollection()
-				await comments.updateOne(
-					{ _id: new mongodb.ObjectID(req.params._id) },
-					{ $pull: {
-						likers: { user_id: new mongodb.ObjectID(req.decoded._id) }
-					} },
-					{ upsert: true }
+				await CommentModel.updateOne(
+					{ _id: req.params._id },
+					{ '$pull': { 
+						'likers': req.decoded._id
+					} }
 				)
 
 				return
@@ -205,18 +188,14 @@ class CommentsCollection {
 	}
 
 
-	/******************* [EXISTANCE] *******************/
 	static async LikeExistance(req) {
-		try {
-			const comments = await loadCommentsCollection()
-			const returnedData = await comments.findOne({
-				_id: new mongodb.ObjectID(req.params._id),
-				likers: {
-					user_id: new mongodb.ObjectID(req.decoded._id),
+		try {	
+			const returnedData = await CommentModel.findOne(
+				{
+					_id: req.params._id,
+					likers: req.decoded._id
 				}
-			})
-
-			console.log(returnedData)
+			)
 
 			if (returnedData) { return true }
 			else { return false }
@@ -228,31 +207,29 @@ class CommentsCollection {
 	/******************* [EXISTANCE + OWNERSHIP] *******************/
 	// [EXISTANCE] //
 	static async existance(comment_id) {
-		if (mongodb.ObjectID.isValid(comment_id)) {
-			try {
-				const comments = await loadCommentsCollection()
-				const returnedData = await comments.findOne(
-					{ _id: new mongodb.ObjectID(comment_id) }
+		if (mongoose.isValidObjectId(comment_id)) {
+			try {	
+				const returnedData = await CommentModel.findOne(
+					{ _id: _id }
 				)
-				
+
 				if (returnedData) { return true }
 				else { return false }
 			}
 			catch(e) { return `Caught Error: ${e}` }
 		}
-		else { return 'Invalid Block ID.' }
+		else { return 'Invalid Comment ID.' }
 	}
 
 
 	// [OWNERSHIP] //
 	static async ownership(req) {
-		if (mongodb.ObjectID.isValid(req.params._id)) {
-			try {
-				const comments = await loadCommentsCollection()
-				const returnedData = await comments.findOne(
-					{	
-						_id: new mongodb.ObjectID(req.params._id),
-						user_id: new mongodb.ObjectID(req.decoded._id),
+		if (mongoose.isValidObjectId(req.params._id)) {
+			try {	
+				const returnedData = await CommentModel.findOne(
+					{
+						_id: req.params._id,
+						user: req.decoded._id,
 					}
 				)
 
@@ -261,17 +238,16 @@ class CommentsCollection {
 			}
 			catch(e) { return `Caught Error: ${e}` }
 		}
-		else { return 'Invalid Block ID.' }
+		else { return 'Invalid Comment ID.' }
 	}
 
 
 	/******************* [COUNT] *******************/
 	static async count(req) {
 		try {
-			const comments = await loadCommentsCollection()
-			const count = await comments.countDocuments({
-				block_id: new mongodb.ObjectID(req.params.block_id)
-			})
+			const count = await CommentModel.countDocuments(
+				{ cat_id: req.params.cat_id }
+			)
 
 			return count
 		}

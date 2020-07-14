@@ -79,7 +79,7 @@ class BlockLikesCollection {
 
 	/******************* [EXISTANCE + OWNERSHIP] *******************/
 	static async existance(block_id, user_id) {
-		if (mongodb.ObjectID.isValid(block_id)) {
+		if (mongoose.isValidObjectId(block_id)) {
 			try {
 				const blockLikes = await loadBlockLikesCollection()
 				const returnedData = await blockLikes.findOne(

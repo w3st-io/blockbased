@@ -60,7 +60,7 @@ class CommentReportsCollection {
 
 	// [DELETE] Single Report //
 	static async delete(req) {
-		let validId = mongodb.ObjectID.isValid(req.params._id)
+		let validId = mongoose.isValidObjectId(req.params._id)
 
 		if (validId) {
 			try {
@@ -91,7 +91,7 @@ class CommentReportsCollection {
 	/******************* [EXISTANCE] *******************/
 	// Verify that User is not Double Inserting //
 	static async existance(req) {
-		const validId = mongodb.ObjectID.isValid(req.params._id)
+		const validId = mongoose.isValidObjectId(req.params._id)
 
 		if (validId) {
 			try {
