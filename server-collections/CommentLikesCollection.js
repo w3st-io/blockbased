@@ -1,6 +1,6 @@
 /**
  * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% COMMENT VOTES COLLECTION %%% *
+ * %%% COMMENT LIKES COLLECTION %%% *
  * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
@@ -63,7 +63,7 @@ class CommentLikesCollection {
 	}
 
 
-	// [DELETE ALL] //
+	// [DELETE-ALL] //
 	static async deleteAll(req) {
 		try {
 			const commentLikes = await loadCommentLikesCollection()

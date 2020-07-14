@@ -32,7 +32,7 @@ router.post(
 )
 
 
-// [READ ALL] Within Cat //
+// [READ-ALL] Within Cat //
 router.get(
 	'/read-all/:cat_id/:amount/:skip',
 	async (req, res) => {

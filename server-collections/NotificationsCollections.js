@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% REPORTS COLLECTION %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% NOTIFICATIONS COLLECTION %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
@@ -17,7 +17,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 class ReportsCollection {
 	/******************* [CRRUD] *******************/
-	// [READ ALL] //
+	// [READ-ALL] //
 	static async readAll(req) {}
 
 

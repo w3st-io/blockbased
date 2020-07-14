@@ -10,19 +10,28 @@
 					:key="comment._id"
 					class="row m-0 boder border-bottom border-secondary"
 				>
-					<!-- Image Section -->
+					<!-- Profile Section -->
 					<div class="
 						col-lg-2 col-md-2 col-sm-2 col-12 px-0 py-3 border-secondary
 					">
-						<div class="d-block m-auto rounded-lg pro-img-holder">
+						<div
+							class="
+								d-block
+								m-auto
+								border
+								border-primary
+								rounded-lg
+								pro-img-holder
+							"
+						>
 							<img
 								:src="comment.user.profileImg"
 								class="m-auto w-100 pro-img"
 							>
 						</div>
 
-						<p class="m-0 text-center text-light small">
-							{{ comment.email }}
+						<p class="m-0 mt-2 text-center text-light small">
+							<span class="mark bg-primary">{{ comment.user.email }}</span>
 						</p>
 					</div>
 
@@ -50,9 +59,7 @@
 							/>
 
 							<!-- Time Stamp -->
-							<span class="ml-3">
-								{{ comment.createdAt }} - {{ comment._id }}
-							</span>
+							<span class="ml-3">{{ comment.createdAt }}</span>
 						</div>
 
 						<!-- Buttons -->

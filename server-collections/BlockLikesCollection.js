@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% BLOCKS COLLECTION %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% BLOCK LIKES COLLECTION %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
 const mongodb = require('mongodb')
@@ -61,7 +61,7 @@ class BlockLikesCollection {
 	}
 
 
-	// [DELETE ALL] //
+	// [DELETE-ALL] //
 	static async deleteAll(req) {
 		try {
 			const blockLikes = await loadBlockLikesCollection()

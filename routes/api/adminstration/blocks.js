@@ -18,7 +18,7 @@ const router = express.Router().use(cors())
 
 
 /******************* [CRRUD] *******************/
-// [READ ALL ALL] Auth Required //
+// [READ-ALL ALL] Auth Required //
 router.get(
 	'/read-all/:amount/:skip',
 	Auth.adminCheck(),
@@ -30,7 +30,7 @@ router.get(
 )
 
 
-// [READ ALL] Auth Required - Within a Cat //
+// [READ-ALL] Auth Required - Within a Cat //
 router.get(
 	'/read-all/:cat_id/:amount/:skip',
 	Auth.adminCheck(),

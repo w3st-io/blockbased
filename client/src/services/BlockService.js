@@ -27,7 +27,7 @@ class BlockService {
 	}
 
 
-	// [READ ALL] //
+	// [READ-ALL] //
 	static async readAll(cat_id, amount, pageNumber) {
 		// multiply page number with # blocks per page to know how much to skip
 		const skip = pageNumber * amount

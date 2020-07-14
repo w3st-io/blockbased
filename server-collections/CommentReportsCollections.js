@@ -4,31 +4,11 @@
  * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
-const mongodb = require('mongodb')
 const mongoose = require('mongoose')
-require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const BlockModel = require('../models/CommentReportModel')
-
-
-// [LOAD COLLECTION] reports //
-async function loadReportsCollection() {
-	const uri = process.env.MONGO_URI
-	const db_name = process.env.DB || 'db_name'
-	const c_name = 'commentReports'
-	
-	const client = await mongodb.MongoClient.connect(
-		uri,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		}
-	)
-
-	return client.db(db_name).collection(c_name)
-}
+const CommentReportModel = require('../models/CommentReportModel')
 
 
 class CommentReportsCollection {
@@ -36,7 +16,7 @@ class CommentReportsCollection {
 	// [CREATE] //
 	static async create(req) {
 		try {
-			const formData = new BlockModel({
+			const formData = new CommentReportModel({
 				_id: mongoose.Types.ObjectId(),
 				block_id: mongoose.Types.ObjectId(req.body.block_id),
 				user_id: mongoose.Types.ObjectId(req.decoded._id),
@@ -53,11 +33,11 @@ class CommentReportsCollection {
 	}
 
 
-	// [READ ALL] //
+	// [READ-ALL] //
 	static async readAll(req) {
 		try {
-			const reports = await loadReportsCollection()
-			const returnedData = await reports.find().toArray()
+			const returnedData = await CommentReportModel.find()
+				.toArray()
 
 			return returnedData
 		}
@@ -71,30 +51,27 @@ class CommentReportsCollection {
 
 		if (validId) {
 			try {
-				const reports = await loadReportsCollection()
-				await reports.deleteOne(
+				await CommentReportModel.deleteOne(
 					{ _id: mongoose.Types.ObjectId(req.params._id) }
 				)
-
-				return
 			}
 			catch(e) { return `Caught Error: ${e}` }
+
+			return 'Deleted report'
 		}
 		else { return 'Invalid Block ID.' }
 	}
 
 
-	// [DELETE ALL] //
-	static async deleteAll(req) {
-		try {
-			const reports = await loadReportsCollection()
-			await reports.deleteMany()
-
-			return
-		}
+	// [DELETE-ALL-ALL] //
+	static async deleteAllAll(req) {
+		try { await CommentReportModel.deleteMany() }
 		catch(e) { return `Caught Error: ${e}` }
+
+		return 'Deleted all comment reports.'
 	}
 
+	
 	/******************* [EXISTANCE] *******************/
 	// Verify that User is not Double Reporting //
 	static async existance(req) {
@@ -102,8 +79,7 @@ class CommentReportsCollection {
 
 		if (validId) {
 			try {
-				const reports = await loadReportsCollection()
-				const returnedData = await reports.findOne({	
+				const returnedData = await CommentReportModel.findOne({	
 					comment_id: mongoose.Types.ObjectId(req.params._id),
 					user: mongoose.Types.ObjectId(req.decoded._id),
 				})

@@ -18,7 +18,7 @@ const router = express.Router().use(cors())
 
 
 /******************* [CRRUD] *******************/
-// [READ ALL] Auth Required //
+// [READ-ALL] Auth Required //
 router.get(
 	'/read-all',
 	Auth.adminCheck(),
@@ -35,7 +35,7 @@ router.delete(
 	'/delete/:_id',
 	Auth.adminCheck(),
 	async (req, res) => {
-		await ReportsCollection.delete(req)
+		await CommentReportsCollection.delete(req)
 		
 		res.status(200).send()
 	}
