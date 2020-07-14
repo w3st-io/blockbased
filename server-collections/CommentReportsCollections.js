@@ -5,7 +5,12 @@
 */
 // [REQUIRE] //
 const mongodb = require('mongodb')
+const mongoose = require('mongoose')
 require('dotenv').config()
+
+
+// [REQUIRE] Personal //
+const BlockModel = require('../models/CommentReportModel')
 
 
 // [LOAD COLLECTION] reports //
@@ -31,16 +36,18 @@ class CommentReportsCollection {
 	// [CREATE] //
 	static async create(req) {
 		try {
-			const reports = await loadReportsCollection()
-			await reports.insertOne({
-				createdAt: new Date(),
-				block_id: new mongodb.ObjectID(req.body.block_id),
-				comment_id: new mongodb.ObjectID(req.params._id),
-				user_id: new mongodb.ObjectID(req.decoded._id),
-				type: req.body.reportType,
+			const formData = new BlockModel({
+				_id: mongoose.Types.ObjectId(),
+				block_id: mongoose.Types.ObjectId(req.body.block_id),
+				user_id: mongoose.Types.ObjectId(req.decoded._id),
+				comment: mongoose.Types.ObjectId(req.params._id),
+				reportType: req.body.reportType,
 			})
 			
-			return
+			try { await formData.save() }
+			catch(e) { return `Caught Error: ${e}` }
+			
+			return 'Created comment report.'
 		}
 		catch(e) { return `Caught Error: ${e}` }
 	}
@@ -66,7 +73,7 @@ class CommentReportsCollection {
 			try {
 				const reports = await loadReportsCollection()
 				await reports.deleteOne(
-					{ _id: new mongodb.ObjectID(req.params._id) }
+					{ _id: mongoose.Types.ObjectId(req.params._id) }
 				)
 
 				return
@@ -89,7 +96,7 @@ class CommentReportsCollection {
 	}
 
 	/******************* [EXISTANCE] *******************/
-	// Verify that User is not Double Inserting //
+	// Verify that User is not Double Reporting //
 	static async existance(req) {
 		const validId = mongoose.isValidObjectId(req.params._id)
 
@@ -97,8 +104,8 @@ class CommentReportsCollection {
 			try {
 				const reports = await loadReportsCollection()
 				const returnedData = await reports.findOne({	
-					comment_id: new mongodb.ObjectID(req.params._id),
-					user_id: new mongodb.ObjectID(req.decoded._id),
+					comment_id: mongoose.Types.ObjectId(req.params._id),
+					user: mongoose.Types.ObjectId(req.decoded._id),
 				})
 
 				if (returnedData) { return true }

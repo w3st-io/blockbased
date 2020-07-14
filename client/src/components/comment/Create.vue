@@ -15,7 +15,7 @@
 					<ckeditor
 						:editor="editor"
 						:config="editorConfig"
-						v-model="comment"
+						v-model="text"
 					></ckeditor>
 
 					<!-- Error -->
@@ -61,7 +61,7 @@
 			return {
 				disabled: false,
 				loading: false,
-				comment: '',
+				text: '',
 				error: '',
 
 				// CKEditor Stuff //
@@ -103,7 +103,7 @@
 
 			async create() {
 				try {
-					await CommentService.create(this.block_id, this.comment)
+					await CommentService.create(this.block_id, this.text)
 					
 					// [REDIRECT] Block Page //
 					router.push(

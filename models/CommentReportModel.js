@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 
 
 // [SCHEMA MODEL] //
-const CommentScema = mongoose.Schema({
+const CommentReportScema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
 	block_id: mongoose.Schema.Types.ObjectId,
@@ -13,14 +13,12 @@ const CommentScema = mongoose.Schema({
 		ref: 'User'
 	},
 
-	text: { type: String },
+	comment: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Comment'
+	},
 
-	likers: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User'
-		}
-	],
+	reportType: { type: String },
 
 	createdAt: {
 		type: Date,
@@ -30,4 +28,4 @@ const CommentScema = mongoose.Schema({
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('Comment', CommentScema)
+module.exports = mongoose.model('CommentReport', CommentReportScema)

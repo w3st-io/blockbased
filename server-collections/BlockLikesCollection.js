@@ -34,8 +34,8 @@ class BlockLikesCollection {
 			const blockLikes = await loadBlockLikesCollection()
 			await blockLikes.insertOne({
 				createdAt: new Date(),
-				block_id: new mongodb.ObjectID(req.params._id),
-				user_id: new mongodb.ObjectID(req.decoded._id),
+				block_id: mongoose.Types.ObjectId(req.params._id),
+				user_id: mongoose.Types.ObjectId(req.decoded._id),
 				email: req.decoded.email,
 				username: req.decoded.username,
 			})
@@ -51,8 +51,8 @@ class BlockLikesCollection {
 		try {
 			const blockLikes = await loadBlockLikesCollection()
 			await blockLikes.deleteMany({
-				block_id: new mongodb.ObjectID(req.params._id),
-				user_id: new mongodb.ObjectID(req.decoded._id),
+				block_id: mongoose.Types.ObjectId(req.params._id),
+				user_id: mongoose.Types.ObjectId(req.decoded._id),
 			})
 
 			return
@@ -67,7 +67,7 @@ class BlockLikesCollection {
 			const blockLikes = await loadBlockLikesCollection()
 			await blockLikes.deleteMany(
 				{
-					block_id: new mongodb.ObjectID(req.params.block_id)
+					block_id: mongoose.Types.ObjectId(req.params.block_id)
 				}
 			)
 
@@ -84,8 +84,8 @@ class BlockLikesCollection {
 				const blockLikes = await loadBlockLikesCollection()
 				const returnedData = await blockLikes.findOne(
 					{
-						block_id: new mongodb.ObjectID(block_id),
-						user_id: new mongodb.ObjectID(user_id),
+						block_id: mongoose.Types.ObjectId(block_id),
+						user_id: mongoose.Types.ObjectId(user_id),
 					}
 				)
 	
@@ -102,8 +102,8 @@ class BlockLikesCollection {
 		const blockLikes = await loadBlockLikesCollection()
 		const returnedData = await blockLikes.findOne(
 			{
-				block_id: new mongodb.ObjectID(req.params.block_id),
-				user_id: new mongodb.ObjectID(req.decoded._id),
+				block_id: mongoose.Types.ObjectId(req.params.block_id),
+				user_id: mongoose.Types.ObjectId(req.decoded._id),
 			}
 		)
 

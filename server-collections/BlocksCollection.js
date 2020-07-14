@@ -4,7 +4,6 @@
  * %%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
-const mongodb = require('mongodb')
 const mongoose = require('mongoose')
 require('dotenv').config()
 
@@ -128,9 +127,9 @@ class BlocksCollection {
 		console.log('test')
 		try {
 			await BlockModel.updateOne(
-				{ _id: new mongodb.ObjectID(req.params._id) },
+				{ _id: mongoose.Types.ObjectId(req.params._id) },
 				{ '$addToSet': { 
-					'likers': { 'user_id': new mongodb.ObjectID(req.decoded._id) }
+					'likers': { 'user_id': mongoose.Types.ObjectId(req.decoded._id) }
 				} }
 			)
 
@@ -143,9 +142,9 @@ class BlocksCollection {
 	static async unlike(req) {
 		try {
 			await BlockModel.updateOne(
-				{ _id: new mongodb.ObjectID(req.params._id) },
+				{ _id: mongoose.Types.ObjectId(req.params._id) },
 				{ '$pull': { 
-					'likers': { 'user_id': new mongodb.ObjectID(req.decoded._id) }
+					'likers': { 'user_id': mongoose.Types.ObjectId(req.decoded._id) }
 				} }
 			)
 
@@ -166,7 +165,7 @@ class BlocksCollection {
 		if (mongoose.isValidObjectId(_id)) {
 			try {	
 				const returnedData = await BlockModel.findOne(
-					{ _id: new mongodb.ObjectID(_id) }
+					{ _id: mongoose.Types.ObjectId(_id) }
 				)
 
 				if (returnedData) { return true }
@@ -184,8 +183,8 @@ class BlocksCollection {
 			try {	
 				const returnedData = await BlockModel.findOne(
 					{
-						_id: new mongodb.ObjectID(req.params._id),
-						user: new mongodb.ObjectID(req.decoded._id),
+						_id: mongoose.Types.ObjectId(req.params._id),
+						user: mongoose.Types.ObjectId(req.decoded._id),
 					}
 				)
 

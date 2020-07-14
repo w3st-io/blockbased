@@ -4,119 +4,38 @@
  * %%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
-const mongodb = require('mongodb')
+const mongoose = require('mongoose')
 require('dotenv').config()
 
 
-// [LOAD COLLECTION] reports //
-async function loadReportsCollection() {
-	const uri = process.env.MONGO_URI
-	const db_name = process.env.DB || 'db_name'
-	const c_name = 'notifications'
-
-	const client = await mongodb.MongoClient.connect(
-		uri,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		}
-	)
-
-	return client.db(db_name).collection(c_name)
-}
+// [MONGOOSE CONNECT] //
+mongoose.connect(process.env.MONGO_URI, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+})
 
 
 class ReportsCollection {
 	/******************* [CRRUD] *******************/
 	// [READ ALL] //
-	static async readAll(req) {
-		const skip = parseInt(req.params.skip)
-		const amount = parseInt(req.params.amount)
-		
-		try {
-			const reports = await loadReportsCollection()
-			const returnedData = await reports.find()
-				.skip(skip)
-				.limit(amount)
-				.toArray()
-	
-			return returnedData
-		}
-		catch(e) { return `Caught Error: ${e}` }
-	}
+	static async readAll(req) {}
 
 
 	// [DELETE] //
-	static async delete(req) {
-		const validId = mongoose.isValidObjectId(req.params._id)
-
-		if (validId) {
-			try {
-				const reports = await loadReportsCollection()
-				await reports.deleteOne(
-					{ _id: new mongodb.ObjectID(req.params._id) }
-				)
-
-				return
-			}
-			catch(e) { return `Caught Error: ${e}` }
-		}
-		else { return 'Invalid Block ID.' }
-	}
+	static async delete(req) {}
 
 
 	/******************* [EXISTANCE + OWNERSHIP] *******************/
 	// [EXISTANCE] //
-	static async existance(_id) {
-		if (mongoose.isValidObjectId(_id)) {
-			try {
-				const reports = await loadReportsCollection()
-				const returnedData = await reports.findOne(
-					{ _id: new mongodb.ObjectID(_id) }
-				)
-				
-				if (returnedData) { return true }
-				else { return false }
-			}
-			catch(e) { return `Caught Error: ${e}` }
-		}
-		else { return 'Invalid Block ID.' }
-	}
+	static async existance(_id) {}
 
 
 	// [OWNERSHIP] //
-	static async ownership(req) {
-		if (mongoose.isValidObjectId(req.params._id)) {
-			try {
-				const reports = await loadReportsCollection()
-				const returnedData = await reports.findOne(
-					{
-						_id: new mongodb.ObjectID(req.params._id),
-						user_id: new mongodb.ObjectID(req.decoded._id),
-					}
-				)
-
-				if (returnedData) { return true }
-				else { return false }
-			}
-			catch(e) { return `Caught Error: ${e}` }
-		}
-		else { return 'Invalid Block ID.' }
-	}
+	static async ownership(req) {}
 
 
 	/******************* [COUNT] *******************/
-	static async count(req) {
-		try {
-			const reports = await loadReportsCollection()
-			const count = await reports.countDocuments(
-				{ user_id: new mongodb.ObjectID(req.decoded.user_id) }
-			)
-
-			return count
-		}
-		catch(e) { return `Caught Error: ${e}` }
-	}
+	static async count(req) {}
 }
 
 

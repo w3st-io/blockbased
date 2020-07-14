@@ -27,7 +27,7 @@ class CommentsCollection {
 			_id: mongoose.Types.ObjectId(),
 			block_id: req.body.block_id,
 			user: req.decoded._id,
-			comment: req.body.comment,
+			text: req.body.text,
 			likers: [],
 		})
 
@@ -117,7 +117,7 @@ class CommentsCollection {
 			try {
 				await CommentModel.updateOne(
 					{ _id: req.params._id },
-					{ '$set': { 'comment': req.body.comment } },
+					{ '$set': { 'text': req.body.text } },
 				)
 
 				return

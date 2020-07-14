@@ -7,6 +7,7 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const mongodb = require('mongodb')
+const mongoose = require('mongoose')
 require('dotenv').config()
 
 
@@ -58,7 +59,7 @@ class UsersCollection {
 			try {
 				const users = await loadUsersCollection()
 				const returnedData = await users.findOne(
-					{ _id: new mongodb.ObjectID(req.params._id) }
+					{ _id: mongoose.Types.ObjectId(req.params._id) }
 				)
 
 				return returnedData
@@ -74,7 +75,7 @@ class UsersCollection {
 		try {
 			const users = await loadUsersCollection()
 			const returnedData = await users.findOne(
-				{ _id: new mongodb.ObjectID(req.decoded._id) }
+				{ _id: mongoose.Types.ObjectId(req.decoded._id) }
 			)
 
 			return returnedData
@@ -91,7 +92,7 @@ class UsersCollection {
 			try {
 				const users = await loadUsersCollection()
 				const returnedData = await users.findOne(
-					{ _id: new mongodb.ObjectID(req.params._id) },
+					{ _id: mongoose.Types.ObjectId(req.params._id) },
 					{ projection: { profilePicURL: 1 } }
 				)
 
@@ -110,7 +111,7 @@ class UsersCollection {
 			try {
 				const users = await loadUsersCollection()
 				const returnedData = await users.findOne(
-					{ _id: new mongodb.ObjectID(id) },
+					{ _id: mongoose.Types.ObjectId(id) },
 					{ projection: { profilePicURL: 1 } }
 				)
 				
@@ -132,7 +133,7 @@ class UsersCollection {
 			try {
 				const users = await loadUsersCollection()
 				await users.findOneAndUpdate(
-					{ _id: new mongodb.ObjectID(req.params._id) },
+					{ _id: mongoose.Types.ObjectId(req.params._id) },
 					{ $set: { profilePicURL: mongodb.ObjectID(req.body.img_url), } },
 					{ upsert: true }
 				)
@@ -150,7 +151,7 @@ class UsersCollection {
 		try {
 			const users = await loadUsersCollection()
 			await users.findOneAndUpdate(
-				{ _id: new mongodb.ObjectID(req.decoded._id) },
+				{ _id: mongoose.Types.ObjectId(req.decoded._id) },
 				{ $set: { profilePicURL: req.body.img_url, } },
 				{ upsert: true }
 			)

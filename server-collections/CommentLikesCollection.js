@@ -4,6 +4,7 @@
  * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
+const mongoose = require('mongoose')
 const mongodb = require('mongodb')
 require('dotenv').config()
 
@@ -34,9 +35,9 @@ class CommentLikesCollection {
 			const commentLikes = await loadCommentLikesCollection()
 			await commentLikes.insertOne({
 				createdAt: new Date(),
-				block_id: new mongodb.ObjectID(req.params.block_id),
-				comment_id: new mongodb.ObjectID(req.params._id),
-				user_id: new mongodb.ObjectID(req.decoded._id),
+				block_id: mongoose.Types.ObjectId(req.params.block_id),
+				comment_id: mongoose.Types.ObjectId(req.params._id),
+				user_id: mongoose.Types.ObjectId(req.decoded._id),
 				email: req.decoded.email,
 				username: req.decoded.username,
 			})
@@ -52,8 +53,8 @@ class CommentLikesCollection {
 		try {
 			const commentLikes = await loadCommentLikesCollection()
 			await commentLikes.deleteMany({
-				comment_id: new mongodb.ObjectID(req.params._id),
-				user_id: new mongodb.ObjectID(req.decoded._id),
+				comment_id: mongoose.Types.ObjectId(req.params._id),
+				user_id: mongoose.Types.ObjectId(req.decoded._id),
 			})
 			
 			return
@@ -67,7 +68,7 @@ class CommentLikesCollection {
 		try {
 			const commentLikes = await loadCommentLikesCollection()
 			await commentLikes.deleteMany(
-				{ comment_id: new mongodb.ObjectID(req.params.comment_id), }
+				{ comment_id: mongoose.Types.ObjectId(req.params.comment_id), }
 			)
 			
 			return
@@ -82,8 +83,8 @@ class CommentLikesCollection {
 			try {
 				const commentLikes = await Collections.loadCommentLikesCollection()
 				const returnedData = await commentLikes.findOne({
-					comment_id: new mongodb.ObjectID(comment_id),
-					user_id: new mongodb.ObjectID(user_id),
+					comment_id: mongoose.Types.ObjectId(comment_id),
+					user_id: mongoose.Types.ObjectId(user_id),
 				})
 	
 				if (returnedData) { return true }
@@ -98,8 +99,8 @@ class CommentLikesCollection {
 	static async ownership(req) {
 		const commentLikes = await Collections.loadCommentLikesCollection()
 		const returnedData = await commentLikes.findOne({
-			comment_id: new mongodb.ObjectID(req.params.comment_id),
-			user_id: new mongodb.ObjectID(req.decoded._id),
+			comment_id: mongoose.Types.ObjectId(req.params.comment_id),
+			user_id: mongoose.Types.ObjectId(req.decoded._id),
 		})
 
 		if (returnedData) { return true }

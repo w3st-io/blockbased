@@ -20,8 +20,8 @@ const authAxios = axios.create({
 class CommentService {
 	/******************* [CRRUD] *******************/
 	// [CREATE] Auth Required //
-	static create(block_id, comment) {
-		let status = authAxios.post(`/create`, { block_id, comment })
+	static create(block_id, text) {
+		const status = authAxios.post(`/create`, { block_id, text })
 
 		return status
 	}
@@ -83,9 +83,9 @@ class CommentService {
 
 
 	// [UPDATE] Auth Required //
-	static update(comment_id, comment) {
+	static update(comment_id, text) {
 		let result = new Promise ((resolve, reject) => {
-			authAxios.post(`/update/${comment_id}`, { comment })
+			authAxios.post(`/update/${comment_id}`, { text })
 				.then((res) => { resolve(res.data) })
 				.catch((err) => { reject(err) })
 		})

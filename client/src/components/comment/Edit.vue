@@ -15,7 +15,7 @@
 					<ckeditor
 						:editor="editor"
 						:config="editorConfig"
-						v-model="comment"
+						v-model="text"
 					></ckeditor>
 
 					<!-- Error -->
@@ -61,7 +61,7 @@
 				disabled: false,
 				loading: false,
 				commentDetails: {},
-				comment: '',
+				text: '',
 				error: '',
 
 				// CKEditor Stuff //
@@ -91,7 +91,7 @@
 				try {
 					this.commentDetails = await CommentService.read(this.comment_id)
 
-					this.comment = this.commentDetails.comment
+					this.text = this.commentDetails.text
 				}
 				catch(e) { this.error = e }
 			},
@@ -109,7 +109,7 @@
 			// [UPDATE] Comment //
 			async update() {
 				try {
-					await CommentService.update(this.comment_id, this.comment)
+					await CommentService.update(this.comment_id, this.text)
 
 					router.push(
 						{

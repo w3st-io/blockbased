@@ -17,7 +17,7 @@
 					:key="comment._id"
 				>
 					<td>{{ comment.block_id }}</td>
-					<td>{{ comment.comment }}</td>
+					<td>{{ comment.text }}</td>
 					<td>{{ comment.email }}</td>
 					<td>{{ comment.username }}</td>
 					<td>{{ comment.createdAt }}</td>

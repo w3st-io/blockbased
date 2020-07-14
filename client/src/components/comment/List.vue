@@ -28,7 +28,7 @@
 
 					<!-- Comment Section -->
 					<div class="col-lg-10 col-md-10 col-sm-10 col-12 px-2 pt-3">
-						<p v-html="comment.comment" class="m-0 text-light multiline"></p>
+						<p v-html="comment.text" class="m-0 text-light multiline"></p>
 					</div>
 				
 					<!-- Bottom Bar -->
