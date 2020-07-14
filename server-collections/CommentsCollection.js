@@ -5,7 +5,12 @@
 */
 // [REQUIRE] //
 const mongodb = require('mongodb')
+const mongoose = require('mongoose')
 require('dotenv').config()
+
+
+// [REQUIRE] //
+const CommentModel = require('../models/CommentModel')
 
 
 // [LOAD COLLECTION] comments //
@@ -25,26 +30,28 @@ async function loadCommentsCollection() {
 	return client.db(db_name).collection(c_name)
 }
 
+// [MONGOOSE CONNECT] //
+mongoose.connect(process.env.MONGO_URI, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+})
+
 
 class CommentsCollection {
 	/******************* [CRRUD] *******************/
 	// [CREATE] //
 	static async create(req) {
-		try {
-			const comments = await loadCommentsCollection()
-			await comments.insertOne({
-				createdAt: new Date(),
-				block_id: new mongodb.ObjectID(req.body.block_id),
-				user_id: new mongodb.ObjectID(req.decoded._id),
-				username: req.decoded.username,
-				email: req.decoded.email,
-				comment: req.body.comment,
-				likers: [],
-			})
-			
-			return
-		}
-		catch(e) { return `Caught Error: ${e}` }
+		const formData = new CommentModel({
+			_id: mongoose.Types.ObjectId(),
+			block_id: req.body.block_id,
+			user: req.decoded._id,
+			comment: req.body.comment,
+			likers: [],
+		})
+
+		formData.save()
+
+		return 'Created block.'
 	}
 
 
@@ -69,26 +76,27 @@ class CommentsCollection {
 
 	// [READ-ALL] Within a Block //
 	static async readAll(req) {
-		const validId = mongodb.ObjectID.isValid(req.params.block_id)
 		const skip = parseInt(req.params.skip)
 		const amount = parseInt(req.params.amount)
-		
-		if (validId) {
-			try {
-				const comments = await loadCommentsCollection()
-				const returnedData = await comments.find(
-					{ block_id: new mongodb.ObjectID(req.params.block_id) }
-				)
-					.skip(skip)
-					.limit(amount)
-					.toArray()
-					//.then( returnedData.find() )
 
+		try {
+			const returnedData = await CommentModel.find(
+				{ block_id: new mongodb.ObjectID(req.params.block_id) }
+			)
+				.skip(skip)
+				.limit(amount)
+				.populate(
+					'user',
+					'first_name last_name username email profileImg'
+				)
+				.populate('user_id')
+				.exec()
+
+				console.log(returnedData)
+				
 				return returnedData
-			}
-			catch(e) { return `Caught Error: ${e}` }
 		}
-		else { return 'Invalid Block ID.' }
+		catch(e) { return `Caught Error: ${e}` }
 	}
 
 
@@ -201,14 +209,16 @@ class CommentsCollection {
 	static async LikeExistance(req) {
 		try {
 			const comments = await loadCommentsCollection()
-			const returnedData = await comments.find({
+			const returnedData = await comments.findOne({
 				_id: new mongodb.ObjectID(req.params._id),
 				likers: {
 					user_id: new mongodb.ObjectID(req.decoded._id),
 				}
-			}).toArray()
+			})
 
-			if (returnedData[0]) { return true }
+			console.log(returnedData)
+
+			if (returnedData) { return true }
 			else { return false }
 		}
 		catch(e) { return `Caught Error: ${e}` }

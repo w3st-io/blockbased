@@ -1,30 +1,36 @@
 // [REQUIRE] //
-const mongoose = require('mongoose')
-
-
-// [SCEMA] //
-const Schema = mongoose.Schema
+const mongoose = require("mongoose")
 
 
 // [SCHEMA MODEL] //
-const personSchema = Schema({
-	_id: Schema.Types.ObjectId,
-	name: String,
-	age: Number,
-	stories: [{ type: Schema.Types.ObjectId, ref: 'Story' }]
-})
+const CommentScema = mongoose.Schema({
+	_id: mongoose.Schema.Types.ObjectId,
 
-
-// [SCHEMA MODEL] //
-const storySchema = Schema({
-	author: {
-		type: Schema.Types.ObjectId,
-		ref: 'Person'
+	block_id: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Block' 
 	},
-  title: String,
-  fans: [{ type: Schema.Types.ObjectId, ref: 'Person' }]
+
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User'
+	},
+
+	comment: { type: String },
+
+	likers: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User'
+		}
+],
+
+	createdAt: {
+		type: Date,
+		default: Date.now
+	},
 })
 
 
-const Story = mongoose.model('Story', storySchema)
-const Person = mongoose.model('Person', personSchema)
+// [EXPORTS] //
+module.exports = mongoose.model('Comment', CommentScema)

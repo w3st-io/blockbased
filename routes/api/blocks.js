@@ -25,9 +25,9 @@ router.post(
 	'/create',
 	Auth.userTokenCheck(),
 	async (req, res) => {
-		await BlocksCollection.create2(req)
+		const returnedData = await BlocksCollection.create(req)
 
-		res.status(201).send()
+		res.status(201).send(returnedData)
 	}
 )
 
@@ -37,6 +37,7 @@ router.get(
 	'/read-all/:cat_id/:amount/:skip',
 	async (req, res) => {
 		const returnedData = await BlocksCollection.readAll(req)
+
 		res.status(200).send(returnedData)
 	}
 )
@@ -47,6 +48,7 @@ router.get(
 	'/read/:_id',
 	async (req, res) => {
 		const returnedData = await BlocksCollection.read(req)
+
 		res.status(200).send(returnedData)
 	}
 )
@@ -60,10 +62,11 @@ router.delete(
 		const owned = await BlocksCollection.ownership(req)
 		
 		if (owned == true) {
-			await BlocksCollection.delete(req)
-			res.status(200).send()
+			const returnedData = await BlocksCollection.delete(req)
+
+			res.status(200).send(returnedData)
 		}
-		else { res.status(400).send() }
+		else { res.status(401).send() }
 	}
 )
 
@@ -75,11 +78,12 @@ router.post(
 	Auth.userTokenCheck(),
 	async (req, res) => {
 		const likeExistance = await BlocksCollection.likeExistance(req)
+		
 		if (likeExistance == true) {
 			await BlocksCollection.like(req)
-			await BlockLikesCollection.create(req)
+			const returnedData = await BlockLikesCollection.create(req)
 			
-			res.status(201).send()
+			res.status(201).send(returnedData)
 		}
 		else { res.status(400).send() }
 	}

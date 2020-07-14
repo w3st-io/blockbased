@@ -30,7 +30,9 @@ router.post(
 		const existance = await BlocksCollection.existance(req.body.block_id)
 
 		if (existance == true) {
-			await CommentsCollection.create(req).then(res.status(201).send())
+			const returnedData = await CommentsCollection.create(req)
+
+			res.status(201).send(returnedData)
 		}
 		else { res.status(400).send() }
 	}
@@ -42,7 +44,8 @@ router.get(
 	'/read-all-all/:amount/:skip',
 	async (req, res) => {
 		const returnedData = await CommentsCollection.readAllAll(req)
-			.then(res.status(200).send(returnedData))
+		
+		res.status(200).send(returnedData)
 	}
 )
 
@@ -52,7 +55,8 @@ router.get(
 	'/read-all/:block_id/:amount/:skip',
 	async (req, res) => {
 		const returnedData = await CommentsCollection.readAll(req)
-			.then(res.status(200).send(returnedData))
+		
+		res.status(200).send(returnedData)
 		
 	}
 )
@@ -63,7 +67,8 @@ router.get(
 	'/read/:_id',
 	async (req, res) => {
 		const returnedData = await CommentsCollection.read(req)
-			.then(res.status(201).send(returnedData))
+
+		res.status(201).send(returnedData)
 	}
 )
 
@@ -76,7 +81,9 @@ router.post(
 		const owned = await CommentsCollection.ownership(req)
 
 		if (owned == true) {
-			await CommentsCollection.update(req).then(res.status(201).send())
+			await CommentsCollection.update(req)
+
+			res.status(201).send()
 		}
 		else { res.status(400).send() }
 	}
@@ -115,7 +122,8 @@ router.post(
 
 			res.status(201).send()
 		}
-		else { res.status(400).send('CommentLike already exists.') }
+		else { console.log('thiddds')
+		res.status(400).send('CommentLike already exists.') }
 	}
 )
 
@@ -133,7 +141,9 @@ router.post(
 
 			res.status(201).send()
 		}
-		else { res.status(400).send('CommentLike does not exists.') }
+		else { 
+			console.log('this')
+			res.status(400).send('CommentLike does not exists.') }
 	}
 )
 
@@ -148,7 +158,8 @@ router.post(
 		
 		if (!existance) {
 			await CommentReportsCollection.create(req)
-				.then(res.status(201).send())
+			
+			res.status(201).send()
 		}
 		else { res.status(400).send() }
 	}

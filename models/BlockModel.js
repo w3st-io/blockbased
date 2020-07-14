@@ -17,7 +17,10 @@ const BlockScema = mongoose.Schema({
 
 	likers: [],
 
-	followers: [],
+	followers: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User'
+	}],
 
 	createdAt: {
 		type: Date,

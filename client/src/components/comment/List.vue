@@ -16,7 +16,7 @@
 					">
 						<div class="d-block m-auto rounded-lg pro-img-holder">
 							<img
-								:src="getProfilePic(comment.user_id)"
+								:src="comment.user.profileImg"
 								class="m-auto w-100 pro-img"
 							>
 						</div>
@@ -105,7 +105,7 @@
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import CommentService from '@services/CommentService'
-	import UserService from '@services/UserService'
+	//import UserService from '@services/UserService'
 	import { EventBus } from '@main'
 	
 	// [EXPORT] //
@@ -129,7 +129,6 @@
 				loading: true,
 				disabled: false,
 				comments: [],
-				profileReplicas: [],
 				error: '',
 			}
 		},
@@ -138,11 +137,6 @@
 			// [INIT] Comments //
 			await this.commentReadAll()
 
-			// [INIT] Replicas //
-			this.SetProfileReplicas()
-
-			// [INIT] User Profile Pictures //
-			await this.setProfilePics()
 			
 			// Disable Loading //
 			this.loading = false
@@ -194,43 +188,6 @@
 			doesUserOwnThisComment(user_id) {
 				if (user_id == this.user_id) return true
 				else return false 
-			},
-
-			/******************* [INIT] Replicas *******************/
-			SetProfileReplicas() {
-				this.comments.forEach((comment) => {
-					// If the profile object isnt in the array already..
-					let profileFound = this.profileReplicas.some(
-						(profile) => (profile.user_id === comment.user_id)
-					)
-
-					if (!profileFound) {
-						this.profileReplicas.push({
-							user_id: comment.user_id,
-							profilePicURL: require('../../assets/images/placeholder.png')
-						})
-					}
-				})
-			},
-
-			/******************* [INIT] Profile *******************/
-			async setProfilePics() {
-				this.profileReplicas.forEach(async (profile) => {
-					let returnedData = await UserService.getUserProfileData(
-						profile.user_id,
-						'pic'
-					)
-
-					profile.profilePicURL = returnedData.profilePicURL
-				})
-			},
-
-			getProfilePic(user_id) {
-				let result = this.profileReplicas.filter(profile => {
-					return profile.user_id === user_id
-				})
-
-				return result[0].profilePicURL
 			},
 
 			/******************* [INIT] Like *******************/
@@ -317,7 +274,6 @@
 				console.log('email:', this.email)
 				console.log('username:', this.username)
 				console.log('Comments:', this.comments)
-				console.log('profileReplicas:', this.profileReplicas)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		}
