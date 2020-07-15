@@ -25,10 +25,10 @@ class CommentReportsCollection {
 	static async create(req) {
 		const formData = new CommentReportModel({
 			_id: mongoose.Types.ObjectId(),
-			block_id: mongoose.Types.ObjectId(req.body.block_id),
-			user_id: mongoose.Types.ObjectId(req.decoded._id),
-			comment: mongoose.Types.ObjectId(req.params._id),
+			block_id: req.body.block_id,
 			reportType: req.body.reportType,
+			comment: req.params._id,
+			user: req.decoded._id,
 		})
 		
 		try { await formData.save() }
@@ -40,7 +40,12 @@ class CommentReportsCollection {
 
 	// [READ-ALL] //
 	static async readAll(req) {
-		try { return await CommentReportModel.find() }
+		try { return await
+			CommentReportModel.find()
+				.populate('user')
+				.populate('comment')
+				.exec()
+		}
 		catch (e) { return `Caught Error: ${e}` }
 	}
 
@@ -52,7 +57,7 @@ class CommentReportsCollection {
 		if (validId) {
 			try {
 				await CommentReportModel.deleteOne(
-					{ _id: mongoose.Types.ObjectId(req.params._id) }
+					{ _id: req.params._id }
 				)
 			}
 			catch(e) { return `Caught Error: ${e}` }
@@ -80,8 +85,8 @@ class CommentReportsCollection {
 		if (validId) {
 			try {
 				const returnedData = await CommentReportModel.findOne({	
-					comment_id: mongoose.Types.ObjectId(req.params._id),
-					user: mongoose.Types.ObjectId(req.decoded._id),
+					comment: req.params._id,
+					user: req.decoded._id,
 				})
 
 				if (returnedData) { return true }

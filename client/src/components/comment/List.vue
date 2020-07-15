@@ -201,7 +201,7 @@
 			checkForUserLike(comment) {
 				// Search For Likers Id in Block's Object //
 				let found = comment.likers.find((liker) => (
-					liker._id == this.user_id
+					liker == this.user_id
 				))
 
 				if (found) { return true }

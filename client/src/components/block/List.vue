@@ -174,7 +174,7 @@
 			checkForUserLike(block) {
 				// Search For Likers Id in Block's Object //
 				let found = block.likers.find((liker) => (
-					liker.user_id == this.user_id
+					liker == this.user_id
 				))
 
 				if (found != null) { return true }

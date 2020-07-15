@@ -126,9 +126,9 @@ class BlocksCollection {
 	static async like(req) {
 		try {
 			await BlockModel.updateOne(
-				{ _id: mongoose.Types.ObjectId(req.params._id) },
+				{ _id: req.params._id },
 				{ '$addToSet': { 
-					'likers': { 'user_id': mongoose.Types.ObjectId(req.decoded._id) }
+					'likers': req.decoded._id
 				} }
 			)
 
@@ -141,9 +141,9 @@ class BlocksCollection {
 	static async unlike(req) {
 		try {
 			await BlockModel.updateOne(
-				{ _id: mongoose.Types.ObjectId(req.params._id) },
+				{ _id: req.params._id },
 				{ '$pull': { 
-					'likers': { 'user_id': mongoose.Types.ObjectId(req.decoded._id) }
+					'likers': req.decoded._id
 				} }
 			)
 

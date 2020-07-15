@@ -51,6 +51,7 @@ class CommentsCollection {
 					'user',
 					'first_name last_name username email profileImg'
 				)
+				.populate('block_id')
 				.exec()
 
 			return returnedData
@@ -72,10 +73,6 @@ class CommentsCollection {
 			.limit(amount)
 			.populate({
 				path: 'user',
-				select: 'first_name last_name username email profileImg'
-			})
-			.populate({
-				path: 'likers',
 				select: 'first_name last_name username email profileImg'
 			})
 			.exec()

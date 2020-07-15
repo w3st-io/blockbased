@@ -6,7 +6,10 @@ const mongoose = require("mongoose")
 const CommentScema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
-	block_id: mongoose.Schema.Types.ObjectId,
+	block_id: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Block'
+	},
 
 	user: {
 		type: mongoose.Schema.Types.ObjectId,

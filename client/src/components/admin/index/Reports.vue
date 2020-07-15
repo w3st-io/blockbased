@@ -3,10 +3,9 @@
 		<table class="table table-sm table-bordered table-striped table-dark">
 			<thead>
 				<tr>
-					<th>comment_id</th>
 					<th>Report Type</th>
-					<th>email</th>
-					<th>username</th>
+					<th>comment</th>
+					<th>Reporter</th>
 					<th>Date Created</th>
 					<th></th>
 				</tr>
@@ -16,10 +15,9 @@
 					v-for="report in reports"
 					:key="report._id"
 				>
-					<td>{{ report.comment_id }}</td>
-					<td>{{ report.email }}</td>
-					<td>{{ report.type }}</td>
-					<td>{{ report.username }}</td>
+					<td>{{ report.reportType }}</td>
+					<td>{{ report.comment.text }}</td>
+					<td>{{ report.user.username }}</td>
 					<td>{{ report.createdAt }}</td>
 					<td class="text-center">
 						<button

@@ -8,17 +8,17 @@ const CommentReportScema = mongoose.Schema({
 
 	block_id: mongoose.Schema.Types.ObjectId,
 
-	user: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
-	},
-
+	reportType: { type: String },
+	
 	comment: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Comment'
 	},
 
-	reportType: { type: String },
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User'
+	},
 
 	createdAt: {
 		type: Date,
