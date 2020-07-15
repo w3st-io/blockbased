@@ -18,17 +18,17 @@ const authAxios = axios.create({
 
 
 class AdminstrationBlockService {
-	/******************* [CRRUD] *******************/
+	/******************* [CRUD] *******************/
 	// [READ-ALL] ALL - Auth Required //
 	static getAllBlocks(amount, pageNumber) {
-		// multiply page number with # blocks per page to know how much to skip
 		let skip = pageNumber * amount
 
 		let result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read-all/${amount}/${skip}`)
 				.then((res) => {
+					const returnedData = res.data
 					resolve(
-						res.data.map((block) => ({
+						returnedData.map((block) => ({
 							...block,
 							createdAt: new Date(block.createdAt).toLocaleString()
 						}))

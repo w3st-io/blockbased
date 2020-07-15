@@ -5,7 +5,7 @@
 			<section class="col-12 col-md-3 mt-4 hidden-768">
 				<div class="card card-body bg-dark">
 					<img
-						:src="userProfileData.profilePicURL"
+						:src="userProfileData.profileImg"
 						alt="Profile Image Here"
 						class="w-100"
 					>

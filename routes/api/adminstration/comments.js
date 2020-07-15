@@ -17,7 +17,7 @@ const CommentsCollection = require('../../../server-collections/CommentsCollecti
 const router = express.Router().use(cors())
 
 
-/******************* [CRRUD] *******************/
+/******************* [CRUD] *******************/
 // [READ-ALL-ALL] //
 router.get(
 	'/read-all-all/:amount/:skip',

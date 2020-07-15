@@ -77,7 +77,7 @@
 			</ul>
 
 			<!-- [DEFAULT] If No content -->
-			<no-content v-if="blocks == ''" />
+			<no-content v-if="blocks == ''" class="my-3" />
 		</section>
 		
 		<!-- [LOADING + ERROR] -->

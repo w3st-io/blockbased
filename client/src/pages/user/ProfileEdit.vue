@@ -7,9 +7,9 @@
 		<div v-if="!loading" class="row">
 			<div class="my-3 card card-body bg-dark">
 				
-				<label for="profilePicURL" class="text-light">Profile Pic Url</label>
+				<label for="profileImgInput" class="text-light">Profile Pic Url</label>
 				<input
-					name="profilePicURL"
+					name="profileImgInput"
 					type="text"
 					class="my-2 form-control"
 					v-model="imgUrl"
@@ -68,7 +68,7 @@
 			catch(e) { this.error = e }
 
 			// Set Image //
-			this.imgUrl = this.userProfileData.profilePicURL
+			this.imgUrl = this.userProfileData.profileImg
 
 			// Enable Loading //
 			this.loading = false

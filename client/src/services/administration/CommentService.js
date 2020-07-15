@@ -21,15 +21,15 @@ class AdministrationCommentService {
 	/******************* [COMMENT] *******************/
 	// [READ-ALL] Auth Required //
 	static readAllAll(amount, pageNumber) {
-		// * page number with # comments per page to calc. skip
-
 		let skip = pageNumber * amount
 
 		let result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read-all-all/${amount}/${skip}`)
 				.then((res) => {
+					const returnedData = res.data
+
 					resolve(
-						res.data.map((comment) => ({
+						returnedData.map((comment) => ({
 							...comment,
 							createdAt: new Date(comment.createdAt).toLocaleString(),
 						}))

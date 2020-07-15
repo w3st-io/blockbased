@@ -19,7 +19,7 @@ const BlockLikesCollection = require('../../server-collections/BlockLikesCollect
 const router = express.Router().use(cors())
 
 
-/******************* [CRRUD] *******************/
+/******************* [CRUD] *******************/
 // [CREATE] Auth Required //
 router.post(
 	'/create',

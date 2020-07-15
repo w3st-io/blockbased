@@ -18,7 +18,7 @@ const authAxios = axios.create({
 
 
 class BlockService {
-	/******************* [CRRUD] *******************/
+	/******************* [CRUD] *******************/
 	// [CREATE] Auth Required //
 	static async create(title, cat_id) {
 		const status = await authAxios.post('/create', { title, cat_id })
@@ -29,16 +29,17 @@ class BlockService {
 
 	// [READ-ALL] //
 	static async readAll(cat_id, amount, pageNumber) {
-		// multiply page number with # blocks per page to know how much to skip
 		const skip = pageNumber * amount
 
 		const result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read-all/${cat_id}/${amount}/${skip}`)
 				.then((res) => {
-					resolve(res.data.map((block) => ({
-						...block,
-						createdAt: new Date(block.createdAt).toLocaleString()
-					})))
+					resolve(res.data.map((block) => (
+						{
+							...block,
+							createdAt: new Date(block.createdAt).toLocaleString()
+						}
+					)))
 				})
 				.catch((err) => { reject(err) })
 		})

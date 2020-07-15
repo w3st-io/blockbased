@@ -16,7 +16,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 
 class ReportsCollection {
-	/******************* [CRRUD] *******************/
+	/******************* [CRUD] *******************/
 	// [READ-ALL] //
 	static async readAll(req) {}
 

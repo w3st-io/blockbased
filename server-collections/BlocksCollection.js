@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 
 class BlocksCollection {
-	/******************* [CRRUD] *******************/
+	/******************* [CRUD] *******************/
 	// [CREATE] //
 	static async create(req) {
 		const formData = new BlockModel({

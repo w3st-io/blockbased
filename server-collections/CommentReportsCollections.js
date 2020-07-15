@@ -5,14 +5,22 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
+require('dotenv').config()
 
 
 // [REQUIRE] Personal //
 const CommentReportModel = require('../server-models/CommentReportModel')
 
 
+// [MONGOOSE CONNECT] //
+mongoose.connect(process.env.MONGO_URI, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+})
+
+
 class CommentReportsCollection {
-	/******************* [CRRUD] *******************/
+	/******************* [CRUD] *******************/
 	// [CREATE] //
 	static async create(req) {
 		const formData = new CommentReportModel({
@@ -32,12 +40,7 @@ class CommentReportsCollection {
 
 	// [READ-ALL] //
 	static async readAll(req) {
-		try {
-			const returnedData = await CommentReportModel.find()
-				.toArray()
-
-			return returnedData
-		}
+		try { return await CommentReportModel.find() }
 		catch (e) { return `Caught Error: ${e}` }
 	}
 

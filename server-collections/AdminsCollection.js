@@ -6,40 +6,32 @@
 // [REQUIRE] //
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const mongodb = require('mongodb')
 const mongoose = require('mongoose')
 require('dotenv').config()
+
+
+// [REQUIRE] Personal //
+const AdminModel = require('../server-models/AdminModel')
+
+
+// [MONGOOSE CONNECT] //
+mongoose.connect(process.env.MONGO_URI, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+})
 
 
 // [INIT] //
 const secretKey = process.env.SECRET_KEY || 'secret'
 
 
-// [LOAD COLLECTION] blocks //
-async function loadAdminsCollection() {
-	const uri = process.env.MONGO_URI
-	const db_name = process.env.DB || 'db_name'
-	const c_name = 'admins'
-
-	const client = await mongodb.MongoClient.connect(
-		uri,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		}
-	)
-
-	return client.db(db_name).collection(c_name)
-}
-
-
 class BlocksCollection {
 	/******************* [LOGIN/REGISTER] *******************/
 	static async login(req) {
-		const admins = await loadAdminsCollection()
 
 		try {
-			const accountFound = await admins.findOne({ email: req.body.email })
+			const accountFound = await AdminModel.findOne({ email: req.body.email })
+			//const accountFound = await 
 			
 			// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
 			if (accountFound) {
@@ -69,43 +61,31 @@ class BlocksCollection {
 
 	// [REGISTER] //
 	static async register(req) {
-		const admins = await loadAdminsCollection()
-		const today = new Date()
-		const formData = {
-			/*
-				if you uncomment that then you will allow
-				a REAL admin to be created.
-			*/
-			//role: 'admin',
+		const formData = new AdminModel({
+			_id: mongoose.Types.ObjectId(),
+			role: 'not-admin',
 			first_name: req.body.first_name,
 			last_name: req.body.last_name,
-			email: req.body.email,
 			username: req.body.username,
+			email: req.body.email,
 			password: req.body.password,
-			createdAt: today
-		}
+		})
 
 		try {
-			const usernameFound = await admins.findOne({
-				username: req.body.username
-			})
-			const emailFound = await admins.findOne({
-				email: req.body.email
-			})
+			const usernameFound = await AdminModel.findOne({ username: req.body.username })
+			const emailFound = await AdminModel.findOne({ email: req.body.email })
 
 			if (!usernameFound) {
 				if (!emailFound) {
 					// Hash Data //
-					bcrypt.hash(req.body.password, 10, (err, hash) => {
+					bcrypt.hash(formData.password, 10, (err, hash) => {
 						formData.password = hash
 
-						try { admins.insertOne(formData) }
+						try { formData.save() }
 						catch(e) { return { status: `Caught Error: ${e}` } }
 					})
 					
 					return { status: 'success' }
-					
-					
 				}
 				else { return { status: 'email_taken' } }
 			}

@@ -18,7 +18,7 @@ const BlockLikesCollection = require('../../../server-collections/BlockLikesColl
 const router = express.Router().use(cors())
 
 
-/******************* [CRRUD] *******************/
+/******************* [CRUD] *******************/
 // [READ-ALL ALL] Auth Required //
 router.get(
 	'/read-all/:amount/:skip',

@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 
 class CommentsCollection {
-	/******************* [CRRUD] *******************/
+	/******************* [CRUD] *******************/
 	// [CREATE] //
 	static async create(req) {
 		const formData = new CommentModel({

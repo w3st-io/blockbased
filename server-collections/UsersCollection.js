@@ -6,7 +6,6 @@
 // [REQUIRE] //
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const mongodb = require('mongodb')
 const mongoose = require('mongoose')
 require('dotenv').config()
 
@@ -15,35 +14,23 @@ require('dotenv').config()
 const UserModel = require('../server-models/UserModel')
 
 
+// [MONGOOSE CONNECT] //
+mongoose.connect(process.env.MONGO_URI, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+})
+
+
 // [INIT] //
 const secretKey = process.env.SECRET_KEY || 'secret'
 
 
-// [LOAD COLLECTION] users //
-async function loadUsersCollection() {
-	const uri = process.env.MONGO_URI
-	const db_name = process.env.DB || 'db_name'
-	const c_name = 'users'
-
-	const client = await mongodb.MongoClient.connect(
-		uri,
-		{
-			useNewUrlParser: true,
-			useUnifiedTopology: true
-		}
-	)
-
-	return client.db(db_name).collection(c_name)
-}
-
-
 class UsersCollection {
-	/******************* [CRRUD] *******************/
+	/******************* [CRUD] *******************/
 	// [READ-ALL] //
 	static async readAll(req) {
 		try {
-			const users = await loadUsersCollection()
-			const returnedData = await users.find().toArray()
+			const returnedData = await UserModel.find()
 
 			return returnedData
 		}
@@ -57,8 +44,7 @@ class UsersCollection {
 
 		if (validId) {
 			try {
-				const users = await loadUsersCollection()
-				const returnedData = await users.findOne(
+				const returnedData = await UserModel.findOne(
 					{ _id: mongoose.Types.ObjectId(req.params._id) }
 				)
 
@@ -73,55 +59,13 @@ class UsersCollection {
 	// [READ] Decoded //
 	static async readDecoded(req) {
 		try {
-			const users = await loadUsersCollection()
-			const returnedData = await users.findOne(
-				{ _id: mongoose.Types.ObjectId(req.decoded._id) }
+			const returnedData = await UserModel.findOne(
+				{ _id: req.decoded._id }
 			)
 
 			return returnedData
 		}
 		catch(e) { return `Caught Error: ${e}` }
-	}
-
-
-	// [READ] Profile Image //
-	static async readProfilePic(req) {
-		const validId = mongoose.isValidObjectId(req.params._id)
-
-		if (validId) {
-			try {
-				const users = await loadUsersCollection()
-				const returnedData = await users.findOne(
-					{ _id: mongoose.Types.ObjectId(req.params._id) },
-					{ projection: { profilePicURL: 1 } }
-				)
-
-				return returnedData
-			}
-			catch(e) { return `Caught Error: ${e}` }
-		}
-		else { return 'Invalid ID.' }
-	}
-
-	// [READ] Profile Image //
-	static async readProfilePic2(id) {
-		const validId = mongoose.isValidObjectId(id)
-
-		if (validId) {
-			try {
-				const users = await loadUsersCollection()
-				const returnedData = await users.findOne(
-					{ _id: mongoose.Types.ObjectId(id) },
-					{ projection: { profilePicURL: 1 } }
-				)
-				
-				console.log(returnedData)
-
-				return returnedData
-			}
-			catch(e) { return `Caught Error: ${e}` }
-		}
-		else { return 'Invalid ID.' }
 	}
 
 
@@ -131,11 +75,9 @@ class UsersCollection {
 
 		if (validId) {
 			try {
-				const users = await loadUsersCollection()
-				await users.findOneAndUpdate(
-					{ _id: mongoose.Types.ObjectId(req.params._id) },
-					{ $set: { profilePicURL: mongodb.ObjectID(req.body.img_url), } },
-					{ upsert: true }
+				await UserModel.findOneAndUpdate(
+					{ _id: req.params._id },
+					{ $set: { profileImg: req.body.img_url } }
 				)
 
 				return
@@ -149,11 +91,9 @@ class UsersCollection {
 	// [UPDATE] Decoded - Profile Picture //
 	static async updateDecoded(req) {
 		try {
-			const users = await loadUsersCollection()
-			await users.findOneAndUpdate(
-				{ _id: mongoose.Types.ObjectId(req.decoded._id) },
-				{ $set: { profilePicURL: req.body.img_url, } },
-				{ upsert: true }
+			await UserModel.findOneAndUpdate(
+				{ _id: req.decoded._id },
+				{ $set: { profileImg: req.body.img_url } }
 			)
 
 			return
@@ -164,10 +104,9 @@ class UsersCollection {
 
 	/******************* [LOGIN/REGISTER] *******************/
 	static async login(req) {
-		const users = await loadUsersCollection()
 
 		try {
-			const accountFound = await users.findOne({ email: req.body.email })
+			const accountFound = await UserModel.findOne({ email: req.body.email })
 			
 			// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
 			if (accountFound) {
@@ -195,16 +134,18 @@ class UsersCollection {
 
 
 	static async register(req) {
-		const users = await loadUsersCollection()
-		const formData = new UserModel(req.body)
+		const formData = new UserModel({
+			_id: mongoose.Types.ObjectId(),
+			first_name: req.body.first_name,
+			last_name: req.body.last_name,
+			username: req.body.username,
+			email: req.body.email,
+			password: req.body.password,
+		})
 		
 		try {
-			const emailFound = await users.findOne({
-				email: formData.email
-			})
-			const usernameFound = await users.findOne({
-				username: formData.username
-			})
+			const usernameFound = await UserModel.findOne({ username: formData.username })
+			const emailFound = await UserModel.findOne({ email: formData.email })
 
 			if (!usernameFound) {
 				if (!emailFound) {
@@ -212,7 +153,7 @@ class UsersCollection {
 					bcrypt.hash(formData.password, 10, (err, hash) => {
 						formData.password = hash
 						
-						try { users.insertOne(formData) }
+						try { formData.save() }
 						catch(e) { return { status: `Caught Error: ${e}` } }
 					})
 

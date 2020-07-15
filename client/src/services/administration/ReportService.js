@@ -18,36 +18,42 @@ const authAxios = axios.create({
 
 
 class AdminstrationReportService {
-	/******************* [CRRUD] *******************/
+	/******************* [CRUD] *******************/
 	// [READ-ALL] ALL - Auth Required //
 	static getAllReports() {
 		let result = new Promise ((resolve, reject) => {
-			authAxios.get(`/read-all`)
+			authAxios
+				.get(`/read-all`)
 				.then((res) => {
+					const returnedData = res.data
+
 					resolve(
-						res.data.map((report) => ({
+						returnedData.map((report) => ({
 							...report,
 							createdAt: new Date(report.createdAt).toLocaleString()
 						}))
 					)
 				})
-				.catch((err) => { reject(err) })
+				.catch((e) => { reject(e) })
 		})
 
 		return result
 	}
 
+
 	// [DELETE] Auth Required //
 	static deleteReport(report_id) {
 		let result = new Promise ((resolve, reject) => {
-			authAxios.delete(`/delete/${report_id}`)
+			authAxios
+				.delete(`/delete/${report_id}`)
 				.then((res) => { resolve(res) })
-				.catch((err) => { reject(err) })
+				.catch((e) => { reject(e) })
 		})
 
 		return result	
 	}
 }
+
 
 // [EXPORT] //
 export default AdminstrationReportService

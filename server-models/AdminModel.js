@@ -6,6 +6,11 @@ const mongoose = require("mongoose")
 const AdminSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
+	role: {
+		type: String,
+		default: 'admin'
+	},
+
 	first_name: { type: String },
 
 	last_name: { type: String },
@@ -16,16 +21,12 @@ const AdminSchema = mongoose.Schema({
 
 	password: { type: String },
 
-	profileImg: {
-		type: String,
-		default: '',
-	},
-
 	createdAt: {
 		type: Date,
 		default: Date.now
 	}
 })
+
 
 // [EXPORTS] //
 module.exports = mongoose.model('Admin', AdminSchema)

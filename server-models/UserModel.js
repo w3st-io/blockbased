@@ -9,17 +9,17 @@ const UserSchema = mongoose.Schema({
 	first_name: { type: String },
 
 	last_name: { type: String },
-
-	username: { type: String },
-
-	email: { type: String },
-
-	password: { type: String },
-
+	
 	profileImg: {
 		type: String,
 		default: '',
 	},
+	
+	username: { type: String },
+	
+	email: { type: String },
+	
+	password: { type: String },
 
 	createdAt: {
 		type: Date,

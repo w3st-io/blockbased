@@ -30,17 +30,6 @@ router.get(
 )
 
 
-// [READ] Profile Image //
-router.get(
-	'/read/profile-pic-url/:_id',
-	async (req, res) => {
-		const returnedData = await UsersCollection.readProfilePic(req)
-
-		res.status(200).send(returnedData)
-	}
-)
-
-
 // [UPDATE] Auth Required //
 router.post(
 	'/update',

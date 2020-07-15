@@ -17,7 +17,7 @@ const CommentReportsCollection = require('../../../server-collections/CommentRep
 const router = express.Router().use(cors())
 
 
-/******************* [CRRUD] *******************/
+/******************* [CRUD] *******************/
 // [READ-ALL] Auth Required //
 router.get(
 	'/read-all',

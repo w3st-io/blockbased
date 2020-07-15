@@ -90,7 +90,7 @@
 			</ul>
 
 			<!-- [DEFAULT] If No content -->
-			<no-content v-if="comments == ''" />
+			<no-content v-if="comments == ''" class="my-3" />
 		</section>
 		
 		<!-- [LOADING + ERROR] -->

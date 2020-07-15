@@ -18,7 +18,7 @@ const authAxios = axios.create({
 
 
 class CommentService {
-	/******************* [CRRUD] *******************/
+	/******************* [CRUD] *******************/
 	// [CREATE] Auth Required //
 	static create(block_id, text) {
 		const status = authAxios.post(`/create`, { block_id, text })
@@ -29,8 +29,6 @@ class CommentService {
 
 	// [READ-ALL] Auth Required //
 	static readAllAll(amount, pageNumber) {
-		// * page number with # comments per page to calc. skip
-
 		let skip = pageNumber * amount
 
 		let result = new Promise ((resolve, reject) => {

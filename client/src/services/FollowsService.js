@@ -18,7 +18,7 @@ const authAxios = axios.create({
 
 
 class FollowsService {
-	/******************* [CRRUD] *******************/
+	/******************* [CRUD] *******************/
 	// [CREATE] Auth Required //
 	static async createFollow(block_id) {
 		// Add the liker from the Block Object

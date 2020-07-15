@@ -35,7 +35,7 @@
 
 		<!-- [STATUS + ERROR] -->
 		<div class="container">
-			<div v-if="!loading && !existance" class="row mt-3 alert alert-warning">
+			<div v-if="!loading && !existance && !error" class="row mt-3 alert alert-warning">
 				Block Does Not Exist.
 			</div>
 
