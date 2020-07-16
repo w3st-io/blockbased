@@ -22,10 +22,7 @@ mongoose.connect(process.env.MONGO_URI, {
 class BlockLikesCollection {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
-	static async create(req) {
-		const user_id = req.decoded._id
-		const block_id = req.params._id
-
+	static async create(user_id, block_id) {
 		const formData = new BlockLikeModel(
 			{
 				_id: mongoose.Types.ObjectId(),
@@ -54,10 +51,7 @@ class BlockLikesCollection {
 
 
 	// [DELETE] //
-	static async delete(req) {
-		const user_id = req.decoded._id
-		const block_id = req.params._id
-
+	static async delete(user_id, block_id) {
 		try {
 			await BlockLikeModel.deleteMany(
 				{

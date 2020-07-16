@@ -60,7 +60,7 @@ class BlocksCollection {
 
 	// [REGISTER] //
 	static async register(req) {
-		const formData = new AdminModel({
+		let formData = new AdminModel({
 			_id: mongoose.Types.ObjectId(),
 			role: 'not-admin',
 			first_name: req.body.first_name,

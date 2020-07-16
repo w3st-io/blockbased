@@ -134,7 +134,7 @@ class UsersCollection {
 
 
 	static async register(req) {
-		const formData = new UserModel({
+		let formData = new UserModel({
 			_id: mongoose.Types.ObjectId(),
 			first_name: req.body.first_name,
 			last_name: req.body.last_name,

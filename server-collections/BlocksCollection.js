@@ -22,11 +22,7 @@ mongoose.connect(process.env.MONGO_URI, {
 class BlocksCollection {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
-	static async create(req) {
-		const user_id = req.decoded._id
-		const cat_id = req.body.cat_id
-		const title = req.body.title
-
+	static async create(user_id, cat_id, title) {
 		const formData = new BlockModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
@@ -56,14 +52,14 @@ class BlocksCollection {
 
 
 	// [READ-ALL-ALL] //
-	static async readAllAll(req) {
-		const skip = parseInt(req.params.skip)
-		const amount = parseInt(req.params.amount)
+	static async readAllAll(skip, amount) {
+		const skip2 = parseInt(req.params.skip)
+		const amount2 = parseInt(req.params.amount)
 
 		try {
 			const returnedData = await BlockModel.find()
-				.skip(skip)
-				.limit(amount)
+				.skip(skip2)
+				.limit(amount2)
 				.populate(
 					'user',
 					'first_name last_name username email profileImg'
@@ -82,17 +78,16 @@ class BlocksCollection {
 
 
 	// [READ-ALL] Within Cat //
-	static async readAll(req) {
-		const cat_id = req.params.cat_id
-		const skip = parseInt(req.params.skip)
-		const amount = parseInt(req.params.amount)
+	static async readAll(cat_id, skip, amount) {
+		const skip2 = parseInt(skip)
+		const amount2 = parseInt(amount)
 
 		try {
 			const returnedData = await BlockModel.find(
 				{ cat_id: cat_id }
 			)
-				.skip(skip)
-				.limit(amount)
+				.skip(skip2)
+				.limit(amount2)
 				.populate(
 					'user',
 					'first_name last_name username email profileImg'
@@ -112,9 +107,8 @@ class BlocksCollection {
 
 
 	// [READ] Single Block //
-	static async read(req) {
-		const block_id = req.params._id
-		const validId = mongoose.isValidObjectId(req.params._id)
+	static async read(block_id) {
+		const validId = mongoose.isValidObjectId(block_id)
 	
 		if (validId) {
 			try {
@@ -146,8 +140,7 @@ class BlocksCollection {
 
 
 	// [DELETE] //
-	static async delete(req) {
-		const block_id = req.params._id
+	static async delete(block_id) {
 		const validId = mongoose.isValidObjectId(req.params._id)
 
 		if (validId) {
@@ -180,39 +173,35 @@ class BlocksCollection {
 
 	/******************* [VOTE SYSTEM] *******************/
 	// [LIKE] //
-	static async like(req) {
+	static async like(user_id, block_id) {
 		try {
 			await BlockModel.updateOne(
-				{ _id: req.params._id },
-				{ '$addToSet': { 
-					'likers': req.decoded._id
-				} }
+				{ _id: block_id },
+				{ '$addToSet': { 'likers': user_id } }
 			)
 
-			return
+			return 'Liked block.'
 		}
 		catch(e) { return `Caught Error: ${e}` }
 	}
 
 
 	// [UNLIKE] //
-	static async unlike(req) {
+	static async unlike(user_id, block_id) {
 		try {
 			await BlockModel.updateOne(
-				{ _id: req.params._id },
-				{ '$pull': { 
-					'likers': req.decoded._id
-				} }
+				{ _id: block_id },
+				{ '$pull': { 'likers': user_id } }
 			)
 
-			return
+			return 'Unliked block.'
 		}
 		catch(e) { return `Caught Error: ${e}` }
 	}
 
 
 	// [LIKE-EXISTANCE] //
-	static async likeExistance(req) { return true }
+	static async likeExistance() { return true }
 
 
 	/******************* [EXISTANCE + OWNERSHIP] *******************/
@@ -232,13 +221,13 @@ class BlocksCollection {
 
 
 	// [OWNERSHIP] //
-	static async ownership(req) {
-		if (mongoose.isValidObjectId(req.params._id)) {
+	static async ownership(user_id, block_id) {
+		if (mongoose.isValidObjectId(block_id)) {
 			try {	
 				const returnedData = await BlockModel.findOne(
 					{
-						_id: req.params._id,
-						user: req.decoded._id,
+						user: user_id,
+						_id: block_id,
 					}
 				)
 
@@ -252,8 +241,8 @@ class BlocksCollection {
 
 
 	/******************* [COUNT] *******************/
-	static async count(req) {
-		try { return await BlockModel.countDocuments({ cat_id: req.params.cat_id }) }
+	static async count(cat_id) {
+		try { return await BlockModel.countDocuments({ cat_id: cat_id }) }
 		catch(e) { return `Caught Error: ${e}` }
 	}
 }

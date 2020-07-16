@@ -90,7 +90,7 @@ class CommentsCollection {
 
 		try {
 			const returnedData = await CommentModel.find(
-				{ block_id: block_id }
+				{ block: block_id }
 			)
 				.skip(skip)
 				.limit(amount)
