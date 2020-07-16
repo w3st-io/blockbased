@@ -23,17 +23,35 @@ class BlocksCollection {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
 	static async create(req) {
+		const user_id = req.decoded._id
+		const cat_id = req.body.cat_id
+		const title = req.body.title
+
 		const formData = new BlockModel({
 			_id: mongoose.Types.ObjectId(),
-			user: req.decoded._id,
-			cat_id: req.body.cat_id,
-			title: req.body.title,
+			user: user_id,
+			cat_id: cat_id,
+			title: title,
 		})
 
 		try { await formData.save() }
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) {
+			return {
+				status: false,
+				user: user_id,
+				cat_id: cat_id,
+				title: title,
+				message: `Caught Error --> ${e}`,
+			}
+		}
 
-		return 'Created block.'
+		return {
+			status: true,
+			user: user_id,
+			cat_id: cat_id,
+			title: title,
+			message: 'Created block.',
+		}
 	}
 
 
@@ -54,18 +72,24 @@ class BlocksCollection {
 
 			return returnedData
 		}
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) {
+			return {
+				status: false,
+				message: `Caught Error --> ${e}`,
+			}
+		}
 	}
 
 
 	// [READ-ALL] Within Cat //
 	static async readAll(req) {
+		const cat_id = req.params.cat_id
 		const skip = parseInt(req.params.skip)
 		const amount = parseInt(req.params.amount)
 
 		try {
 			const returnedData = await BlockModel.find(
-				{ cat_id: req.params.cat_id }
+				{ cat_id: cat_id }
 			)
 				.skip(skip)
 				.limit(amount)
@@ -77,17 +101,24 @@ class BlocksCollection {
 
 			return returnedData
 		}
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) {
+			return {
+				status: false,
+				cat_id: cat_id,
+				message: `Caught Error --> ${e}`,
+			}
+		}
 	}
 
 
 	// [READ] Single Block //
 	static async read(req) {
+		const block_id = req.params._id
 		const validId = mongoose.isValidObjectId(req.params._id)
 	
 		if (validId) {
 			try {
-				const returnedData = await BlockModel.findById(req.params._id)
+				const returnedData = await BlockModel.findById(block_id)
 					.populate(
 						'user',
 						'first_name last_name username email profileImg'
@@ -96,33 +127,59 @@ class BlocksCollection {
 				
 				return returnedData
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) {
+				return {
+					status: false,
+					block_id: block_id,
+					message: `Caught Error --> ${e}`,
+				}
+			}
 		}
-		else { return 'Invalid Block ID.' }
+		else {
+			return {
+				status: false,
+				block_id: block_id,
+				message: 'Invalid Block ID.',
+			}
+		}
 	}
 
 
 	// [DELETE] //
 	static async delete(req) {
+		const block_id = req.params._id
 		const validId = mongoose.isValidObjectId(req.params._id)
 
 		if (validId) {
 			try {
 				await BlockModel.findByIdAndDelete(
-					req.params._id,
+					block_id,
 					function (e, block) {
-						if (e) { return (e) }
+						if (e) { return e }
 						else { return `Deleted: ${block}` }
 					}
 				)
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) {
+				return {
+					status: false,
+					block_id: block_id,
+					message: `Caught Error --> ${e}`,
+				}
+			}
 		}
-		else { return 'Invalid Block ID.' }
+		else {
+			return {
+				status: false,
+				block_id: block_id,
+				message: 'Invalid Block ID.',
+			}
+		}
 	}
 
 
 	/******************* [VOTE SYSTEM] *******************/
+	// [LIKE] //
 	static async like(req) {
 		try {
 			await BlockModel.updateOne(
@@ -138,6 +195,7 @@ class BlocksCollection {
 	}
 
 
+	// [UNLIKE] //
 	static async unlike(req) {
 		try {
 			await BlockModel.updateOne(
@@ -153,18 +211,16 @@ class BlocksCollection {
 	}
 
 
+	// [LIKE-EXISTANCE] //
 	static async likeExistance(req) { return true }
-
-
-	static async checkForLike(req) { return }
 
 
 	/******************* [EXISTANCE + OWNERSHIP] *******************/
 	// [EXISTANCE] //
-	static async existance(_id) {
-		if (mongoose.isValidObjectId(_id)) {
+	static async existance(block_id) {
+		if (mongoose.isValidObjectId(block_id)) {
 			try {	
-				const returnedData = await BlockModel.findOne({ _id: _id })
+				const returnedData = await BlockModel.findOne({ _id: block_id })
 
 				if (returnedData) { return true }
 				else { return false }
@@ -197,13 +253,7 @@ class BlocksCollection {
 
 	/******************* [COUNT] *******************/
 	static async count(req) {
-		try {
-			const count = await BlockModel.countDocuments(
-				{ cat_id: req.params.cat_id }
-			)
-
-			return count
-		}
+		try { return await BlockModel.countDocuments({ cat_id: req.params.cat_id }) }
 		catch(e) { return `Caught Error: ${e}` }
 	}
 }

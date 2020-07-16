@@ -23,46 +23,83 @@ class BlockLikesCollection {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
 	static async create(req) {
+		const user_id = req.decoded._id
+		const block_id = req.params._id
+
 		const formData = new BlockLikeModel(
 			{
 				_id: mongoose.Types.ObjectId(),
-				user: req.decoded._id,
-				block: req.params._id,
+				user: user_id,
+				block: block_id,
 			}
 		)
+
 		try { formData.save() }
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) {
+			return {
+				status: false,
+				user: user_id,
+				block: block_id,
+				message: `Caught Error --> ${e}`,
+			}
+		}
 			
-		return
+		return {
+			status: true,
+			user: user_id,
+			block: block_id,
+			message: `Created blockLike for ${block_id}.`
+		}
 	}
 
 
 	// [DELETE] //
 	static async delete(req) {
-		console.log(req.params._id)
+		const user_id = req.decoded._id
+		const block_id = req.params._id
+
 		try {
 			await BlockLikeModel.deleteMany(
 				{
-					block: req.params._id,
-					user: req.decoded._id,
+					user: user_id,
+					block: block_id,
 				}
 			)
 		}
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) {
+			return {
+				status: false,
+				user: user_id,
+				block: block_id,
+				message: `Caught Error --> ${e}`,
+			}
+		}
 		 
-		return
+		return {
+			status: true,
+			user: user_id,
+			block: block_id,
+			message: `Deleted all block likes for ${block_id}.`
+		}
 	}
 
 
 	// [DELETE-ALL] //
 	static async deleteAll(block_id) {
-		try { await BlockLikeModel.deleteMany(
-			{ block: block_id }
-		)
+		try { await BlockLikeModel.deleteMany({ block: block_id }) }
+		catch(e) {
+			return {
+				status: false,
+				block: block_id,
+				message: `Caught Error --> ${e}`,
+			}
 		}
-		catch(e) { return `Caught Error: ${e}` }
 
-		return
+		return {
+			status: true,
+			block: block_id,
+			message: `Deleted all block likes for ${block_id}.`
+		}
 	}
 
 

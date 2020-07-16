@@ -23,18 +23,34 @@ class CommentsCollection {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
 	static async create(req) {
+		const user_id = req.decoded._id
+		const block_id = req.body.block_id
+		const text = req.body.text
+
 		const formData = new CommentModel({
 			_id: mongoose.Types.ObjectId(),
-			block_id: req.body.block_id,
-			user: req.decoded._id,
-			text: req.body.text,
+			user: user_id,
+			block_id: block_id,
+			text: text,
 			likers: [],
 		})
 
 		try { await formData.save() }
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) {
+			return {
+				status: false,
+				user: user_id,
+				block: block_id,
+				message: `Caught Error --> ${e}`,
+			}
+		}
 
-		return 'Created Comment.'
+		return {
+			status: true,
+			user: user_id,
+			block: block_id,
+			message: `Created comment in ${block_id}.`
+		}
 	}
 
 
@@ -56,91 +72,160 @@ class CommentsCollection {
 
 			return returnedData
 		}
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) {
+			return {
+				status: false,
+				message: `Caught Error --> ${e}`,
+			}
+		}
 	}
 	
 
 
 	// [READ-ALL] Within a Block //
 	static async readAll(req) {
+		const block_id = req.body.block_id
 		const skip = parseInt(req.params.skip)
 		const amount = parseInt(req.params.amount)
 
-		const returnedData = await CommentModel.find(
-			{ block_id: req.params.block_id }
-		)
-			.skip(skip)
-			.limit(amount)
-			.populate({
-				path: 'user',
-				select: 'first_name last_name username email profileImg'
-			})
-			.exec()
+		try {
+			const returnedData = await CommentModel.find(
+				{ block_id: block_id }
+			)
+				.skip(skip)
+				.limit(amount)
+				.populate({
+					path: 'user',
+					select: 'first_name last_name username email profileImg'
+				})
+				.exec()
 
-		return returnedData
+			return returnedData
+		}
+		catch(e) {
+			return {
+				status: false,
+				message: `Caught Error --> ${e}`,
+			}
+		}
 	}
 
 
 	// [READ] //
 	static async read(req) {
-		const validId = mongoose.isValidObjectId(req.params._id)
+		const comment_id = req.params._id
+		const validId = mongoose.isValidObjectId(comment_id)
 	
 		if (validId) {
 			try {
-				const returnedData = await CommentModel.findById(req.params._id)
+				const returnedData = await CommentModel.findById(comment_id)
 					.populate({
 						path: 'user',
 						select: 'first_name last_name username email profileImg'
 					})
 					.populate({
 						path: 'likers',
-						select: '_id'
+						select: '_id user_id block_id text'
 					})
 					.exec()
 
 				return returnedData
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) {
+				return {
+					status: false,
+					message: `Caught Error --> ${e}`,
+				}
+			}
 		}
-		else { return 'Invalid Comment ID.' }
+		else {
+			return {
+				status: false,
+				message: 'Invalid Comment ID.',
+			}
+		}
 	}
 
 
 	// [UPDATE] //
 	static async update(req) {
-		const validId = mongoose.isValidObjectId(req.params._id)
+		const comment_id = req.params._id
+		const text = req.body.text
+		const validId = mongoose.isValidObjectId(comment_id)
 
 		if (validId) {
 			try {
 				await CommentModel.updateOne(
-					{ _id: req.params._id },
-					{ '$set': { 'text': req.body.text } },
+					{ _id: comment_id },
+					{ '$set': { 'text': text } },
 				)
-
-				return
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) {
+				return {
+					status: false,
+					comment_id: comment_id,
+					text: text,
+					message: `Caught Error --> ${e}`,
+				}
+			}
+
+			return {
+				status: true,
+				comment_id: comment_id,
+				text: text,
+				message: 'Updated comment.',
+			}
 		}
-		else { return 'Invalid Comment ID.' }
+		else {
+			return {
+				status: false,
+				comment_id: comment_id,
+				text: text,
+				message: 'Invalid Comment ID.',
+			}
+		}
 	}
 
 
 	// [DELETE] //
 	static async delete(req) {
-		const validId = mongoose.isValidObjectId(req.params._id)
+		const comment_id = req.params._id
+		const user_id = req.decoded._id
+		const validId = mongoose.isValidObjectId(comment_id)
 
 		if (validId) {
 			try {
-				await CommentModel.findOneAndRemove({
-					_id: req.params._id,
-					user: req.decoded._id,
-				})
-				
-				return
+				await CommentModel.findOneAndRemove(
+					{
+						_id: comment_id,
+						user: user_id,
+					}
+				)		
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) {
+				return {
+					status: false,
+					user_id: user_id,
+					comment_id: comment_id,
+					message: `Caught Error --> ${e}`,
+				}
+			}
+
+			return {
+				status: true,
+				user_id: user_id,
+				comment_id: comment_id,
+				message: 'Deleted comment.',
+			}
 		}
-		else { return 'Invalid Comment ID.' }
+		else {
+			return {
+				status: false,
+				user_id: user_id,
+				comment_id: comment_id,
+				message: 'Invalid Comment ID.',
+			}
+		}
 	}
 
 
@@ -153,7 +238,7 @@ class CommentsCollection {
 				await CommentModel.updateOne(
 					{ _id: req.params._id },
 					{ '$addToSet': { 
-						'likers': mongoose.Types.ObjectId(req.decoded._id)
+						'likers': req.decoded._id
 					} }
 				)
 				

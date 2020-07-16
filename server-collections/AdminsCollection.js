@@ -31,7 +31,6 @@ class BlocksCollection {
 
 		try {
 			const accountFound = await AdminModel.findOne({ email: req.body.email })
-			//const accountFound = await 
 			
 			// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
 			if (accountFound) {
@@ -72,13 +71,17 @@ class BlocksCollection {
 		})
 
 		try {
-			const usernameFound = await AdminModel.findOne({ username: req.body.username })
+			const usernameFound = await AdminModel.findOne(
+				{ username: req.body.username }
+			)
 			const emailFound = await AdminModel.findOne({ email: req.body.email })
 
 			if (!usernameFound) {
 				if (!emailFound) {
 					// Hash Data //
-					bcrypt.hash(formData.password, 10, (err, hash) => {
+					bcrypt.hash(formData.password, 10, (e, hash) => {
+						if (e) { return { status: `Caught Error: ${e}` } }
+
 						formData.password = hash
 
 						try { formData.save() }

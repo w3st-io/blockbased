@@ -150,7 +150,9 @@ class UsersCollection {
 			if (!usernameFound) {
 				if (!emailFound) {
 					// Hash Data //
-					bcrypt.hash(formData.password, 10, (err, hash) => {
+					bcrypt.hash(formData.password, 10, (e, hash) => {
+						if (e) { return { status: `Caught Error: ${e}` } }
+
 						formData.password = hash
 						
 						try { formData.save() }
