@@ -4,7 +4,7 @@
 		<div class="col-lg-6 col-md-8 col-sm-8">
 			<!-- Title + Page Nav Buttons -->
 			<h3 class="m-0 text-light">{{ block.title }}</h3>
-			<p class="text-secondary">created by: {{ block.username }}</p>
+			<p class="text-secondary">created by: {{ block.user.username }}</p>
 
 			<page-nav-buttons
 				:leftBtnEmitName="leftBtnEmitName"

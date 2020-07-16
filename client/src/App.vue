@@ -1,7 +1,7 @@
 <template>
 	<div id="app">
 		<!-- Hidden Side Menu -->
-		<side-menu @query="forceRerender" />
+		<side-menu />
 
 		<!-- Admin Bottom Bar -->
 		<admin-nav-bar
@@ -10,7 +10,7 @@
 		/>
 
 		<!-- Top Bar -->
-		<nav-bar />
+		<nav-bar :key="navBarKey" />
 
 		<!-- Display the router Stuff -->
 		<router-view :key="routerViewKey" />
@@ -26,6 +26,7 @@
 	import Footer from '@components/nav/Footer'
 	import NavBar from '@components/nav/NavBar'
 	import SideMenu from './components/nav/SideMenu'
+	import UserService from './services/UserService'
 	import { EventBus } from '@main'
 
 	// [EXPORT] //
@@ -40,19 +41,35 @@
 
 		data: function() {
 			return {
+				decoded: '',
 				adminNavBarKey: 0,
-				routerViewKey: 1,
+				navBarKey: 1,
+				routerViewKey: 2,
 				adminLoggedIn: false,
 				loggedIn: false,
 			}
 		},
 
 		created: function() {
+			// [DECODE] //
+			if (localStorage.usertoken) {
+				this.decoded = UserService.getUserTokenDecodeData()
+			}
+
 			// [CHECK IF ADMINLOGGEDIN] //
 			if (localStorage.admintoken) { this.adminLoggedIn = true }
 
 			// [--> EMIT IN] //
-			EventBus.$on('admin-logged-in', () => { this.adminLoggedIn = true })
+			EventBus.$on('logged-in', () => {
+				this.loggedIn = true
+				this.forceRerender()
+			})
+
+			EventBus.$on('admin-logged-in', () => {
+				this.adminLoggedIn = true
+				this.adminForceRerender()
+			})
+			
 			EventBus.$on('admin-logged-out', () => { this.adminForceRerender() })
 			EventBus.$on('force-rerender', () => { this.forceRerender() })
 
@@ -64,14 +81,20 @@
 			forceRerender() {
 				this.adminNavBarKey += 1
 				this.routerViewKey += 1
+				this.navBarKey += 1
+
+				this.decoded = UserService.getUserTokenDecodeData()
 				
+				console.log(localStorage.usertoken)
 				console.log('Forced Rerendered')
 			},
 
 			adminForceRerender() {
 				this.adminLoggedIn = false
+
 				this.adminNavBarKey += 1
 				this.routerViewKey += 1
+				this.navBarKey += 1
 				
 				console.log('Admin Forced Rerendered')
 			},
@@ -80,6 +103,7 @@
 				console.log('%%% [APP] App %%%')
 				console.log('usertoken:', localStorage.usertoken)
 				console.log('admintoken:', localStorage.admintoken)
+				console.log('decoded:', this.decoded)
 			}
 		}
 	}

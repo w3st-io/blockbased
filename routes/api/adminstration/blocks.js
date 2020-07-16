@@ -44,6 +44,7 @@ router.get(
 			req.params.skip,
 			req.params.amount
 		)
+		
 		res.status(200).send(returnedData)
 	}
 )
@@ -55,6 +56,7 @@ router.get(
 	Auth.adminCheck(),
 	async (req, res) => {
 		const returnedData = await BlocksCollection.read(req.params._id)
+
 		res.status(200).send(returnedData)
 	}
 )
@@ -65,8 +67,9 @@ router.delete(
 	'/delete/:_id',
 	Auth.adminCheck(),
 	async (req, res) => {
-		BlocksCollection.delete(req)
+		BlocksCollection.delete(req.params._id)
 		BlockLikesCollection.deleteAll(req.params._id)
+
 		res.sendStatus(200)
 	}
 )

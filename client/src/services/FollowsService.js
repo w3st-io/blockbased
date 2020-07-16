@@ -7,20 +7,23 @@
 import axios from 'axios'
 
 
-// [AUTH TOKEN SETUP] //
-const token = localStorage.usertoken
-const authAxios = axios.create({
-	baseURL: '/api/follows',
-	headers: {
-		authorization: `Bearer ${token}`
-	}
-})
-
-
 class FollowsService {
+	// [AUTH TOKEN SETUP] //
+	static async authAxios() {
+		return axios.create({
+			baseURL: '/api/follows',
+			headers: {
+				authorization: `Bearer ${localStorage.usertoken}`
+			}
+		})
+	}
+
+
 	/******************* [CRUD] *******************/
 	// [CREATE] Auth Required //
 	static async createFollow(block_id) {
+		const authAxios = await this.authAxios()
+
 		// Add the liker from the Block Object
 		let status = await authAxios.post('/create', { block_id })
 
@@ -30,6 +33,8 @@ class FollowsService {
 
 	// [DELETE] Auth Required //
 	static async deleteFollow(block_id) {
+		const authAxios = await this.authAxios()
+
 		// Remove the liker from the Block Object
 		let status = await authAxios.delete(`/delete/${block_id}`)
 
@@ -40,6 +45,8 @@ class FollowsService {
 	/******************* [VOTE SYSTEM] *******************/
 	// ADD/REMOVE VOTE //
 	static async addFollower(block_id) {
+		const authAxios = await this.authAxios()
+
 		let status = await authAxios.post(`/update/push-liker/${block_id}`)
 
 		return status
@@ -47,6 +54,8 @@ class FollowsService {
 
 
 	static async removeFollower(block_id) {
+		const authAxios = await this.authAxios()
+
 		// Remove the liker from the Block Object //
 		let status = await authAxios.post(`/update/pull-liker/${block_id}`)
 

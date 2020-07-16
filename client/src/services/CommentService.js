@@ -7,31 +7,33 @@
 import axios from 'axios'
 
 
-// [AUTH TOKEN SETUP] //
-const token = localStorage.usertoken
-const authAxios = axios.create({
-	baseURL: '/api/comments',
-	headers: {
-		authorization: `Bearer ${token}`
-	}
-})
-
-
 class CommentService {
+	// [AUTH TOKEN SETUP] //
+	static async authAxios() {
+		return axios.create({
+			baseURL: '/api/comments',
+			headers: {
+				authorization: `Bearer ${localStorage.usertoken}`
+			}
+		})
+	}
+
+	
 	/******************* [CRUD] *******************/
 	// [CREATE] Auth Required //
-	static create(block_id, text) {
-		const status = authAxios.post(`/create`, { block_id, text })
+	static async create(block_id, text) {
+		const authAxios = await this.authAxios()
 
-		return status
+		return await authAxios.post(`/create`, { block_id, text })
 	}
 
 
 	// [READ-ALL] Auth Required //
-	static readAllAll(amount, pageNumber) {
-		let skip = pageNumber * amount
+	static async readAllAll(amount, pageNumber) {
+		const authAxios = await this.authAxios()
+		const skip = pageNumber * amount
 
-		let result = new Promise ((resolve, reject) => {
+		const result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read-all-all/${amount}/${skip}`)
 				.then((res) => {
 					resolve(
@@ -49,7 +51,8 @@ class CommentService {
 
 
 	// [READ-ALL] //
-	static readAll(block_id, amount, pageNumber) {
+	static async readAll(block_id, amount, pageNumber) {
+		const authAxios = await this.authAxios()
 		const skip = pageNumber * amount
 
 		const result = new Promise ((resolve, reject) => {
@@ -69,8 +72,10 @@ class CommentService {
 
 
 	// [READ] //
-	static read(comment_id) {
-		let result = new Promise ((resolve, reject) => {
+	static async read(comment_id) {
+		const authAxios = await this.authAxios()
+
+		const result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read/${comment_id}`)
 				.then((res) => { resolve(res.data) })
 				.catch((err) => { reject(err) })
@@ -81,8 +86,10 @@ class CommentService {
 
 
 	// [UPDATE] Auth Required //
-	static update(comment_id, text) {
-		let result = new Promise ((resolve, reject) => {
+	static async update(comment_id, text) {
+		const authAxios = await this.authAxios()
+
+		const result = new Promise ((resolve, reject) => {
 			authAxios.post(`/update/${comment_id}`, { text })
 				.then((res) => { resolve(res.data) })
 				.catch((err) => { reject(err) })
@@ -93,8 +100,10 @@ class CommentService {
 
 
 	// [DELETE] Auth Required //
-	static delete(comment_id) {
-		let result = new Promise ((resolve, reject) => {
+	static async delete(comment_id) {
+		const authAxios = await this.authAxios()
+		
+		const result = new Promise ((resolve, reject) => {
 			authAxios.delete(`/delete/${comment_id}`)
 				.then((res) => { resolve(res) })
 				.catch((err) => { reject(err) })
@@ -107,22 +116,24 @@ class CommentService {
 	/******************* [VOTE SYSTEM] *******************/
 	// ADD/REMOVE VOTE //
 	static async like(block_id, comment_id) {
-		// Add the liker from the Block Object
-		let status = await authAxios.post(`/like/${comment_id}/${block_id}`)
+		const authAxios = await this.authAxios()
 
-		return status
+		// Add the liker from the Block Object
+		return await authAxios.post(`/like/${comment_id}/${block_id}`)
 	}
 	static async unlike(comment_id) {
-		// Remove the liker from the Block Object
-		let status = await authAxios.post(`/unlike/${comment_id}`)
+		const authAxios = await this.authAxios()
 
-		return status
+		// Remove the liker from the Block Object
+		return await authAxios.post(`/unlike/${comment_id}`)
 	}
 
 
 	/******************* [REPORT] *******************/
 	static async report(block_id, comment_id, reportType) {
-		let status = await authAxios.post(
+		const authAxios = await this.authAxios()
+
+		const status = await authAxios.post(
 			`/report/${comment_id}`,
 			{ block_id, reportType }
 		)
@@ -133,7 +144,9 @@ class CommentService {
 
 	/******************* [COUNT] *******************/
 	static async count(block_id) {
-		let count = await authAxios.get(`/count/${block_id}`)
+		const authAxios = await this.authAxios()
+
+		const count = await authAxios.get(`/count/${block_id}`)
 
 		return count.data
 	}

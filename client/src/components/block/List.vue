@@ -23,7 +23,7 @@
 							{{ block.title }}
 						</h5>
 						<p class="m-0 small text-secondary">
-							<span class="text-light">{{ block.username }}</span>
+							<span class="text-light">{{ block.user.username }}</span>
 							- {{ block.createdAt }}
 						</p>
 					</div>
@@ -104,6 +104,7 @@
 	import router from '@router'
 	import BlockService from '@services/BlockService'
 	import CommentService from '@services/CommentService'
+	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {
@@ -115,13 +116,14 @@
 			cat_id: { type: String, required: true, },
 			pageIndex: { type: Number, required: true, },
 			amount: { type: Number, required: true, },
-			user_id: { type: String, required: true, },
-			email: { type: String, required: true, },
-			username: { type: String, required: true, },
+			
 		},
 
 		data: function() {
 			return {
+				user_id: '',
+				email: '',
+				username: '',
 				loading: true,
 				disabled: false,
 				blocks: [],
@@ -131,6 +133,14 @@
 		},
 
 		created: async function () {
+			if (localStorage.usertoken) {
+				// Retrieve User Data //
+				let decoded = UserService.getUserTokenDecodeData()
+				this.user_id = decoded._id
+				this.email = decoded.email
+				this.username = decoded.username
+			}
+
 			// [INIT] Blocks //
 			await this.blocksReadAll()
 			

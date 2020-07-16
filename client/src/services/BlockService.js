@@ -7,28 +7,30 @@
 import axios from 'axios'
 
 
-// [AUTH TOKEN SETUP] //
-let token = localStorage.usertoken
-const authAxios = axios.create({
-	baseURL: '/api/blocks',
-	headers: {
-		authorization: `Bearer ${token}`
-	}
-})
-
-
 class BlockService {
+	// [AUTH TOKEN SETUP] //
+	static async authAxios() {
+		return axios.create({
+			baseURL: '/api/blocks',
+			headers: {
+				authorization: `Bearer ${localStorage.usertoken}`
+			}
+		})
+	}
+
+
 	/******************* [CRUD] *******************/
 	// [CREATE] Auth Required //
 	static async create(title, cat_id) {
-		const status = await authAxios.post('/create', { title, cat_id })
+		const authAxios = await this.authAxios()
 
-		return status
+		return await authAxios.post('/create', { title, cat_id })
 	}
 
 
 	// [READ-ALL] //
 	static async readAll(cat_id, amount, pageNumber) {
+		const authAxios = await this.authAxios()
 		const skip = pageNumber * amount
 
 		const result = new Promise ((resolve, reject) => {
@@ -49,7 +51,9 @@ class BlockService {
 
 
 	// [READ] This for Single Block Details //
-	static read(block_id) {
+	static async read(block_id) {
+		const authAxios = await this.authAxios()
+
 		const result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read/${block_id}`)
 				.then((res) => {
@@ -65,8 +69,11 @@ class BlockService {
 
 	
 	// [DELETE] Auth Required //
-	static deleteBlock(block_id) {
+	static async deleteBlock(block_id) {
+		const authAxios = await this.authAxios()
+		
 		console.log(block_id)
+		console.log(authAxios)
 		/*
 		let result = new Promise ((resolve, reject) => {
 			authAxios.delete(`/blocks/delete/${block_id}`)
@@ -82,21 +89,23 @@ class BlockService {
 	/******************* [VOTE SYSTEM] *******************/
 	// ADD/REMOVE VOTE //
 	static async like(block_id) {
-		let status = await authAxios.post(`/like/${block_id}`)
+		const authAxios = await this.authAxios()
 
-		return status
+		return await authAxios.post(`/like/${block_id}`)
 	}
 
 
 	static async unlike(block_id) {
-		// Remove the liker from the Block Object //
-		let status = await authAxios.post(`/unlike/${block_id}`)
+		const authAxios = await this.authAxios()
 
-		return status
+		// Remove the liker from the Block Object //
+		return await authAxios.post(`/unlike/${block_id}`)
 	}
 
 	/******************* [VALIDATION] *******************/
 	static async validateExistance(block_id) {
+		const authAxios = await this.authAxios()
+
 		let valid = await authAxios.get(`/existance/${block_id}`)
 		
 		return valid.data
@@ -105,6 +114,8 @@ class BlockService {
 
 	/******************* [COUNT] *******************/
 	static async countWithinCat(cat_id) {
+		const authAxios = await this.authAxios()
+
 		let count = await authAxios.get(`/count/${cat_id}`)
 
 		return count.data

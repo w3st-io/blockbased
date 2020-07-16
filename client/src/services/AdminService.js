@@ -8,17 +8,18 @@ import jwtDecode from 'jwt-decode'
 import axios from 'axios'
 
 
-// [AUTH TOKEN SETUP] //
-const token = localStorage.admintoken
-const authAxios = axios.create({
-	baseURL: '/api/admins',
-	headers: {
-		authorization2: `Bearer ${token}`
-	}
-})
-
-
 class AdminService {
+	// [AUTH TOKEN SETUP] //
+	static async authAxios() {
+		return axios.create({
+			baseURL: '/api/admins',
+			headers: {
+				authorization: `Bearer ${localStorage.usertoken}`
+			}
+		})
+	}
+
+
 	// [TOKEN DECODE] //
 	static getAdminTokenDecodeData() {
 		let decoded = {}
@@ -42,7 +43,9 @@ class AdminService {
 	
 
 	// [LOGIN] //
-	static login(email, password) {
+	static async login(email, password) {
+		const authAxios = await this.authAxios()
+
 		let result = new Promise ((resolve, reject) => {
 			authAxios.post('/login', { email, password })
 				.then(res => { resolve(res) })
@@ -54,7 +57,9 @@ class AdminService {
 
 	
 	// [REGISTER] //
-	static register(first_name, last_name, username, email, password) {
+	static async register(first_name, last_name, username, email, password) {
+		const authAxios = await this.authAxios()
+
 		let result = new Promise ((resolve, reject) => {
 			authAxios.post('/register', {
 				first_name,
