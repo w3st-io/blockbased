@@ -53,8 +53,8 @@ class BlocksCollection {
 
 	// [READ-ALL-ALL] //
 	static async readAllAll(skip, amount) {
-		const skip2 = parseInt(req.params.skip)
-		const amount2 = parseInt(req.params.amount)
+		const skip2 = parseInt(skip)
+		const amount2 = parseInt(amount)
 
 		try {
 			const returnedData = await BlockModel.find()
@@ -141,7 +141,7 @@ class BlocksCollection {
 
 	// [DELETE] //
 	static async delete(block_id) {
-		const validId = mongoose.isValidObjectId(req.params._id)
+		const validId = mongoose.isValidObjectId(block_id)
 
 		if (validId) {
 			try {
