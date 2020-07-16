@@ -230,6 +230,7 @@ class CommentsCollection {
 
 
 	/******************* [VOTE SYSTEM] *******************/
+	// [LIKE] //
 	static async like(req) {
 		const validId = mongoose.isValidObjectId(req.params._id)
 
@@ -250,6 +251,7 @@ class CommentsCollection {
 	}
 
 
+	// [UNLIKE] //
 	static async unlike(req) {
 		const validId = mongoose.isValidObjectId(req.params._id)
 
@@ -270,6 +272,7 @@ class CommentsCollection {
 	}
 
 
+	// [LIKE-EXISTANCE] //
 	static async LikeExistance(req) {
 		try {	
 			const returnedData = await CommentModel.findOne(

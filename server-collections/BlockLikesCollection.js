@@ -98,13 +98,14 @@ class BlockLikesCollection {
 
 
 	/******************* [EXISTANCE + OWNERSHIP] *******************/
-	static async existance(block_id, user_id) {
+	// [EXISTANCE] //
+	static async existance(user_id, block_id) {
 		if (mongoose.isValidObjectId(block_id)) {
 			try {
 				const returnedData = await BlockLikeModel.findOne(
 					{
-						block: block_id,
 						user: user_id,
+						block: block_id,
 					}
 				)
 	
@@ -117,16 +118,23 @@ class BlockLikesCollection {
 	}
 	
 
-	static async ownership(req) {
-		const returnedData = await BlockLikeModel.findOne(
-			{
-				block: req.params.block_id,
-				user: req.decoded._id,
-			}
-		)
+	// [OWNERSHIP] //
+	static async ownership(user_id, block_id) {
+		if (mongoose.isValidObjectId(block_id)) {
+			try {
+				const returnedData = await BlockLikeModel.findOne(
+					{
+						user: user_id,
+						block: block_id,
+					}
+				)
 
-		if (returnedData) { return true }
-		else { return false }
+				if (returnedData) { return true }
+				else { return false }
+			}
+			catch(e) { return `Caught Error: ${e}` }
+		}
+		else { return 'Invalid Block ID.' }
 	}
 }
 

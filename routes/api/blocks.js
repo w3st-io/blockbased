@@ -84,7 +84,7 @@ router.delete(
 
 
 /******************* [VOTE SYSTEM] *******************/
-// [PUSH] Auth Required //
+// [LIKE] Auth Required //
 router.post(
 	'/like/:_id',
 	Auth.userTokenCheck(),
@@ -108,7 +108,7 @@ router.post(
 )
 
 
-// [PULL] Auth Required //
+// [UNLIKE] Auth Required //
 router.post(
 	'/unlike/:_id',
 	Auth.userTokenCheck(),
@@ -128,6 +128,16 @@ router.post(
 			res.status(201).send(returnedData2)
 		}
 		else { res.status(400).send() }
+	}
+)
+
+
+// [LIKE-EXISTANCE] //
+router.post(
+	'/like-existance/:_id',
+	Auth.userTokenCheck(),
+	async (req, res) => {
+		res.status(200).send('coming soon!')
 	}
 )
 
