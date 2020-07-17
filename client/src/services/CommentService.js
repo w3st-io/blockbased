@@ -119,7 +119,7 @@ class CommentService {
 		const authAxios = await this.authAxios()
 
 		// Add the liker from the Block Object
-		return await authAxios.post(`/like/${comment_id}/${block_id}`)
+		return await authAxios.post(`/like/${comment_id}`)
 	}
 	static async unlike(comment_id) {
 		const authAxios = await this.authAxios()

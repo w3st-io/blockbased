@@ -31,7 +31,11 @@ router.post(
 
 		if (existance.status == true) {
 			if (existance.existance == true) {
-				const returnedData = await CommentsCollection.create(req)
+				const returnedData = await CommentsCollection.create(
+					req.decoded._id,
+					req.body.block_id,
+					req.body.text
+				)
 
 				res.status(201).send(returnedData)
 			}
@@ -46,7 +50,10 @@ router.post(
 router.get(
 	'/read-all-all/:amount/:skip',
 	async (req, res) => {
-		const returnedData = await CommentsCollection.readAllAll(req)
+		const returnedData = await CommentsCollection.readAllAll(
+			req.params.skip,
+			req.params.amount
+		)
 		
 		res.status(200).send(returnedData)
 	}
@@ -57,7 +64,11 @@ router.get(
 router.get(
 	'/read-all/:block_id/:amount/:skip',
 	async (req, res) => {
-		const returnedData = await CommentsCollection.readAll(req)
+		const returnedData = await CommentsCollection.readAll(
+			req.params.block_id,
+			req.params.skip,
+			req.params.amount
+		)
 		
 		res.status(200).send(returnedData)
 		
@@ -69,7 +80,7 @@ router.get(
 router.get(
 	'/read/:_id',
 	async (req, res) => {
-		const returnedData = await CommentsCollection.read(req)
+		const returnedData = await CommentsCollection.read(req.params._id)
 
 		res.status(201).send(returnedData)
 	}
@@ -81,11 +92,17 @@ router.post(
 	'/update/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const ownership = await CommentsCollection.ownership(req)
+		const ownership = await CommentsCollection.ownership(
+			req.decoded._id,
+			req.params._id
+		)
 
 		if (ownership.status) {
 			if (ownership.ownership == true) {
-				await CommentsCollection.update(req)
+				await CommentsCollection.update(
+					req.params._id,
+					req.body.text
+				)
 
 				res.status(201).send()
 			}
@@ -101,11 +118,14 @@ router.delete(
 	'/delete/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const ownership = await CommentsCollection.ownership(req)
+		const ownership = await CommentsCollection.ownership(
+			req.decoded._id,
+			req.params._id
+		)
 
 		if (ownership.status) {
 			if (ownership.ownership == true) {
-				await CommentsCollection.delete(req)
+				await CommentsCollection.delete(req.decoded._id, req.params._id)
 				await CommentLikesCollection.deleteAll(req)
 
 				res.status(201).send()
@@ -120,19 +140,25 @@ router.delete(
 /******************* [VOTE SYSTEM] *******************/
 // [PUSH] Auth Required //
 router.post(
-	'/like/:_id/:block_id',
+	'/like/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const existance = await CommentsCollection.LikeExistance(req)
+		const existance = await CommentsCollection.LikeExistance(
+			req.decoded._id,
+			req.params._id
+		)
 
 		if (existance.status == true) {
 			if (existance.existance == false) {
-				const returnedData = await CommentsCollection.like(req)
+				const returnedData = await CommentsCollection.like(
+					req.decoded._id,
+					req.params._id
+				)
 				const returnedData2 = await CommentLikesCollection.create(req)
 	
-				res.status(201).send(returnedData + returnedData2)
+				res.status(201).send(returnedData)
 			}
-			else { res.status(200).send(existance.message) }
+			else { res.status(200).send(existance) }
 		}
 		else { res.status(400).send(existance.message) }
 	}
@@ -144,14 +170,20 @@ router.post(
 	'/unlike/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const existance = await CommentsCollection.LikeExistance(req)
+		const existance = await CommentsCollection.LikeExistance(
+			req.decoded._id,
+			req.params._id
+		)
 		
 		if (existance.status == true) {
 			if (existance.existance == true) {
-				const returnedData = await CommentsCollection.unlike(req)
+				const returnedData = await CommentsCollection.unlike(
+					req.decoded._id,
+					req.params._id
+				)
 				const returnedData2 = await CommentLikesCollection.delete(req)
 
-				res.status(201).send(returnedData + returnedData2)
+				res.status(201).send(returnedData)
 			}
 			else { res.status(200).send(existance.message) }
 		}
@@ -201,7 +233,10 @@ router.get(
 	'/ownership/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const ownership = await CommentsCollection.ownership(req)
+		const ownership = await CommentsCollection.ownership(
+			req.decoded._id,
+			req.params._id
+		)
 
 		if (ownership.status == true) {
 			if (ownership.ownership == true) { res.status(200).send(true) }
@@ -216,7 +251,7 @@ router.get(
 router.get(
 	'/count/:block_id',
 	async (req, res) => {
-		const count = (await CommentsCollection.count(req)).toString()
+		const count = (await CommentsCollection.count(req.params.block_id)).toString()
 	
 		res.status(201).send(count)
 	}

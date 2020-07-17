@@ -22,11 +22,7 @@ mongoose.connect(process.env.MONGO_URI, {
 class CommentsCollection {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
-	static async create(req) {
-		const user_id = req.decoded._id
-		const block_id = req.body.block_id
-		const text = req.body.text
-
+	static async create(user_id, block_id, text) {
 		const formData = new CommentModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
@@ -40,9 +36,9 @@ class CommentsCollection {
 
 			return {
 				status: true,
+				message: `Created comment in ${block_id}.`,
 				user: user_id,
 				block: block_id,
-				message: `Created comment in ${block_id}.`
 			}
 		}
 		catch(e) {
@@ -57,14 +53,14 @@ class CommentsCollection {
 
 
 	// [READ-ALL-ALL] //
-	static async readAllAll(req) {
-		const skip = parseInt(req.params.skip)
-		const amount = parseInt(req.params.amount)
+	static async readAllAll(skip, limit) {
+		const skip2 = parseInt(skip)
+		const limit2 = parseInt(limit)
 		
 		try {
 			const returnedData = await CommentModel.find()
-				.skip(skip)
-				.limit(amount)
+				.skip(skip2)
+				.limit(limit2)
 				.populate(
 					'user',
 					'first_name last_name username email profileImg'
@@ -85,19 +81,16 @@ class CommentsCollection {
 
 
 	// [READ-ALL] Within a Block //
-	static async readAll(req) {
-		const block_id = req.params.block_id
-		const skip = parseInt(req.params.skip)
-		const amount = parseInt(req.params.amount)
-
-		console.log(block_id)
+	static async readAll(block_id, skip, limit) {
+		const skip2 = parseInt(skip)
+		const limit2 = parseInt(limit)
 
 		try {
 			const returnedData = await CommentModel.find(
 				{ block_id: block_id }
 			)
-				.skip(skip)
-				.limit(amount)
+				.skip(skip2)
+				.limit(limit2)
 				.populate({
 					path: 'user',
 					select: 'first_name last_name username email profileImg'
@@ -116,8 +109,7 @@ class CommentsCollection {
 
 
 	// [READ] //
-	static async read(req) {
-		const comment_id = req.params._id
+	static async read(comment_id) {
 		const validId = mongoose.isValidObjectId(comment_id)
 	
 		if (validId) {
@@ -152,9 +144,7 @@ class CommentsCollection {
 
 
 	// [UPDATE] //
-	static async update(req) {
-		const comment_id = req.params._id
-		const text = req.body.text
+	static async update(comment_id, text) {
 		const validId = mongoose.isValidObjectId(comment_id)
 
 		if (validId) {
@@ -192,9 +182,7 @@ class CommentsCollection {
 
 
 	// [DELETE] //
-	static async delete(req) {
-		const comment_id = req.params._id
-		const user_id = req.decoded._id
+	static async delete(user_id, comment_id) {
 		const validId = mongoose.isValidObjectId(comment_id)
 
 		if (validId) {
@@ -235,22 +223,22 @@ class CommentsCollection {
 
 	/******************* [VOTE SYSTEM] *******************/
 	// [LIKE] //
-	static async like(req) {
-		const validId = mongoose.isValidObjectId(req.params._id)
+	static async like(user_id, comment_id) {
+		const validId = mongoose.isValidObjectId(comment_id)
 
 		if (validId) {
 			try {
 				await CommentModel.updateOne(
-					{ _id: req.params._id },
+					{ _id: comment_id },
 					{ '$addToSet': { 
-						'likers': req.decoded._id
+						'likers': user_id
 					} }
 				)
 				
 				return {
 					status: true,
-					message: 'Liked block',
-					block_id: block_id,
+					message: 'Liked Comment',
+					comment_id: comment_id,
 					user_id: user_id,
 				}
 			}
@@ -261,22 +249,22 @@ class CommentsCollection {
 
 
 	// [UNLIKE] //
-	static async unlike(req) {
-		const validId = mongoose.isValidObjectId(req.params._id)
+	static async unlike(user_id, comment_id) {
+		const validId = mongoose.isValidObjectId(comment_id)
 
 		if (validId) {
 			try {
 				await CommentModel.updateOne(
-					{ _id: req.params._id },
+					{ _id: comment_id },
 					{ '$pull': { 
-						'likers': req.decoded._id
+						'likers': user_id
 					} }
 				)
 
 				return {
 					status: true,
-					message: 'Unliked block',
-					block_id: block_id,
+					message: 'Unliked comment',
+					comment_id: comment_id,
 					user_id: user_id,
 				}
 			}
@@ -287,12 +275,12 @@ class CommentsCollection {
 
 
 	// [LIKE-EXISTANCE] //
-	static async LikeExistance(req) {
+	static async LikeExistance(user_id, comment_id) {
 		try {	
 			const returnedData = await CommentModel.findOne(
 				{
-					_id: req.params._id,
-					likers: req.decoded._id
+					_id: comment_id,
+					likers: user_id
 				}
 			)
 
@@ -344,13 +332,13 @@ class CommentsCollection {
 
 
 	// [OWNERSHIP] //
-	static async ownership(req) {
-		if (mongoose.isValidObjectId(req.params._id)) {
+	static async ownership(user_id, comment_id) {
+		if (mongoose.isValidObjectId(comment_id)) {
 			try {	
 				const returnedData = await CommentModel.findOne(
 					{
-						_id: req.params._id,
-						user: req.decoded._id,
+						user: user_id,
+						_id: comment_id,
 					}
 				)
 
@@ -376,10 +364,10 @@ class CommentsCollection {
 
 
 	/******************* [COUNT] *******************/
-	static async count(req) {
+	static async count(block_id) {
 		try {
 			const count = await CommentModel.countDocuments(
-				{ block_id: req.params.block_id }
+				{ block_id: block_id }
 			)
 
 			return count
