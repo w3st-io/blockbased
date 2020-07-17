@@ -86,13 +86,15 @@ class CommentsCollection {
 
 	// [READ-ALL] Within a Block //
 	static async readAll(req) {
-		const block_id = req.body.block_id
+		const block_id = req.params.block_id
 		const skip = parseInt(req.params.skip)
 		const amount = parseInt(req.params.amount)
 
+		console.log(block_id)
+
 		try {
 			const returnedData = await CommentModel.find(
-				{ block: block_id }
+				{ block_id: block_id }
 			)
 				.skip(skip)
 				.limit(amount)
@@ -280,7 +282,7 @@ class CommentsCollection {
 			}
 			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 		}
-		else { return { status: false, message: 'Invalid Comment ID.' } 
+		else { return { status: false, message: 'Invalid Comment ID.' } }
 	}
 
 
@@ -377,7 +379,7 @@ class CommentsCollection {
 	static async count(req) {
 		try {
 			const count = await CommentModel.countDocuments(
-				{ cat_id: req.params.cat_id }
+				{ block_id: req.params.block_id }
 			)
 
 			return count
