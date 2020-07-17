@@ -43,7 +43,7 @@ class BlocksCollection {
 
 		return {
 			status: true,
-			message: 'Created block.',
+			message: 'Created block',
 			user: user_id,
 			cat_id: cat_id,
 			title: title,
@@ -68,12 +68,7 @@ class BlocksCollection {
 
 			return returnedData
 		}
-		catch(e) {
-			return {
-				status: false,
-				message: `Caught Error --> ${e}`,
-			}
-		}
+		catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
 	}
 
 
@@ -96,13 +91,7 @@ class BlocksCollection {
 
 			return returnedData
 		}
-		catch(e) {
-			return {
-				status: false,
-				cat_id: cat_id,
-				message: `Caught Error --> ${e}`,
-			}
-		}
+		catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
 	}
 
 
@@ -121,19 +110,13 @@ class BlocksCollection {
 				
 				return returnedData
 			}
-			catch(e) {
-				return {
-					status: false,
-					block_id: block_id,
-					message: `Caught Error --> ${e}`,
-				}
-			}
+			catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
 		}
 		else {
 			return {
 				status: false,
+				message: 'Invalid Block ID',
 				block_id: block_id,
-				message: 'Invalid Block ID.',
 			}
 		}
 	}
@@ -148,24 +131,27 @@ class BlocksCollection {
 				await BlockModel.findByIdAndDelete(
 					block_id,
 					function (e, block) {
-						if (e) { return e }
-						else { return `Deleted: ${block}` }
+						if (e) {
+							return { status: false, message: `Caught Error --> ${e}`, }
+						}
+						else {
+							return {
+								status: true,
+								message: 'Deleted block',
+								block_id: block_id,
+								block: block,
+							}
+						}
 					}
 				)
 			}
-			catch(e) {
-				return {
-					status: false,
-					block_id: block_id,
-					message: `Caught Error --> ${e}`,
-				}
-			}
+			catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
 		}
 		else {
 			return {
 				status: false,
+				message: 'Invalid Block ID',
 				block_id: block_id,
-				message: 'Invalid Block ID.',
 			}
 		}
 	}
@@ -180,9 +166,14 @@ class BlocksCollection {
 				{ '$addToSet': { 'likers': user_id } }
 			)
 
-			return 'Liked block.'
+			return {
+				status: true,
+				message: 'Liked block',
+				block_id: block_id,
+				user_id: user_id,
+			}
 		}
-		catch(e) { return `Caught Error --> ${e}` }
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
 
 
@@ -194,13 +185,18 @@ class BlocksCollection {
 				{ '$pull': { 'likers': user_id } }
 			)
 
-			return 'Unliked block.'
+			return {
+				status: true,
+				message: 'Unliked block',
+				block_id: block_id,
+				user_id: user_id,
+			}
 		}
-		catch(e) { return `Caught Error --> ${e}` }
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
 
 
-	// [LIKE-EXISTANCE] //
+	// [LIKE-EXISTANCE] // INCOMPLETE!
 	static async likeExistance() { return true }
 
 
@@ -211,12 +207,26 @@ class BlocksCollection {
 			try {	
 				const returnedData = await BlockModel.findOne({ _id: block_id })
 
-				if (returnedData) { return true }
-				else { return false }
+				if (returnedData) {
+					return {
+						status: true,
+						message: 'Block does exist',
+						existance: true,
+						block_id: block_id,
+					}
+				}
+				else {
+					return {
+						status: true,
+						message: 'Block does NOT exist',
+						existance: false,
+						block_id: block_id,
+					}
+				}
 			}
-			catch(e) { return `Caught Error --> ${e}` }
+			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 		}
-		else { return 'Invalid Block ID.' }
+		else { return { status: false, message: 'Invalid Block ID' } }
 	}
 
 
@@ -248,7 +258,7 @@ class BlocksCollection {
 			}
 			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 		}
-		else { { return { status: false, message: 'Invalid Block ID.' } } }
+		else { { return { status: false, message: 'Invalid Block ID' } } }
 	}
 
 

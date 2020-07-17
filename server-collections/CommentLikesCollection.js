@@ -40,19 +40,19 @@ class CommentLikesCollection {
 		catch(e) {
 			return {
 				status: false,
-				user: user_id,
-				block: block_id,
-				comment: comment_id,
 				message: `Caught Error --> ${e}`,
+				user: user_id,
+				comment: comment_id,
+				block: block_id,
 			}
 		}
 
 		return {
 			status: true,
-			user: user_id,
-			block: block_id,
-			comment: comment_id,
 			message: 'Created commentLike',
+			user: user_id,
+			comment: comment_id,
+			block: block_id,
 		}
 	}
 
@@ -73,17 +73,17 @@ class CommentLikesCollection {
 		catch(e) {
 			return {
 				status: false,
+				message: `Caught Error --> ${e}`,
 				user: user_id,
 				comment: comment_id,
-				message: `Caught Error --> ${e}`,
 			}
 		}
 			
 		return {
 			status: true,
+			message: 'Deleted CommentLike',
 			user: user_id,
 			comment: comment_id,
-			message: 'Deleted CommentLike',
 		}
 	}
 
@@ -99,15 +99,15 @@ class CommentLikesCollection {
 		catch(e) {
 			return {
 				status: false,
-				comment: comment_id,
 				message: `Caught Error --> ${e}`,
+				comment: comment_id,
 			}
 		}
 
 		return {
 			status: true,
-			comment: comment_id,
 			message: 'Deleted All CommentLike for this comment.',
+			comment: comment_id,
 		}
 	}
 
@@ -123,12 +123,24 @@ class CommentLikesCollection {
 					}
 				)
 	
-				if (returnedData) { return true }
-				else { return false }
+				if (returnedData) {
+					return {
+						status: true,
+						message: 'CommentLike does exists',
+						existance: true,
+					}
+				}
+				else {
+					return {
+						status: true,
+						message: 'CommentLike does NOT exists',
+						existance: false,
+					}
+				}
 			}
-			catch(e) { return `Caught Error --> ${e}` }
+			catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
 		}
-		else { return 'Invalid Block ID.' }
+		else { return { status: false, message: 'Invalid Block ID', } }
 	}
 	
 

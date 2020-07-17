@@ -29,7 +29,7 @@ router.post(
 	async (req, res) => { 
 		const existance = await BlocksCollection.existance(req.body.block_id)
 
-		if (existance == true) {
+		if (existance.existance == true) {
 			const returnedData = await CommentsCollection.create(req)
 
 			res.status(201).send(returnedData)
@@ -80,12 +80,15 @@ router.post(
 	async (req, res) => {
 		const owned = await CommentsCollection.ownership(req)
 
-		if (owned == true) {
-			await CommentsCollection.update(req)
+		if (owned.status) {
+			if (owned.ownership == true) {
+				await CommentsCollection.update(req)
 
-			res.status(201).send()
+				res.status(201).send()
+			}
+			else { res.status(400).send() }
 		}
-		else { res.status(400).send() }
+		else { res.status(400).send(owned.message) }
 	}
 )
 
@@ -97,13 +100,16 @@ router.delete(
 	async (req, res) => {
 		const owned = await CommentsCollection.ownership(req)
 
-		if (owned == true) {
-			await CommentsCollection.delete(req)
-			await CommentLikesCollection.deleteAll(req)
+		if (owned.status) {
+			if (owned.ownership == true) {
+				await CommentsCollection.delete(req)
+				await CommentLikesCollection.deleteAll(req)
 
-			res.status(201).send()
+				res.status(201).send()
+			}
+			else { res.status(400).send() }
 		}
-		else { res.status(400).send() }
+		else { res.status(400).send(owned.message) }
 	}
 )
 
@@ -116,7 +122,7 @@ router.post(
 	async (req, res) => {
 		const existance = await CommentsCollection.LikeExistance(req)
 
-		if (!existance) {
+		if (!existance.existance) {
 			await CommentsCollection.like(req)
 			await CommentLikesCollection.create(req)
 
@@ -134,7 +140,7 @@ router.post(
 	async (req, res) => {
 		const existance = await CommentsCollection.LikeExistance(req)
 		
-		if (existance) {
+		if (existance.existance) {
 			await CommentsCollection.unlike(req)
 			await CommentLikesCollection.delete(req)
 
@@ -155,7 +161,7 @@ router.post(
 	async (req, res) => {
 		const existance = await CommentReportsCollection.existance(req)
 		
-		if (!existance) {
+		if (!existance.existance) {
 			await CommentReportsCollection.create(req)
 			
 			res.status(201).send()
@@ -171,7 +177,7 @@ router.get(
 	async (req, res) => {
 		const existance = await CommentsCollection.existance(req.params._id)
 
-		if (existance == true) { res.status(200).send(true) }
+		if (existance.existance) { res.status(200).send(true) }
 		else { res.status(400).send(false) }
 	},
 )
@@ -184,8 +190,11 @@ router.get(
 	async (req, res) => {
 		const owned = await CommentsCollection.ownership(req)
 
-		if (owned == true) { res.status(200).send(true) }
-		else { res.status(200).send(false) }
+		if (owned.status) {
+			if (owned.ownership) { res.status(200).send(true) }
+			else { res.status(200).send(false) }
+		}
+		else { res.status(400).send(owned.message) }
 	}
 )
 

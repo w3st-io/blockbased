@@ -67,20 +67,21 @@ router.delete(
 	'/delete/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const owned = await BlocksCollection.ownership(
+		const ownership = await BlocksCollection.ownership(
 			req.decoded._id,
 			req.params._id
 		)
 		
-		if (owned.status)
-			if (owned.ownership) {
+		if (ownership.status) {
+			if (ownership.ownership) {
 				const returnedData1 = await BlocksCollection.delete(req.params._id)
 				const returnedData2 = await BlockLikesCollection.deleteAll(req.params._id)
 
 				res.status(200).send(returnedData1)
 			}
 			else { res.status(401).send() }
-		else { res.status(400).send(owned.message) }
+		}
+		else { res.status(400).send(ownership.message) }
 	}
 )
 
@@ -134,12 +135,12 @@ router.post(
 )
 
 
-// [LIKE-EXISTANCE] //
+// [LIKE-EXISTANCE] // INCOMPLETE!
 router.post(
 	'/like-existance/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		res.status(200).send('coming soon!')
+		res.status(200).send('INCOMPLETE!')
 	}
 )
 
@@ -151,8 +152,11 @@ router.get(
 	async (req, res) => {
 		const existance = await BlocksCollection.existance(req.params._id)
 
-		if (existance == true) { res.status(200).send(true) }
-		else { res.status(400).send(false) }
+		if (existance.status == true) {
+			if (existance.existance == true) { res.status(200).send(true) }
+			else { res.status(200).send(false) }
+		}
+		else { res.send(400).send(existance.message) }
 	},
 )
 
@@ -162,13 +166,16 @@ router.get(
 	'/ownership/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const owned = await BlocksCollection.ownership(
+		const ownership = await BlocksCollection.ownership(
 			req.decoded._id,
 			req.params._id
 		)
 
-		if (owned == true) { res.status(200).send(true) }
-		else { res.status(200).send(false) }
+		if (ownership.status == true) {
+			if (ownership.ownership == true) { res.status(200).send(true) }
+			else { res.status(200).send(false) }
+		}
+		else { res.status(400).send(ownership.message) }
 	}
 )
 

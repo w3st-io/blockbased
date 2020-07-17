@@ -18,6 +18,11 @@ const CommentLikeScema = mongoose.Schema({
 		ref: 'Comment'
 	},
 
+	block: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Block'
+	},
+
 	createdAt: {
 		type: Date,
 		default: Date.now
