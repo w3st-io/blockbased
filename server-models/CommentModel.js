@@ -8,15 +8,20 @@ const CommentScema = mongoose.Schema({
 
 	block_id: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Block'
+		ref: 'Block',
+		required: true,
 	},
 
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
+		ref: 'User',
+		required: true,
 	},
 
-	text: { type: String },
+	text: {
+		type: String,
+		required: true,
+	},
 
 	likers: [
 		{

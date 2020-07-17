@@ -8,18 +8,33 @@ const AdminSchema = mongoose.Schema({
 
 	role: {
 		type: String,
-		default: 'admin'
+		default: 'admin',
 	},
 
-	email: { type: String },
+	email: {
+		type: String,
+		required: true,
+	},
 	
-	username: { type: String },
+	username: {
+		type: String,
+		required: true,
+	},
 	
-	first_name: { type: String },
+	first_name: {
+		type: String,
+		required: true,
+	},
 	
-	last_name: { type: String },
+	last_name: {
+		type: String,
+		required: true,
+	},
 	
-	password: { type: String },
+	password: {
+		type: String,
+		required: true,
+	},
 	
 	createdAt: {
 		type: Date,

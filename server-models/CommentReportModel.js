@@ -6,18 +6,27 @@ const mongoose = require("mongoose")
 const CommentReportScema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
-	block_id: mongoose.Schema.Types.ObjectId,
+	block_id: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Block',
+		required: true,
+	},
 
-	reportType: { type: String },
+	reportType: {
+		type: String,
+		required: true,
+	},
 	
 	comment: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Comment'
+		ref: 'Comment',
+		required: true,
 	},
 
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
+		ref: 'User',
+		required: true,
 	},
 
 	createdAt: {

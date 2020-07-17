@@ -8,19 +8,22 @@ const CommentLikeScema = mongoose.Schema({
 
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
+		ref: 'User',
+		required: true,
 	},
 
 	block_id: mongoose.Schema.Types.ObjectId,
 
 	comment: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Comment'
+		ref: 'Comment',
+		required: true,
 	},
 
 	block: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Block'
+		ref: 'Block',
+		required: true,
 	},
 
 	createdAt: {
