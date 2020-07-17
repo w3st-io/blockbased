@@ -23,7 +23,10 @@ router.get(
 	'/read-all-all/:amount/:skip',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await CommentsCollection.readAllAll(req)
+		const returnedData = await CommentsCollection.readAllAll(
+			req.params.skip,
+			req.params.amount
+		)
 
 		res.status(200).send(returnedData)
 	}
@@ -35,7 +38,11 @@ router.get(
 	'/read-all/:block_id/:amount/:skip',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await CommentsCollection.readAll(req)
+		const returnedData = await CommentsCollection.readAll(
+			req.params.block_id,
+			req.params.skip,
+			req.params.amount
+		)
 
 		res.status(200).send(returnedData)
 	}
@@ -47,7 +54,7 @@ router.get(
 	'/read/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await CommentsCollection.read(req)
+		const returnedData = await CommentsCollection.read(req.params._id)
 
 		res.status(200).send(returnedData)
 	}
@@ -59,7 +66,10 @@ router.post(
 	'/update/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await CommentsCollection.update(req)
+		const returnedData = await CommentsCollection.update(
+			req.params._id,
+			req.body.text
+		)
 
 		res.status(201).send(returnedData)
 	}
@@ -71,7 +81,10 @@ router.delete(
 	'/delete/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await CommentsCollection.delete(req)
+		const returnedData = await CommentsCollection.delete(
+			req.decoded._id,
+			req.params._id
+		)
 		res.status(200).send(returnedData)
 	}
 )

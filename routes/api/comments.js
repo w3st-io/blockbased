@@ -126,7 +126,7 @@ router.delete(
 		if (ownership.status) {
 			if (ownership.ownership == true) {
 				await CommentsCollection.delete(req.decoded._id, req.params._id)
-				await CommentLikesCollection.deleteAll(req)
+				await CommentLikesCollection.deleteAll(req.params._id)
 
 				res.status(201).send()
 			}
@@ -154,7 +154,11 @@ router.post(
 					req.decoded._id,
 					req.params._id
 				)
-				const returnedData2 = await CommentLikesCollection.create(req)
+				const returnedData2 = await CommentLikesCollection.create(
+					req.decoded._id,
+					req.body.block_id,
+					req.params._id
+				)
 	
 				res.status(201).send(returnedData)
 			}
@@ -181,7 +185,10 @@ router.post(
 					req.decoded._id,
 					req.params._id
 				)
-				const returnedData2 = await CommentLikesCollection.delete(req)
+				const returnedData2 = await CommentLikesCollection.delete(
+					req.decoded._id,
+					req.params._id
+				)
 
 				res.status(201).send(returnedData)
 			}

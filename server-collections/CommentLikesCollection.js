@@ -22,11 +22,7 @@ mongoose.connect(process.env.MONGO_URI, {
 class CommentLikesCollection {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
-	static async create(req) {
-		const user_id = req.decoded._id
-		const block_id = req.body.block_id
-		const comment_id = req.params._id
-
+	static async create(user_id, block_id, comment_id) {
 		const formData = new CommentLikeModel(
 			{
 				_id: mongoose.Types.ObjectId(),
@@ -58,10 +54,7 @@ class CommentLikesCollection {
 
 
 	// [DELETE] //
-	static async delete(req) {
-		const comment_id = req.params._id
-		const user_id = req.decoded._id
-
+	static async delete(user_id, comment_id) {
 		try {
 			await CommentLikeModel.deleteMany(
 				{
@@ -89,8 +82,7 @@ class CommentLikesCollection {
 
 
 	// [DELETE-ALL] //
-	static async deleteAll(req) {
-		const comment_id = req.params._id
+	static async deleteAll(comment_id) {
 		try {
 			await CommentLikeModel.deleteMany({ comment: comment_id })
 
