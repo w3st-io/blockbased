@@ -106,7 +106,7 @@ class CommentLikesCollection {
 
 		return {
 			status: true,
-			message: 'Deleted All CommentLike for this comment.',
+			message: 'Deleted All CommentLike for this comment',
 			comment: comment_id,
 		}
 	}
@@ -144,16 +144,34 @@ class CommentLikesCollection {
 	}
 	
 
-	static async ownership(req) {
-		const returnedData = await CommentLikeModel.findOne(
-			{
-				user_id: req.decoded._id,
-				comment_id: req.params.comment_id,
-			}
-		)
+	static async ownership(user_id, comment_id) {
+		if (mongoose.isValidObjectId(comment_id)) {
+			try {
+				const returnedData = await CommentLikeModel.findOne(
+					{
+						user_id: user_id,
+						comment_id: comment_id,
+					}
+				)
 
-		if (returnedData) { return true }
-		else { return false }
+				if (returnedData) {
+					return {
+						status: true,
+						message: 'You do own this',
+						ownership: true,
+					}
+				}
+				else {
+					return {
+						status: true,
+						message: 'You do NOT own this',
+						ownership: false,
+					}
+				}
+			}
+			catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
+		}
+		else { return { status: false, message: 'Invalid comment ID', } }
 	}
 }
 

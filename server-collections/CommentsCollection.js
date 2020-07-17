@@ -282,10 +282,22 @@ class CommentsCollection {
 				}
 			)
 
-			if (returnedData) { return true }
-			else { return false }
+			if (returnedData) {
+				return {
+					status: true,
+					message: 'Comment Like does exists',
+					existance: true,
+				}
+			}
+			else {
+				return {
+					status: true,
+					message: 'Comment Like does NOT exists',
+					existance: false,
+				}
+			}
 		}
-		catch(e) { return `Caught Error --> ${e}` }
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
 
 	
@@ -298,12 +310,24 @@ class CommentsCollection {
 					{ _id: _id }
 				)
 
-				if (returnedData) { return true }
-				else { return false }
+				if (returnedData) {
+					return {
+						status: true,
+						message: 'Comment does exists',
+						existance: true,
+					}
+				}
+				else {
+					return {
+						status: true,
+						message: 'Comment does NOT exists',
+						existance: false,
+					}
+				}
 			}
-			catch(e) { return `Caught Error --> ${e}` }
+			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 		}
-		else { return 'Invalid Comment ID.' }
+		else { return { status: false, message: 'Invalid comment ID' } }
 	}
 
 
@@ -318,12 +342,24 @@ class CommentsCollection {
 					}
 				)
 
-				if (returnedData) { return true }
-				else { return false }
+				if (returnedData) {
+					return {
+						status: true,
+						message: 'Comment does exists',
+						ownership: true,
+					}
+				}
+				else {
+					return {
+						status: true,
+						message: 'Comment does NOT exists',
+						ownership: false,
+					}
+				}
 			}
-			catch(e) { return `Caught Error --> ${e}` }
+			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 		}
-		else { return 'Invalid Comment ID.' }
+		else { return { status: false, message: 'Invalid comment ID' } }
 	}
 
 

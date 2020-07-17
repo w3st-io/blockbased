@@ -74,10 +74,12 @@ router.delete(
 		
 		if (ownership.status) {
 			if (ownership.ownership) {
-				const returnedData1 = await BlocksCollection.delete(req.params._id)
-				const returnedData2 = await BlockLikesCollection.deleteAll(req.params._id)
+				const returnedData = await BlocksCollection.delete(req.params._id)
+				const returnedData2 = await BlockLikesCollection.deleteAll(
+					req.params._id
+				)
 
-				res.status(200).send(returnedData1)
+				res.status(200).send(returnedData + returnedData2)
 			}
 			else { res.status(401).send() }
 		}
@@ -95,7 +97,7 @@ router.post(
 		const likeExistance = await BlocksCollection.likeExistance()
 		
 		if (likeExistance == true) {
-			const returnedData1 = await BlocksCollection.like(
+			const returnedData = await BlocksCollection.like(
 				req.decoded._id,
 				req.params._id
 			)
@@ -104,7 +106,7 @@ router.post(
 				req.params._id
 			)
 			
-			res.status(201).send(returnedData2)
+			res.status(201).send(returnedData + returnedData2)
 		}
 		else { res.status(400).send() }
 	}
@@ -119,7 +121,7 @@ router.post(
 		const likeExistance = await BlocksCollection.likeExistance()
 		
 		if (likeExistance == true) {
-			const returnedData1 = await BlocksCollection.unlike(
+			const returnedData = await BlocksCollection.unlike(
 				req.decoded._id,
 				req.params._id
 			)
@@ -128,7 +130,7 @@ router.post(
 				req.params._id
 			)
 			
-			res.status(201).send(returnedData2)
+			res.status(201).send(returnedData + returnedData2)
 		}
 		else { res.status(400).send() }
 	}

@@ -71,8 +71,8 @@ router.delete(
 	'/delete/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		await CommentsCollection.delete(req)
-		res.sendStatus(200)
+		const returnedData = await CommentsCollection.delete(req)
+		res.status(200).send(returnedData)
 	}
 )
 

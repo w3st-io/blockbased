@@ -78,17 +78,17 @@ router.post(
 	'/update/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const owned = await CommentsCollection.ownership(req)
+		const ownership = await CommentsCollection.ownership(req)
 
-		if (owned.status) {
-			if (owned.ownership == true) {
+		if (ownership.status) {
+			if (ownership.ownership == true) {
 				await CommentsCollection.update(req)
 
 				res.status(201).send()
 			}
 			else { res.status(400).send() }
 		}
-		else { res.status(400).send(owned.message) }
+		else { res.status(400).send(ownership.message) }
 	}
 )
 
@@ -98,10 +98,10 @@ router.delete(
 	'/delete/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const owned = await CommentsCollection.ownership(req)
+		const ownership = await CommentsCollection.ownership(req)
 
-		if (owned.status) {
-			if (owned.ownership == true) {
+		if (ownership.status) {
+			if (ownership.ownership == true) {
 				await CommentsCollection.delete(req)
 				await CommentLikesCollection.deleteAll(req)
 
@@ -109,7 +109,7 @@ router.delete(
 			}
 			else { res.status(400).send() }
 		}
-		else { res.status(400).send(owned.message) }
+		else { res.status(400).send(ownership.message) }
 	}
 )
 
@@ -122,13 +122,16 @@ router.post(
 	async (req, res) => {
 		const existance = await CommentsCollection.LikeExistance(req)
 
-		if (!existance.existance) {
-			await CommentsCollection.like(req)
-			await CommentLikesCollection.create(req)
-
-			res.status(201).send()
+		if (existance.status == true) {
+			if (existance.existance == false) {
+				const returnedData = await CommentsCollection.like(req)
+				const returnedData2 = await CommentLikesCollection.create(req)
+	
+				res.status(201).send(returnedData + returnedData2)
+			}
+			else { res.status(200).send(existance.message) }
 		}
-		else { res.status(400).send('Comment like already exists.') }
+		else { res.status(400).send(existance.message) }
 	}
 )
 
@@ -140,15 +143,16 @@ router.post(
 	async (req, res) => {
 		const existance = await CommentsCollection.LikeExistance(req)
 		
-		if (existance.existance) {
-			await CommentsCollection.unlike(req)
-			await CommentLikesCollection.delete(req)
+		if (existance.status == true) {
+			if (existance.existance == true) {
+				const returnedData = await CommentsCollection.unlike(req)
+				const returnedData2 = await CommentLikesCollection.delete(req)
 
-			res.status(201).send()
+				res.status(201).send(returnedData + returnedData2)
+			}
+			else { res.status(200).send(existance.message) }
 		}
-		else { 
-			console.log('/unlike/400')
-			res.status(400).send('CommentLike does not exists.') }
+		else { res.status(400).send(existance.message) }
 	}
 )
 
@@ -177,8 +181,11 @@ router.get(
 	async (req, res) => {
 		const existance = await CommentsCollection.existance(req.params._id)
 
-		if (existance.existance) { res.status(200).send(true) }
-		else { res.status(400).send(false) }
+		if (existance.status == true) {
+			if (existance.existance == true) { res.status(200).send(true) }
+			else { res.status(200).send(false) }
+		}
+		else { res.status(400).send(existance.message) }
 	},
 )
 
@@ -188,13 +195,13 @@ router.get(
 	'/ownership/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const owned = await CommentsCollection.ownership(req)
+		const ownership = await CommentsCollection.ownership(req)
 
-		if (owned.status) {
-			if (owned.ownership) { res.status(200).send(true) }
+		if (ownership.status == true) {
+			if (ownership.ownership == true) { res.status(200).send(true) }
 			else { res.status(200).send(false) }
 		}
-		else { res.status(400).send(owned.message) }
+		else { res.status(400).send(ownership.message) }
 	}
 )
 
