@@ -34,7 +34,7 @@ class UsersCollection {
 
 			return returnedData
 		}
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) { return `Caught Error --> ${e}` }
 	}
 
 	
@@ -50,7 +50,7 @@ class UsersCollection {
 
 				return returnedData
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) { return `Caught Error --> ${e}` }
 		}
 		else { return 'Invalid ID.' }
 	}
@@ -65,24 +65,32 @@ class UsersCollection {
 
 			return returnedData
 		}
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) { return `Caught Error --> ${e}` }
 	}
 
 
 	// [UPDATE] Profile Picture //
 	static async update(req) {
+		const user_id = req.params._id
+		const img_url = req.body.img_url
+
 		const validId = mongoose.isValidObjectId(req.params._id)
 
 		if (validId) {
 			try {
 				await UserModel.findOneAndUpdate(
-					{ _id: req.params._id },
-					{ $set: { profileImg: req.body.img_url } }
+					{ _id: user_id },
+					{ $set: { profileImg: img_url } }
 				)
 
-				return
+				return {
+					status: true,
+					user_id: user_id,
+					profileImg: img_url,
+					message: `Updated profile with id ${user_id}`,
+				}
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) { return `Caught Error --> ${e}` }
 		}
 		else { return 'Invalid ID.' }
 	}
@@ -90,15 +98,23 @@ class UsersCollection {
 
 	// [UPDATE] Decoded - Profile Picture //
 	static async updateDecoded(req) {
+		const user_id = req.decoded._id
+		const img_url = req.body.img_url
+
 		try {
 			await UserModel.findOneAndUpdate(
-				{ _id: req.decoded._id },
-				{ $set: { profileImg: req.body.img_url } }
+				{ _id: user_id},
+				{ $set: { profileImg: img_url } }
 			)
 
-			return
+			return {
+				status: true,
+				user_id: user_id,
+				profileImg: img_url,
+				message: 'Updated profile',
+			}
 		}
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) { return `Caught Error --> ${e}` }
 	}
 
 
@@ -129,7 +145,7 @@ class UsersCollection {
 			}
 			else { return { auth: false, status: 'incorrect_email' } }
 		}
-		catch(e) { return { auth: false, status: `Caught Error: ${e}` } }
+		catch(e) { return { auth: false, status: `Caught Error --> ${e}` } }
 	}
 
 
@@ -151,12 +167,12 @@ class UsersCollection {
 				if (!emailFound) {
 					// Hash Data //
 					bcrypt.hash(formData.password, 10, (e, hash) => {
-						if (e) { return { status: `Caught Error: ${e}` } }
+						if (e) { return { status: `Caught Error --> ${e}` } }
 
 						formData.password = hash
 						
 						try { formData.save() }
-						catch(e) { return { status: `Caught Error: ${e}` } }
+						catch(e) { return { status: `Caught Error --> ${e}` } }
 					})
 
 					return { status: 'success' }
@@ -165,7 +181,7 @@ class UsersCollection {
 			}
 			else { return { status: 'username_taken' } }
 		}
-		catch(e) { return { status: `Caught Error: ${e}` } }
+		catch(e) { return { status: `Caught Error --> ${e}` } }
 	}
 
 

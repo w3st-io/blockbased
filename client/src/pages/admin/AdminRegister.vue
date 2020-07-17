@@ -150,13 +150,12 @@
 				password: '',
 				confirm: '',
 				returnedData: '',
-				status: '',
 				error: '',
 			}
 		},
 
 		created: function() {
-			// [REDIRECT] Not Log Reuired //
+			// [REDIRECT] Not Log Required //
 			if (localStorage.admintoken) { router.push({ name: 'AdminProfile' }) }
 		},
 
@@ -173,30 +172,21 @@
 					)
 				}
 				catch(e) { this.error = e }
-
-				// Set Status //
-				this.status = this.returnedData.data.status
-				
 				
 				// Check Status //
-				if (this.status == 'success') { this.redirect() }
-				else if (this.status == 'username_taken') { this.error = 'Username Taken' }
-				else if (this.status == 'email_taken') { this.error = 'Email Taken' }
-				else { this.error = this.status }
+				if (this.returnedData.data.status == true) { this.redirect() }
+				else { this.error = this.returnedData.data.message }
 
-				console.log('error', this.error)
-
+				console.log('message:', this.error)
 			},
 
 			redirect() {
 				// [REDIRECT] //
-				console.log('redicre')
 				router.push({ path: 'admin-login' })
 			},
 
 			log() {
 				console.log('%%% [PAGE] Admin Register %%%')
-				console.log('Register Status:', this.status)
 			},
 		}
 	}

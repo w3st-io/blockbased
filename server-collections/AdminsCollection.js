@@ -48,13 +48,32 @@ class BlocksCollection {
 					//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
 					const token = jwt.sign(payload, secretKey, {})
 
-					return { auth: true, status: 'success', token: token, }
+					return {
+						status: true,
+						message: 'success',
+						token: token,
+					}
 				}
-				else { return { auth: false, status: 'incorrect_password' } }
+				else {
+					return {
+						status: false,
+						message: 'incorrect_password'
+					}
+				}
 			}
-			else { return { auth: false, status: 'incorrect_email' } }
+			else {
+				return {
+					status: false,
+					message: 'incorrect_email'
+				}
+			}
 		}
-		catch(e) { return { auth: false, status: `Caught Error: ${e}` } }
+		catch(e) {
+			return {
+				status: false,
+				message: `Caught Error --> ${e}`
+			}
+		}
 	}
 
 
@@ -80,21 +99,44 @@ class BlocksCollection {
 				if (!emailFound) {
 					// Hash Data //
 					bcrypt.hash(formData.password, 10, (e, hash) => {
-						if (e) { return { status: `Caught Error: ${e}` } }
+						if (e) { return { status: `Caught Error --> ${e}` } }
 
 						formData.password = hash
 
 						try { formData.save() }
-						catch(e) { return { status: `Caught Error: ${e}` } }
+						catch(e) {
+							return {
+								status: false,
+								message: `Caught Error --> ${e}`
+							}
+						}
 					})
 					
-					return { status: 'success' }
+					return {
+						status: true,
+						message: 'success'
+					}
 				}
-				else { return { status: 'email_taken' } }
+				else {
+					return {
+						status: false,
+						message: 'This email is already registered'
+					}
+				}
 			}
-			else { return { status: 'username_taken' } }
+			else {
+				return {
+					status: false,
+					message: 'This email is taken'
+				}
+			}
 		}
-		catch(e) { return { status: `Caught Error: ${e}` } }
+		catch(e) {
+			return {
+				status: false,
+				message: `Caught Error --> ${e}`
+			}
+		}
 	}
 }
 

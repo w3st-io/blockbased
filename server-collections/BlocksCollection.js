@@ -182,7 +182,7 @@ class BlocksCollection {
 
 			return 'Liked block.'
 		}
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) { return `Caught Error --> ${e}` }
 	}
 
 
@@ -196,7 +196,7 @@ class BlocksCollection {
 
 			return 'Unliked block.'
 		}
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) { return `Caught Error --> ${e}` }
 	}
 
 
@@ -214,7 +214,7 @@ class BlocksCollection {
 				if (returnedData) { return true }
 				else { return false }
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) { return `Caught Error --> ${e}` }
 		}
 		else { return 'Invalid Block ID.' }
 	}
@@ -234,7 +234,7 @@ class BlocksCollection {
 				if (returnedData) { return true }
 				else { return false }
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) { return `Caught Error --> ${e}` }
 		}
 		else { return 'Invalid Block ID.' }
 	}
@@ -243,7 +243,7 @@ class BlocksCollection {
 	/******************* [COUNT] *******************/
 	static async count(cat_id) {
 		try { return await BlockModel.countDocuments({ cat_id: cat_id }) }
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) { return `Caught Error --> ${e}` }
 	}
 }
 

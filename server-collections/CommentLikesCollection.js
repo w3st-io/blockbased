@@ -126,7 +126,7 @@ class CommentLikesCollection {
 				if (returnedData) { return true }
 				else { return false }
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) { return `Caught Error --> ${e}` }
 		}
 		else { return 'Invalid Block ID.' }
 	}

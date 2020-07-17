@@ -245,7 +245,7 @@ class CommentsCollection {
 				
 				return
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) { return `Caught Error --> ${e}` }
 		}
 		else { return 'Invalid Comment ID.' }
 	}
@@ -266,7 +266,7 @@ class CommentsCollection {
 
 				return
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) { return `Caught Error --> ${e}` }
 		}
 		else { return 'Invalid Comment ID.' }
 	}
@@ -285,7 +285,7 @@ class CommentsCollection {
 			if (returnedData) { return true }
 			else { return false }
 		}
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) { return `Caught Error --> ${e}` }
 	}
 
 	
@@ -301,7 +301,7 @@ class CommentsCollection {
 				if (returnedData) { return true }
 				else { return false }
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) { return `Caught Error --> ${e}` }
 		}
 		else { return 'Invalid Comment ID.' }
 	}
@@ -321,7 +321,7 @@ class CommentsCollection {
 				if (returnedData) { return true }
 				else { return false }
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) { return `Caught Error --> ${e}` }
 		}
 		else { return 'Invalid Comment ID.' }
 	}
@@ -336,7 +336,7 @@ class CommentsCollection {
 
 			return count
 		}
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) { return `Caught Error --> ${e}` }
 	}
 }
 

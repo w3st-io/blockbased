@@ -98,7 +98,7 @@
 
 				// Check Validation Status //
 				if (this.returnedData.data.auth) { this.successful() }
-            else { this.error = this.returnedData.data.status }
+            else { this.error = this.returnedData.data.message }
 			},
 
 			successful() {

@@ -32,7 +32,7 @@ class CommentReportsCollection {
 		})
 		
 		try { await formData.save() }
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) { return `Caught Error --> ${e}` }
 		
 		return 'Created comment report.'
 	}
@@ -46,7 +46,7 @@ class CommentReportsCollection {
 				.populate('comment')
 				.exec()
 		}
-		catch (e) { return `Caught Error: ${e}` }
+		catch (e) { return `Caught Error --> ${e}` }
 	}
 
 
@@ -60,7 +60,7 @@ class CommentReportsCollection {
 					{ _id: req.params._id }
 				)
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) { return `Caught Error --> ${e}` }
 
 			return 'Deleted report'
 		}
@@ -71,7 +71,7 @@ class CommentReportsCollection {
 	// [DELETE-ALL-ALL] //
 	static async deleteAllAll(req) {
 		try { await CommentReportModel.deleteMany() }
-		catch(e) { return `Caught Error: ${e}` }
+		catch(e) { return `Caught Error --> ${e}` }
 
 		return 'Deleted all comment reports.'
 	}
@@ -92,7 +92,7 @@ class CommentReportsCollection {
 				if (returnedData) { return true }
 				else { return false }
 			}
-			catch(e) { return `Caught Error: ${e}` }
+			catch(e) { return `Caught Error --> ${e}` }
 		}
 		else { return'Invalid Block ID.' }
 	}
