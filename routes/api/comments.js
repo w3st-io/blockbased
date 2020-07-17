@@ -29,12 +29,15 @@ router.post(
 	async (req, res) => { 
 		const existance = await BlocksCollection.existance(req.body.block_id)
 
-		if (existance.existance == true) {
-			const returnedData = await CommentsCollection.create(req)
+		if (existance.status == true) {
+			if (existance.existance == true) {
+				const returnedData = await CommentsCollection.create(req)
 
-			res.status(201).send(returnedData)
+				res.status(201).send(returnedData)
+			}
+			else { res.status(400).send() }
 		}
-		else { res.status(400).send() }
+		else { res.status(400).send(existance.message) }
 	}
 )
 
@@ -165,12 +168,15 @@ router.post(
 	async (req, res) => {
 		const existance = await CommentReportsCollection.existance(req)
 		
-		if (!existance.existance) {
-			await CommentReportsCollection.create(req)
-			
-			res.status(201).send()
+		if (existance.status == true) {
+			if (existance.existance == false) {
+				const returnedData = await CommentReportsCollection.create(req)
+				
+				res.status(201).send(returnedData)
+			}
+			else { res.status(400).send(existance.message) }
 		}
-		else { res.status(400).send() }
+		else { res.status(400).send(existance.message) }
 	}
 )
 

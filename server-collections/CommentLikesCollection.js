@@ -69,6 +69,13 @@ class CommentLikesCollection {
 					comment: comment_id,
 				}
 			)
+
+			return {
+				status: true,
+				message: 'Deleted CommentLike',
+				user: user_id,
+				comment: comment_id,
+			}
 		}
 		catch(e) {
 			return {
@@ -78,13 +85,6 @@ class CommentLikesCollection {
 				comment: comment_id,
 			}
 		}
-			
-		return {
-			status: true,
-			message: 'Deleted CommentLike',
-			user: user_id,
-			comment: comment_id,
-		}
 	}
 
 
@@ -92,9 +92,13 @@ class CommentLikesCollection {
 	static async deleteAll(req) {
 		const comment_id = req.params._id
 		try {
-			await CommentLikeModel.deleteMany(
-				{ comment: comment_id }
-			)
+			await CommentLikeModel.deleteMany({ comment: comment_id })
+
+			return {
+				status: true,
+				message: 'Deleted All CommentLike for this comment',
+				comment: comment_id,
+			}
 		}
 		catch(e) {
 			return {
@@ -102,12 +106,6 @@ class CommentLikesCollection {
 				message: `Caught Error --> ${e}`,
 				comment: comment_id,
 			}
-		}
-
-		return {
-			status: true,
-			message: 'Deleted All CommentLike for this comment',
-			comment: comment_id,
 		}
 	}
 

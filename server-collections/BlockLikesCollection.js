@@ -31,7 +31,16 @@ class BlockLikesCollection {
 			}
 		)
 
-		try { formData.save() }
+		try {
+			formData.save()
+
+			return {
+				status: true,
+				message: 'Created blockLike',
+				block: block_id,
+				user: user_id,
+			}
+		}
 		catch(e) {
 			return {
 				status: false,
@@ -39,13 +48,6 @@ class BlockLikesCollection {
 				user: user_id,
 				block: block_id,
 			}
-		}
-			
-		return {
-			status: true,
-			message: 'Created blockLike',
-			block: block_id,
-			user: user_id,
 		}
 	}
 
@@ -53,12 +55,14 @@ class BlockLikesCollection {
 	// [DELETE] //
 	static async delete(user_id, block_id) {
 		try {
-			await BlockLikeModel.deleteMany(
-				{
-					user: user_id,
-					block: block_id,
-				}
-			)
+			await BlockLikeModel.deleteMany({user: user_id, block: block_id, })
+
+			return {
+				status: true,
+				message: `Deleted all block likes for ${block_id}`,
+				user: user_id,
+				block: block_id,
+			}
 		}
 		catch(e) {
 			return {
@@ -68,31 +72,26 @@ class BlockLikesCollection {
 				block: block_id,
 			}
 		}
-		 
-		return {
-			status: true,
-			message: `Deleted all block likes for ${block_id}`,
-			user: user_id,
-			block: block_id,
-		}
 	}
 
 
 	// [DELETE-ALL] //
 	static async deleteAll(block_id) {
-		try { await BlockLikeModel.deleteMany({ block: block_id }) }
+		try {
+			await BlockLikeModel.deleteMany({ block: block_id })
+
+			return {
+				status: true,
+				message: `Deleted all block likes for ${block_id}`,
+				block: block_id,
+			}
+		}
 		catch(e) {
 			return {
 				status: false,
 				message: `Caught Error --> ${e}`,
 				block: block_id,
 			}
-		}
-
-		return {
-			status: true,
-			message: `Deleted all block likes for ${block_id}`,
-			block: block_id,
 		}
 	}
 

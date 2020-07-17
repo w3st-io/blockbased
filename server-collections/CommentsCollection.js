@@ -35,7 +35,16 @@ class CommentsCollection {
 			likers: [],
 		})
 
-		try { await formData.save() }
+		try {
+			await formData.save()
+
+			return {
+				status: true,
+				user: user_id,
+				block: block_id,
+				message: `Created comment in ${block_id}.`
+			}
+		}
 		catch(e) {
 			return {
 				status: false,
@@ -43,13 +52,6 @@ class CommentsCollection {
 				block: block_id,
 				message: `Caught Error --> ${e}`,
 			}
-		}
-
-		return {
-			status: true,
-			user: user_id,
-			block: block_id,
-			message: `Created comment in ${block_id}.`
 		}
 	}
 
@@ -159,6 +161,13 @@ class CommentsCollection {
 					{ _id: comment_id },
 					{ '$set': { 'text': text } },
 				)
+
+				return {
+					status: true,
+					comment_id: comment_id,
+					text: text,
+					message: 'Updated comment.',
+				}
 			}
 			catch(e) {
 				return {
@@ -167,13 +176,6 @@ class CommentsCollection {
 					text: text,
 					message: `Caught Error --> ${e}`,
 				}
-			}
-
-			return {
-				status: true,
-				comment_id: comment_id,
-				text: text,
-				message: 'Updated comment.',
 			}
 		}
 		else {
@@ -243,11 +245,16 @@ class CommentsCollection {
 					} }
 				)
 				
-				return
+				return {
+					status: true,
+					message: 'Liked block',
+					block_id: block_id,
+					user_id: user_id,
+				}
 			}
-			catch(e) { return `Caught Error --> ${e}` }
+			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 		}
-		else { return 'Invalid Comment ID.' }
+		else { return { status: false, message: 'Invalid Comment ID.' } }
 	}
 
 
@@ -264,11 +271,16 @@ class CommentsCollection {
 					} }
 				)
 
-				return
+				return {
+					status: true,
+					message: 'Unliked block',
+					block_id: block_id,
+					user_id: user_id,
+				}
 			}
-			catch(e) { return `Caught Error --> ${e}` }
+			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 		}
-		else { return 'Invalid Comment ID.' }
+		else { return { status: false, message: 'Invalid Comment ID.' } 
 	}
 
 
@@ -306,9 +318,7 @@ class CommentsCollection {
 	static async existance(comment_id) {
 		if (mongoose.isValidObjectId(comment_id)) {
 			try {	
-				const returnedData = await CommentModel.findOne(
-					{ _id: _id }
-				)
+				const returnedData = await CommentModel.findOne({ _id: _id })
 
 				if (returnedData) {
 					return {

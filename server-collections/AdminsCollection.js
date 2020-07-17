@@ -108,7 +108,15 @@ class BlocksCollection {
 
 						formData.password = hash
 
-						try { formData.save() }
+						try {
+							formData.save()
+
+							return {
+								status: true,
+								message: 'Successfully created account',
+								created: true,
+							}
+						}
 						catch(e) {
 							return {
 								status: false,
@@ -117,12 +125,6 @@ class BlocksCollection {
 							}
 						}
 					})
-					
-					return {
-						status: true, message:
-						'Successfully created account',
-						created: true,
-					}
 				}
 				else {
 					return {

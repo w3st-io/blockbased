@@ -31,70 +31,105 @@ class CommentReportsCollection {
 			user: req.decoded._id,
 		})
 		
-		try { await formData.save() }
-		catch(e) { return `Caught Error --> ${e}` }
-		
-		return 'Created comment report.'
+		try {
+			await formData.save()
+
+			return {
+				status: true,
+				message: 'Created comment report.',
+				created: true
+			}
+		}
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
 
 
 	// [READ-ALL] //
 	static async readAll(req) {
-		try { return await
-			CommentReportModel.find()
+		try {
+			const returnedData = await CommentReportModel.find()
 				.populate('user')
 				.populate('comment')
 				.exec()
+
+			return returnedData
 		}
-		catch (e) { return `Caught Error --> ${e}` }
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
 
 
 	// [DELETE] Single Report //
 	static async delete(req) {
-		let validId = mongoose.isValidObjectId(req.params._id)
+		const commentReport_id = req.params._id
+		let validId = mongoose.isValidObjectId(commentReport_id)
 
 		if (validId) {
 			try {
-				await CommentReportModel.deleteOne(
-					{ _id: req.params._id }
-				)
-			}
-			catch(e) { return `Caught Error --> ${e}` }
+				await CommentReportModel.deleteOne({ _id: commentReport_id })
 
-			return 'Deleted report'
+				return {
+					status: true,
+					message: 'Deleted report',
+					commentReport_id: commentReport_id,
+				}
+			}
+			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 		}
-		else { return 'Invalid Block ID.' }
+		else { return { status: false, message: 'Invalid commentReport ID' } }
 	}
 
 
 	// [DELETE-ALL-ALL] //
 	static async deleteAllAll(req) {
-		try { await CommentReportModel.deleteMany() }
-		catch(e) { return `Caught Error --> ${e}` }
+		try {
+			await CommentReportModel.deleteMany()
 
-		return 'Deleted all comment reports.'
+			return {
+				status: true,
+				message: 'Deleted all comment reports',
+				commentReport_id: commentReport_id,
+			}
+		}
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
 
 	
 	/******************* [EXISTANCE] *******************/
 	// Verify that User is not Double Reporting //
 	static async existance(req) {
-		const validId = mongoose.isValidObjectId(req.params._id)
+		const comment_id = req.params._id
+		const user_id = req.decoded._id
+		const validId = mongoose.isValidObjectId(comment_id)
 
 		if (validId) {
 			try {
 				const returnedData = await CommentReportModel.findOne({	
-					comment: req.params._id,
-					user: req.decoded._id,
+					comment: comment_id,
+					user: user_id,
 				})
 
-				if (returnedData) { return true }
-				else { return false }
+				if (returnedData) {
+					return {
+						status: true,
+						message: 'CommentReport does exist',
+						existance: true,
+						comment_id: comment_id,
+						user: user_id,
+					}
+				}
+				else {
+					return {
+						status: true,
+						message: 'CommentReport does NOT exist',
+						existance: false,
+						comment_id: comment_id,
+						user: user_id,
+					}
+				}
 			}
-			catch(e) { return `Caught Error --> ${e}` }
+			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 		}
-		else { return'Invalid Block ID.' }
+		else { return { status: false, message: 'Invalid comment ID' } }
 	}
 }
 
