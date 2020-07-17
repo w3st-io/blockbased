@@ -35,6 +35,7 @@ class BlocksCollection {
 			// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
 			if (accountFound) {
 				if (bcrypt.compareSync(req.body.password, accountFound.password)) {
+					// Set Payload //
 					const payload = {
 						_id: accountFound._id,
 						role: accountFound.role,
@@ -51,29 +52,27 @@ class BlocksCollection {
 					return {
 						status: true,
 						message: 'success',
+						validation: true,
 						token: token,
 					}
 				}
 				else {
 					return {
-						status: false,
-						message: 'incorrect_password'
+						status: true,
+						message: 'Invalid password',
+						validation: false,
 					}
 				}
 			}
 			else {
 				return {
-					status: false,
-					message: 'incorrect_email'
+					status: true,
+					message: 'Invalid email',
+					validation: false
 				}
 			}
 		}
-		catch(e) {
-			return {
-				status: false,
-				message: `Caught Error --> ${e}`
-			}
-		}
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
 
 
@@ -99,7 +98,13 @@ class BlocksCollection {
 				if (!emailFound) {
 					// Hash Data //
 					bcrypt.hash(formData.password, 10, (e, hash) => {
-						if (e) { return { status: `Caught Error --> ${e}` } }
+						if (e) {
+							return {
+								status: false,
+								message: `Caught Error --> ${e}`,
+								created: false,
+							}
+						}
 
 						formData.password = hash
 
@@ -107,36 +112,35 @@ class BlocksCollection {
 						catch(e) {
 							return {
 								status: false,
-								message: `Caught Error --> ${e}`
+								message: `Caught Error --> ${e}`,
+								created: false,
 							}
 						}
 					})
 					
 					return {
-						status: true,
-						message: 'success'
+						status: true, message:
+						'Successfully created account',
+						created: true,
 					}
 				}
 				else {
 					return {
 						status: false,
-						message: 'This email is already registered'
+						message: 'This email is already registered',
+						created: false,
 					}
 				}
 			}
 			else {
 				return {
 					status: false,
-					message: 'This email is taken'
+					message: 'This email is taken',
+					created: false,
 				}
 			}
 		}
-		catch(e) {
-			return {
-				status: false,
-				message: `Caught Error --> ${e}`
-			}
-		}
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
 }
 

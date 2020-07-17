@@ -19,10 +19,10 @@ const router = express.Router().use(cors())
 
 
 /******************* [CRUD] *******************/
-// [READ-ALL ALL] Auth Required //
+// [READ-ALL-ALL] Auth Required //
 router.get(
 	'/read-all/:amount/:skip',
-	Auth.adminCheck(),
+	Auth.adminToken(),
 	async (req, res) => {
 		const returnedData = await BlocksCollection.readAllAll(
 			req.params.skip,
@@ -37,7 +37,7 @@ router.get(
 // [READ-ALL] Auth Required - Within a Cat //
 router.get(
 	'/read-all/:cat_id/:amount/:skip',
-	Auth.adminCheck(),
+	Auth.adminToken(),
 	async (req, res) => {
 		const returnedData = await BlocksCollection.readAll(
 			req.params.cat_id,
@@ -53,7 +53,7 @@ router.get(
 // [READ] Auth Required - Single Block Details //
 router.get(
 	'/read/:_id',
-	Auth.adminCheck(),
+	Auth.adminToken(),
 	async (req, res) => {
 		const returnedData = await BlocksCollection.read(req.params._id)
 
@@ -65,7 +65,7 @@ router.get(
 // [DELETE] Auth Required //
 router.delete(
 	'/delete/:_id',
-	Auth.adminCheck(),
+	Auth.adminToken(),
 	async (req, res) => {
 		BlocksCollection.delete(req.params._id)
 		BlockLikesCollection.deleteAll(req.params._id)

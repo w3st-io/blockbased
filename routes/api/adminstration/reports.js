@@ -21,7 +21,7 @@ const router = express.Router().use(cors())
 // [READ-ALL] Auth Required //
 router.get(
 	'/read-all',
-	Auth.adminCheck(),
+	Auth.adminToken(),
 	async (req, res) => {
 		const returnedData = await CommentReportsCollection.readAll(req)
 
@@ -33,7 +33,7 @@ router.get(
 // [DELETE] Auth Required //
 router.delete(
 	'/delete/:_id',
-	Auth.adminCheck(),
+	Auth.adminToken(),
 	async (req, res) => {
 		await CommentReportsCollection.delete(req)
 		

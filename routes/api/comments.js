@@ -25,7 +25,7 @@ const router = express.Router().use(cors())
 // [CREATE] Auth Required //
 router.post(
 	'/create',
-	Auth.userTokenCheck(),
+	Auth.userToken(),
 	async (req, res) => { 
 		const existance = await BlocksCollection.existance(req.body.block_id)
 
@@ -76,7 +76,7 @@ router.get(
 // [UPDATE] Auth Required //
 router.post(
 	'/update/:_id',
-	Auth.userTokenCheck(),
+	Auth.userToken(),
 	async (req, res) => {
 		const owned = await CommentsCollection.ownership(req)
 
@@ -93,7 +93,7 @@ router.post(
 // [DELETE] Auth Required //
 router.delete(
 	'/delete/:_id',
-	Auth.userTokenCheck(),
+	Auth.userToken(),
 	async (req, res) => {
 		const owned = await CommentsCollection.ownership(req)
 
@@ -112,7 +112,7 @@ router.delete(
 // [PUSH] Auth Required //
 router.post(
 	'/like/:_id/:block_id',
-	Auth.userTokenCheck(),
+	Auth.userToken(),
 	async (req, res) => {
 		const existance = await CommentsCollection.LikeExistance(req)
 
@@ -130,7 +130,7 @@ router.post(
 // [PULL] Auth Required //
 router.post(
 	'/unlike/:_id',
-	Auth.userTokenCheck(),
+	Auth.userToken(),
 	async (req, res) => {
 		const existance = await CommentsCollection.LikeExistance(req)
 		
@@ -151,7 +151,7 @@ router.post(
 // [CREATE] //
 router.post(
 	'/report/:_id',
-	Auth.userTokenCheck(),
+	Auth.userToken(),
 	async (req, res) => {
 		const existance = await CommentReportsCollection.existance(req)
 		
@@ -180,7 +180,7 @@ router.get(
 // [OWNERSHIP] //
 router.get(
 	'/ownership/:_id',
-	Auth.userTokenCheck(),
+	Auth.userToken(),
 	async (req, res) => {
 		const owned = await CommentsCollection.ownership(req)
 

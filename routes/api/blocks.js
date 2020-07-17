@@ -23,7 +23,7 @@ const router = express.Router().use(cors())
 // [CREATE] Auth Required //
 router.post(
 	'/create',
-	Auth.userTokenCheck(),
+	Auth.userToken(),
 	async (req, res) => {
 		const returnedData = await BlocksCollection.create(
 			req.decoded._id,
@@ -65,20 +65,22 @@ router.get(
 // [DELETE] Auth Required //
 router.delete(
 	'/delete/:_id',
-	Auth.userTokenCheck(),
+	Auth.userToken(),
 	async (req, res) => {
 		const owned = await BlocksCollection.ownership(
 			req.decoded._id,
 			req.params._id
 		)
 		
-		if (owned == true) {
-			const returnedData1 = await BlocksCollection.delete(req.params._id)
-			const returnedData2 = await BlockLikesCollection.deleteAll(req.params._id)
+		if (owned.status)
+			if (owned.ownership) {
+				const returnedData1 = await BlocksCollection.delete(req.params._id)
+				const returnedData2 = await BlockLikesCollection.deleteAll(req.params._id)
 
-			res.status(200).send(returnedData1)
-		}
-		else { res.status(401).send() }
+				res.status(200).send(returnedData1)
+			}
+			else { res.status(401).send() }
+		else { res.status(400).send(owned.message) }
 	}
 )
 
@@ -87,7 +89,7 @@ router.delete(
 // [LIKE] Auth Required //
 router.post(
 	'/like/:_id',
-	Auth.userTokenCheck(),
+	Auth.userToken(),
 	async (req, res) => {
 		const likeExistance = await BlocksCollection.likeExistance()
 		
@@ -111,7 +113,7 @@ router.post(
 // [UNLIKE] Auth Required //
 router.post(
 	'/unlike/:_id',
-	Auth.userTokenCheck(),
+	Auth.userToken(),
 	async (req, res) => {
 		const likeExistance = await BlocksCollection.likeExistance()
 		
@@ -135,7 +137,7 @@ router.post(
 // [LIKE-EXISTANCE] //
 router.post(
 	'/like-existance/:_id',
-	Auth.userTokenCheck(),
+	Auth.userToken(),
 	async (req, res) => {
 		res.status(200).send('coming soon!')
 	}
@@ -158,7 +160,7 @@ router.get(
 // [OWNERSHIP] //
 router.get(
 	'/ownership/:_id',
-	Auth.userTokenCheck(),
+	Auth.userToken(),
 	async (req, res) => {
 		const owned = await BlocksCollection.ownership(
 			req.decoded._id,

@@ -35,17 +35,17 @@ class BlockLikesCollection {
 		catch(e) {
 			return {
 				status: false,
+				message: `Caught Error --> ${e}`,
 				user: user_id,
 				block: block_id,
-				message: `Caught Error --> ${e}`,
 			}
 		}
 			
 		return {
 			status: true,
-			user: user_id,
+			message: 'Created blockLike',
 			block: block_id,
-			message: `Created blockLike for ${block_id}.`
+			user: user_id,
 		}
 	}
 
@@ -63,17 +63,17 @@ class BlockLikesCollection {
 		catch(e) {
 			return {
 				status: false,
+				message: `Caught Error --> ${e}`,
 				user: user_id,
 				block: block_id,
-				message: `Caught Error --> ${e}`,
 			}
 		}
 		 
 		return {
 			status: true,
+			message: `Deleted all block likes for ${block_id}`,
 			user: user_id,
 			block: block_id,
-			message: `Deleted all block likes for ${block_id}.`
 		}
 	}
 
@@ -84,15 +84,15 @@ class BlockLikesCollection {
 		catch(e) {
 			return {
 				status: false,
-				block: block_id,
 				message: `Caught Error --> ${e}`,
+				block: block_id,
 			}
 		}
 
 		return {
 			status: true,
+			message: `Deleted all block likes for ${block_id}`,
 			block: block_id,
-			message: `Deleted all block likes for ${block_id}.`
 		}
 	}
 
@@ -109,12 +109,24 @@ class BlockLikesCollection {
 					}
 				)
 	
-				if (returnedData) { return false }
-				else { return true }
+				if (returnedData) {
+					return {
+						status: true,
+						message: 'BlockLike does exists',
+						existance: true,
+					}
+				}
+				else {
+					return {
+						status: true,
+						message: 'BlockLike does NOT exists',
+						existance: false,
+					}
+				}
 			}
-			catch(e) { return `Caught Error --> ${e}` }
+			catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
 		}
-		else { return 'Invalid Block ID.' }
+		else { return { status: false, message: 'Invalid Block ID', } }
 	}
 	
 
@@ -129,12 +141,24 @@ class BlockLikesCollection {
 					}
 				)
 
-				if (returnedData) { return true }
-				else { return false }
+				if (returnedData) {
+					return {
+						status: true,
+						message: 'You do own this',
+						ownership: true,
+					}
+				}
+				else {
+					return {
+						status: true,
+						message: 'You do NOT own this',
+						ownership: false,
+					}
+				}
 			}
-			catch(e) { return `Caught Error --> ${e}` }
+			catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
 		}
-		else { return 'Invalid Block ID.' }
+		else { return { status: false, message: 'Invalid Block ID', } }
 	}
 }
 

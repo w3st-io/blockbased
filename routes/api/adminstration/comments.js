@@ -21,7 +21,7 @@ const router = express.Router().use(cors())
 // [READ-ALL-ALL] //
 router.get(
 	'/read-all-all/:amount/:skip',
-	Auth.adminCheck(),
+	Auth.adminToken(),
 	async (req, res) => {
 		const returnedData = await CommentsCollection.readAllAll(req)
 
@@ -33,7 +33,7 @@ router.get(
 // [READ-ALL] Auth Required - Within a Block //
 router.get(
 	'/read-all/:block_id/:amount/:skip',
-	Auth.adminCheck(),
+	Auth.adminToken(),
 	async (req, res) => {
 		const returnedData = await CommentsCollection.readAll(req)
 
@@ -45,7 +45,7 @@ router.get(
 // [READ] Auth Required //
 router.get(
 	'/read/:_id',
-	Auth.adminCheck(),
+	Auth.adminToken(),
 	async (req, res) => {
 		const returnedData = await CommentsCollection.read(req)
 
@@ -57,7 +57,7 @@ router.get(
 // [UPDATE] Auth Required //
 router.post(
 	'/update/:_id',
-	Auth.adminCheck(),
+	Auth.adminToken(),
 	async (req, res) => {
 		const returnedData = await CommentsCollection.update(req)
 
@@ -69,7 +69,7 @@ router.post(
 // [DELETE] Auth Required //
 router.delete(
 	'/delete/:_id',
-	Auth.adminCheck(),
+	Auth.adminToken(),
 	async (req, res) => {
 		await CommentsCollection.delete(req)
 		res.sendStatus(200)

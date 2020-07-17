@@ -5,12 +5,12 @@ const mongoose = require("mongoose")
 // [SCHEMA MODEL] //
 const BlockLikeScema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
-
+	
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
 	},
-
+	
 	block: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Block'

@@ -97,7 +97,10 @@
 				catch(e) { this.error = e }
 
 				// Check Validation Status //
-				if (this.returnedData.data.auth) { this.successful() }
+				if (
+					this.returnedData.data.status == true &&
+					this.returnedData.data.validation == true
+				) { this.successful() }
             else { this.error = this.returnedData.data.message }
 			},
 

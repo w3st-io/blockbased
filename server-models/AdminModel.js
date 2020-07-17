@@ -11,16 +11,16 @@ const AdminSchema = mongoose.Schema({
 		default: 'admin'
 	},
 
-	first_name: { type: String },
-
-	last_name: { type: String },
-
-	username: { type: String },
-
 	email: { type: String },
-
+	
+	username: { type: String },
+	
+	first_name: { type: String },
+	
+	last_name: { type: String },
+	
 	password: { type: String },
-
+	
 	createdAt: {
 		type: Date,
 		default: Date.now

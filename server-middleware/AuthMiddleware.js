@@ -17,7 +17,7 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 
 class AuthMiddleware {
 	// [USER] //
-	static userTokenCheck() {
+	static userToken() {
 		return (req, res, next) => {
 			// Get Token from Header and remove "Bearer "
 			const token = req.headers.authorization
@@ -52,7 +52,7 @@ class AuthMiddleware {
 
 
 	// [ADMIN] //
-	static adminCheck() {
+	static adminToken() {
 		return (req, res, next) => {
 			// Get Token from Header and remove "Bearer "
 			const token = req.headers.authorization2

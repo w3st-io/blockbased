@@ -26,7 +26,6 @@
 	import Footer from '@components/nav/Footer'
 	import NavBar from '@components/nav/NavBar'
 	import SideMenu from './components/nav/SideMenu'
-	import UserService from './services/UserService'
 	import { EventBus } from '@main'
 
 	// [EXPORT] //
@@ -51,10 +50,8 @@
 		},
 
 		created: function() {
-			// [DECODE] //
-			if (localStorage.usertoken) {
-				this.decoded = UserService.getUserTokenDecodeData()
-			}
+			// [CHECK IF LOGGEDIN] //
+			if (localStorage.usertoken) { this.loggedIn = true }
 
 			// [CHECK IF ADMINLOGGEDIN] //
 			if (localStorage.admintoken) { this.adminLoggedIn = true }
@@ -65,12 +62,22 @@
 				this.forceRerender()
 			})
 
+			// [--> EMIT IN] //
+			EventBus.$on('logged-out', () => {
+				this.loggedIn = false
+				this.forceRerender()
+			})
+
 			EventBus.$on('admin-logged-in', () => {
 				this.adminLoggedIn = true
-				this.adminForceRerender()
+				this.forceRerender()
 			})
 			
-			EventBus.$on('admin-logged-out', () => { this.adminForceRerender() })
+			EventBus.$on('admin-logged-out', () => {
+				this.adminLoggedIn = false
+				this.forceRerender()
+			})
+
 			EventBus.$on('force-rerender', () => { this.forceRerender() })
 
 			// [LOG] //
@@ -82,21 +89,8 @@
 				this.adminNavBarKey += 1
 				this.routerViewKey += 1
 				this.navBarKey += 1
-
-				this.decoded = UserService.getUserTokenDecodeData()
 				
-				console.log(localStorage.usertoken)
-				console.log('Forced Rerendered')
-			},
-
-			adminForceRerender() {
-				this.adminLoggedIn = false
-
-				this.adminNavBarKey += 1
-				this.routerViewKey += 1
-				this.navBarKey += 1
-				
-				console.log('Admin Forced Rerendered')
+				console.log('ForcedRerender')
 			},
 
 			log() {

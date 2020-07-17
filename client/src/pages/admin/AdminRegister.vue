@@ -174,7 +174,10 @@
 				catch(e) { this.error = e }
 				
 				// Check Status //
-				if (this.returnedData.data.status == true) { this.redirect() }
+				if (
+					this.returnedData.data.status == true &&
+					this.returnedData.data.validation == true
+				) { this.redirect() }
 				else { this.error = this.returnedData.data.message }
 
 				console.log('message:', this.error)

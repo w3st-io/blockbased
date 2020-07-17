@@ -34,19 +34,19 @@ class BlocksCollection {
 		catch(e) {
 			return {
 				status: false,
+				message: `Caught Error --> ${e}`,
 				user: user_id,
 				cat_id: cat_id,
 				title: title,
-				message: `Caught Error --> ${e}`,
 			}
 		}
 
 		return {
 			status: true,
+			message: 'Created block.',
 			user: user_id,
 			cat_id: cat_id,
 			title: title,
-			message: 'Created block.',
 		}
 	}
 
@@ -231,12 +231,24 @@ class BlocksCollection {
 					}
 				)
 
-				if (returnedData) { return true }
-				else { return false }
+				if (returnedData) {
+					return {
+						status: true,
+						message: 'You own this',
+						ownership: true,
+					}
+				}
+				else {
+					return {
+						status: true,
+						message: 'You own this',
+						ownership: false,
+					}
+				}
 			}
-			catch(e) { return `Caught Error --> ${e}` }
+			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 		}
-		else { return 'Invalid Block ID.' }
+		else { { return { status: false, message: 'Invalid Block ID.' } } }
 	}
 
 
