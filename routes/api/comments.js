@@ -205,11 +205,19 @@ router.post(
 	'/report/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const existance = await CommentReportsCollection.existance(req)
+		const existance = await CommentReportsCollection.existance(
+			req.decoded._id,
+			req.params._id
+		)
 		
 		if (existance.status == true) {
 			if (existance.existance == false) {
-				const returnedData = await CommentReportsCollection.create(req)
+				const returnedData = await CommentReportsCollection.create(
+					req.decoded._id,
+					req.params._id,
+					req.body.block_id,
+					req.body.reportType
+				)
 				
 				res.status(201).send(returnedData)
 			}

@@ -44,9 +44,7 @@ class UsersCollection {
 
 		if (validId) {
 			try {
-				const returnedData = await UserModel.findOne(
-					{ _id: mongoose.Types.ObjectId(req.params._id) }
-				)
+				const returnedData = await UserModel.findOne({ _id: req.params._id })
 
 				return returnedData
 			}

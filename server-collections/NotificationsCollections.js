@@ -15,29 +15,29 @@ mongoose.connect(process.env.MONGO_URI, {
 })
 
 
-class ReportsCollection {
+class NotificationsCollection {
 	/******************* [CRUD] *******************/
 	// [READ-ALL] //
-	static async readAll(req) {}
+	static async readAll() {}
 
 
 	// [DELETE] //
-	static async delete(req) {}
+	static async delete() {}
 
 
 	/******************* [EXISTANCE + OWNERSHIP] *******************/
 	// [EXISTANCE] //
-	static async existance(_id) {}
+	static async existance() {}
 
 
 	// [OWNERSHIP] //
-	static async ownership(req) {}
+	static async ownership() {}
 
 
 	/******************* [COUNT] *******************/
-	static async count(req) {}
+	static async count() {}
 }
 
 
 // [EXPORT] //
-module.exports = ReportsCollection
+module.exports = NotificationsCollection

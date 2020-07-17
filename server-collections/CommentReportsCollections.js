@@ -22,13 +22,13 @@ mongoose.connect(process.env.MONGO_URI, {
 class CommentReportsCollection {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
-	static async create(req) {
+	static async create(user_id, comment_id, block_id, reportType) {
 		const formData = new CommentReportModel({
 			_id: mongoose.Types.ObjectId(),
-			block_id: req.body.block_id,
-			reportType: req.body.reportType,
-			comment: req.params._id,
-			user: req.decoded._id,
+			user: user_id,
+			comment: comment_id,
+			block_id: block_id,
+			reportType: reportType,
 		})
 		
 		try {
@@ -45,7 +45,7 @@ class CommentReportsCollection {
 
 
 	// [READ-ALL] //
-	static async readAll(req) {
+	static async readAll() {
 		try {
 			const returnedData = await CommentReportModel.find()
 				.populate('user')
@@ -59,8 +59,7 @@ class CommentReportsCollection {
 
 
 	// [DELETE] Single Report //
-	static async delete(req) {
-		const commentReport_id = req.params._id
+	static async delete(commentReport_id) {
 		let validId = mongoose.isValidObjectId(commentReport_id)
 
 		if (validId) {
@@ -80,14 +79,13 @@ class CommentReportsCollection {
 
 
 	// [DELETE-ALL-ALL] //
-	static async deleteAllAll(req) {
+	static async deleteAllAll() {
 		try {
 			await CommentReportModel.deleteMany()
 
 			return {
 				status: true,
 				message: 'Deleted all comment reports',
-				commentReport_id: commentReport_id,
 			}
 		}
 		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
@@ -96,9 +94,7 @@ class CommentReportsCollection {
 	
 	/******************* [EXISTANCE] *******************/
 	// Verify that User is not Double Reporting //
-	static async existance(req) {
-		const comment_id = req.params._id
-		const user_id = req.decoded._id
+	static async existance(user_id, comment_id) {
 		const validId = mongoose.isValidObjectId(comment_id)
 
 		if (validId) {
