@@ -72,16 +72,14 @@ router.delete(
 			req.params._id
 		)
 		
-		if (ownership.status) {
-			if (ownership.ownership) {
-				const returnedData = await BlocksCollection.delete(req.params._id)
-				const returnedData2 = await BlockLikesCollection.deleteAll(
-					req.params._id
-				)
+		if (ownership.status == true && ownership.ownership == true) {
+			const returnedData = await BlocksCollection.delete(req.params._id)
+			const returnedData2 = await BlockLikesCollection.deleteAll(
+				req.params._id
+			)
 
-				res.status(200).send(returnedData + returnedData2)
-			}
-			else { res.status(401).send() }
+			res.status(200).send([returnedData, returnedData2])
+			
 		}
 		else { res.status(400).send(ownership.message) }
 	}

@@ -55,7 +55,7 @@ class BlockLikesCollection {
 	// [DELETE] //
 	static async delete(user_id, block_id) {
 		try {
-			await BlockLikeModel.deleteMany({user: user_id, block: block_id, })
+			await BlockLikeModel.deleteMany({ user: user_id, block: block_id, })
 
 			return {
 				status: true,

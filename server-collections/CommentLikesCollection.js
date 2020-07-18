@@ -26,28 +26,19 @@ class CommentLikesCollection {
 		// Check if the commentLike Exists //
 		const existance = await this.existance(user_id, comment_id)
 
-		if (existance.status == true) {
-			if (existance.existance == true) {
-				const formData = new CommentLikeModel(
-					{
-						_id: mongoose.Types.ObjectId(),
-						user: user_id,
-						block: block_id,
-						comment: comment_id,
-					}
-				)
-				
-				try { formData.save() }
-				catch(e) {
-					return {
-						status: false,
-						message: `Caught Error --> ${e}`,
-						user: user_id,
-						comment: comment_id,
-						block: block_id,
-					}
+		if (existance.status == true && existance.existance == true) {
+			const formData = new CommentLikeModel(
+				{
+					_id: mongoose.Types.ObjectId(),
+					user: user_id,
+					block: block_id,
+					comment: comment_id,
 				}
-		
+			)
+			
+			try {
+				formData.save()
+
 				return {
 					status: true,
 					message: 'Created commentLike',
@@ -56,7 +47,15 @@ class CommentLikesCollection {
 					block: block_id,
 				}
 			}
-			else { return { status: false, message: existance.message } }
+			catch(e) {
+				return {
+					status: false,
+					message: `Caught Error --> ${e}`,
+					user: user_id,
+					comment: comment_id,
+					block: block_id,
+				}
+			}
 		}
 		else { return { status: false, message: existance.message } }
 	}
@@ -111,7 +110,8 @@ class CommentLikesCollection {
 	}
 
 
-	/******************* [EXISTANCE + OWNERSHIP] *******************/
+	/******************* [EXISTANCE] *******************/
+	// [EXISTANCE] //
 	static async existance(user_id, comment_id) {
 		if (mongoose.isValidObjectId(comment_id)) {
 			try {

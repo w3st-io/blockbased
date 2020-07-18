@@ -30,7 +30,17 @@ class BlocksCollection {
 			title: title,
 		})
 
-		try { await formData.save() }
+		try {
+			await formData.save()
+
+			return {
+				status: true,
+				message: 'Created block',
+				user: user_id,
+				cat_id: cat_id,
+				title: title,
+			}
+		}
 		catch(e) {
 			return {
 				status: false,
@@ -39,14 +49,6 @@ class BlocksCollection {
 				cat_id: cat_id,
 				title: title,
 			}
-		}
-
-		return {
-			status: true,
-			message: 'Created block',
-			user: user_id,
-			cat_id: cat_id,
-			title: title,
 		}
 	}
 
@@ -160,9 +162,9 @@ class BlocksCollection {
 	/******************* [LIKE SYSTEM] *******************/
 	// [LIKE] //
 	static async like(user_id, block_id) {
-		const likeExistance = await this.likeExistance()
+		const likeExistance = await this.likeExistance(user_id, block_id)
 
-		if (likeExistance) { // THIS IS TEMPORARILY WRONG UNTIL LIKEEXISTANCE DEVELOPED
+		if (likeExistance.status == true && likeExistance.existance == false) {
 			try {
 				await BlockModel.updateOne(
 					{ _id: block_id },
@@ -178,15 +180,15 @@ class BlocksCollection {
 			}	
 			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 		}
-		else { return { status: false, message: 'Already Liked' } }
+		else { return { status: false, message: likeExistance.message } }
 	}
 
 
 	// [UNLIKE] //
 	static async unlike(user_id, block_id) {
-		const likeExistance = await this.likeExistance()
+		const likeExistance = await this.likeExistance(user_id, block_id)
 
-		if (likeExistance) {
+		if (likeExistance.status == true && likeExistance.existance == true) {
 			try {
 				await BlockModel.updateOne(
 					{ _id: block_id },
@@ -202,12 +204,37 @@ class BlocksCollection {
 			}
 			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 		}
-		else { return { status: false, message: 'Already Liked' } }
+		else { return { status: false, message: likeExistance.message } }
 	}
 
 
 	// [LIKE-EXISTANCE] // INCOMPLETE!
-	static async likeExistance() { return true }
+	static async likeExistance(user_id, block_id) {
+		try {	
+			const returnedData = await BlockModel.findOne(
+				{
+					_id: block_id,
+					likers: user_id
+				}
+			)
+
+			if (returnedData) {
+				return {
+					status: true,
+					message: 'Comment Like does exists',
+					existance: true,
+				}
+			}
+			else {
+				return {
+					status: true,
+					message: 'Comment Like does NOT exists',
+					existance: false,
+				}
+			}
+		}
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+	}
 
 
 	/******************* [EXISTANCE + OWNERSHIP] *******************/

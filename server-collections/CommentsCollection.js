@@ -144,7 +144,7 @@ class CommentsCollection {
 
 
 	// [UPDATE] //
-	static async update(comment_id, text) {
+	static async update(user_id, comment_id, text) {
 		const validId = mongoose.isValidObjectId(comment_id)
 
 		if (validId) {
@@ -192,7 +192,14 @@ class CommentsCollection {
 						_id: comment_id,
 						user: user_id,
 					}
-				)		
+				)
+
+				return {
+					status: true,
+					user_id: user_id,
+					comment_id: comment_id,
+					message: 'Deleted comment.',
+				}
 			}
 			catch(e) {
 				return {
@@ -201,13 +208,6 @@ class CommentsCollection {
 					comment_id: comment_id,
 					message: `Caught Error --> ${e}`,
 				}
-			}
-
-			return {
-				status: true,
-				user_id: user_id,
-				comment_id: comment_id,
-				message: 'Deleted comment.',
 			}
 		}
 		else {
@@ -225,74 +225,68 @@ class CommentsCollection {
 	// [LIKE] //
 	static async like(user_id, comment_id) {
 		const validId = mongoose.isValidObjectId(comment_id)
-		const existance = await this.LikeExistance(user_id, comment_id)
+		const likeExistance = await this.likeExistance(user_id, comment_id)
 
-		if (existance.status == true) {
-			if (existance.existance == false) {
-				if (validId) {
-					try {
-						await CommentModel.updateOne(
-							{ _id: comment_id },
-							{ '$addToSet': { 
-								'likers': user_id
-							} }
-						)
-						
-						return {
-							status: true,
-							message: 'Liked Comment',
-							comment_id: comment_id,
-							user_id: user_id,
-						}
-					}
-					catch(e) {
-						return { status: false, message: `Caught Error --> ${e}` }
+		if (likeExistance.status == true && likeExistance.existance == false) {
+			if (validId) {
+				try {
+					await CommentModel.updateOne(
+						{ _id: comment_id },
+						{ '$addToSet': { 
+							'likers': user_id
+						} }
+					)
+					
+					return {
+						status: true,
+						message: 'Liked Comment',
+						comment_id: comment_id,
+						user_id: user_id,
 					}
 				}
-				else { return { status: false, message: 'Invalid Comment ID.' } }
+				catch(e) {
+					return { status: false, message: `Caught Error --> ${e}` }
+				}
 			}
-			else { return { status: false, message: existance.message } }
+			else { return { status: false, message: 'Invalid Comment ID.' } }
 		}
-		else { return { status: false, message: existance.message } }
+		else { return { status: false, message: likeExistance.message } }
 	}
 
 
 	// [UNLIKE] //
 	static async unlike(user_id, comment_id) {
 		const validId = mongoose.isValidObjectId(comment_id)
-		const existance = await this.LikeExistance(user_id, comment_id)
+		const likeExistance = await this.likeExistance(user_id, comment_id)
 
-		if (existance.status == true) {
-			if (existance.existance == true) {
+		if (likeExistance.status == true && likeExistance.existance == true) {
 
-				if (validId) {
-					try {
-						await CommentModel.updateOne(
-							{ _id: comment_id },
-							{ '$pull': { 
-								'likers': user_id
-							} }
-						)
+			if (validId) {
+				try {
+					await CommentModel.updateOne(
+						{ _id: comment_id },
+						{ '$pull': { 
+							'likers': user_id
+						} }
+					)
 
-						return {
-							status: true,
-							message: 'Unliked comment',
-							comment_id: comment_id,
-							user_id: user_id,
-						}
+					return {
+						status: true,
+						message: 'Unliked comment',
+						comment_id: comment_id,
+						user_id: user_id,
 					}
-					catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 				}
-				else { return { status: false, message: 'Invalid Comment ID.' } }
+				catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 			}
-			else { return { status: false, message: existance.message } }
+			else { return { status: false, message: 'Invalid Comment ID.' } }
 		}
-		else { return { status: false, message: existance.message } }
+		else { return { status: false, message: likeExistance.message } }
 	}
 
 
 	// [LIKE-EXISTANCE] //
-	static async LikeExistance(user_id, comment_id) {
+	static async likeExistance(user_id, comment_id) {
 		try {	
 			const returnedData = await CommentModel.findOne(
 				{
