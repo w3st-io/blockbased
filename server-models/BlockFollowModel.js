@@ -3,27 +3,18 @@ const mongoose = require("mongoose")
 
 
 // [SCHEMA MODEL] //
-const BlockSchema = mongoose.Schema({
+const BlockFollowSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
-
+	
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
 	},
-
-	cat_id: { type: String },
-
-	title: { type: String },
-
-	likers: [{
+	
+	block: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
-	}],
-
-	followers: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
-	}],
+		ref: 'Block'
+	},
 
 	createdAt: {
 		type: Date,
@@ -33,4 +24,4 @@ const BlockSchema = mongoose.Schema({
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('Block', BlockSchema)
+module.exports = mongoose.model('Follow', BlockFollowSchema)

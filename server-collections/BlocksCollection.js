@@ -157,42 +157,52 @@ class BlocksCollection {
 	}
 
 
-	/******************* [VOTE SYSTEM] *******************/
+	/******************* [LIKE SYSTEM] *******************/
 	// [LIKE] //
 	static async like(user_id, block_id) {
-		try {
-			await BlockModel.updateOne(
-				{ _id: block_id },
-				{ '$addToSet': { 'likers': user_id } }
-			)
+		const likeExistance = await this.likeExistance()
 
-			return {
-				status: true,
-				message: 'Liked block',
-				block_id: block_id,
-				user_id: user_id,
-			}
+		if (likeExistance) { // THIS IS TEMPORARILY WRONG UNTIL LIKEEXISTANCE DEVELOPED
+			try {
+				await BlockModel.updateOne(
+					{ _id: block_id },
+					{ '$addToSet': { 'likers': user_id } }
+				)
+					
+				return {
+					status: true,
+					message: 'Liked block',
+					block_id: block_id,
+					user_id: user_id,
+				}
+			}	
+			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+		else { return { status: false, message: 'Already Liked' } }
 	}
 
 
 	// [UNLIKE] //
 	static async unlike(user_id, block_id) {
-		try {
-			await BlockModel.updateOne(
-				{ _id: block_id },
-				{ '$pull': { 'likers': user_id } }
-			)
+		const likeExistance = await this.likeExistance()
 
-			return {
-				status: true,
-				message: 'Unliked block',
-				block_id: block_id,
-				user_id: user_id,
+		if (likeExistance) {
+			try {
+				await BlockModel.updateOne(
+					{ _id: block_id },
+					{ '$pull': { 'likers': user_id } }
+				)
+
+				return {
+					status: true,
+					message: 'Unliked block',
+					block_id: block_id,
+					user_id: user_id,
+				}
 			}
+			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+		else { return { status: false, message: 'Already Liked' } }
 	}
 
 

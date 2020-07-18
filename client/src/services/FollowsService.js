@@ -42,8 +42,8 @@ class FollowsService {
 	}
 
 
-	/******************* [VOTE SYSTEM] *******************/
-	// ADD/REMOVE VOTE //
+	/******************* [LIKE SYSTEM] *******************/
+	// ADD/REMOVE LIKE //
 	static async addFollower(block_id) {
 		const authAxios = await this.authAxios()
 

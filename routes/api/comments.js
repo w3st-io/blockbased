@@ -137,64 +137,48 @@ router.delete(
 )
 
 
-/******************* [VOTE SYSTEM] *******************/
-// [PUSH] Auth Required //
+/******************* [LIKE SYSTEM] *******************/
+// [LIKE] Auth Required //
 router.post(
-	'/like/:_id',
+	'/like/:_id/:block_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const existance = await CommentsCollection.LikeExistance(
+		// [UPDATE] Comment Object's Likers //
+		const returnedData = await CommentsCollection.like(
 			req.decoded._id,
 			req.params._id
 		)
 
-		if (existance.status == true) {
-			if (existance.existance == false) {
-				const returnedData = await CommentsCollection.like(
-					req.decoded._id,
-					req.params._id
-				)
-				const returnedData2 = await CommentLikesCollection.create(
-					req.decoded._id,
-					req.body.block_id,
-					req.params._id
-				)
-	
-				res.status(201).send(returnedData)
-			}
-			else { res.status(200).send(existance) }
-		}
-		else { res.status(400).send(existance.message) }
+		// [CREATE] CommentLike Object //
+		const returnedData2 = await CommentLikesCollection.create(
+			req.decoded._id,
+			req.params.block_id,
+			req.params._id
+		)
+
+		res.status(201).send([returnedData, returnedData2])
 	}
 )
 
 
-// [PULL] Auth Required //
+// [UNLIKE] Auth Required //
 router.post(
 	'/unlike/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const existance = await CommentsCollection.LikeExistance(
+		// [UPDATE] Comment Object's Likers //
+		const returnedData = await CommentsCollection.unlike(
 			req.decoded._id,
 			req.params._id
 		)
-		
-		if (existance.status == true) {
-			if (existance.existance == true) {
-				const returnedData = await CommentsCollection.unlike(
-					req.decoded._id,
-					req.params._id
-				)
-				const returnedData2 = await CommentLikesCollection.delete(
-					req.decoded._id,
-					req.params._id
-				)
 
-				res.status(201).send(returnedData)
-			}
-			else { res.status(200).send(existance.message) }
-		}
-		else { res.status(400).send(existance.message) }
+		// [DELETE] CommentLike Object //
+		const returnedData2 = await CommentLikesCollection.delete(
+			req.decoded._id,
+			req.params._id
+		)
+
+		res.status(201).send([returnedData, returnedData2])
 	}
 )
 

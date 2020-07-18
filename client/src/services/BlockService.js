@@ -86,8 +86,8 @@ class BlockService {
 	}
 
 
-	/******************* [VOTE SYSTEM] *******************/
-	// ADD/REMOVE VOTE //
+	/******************* [LIKE SYSTEM] *******************/
+	// ADD/REMOVE LIKE //
 	static async like(block_id) {
 		const authAxios = await this.authAxios()
 

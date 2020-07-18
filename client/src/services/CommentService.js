@@ -113,13 +113,13 @@ class CommentService {
 	}
 
 
-	/******************* [VOTE SYSTEM] *******************/
-	// ADD/REMOVE VOTE //
+	/******************* [LIKE SYSTEM] *******************/
+	// ADD/REMOVE LIKE //
 	static async like(block_id, comment_id) {
 		const authAxios = await this.authAxios()
 
 		// Add the liker from the Block Object
-		return await authAxios.post(`/like/${comment_id}`)
+		return await authAxios.post(`/like/${comment_id}/${block_id}`)
 	}
 	static async unlike(comment_id) {
 		const authAxios = await this.authAxios()

@@ -88,10 +88,63 @@ router.delete(
 )
 
 
-/******************* [VOTE SYSTEM] *******************/
+/******************* [LIKE SYSTEM] *******************/
 // [LIKE] Auth Required //
 router.post(
 	'/like/:_id',
+	Auth.userToken(),
+	async (req, res) => {
+		// [UPDATE] block Object's Likers //
+		const returnedData = await BlocksCollection.like(
+			req.decoded._id,
+			req.params._id
+		)
+
+		// [CREATE] blockLike //
+		const returnedData2 = await BlockLikesCollection.create(
+			req.decoded._id,
+			req.params._id
+		)
+		
+		res.status(201).send([returnedData, returnedData2])
+	}
+)
+
+
+// [UNLIKE] Auth Required //
+router.post(
+	'/unlike/:_id',
+	Auth.userToken(),
+	async (req, res) => {
+		// [UPDATE] block Object's Likers //
+		const returnedData = await BlocksCollection.unlike(
+			req.decoded._id,
+			req.params._id
+		)
+
+		// [DELETE] blockLike //
+		const returnedData2 = await BlockLikesCollection.delete(
+			req.decoded._id,
+			req.params._id
+		)
+		
+		res.status(201).send([returnedData, returnedData2])
+	}
+)
+
+
+// [LIKE-EXISTANCE] // INCOMPLETE!
+router.post(
+	'/like-existance/:_id',
+	Auth.userToken(),
+	async (req, res) => { res.status(200).send('INCOMPLETE!') }
+)
+
+
+/******************* [FOLLOW SYSTEM] *******************/
+// [FOLLOW] Auth Required //
+router.post(
+	'/follow/:_id',
 	Auth.userToken(),
 	async (req, res) => {
 		const likeExistance = await BlocksCollection.likeExistance()
@@ -106,16 +159,16 @@ router.post(
 				req.params._id
 			)
 			
-			res.status(201).send(returnedData + returnedData2)
+			res.status(201).send([returnedData, returnedData2])
 		}
 		else { res.status(400).send() }
 	}
 )
 
 
-// [UNLIKE] Auth Required //
+// [UNFOLLOW] Auth Required //
 router.post(
-	'/unlike/:_id',
+	'/unfollow/:_id',
 	Auth.userToken(),
 	async (req, res) => {
 		const likeExistance = await BlocksCollection.likeExistance()
@@ -130,7 +183,7 @@ router.post(
 				req.params._id
 			)
 			
-			res.status(201).send(returnedData + returnedData2)
+			res.status(201).send([returnedData, returnedData2])
 		}
 		else { res.status(400).send() }
 	}

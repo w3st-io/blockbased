@@ -221,56 +221,73 @@ class CommentsCollection {
 	}
 
 
-	/******************* [VOTE SYSTEM] *******************/
+	/******************* [LIKE SYSTEM] *******************/
 	// [LIKE] //
 	static async like(user_id, comment_id) {
 		const validId = mongoose.isValidObjectId(comment_id)
+		const existance = await this.LikeExistance(user_id, comment_id)
 
-		if (validId) {
-			try {
-				await CommentModel.updateOne(
-					{ _id: comment_id },
-					{ '$addToSet': { 
-						'likers': user_id
-					} }
-				)
-				
-				return {
-					status: true,
-					message: 'Liked Comment',
-					comment_id: comment_id,
-					user_id: user_id,
+		if (existance.status == true) {
+			if (existance.existance == false) {
+				if (validId) {
+					try {
+						await CommentModel.updateOne(
+							{ _id: comment_id },
+							{ '$addToSet': { 
+								'likers': user_id
+							} }
+						)
+						
+						return {
+							status: true,
+							message: 'Liked Comment',
+							comment_id: comment_id,
+							user_id: user_id,
+						}
+					}
+					catch(e) {
+						return { status: false, message: `Caught Error --> ${e}` }
+					}
 				}
+				else { return { status: false, message: 'Invalid Comment ID.' } }
 			}
-			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+			else { return { status: false, message: existance.message } }
 		}
-		else { return { status: false, message: 'Invalid Comment ID.' } }
+		else { return { status: false, message: existance.message } }
 	}
 
 
 	// [UNLIKE] //
 	static async unlike(user_id, comment_id) {
 		const validId = mongoose.isValidObjectId(comment_id)
+		const existance = await this.LikeExistance(user_id, comment_id)
 
-		if (validId) {
-			try {
-				await CommentModel.updateOne(
-					{ _id: comment_id },
-					{ '$pull': { 
-						'likers': user_id
-					} }
-				)
+		if (existance.status == true) {
+			if (existance.existance == true) {
 
-				return {
-					status: true,
-					message: 'Unliked comment',
-					comment_id: comment_id,
-					user_id: user_id,
+				if (validId) {
+					try {
+						await CommentModel.updateOne(
+							{ _id: comment_id },
+							{ '$pull': { 
+								'likers': user_id
+							} }
+						)
+
+						return {
+							status: true,
+							message: 'Unliked comment',
+							comment_id: comment_id,
+							user_id: user_id,
+						}
+					}
+					catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 				}
+				else { return { status: false, message: 'Invalid Comment ID.' } }
 			}
-			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+			else { return { status: false, message: existance.message } }
 		}
-		else { return { status: false, message: 'Invalid Comment ID.' } }
+		else { return { status: false, message: existance.message } }
 	}
 
 
@@ -308,7 +325,7 @@ class CommentsCollection {
 	static async existance(comment_id) {
 		if (mongoose.isValidObjectId(comment_id)) {
 			try {	
-				const returnedData = await CommentModel.findOne({ _id: _id })
+				const returnedData = await CommentModel.findOne({ _id: comment_id })
 
 				if (returnedData) {
 					return {
@@ -365,13 +382,7 @@ class CommentsCollection {
 
 	/******************* [COUNT] *******************/
 	static async count(block_id) {
-		try {
-			const count = await CommentModel.countDocuments(
-				{ block_id: block_id }
-			)
-
-			return count
-		}
+		try { return await CommentModel.countDocuments({ block_id: block_id }) }
 		catch(e) { return `Caught Error --> ${e}` }
 	}
 }

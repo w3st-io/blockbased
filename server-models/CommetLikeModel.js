@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 
 
 // [SCHEMA MODEL] //
-const CommentLikeScema = mongoose.Schema({
+const CommentLikeSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
 	user: {
@@ -34,4 +34,4 @@ const CommentLikeScema = mongoose.Schema({
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('CommentLike', CommentLikeScema)
+module.exports = mongoose.model('CommentLike', CommentLikeSchema)

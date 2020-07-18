@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 
 
 // [SCHEMA MODEL] //
-const CommentReportScema = mongoose.Schema({
+const CommentReportSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
 	block_id: {
@@ -37,4 +37,4 @@ const CommentReportScema = mongoose.Schema({
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('CommentReport', CommentReportScema)
+module.exports = mongoose.model('CommentReport', CommentReportSchema)
