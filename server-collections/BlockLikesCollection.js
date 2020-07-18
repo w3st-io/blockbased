@@ -25,7 +25,7 @@ class BlockLikesCollection {
 	static async create(user_id, block_id) {
 		const existance = await this.existance(user_id, block_id)
 
-		if (existance.status == true && existance.existance == false) {
+		if (existance.status && !existance.existance) {
 			const formData = new BlockLikeModel(
 				{
 					_id: mongoose.Types.ObjectId(),
@@ -64,7 +64,7 @@ class BlockLikesCollection {
 
 			return {
 				status: true,
-				message: `Deleted all block likes for ${block_id}`,
+				message: `Deleted blockLike`,
 				user: user_id,
 				block: block_id,
 			}
@@ -87,7 +87,7 @@ class BlockLikesCollection {
 
 			return {
 				status: true,
-				message: `Deleted all block likes for ${block_id}`,
+				message: `Deleted all blockLikes for ${block_id}`,
 				block: block_id,
 			}
 		}

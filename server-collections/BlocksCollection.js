@@ -204,7 +204,7 @@ class BlocksCollection {
 	}
 
 
-	// [LIKE-EXISTANCE] // INCOMPLETE!
+	// [LIKE-EXISTANCE] //
 	static async likeExistance(user_id, block_id) {
 		try {	
 			const returnedData = await BlockModel.findOne(
@@ -217,14 +217,92 @@ class BlocksCollection {
 			if (returnedData) {
 				return {
 					status: true,
-					message: 'Comment Like does exists',
+					message: 'Block Like does exists',
 					existance: true,
 				}
 			}
 			else {
 				return {
 					status: true,
-					message: 'Comment Like does NOT exists',
+					message: 'Block Like does NOT exists',
+					existance: false,
+				}
+			}
+		}
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+	}
+
+
+		/******************* [FOLLOW SYSTEM] *******************/
+	// [LIKE] //
+	static async follow(user_id, block_id) {
+		const followExistance = await this.followExistance(user_id, block_id)
+
+		if (followExistance.status && !followExistance.existance) {
+			try {
+				await BlockModel.updateOne(
+					{ _id: block_id },
+					{ '$addToSet': { 'followers': user_id } }
+				)
+					
+				return {
+					status: true,
+					message: 'Followed block',
+					block_id: block_id,
+					user_id: user_id,
+				}
+			}	
+			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+		}
+		else { return { status: false, message: followExistance.message } }
+	}
+
+
+	// [UNLIKE] //
+	static async unfollow(user_id, block_id) {
+		const followExistance = await this.followExistance(user_id, block_id)
+
+		if (followExistance.status && followExistance.existance) {
+			try {
+				await BlockModel.updateOne(
+					{ _id: block_id },
+					{ '$pull': { 'followers': user_id } }
+				)
+
+				return {
+					status: true,
+					message: 'Unfollowed block',
+					block_id: block_id,
+					user_id: user_id,
+				}
+			}
+			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+		}
+		else { return { status: false, message: followExistance.message } }
+	}
+
+
+	// [FOLLOW-EXISTANCE] //
+	static async followExistance(user_id, block_id) {
+		try {	
+			const returnedData = await BlockModel.findOne(
+				{
+					_id: block_id,
+					followers: user_id
+				}
+			)
+
+			if (returnedData) {
+				return {
+					status: true,
+					message: 'Block follow does exists',
+					existance: true,
+				}
+			}
+			else {
+				return {
+					status: true,
+					message: 'Block follow does NOT exists',
 					existance: false,
 				}
 			}

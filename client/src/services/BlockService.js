@@ -102,6 +102,23 @@ class BlockService {
 		return await authAxios.post(`/unlike/${block_id}`)
 	}
 
+
+	/******************* [FOLLOW SYSTEM] *******************/
+	// ADD/REMOVE LIKE //
+	static async follow(block_id) {
+		const authAxios = await this.authAxios()
+
+		// Add the liker from the Block Object
+		return await authAxios.post(`/follow/${block_id}`)
+	}
+	static async unfollow(block_id) {
+		const authAxios = await this.authAxios()
+
+		// Remove the liker from the Block Object
+		return await authAxios.post(`/unfollow/${block_id}`)
+	}
+
+
 	/******************* [VALIDATION] *******************/
 	static async validateExistance(block_id) {
 		const authAxios = await this.authAxios()

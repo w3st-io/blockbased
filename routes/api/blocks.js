@@ -12,6 +12,7 @@ require('dotenv').config()
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
 const BlocksCollection = require('../../server-collections/BlocksCollection')
+const BlockFollowsCollection = require('../../server-collections/BlockFollowsCollection')
 const BlockLikesCollection = require('../../server-collections/BlockLikesCollection')
 
 
@@ -89,7 +90,7 @@ router.delete(
 /******************* [LIKE SYSTEM] *******************/
 // [LIKE] Auth Required //
 router.post(
-	'/like/:_id',
+	'/like/:_id/:block_id',
 	Auth.userToken(),
 	async (req, res) => {
 		const user_id = req.decoded._id
@@ -127,21 +128,14 @@ router.post(
 	'/follow/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const likeExistance = await BlocksCollection.likeExistance()
+		const user_id = req.decoded._id
+		const block_id = req.params._id
+
+		// [UPDATE] block Followers // [CREATE] blockFollow //
+		const returnedData = await BlocksCollection.follow(user_id, block_id)
+		const returnedData2 = await BlockFollowsCollection.create(user_id, block_id)
 		
-		if (likeExistance == true) {
-			const returnedData = await BlocksCollection.like(
-				req.decoded._id,
-				req.params._id
-			)
-			const returnedData2 = await BlockLikesCollection.create(
-				req.decoded._id,
-				req.params._id
-			)
-			
-			res.status(201).send([returnedData, returnedData2])
-		}
-		else { res.status(400).send() }
+		res.status(201).send([returnedData, returnedData2])
 	}
 )
 
@@ -151,21 +145,14 @@ router.post(
 	'/unfollow/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const likeExistance = await BlocksCollection.likeExistance()
+		const user_id = req.decoded._id
+		const block_id = req.params._id
+
+		// [UPDATE] block Followers // [DELETE] blockFollow //
+		const returnedData = await BlocksCollection.unfollow(user_id, block_id)
+		const returnedData2 = await BlockFollowsCollection.delete(user_id, block_id)
 		
-		if (likeExistance == true) {
-			const returnedData = await BlocksCollection.unlike(
-				req.decoded._id,
-				req.params._id
-			)
-			const returnedData2 = await BlockLikesCollection.delete(
-				req.decoded._id,
-				req.params._id
-			)
-			
-			res.status(201).send([returnedData, returnedData2])
-		}
-		else { res.status(400).send() }
+		res.status(201).send([returnedData, returnedData2])
 	}
 )
 

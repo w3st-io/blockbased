@@ -1,5 +1,5 @@
-<template>
-	<section class="row">
+ <template>
+	<section class="row" :key="key">
 		<!-- Left Side -->
 		<div class="col-lg-6 col-md-8 col-sm-8">
 			<!-- Title + Page Nav Buttons -->
@@ -22,17 +22,17 @@
 			<div class="mb-3">
 				<span>
 					<span class="ml-2 badge badge-light">
-							{{ followsReplica.followersCount }}
-						</span>
+						{{ block.followers.length}}
+					</span>
 					<button
 						:disabled="disabled" 
 						@click="followBtn()"
 						class="ml-2 btn btn-sm"
 						:class="{
-							'btn-outline-secondary': !followsReplica.liked,
-							'btn-outline-success': followsReplica.liked
+							'btn-outline-secondary': !following,
+							'btn-outline-success': following,
 						}"
-					>{{ followBtnText }}</button>
+					>{{ following ? 'following ✓' : 'follow' }}</button>
 				</span>
 			</div>
 			
@@ -50,6 +50,7 @@
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import router from '@router'
 	import BlockService from '@services/BlockService'
+	import UserService from '../../services/UserService'
 
 	// [EXPORT] //
 	export default {
@@ -66,71 +67,55 @@
 
 		data: function() {
 			return {
-				disabled: true,
-				pageNumber: (this.$route.params.page),
+				user_id: '',
+				email: '',
+				username: '',
+				disabled: false,
+				following: false,
+				pageNumber: this.$route.params.page,
 				block: {},
-				followsReplica: {},
-				followBtnText: 'Unset',
 				error: '',
 			}
 		},
 
 		created: async function() {
+			// Decode User Profile //
+			await this.decode()
+
 			// Get Block Details //
 			await this.blockRead()
-
-			// Set Follows Replica //
-			this.setFollowsReplica()
 			
 			// [LOG] //
 			this.log()
 		},
 
 		methods: {
+			/******************* [INIT] User Decode *******************/
+			async decode() {
+				const decoded = await UserService.getUserTokenDecodeData()
+				this.user_id = decoded._id
+				this.email = decoded.email
+				this.username = decoded.username
+			},
+
 			/******************* [INIT] Block *******************/
 			async blockRead() {
-				try {
-					this.block = await BlockService.read(this.block_id)
-					
-					// Enable Button //
-					this.disabled = false
-				}
+				try { this.block = await BlockService.read(this.block_id) }
 				catch(e) { this.error = e }
+
+				this.searchForUserInFollowers()
 			},
 
-			/******************* [INIT] Follow *******************/
-			setFollowsReplica() {
-				let insert = {
-					followersCount: this.block.followers.length,
-					following: false
-				}
 
-				if (this.searchForUserInFollowers(this.block.followers)) {
-					insert = {
-						followersCount: this.block.followers.length,
-						following: true
-					}
-				}
-
-				this.followsReplica = insert
-
-				// Set Follow Text //
-				this.setFollowBtnText()
-			},
-
-			searchForUserInFollowers(followers) {
+			searchForUserInFollowers() {
+				console.log(this.block.followers)
 				// Search For Likers Id in Block's Object //
-				let found = followers.find((follower) => (
-					follower.user_id == this.user_id
+				let found = this.block.followers.find((follower) => (
+					follower == this.user_id
 				))
 
-				if (found) { return true }
-				else { return false }
-			},
-
-			setFollowBtnText() {
-				if (this.followsReplica.liked) { this.followBtnText = 'following ✓' }
-				else { this.followBtnText = 'follow' }
+				if (found) { this.following = true }
+				else { this.following = false }
 			},
 
 			/******************* [BTN] FOLLOW *******************/
@@ -140,37 +125,27 @@
 					// Disable Buttons //
 					this.disabled = true
 
-					// Set Replica Icon and Count // Rerender Blocks //
-					this.followIconAndCountHandler()
-					this.blockRead()
+					if (!this.following) { this.follow() }
+					else { this.unfollow() }
 
-					// Conditional DB Actions //
-					if (this.followsReplica.liked) { this.addFollow() }
-					else { this.removeFollow() }
+					// Get Block Details //
+					this.following = !this.following
 
 					// Enable Buttons //
 					this.disabled = false
 				}
 			},
 
-			async addFollow() {
-				try { console.log('add') }
+			async follow() {
+				try { await BlockService.follow(this.block_id) }
 				catch(e) { this.error = e }
+
+				
 			},
 
-			async removeFollow() {
-				try { console.log('remove') }
+			async unfollow() {
+				try { await BlockService.unfollow(this.block_id) }
 				catch(e) { this.error = e }
-			},
-
-			followIconAndCountHandler() {
-				this.followsReplica.liked = !this.followsReplica.liked
-
-				if (this.followsReplica.liked) { this.followsReplica.followersCount++ }
-				else { this.followsReplica.followersCount-- }
-
-				// Set Follow Text //
-				this.setFollowBtnText()
 			},
 
 			/******************* [ROUTER + LOG] *******************/
@@ -182,7 +157,9 @@
 				console.log('%%% [COMPONENT] TitleHeader %%%')
 				console.log('block_id:', this.block_id)
 				console.log('block:', this.block)
-				console.log('followsReplica:', this.followsReplica)
+				console.log('user_id:', this.user_id)
+				console.log('email:', this.email)
+				console.log('username:', this.username)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		},

@@ -22,15 +22,19 @@ const BlockSchema = mongoose.Schema({
 		required: true,
 	},
 
-	likers: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
-	}],
+	likers: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User'
+		}
+	],
 
-	followers: [{
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
-	}],
+	followers: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User'
+		}
+	],
 
 	createdAt: {
 		type: Date,

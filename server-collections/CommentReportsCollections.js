@@ -27,7 +27,7 @@ class CommentReportsCollection {
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
 			comment: comment_id,
-			block_id: block_id,
+			block: block_id,
 			reportType: reportType,
 		})
 		

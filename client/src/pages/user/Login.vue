@@ -1,58 +1,70 @@
 <template>
 	<article>
-		<h3 class="m-3 text-center text-light">Welcome Back</h3>
-		<div class="m-auto p-4 card bg-dark border-secondary login-terminal">
-			<!-- lOG IN FORM -->
-			<ValidationObserver v-slot="{ handleSubmit }">
-				<form @submit.prevent="handleSubmit(login)">
-					<!-- Email -->
-					<ValidationProvider
-						tag="div"
-						class="form-group"
-						rules="required|email"
-						v-slot="{ errors }"
-					>
-						<label for="email" class="text-light">Email</label>
-						<input
-							v-model="email"
-							name="email"
-							type="email"
-							class="form-control bg-dark border-secondary text-light"
-							:class="{ 'is-invalid border-danger': errors != '' }"
-							placeholder="Example@example.com"
+		<section class="mx-auto my-5 p-4 card bg-dark border-secondary login-terminal">
+			<section class="row">	
+				<!-- lOG IN FORM -->
+				<ValidationObserver
+					v-slot="{ handleSubmit }"
+					tag="section"
+					class="col-6"
+				>
+					<form @submit.prevent="handleSubmit(login)">
+						<!-- Email -->
+						<ValidationProvider
+							tag="div"
+							class="form-group"
+							rules="required|email"
+							v-slot="{ errors }"
 						>
-						<span class="text-danger">{{ errors[0] }}</span>
-					</ValidationProvider>
+							<label for="email" class="text-light">Email</label>
+							<input
+								v-model="email"
+								name="email"
+								type="email"
+								class="form-control bg-dark border-secondary text-light"
+								:class="{ 'is-invalid border-danger': errors != '' }"
+								placeholder="Example@example.com"
+							>
+							<span class="text-danger">{{ errors[0] }}</span>
+						</ValidationProvider>
 
-					<!-- Password -->
-					<ValidationProvider
-						tag="div"
-						class="form-group"
-						rules="required"
-						v-slot="{ errors }"
-					>
-						<label for="password" class="text-light">Password</label>
-						<input
-							v-model="password"
-							name="password"
-							type="password"
-							class="form-control bg-dark border-secondary text-light"
-							:class="{ 'is-invalid border-danger': errors != '' }"
-							placeholder="******"
+						<!-- Password -->
+						<ValidationProvider
+							tag="div"
+							class="form-group"
+							rules="required"
+							v-slot="{ errors }"
 						>
-						<span class="text-danger">{{ errors[0] }}</span>
-					</ValidationProvider>
-					<br>
+							<label for="password" class="text-light">Password</label>
+							<input
+								v-model="password"
+								name="password"
+								type="password"
+								class="form-control bg-dark border-secondary text-light"
+								:class="{ 'is-invalid border-danger': errors != '' }"
+								placeholder="******"
+							>
+							<span class="text-danger">{{ errors[0] }}</span>
+						</ValidationProvider>
+						<br>
 
-					<!-- FORM SUBMIT -->
-					<button
-						class="btn btn-lg btn-primary btn-block"
-						type="submit"
-						:disabled="submitted"
-					>Login</button>
-				</form>
-			</ValidationObserver>
-		</div>
+						<!-- FORM SUBMIT -->
+						<button
+							class="btn btn-lg btn-primary btn-block"
+							type="submit"
+							:disabled="submitted"
+						>Login</button>
+					</form>
+				</ValidationObserver>
+
+				<section class="col-6">
+					<h3 class="m-3 text-center text-light">Welcome Back</h3>
+					<div class="text-center">
+					<img :src="require('../../assets/images/caticons/codesandbox.svg')" class="w-50">
+					</div>
+				</section>
+			</section>
+		</section>
 
 		<!-- [STATUS + ERROR] -->
 		<div class="mx-auto my-3 login-terminal">
@@ -114,5 +126,5 @@
 </script>
 
 <style scoped>
-	.login-terminal { max-width: 350px; }
+	.login-terminal { max-width: 800px; }
 </style>

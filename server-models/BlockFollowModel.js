@@ -8,12 +8,14 @@ const BlockFollowSchema = mongoose.Schema({
 	
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
+		ref: 'User',
+		required: true,
 	},
 	
 	block: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Block'
+		ref: 'Block',
+		required: true,
 	},
 
 	createdAt: {
@@ -24,4 +26,4 @@ const BlockFollowSchema = mongoose.Schema({
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('Follow', BlockFollowSchema)
+module.exports = mongoose.model('blockFollow', BlockFollowSchema)

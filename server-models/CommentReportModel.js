@@ -6,7 +6,7 @@ const mongoose = require("mongoose")
 const CommentReportSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
-	block_id: {
+	block: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Block',
 		required: true,
