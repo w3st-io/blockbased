@@ -14,13 +14,6 @@ require('dotenv').config()
 const UserModel = require('../server-models/UserModel')
 
 
-// [MONGOOSE CONNECT] //
-mongoose.connect(process.env.MONGO_URI, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true
-})
-
-
 // [INIT] //
 const secretKey = process.env.SECRET_KEY || 'secret'
 

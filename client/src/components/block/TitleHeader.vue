@@ -1,5 +1,5 @@
  <template>
-	<section class="row" :key="key">
+	<section class="row">
 		<!-- Left Side -->
 		<div class="col-lg-6 col-md-8 col-sm-8">
 			<!-- Title + Page Nav Buttons -->
@@ -27,11 +27,8 @@
 					<button
 						:disabled="disabled" 
 						@click="followBtn()"
-						class="ml-2 btn btn-sm"
-						:class="{
-							'btn-outline-secondary': !following,
-							'btn-outline-success': following,
-						}"
+						class="ml-2 btn btn-sm btn-outline-secondary"
+						:class="{ 'btn-outline-success': following }"
 					>{{ following ? 'following ✓' : 'follow' }}</button>
 				</span>
 			</div>
@@ -50,7 +47,7 @@
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import router from '@router'
 	import BlockService from '@services/BlockService'
-	import UserService from '../../services/UserService'
+	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {

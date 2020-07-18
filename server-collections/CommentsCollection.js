@@ -5,18 +5,10 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
-require('dotenv').config()
 
 
-// [REQUIRE] //
+// [REQUIRE] Personal //
 const CommentModel = require('../server-models/CommentModel')
-
-
-// [MONGOOSE CONNECT] //
-mongoose.connect(process.env.MONGO_URI, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true
-})
 
 
 class CommentsCollection {
@@ -93,7 +85,8 @@ class CommentsCollection {
 				.limit(limit2)
 				.populate({
 					path: 'user',
-					select: 'first_name last_name username email profileImg'
+					select: 'first_name last_name username email profileImg',
+					//match: { number: { $gte: 0 }}
 				})
 				.exec()
 

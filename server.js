@@ -7,6 +7,7 @@
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const express = require('express')
+const mongoose = require('mongoose')
 require('dotenv').config()
 
 
@@ -48,6 +49,13 @@ app.use('/api/administration/blocks', admininstrationBlocks)
 app.use('/api/administration/comments', admininstrationComments)
 app.use('/api/administration/reports', admininstrationReports)
 app.use('/api/administration/users', admininstrationUsers)
+
+
+// [MONGOOSE CONNECT] //
+mongoose.connect(process.env.MONGO_URI, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+})
 
 
 // [PORT + LISTEN] //
