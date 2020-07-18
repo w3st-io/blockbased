@@ -110,9 +110,7 @@ class CommentsCollection {
 
 	// [READ] //
 	static async read(comment_id) {
-		const validId = mongoose.isValidObjectId(comment_id)
-	
-		if (validId) {
+		if (mongoose.isValidObjectId(comment_id)) {
 			try {
 				const returnedData = await CommentModel.findById(comment_id)
 					.populate({
@@ -144,10 +142,8 @@ class CommentsCollection {
 
 
 	// [UPDATE] //
-	static async update(user_id, comment_id, text) {
-		const validId = mongoose.isValidObjectId(comment_id)
-
-		if (validId) {
+	static async update(comment_id, text) {
+		if (mongoose.isValidObjectId(comment_id)) {
 			try {
 				await CommentModel.updateOne(
 					{ _id: comment_id },
@@ -183,9 +179,7 @@ class CommentsCollection {
 
 	// [DELETE] //
 	static async delete(user_id, comment_id) {
-		const validId = mongoose.isValidObjectId(comment_id)
-
-		if (validId) {
+		if (mongoose.isValidObjectId(comment_id)) {
 			try {
 				await CommentModel.findOneAndRemove(
 					{
@@ -224,11 +218,10 @@ class CommentsCollection {
 	/******************* [LIKE SYSTEM] *******************/
 	// [LIKE] //
 	static async like(user_id, comment_id) {
-		const validId = mongoose.isValidObjectId(comment_id)
 		const likeExistance = await this.likeExistance(user_id, comment_id)
 
-		if (likeExistance.status == true && likeExistance.existance == false) {
-			if (validId) {
+		if (likeExistance.status && !likeExistance.existance) {
+			if (mongoose.isValidObjectId(comment_id)) {
 				try {
 					await CommentModel.updateOne(
 						{ _id: comment_id },
@@ -256,12 +249,11 @@ class CommentsCollection {
 
 	// [UNLIKE] //
 	static async unlike(user_id, comment_id) {
-		const validId = mongoose.isValidObjectId(comment_id)
 		const likeExistance = await this.likeExistance(user_id, comment_id)
 
-		if (likeExistance.status == true && likeExistance.existance == true) {
+		if (likeExistance.status && likeExistance.existance) {
 
-			if (validId) {
+			if (mongoose.isValidObjectId(comment_id)) {
 				try {
 					await CommentModel.updateOne(
 						{ _id: comment_id },

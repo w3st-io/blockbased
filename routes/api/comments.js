@@ -26,14 +26,18 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userToken(),
-	async (req, res) => { 
-		const existance = await BlocksCollection.existance(req.body.block_id)
+	async (req, res) => {
+		const user_id = req.decoded._id
+		const block_id = req.body.block_id
+		const text = req.body.text
 
-		if (existance.status == true && existance.existance == true) {
+		const existance = await BlocksCollection.existance(block_id)
+
+		if (existance.status && existance.existance) {
 			const returnedData = await CommentsCollection.create(
-				req.decoded._id,
-				req.body.block_id,
-				req.body.text
+				user_id,
+				block_id,
+				text
 			)
 
 			res.status(201).send(returnedData)
@@ -47,10 +51,10 @@ router.post(
 router.get(
 	'/read-all-all/:amount/:skip',
 	async (req, res) => {
-		const returnedData = await CommentsCollection.readAllAll(
-			req.params.skip,
-			req.params.amount
-		)
+		const skip = req.params.skip
+		const amount = req.params.amount
+
+		const returnedData = await CommentsCollection.readAllAll(skip, amount)
 		
 		res.status(200).send(returnedData)
 	}
@@ -61,11 +65,11 @@ router.get(
 router.get(
 	'/read-all/:block_id/:amount/:skip',
 	async (req, res) => {
-		const returnedData = await CommentsCollection.readAll(
-			req.params.block_id,
-			req.params.skip,
-			req.params.amount
-		)
+		const block_id = req.params.block_id
+		const skip = req.params.skip
+		const amount = req.params.amount
+
+		const returnedData = await CommentsCollection.readAll(block_id, skip, amount)
 		
 		res.status(200).send(returnedData)
 		
@@ -77,7 +81,9 @@ router.get(
 router.get(
 	'/read/:_id',
 	async (req, res) => {
-		const returnedData = await CommentsCollection.read(req.params._id)
+		const comment_id = req.params._id
+
+		const returnedData = await CommentsCollection.read(comment_id)
 
 		res.status(200).send(returnedData)
 	}
@@ -89,17 +95,14 @@ router.post(
 	'/update/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const ownership = await CommentsCollection.ownership(
-			req.decoded._id,
-			req.params._id
-		)
+		const user_id = req.decoded._id
+		const comment_id = req.params._id
+		const text = req.body.text
 
-		if (ownership.status == true && ownership.ownership == true) {
-			const returnedData = await CommentsCollection.update(
-				req.decoded._id,
-				req.params._id,
-				req.body.text
-			)
+		const ownership = await CommentsCollection.ownership(user_id, comment_id)
+
+		if (ownership.status && ownership.ownership) {
+			const returnedData = await CommentsCollection.update(comment_id, text)
 
 			res.status(201).send(returnedData)
 		}
@@ -113,22 +116,15 @@ router.delete(
 	'/delete/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const ownership = await CommentsCollection.ownership(
-			req.decoded._id,
-			req.params._id
-		)
+		const user_id = req.decoded._id
+		const comment_id = req.params._id
 
-		if (ownership.status == true && ownership.ownership == true) {
-			// [DELETE] Comment //
-			const returnedData = await CommentsCollection.delete(
-				req.decoded._id,
-				req.params._id
-			)
+		const ownership = await CommentsCollection.ownership(user_id, comment_id)
 
-			// [DELETE] CommentLike //
-			const returnedData2 = await CommentLikesCollection.deleteAll(
-				req.params._id
-			)
+		if (ownership.status && ownership.ownership) {
+			// [DELETE] Comment // [DELETE] CommentLike //
+			const returnedData = await CommentsCollection.delete(user_id, comment_id)
+			const returnedData2 = await CommentLikesCollection.deleteAll(comment_id)
 
 			res.status(201).send([returnedData, returnedData2])
 		}
@@ -143,17 +139,16 @@ router.post(
 	'/like/:_id/:block_id',
 	Auth.userToken(),
 	async (req, res) => {
-		// [UPDATE] Comment's Likers //
-		const returnedData = await CommentsCollection.like(
-			req.decoded._id,
-			req.params._id
-		)
+		const user_id = req.decoded._id
+		const comment_id = req.params._id
+		const block_id = req.params.block_id
 
-		// [CREATE] CommentLike //
+		// [UPDATE] Comment's Likers // [CREATE] CommentLike //
+		const returnedData = await CommentsCollection.like(user_id, comment_id)
 		const returnedData2 = await CommentLikesCollection.create(
-			req.decoded._id,
-			req.params.block_id,
-			req.params._id
+			user_id,
+			block_id,
+			comment_id
 		)
 
 		res.status(201).send([returnedData, returnedData2])
@@ -166,18 +161,13 @@ router.post(
 	'/unlike/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		// [UPDATE] Comment's Likers //
-		const returnedData = await CommentsCollection.unlike(
-			req.decoded._id,
-			req.params._id
-		)
+		const user_id = req.decoded._id
+		const comment_id = req.params._id
 
-		// [DELETE] CommentLike //
-		const returnedData2 = await CommentLikesCollection.delete(
-			req.decoded._id,
-			req.params._id
-		)
-
+		// [UPDATE] Comment's Likers // [DELETE] CommentLike //
+		const returnedData = await CommentsCollection.unlike(user_id, comment_id)
+		const returnedData2 = await CommentLikesCollection.delete(user_id, comment_id)
+		
 		res.status(201).send([returnedData, returnedData2])
 	}
 )
@@ -189,17 +179,19 @@ router.post(
 	'/report/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const existance = await CommentReportsCollection.existance(
-			req.decoded._id,
-			req.params._id
-		)
+		const user_id = req.decoded._id
+		const comment_id = req.params._id
+		const block_id = req.body.block_id
+		const reportType = req.body.reportType
+
+		const existance = await CommentReportsCollection.existance(user_id, comment_id)
 		
-		if (existance.status == true && existance.existance == false) {
+		if (existance.status && !existance.existance) {
 			const returnedData = await CommentReportsCollection.create(
-				req.decoded._id,
-				req.params._id,
-				req.body.block_id,
-				req.body.reportType
+				user_id,
+				comment_id,
+				block_id,
+				reportType
 			)
 			
 			res.status(201).send(returnedData)
@@ -213,10 +205,12 @@ router.post(
 router.get(
 	'/existance/:_id',
 	async (req, res) => {
-		const existance = await CommentsCollection.existance(req.params._id)
+		const comment_id = req.params._id
 
-		if (existance.status == true) {
-			if (existance.existance == true) { res.status(200).send(true) }
+		const existance = await CommentsCollection.existance(comment_id)
+
+		if (existance.status) {
+			if (existance.existance) { res.status(200).send(true) }
 			else { res.status(200).send(false) }
 		}
 		else { res.status(400).send(existance.message) }
@@ -229,13 +223,13 @@ router.get(
 	'/ownership/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const ownership = await CommentsCollection.ownership(
-			req.decoded._id,
-			req.params._id
-		)
+		const user_id = req.decoded._id
+		const comment_id = req.params._id
 
-		if (ownership.status == true) {
-			if (ownership.ownership == true) { res.status(200).send(true) }
+		const ownership = await CommentsCollection.ownership(user_id, comment_id)
+
+		if (ownership.status) {
+			if (ownership.ownership) { res.status(200).send(true) }
 			else { res.status(200).send(false) }
 		}
 		else { res.status(400).send(ownership.message) }
@@ -247,7 +241,9 @@ router.get(
 router.get(
 	'/count/:block_id',
 	async (req, res) => {
-		const count = await CommentsCollection.count(req.params.block_id)
+		const block_id = req.params.block_id
+
+		const count = await CommentsCollection.count(block_id)
 	
 		res.status(201).send(count.toString())
 	}

@@ -99,9 +99,7 @@ class BlocksCollection {
 
 	// [READ] Single Block //
 	static async read(block_id) {
-		const validId = mongoose.isValidObjectId(block_id)
-	
-		if (validId) {
+		if (mongoose.isValidObjectId(block_id)) {
 			try {
 				const returnedData = await BlockModel.findById(block_id)
 					.populate(
@@ -126,9 +124,7 @@ class BlocksCollection {
 
 	// [DELETE] //
 	static async delete(block_id) {
-		const validId = mongoose.isValidObjectId(block_id)
-
-		if (validId) {
+		if (mongoose.isValidObjectId(block_id)) {
 			try {
 				await BlockModel.findByIdAndDelete(
 					block_id,
@@ -163,8 +159,6 @@ class BlocksCollection {
 	// [LIKE] //
 	static async like(user_id, block_id) {
 		const likeExistance = await this.likeExistance(user_id, block_id)
-
-		console.log(likeExistance)
 
 		if (likeExistance.status == true && likeExistance.existance == false) {
 			try {

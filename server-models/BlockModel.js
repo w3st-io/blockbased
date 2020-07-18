@@ -8,12 +8,19 @@ const BlockSchema = mongoose.Schema({
 
 	user: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User'
+		ref: 'User',
+		required: true,
 	},
 
-	cat_id: { type: String },
+	cat_id: {
+		type: String,
+		required: true,
+	},
 
-	title: { type: String },
+	title: {
+		type: String,
+		required: true,
+	},
 
 	likers: [{
 		type: mongoose.Schema.Types.ObjectId,
