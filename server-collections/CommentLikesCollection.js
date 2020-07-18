@@ -23,10 +23,9 @@ class CommentLikesCollection {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
 	static async create(user_id, block_id, comment_id) {
-		// Check if the commentLike Exists //
 		const existance = await this.existance(user_id, comment_id)
 
-		if (existance.status == true && existance.existance == true) {
+		if (existance.status == true && existance.existance == false) {
 			const formData = new CommentLikeModel(
 				{
 					_id: mongoose.Types.ObjectId(),

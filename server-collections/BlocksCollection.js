@@ -164,6 +164,8 @@ class BlocksCollection {
 	static async like(user_id, block_id) {
 		const likeExistance = await this.likeExistance(user_id, block_id)
 
+		console.log(likeExistance)
+
 		if (likeExistance.status == true && likeExistance.existance == false) {
 			try {
 				await BlockModel.updateOne(
