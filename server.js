@@ -52,10 +52,14 @@ app.use('/api/administration/users', admininstrationUsers)
 
 
 // [MONGOOSE CONNECT] //
-mongoose.connect(process.env.MONGO_URI, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true
-})
+mongoose.connect(
+	process.env.MONGO_URI,
+	{ useNewUrlParser: true, useUnifiedTopology: true },
+	(err) => {
+		if (err) { console.log(`Mongoose Connection Error --> ${err}`) }
+		else { console.log('Mongoose Connected to DB') }
+	}
+)
 
 
 // [PORT + LISTEN] //

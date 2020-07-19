@@ -21,53 +21,25 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 class UsersCollection {
 	/******************* [CRUD] *******************/
 	// [READ-ALL] //
-	static async readAll(req) {
-		try {
-			const returnedData = await UserModel.find()
-
-			return returnedData
-		}
+	static async readAll() {
+		try { return await UserModel.find() }
 		catch(e) { return `Caught Error --> ${e}` }
 	}
 
 	
 	// [READ] //
-	static async read(req) {
-		const validId = mongoose.isValidObjectId(req.params._id)
-
-		if (validId) {
-			try {
-				const returnedData = await UserModel.findOne({ _id: req.params._id })
-
-				return returnedData
-			}
+	static async read(user_id) {
+		if (mongoose.isValidObjectId(user_id)) {
+			try { return await UserModel.findOne({ _id: user_id }) }
 			catch(e) { return `Caught Error --> ${e}` }
 		}
 		else { return 'Invalid ID.' }
 	}
 
 
-	// [READ] Decoded //
-	static async readDecoded(req) {
-		try {
-			const returnedData = await UserModel.findOne(
-				{ _id: req.decoded._id }
-			)
-
-			return returnedData
-		}
-		catch(e) { return `Caught Error --> ${e}` }
-	}
-
-
 	// [UPDATE] Profile Picture //
-	static async update(req) {
-		const user_id = req.params._id
-		const img_url = req.body.img_url
-
-		const validId = mongoose.isValidObjectId(req.params._id)
-
-		if (validId) {
+	static async update(user_id, img_url) {
+		if (mongoose.isValidObjectId(user_id)) {
 			try {
 				await UserModel.findOneAndUpdate(
 					{ _id: user_id },
@@ -84,28 +56,6 @@ class UsersCollection {
 			catch(e) { return `Caught Error --> ${e}` }
 		}
 		else { return 'Invalid ID.' }
-	}
-
-
-	// [UPDATE] Decoded - Profile Picture //
-	static async updateDecoded(req) {
-		const user_id = req.decoded._id
-		const img_url = req.body.img_url
-
-		try {
-			await UserModel.findOneAndUpdate(
-				{ _id: user_id},
-				{ $set: { profileImg: img_url } }
-			)
-
-			return {
-				status: true,
-				user_id: user_id,
-				profileImg: img_url,
-				message: 'Updated profile',
-			}
-		}
-		catch(e) { return `Caught Error --> ${e}` }
 	}
 
 

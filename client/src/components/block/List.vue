@@ -90,9 +90,9 @@
 				</div>
 			</div>
 		</section>
-		<section v-show="error" class="col-12">
+		<section v-show="error" class="col-12 mt-3">
 			<div class="m-0 alert alert-danger">
-				CatBlockList: {{ error }}
+				Block List: {{ error }}
 			</div>
 		</section>
 	</article>

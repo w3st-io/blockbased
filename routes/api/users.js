@@ -23,7 +23,9 @@ router.get(
 	'/read',
 	Auth.userToken(),
 	async (req, res) => {
-		const returnedData = await UsersCollection.readDecoded(req)
+		const user_id = req.decoded._id
+
+		const returnedData = await UsersCollection.read(user_id)
 
 		res.status(200).send(returnedData)
 	}
@@ -35,7 +37,10 @@ router.post(
 	'/update',
 	Auth.userToken(),
 	async (req, res) => {
-		await UsersCollection.updateDecoded(req)
+		const user_id = req.decoded._id
+		const img_url = req.body.img_url
+
+		await UsersCollection.update(user_id, img_url)
 
 		res.status(201).send()
 	}

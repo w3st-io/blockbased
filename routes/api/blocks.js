@@ -90,7 +90,7 @@ router.delete(
 /******************* [LIKE SYSTEM] *******************/
 // [LIKE] Auth Required //
 router.post(
-	'/like/:_id/:block_id',
+	'/like/:_id',
 	Auth.userToken(),
 	async (req, res) => {
 		const user_id = req.decoded._id

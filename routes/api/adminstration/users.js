@@ -35,7 +35,8 @@ router.get(
 	'/read/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await UsersCollection.read(req)
+		const user_id = req.params._id
+		const returnedData = await UsersCollection.read(user_id)
 
 		res.status(200).send(returnedData)
 	}
@@ -47,7 +48,10 @@ router.post(
 	'/update/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		await UsersCollection.update(req)
+		const user_id = req.decoded._id
+		const img_url = req.body.img_url
+
+		await UsersCollection.update(user_id, img_url)
 
 		res.status(201).send()
 	}
