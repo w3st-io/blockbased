@@ -65,13 +65,8 @@ class UserService {
 	static async login(email, password) {
 		const authAxios = await this.authAxios()
 
-		let result = new Promise ((resolve, reject) => {
-			authAxios.post('/login', { email, password })
-				.then(res => { resolve(res) })
-				.catch(err => { reject(err) })
-		})
-
-		return result
+		try { return await authAxios.post('/login', { email, password }) }
+		catch(e) { return e }
 	}
 
 	
@@ -79,19 +74,23 @@ class UserService {
 	static async register(first_name, last_name, username, email, password) {
 		const authAxios = await this.authAxios()
 		
-		let result = new Promise ((resolve, reject) => {
-			authAxios.post('/register', {
+		try {
+			let r = await authAxios.post('/register', {
 				first_name,
 				last_name,
 				username,
 				email,
 				password,
 			})
-				.then((res) => { resolve(res) })
-				.catch((err) => { reject(err) })
-		})
 
-		return result
+			console.log('rr',r)
+
+			return r
+		}
+		catch (e) {
+			console.log(`Caught Error --> ${e}`)
+			return e	
+		}
 	}
 }
 

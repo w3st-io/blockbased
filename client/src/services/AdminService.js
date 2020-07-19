@@ -56,17 +56,13 @@ class AdminService {
 		const authAxios = await this.authAxios()
 
 		try {
-			const returnedData = await authAxios.post('/register', {
+			return await authAxios.post('/register', {
 				first_name,
 				last_name,
 				username,
 				email,
 				password,
 			})
-
-			console.log('as', returnedData)
-
-			return returnedData
 		}
 		catch (e) {
 			console.log(`Caught Error --> ${e}`)

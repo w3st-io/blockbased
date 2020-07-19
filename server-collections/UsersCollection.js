@@ -111,12 +111,13 @@ class UsersCollection {
 						if (e) { return { status: `Caught Error --> ${e}` } }
 
 						formData.password = hash
-						
-						try { formData.save() }
-						catch(e) { return { status: `Caught Error --> ${e}` } }
 					})
-
-					return { status: 'success' }
+						
+					try {
+						formData.save()
+						return { status: 'success' }
+					}
+					catch(e) { return { status: `Caught Error --> ${e}` } }
 				}
 				else { return { status: 'email_taken' } }
 			}
