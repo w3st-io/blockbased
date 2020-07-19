@@ -16,6 +16,7 @@ import Forum from '@pages/Forum'
 import Login from '@pages/user/Login'
 import Profile from '@pages/user/Profile'
 import ProfileEdit from '@pages/user/ProfileEdit'
+import ProfileView from '../pages/user/ProfileView'
 import Register from '@pages/user/Register'
 import NotFound from '@pages/404'
 import z from '@pages/z'
@@ -24,7 +25,7 @@ import z from '@pages/z'
 Vue.use(Router)
 
 // [EXPORT] //
-export default new Router ({
+const router = new Router ({
 	//mode: 'history',
 
 	routes: [
@@ -106,7 +107,7 @@ export default new Router ({
 			component: Cat,
 			meta: {
 				auth: true,
-				title: 'Cat Name Here'
+				title: `Cat Name Here`
 			}
 		},
 		{
@@ -155,6 +156,15 @@ export default new Router ({
 			}
 		},
 		{
+			path: '/profile/view/:user_id',
+			name: 'Forum',
+			component: ProfileView,
+			meta: {
+				auth: true,
+				title: ''
+			}
+		},
+		{
 			path: '/z',
 			name: 'Z',
 			component: z,
@@ -170,3 +180,13 @@ export default new Router ({
 		},
 	]
 })
+
+
+// [VUE-ROUTER-SET-TITLE] //
+router.beforeEach((to, from, next) => {
+	document.title = to.meta.title
+	next()
+})
+
+
+export default router

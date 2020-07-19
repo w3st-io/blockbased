@@ -5,6 +5,7 @@
 				<h1 class="w-100 mb-3 text-center text-light">
 					Dude what..? 404 not found LOL!
 				</h1>
+
 				<div class="w-100 m-auto text-center">
 					<router-link to="/">
 						<button class="m-auto btn btn-primary">Go to Forum</button>

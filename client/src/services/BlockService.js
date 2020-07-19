@@ -30,23 +30,20 @@ class BlockService {
 
 	// [READ-ALL] //
 	static async readAll(cat_id, amount, pageNumber) {
-		const authAxios = await this.authAxios()
 		const skip = pageNumber * amount
+		const authAxios = await this.authAxios()
 
-		const result = new Promise ((resolve, reject) => {
-			authAxios.get(`/read-all/${cat_id}/${amount}/${skip}`)
-				.then((res) => {
-					resolve(res.data.map((block) => (
-						{
-							...block,
-							createdAt: new Date(block.createdAt).toLocaleString()
-						}
-					)))
-				})
-				.catch((err) => { reject(err) })
-		})
+		try {
+			let res = await authAxios.get(`/read-all/${cat_id}/${amount}/${skip}`)
 
-		return result
+			res.data.map((block) => ({
+				...block,
+				createdAt: new Date(block.createdAt).toLocaleString()
+			}))
+
+			return res.data
+		}
+		catch (e) { return e }
 	}
 
 
@@ -54,16 +51,14 @@ class BlockService {
 	static async read(block_id) {
 		const authAxios = await this.authAxios()
 
-		const result = new Promise ((resolve, reject) => {
-			authAxios.get(`/read/${block_id}`)
-				.then((res) => {
-					res.data.createdAt = new Date(res.data.createdAt).toLocaleString()
-					resolve(res.data)
-				})
-				.catch((err) => { reject(err) })
-		})
+		try {
+			let res = await authAxios.get(`/read/${block_id}`)
 
-		return result
+			res.data.createdAt = new Date(res.data.createdAt).toLocaleString()
+
+			return res.data
+		}
+		catch(e) { return e }
 	}
 
 
@@ -71,17 +66,12 @@ class BlockService {
 	// [DELETE] Auth Required //
 	static async deleteBlock(block_id) {
 		const authAxios = await this.authAxios()
-		
 		console.log(block_id)
 		console.log(authAxios)
+		
 		/*
-		let result = new Promise ((resolve, reject) => {
-			authAxios.delete(`/blocks/delete/${block_id}`)
-				.then((res) => { resolve(res) })
-				.catch((err) => { reject(err) })
-		})
-
-		return result
+		try { return await authAxios.delete(`/blocks/delete/${block_id}`) }
+		catch(e) { return e }
 		*/
 	}
 

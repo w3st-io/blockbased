@@ -23,7 +23,7 @@ router.get(
 	'/read-all/profile-data',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await UsersCollection.readAll(req)
+		const returnedData = await UsersCollection.readAll()
 
 		res.status(201).send(returnedData)
 	}
@@ -36,6 +36,7 @@ router.get(
 	Auth.adminToken(),
 	async (req, res) => {
 		const user_id = req.params._id
+		
 		const returnedData = await UsersCollection.read(user_id)
 
 		res.status(200).send(returnedData)

@@ -30,44 +30,37 @@ class CommentService {
 
 	// [READ-ALL] Auth Required //
 	static async readAllAll(amount, pageNumber) {
-		const authAxios = await this.authAxios()
 		const skip = pageNumber * amount
+		const authAxios = await this.authAxios()
 
-		const result = new Promise ((resolve, reject) => {
-			authAxios.get(`/read-all-all/${amount}/${skip}`)
-				.then((res) => {
-					resolve(
-						res.data.map((comment) => ({
-							...comment,
-							createdAt: new Date(comment.createdAt).toLocaleString(),
-						}))
-					)
-				})
-				.catch((err) => { reject(err) })
-		})
+		try {
+			let res = await authAxios.get(`/read-all-all/${amount}/${skip}`)
 
-		return result
+			res.data.map((comment) => ({
+				...comment,
+				createdAt: new Date(comment.createdAt).toLocaleString(),
+			}))
+		}
+		catch (e) { return e }
 	}
 
 
 	// [READ-ALL] //
 	static async readAll(block_id, amount, pageNumber) {
-		const authAxios = await this.authAxios()
 		const skip = pageNumber * amount
+		const authAxios = await this.authAxios()
 
-		const result = new Promise ((resolve, reject) => {
-			authAxios.get(`/read-all/${block_id}/${amount}/${skip}`)
-				.then((res) => {
-					const data = res.data
-					resolve(data.map((comment) => ({
-						...comment,
-						createdAt: new Date(comment.createdAt).toLocaleString()
-					})))
-				})
-				.catch((err) => { reject(err) })
-		})
+		try {
+			let res = await authAxios.get(`/read-all/${block_id}/${amount}/${skip}`)
 
-		return result
+			res.data.map((comment) => ({
+				...comment,
+				createdAt: new Date(comment.createdAt).toLocaleString()
+			}))
+
+			return res.data
+		}
+		catch (e) { return e }
 	}
 
 
@@ -75,13 +68,14 @@ class CommentService {
 	static async read(comment_id) {
 		const authAxios = await this.authAxios()
 
-		const result = new Promise ((resolve, reject) => {
-			authAxios.get(`/read/${comment_id}`)
-				.then((res) => { resolve(res.data) })
-				.catch((err) => { reject(err) })
-		})
+		try {
+			let res = await authAxios.get(`/read/${comment_id}`)
+		
+			res.data.createdAt = new Date(res.data.createdAt).toLocaleString()
 
-		return result
+			return res.data
+		}
+		catch (e) { return e }
 	}
 
 
@@ -89,27 +83,17 @@ class CommentService {
 	static async update(comment_id, text) {
 		const authAxios = await this.authAxios()
 
-		const result = new Promise ((resolve, reject) => {
-			authAxios.post(`/update/${comment_id}`, { text })
-				.then((res) => { resolve(res.data) })
-				.catch((err) => { reject(err) })
-		})
-
-		return result
+		try { return await authAxios.post(`/update/${comment_id}`, { text }) }
+		catch(e) { return e }
 	}
 
 
 	// [DELETE] Auth Required //
 	static async delete(comment_id) {
-		const authAxios = await this.authAxios()
-		
-		const result = new Promise ((resolve, reject) => {
-			authAxios.delete(`/delete/${comment_id}`)
-				.then((res) => { resolve(res) })
-				.catch((err) => { reject(err) })
-		})
+		const authAxios = await this.authAxios()	
 
-		return result	
+		try { return await authAxios.delete(`/delete/${comment_id}`) }
+		catch(e) { return e }
 	}
 
 

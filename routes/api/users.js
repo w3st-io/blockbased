@@ -18,12 +18,25 @@ const router = express.Router().use(cors())
 
 
 /******************* [USER PROFILE] *******************/
-// [READ] Decoded //
+// [READ] Auth Required - Decoded //
 router.get(
 	'/read',
 	Auth.userToken(),
 	async (req, res) => {
 		const user_id = req.decoded._id
+
+		const returnedData = await UsersCollection.read(user_id)
+
+		res.status(200).send(returnedData)
+	}
+)
+
+
+// [READ] Params //
+router.get(
+	'/read/:_id',
+	async (req, res) => {
+		const user_id = req.params._id
 
 		const returnedData = await UsersCollection.read(user_id)
 

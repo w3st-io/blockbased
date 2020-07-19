@@ -55,8 +55,8 @@ app.use('/api/administration/users', admininstrationUsers)
 mongoose.connect(
 	process.env.MONGO_URI,
 	{ useNewUrlParser: true, useUnifiedTopology: true },
-	(err) => {
-		if (err) { console.log(`Mongoose Connection Error --> ${err}`) }
+	(e) => {
+		if (e) { console.log(`Mongoose Connection Error --> ${e}`) }
 		else { console.log('Mongoose Connected to DB') }
 	}
 )
