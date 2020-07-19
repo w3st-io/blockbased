@@ -83,7 +83,7 @@
 			<no-content v-if="!loading && blocks == ''" class="mt-3" />
 
 			<!-- [LOADING] -->
-			<div v-show="!loading" class="m-0 mt-3 alert alert-primary">
+			<div v-show="loading" class="m-0 mt-3 alert alert-primary">
 				<div class="d-flex justify-content-center">
 					<div class="spinner-grow"></div>
 				</div>
@@ -164,6 +164,9 @@
 					)
 				}
 				catch(e) { this.error = e }
+
+				// Set Error //
+				if (!this.blocks.status) this.error = this.blocks.error
 			},
 
 			/******************* [INIT] Profile *******************/
@@ -238,7 +241,7 @@
 
 			log() {
 				console.log('%%% [COMPONENT] BlockList %%%')
-				console.log('block:', this.blocks)
+				console.log('blocks:', this.blocks)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		}
