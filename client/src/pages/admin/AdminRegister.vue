@@ -128,7 +128,7 @@
 		<br>
 
 		<!-- [STATUS + ERRORS] -->
-		<div v-if="error" class="alert alert-danger">
+		<div v-if="error" class="m-0 mt-3 alert alert-danger">
 			{{ error }}
 		</div>
 	</div>
@@ -170,17 +170,17 @@
 						this.email,
 						this.password,
 					)
+
+					console.log('returnedData', this.returnedData)
+
+					// Check Status //
+					if (
+						this.returnedData.data.status == true &&
+						this.returnedData.data.created == true
+					) { this.redirect() }
+					else { this.error = this.returnedData.data.message }
 				}
 				catch(e) { this.error = e }
-				
-				// Check Status //
-				if (
-					this.returnedData.data.status == true &&
-					this.returnedData.data.validation == true
-				) { this.redirect() }
-				else { this.error = this.returnedData.data.message }
-
-				console.log('message:', this.error)
 			},
 
 			redirect() {

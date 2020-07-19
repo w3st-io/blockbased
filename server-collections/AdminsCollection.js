@@ -100,24 +100,24 @@ class BlocksCollection {
 						}
 
 						formData.password = hash
-
-						try {
-							formData.save()
-
-							return {
-								status: true,
-								message: 'Successfully created account',
-								created: true,
-							}
-						}
-						catch(e) {
-							return {
-								status: false,
-								message: `Caught Error --> ${e}`,
-								created: false,
-							}
-						}
 					})
+
+					try {
+						//formData.save()
+
+						return {
+							status: true,
+							message: 'Successfully created account',
+							created: true,
+						}
+					}
+					catch(e) {
+						return {
+							status: false,
+							message: `Caught Error --> ${e}`,
+							created: false,
+						}
+					}
 				}
 				else {
 					return {
@@ -130,7 +130,7 @@ class BlocksCollection {
 			else {
 				return {
 					status: false,
-					message: 'This email is taken',
+					message: 'This username is taken',
 					created: false,
 				}
 			}

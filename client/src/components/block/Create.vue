@@ -32,12 +32,11 @@
 				>
 					<span v-show="!loading">+ Create</span>
 					<span v-show="loading" class="spinner-grow"></span>
-					<span v-show="loading" class="sr-only">Loading...</span>
 				</button>
 			</form>
 		</ValidationObserver>
 		
-		<!-- [ERRORS] -->
+		<!-- [ALERT] -->
 		<div v-if="error" class="mt-3 alert alert-danger">
 			{{ error }}
 		</div>

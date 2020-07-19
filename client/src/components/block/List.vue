@@ -1,7 +1,10 @@
 <template>
 	<article class="row">
-		<section v-if="!loading" class="col-12">
-			<ul v-if="blocks != ''" class="m-0 px-0 border border-secondary">
+		<section class="col-12">
+			<ul
+				v-if="!loading && blocks != ''"
+				class="m-0 px-0 border border-secondary"
+			>
 				<li
 					v-for="(block, index) in blocks"
 					:key="index"
@@ -77,21 +80,17 @@
 			</ul>
 
 			<!-- [DEFAULT] If No content -->
-			<no-content v-if="blocks == ''" class="my-3" />
-		</section>
-		
-		<!-- [LOADING + ERROR] -->
-		<section v-show="loading" class="col-12 my-3">
-			<div class="m-0 alert alert-primary">
+			<no-content v-if="!loading && blocks == ''" class="mt-3" />
+
+			<!-- [LOADING] -->
+			<div v-show="!loading" class="m-0 mt-3 alert alert-primary">
 				<div class="d-flex justify-content-center">
-					<div class="spinner-grow">
-						<span class="sr-only">Loading...</span>
-					</div>
+					<div class="spinner-grow"></div>
 				</div>
 			</div>
-		</section>
-		<section v-show="error" class="col-12 mt-3">
-			<div class="m-0 alert alert-danger">
+
+			<!-- [ALERT] -->
+			<div v-show="error" class="m-0 mt-3 alert alert-danger">
 				Block List: {{ error }}
 			</div>
 		</section>

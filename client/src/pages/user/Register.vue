@@ -134,15 +134,15 @@
 		<div class="mx-auto my-3 register-terminal">
 			<div
 				v-if="registerStatus === 'email_taken'"
-				class="alert alert-danger"
+				class="m-0 mt-3 alert alert-danger"
 			>Email is taken. Try Another email.</div>
 			<div
 				v-if="registerStatus === 'username_taken'"
-				class="alert alert-danger"
+				class="m-0 mt-3 alert alert-danger"
 			>Username is taken. Try Another username.</div>
 			<div
 				v-if="error !== ''"
-				class="alert alert-danger"
+				class="m-0 mt-3 alert alert-danger"
 			>{{ error }}</div>
 		</div>
 	</article>

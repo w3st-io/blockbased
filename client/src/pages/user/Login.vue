@@ -1,7 +1,15 @@
 <template>
 	<article>
 		<section class="mx-auto my-5 p-4 card bg-dark border-secondary login-terminal">
-			<section class="row">	
+			<section class="row">
+				<!-- Welcome Half -->
+				<section class="col-6">
+					<h3 class="m-3 text-center text-light">Welcome Back</h3>
+					<div class="text-center">
+					<img :src="require('../../assets/images/logo.svg')" class="w-50">
+					</div>
+				</section>
+
 				<!-- lOG IN FORM -->
 				<ValidationObserver
 					v-slot="{ handleSubmit }"
@@ -56,19 +64,12 @@
 						>Login</button>
 					</form>
 				</ValidationObserver>
-
-				<section class="col-6">
-					<h3 class="m-3 text-center text-light">Welcome Back</h3>
-					<div class="text-center">
-					<img :src="require('../../assets/images/caticons/codesandbox.svg')" class="w-50">
-					</div>
-				</section>
 			</section>
 		</section>
 
 		<!-- [STATUS + ERROR] -->
 		<div class="mx-auto my-3 login-terminal">
-			<div v-if="error" class="alert alert-danger">
+			<div v-if="error" class="m-0 mt-3 alert alert-danger">
 				<!-- Dont give them info on whats wrong HAHAHA -->
 				{{ error = 'Incorrect Email or Password' }}
 			</div>

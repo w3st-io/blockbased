@@ -32,8 +32,8 @@
 			</tbody>
 		</table>
 
-		<!-- [ERROR] -->
-		<div v-if="error" class="alert alert-danger">{{ error }}</div>
+		<!-- [ALERT] -->
+		<div v-if="error" class="m-0 mt-3 alert alert-danger">{{ error }}</div>
 	</section>
 </template>
 

@@ -12,12 +12,6 @@ const CommentLikeSchema = mongoose.Schema({
 		required: true,
 	},
 
-	block_id: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Block',
-		required: true,
-	},
-
 	comment: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Comment',

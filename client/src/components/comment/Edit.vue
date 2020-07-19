@@ -30,7 +30,6 @@
 				>
 					<span v-show="!loading">+ Update</span>
 					<span v-show="loading" class="spinner-grow"></span>
-					<span v-show="loading" class="sr-only">Loading...</span>
 				</button>
 			</form>
 		</ValidationObserver>

@@ -97,9 +97,7 @@
 		<section class="col-12">
 			<div v-if="loading" class="my-3 alert alert-primary">
 				<div class="d-flex justify-content-center">
-					<div class="spinner-grow">
-						<span class="sr-only">Loading...</span>
-					</div>
+					<div class="spinner-grow"></div>
 				</div>
 			</div>
 		</section>

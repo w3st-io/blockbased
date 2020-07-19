@@ -46,13 +46,8 @@ class AdminService {
 	static async login(email, password) {
 		const authAxios = await this.authAxios()
 
-		let result = new Promise ((resolve, reject) => {
-			authAxios.post('/login', { email, password })
-				.then(res => { resolve(res) })
-				.catch(err => { reject(err) })
-		})
-
-		return result
+		try { return await authAxios.post('/login', { email, password }) }
+		catch(e) { return e }
 	}
 
 	
@@ -60,23 +55,23 @@ class AdminService {
 	static async register(first_name, last_name, username, email, password) {
 		const authAxios = await this.authAxios()
 
-		let result = new Promise ((resolve, reject) => {
-			authAxios.post('/register', {
+		try {
+			const returnedData = await authAxios.post('/register', {
 				first_name,
 				last_name,
 				username,
 				email,
 				password,
 			})
-				.then((res) => { resolve(res) })
-				.catch((err) => {
-					console.log('err:', err)
-					reject(err)
-				})
-		})
 
-		console.log('result', result)
-		return result
+			console.log('as', returnedData)
+
+			return returnedData
+		}
+		catch (e) {
+			console.log(`Caught Error --> ${e}`)
+			return e	
+		}
 	}
 }
 

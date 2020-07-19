@@ -33,6 +33,8 @@ router.post(
 	async (req, res) => {
 		const returnedData = await AdminsCollection.register(req)
 
+		console.log('RETURNED DATA', returnedData)
+
 		res.status(201).send(returnedData)
 	}
 )
