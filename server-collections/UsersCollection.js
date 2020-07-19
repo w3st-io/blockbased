@@ -80,13 +80,32 @@ class UsersCollection {
 					//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
 					const token = jwt.sign(payload, secretKey, {})
 
-					return { auth: true, status: 'success', token: token, }
+					return {
+						auth: true,
+						status: 'success',
+						token: token,
+					}
 				}
-				else { return { auth: false, status: 'incorrect_password' } }
+				else {
+					return {
+						auth: false,
+						status: 'incorrect_password'
+					}
+				}
 			}
-			else { return { auth: false, status: 'incorrect_email' } }
+			else {
+				return {
+					auth: false,
+					status: 'incorrect_email'
+				}
+			}
 		}
-		catch(e) { return { auth: false, status: `Caught Error --> ${e}` } }
+		catch(e) {
+			return {
+				auth: false,
+				status: `Caught Error --> ${e}`
+			}
+		}
 	}
 
 
@@ -108,22 +127,46 @@ class UsersCollection {
 				if (!emailFound) {
 					// Hash Data //
 					bcrypt.hash(formData.password, 10, (e, hash) => {
-						if (e) { return { status: `Caught Error --> ${e}` } }
+						if (e) {
+							return {
+								status: false,
+								message: `Caught Error --> ${e}`,
+								created: false,
+							}
+						}
 
 						formData.password = hash
 					})
 						
 					try {
 						formData.save()
-						return { status: 'success' }
+						return {
+							status: true,
+							message: 'Successfully created account',
+							created: true,
+						}
 					}
-					catch(e) { return { status: `Caught Error --> ${e}` } }
+					catch(e) {
+						return { status: false, message: `Caught Error --> ${e}`, }
+					}
 				}
-				else { return { status: 'email_taken' } }
+				else {
+					return {
+						status: true,
+						message: 'This email is already registered',
+						created: false,
+					}
+				}
 			}
-			else { return { status: 'username_taken' } }
+			else {
+				return {
+					status: true,
+					message: 'This username is taken',
+					created: false,
+				}
+			}
 		}
-		catch(e) { return { status: `Caught Error --> ${e}` } }
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
 
 

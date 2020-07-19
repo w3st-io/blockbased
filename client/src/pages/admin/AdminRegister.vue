@@ -171,8 +171,6 @@
 						this.password,
 					)
 
-					console.log('returnedData', this.returnedData)
-
 					// Check Status //
 					if (
 						this.returnedData.data.status == true &&

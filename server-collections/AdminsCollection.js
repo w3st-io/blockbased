@@ -112,16 +112,12 @@ class BlocksCollection {
 						}
 					}
 					catch(e) {
-						return {
-							status: false,
-							message: `Caught Error --> ${e}`,
-							created: false,
-						}
+						return { status: false, message: `Caught Error --> ${e}`, }
 					}
 				}
 				else {
 					return {
-						status: false,
+						status: true,
 						message: 'This email is already registered',
 						created: false,
 					}
@@ -129,7 +125,7 @@ class BlocksCollection {
 			}
 			else {
 				return {
-					status: false,
+					status: true,
 					message: 'This username is taken',
 					created: false,
 				}

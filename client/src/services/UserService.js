@@ -75,17 +75,13 @@ class UserService {
 		const authAxios = await this.authAxios()
 		
 		try {
-			let r = await authAxios.post('/register', {
+			return await authAxios.post('/register', {
 				first_name,
 				last_name,
 				username,
 				email,
 				password,
 			})
-
-			console.log('rr',r)
-
-			return r
 		}
 		catch (e) {
 			console.log(`Caught Error --> ${e}`)

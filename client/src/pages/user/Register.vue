@@ -130,20 +130,11 @@
 			</ValidationObserver>
 		</div>
 
-		<!-- [ERRORS] Email Taken, Username Taken, & Connection Failed -->
+		<!-- [ALERT] -->
 		<div class="mx-auto my-3 register-terminal">
-			<div
-				v-if="registerStatus === 'email_taken'"
-				class="m-0 mt-3 alert alert-danger"
-			>Email is taken. Try Another email.</div>
-			<div
-				v-if="registerStatus === 'username_taken'"
-				class="m-0 mt-3 alert alert-danger"
-			>Username is taken. Try Another username.</div>
-			<div
-				v-if="error !== ''"
-				class="m-0 mt-3 alert alert-danger"
-			>{{ error }}</div>
+			<div v-show="error" class="m-0 mt-3 alert alert-danger">
+				{{ error }}
+			</div>
 		</div>
 	</article>
 </template>
@@ -162,7 +153,7 @@
 				username: '',
 				email: '',
 				password: '',
-				registerStatus: '',
+				returnedData: '',
 				error: '',
 			}
 		},
@@ -175,7 +166,7 @@
 		methods: {
 			async register() {
 				try {
-					let status = await UserService.register(
+					this.returnedData = await UserService.register(
 						this.first_name,
 						this.last_name,
 						this.username,
@@ -183,17 +174,19 @@
 						this.password,
 					)
 
-					// Set "registerStatus" //
-					this.registerStatus = status.data.status
+					// Check Status //
+					if (
+						this.returnedData.data.status == true &&
+						this.returnedData.data.created == true
+					) {
+						// [LOG] // Change Page //
+						console.log('Account successfully created.')
+						router.push({ name: 'Login' })
+					}
+					else { this.error = this.returnedData.data.message }
 				}
-				catch(err) { this.error = err }
+				catch(e) { this.error = e }
 				
-				// Check Status //
-				if (this.registerStatus == 'success') {
-					// [LOG] // Change Page //
-					console.log('Account successfully created.')
-					router.push({ name: 'Login' })
-				}
 			},
 		}
 	}
