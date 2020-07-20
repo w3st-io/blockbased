@@ -42,9 +42,11 @@
 			<div class="container">
 				<nav class="px-0 py-1 navbar">
 					<div class="mr-auto">
-						<router-link to="/" class="mx-2 text-light">Forum</router-link>
+						<button class="py-1 px-2 btn btn-sm btn-outline-light">
+							<img :src="require('../../assets/images/icons/bell.svg')" style="width: 16px;">
+						</button>
 					</div>
-				
+
 					<div>
 						<router-link v-if="!loggedIn" to="/login" class="ml-2">
 							<button class="btn btn-sm btn-secondary">Login</button>

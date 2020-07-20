@@ -43,7 +43,7 @@ class BlockService {
 
 			return res.data
 		}
-		catch (e) { console.log('RER', e); return { status: false, error: e } }
+		catch (e) { return { status: false, error: e } }
 	}
 
 
