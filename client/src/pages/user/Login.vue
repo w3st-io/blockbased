@@ -70,8 +70,7 @@
 		<!-- [STATUS + ERROR] -->
 		<div class="mx-auto my-3 login-terminal">
 			<div v-if="error" class="m-0 mt-3 alert alert-danger">
-				<!-- Dont give them info on whats wrong HAHAHA -->
-				{{ error = 'Incorrect Email or Password' }}
+				{{ error }}
 			</div>
 		</div>
 	</article>
@@ -107,8 +106,11 @@
 					this.returnedData = await UserService.login(this.email, this.password)
 					
 					// Check Validation Status //
-					if (this.returnedData.data.auth) { this.successful() }
-					else { this.error = this.returnedData.data.status }
+					if (
+						this.returnedData.data.status == true &&
+						this.returnedData.data.validation == true
+					) { this.successful() }
+					else { this.error = this.returnedData.data.message }
 				}
 				catch(err) { this.error = err }
 			},
@@ -116,9 +118,6 @@
 			successful() {
 				// [SET TOKEN] // Emit // [REDIRECT] //
 				localStorage.setItem('usertoken', this.returnedData.data.token)
-
-				UserService.getUserTokenDecodeData()
-
 				EventBus.$emit('logged-in')
 				router.push({ path: '/' })
 			},

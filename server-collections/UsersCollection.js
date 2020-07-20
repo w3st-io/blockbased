@@ -81,31 +81,29 @@ class UsersCollection {
 					const token = jwt.sign(payload, secretKey, {})
 
 					return {
-						auth: true,
-						status: 'success',
+						status: true,
+						message: 'success',
+						validation: true,
 						token: token,
 					}
 				}
 				else {
 					return {
-						auth: false,
-						status: 'incorrect_password'
+						status: true,
+						message: 'Invalid email or password',
+						validation: false,
 					}
 				}
 			}
 			else {
 				return {
-					auth: false,
-					status: 'incorrect_email'
+					status: true,
+					message: 'Invalid email or password',
+					validation: false
 				}
 			}
 		}
-		catch(e) {
-			return {
-				auth: false,
-				status: `Caught Error --> ${e}`
-			}
-		}
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
 
 
