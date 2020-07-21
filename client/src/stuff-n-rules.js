@@ -17,7 +17,7 @@ extend('confirmed', {
 	validate(value, { target }) {
 		return value === target
 	},
-	message: 'Password confirmation does not match.'
+	message: 'Password confirmation does not match'
 })
 
 // Email //
@@ -32,7 +32,7 @@ extend('required', {
 		}
 	},
 	computesRequired: true,
-	message: 'This field is required.'
+	message: 'This field is required'
 })
 
 // Password //
@@ -41,5 +41,5 @@ extend('password', {
 	validate(value, { min, max }) {
 		return value.length >= min && value.length <= max
 	},
-	message: 'Password criteria not met. [5 < password < 23]'
+	message: `Password must be longer than 8 characters`
 })

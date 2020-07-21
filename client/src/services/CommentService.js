@@ -40,6 +40,8 @@ class CommentService {
 				...comment,
 				createdAt: new Date(comment.createdAt).toLocaleString(),
 			}))
+
+			return res.data
 		}
 		catch (e) { return e }
 	}
@@ -53,12 +55,12 @@ class CommentService {
 		try {
 			let res = await authAxios.get(`/read-all/${block_id}/${amount}/${skip}`)
 
-			res.data.map((comment) => ({
+			const comments = res.data.map((comment) => ({
 				...comment,
-				createdAt: new Date(comment.createdAt).toLocaleString()
+				createdAt: new Date(comment.createdAt).toLocaleString(),
 			}))
 
-			return res.data
+			return comments
 		}
 		catch (e) { return e }
 	}

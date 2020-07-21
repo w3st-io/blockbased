@@ -51,7 +51,8 @@ app.use('/api/administration/reports', admininstrationReports)
 app.use('/api/administration/users', admininstrationUsers)
 
 
-// [MONGOOSE CONNECT] //
+// [MONGOOSE!!!] //
+mongoose.set('useFindAndModify', false)
 mongoose.connect(
 	process.env.MONGO_URI,
 	{ useNewUrlParser: true, useUnifiedTopology: true },

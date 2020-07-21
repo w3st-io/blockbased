@@ -6,39 +6,45 @@ const mongoose = require("mongoose")
 const UserSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
-	first_name: {
-		type: String,
-		required: true,
-	},
-
-	last_name: {
-		type: String,
-		required: true,
-	},
-	
-	username: {
-		type: String,
-		required: true,
-	},
-	
 	email: {
 		type: String,
-		required: true,
+		required: [true, "This is required"],
+		maxlength: 50,
+	},
+
+	username: {
+		type: String,
+		required: [true, "This is required"],
+		maxlength: 24,
+	},
+	
+	first_name: {
+		type: String,
+		required: [true, "This is required"],
+		maxlength: 24,
+	},
+	
+	last_name: {
+		type: String,
+		required: [true, "This is required"],
+		maxlength: 24,
+	},
+	
+	profileImg: {
+		type: String,
+		default: '',
+		maxlength: 600,
 	},
 	
 	password: {
 		type: String,
-		required: true,
-	},
-
-	profileImg: {
-		type: String,
-		default: '',
+		required: [true, "This is required"],
 	},
 
 	createdAt: {
 		type: Date,
-		default: Date.now
+		default: Date.now,
+		maxlength: 50
 	}
 })
 

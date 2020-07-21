@@ -28,7 +28,7 @@ class CommentLikesCollection {
 			)
 			
 			try {
-				formData.save()
+				await formData.save()
 
 				return {
 					status: true,

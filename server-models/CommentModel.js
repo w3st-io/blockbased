@@ -21,6 +21,7 @@ const CommentSchema = mongoose.Schema({
 	text: {
 		type: String,
 		required: true,
+		maxlength: 6000
 	},
 
 	likers: [
@@ -32,7 +33,8 @@ const CommentSchema = mongoose.Schema({
 
 	createdAt: {
 		type: Date,
-		default: Date.now
+		default: Date.now,
+		maxlength: 50
 	},
 })
 

@@ -27,7 +27,7 @@ class BlockLikesCollection {
 			)
 
 			try {
-				formData.save()
+				await formData.save()
 
 				return {
 					status: true,

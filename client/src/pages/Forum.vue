@@ -1,15 +1,17 @@
 <template>
 	<div class="container">
-		<div class="row">
+		<div class="row my-4">
 			<!-- Main Content -->
-			<section class="col-12 col-md-9 my-4 card card-body bg-dark">
-				<cat-list :cats="cats1" class="" />
-				<cat-list :cats="cats2" class="mt-3" />
-				<cat-list :cats="cats3" class="mt-3" />
+			<section class="col-12 col-md-9 mb-3 p-0">
+				<div class="card card-body bg-dark">
+					<cat-list :cats="cats1" class="" />
+					<cat-list :cats="cats2" class="mt-3" />
+					<cat-list :cats="cats3" class="mt-3" />
+				</div>
 			</section>
 
 			<!-- Side Content -->
-			<section class="col-12 col-md-3 my-4">
+			<section class="col-12 col-md-3">
 				<side-card />
 			</section>
 		</div>

@@ -15,6 +15,7 @@ const CommentReportSchema = mongoose.Schema({
 	reportType: {
 		type: String,
 		required: true,
+		maxlength: 24,
 	},
 	
 	comment: {
@@ -31,7 +32,8 @@ const CommentReportSchema = mongoose.Schema({
 
 	createdAt: {
 		type: Date,
-		default: Date.now
+		default: Date.now,
+		maxlength: 50
 	},
 })
 

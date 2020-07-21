@@ -9,36 +9,43 @@ const AdminSchema = mongoose.Schema({
 	role: {
 		type: String,
 		default: 'not-admin',
+		maxlength: 10,
 	},
 
 	email: {
 		type: String,
-		required: true,
+		required: [true, "This is required"],
+		maxlength: 50,
+		lowercase: true
 	},
 	
 	username: {
 		type: String,
-		required: true,
+		required: [true, "This is required"],
+		maxlength: 24,
 	},
 	
 	first_name: {
 		type: String,
-		required: true,
+		required: [true, "This is required"],
+		maxlength: 24,
 	},
 	
 	last_name: {
 		type: String,
-		required: true,
+		required: [true, "This is required"],
+		maxlength: 24,
 	},
 	
 	password: {
 		type: String,
-		required: true,
+		required: [true, "This is required"],
 	},
 	
 	createdAt: {
 		type: Date,
-		default: Date.now
+		default: Date.now,
+		maxlength: 50
 	}
 })
 

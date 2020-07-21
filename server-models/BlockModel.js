@@ -15,11 +15,13 @@ const BlockSchema = mongoose.Schema({
 	cat_id: {
 		type: String,
 		required: true,
+		maxlength: 30,
 	},
 
 	title: {
 		type: String,
 		required: true,
+		maxlength: 200,
 	},
 
 	likers: [
@@ -38,7 +40,8 @@ const BlockSchema = mongoose.Schema({
 
 	createdAt: {
 		type: Date,
-		default: Date.now
+		default: Date.now,
+		maxlength: 50
 	},
 })
 

@@ -85,7 +85,7 @@
 					<ValidationProvider
 						tag="div"
 						class="form-group"
-						rules="required|password:6,23|confirmed:@confirmation"
+						rules="required|password:8, 50|confirmed:@confirmation"
 						v-slot="{ errors }"
 					>
 						<label for="password" class="text-light">Password</label>

@@ -1,8 +1,8 @@
 <template>
 	<div class="container">
-		<div class="row">
+		<div class="row mt-4">
 			<!-- Side Content -->
-			<section class="col-12 col-md-3 mt-4 hidden-768">
+			<section class="col-12 col-md-3 hidden-768">
 				<div class="card card-body bg-dark">
 					<img
 						:src="userProfileData.profileImg"
@@ -13,7 +13,7 @@
 			</section>
 
 			<!-- Main Content -->
-			<section class="col-12 col-md-9 mt-4">
+			<section class="col-12 col-md-9">
 				<div class="card card-body bg-dark">
 					<h4 class="text-light mb-2">Your Profile</h4>
 
@@ -34,7 +34,7 @@
 
 					<button
 						@click="redirectProfileEdit()"
-						class="w-100 mt-3 btn btn-secondary"
+						class="mt-3 btn btn-secondary"
 					>Edit Your Profile</button>
 				</div>
 			</section>

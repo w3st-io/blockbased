@@ -13,7 +13,7 @@ class BlockService {
 		return axios.create({
 			baseURL: '/api/blocks',
 			headers: {
-				authorization: `Bearer ${localStorage.usertoken}`
+				'authorization': `Bearer ${localStorage.usertoken}`,
 			}
 		})
 	}
@@ -36,12 +36,12 @@ class BlockService {
 		try {
 			let res = await authAxios.get(`/read-all/${cat_id}/${amount}/${skip}`)
 
-			res.data.map((block) => ({
+			const blocks = res.data.map((block) => ({
 				...block,
 				createdAt: new Date(block.createdAt).toLocaleString()
 			}))
 
-			return res.data
+			return blocks
 		}
 		catch (e) { return { status: false, error: e } }
 	}

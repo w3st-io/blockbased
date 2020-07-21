@@ -123,21 +123,12 @@ class UsersCollection {
 
 			if (!usernameFound) {
 				if (!emailFound) {
-					// Hash Data //
-					bcrypt.hash(formData.password, 10, (e, hash) => {
-						if (e) {
-							return {
-								status: false,
-								message: `Caught Error --> ${e}`,
-								created: false,
-							}
-						}
-
-						formData.password = hash
-					})
-						
 					try {
-						formData.save()
+						// Hash Data //
+						formData.password = await bcrypt.hash(formData.password, 10)
+						
+						await formData.save()
+						
 						return {
 							status: true,
 							message: 'Successfully created account',

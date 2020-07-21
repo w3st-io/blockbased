@@ -89,30 +89,29 @@ class BlocksCollection {
 
 			if (!usernameFound) {
 				if (!emailFound) {
-					// Hash Data //
-					bcrypt.hash(formData.password, 10, (e, hash) => {
-						if (e) {
+					if (formData.password.length > 8 && formData.password.length < 50) {
+						try {
+							// Hash Data //
+							formData.password = await bcrypt.hash(formData.password, 10)
+	
+							await formData.save()
+							
 							return {
-								status: false,
-								message: `Caught Error --> ${e}`,
-								created: false,
+								status: true,
+								message: 'Successfully created account',
+								created: true,
 							}
 						}
-
-						formData.password = hash
-					})
-
-					try {
-						//formData.save()
-
-						return {
-							status: true,
-							message: 'Successfully created account',
-							created: true,
+						catch(e) {
+							return { status: false, message: `Caught Error --> ${e}`, }
 						}
 					}
-					catch(e) {
-						return { status: false, message: `Caught Error --> ${e}`, }
+					else {
+						return {
+							status: true,
+							message: 'Password too short',
+							created: false,
+						}
 					}
 				}
 				else {
