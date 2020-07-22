@@ -13,7 +13,7 @@ class BlockService {
 		return axios.create({
 			baseURL: '/api/blocks',
 			headers: {
-				'authorization': `Bearer ${localStorage.usertoken}`,
+				authorization: `Bearer ${localStorage.usertoken}`,
 			}
 		})
 	}
@@ -43,7 +43,7 @@ class BlockService {
 
 			return blocks
 		}
-		catch (e) { return { status: false, error: e } }
+		catch (e) {console.log(e); return { status: false, error: e } }
 	}
 
 

@@ -26,7 +26,9 @@
 							{{ block.title }}
 						</h5>
 						<p class="m-0 small text-secondary">
-							<span class="text-light">{{ block.user.username }}</span>
+							<span v-if="block.user.username" class="text-light">
+								{{ block.user.username }}
+							</span>
 							- {{ block.createdAt }}
 						</p>
 					</div>

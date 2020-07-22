@@ -8,15 +8,17 @@
 					tag="div"
 					class="form-group" 
 					name="confirmation"
-					rules="required"
+					rules=""
 					v-slot="{ errors }"
 				>
-					<!-- CK Editor -->
-					<ckeditor
-						:editor="editor"
-						:config="editorConfig"
-						v-model="text"
-					></ckeditor>
+					<!-- ToastUI Editor -->
+					<Editor
+						v-if="displayEditor"
+						:initialEditType="'wysiwyg'"
+						:initialValue="initialEditorText"
+						:setValue="'<h1>HELLO????</h1>'"
+						ref="toastuiEditor"
+					/>
 
 					<!-- Error -->
 					<span class="text-danger">{{ errors[0] }}</span>
@@ -43,7 +45,9 @@
 
 <script>
 	// [IMPORT] //
-	import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+	import { Editor } from '@toast-ui/vue-editor'
+	import 'codemirror/lib/codemirror.css'
+	import '@toast-ui/editor/dist/toastui-editor.css'
 
 	// [IMPORT] Personal //
 	import CommentService from '@services/CommentService'
@@ -51,21 +55,19 @@
 
 	// [EXPORT] //
 	export default {
+		components: { Editor },
 		props: {
 			comment_id: { type: String, required: true, }
 		},
 
 		data: function() {
 			return {
+				displayEditor: false,
 				disabled: false,
 				loading: false,
 				commentDetails: {},
-				text: '',
+				editorText: '',
 				error: '',
-
-				// CKEditor Stuff //
-				editor: ClassicEditor,
-				editorConfig: {},
 			}
 		},
 
@@ -90,7 +92,9 @@
 				try {
 					this.commentDetails = await CommentService.read(this.comment_id)
 
-					this.text = this.commentDetails.text
+					this.initialEditorText = this.commentDetails.text
+
+					this.displayEditor = true
 				}
 				catch(e) { this.error = e }
 			},
@@ -107,8 +111,10 @@
 
 			// [UPDATE] Comment //
 			async update() {
+				this.editorText = this.$refs.toastuiEditor.invoke('getHtml')
+
 				try {
-					await CommentService.update(this.comment_id, this.text)
+					await CommentService.update(this.comment_id, this.editorText)
 
 					router.push(
 						{

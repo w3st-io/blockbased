@@ -33,16 +33,20 @@ router.post(
 
 		const existance = await BlocksCollection.existance(block_id)
 
-		if (existance.status && existance.existance) {
-			const returnedData = await CommentsCollection.create(
-				user_id,
-				block_id,
-				text
-			)
-
-			res.status(201).send(returnedData)
+		if (req.body.text.length < 6000) {
+			if (existance.status && existance.existance) {
+				
+				const returnedData = await CommentsCollection.create(
+					user_id,
+					block_id,
+					text
+				)
+	
+				res.status(201).send(returnedData)
+			}
+			else { res.status(400).send(existance.message) }
 		}
-		else { res.status(400).send(existance.message) }
+		else { res.status(400).send('Comment too large') }
 	}
 )
 
@@ -101,12 +105,15 @@ router.post(
 
 		const ownership = await CommentsCollection.ownership(user_id, comment_id)
 
-		if (ownership.status && ownership.ownership) {
-			const returnedData = await CommentsCollection.update(comment_id, text)
+		if (req.body.text.length < 6000) {
+			if (ownership.status && ownership.ownership) {
+				const returnedData = await CommentsCollection.update(comment_id, text)
 
-			res.status(201).send(returnedData)
+				res.status(201).send(returnedData)
+			}
+			else { res.status(400).send(ownership.message) }
 		}
-		else { res.status(400).send(ownership.message) }
+		else { res.status(400).send('Comment too large') }
 	}
 )
 

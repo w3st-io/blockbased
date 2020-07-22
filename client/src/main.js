@@ -4,7 +4,6 @@
  * %%%%%%%%%%%% *
  */
 // [IMPORT] //
-import CKEditor from '@ckeditor/ckeditor5-vue'
 import Vue from 'vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 
@@ -18,7 +17,6 @@ import router from '@router'
 
 
 // [USE] //
-Vue.use(CKEditor)
 
 
 // [GLOBAL COMPONENTS] //

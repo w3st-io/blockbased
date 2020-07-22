@@ -25,19 +25,12 @@
 
 <script>
 	// [Import] //
-	import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 
 	// [EXPORT] //
 	export default {
 		data: function() {
-			return {
-				editor: ClassicEditor,
-				editorData: '<p>Content of the editor.</p>',
-				editorConfig: {
-					//toolbar: [ 'bold', 'italic', '-', 'link' ]
-				}
-			}
-		},
+			return {}
+		}
 	}
 </script>

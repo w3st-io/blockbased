@@ -8,15 +8,15 @@
 					tag="div"
 					class="form-group" 
 					name="confirmation"
-					rules="required"
+					rules=""
 					v-slot="{ errors }"
 				>
-					<!-- CK Editor -->
-					<ckeditor
-						:editor="editor"
-						:config="editorConfig"
-						v-model="text"
-					></ckeditor>
+					<!-- ToastUI Editor -->
+					<Editor
+						initialEditType="wysiwyg"
+						ref="toastuiEditor"
+						height="500px"
+					/>
 
 					<!-- Error -->
 					<span class="text-danger">{{ errors[0] }}</span>
@@ -43,7 +43,9 @@
 
 <script>
 	// [IMPORT] //
-	import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+	import { Editor } from '@toast-ui/vue-editor'
+	import 'codemirror/lib/codemirror.css'
+	import '@toast-ui/editor/dist/toastui-editor.css'
 
 	// [IMPORT] Personal //
 	import BlockService from '@services/BlockService'
@@ -52,6 +54,8 @@
 
 	// [EXPORT] //
 	export default {
+		components: { Editor },
+			
 		props: {
 			block_id: { type: String, required: true, },
 		},
@@ -60,12 +64,8 @@
 			return {
 				disabled: false,
 				loading: false,
-				text: '',
+				editorText: '',
 				error: '',
-
-				// CKEditor Stuff //
-				editor: ClassicEditor,
-				editorConfig: {},
 			}
 		},
 
@@ -101,8 +101,10 @@
 			},
 
 			async create() {
+				this.editorText = this.$refs.toastuiEditor.invoke('getHtml')
+
 				try {
-					await CommentService.create(this.block_id, this.text)
+					await CommentService.create(this.block_id, this.editorText)
 					
 					// [REDIRECT] Block Page //
 					router.push(
