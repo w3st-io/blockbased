@@ -13,5 +13,7 @@ body {
 		linear-gradient(90deg,#42484e 22px, transparent 0);
 }
 
-
 .bg-darkish { background-color: $darkish; }
+
+// Comment List Image Fix //
+.comment-list img { width: 100%; }
