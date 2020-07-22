@@ -15,30 +15,39 @@ class CommentsCollection {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
 	static async create(user_id, block_id, text) {
-		const formData = new CommentModel({
-			_id: mongoose.Types.ObjectId(),
-			user: user_id,
-			block_id: block_id,
-			text: text,
-			likers: [],
-		})
-
-		try {
-			await formData.save()
-
-			return {
-				status: true,
-				message: `Created comment in ${block_id}.`,
+		if (text.length <= 6000) {
+			const formData = new CommentModel({
+				_id: mongoose.Types.ObjectId(),
 				user: user_id,
-				block: block_id,
+				block_id: block_id,
+				text: text,
+			})
+
+			try {
+				await formData.save()
+				
+				return {
+					status: true,
+					message: `Created comment in ${block_id}.`,
+					user: user_id,
+					block_id: block_id,
+				}
+			}
+			catch(e) {
+				return {
+					status: false,
+					user: user_id,
+					block_id: block_id,
+					message: `Caught Error --> ${e}`,
+				}
 			}
 		}
-		catch(e) {
+		else {
 			return {
-				status: false,
+				status: true,
+				message: `Comment too long`,
 				user: user_id,
-				block: block_id,
-				message: `Caught Error --> ${e}`,
+				block_id: block_id,
 			}
 		}
 	}
@@ -86,7 +95,6 @@ class CommentsCollection {
 				.populate({
 					path: 'user',
 					select: 'first_name last_name username email profileImg',
-					//match: { number: { $gte: 0 }}
 				})
 				.exec()
 
@@ -137,25 +145,35 @@ class CommentsCollection {
 	// [UPDATE] //
 	static async update(comment_id, text) {
 		if (mongoose.isValidObjectId(comment_id)) {
-			try {
-				await CommentModel.updateOne(
-					{ _id: comment_id },
-					{ '$set': { 'text': text } },
-				)
+			if (text.length <= 6000) {
+				try {
+					await CommentModel.updateOne(
+						{ _id: comment_id },
+						{ '$set': { 'text': text } },
+					)
 
-				return {
-					status: true,
-					comment_id: comment_id,
-					text: text,
-					message: 'Updated comment.',
+					return {
+						status: true,
+						comment_id: comment_id,
+						text: text,
+						message: 'Updated comment.',
+					}
+				}
+				catch(e) {
+					return {
+						status: false,
+						comment_id: comment_id,
+						text: text,
+						message: `Caught Error --> ${e}`,
+					}
 				}
 			}
-			catch(e) {
+			else {
 				return {
-					status: false,
-					comment_id: comment_id,
-					text: text,
-					message: `Caught Error --> ${e}`,
+					status: true,
+					message: `Comment too long`,
+					user: user_id,
+					block_id: block_id,
 				}
 			}
 		}

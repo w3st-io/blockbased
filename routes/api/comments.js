@@ -33,20 +33,17 @@ router.post(
 
 		const existance = await BlocksCollection.existance(block_id)
 
-		if (req.body.text.length < 6000) {
-			if (existance.status && existance.existance) {
-				
-				const returnedData = await CommentsCollection.create(
-					user_id,
-					block_id,
-					text
-				)
-	
-				res.status(201).send(returnedData)
-			}
-			else { res.status(400).send(existance.message) }
+		if (existance.status && existance.existance) {
+			
+			const returnedData = await CommentsCollection.create(
+				user_id,
+				block_id,
+				text
+			)
+
+			res.status(201).send(returnedData)
 		}
-		else { res.status(400).send('Comment too large') }
+		else { res.status(400).send(existance.message) }
 	}
 )
 
