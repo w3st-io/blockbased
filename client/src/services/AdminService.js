@@ -9,7 +9,7 @@ import axios from 'axios'
 
 
 class AdminService {
-	// [AUTH TOKEN SETUP] //
+	// [AUTH-TOKEN-SETUP] //
 	static async authAxios() {
 		return axios.create({
 			baseURL: '/api/admins',

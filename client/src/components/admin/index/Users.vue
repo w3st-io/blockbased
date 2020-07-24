@@ -60,8 +60,12 @@
 
 		methods: {
 			async getUsers() {
+				// Get Users //
 				try {
-					this.users = await AUserService.getAllUsersProfileData()
+					let returnedData = await AUserService.getAllUsersProfileData()
+
+					if (returnedData.status) this.users = returnedData.users
+					else this.error = returnedData.message
 				}
 				catch(e) { this.error = e }
 			},

@@ -7,42 +7,38 @@
 import axios from 'axios'
 
 
-// [AUTH TOKEN SETUP] //
-const token = localStorage.admintoken
-const authAxios = axios.create({
-	baseURL: '/api/administration/reports',
-	headers: {
-		authorization2: `Bearer ${token}`
-	}
-})
-
-
 class AdminstrationReportService {
+	// [AUTH-TOKEN-SETUP] //
+	static async authAxios() {
+		return axios.create({
+			baseURL: '/api/administration/reports',
+			headers: {
+				authorization2: `Bearer ${localStorage.admintoken}`,
+			}
+		})
+	}
+
 	/******************* [CRUD] *******************/
 	// [READ-ALL] ALL - Auth Required //
-	static getAllReports() {
-		let result = new Promise ((resolve, reject) => {
-			authAxios
-				.get(`/read-all`)
-				.then((res) => {
-					const returnedData = res.data
+	static async getAllReports() {
+		const authAxios = await this.authAxios()
 
-					resolve(
-						returnedData.map((report) => ({
-							...report,
-							createdAt: new Date(report.createdAt).toLocaleString()
-						}))
-					)
-				})
-				.catch((e) => { reject(e) })
-		})
+		try {
+			const returnedData = await authAxios.get('/read-all')
 
-		return result
+			return {
+				status: true,
+				reports: returnedData.data,
+			}
+		}
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
 
 
 	// [DELETE] Auth Required //
-	static deleteReport(report_id) {
+	static async deleteReport(report_id) {
+		const authAxios = await this.authAxios()
+
 		let result = new Promise ((resolve, reject) => {
 			authAxios
 				.delete(`/delete/${report_id}`)

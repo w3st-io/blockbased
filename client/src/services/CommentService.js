@@ -8,7 +8,7 @@ import axios from 'axios'
 
 
 class CommentService {
-	// [AUTH TOKEN SETUP] //
+	// [AUTH-TOKEN-SETUP] //
 	static async authAxios() {
 		return axios.create({
 			baseURL: '/api/comments',

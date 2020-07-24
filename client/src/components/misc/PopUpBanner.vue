@@ -1,6 +1,6 @@
 <template>
 	<nav
-		class="m-5 fixed-bottom alert shadow fade-in"
+		class="mx-2 my-2 fixed-bottom alert shadow fade-in"
 		:class="`alert-${BSColor}`"
 	>{{ message }}</nav>
 </template>

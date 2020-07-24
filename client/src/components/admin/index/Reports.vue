@@ -59,11 +59,12 @@
 			async getReports() {
 				// Get Reports //
 				try {
-					this.reports = await AReportService.getAllReports()
+					let returnedData = await AReportService.getAllReports()
+
+					if (returnedData.status) this.reports = returnedData.reports
+					else this.error = returnedData.message
 				}
 				catch(e) { this.error = e }
-
-				console.log('REPORTS:', this.reports)
 			},
 
 			async deleteReport(report_id) {

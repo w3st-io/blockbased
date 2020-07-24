@@ -1,6 +1,6 @@
 <template>
-	<section class="my-4">
-		<article class="container card card-body bg-dark">
+	<section class="container my-4">
+		<article class="card card-body bg-dark">
 			<!-- Title Header -->
 			<title-header
 				:block_id="block_id"
@@ -22,7 +22,7 @@
 		</article>
 
 		<!-- Botton Page Control -->
-		<article class="container mt-3">
+		<article class="mt-3">
 			<div class="row">
 				<page-nav-buttons
 					:leftBtnEmitName="'block-prev'"
@@ -34,7 +34,7 @@
 		</article>
 
 		<!-- [ALERT] -->
-		<div class="container">
+		<div>
 			<div v-if="!loading && !existance && !error" class="row mt-3 alert alert-warning">
 				Block Does Not Exist.
 			</div>

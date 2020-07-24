@@ -8,7 +8,7 @@ import axios from 'axios'
 
 
 class FollowsService {
-	// [AUTH TOKEN SETUP] //
+	// [AUTH-TOKEN-SETUP] //
 	static async authAxios() {
 		return axios.create({
 			baseURL: '/api/follows',

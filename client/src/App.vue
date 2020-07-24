@@ -20,9 +20,16 @@
 
 		<!-- Floating Pop Up Banner -->
 		<notifications
-			v-if="showNotifications"
+			v-if="false"
 			class="ml-auto"
 			style="width: 30%;"
+		/>
+
+		<PopUpBanner
+			v-if="message"
+			:message="message"
+			:BGColor="'info'"
+			style="width: 65%;"
 		/>
 	</div>
 </template>
@@ -31,6 +38,7 @@
 	// [IMPORT] Personal //
 	import AdminNavBar from '@components/admin/AdminNavBar'
 	import notifications from '@components/notifications/notifications'
+	import PopUpBanner from './components/misc/PopUpBanner'
 	import Footer from '@components/nav/Footer'
 	import NavBar from '@components/nav/NavBar'
 	import SideMenu from './components/nav/SideMenu'
@@ -42,6 +50,7 @@
 		components: {
 			AdminNavBar,
 			notifications,
+			PopUpBanner,
 			Footer,
 			NavBar,
 			SideMenu,
@@ -56,7 +65,7 @@
 				adminLoggedIn: false,
 				loggedIn: false,
 				message: '',
-				showNotifications: false,
+				//message: `Inserting image directly into message will most likely not work due to a cap on messages. Please use a URL for any Images. Thank You!`,
 			}
 		},
 

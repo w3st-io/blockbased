@@ -7,23 +7,25 @@
 import axios from 'axios'
 
 
-// [AUTH TOKEN SETUP] //
-const token = localStorage.admintoken
-const authAxios = axios.create({
-	baseURL: '/api/administration/comments',
-	headers: {
-		authorization2: `Bearer ${token}`
-	}
-})
-
-
 class AdministrationCommentService {
+	// [AUTH-TOKEN-SETUP] //
+	static async authAxios() {
+		return axios.create({
+			baseURL: '/api/administration/comments',
+			headers: {
+				authorization2: `Bearer ${localStorage.admintoken}`,
+			}
+		})
+	}
+
+
 	/******************* [COMMENT] *******************/
 	// [READ-ALL] Auth Required //
-	static readAllAll(amount, pageNumber) {
-		let skip = pageNumber * amount
+	static async readAllAll(amount, pageNumber) {
+		const authAxios = await this.authAxios()
+		const skip = pageNumber * amount
 
-		let result = new Promise ((resolve, reject) => {
+		const result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read-all-all/${amount}/${skip}`)
 				.then((res) => {
 					const returnedData = res.data
@@ -43,7 +45,8 @@ class AdministrationCommentService {
 
 
 	// [READ-ALL] Auth Required - Within a Block //
-	static readAll(block_id, amount, pageNumber) {
+	static async readAll(block_id, amount, pageNumber) {
+		const authAxios = await this.authAxios()
 		const skip = pageNumber * amount
 
 		const result = new Promise ((resolve, reject) => {
@@ -63,8 +66,10 @@ class AdministrationCommentService {
 
 
 	// [READ] //
-	static read(comment_id) {
-		let result = new Promise ((resolve, reject) => {
+	static async read(comment_id) {
+		const authAxios = await this.authAxios()
+
+		const result = new Promise ((resolve, reject) => {
 			authAxios.get(`/read/${comment_id}`)
 			.then((res) => { resolve(res.data) })
 			.catch((err) => { reject(err) })
@@ -75,8 +80,10 @@ class AdministrationCommentService {
 
 
 	// [UPDATE] //
-	static update(comment_id, comment) {
-		let result = new Promise ((resolve, reject) => {
+	static async update(comment_id, comment) {
+		const authAxios = await this.authAxios()
+
+		const result = new Promise ((resolve, reject) => {
 			authAxios.post(`/update/${comment_id}`, { comment })
 				.then((res) => { resolve(res.data) })
 				.catch((err) => { reject(err) })
@@ -87,8 +94,10 @@ class AdministrationCommentService {
 
 
 	// [DELETE] //
-	static delete(comment_id) {
-		let result = new Promise ((resolve, reject) => {
+	static async delete(comment_id) {
+		const authAxios = await this.authAxios()
+
+		const result = new Promise ((resolve, reject) => {
 			authAxios.delete(`/delete/${comment_id}`)
 				.then((res) => { resolve(res) })
 				.catch((err) => { reject(err) })
