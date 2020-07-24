@@ -33,7 +33,7 @@
 			</div>
 		</article>
 
-		<!-- [STATUS + ERROR] -->
+		<!-- [ALERT] -->
 		<div class="container">
 			<div v-if="!loading && !existance && !error" class="row mt-3 alert alert-warning">
 				Block Does Not Exist.
@@ -42,12 +42,6 @@
 			<div v-if="error" class="row mt-3 alert alert-danger">
 				Block Page {{ error }}
 			</div>
-
-			<pop-up-banner
-				v-show="message"
-				:message="message"
-				:BSColor="'info'"
-			/>
 		</div>
 	</section>
 </template>
@@ -56,7 +50,6 @@
 	// [IMPORT] Personal //
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import CommentList from '@components/comment/List'
-	import PopUpBanner from '@components/misc/PopUpBanner'
 	import TitleHeader from '@components/block/TitleHeader'
 	import router from '@router'
 	import BlockService from '@services/BlockService'
@@ -70,7 +63,6 @@
 			CommentList,
 			TitleHeader,
 			PageNavButtons,
-			PopUpBanner,
 		},
 
 		data: function() {
@@ -86,7 +78,6 @@
 				email: 'unset',
 				username: 'unset',
 				error: '',
-				message: '',
 			}
 		},
 

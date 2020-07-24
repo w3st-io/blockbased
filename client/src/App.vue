@@ -17,12 +17,22 @@
 
 		<!-- Bottom Footer -->
 		<Footer />
+
+		<!-- Floating Pop Up Banner -->
+		<pop-up-banner
+			class="ml-auto"
+			style="width: 30%;"
+			:v-if="message"
+			:message="'primary'"
+			:BSColor="'primary'"
+		/>
 	</div>
 </template>
 
 <script>
 	// [IMPORT] Personal //
 	import AdminNavBar from '@components/admin/AdminNavBar'
+	import PopUpBanner from '@components/notifications/notifications'
 	import Footer from '@components/nav/Footer'
 	import NavBar from '@components/nav/NavBar'
 	import SideMenu from './components/nav/SideMenu'
@@ -33,6 +43,7 @@
 		name: 'App',
 		components: {
 			AdminNavBar,
+			PopUpBanner,
 			Footer,
 			NavBar,
 			SideMenu,
@@ -46,6 +57,7 @@
 				routerViewKey: 2,
 				adminLoggedIn: false,
 				loggedIn: false,
+				message: '',
 			}
 		},
 
