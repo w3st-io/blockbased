@@ -43,7 +43,13 @@
 				<nav class="px-0 py-1 navbar">
 					<div class="mr-auto">
 						<button class="py-1 px-2 btn btn-sm btn-outline-light">
-							<img :src="require('../../assets/images/icons/bell.svg')" style="width: 16px;">
+							<img
+								:src="require('../../assets/images/icons/bell.svg')"
+								style="width: 16px;"
+							>
+							<span v-if="notifications" class="ml-1 badge badge-danger">
+								{{ totalNotifications }}
+							</span>
 						</button>
 					</div>
 
@@ -85,6 +91,7 @@
 				user_id: 'unset',
 				email: 'unset',
 				username: 'unset',
+				totalNotifications: 0,
 			}
 		},
 

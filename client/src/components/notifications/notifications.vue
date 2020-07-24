@@ -19,7 +19,6 @@
 				shadow
 				fade-in
 			"
-			:class="`alert-${BSColor}`"
 		>
 			<div class="card-header">
 				{{ notification }}
@@ -38,11 +37,6 @@
 
 <script>
 	export default {
-		props: {
-			message: { type: String, required: true, },
-			BSColor: { type: String, default: 'primary' },
-		},
-
 		data: function() {
 			return {
 				notifications: ['notification', 'notification']

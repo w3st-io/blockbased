@@ -16,4 +16,4 @@ body {
 .bg-darkish { background-color: $darkish; }
 
 // Comment List Image Fix //
-.comment-list img { width: 100%; }
+.comment-list img { max-width: 100%; }

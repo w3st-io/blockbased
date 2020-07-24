@@ -19,12 +19,10 @@
 		<Footer />
 
 		<!-- Floating Pop Up Banner -->
-		<pop-up-banner
+		<notifications
+			v-if="showNotifications"
 			class="ml-auto"
 			style="width: 30%;"
-			:v-if="message"
-			:message="'primary'"
-			:BSColor="'primary'"
 		/>
 	</div>
 </template>
@@ -32,7 +30,7 @@
 <script>
 	// [IMPORT] Personal //
 	import AdminNavBar from '@components/admin/AdminNavBar'
-	import PopUpBanner from '@components/notifications/notifications'
+	import notifications from '@components/notifications/notifications'
 	import Footer from '@components/nav/Footer'
 	import NavBar from '@components/nav/NavBar'
 	import SideMenu from './components/nav/SideMenu'
@@ -43,7 +41,7 @@
 		name: 'App',
 		components: {
 			AdminNavBar,
-			PopUpBanner,
+			notifications,
 			Footer,
 			NavBar,
 			SideMenu,
@@ -58,6 +56,7 @@
 				adminLoggedIn: false,
 				loggedIn: false,
 				message: '',
+				showNotifications: false,
 			}
 		},
 
