@@ -43,10 +43,12 @@ class UserService {
 
 
 	// [READ] //
-	static async getUserProfileData() {
+	static async getUserProfileData(user_id) {
 		const authAxios = await this.authAxios()
+		let profileData = ''
 
-		const profileData = await authAxios.get(`/read`)
+		if (user_id) { profileData = await authAxios.get(`/read/${user_id}`) }
+		else { profileData = await authAxios.get('/read') }
 
 		return profileData.data
 	}

@@ -91,7 +91,7 @@
 				</div>
 			</div>
 
-			<!-- [ALERT] -->
+			<!-- [ALERTS] -->
 			<div v-show="error" class="m-0 mt-3 alert alert-danger">
 				Block List: {{ error }}
 			</div>

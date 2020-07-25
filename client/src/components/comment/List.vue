@@ -96,7 +96,7 @@
 			<no-content v-if="comments == ''" class="my-3" />
 		</section>
 		
-		<!-- [LOADING + ERROR] -->
+		<!-- [LOADING] -->
 		<section class="col-12">
 			<div v-if="loading" class="my-3 alert alert-primary">
 				<div class="d-flex justify-content-center">

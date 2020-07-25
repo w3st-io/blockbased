@@ -34,7 +34,7 @@
 			</form>
 		</ValidationObserver>
 
-		<!-- [ERRORS] -->
+		<!-- [ALERTSS] -->
 		<div v-if="error" class="mt-3 alert alert-danger">
 			{{ error }}
 		</div>

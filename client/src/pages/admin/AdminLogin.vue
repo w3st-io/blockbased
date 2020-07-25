@@ -55,7 +55,7 @@
 		</div>
 		<br>
 
-		<!-- [ERRORS] -->
+		<!-- [ALERTS] -->
 		<div v-if="error" class="m-0 mt-3 alert alert-danger">
 			{{ error }}
 		</div>

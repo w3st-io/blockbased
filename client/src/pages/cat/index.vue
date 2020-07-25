@@ -1,6 +1,6 @@
 <template>
-	<section class="my-4">
-		<article class="container card card-body bg-dark">
+	<section class="my-4 container">
+		<article class="card card-body bg-dark">
 			<!-- Title With Create Button -->
 			<title-header
 				:cat_id="cat_id"
@@ -20,23 +20,16 @@
 			/>
 		</article>
 
-		<!-- [ERROR] -->
-		<div v-show="error" class="mt-3 container alert alert-danger">
+		<!-- [ALERTS] -->
+		<div v-show="error" class="mt-3 alert alert-danger">
 			Cat Page: {{ error }}
 		</div>
-
-		<pop-up-banner
-			v-show="message"
-			:message="message"
-			:BSColor="'info'"
-		/>
 	</section>
 </template>
 
 <script>
 	// [IMPORT] Personal //
 	import BlockList from '@components/block/List'
-	import PopUpBanner from '@components/misc/PopUpBanner'
 	import TitleHeader from '@components/cat/TitleHeader'
 	import UserService from '@services/UserService'
 	import router from '@router'
@@ -46,7 +39,6 @@
 	export default {
 		components: {
 			BlockList,
-			PopUpBanner,
 			TitleHeader,
 		},
 
@@ -60,7 +52,6 @@
 				email: 'unset',
 				username: 'unset',
 				error: '',
-				message: '',
 			}
 		},
 

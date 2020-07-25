@@ -24,7 +24,7 @@
 			<reports v-show="activeTab == 'reports'" />
 		</div>
 
-		<!-- [ERRORS] -->
+		<!-- [ALERTS] -->
 		<div v-if="error != ''" class="my-3 alert alert-danger">
 			{{ error }}
 		</div>

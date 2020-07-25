@@ -65,7 +65,6 @@
 				adminLoggedIn: false,
 				loggedIn: false,
 				message: '',
-				//message: `Inserting image directly into message will most likely not work due to a cap on messages. Please use a URL for any Images. Thank You!`,
 			}
 		},
 

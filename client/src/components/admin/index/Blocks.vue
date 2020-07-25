@@ -31,7 +31,7 @@
 			</tbody>
 		</table>
 		
-		<!-- [AELRT] -->
+		<!-- [AELRTS] -->
 		<div v-if="error" class="m-0 mt-3 alert alert-danger">{{ error }}</div>
 	</section>
 </template>

@@ -1,5 +1,5 @@
 <template>
-	<section class="container my-4">
+	<section class="my-4 container">
 		<article class="card card-body bg-dark">
 			<!-- Title Header -->
 			<title-header
@@ -33,7 +33,7 @@
 			</div>
 		</article>
 
-		<!-- [ALERT] -->
+		<!-- [ALERTS] -->
 		<div>
 			<div v-if="!loading && !existance && !error" class="row mt-3 alert alert-warning">
 				Block Does Not Exist.

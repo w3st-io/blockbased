@@ -130,7 +130,7 @@
 			</ValidationObserver>
 		</div>
 
-		<!-- [ALERT] -->
+		<!-- [ALERTS] -->
 		<div class="mx-auto my-3 register-terminal">
 			<div v-show="error" class="m-0 mt-3 alert alert-danger">
 				{{ error }}

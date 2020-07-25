@@ -1,5 +1,5 @@
 <template>
-	<section class="container my-3">
+	<section class="my-3 container">
 		<!-- Message -->
 		<div class="card text-white bg-info mb-3">
 			<div class="card-body">
@@ -19,7 +19,7 @@
 			/>
 		</div>
 
-		<!-- [ERROR] -->
+		<!-- [ALERTS] -->
 		<div v-if="error" class="mt-3 alert alert-danger">
 			{{ error }}
 		</div>

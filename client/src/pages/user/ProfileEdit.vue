@@ -51,9 +51,7 @@
 
 		created: async function() {
 			// [REDIRECT] Not Log Required //
-			if (!localStorage.usertoken) {
-				router.push({ name: 'Dashboard' })
-			}
+			if (!localStorage.usertoken) { router.push({ name: 'Dashboard' }) }
 
 			// Retrieve User Token Decode Data //
 			try {
