@@ -91,6 +91,7 @@
 				user_id: 'unset',
 				email: 'unset',
 				username: 'unset',
+				notifications: '',
 				totalNotifications: 0,
 			}
 		},

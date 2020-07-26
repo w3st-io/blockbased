@@ -9,6 +9,10 @@ const mongoose = require('mongoose')
 
 class NotificationsCollection {
 	/******************* [CRUD] *******************/
+	// [CREATE] //
+	static async create() {}
+	
+
 	// [READ-ALL] //
 	static async readAll() {}
 

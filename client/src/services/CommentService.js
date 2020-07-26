@@ -21,10 +21,10 @@ class CommentService {
 	
 	/******************* [CRUD] *******************/
 	// [CREATE] Auth Required //
-	static async create(block_id, text) {
+	static async create(block_id, blockFollowers, text) {
 		const authAxios = await this.authAxios()
 
-		return await authAxios.post(`/create`, { block_id, text })
+		return await authAxios.post(`/create`, { block_id, blockFollowers, text })
 	}
 
 

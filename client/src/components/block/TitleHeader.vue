@@ -3,8 +3,8 @@
 		<!-- Left Side -->
 		<div class="col-lg-6 col-md-8 col-sm-8">
 			<!-- Title + Page Nav Buttons -->
-			<h3 class="m-0 text-light">{{ block.title }}</h3>
-			<p class="text-secondary">created by: {{ block.user.username }}</p>
+			<h3 class="m-0 text-light">{{ blockTitle }}</h3>
+			<p class="text-secondary">created by: {{ blockCreatorUsername }}</p>
 
 			<page-nav-buttons
 				:leftBtnEmitName="leftBtnEmitName"
@@ -22,7 +22,7 @@
 			<div class="mb-3">
 				<span>
 					<span class="ml-2 badge badge-light">
-						{{ block.followers.length}}
+						{{ blockFollowersCount }}
 					</span>
 					<button
 						:disabled="disabled" 
@@ -71,6 +71,12 @@
 				following: false,
 				pageNumber: this.$route.params.page,
 				block: {},
+
+				// Render Variables
+				blockTitle: '',
+				blockCreatorUsername: '',
+				blockFollowersCount: 0,
+				
 				error: '',
 			}
 		},
@@ -81,6 +87,10 @@
 
 			// Get Block Details //
 			await this.blockRead()
+
+			this.blockTitle = this.block.title
+			this.blockCreatorUsername = this.block.user.username
+			this.blockFollowersCount = this.block.followers.length
 			
 			// [LOG] //
 			this.log()
@@ -102,7 +112,6 @@
 
 				this.searchForUserInFollowers()
 			},
-
 
 			searchForUserInFollowers() {
 				console.log(this.block.followers)
@@ -135,9 +144,7 @@
 
 			async follow() {
 				try { await BlockService.follow(this.block_id) }
-				catch(e) { this.error = e }
-
-				
+				catch(e) { this.error = e }				
 			},
 
 			async unfollow() {
@@ -164,8 +171,6 @@
 </script>
 
 <style lang="scss" scoped>
-	// Small devices (landscape phones, 576px and up)
-	@media (max-width: 767.98px) { 
-		.hide-the-ugly { display: none; }
-	}
+	// Small devices (landscape phones, 576px and up) //
+	@media (max-width: 767.98px) { .hide-the-ugly { display: none; } }
 </style>

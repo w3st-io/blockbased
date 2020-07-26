@@ -49,13 +49,13 @@
 
 	// [IMPORT] Personal //
 	import BlockService from '@services/BlockService'
-	import CommentService from '@services/CommentService'
+	import CommentService from '../../services/CommentService'
 	import router from '@router'
 
 	// [EXPORT] //
 	export default {
 		components: { Editor },
-			
+
 		props: {
 			block_id: { type: String, required: true, },
 		},
@@ -64,6 +64,7 @@
 			return {
 				disabled: false,
 				loading: false,
+				block: {},
 				editorText: '',
 				error: '',
 			}
@@ -74,6 +75,9 @@
 
 			// If Invalid Block => Disable //
 			if (!valid) { this.disabled = true }
+
+			// Get Block Details //
+			await this.blockRead()
 
 			// [LOG] //
 			this.log()
@@ -89,7 +93,13 @@
 				return status
 			},
 
-			// [CREATE] Create Comment //
+			/******************* [INIT] Block *******************/
+			async blockRead() {
+				try { this.block = await BlockService.read(this.block_id) }
+				catch(e) { this.error = e }
+			},
+
+			/******************* [BTN] Submit *******************/
 			async submit() {
 				if (localStorage.usertoken) {
 					this.disabled = true
@@ -100,20 +110,22 @@
 				else { this.error = 'Unable to create comment' }
 			},
 
+			/******************* [CREATE] Comment *******************/
 			async create() {
 				this.editorText = this.$refs.toastuiEditor.invoke('getHtml')
 
 				try {
-					await CommentService.create(this.block_id, this.editorText)
+					await CommentService.create(
+						this.block_id,
+						this.block.followers,
+						this.editorText
+					)
 					
 					// [REDIRECT] Block Page //
 					router.push(
 						{
 							name: 'Block',
-							params: {
-								block_id: this.block_id,
-								page: 1
-							}
+							params: { block_id: this.block_id, page: 1 }
 						}
 					)
 				}
@@ -126,6 +138,9 @@
 			log() {
 				console.log('%%% [COMPONENT] CommentCreate %%%')
 				console.log('block_id:', this.block_id)
+				console.log('block:', this.block)
+				console.log('block:', this.block.followers)
+
 			},
 		},
 	}

@@ -29,7 +29,10 @@ router.post(
 	async (req, res) => {
 		const user_id = req.decoded._id
 		const block_id = req.body.block_id
+		const blockFollowers = req.body.blockFollowers
 		const text = req.body.text
+
+		console.log(blockFollowers)
 
 		const existance = await BlocksCollection.existance(block_id)
 
