@@ -20,14 +20,14 @@
 				fade-in
 			"
 		>
-			<div class="card-header">
-				{{ notification }}
+			<div class="card-header p-2">
+				<span class="small">{{ notification }}</span>
 				<button type="button" class="ml-2 mb-1 close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="card-body">
-				<p class="card-text">
+			<div class="card-body p-2">
+				<p class="card-text small">
 					Some quick content.
 				</p>
 			</div>
@@ -36,21 +36,35 @@
 </template>
 
 <script>
+	// [IMPORT] //
+	import NotificationService from '../../services/NotificationService'
+
+	// [EXPORT] //
 	export default {
 		data: function() {
 			return {
-				notifications: ['notification', 'notification']
+				notifications: [],
 			}
 		},
 
 		created: async function() {
-			this.activate()
+			this.notifications = await NotificationService.readAll()
+
+			this.refreshNotifications()
+
+			// [LOG] //
+			this.log()
 		},
 
 		methods: {
-			activate() {
+			refreshNotifications() {
 				setTimeout(() => this.notifications.push('new notification'), 5000)
-			}
+			},
+		
+			log() {
+				console.log('%%% [COMPONENT] PopUpNotifications %%%')
+				console.log('nothifications:', this.notifications)
+			},
 		}
 	}
 </script>

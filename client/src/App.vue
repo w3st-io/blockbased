@@ -19,8 +19,8 @@
 		<Footer />
 
 		<!-- Floating Pop Up Banner -->
-		<notifications
-			v-if="false"
+		<PopUpNotifications
+			v-if="true"
 			class="ml-auto"
 			style="width: 30%;"
 		/>
@@ -37,7 +37,7 @@
 <script>
 	// [IMPORT] Personal //
 	import AdminNavBar from '@components/admin/AdminNavBar'
-	import notifications from '@components/notifications/notifications'
+	import PopUpNotifications from '@components/notifications/PopUpNotifications'
 	import PopUpBanner from './components/misc/PopUpBanner'
 	import Footer from '@components/nav/Footer'
 	import NavBar from '@components/nav/NavBar'
@@ -49,7 +49,7 @@
 		name: 'App',
 		components: {
 			AdminNavBar,
-			notifications,
+			PopUpNotifications,
 			PopUpBanner,
 			Footer,
 			NavBar,
