@@ -31,6 +31,7 @@ class CommentsCollection {
 					message: `Created comment in ${block_id}.`,
 					user: user_id,
 					block_id: block_id,
+					commentCreated: formData
 				}
 			}
 			catch(e) {

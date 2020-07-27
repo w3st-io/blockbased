@@ -15,6 +15,7 @@ const BlocksCollection = require('../../server-collections/BlocksCollection')
 const CommentsCollection = require('../../server-collections/CommentsCollection')
 const CommentLikesCollection = require('../../server-collections/CommentLikesCollection')
 const CommentReportsCollection = require('../../server-collections/CommentReportsCollections')
+const NotificationsCollection = require('../../server-collections/NotificationsCollections')
 
 
 // [EXPRESS + USE] //
@@ -32,17 +33,22 @@ router.post(
 		const blockFollowers = req.body.blockFollowers
 		const text = req.body.text
 
-		console.log(blockFollowers)
-
 		const existance = await BlocksCollection.existance(block_id)
 
 		if (existance.status && existance.existance) {
-			
 			const returnedData = await CommentsCollection.create(
 				user_id,
 				block_id,
 				text
 			)
+
+			for (let i = 0; i < blockFollowers.length; i++) {
+				let test = await NotificationsCollection.create(
+					blockFollowers[i],
+					returnedData.commentCreated._id,
+					'comment'
+				)
+			}
 
 			res.status(201).send(returnedData)
 		}

@@ -76,9 +76,6 @@
 			// If Invalid Block => Disable //
 			if (!valid) { this.disabled = true }
 
-			// Get Block Details //
-			await this.blockRead()
-
 			// [LOG] //
 			this.log()
 		},
@@ -91,12 +88,6 @@
 				catch(e) { this.error = e }
 
 				return status
-			},
-
-			/******************* [INIT] Block *******************/
-			async blockRead() {
-				try { this.block = await BlockService.read(this.block_id) }
-				catch(e) { this.error = e }
 			},
 
 			/******************* [BTN] Submit *******************/
@@ -115,6 +106,9 @@
 				this.editorText = this.$refs.toastuiEditor.invoke('getHtml')
 
 				try {
+					// Get Block Details
+					this.block = await BlockService.read(this.block_id)
+
 					await CommentService.create(
 						this.block_id,
 						this.block.followers,
@@ -139,7 +133,7 @@
 				console.log('%%% [COMPONENT] CommentCreate %%%')
 				console.log('block_id:', this.block_id)
 				console.log('block:', this.block)
-				console.log('block:', this.block.followers)
+				console.log('blockFollowers:', this.block.followers)
 
 			},
 		},
