@@ -54,9 +54,9 @@ class NotificationsCollection {
 		)
 		.populate(
 			{
-				path : 'comment',
-				populate : {
-					path : 'user',
+				path: 'comment',
+				populate: {
+					path: 'user',
 					select: 'username',
 				}
 			}

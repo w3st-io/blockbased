@@ -64,8 +64,10 @@ class CommentsCollection {
 				.skip(skip2)
 				.limit(limit2)
 				.populate(
-					'user',
-					'first_name last_name username email profileImg'
+					{
+						path: 'user',
+						select: 'username email profileImg',
+					}
 				)
 				.populate('block')
 				.exec()
@@ -93,10 +95,12 @@ class CommentsCollection {
 			)
 				.skip(skip2)
 				.limit(limit2)
-				.populate({
-					path: 'user',
-					select: 'first_name last_name username email profileImg',
-				})
+				.populate(
+					{
+						path: 'user',
+						select: 'username email profileImg',
+					}
+				)
 				.exec()
 
 			return returnedData
@@ -115,14 +119,18 @@ class CommentsCollection {
 		if (mongoose.isValidObjectId(comment_id)) {
 			try {
 				const returnedData = await CommentModel.findById(comment_id)
-					.populate({
-						path: 'user',
-						select: 'first_name last_name username email profileImg'
-					})
-					.populate({
-						path: 'likers',
-						select: '_id user_id block_id text'
-					})
+					.populate(
+						{
+							path: 'user',
+							select: 'username email profileImg'
+						}
+					)
+					.populate(
+						{
+							path: 'likers',
+							select: '_id user_id block_id text'
+						}
+					)
 					.exec()
 
 				return returnedData

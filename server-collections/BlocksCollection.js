@@ -55,8 +55,10 @@ class BlocksCollection {
 				.skip(skip2)
 				.limit(amount2)
 				.populate(
-					'user',
-					'first_name last_name username email profileImg'
+					{
+						path: 'user',
+						select: 'username email profileImg',
+					}
 				)
 				.exec()
 
@@ -78,8 +80,10 @@ class BlocksCollection {
 				.skip(skip2)
 				.limit(amount2)
 				.populate(
-					'user',
-					'first_name last_name username email profileImg'
+					{
+						path: 'user',
+						select: 'username email profileImg',
+					}
 				)
 				.exec()
 
@@ -95,8 +99,10 @@ class BlocksCollection {
 			try {
 				const returnedData = await BlockModel.findById(block_id)
 					.populate(
-						'user',
-						'first_name last_name username email profileImg'
+						{
+							path: 'user',
+							select: 'username email profileImg',
+						}
 					)
 					.exec()
 				
