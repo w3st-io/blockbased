@@ -167,7 +167,7 @@
 			})
 
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {

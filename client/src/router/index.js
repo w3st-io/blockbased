@@ -157,7 +157,7 @@ const router = new Router ({
 		},
 		{
 			path: '/profile/view/:user_id',
-			name: 'Forum',
+			name: 'ProfileView',
 			component: ProfileView,
 			meta: {
 				auth: true,

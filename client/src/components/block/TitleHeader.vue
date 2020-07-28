@@ -93,7 +93,7 @@
 			this.blockFollowersCount = this.block.followers.length
 			
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {

@@ -20,10 +20,12 @@ const router = express.Router().use(cors())
 
 // [READ-ALL] //
 router.get(
-	'/read-all/:amount/:skip',
+	'/read-all',
 	Auth.userToken(),
 	async (req, res) => {
-		const returnedData = await NotificationsCollection.readAll(req)
+		const returnedData = await NotificationsCollection.readAll(
+			req.decoded._id
+		)
 
 		res.status(200).send(returnedData)
 	}

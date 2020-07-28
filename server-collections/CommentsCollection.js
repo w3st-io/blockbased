@@ -19,7 +19,7 @@ class CommentsCollection {
 			const formData = new CommentModel({
 				_id: mongoose.Types.ObjectId(),
 				user: user_id,
-				block_id: block_id,
+				block: block_id,
 				text: text,
 			})
 
@@ -67,7 +67,7 @@ class CommentsCollection {
 					'user',
 					'first_name last_name username email profileImg'
 				)
-				.populate('block_id')
+				.populate('block')
 				.exec()
 
 			return returnedData
@@ -89,7 +89,7 @@ class CommentsCollection {
 
 		try {
 			const returnedData = await CommentModel.find(
-				{ block_id: block_id }
+				{ block: block_id }
 			)
 				.skip(skip2)
 				.limit(limit2)

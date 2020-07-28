@@ -46,7 +46,22 @@ class NotificationsCollection {
 	
 
 	// [READ-ALL] //
-	static async readAll() {}
+	static async readAll(user_id) {
+		return await NotificationModel.find(
+			{
+				user: user_id
+			}
+		)
+		.populate(
+			{
+				path : 'comment',
+				populate : {
+					path : 'user',
+					select: 'username',
+				}
+			}
+		)
+	}
 
 
 	// [DELETE] //

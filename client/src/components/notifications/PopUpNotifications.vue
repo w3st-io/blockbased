@@ -21,14 +21,16 @@
 			"
 		>
 			<div class="card-header p-2">
-				<span class="small">{{ notification }}</span>
+				<span class="small">
+					{{ notification.comment.user.username }} made a {{ notification.type }}
+				</span>
 				<button type="button" class="ml-2 mb-1 close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="card-body p-2">
 				<p class="card-text small">
-					Some quick content.
+					{{ notification.comment.text }}
 				</p>
 			</div>
 		</div>

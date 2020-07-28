@@ -70,7 +70,7 @@ app.listen(port, function() { console.log(`Server Running on Port: ${port}`) })
 
 // [MAIN ROUTE] //
 app.get('', async (req, res) => {
-	const html = `<h1 style="color: #4d31ce;">BlockBased API</h1>W`
+	const html = `<h1 style="color: #4d31ce;">BlockBased API</h1>`
 	console.log('req:', req)
 
 	res.send(html)

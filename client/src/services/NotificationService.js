@@ -20,7 +20,19 @@ class NotificationService {
 
 	/******************* [CRUD] *******************/
 	static async readAll() {
-		return ['testing', 'this']
+		const authAxios = await this.authAxios()
+
+		try {
+			let res = await authAxios.get(`/read-all`)
+
+			const notifications = res.data.map((notification) => ({
+				...notification,
+				createdAt: new Date(notification.createdAt).toLocaleString(),
+			}))
+
+			return notifications
+		}
+		catch (e) { return e }
 	}
 }
 
