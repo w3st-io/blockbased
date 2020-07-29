@@ -18,13 +18,14 @@
 		<!-- Bottom Footer -->
 		<Footer />
 
-		<!-- Floating Pop Up Banner -->
+		<!-- Floating Pop Up Notifications -->
 		<PopUpNotifications
 			v-if="true"
 			class="ml-auto"
 			style="width: 30%;"
 		/>
 
+		<!-- Floating Pop Up Banner -->
 		<PopUpBanner
 			v-if="message"
 			:message="message"

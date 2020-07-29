@@ -8,6 +8,7 @@
 
 		<div
 			v-show="showPopper"
+			v-click-outside="outsideClicked"
 			class="
 				position-absolute
 				p-1
@@ -29,16 +30,22 @@
 				class="dropdown-item bg-dark text-light"
 			>{{ listItem }}</a>
 		</div>
-		
+		<!-- 
 		<div
 			v-show="showPopper"
 			@click="showPopper = !showPopper"
+			
 			class="position-fixed w-100 h-100 p-0 m-0 z-index-backdrop backdrop"
 		></div>
+		
+		-->
 	</span>
 </template>
  
 <script>
+	// [IMPORT] //
+	import ClickOutside from 'vue-click-outside'
+
 	// [IMPORT] Personal //
 	import { EventBus } from '@main'
  
@@ -58,6 +65,11 @@
 			}
 		},
 
+		mounted: function() {
+			// prevent click outside event with popupItem.
+			this.popupItem = this.$el
+		},
+
 		created: function() {
 			// [LOG] //
 			//this.log()
@@ -68,6 +80,8 @@
 				EventBus.$emit(listItem, _id)
 			},
 
+			outsideClicked() { this.showPopper = false },
+
 			log() {
 				console.log('%%% [COMPONENT] dropDownMenuBtn %%%')
 				console.log('_id:', this._id)
@@ -75,6 +89,10 @@
 				console.log('btnName:', this.btnName)
 				console.log('BSColor:', this.BSColor)
 			}
+		},
+
+		directives: {
+			ClickOutside
 		}
 	}
 </script>
