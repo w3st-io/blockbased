@@ -49,7 +49,8 @@ class NotificationsCollection {
 	static async readAll(user_id) {
 		return await NotificationModel.find(
 			{
-				user: user_id
+				user: user_id,
+				read: false
 			}
 		)
 		.populate(
@@ -68,17 +69,26 @@ class NotificationsCollection {
 	static async delete() {}
 
 
-	/******************* [EXISTANCE + OWNERSHIP] *******************/
-	// [EXISTANCE] //
-	static async existance() {}
+	/******************* [MARK-READ-STATUS] *******************/
+	static async markRead(user_id, notification_id) {
+		console.log('user_id', user_id)
+		console.log('notification_id', notification_id)
 
-
-	// [OWNERSHIP] //
-	static async ownership() {}
-
-
-	/******************* [COUNT] *******************/
-	static async count() {}
+		try {
+			await NotificationModel.updateOne(
+				{ _id: notification_id },
+				{ read: true },
+			)
+				
+			return {
+				status: true,
+				message: 'Marked read',
+				user_id: user_id,
+				notification_id: notification_id,
+			}
+		}	
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+	}
 }
 
 

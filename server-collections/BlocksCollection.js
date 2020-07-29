@@ -156,7 +156,7 @@ class BlocksCollection {
 	/******************* [LIKE SYSTEM] *******************/
 	// [LIKE] //
 	static async like(user_id, block_id) {
-		const likeExistance = await this.likeExistance(user_id, block_id)
+		
 
 		if (likeExistance.status == true && likeExistance.existance == false) {
 			try {
@@ -168,8 +168,8 @@ class BlocksCollection {
 				return {
 					status: true,
 					message: 'Liked block',
-					block_id: block_id,
 					user_id: user_id,
+					block_id: block_id,
 				}
 			}	
 			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
@@ -192,8 +192,8 @@ class BlocksCollection {
 				return {
 					status: true,
 					message: 'Unliked block',
-					block_id: block_id,
 					user_id: user_id,
+					block_id: block_id,
 				}
 			}
 			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
@@ -231,7 +231,7 @@ class BlocksCollection {
 	}
 
 
-		/******************* [FOLLOW SYSTEM] *******************/
+	/******************* [FOLLOW SYSTEM] *******************/
 	// [LIKE] //
 	static async follow(user_id, block_id) {
 		const followExistance = await this.followExistance(user_id, block_id)
@@ -246,8 +246,8 @@ class BlocksCollection {
 				return {
 					status: true,
 					message: 'Followed block',
-					block_id: block_id,
 					user_id: user_id,
+					block_id: block_id,
 				}
 			}	
 			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
@@ -270,8 +270,8 @@ class BlocksCollection {
 				return {
 					status: true,
 					message: 'Unfollowed block',
-					block_id: block_id,
 					user_id: user_id,
+					block_id: block_id,
 				}
 			}
 			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
@@ -360,7 +360,7 @@ class BlocksCollection {
 				else {
 					return {
 						status: true,
-						message: 'You own this',
+						message: 'You dont own this',
 						ownership: false,
 					}
 				}

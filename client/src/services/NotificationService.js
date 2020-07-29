@@ -34,6 +34,16 @@ class NotificationService {
 		}
 		catch (e) { return e }
 	}
+
+
+	/******************* [MARK-READ-STATUS] *******************/
+	static async markRead(notification_id) {
+		console.log(notification_id)
+		const authAxios = await this.authAxios()
+
+		try { return await authAxios(`/mark-read/${notification_id}`) }
+		catch (e) { return e}
+	}
 }
 
 

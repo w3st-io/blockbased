@@ -24,7 +24,7 @@
 				<span class="small">
 					{{ notification.comment.user.username }} made a {{ notification.type }}
 				</span>
-				<button type="button" class="ml-2 mb-1 close">
+				<button @click="markRead(notification._id)" type="button" class="ml-2 mb-1 close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
@@ -50,17 +50,22 @@
 		},
 
 		created: async function() {
-			this.notifications = await NotificationService.readAll()
-
-			this.refreshNotifications()
+			// [UPDATE] //
+			await this.readAllNotifications()
 
 			// [LOG] //
 			this.log()
 		},
 
 		methods: {
-			refreshNotifications() {
-				setTimeout(() => this.notifications.push('new notification'), 5000)
+			async readAllNotifications() {
+				this.notifications = await NotificationService.readAll()
+			},
+
+			markRead(notification_id) {
+				NotificationService.markRead(notification_id)
+
+				this.readAllNotifications()
 			},
 		
 			log() {
