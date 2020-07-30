@@ -368,14 +368,14 @@ class CommentsCollection {
 				if (returnedData) {
 					return {
 						status: true,
-						message: 'Comment does exists',
+						message: 'You own this comment',
 						ownership: true,
 					}
 				}
 				else {
 					return {
 						status: true,
-						message: 'Comment does NOT exists',
+						message: 'You do NOT own this comment',
 						ownership: false,
 					}
 				}
