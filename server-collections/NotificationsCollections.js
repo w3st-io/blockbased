@@ -78,6 +78,27 @@ class NotificationsCollection {
 	static async delete() {}
 
 
+	// [DELETE-ALL] //
+	static async deleteAll(comment_id) {
+		try {
+			await NotificationModel.deleteMany({ comment: comment_id })
+
+			return {
+				status: true,
+				message: 'Deleted All Notifications for this comment',
+				comment: comment_id,
+			}
+		}
+		catch(e) {
+			return {
+				status: false,
+				message: `Caught Error --> ${e}`,
+				comment: comment_id,
+			}
+		}
+	}
+
+
 	/******************* [MARK-READ-STATUS] *******************/
 	static async markRead(user_id, notification_id) {
 		try {

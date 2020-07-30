@@ -138,8 +138,9 @@ router.delete(
 			// [DELETE] Comment // [DELETE] CommentLike //
 			const returnedData = await CommentsCollection.delete(user_id, comment_id)
 			const returnedData2 = await CommentLikesCollection.deleteAll(comment_id)
+			const returnedData3 = await NotificationsCollection.deleteAll(comment_id)
 
-			res.status(201).send([returnedData, returnedData2])
+			res.status(201).send([returnedData, returnedData2, returnedData3])
 		}
 		else { res.status(400).send(ownership.message) }
 	}

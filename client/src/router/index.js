@@ -80,7 +80,7 @@ const router = new Router ({
 			component: Block,
 			meta: {
 				auth: true,
-				title: 'Post Title Here'
+				title: 'Post -'
 			}
 		},
 		{
@@ -107,7 +107,7 @@ const router = new Router ({
 			component: Cat,
 			meta: {
 				auth: true,
-				title: `Cat Name Here`
+				title: `Cat -`
 			}
 		},
 		{

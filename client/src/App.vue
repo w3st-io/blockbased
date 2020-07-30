@@ -73,7 +73,7 @@
 			window.setInterval(() => {
 				if (localStorage.usertoken) {
 					EventBus.$emit('notificationClicked')
-					console.log('emitted notificationClicked')
+					console.log('Emitted notificationClicked')
 				}
 			}, 60000)
 		},
