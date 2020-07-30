@@ -20,7 +20,7 @@
 
 		<!-- Floating Pop Up Notifications -->
 		<PopUpNotifications
-			v-if="true"
+			v-if="loggedIn == true"
 			class="ml-auto"
 			style="width: 30%;"
 		/>
@@ -66,7 +66,16 @@
 				adminLoggedIn: false,
 				loggedIn: false,
 				message: '',
+				test: 1,
 			}
+		},
+		mounted: function () {
+			window.setInterval(() => {
+				if (localStorage.usertoken) {
+					EventBus.$emit('notificationClicked')
+					console.log('emitted notificationClicked')
+				}
+			}, 60000)
 		},
 
 		created: function() {

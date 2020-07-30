@@ -22,15 +22,8 @@
 		<div
 			v-show="showPopper"
 			v-click-outside="outsideClicked"
-			class="
-				position-absolute
-				mt-1
-				p-1
-				bg-dark
-				shadow
-				rounded
-				z-index-menu
-			"
+			class="position-absolute mt-1 p-1 bg-dark shadow rounded z-index-menu"
+			style="width: 100%; max-width: 300px;"
 		>
 			<a
 				v-for="(notification, index) in notifications"
@@ -79,9 +72,7 @@
 			await this.readAllNotifications()
 
 			// [--> EMIT IN] //
-			EventBus.$on('notificationClicked', () => {
-				this.readAllNotifications()
-			})
+			EventBus.$on('notificationClicked', () => { this.readAllNotifications() })
 
 			// [LOG] //
 			//this.log()
@@ -120,9 +111,7 @@
 			}
 		},
 
-		directives: {
-			ClickOutside
-		}
+		directives: { ClickOutside }
 	}
 </script>
 

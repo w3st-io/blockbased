@@ -80,9 +80,7 @@
 			}
 		},
 
-		directives: {
-			ClickOutside
-		}
+		directives: { ClickOutside }
 	}
 </script>
 

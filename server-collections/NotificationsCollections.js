@@ -80,9 +80,6 @@ class NotificationsCollection {
 
 	/******************* [MARK-READ-STATUS] *******************/
 	static async markRead(user_id, notification_id) {
-		console.log('user_id', user_id)
-		console.log('notification_id', notification_id)
-
 		try {
 			await NotificationModel.updateOne(
 				{ _id: notification_id },

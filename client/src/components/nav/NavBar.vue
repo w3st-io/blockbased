@@ -42,7 +42,7 @@
 			<div class="container">
 				<nav class="px-0 py-1 navbar">
 					<div class="mr-auto">
-						<NotificationMenuBtn />
+						<NotificationMenuBtn v-if="loggedIn" />
 					</div>
 
 					<div>

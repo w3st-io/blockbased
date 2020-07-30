@@ -61,9 +61,7 @@
 			await this.readAllNotifications()
 
 			// [--> EMIT IN] //
-			EventBus.$on('notificationClicked', () => {
-				this.readAllNotifications()
-			})
+			EventBus.$on('notificationClicked', () => { this.readAllNotifications() })
 
 			// [LOG] //
 			this.log()
