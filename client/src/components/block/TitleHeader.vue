@@ -1,7 +1,7 @@
  <template>
 	<section class="row">
 		<!-- Left Side -->
-		<div class="col-lg-6 col-md-8 col-sm-8">
+		<div class="col-lg-9 col-md-8 col-sm-8">
 			<!-- Title + Page Nav Buttons -->
 			<h3 class="m-0 text-light">{{ blockTitle }}</h3>
 			<p class="text-secondary">created by: {{ blockCreatorUsername }}</p>
@@ -14,7 +14,7 @@
 		</div>
 
 		<!-- Right Side -->
-		<div class="col-lg-6 col-md-4 col-sm-4 text-right">
+		<div class="col-lg-3 col-md-4 col-sm-4 text-right">
 			<p class="mb-3 text-secondary small hide-the-ugly">
 				{{ block.createdAt }}
 			</p>

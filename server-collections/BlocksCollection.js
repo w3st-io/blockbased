@@ -156,7 +156,7 @@ class BlocksCollection {
 	/******************* [LIKE SYSTEM] *******************/
 	// [LIKE] //
 	static async like(user_id, block_id) {
-		
+		const likeExistance = await this.likeExistance(user_id, block_id)
 
 		if (likeExistance.status == true && likeExistance.existance == false) {
 			try {
@@ -208,7 +208,7 @@ class BlocksCollection {
 			const returnedData = await BlockModel.findOne(
 				{
 					_id: block_id,
-					likers: user_id
+					likers: user_id,
 				}
 			)
 

@@ -272,7 +272,6 @@ class CommentsCollection {
 		const likeExistance = await this.likeExistance(user_id, comment_id)
 
 		if (likeExistance.status && likeExistance.existance) {
-
 			if (mongoose.isValidObjectId(comment_id)) {
 				try {
 					await CommentModel.updateOne(
