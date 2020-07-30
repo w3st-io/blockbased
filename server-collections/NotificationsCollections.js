@@ -62,6 +62,15 @@ class NotificationsCollection {
 				}
 			}
 		)
+		.populate(
+			{
+				path: 'comment',
+				populate: {
+					path: 'block',
+					select: 'title',
+				}
+			}
+		)
 	}
 
 

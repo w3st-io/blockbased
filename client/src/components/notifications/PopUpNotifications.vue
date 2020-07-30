@@ -22,10 +22,10 @@
 		>
 			<div class="card-header p-2">
 				<span class="small">
-					Block: {{ notification.comment.block_id }}
+					{{ notification.comment.block.title }}
 				</span>
 				<button
-					@click="markRead(notification._id)"
+					@click="closeClicked(notification._id)"
 					type="button"
 					class="ml-2 mb-1 close"
 				>
@@ -46,6 +46,7 @@
 <script>
 	// [IMPORT] Personal //
 	import NotificationService from '@services/NotificationService'
+	import { EventBus } from '@main'
 
 	// [EXPORT] //
 	export default {
@@ -59,6 +60,11 @@
 			// [UPDATE] //
 			await this.readAllNotifications()
 
+			// [--> EMIT IN] //
+			EventBus.$on('notificationClicked', () => {
+				this.readAllNotifications()
+			})
+
 			// [LOG] //
 			this.log()
 		},
@@ -68,10 +74,10 @@
 				this.notifications = await NotificationService.readAll()
 			},
 
-			markRead(notification_id) {
+			closeClicked(notification_id) {
 				NotificationService.markRead(notification_id)
 
-				this.readAllNotifications()
+				EventBus.$emit('notificationClicked')
 			},
 		
 			log() {

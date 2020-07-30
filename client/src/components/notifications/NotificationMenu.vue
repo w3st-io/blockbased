@@ -10,13 +10,13 @@
 				z-index-button
 			"
 		>
+			<span v-if="notifications.length != 0" class="mr-1 badge badge-danger">
+				{{ notifications.length }}
+			</span>
 			<img
 				:src="require('../../assets/images/icons/bell.svg')"
 				style="width: 16px;"
 			>
-			<span v-if="notifications" class="ml-1 badge badge-danger">
-				{{ totalNotifications }}
-			</span>
 		</button>
 
 		<div
@@ -24,26 +24,28 @@
 			v-click-outside="outsideClicked"
 			class="
 				position-absolute
+				mt-1
 				p-1
 				bg-dark
-				border
-				border-secondary
 				shadow
 				rounded
 				z-index-menu
 			"
 		>
 			<a
-				v-for="(listItem, index) in notifications"
+				v-for="(notification, index) in notifications"
 				:key="index"
 				@click="
-					emit(listItem, _id);
+					clicked(notification._id, notification.comment.block._id);
 					showPopper = !showPopper;
 				"
-				class="dropdown-item bg-dark text-light"
+				class="dropdown-item bg-primary text-light"
 			>
-				{{ listItem.comment.user.username }} made a {{ listItem.type }}
-				in block {{ listItem.comment.block }}
+				<h6 class="text-light">{{ notification.comment.block.title }}</h6>
+				<p class="m-0">
+					{{ notification.comment.user.username }} made a {{ notification.type }}
+				</p>
+				
 			</a>
 		</div>
 	</span>
@@ -54,6 +56,7 @@
 	import ClickOutside from 'vue-click-outside'
 
 	// [IMPORT] Personal //
+	import router from '@router'
 	import NotificationService from '@services/NotificationService'
 	import { EventBus } from '@main'
  
@@ -63,7 +66,6 @@
 			return {
 				showPopper: false,
 				notifications: [],
-				list: ['s','f']
 			}
 		},
 
@@ -76,6 +78,11 @@
 			// [UPDATE] //
 			await this.readAllNotifications()
 
+			// [--> EMIT IN] //
+			EventBus.$on('notificationClicked', () => {
+				this.readAllNotifications()
+			})
+
 			// [LOG] //
 			//this.log()
 		},
@@ -85,7 +92,22 @@
 				this.notifications = await NotificationService.readAll()
 			},
 
-			emit(listItem, _id) { EventBus.$emit(listItem, _id) },
+			async clicked(notification_id, block_id) {
+				// Mark Read
+				NotificationService.markRead(notification_id)
+
+				// [UPDATE] //
+				try { await this.readAllNotifications() }
+				catch (e) { console.log(`Caught Error --> ${e}`) }
+
+				EventBus.$emit('notificationClicked')
+
+				// [REDIRECT] //
+				router.push({
+					name: 'Block',
+					params: { block_id: block_id, page: 1 }
+				})
+			},
 
 			outsideClicked() { this.showPopper = false },
 
