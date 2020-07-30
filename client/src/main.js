@@ -5,6 +5,7 @@
  */
 // [IMPORT] //
 import Vue from 'vue'
+import vueHeadful from 'vue-headful'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 
 
@@ -22,6 +23,7 @@ import router from '@router'
 // [GLOBAL COMPONENTS] //
 Vue.component('ValidationObserver', ValidationObserver)
 Vue.component('ValidationProvider', ValidationProvider)
+Vue.component('vue-headful', vueHeadful)
 
 
 // [EXPORT] Event Bus //

@@ -114,7 +114,6 @@
 			},
 
 			searchForUserInFollowers() {
-				console.log(this.block.followers)
 				// Search For Likers Id in Block's Object //
 				let found = this.block.followers.find((follower) => (
 					follower == this.user_id

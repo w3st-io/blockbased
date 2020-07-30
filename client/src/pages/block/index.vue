@@ -1,5 +1,8 @@
 <template>
 	<section class="my-4 container">
+		<!-- Set Page Title -->
+		<vue-headful :title="block.title"/>
+
 		<article class="card card-body bg-dark">
 			<!-- Title Header -->
 			<title-header
@@ -71,6 +74,7 @@
 				loading: true,
 				userTokenDecodeData: {},
 				block_id: this.$route.params.block_id,
+				block: {},
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),
 				commentListKey: 0,
@@ -83,9 +87,7 @@
 
 		created: async function() {
 			// Check If Block Is Valid //
-			try {
-				this.existance = await BlockService.validateExistance(this.block_id)
-			}
+			try { this.existance = await BlockService.validateExistance(this.block_id) }
 			catch(e) { this.error = e }
 
 			if (this.existance) {
@@ -101,6 +103,10 @@
 				// [--> EMMIT] block-prev, block-next //
 				EventBus.$on('block-prev', () => { this.prevPage() })
 				EventBus.$on('block-next', () => { this.nextPage() })
+
+				// [UPDATE] //
+				try { await this.blockRead() }
+				catch(e) { this.error = e }
 			}
 
 			// Disable Loading //
@@ -111,6 +117,11 @@
 		},
 
 		methods: {
+			async blockRead() {
+				try { this.block = await BlockService.read(this.block_id) }
+				catch(e) { this.error = e }
+			},
+
 			prevPage() {
 				this.pageIndex++
 

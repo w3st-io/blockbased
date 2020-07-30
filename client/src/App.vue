@@ -20,7 +20,7 @@
 
 		<!-- Floating Pop Up Notifications -->
 		<PopUpNotifications
-			v-if="loggedIn == true"
+			v-if="loggedIn"
 			class="ml-auto"
 			style="width: 30%;"
 		/>
