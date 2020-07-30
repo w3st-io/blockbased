@@ -1,7 +1,7 @@
 <template>
 	<section class="my-4 container">
 		<!-- Set Page Title -->
-		<vue-headful :title="cat_id"/>
+		<vue-headful :title="`Cat - ${cat_id}`"/>
 
 		<article class="card card-body bg-dark">
 			<!-- Title With Create Button -->

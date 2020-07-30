@@ -1,7 +1,7 @@
 <template>
 	<section class="my-4 container">
 		<!-- Set Page Title -->
-		<vue-headful :title="block.title"/>
+		<vue-headful :title="`Post - ${block.title}`"/>
 
 		<article class="card card-body bg-dark">
 			<!-- Title Header -->
