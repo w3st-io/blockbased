@@ -2,9 +2,22 @@
 	<span> 
 		<button
 			@click="showPopper = !showPopper"
-			:class="'btn-'+ BSColor"
-			class="position-relative btn btn-sm dropdown-toggle z-index-button"
-		>{{ btnName }}</button>
+			class="
+				position-relative
+				btn
+				btn-sm
+				btn-outline-light 
+				z-index-button
+			"
+		>
+			<img
+				:src="require('../../assets/images/icons/bell.svg')"
+				style="width: 16px;"
+			>
+			<span v-if="notifications" class="ml-1 badge badge-danger">
+				{{ totalNotifications }}
+			</span>
+		</button>
 
 		<div
 			v-show="showPopper"
@@ -21,14 +34,17 @@
 			"
 		>
 			<a
-				v-for="(listItem, index) in list"
+				v-for="(listItem, index) in notifications"
 				:key="index"
 				@click="
 					emit(listItem, _id);
 					showPopper = !showPopper;
 				"
 				class="dropdown-item bg-dark text-light"
-			>{{ listItem }}</a>
+			>
+				{{ listItem.comment.user.username }} made a {{ listItem.type }}
+				in block {{ listItem.comment.block }}
+			</a>
 		</div>
 	</span>
 </template>
@@ -38,21 +54,16 @@
 	import ClickOutside from 'vue-click-outside'
 
 	// [IMPORT] Personal //
+	import NotificationService from '@services/NotificationService'
 	import { EventBus } from '@main'
  
 	// [EXPORT] //
 	export default {
-
-		props: {
-			_id: {type: String, required: true, },
-			list: { type: Array, required: true },
-			btnName: { type: String, default: 'DDMB' },
-			BSColor: { type: String, default: 'light' },
-		},
-
 		data: function() {
 			return {
 				showPopper: false,
+				notifications: [],
+				list: ['s','f']
 			}
 		},
 
@@ -61,18 +72,25 @@
 			this.popupItem = this.$el
 		},
 
-		created: function() {
+		created: async function() {
+			// [UPDATE] //
+			await this.readAllNotifications()
+
 			// [LOG] //
 			//this.log()
 		},
 
 		methods: {
+			async readAllNotifications() {
+				this.notifications = await NotificationService.readAll()
+			},
+
 			emit(listItem, _id) { EventBus.$emit(listItem, _id) },
 
 			outsideClicked() { this.showPopper = false },
 
 			log() {
-				console.log('%%% [COMPONENT] dropDownMenuBtn %%%')
+				console.log('%%% [COMPONENT] NotificationMenu %%%')
 				console.log('_id:', this._id)
 				console.log('list:', this.list)
 				console.log('btnName:', this.btnName)

@@ -1,6 +1,5 @@
 <template>
 	<transition-group
-		v-click-outside="clickedOutside"
 		name="fade"
 		tag="div"
 		class="d-flex flex-wrap fixed-bottom my-3 mr-4 ml-auto"
@@ -23,7 +22,7 @@
 		>
 			<div class="card-header p-2">
 				<span class="small">
-					{{ notification.comment.user.username }} posted a {{ notification.type }}
+					Block: {{ notification.comment.block_id }}
 				</span>
 				<button
 					@click="markRead(notification._id)"
@@ -35,7 +34,9 @@
 			</div>
 			<div class="card-body p-2">
 				<p class="card-text small">
-					{{ notification.comment.text }}
+					{{ notification.comment.user.username }}
+					posted a
+					{{ notification.type }}
 				</p>
 			</div>
 		</div>
@@ -43,11 +44,8 @@
 </template>
 
 <script>
-	// [IMPORT] //
-	import ClickOutside from 'vue-click-outside'
-
 	// [IMPORT] Personal //
-	import NotificationService from '../../services/NotificationService'
+	import NotificationService from '@services/NotificationService'
 
 	// [EXPORT] //
 	export default {
@@ -55,11 +53,6 @@
 			return {
 				notifications: [],
 			}
-		},
-
-		mounted: function() {
-			// prevent click outside event with popupItem.
-			this.popupItem = this.$el
 		},
 
 		created: async function() {
@@ -80,20 +73,12 @@
 
 				this.readAllNotifications()
 			},
-
-			clickedOutside() {
-				console.log('OUTSIDE')
-			},
 		
 			log() {
 				console.log('%%% [COMPONENT] PopUpNotifications %%%')
 				console.log('nothifications:', this.notifications)
 			},
 		},
-
-		directives: {
-			ClickOutside
-		}
 	}
 </script>
 

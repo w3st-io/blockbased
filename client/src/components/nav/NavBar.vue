@@ -42,15 +42,7 @@
 			<div class="container">
 				<nav class="px-0 py-1 navbar">
 					<div class="mr-auto">
-						<button class="py-1 px-2 btn btn-sm btn-outline-light">
-							<img
-								:src="require('../../assets/images/icons/bell.svg')"
-								style="width: 16px;"
-							>
-							<span v-if="notifications" class="ml-1 badge badge-danger">
-								{{ totalNotifications }}
-							</span>
-						</button>
+						<NotificationMenuBtn />
 					</div>
 
 					<div>
@@ -78,12 +70,16 @@
 
 <script>
 	// [IMPORT] Personal //
+	import NotificationMenuBtn from '../../components/notifications/NotificationMenu'
 	import router from '@router'
 	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
 
 	// [EXPORT] //
 	export default {
+		components: {
+			NotificationMenuBtn
+		},
 
 		data: function() {
 			return {
