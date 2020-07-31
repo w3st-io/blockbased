@@ -253,7 +253,6 @@
 <style lang='scss' scoped>
 	// [IMPORT] Personal //
 	@import 'src/assets/styles/bootstrap-override.scss';
-	@import 'src/assets/styles/sass-variables.scss';
 
 	li {
 		list-style: none;
@@ -261,7 +260,7 @@
 	}
 	
 	li:nth-child(even) {
-		background: $grey;
+		background: $backgroundGrey !important;
 		&:hover { @extend .bg-primary; }
 	}
 
@@ -269,8 +268,8 @@
 		color: white;
 		font-size: 1em;
 
-		&:hover { color: $like; }
+		&:hover { color: $like !important; }
 	}
 
-	.liked { color: $like; }
+	.liked { color: $like !important; }
 </style>

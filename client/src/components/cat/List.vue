@@ -123,15 +123,13 @@
 <style lang="scss" scoped>
 	// [IMPORT] Personal //
 	@import 'src/assets/styles/bootstrap-override.scss';
-	@import 'src/assets/styles/sass-variables.scss';
-
 
 	li {
 		@extend .bg-dark;
 		&:hover { @extend .bg-primary; }
 	}
 	li:nth-child(even) {
-		background: $grey;
+		background: $backgroundGrey !important;
 		&:hover { @extend .bg-primary; }
 	}
 

@@ -293,7 +293,7 @@
 	@import 'src/assets/styles/sass-variables.scss';
 
 	li { list-style: none; }
-	li:nth-child(even) { background: $grey; }
+	li:nth-child(even) { background: $backgroundGrey !important; }
 
 	// Make Comments Wordwrapped
 	.multiline { white-space: pre-wrap; }

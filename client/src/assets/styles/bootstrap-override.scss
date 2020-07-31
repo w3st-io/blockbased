@@ -1,11 +1,16 @@
-$ethereum: #434875;
-$royalEthereum: #4d31ce;
+// [IMPORT] Personal //
+@import './sass-variables.scss';
 
-//7045b6
 
 $theme-colors: (
-	'primary': $royalEthereum,
+	'primary': $westworld,
+	'dark': $tweetDark
 );
+
 
 // [IMPORT] //
 @import 'bootstrap/scss/bootstrap.scss';
+
+
+// CUSTOM //
+.bg-darkish { background-color: $darkish !important; }
