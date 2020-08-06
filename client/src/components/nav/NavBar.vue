@@ -105,7 +105,7 @@
 
 			}
 
-			// [--> EMITT] //
+			// [ON-EVENTBUS] //
 			EventBus.$on('logged-in', () => { this.loggedIn = true })
 		},
 

@@ -71,7 +71,7 @@
 			// [UPDATE] //
 			await this.readAllNotifications()
 
-			// [--> EMIT IN] //
+			// [ON-EVENTBUS] //
 			EventBus.$on('notificationClicked', () => { this.readAllNotifications() })
 
 			// [LOG] //

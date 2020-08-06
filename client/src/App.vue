@@ -36,13 +36,17 @@
 </template>
 
 <script>
+	// [IMPORT] //
+	import io from 'socket.io-client'
+
 	// [IMPORT] Personal //
 	import AdminNavBar from '@components/admin/AdminNavBar'
 	import PopUpNotifications from '@components/notifications/PopUpNotifications'
-	import PopUpBanner from './components/misc/PopUpBanner'
+	import PopUpBanner from '@components/misc/PopUpBanner'
 	import Footer from '@components/nav/Footer'
 	import NavBar from '@components/nav/NavBar'
-	import SideMenu from './components/nav/SideMenu'
+	import SideMenu from '@components/nav/SideMenu'
+	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
 
 	// [EXPORT] //
@@ -59,7 +63,7 @@
 
 		data: function() {
 			return {
-				decoded: '',
+				socket: io('http://localhost:5000'),
 				adminNavBarKey: 0,
 				navBarKey: 1,
 				routerViewKey: 2,
@@ -67,46 +71,59 @@
 				loggedIn: false,
 				message: '',
 				test: 1,
+				user_id: '',
 			}
-		},
-		mounted: function () {
-			window.setInterval(() => {
-				if (localStorage.usertoken) {
-					EventBus.$emit('notificationClicked')
-					console.log('Emitted notificationClicked')
-				}
-			}, 60000)
 		},
 
 		created: function() {
 			// [CHECK IF LOGGEDIN] //
-			if (localStorage.usertoken) { this.loggedIn = true }
+			if (localStorage.usertoken) {
+				this.loggedIn = true
+				
+				let decoded = UserService.getUserTokenDecodeData()
+				this.user_id = decoded._id
+
+				// [EMIT-SOCKET] Join //
+				this.socket.emit('join', this.user_id)
+			}
 
 			// [CHECK IF ADMINLOGGEDIN] //
-			if (localStorage.admintoken) { this.adminLoggedIn = true }
+			if (localStorage.admintoken) {
+				this.adminLoggedIn = true
 
-			// [--> EMIT IN] //
+				// [EMIT-SOCKET] Join //
+				this.socket.emit('admin-join')
+			}
+		
+
+			// [EMIT-EVENTBUS] //
+			EventBus.$emit('notificationClicked')
+
+			// [ON-EVENTBUS] //
 			EventBus.$on('logged-in', () => {
 				this.loggedIn = true
 				this.forceRerender()
 			})
 
-			// [--> EMIT IN] //
+			// [ON-EVENTBUS] //
 			EventBus.$on('logged-out', () => {
 				this.loggedIn = false
 				this.forceRerender()
 			})
 
+			// [ON-EVENTBUS] //
 			EventBus.$on('admin-logged-in', () => {
 				this.adminLoggedIn = true
 				this.forceRerender()
 			})
 			
+			// [ON-EVENTBUS] //
 			EventBus.$on('admin-logged-out', () => {
 				this.adminLoggedIn = false
 				this.forceRerender()
 			})
 
+			// [ON-EVENTBUS] //
 			EventBus.$on('force-rerender', () => { this.forceRerender() })
 
 			// [LOG] //
@@ -119,14 +136,13 @@
 				this.routerViewKey += 1
 				this.navBarKey += 1
 				
-				console.log('ForcedRerender')
+				console.log('Forced rerender')
 			},
 
 			log() {
 				console.log('%%% [APP] App %%%')
 				console.log('usertoken:', localStorage.usertoken)
 				console.log('admintoken:', localStorage.admintoken)
-				console.log('decoded:', this.decoded)
 			}
 		}
 	}

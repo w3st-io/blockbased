@@ -38,7 +38,7 @@
 			// Set Active Tab //
 			this.activeTab = this.tabs[0]
 
-			// [EMIT -->] //
+			// [EMIT-EVENTBUS] //
 			EventBus.$emit(this.emitName, this.activeTab)
 		},
 

@@ -18,7 +18,7 @@ const AdminModel = require('../server-models/AdminModel')
 const secretKey = process.env.SECRET_KEY || 'secret'
 
 
-class BlocksCollection {
+class AdminsCollection {
 	/******************* [LOGIN/REGISTER] *******************/
 	static async login(req) {
 
@@ -136,4 +136,4 @@ class BlocksCollection {
 
 
 // [EXPORT] //
-module.exports = BlocksCollection
+module.exports = AdminsCollection

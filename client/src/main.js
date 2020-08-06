@@ -17,9 +17,6 @@ import App from './App.vue'
 import router from '@router'
 
 
-// [USE] //
-
-
 // [GLOBAL COMPONENTS] //
 Vue.component('ValidationObserver', ValidationObserver)
 Vue.component('ValidationProvider', ValidationProvider)
@@ -32,7 +29,6 @@ export const EventBus = new Vue()
 
 // [CONFIG + RENDER] //
 Vue.config.productionTip = false
-
 new Vue({
   router,
   render: h => h(App),

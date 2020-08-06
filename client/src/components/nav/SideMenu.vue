@@ -32,7 +32,7 @@
 		},
 
 		created: function() {
-			// [--> EMITT] //
+			// [ON-EVENTBUS] //
 			EventBus.$on('navBarSideMenuBtnClicked', () => {
 				this.sideMenuOpen = !this.sideMenuOpen
 			})

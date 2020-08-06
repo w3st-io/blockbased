@@ -1,13 +1,15 @@
 /**
- * %%%%%%%%%%%%%%%%%%%% *
- * %%% SERVER INDEX %%% *
- * %%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%% *
+ * %%% SERVER %%% *
+ * %%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const express = require('express')
+const http = require('http')
 const mongoose = require('mongoose')
+const socketIO = require('socket.io')
 require('dotenv').config()
 
 
@@ -24,10 +26,27 @@ const admininstrationBlocks = require('./routes/api/adminstration/blocks')
 const admininstrationComments = require('./routes/api/adminstration/comments')
 const admininstrationReports = require('./routes/api/adminstration/reports')
 const admininstrationUsers = require('./routes/api/adminstration/users')
+const userUtils = require('./utils/userUtils')
 
 
-// [INIT] //
+// [MONGOOSE-CONNECTION] //
+mongoose.connect(
+	process.env.MONGO_URI,
+	{
+		useNewUrlParser: true,
+		useUnifiedTopology: true
+	},
+	(e) => {
+		if (e) { console.log(`Mongoose Connection Error --> ${e}`) }
+		else { console.log('Mongoose Connected to DB') }
+	}
+)
+mongoose.set('useFindAndModify', false)
+
+
+// [EXPRESS + SERVER] //
 const app = express()
+const server = http.createServer(app)
 
 
 // [USE] //
@@ -51,24 +70,47 @@ app.use('/api/administration/reports', admininstrationReports)
 app.use('/api/administration/users', admininstrationUsers)
 
 
-// [MONGOOSE-CONNECTION] //
-mongoose.connect(
-	process.env.MONGO_URI,
-	{
-		useNewUrlParser: true,
-		useUnifiedTopology: true
-	},
-	(e) => {
-		if (e) { console.log(`Mongoose Connection Error --> ${e}`) }
-		else { console.log('Mongoose Connected to DB') }
-	}
-)
-mongoose.set('useFindAndModify', false)
+// [SOCKET] //
+const io = new socketIO(server)
+io.on('connection', (socket) => {
+	// [LOG] //
+	console.log('New WS connected')
+
+
+	// [ON-SOCKET] join //
+	socket.on('join', (user_id) => {
+		// Check if user_id is not null & user_id isnt already in room
+		if (user_id && !userUtils.getUserSocketByUserId(user_id)) {
+			userUtils.join(socket.id, user_id)
+
+			// [EMIT-SOCKET] usersOnline //
+			socket.emit('user', userUtils.getUserSocket(socket.id))
+
+			// [EMIT-SOCKET-BROADCAST] usersOnline //
+			socket.broadcast.emit('user', userUtils.getUserSocket(socket.id))
+		}
+	})
+
+
+	// [EMIT-SOCKET] usersOnline //
+	socket.emit('user', userUtils.getUserSocket(socket.id))
 	
+
+	/************ [DISCONNECT] ************/
+	// [ON-SOCKET] Disconnect //
+	socket.on('disconnect', () => {
+		// [LOG] //
+		console.log('WS Closed')
+
+		// Leave variable
+		userUtils.leave(socket.id)
+	})
+})
+
 
 // [PORT + LISTEN] //
 const port = process.env.PORT || 5000
-app.listen(port, function() { console.log(`Server Running on Port: ${port}`) })
+server.listen(port, function() { console.log(`Server Running on Port: ${port}`) })
 
 
 // [MAIN ROUTE] //
