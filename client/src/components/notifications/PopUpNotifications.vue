@@ -61,7 +61,7 @@
 			await this.readAllNotifications()
 
 			// [ON-EVENTBUS] //
-			EventBus.$on('notificationClicked', () => { this.readAllNotifications() })
+			EventBus.$on('update-notification', () => { this.readAllNotifications() })
 
 			// [LOG] //
 			//this.log()
@@ -75,7 +75,8 @@
 			closeClicked(notification_id) {
 				NotificationService.markRead(notification_id)
 
-				EventBus.$emit('notificationClicked')
+				// [UPDATE] //
+				EventBus.$emit('update-notification')
 			},
 		
 			log() {

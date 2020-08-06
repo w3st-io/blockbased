@@ -95,9 +95,14 @@
 				this.socket.emit('admin-join')
 			}
 		
-
 			// [EMIT-EVENTBUS] //
-			EventBus.$emit('notificationClicked')
+			EventBus.$emit('update-notification')
+
+			// [ON-SOCKET] //
+			socket.on('update-notification', () => {
+				// [EMIT-EVENTBUS] //
+				EventBus.$emit('update-notification')
+			})
 
 			// [ON-EVENTBUS] //
 			EventBus.$on('logged-in', () => {

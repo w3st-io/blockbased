@@ -72,7 +72,7 @@
 			await this.readAllNotifications()
 
 			// [ON-EVENTBUS] //
-			EventBus.$on('notificationClicked', () => { this.readAllNotifications() })
+			EventBus.$on('update-notification', () => { this.readAllNotifications() })
 
 			// [LOG] //
 			//this.log()
@@ -91,7 +91,8 @@
 				try { await this.readAllNotifications() }
 				catch (e) { console.log(`Caught Error --> ${e}`) }
 
-				EventBus.$emit('notificationClicked')
+				// [UPDATE] //
+				EventBus.$emit('update-notification')
 
 				// [REDIRECT] //
 				router.push({
