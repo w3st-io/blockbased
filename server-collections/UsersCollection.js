@@ -61,7 +61,6 @@ class UsersCollection {
 
 	/******************* [LOGIN/REGISTER] *******************/
 	static async login(req) {
-
 		try {
 			const accountFound = await UserModel.findOne({ email: req.body.email })
 			

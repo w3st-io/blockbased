@@ -77,7 +77,7 @@ router.delete(
 		
 		if (ownership.status && ownership.ownership) {
 			const returnedData = await BlocksCollection.s_delete(block_id)
-			const returnedData2 = await BlockLikesCollection.deleteAll(block_id)
+			const returnedData2 = await BlockLikesCollection.s_deleteAll(block_id)
 
 			res.status(200).send([returnedData, returnedData2])
 			
@@ -98,7 +98,7 @@ router.post(
 
 		// [UPDATE] block's Likers // [CREATE] blockLike //
 		const returnedData = await BlocksCollection.s_like(user_id, block_id)
-		const returnedData2 = await BlockLikesCollection.create(user_id, block_id)
+		const returnedData2 = await BlockLikesCollection.s_create(user_id, block_id)
 		
 		res.status(201).send([returnedData, returnedData2])
 	}
@@ -115,7 +115,7 @@ router.post(
 
 		// [UPDATE] block Likers // [DELETE] blockLike //
 		const returnedData = await BlocksCollection.s_unlike(user_id, block_id)
-		const returnedData2 = await BlockLikesCollection.delete(user_id, block_id)
+		const returnedData2 = await BlockLikesCollection.s_delete(user_id, block_id)
 		
 		res.status(201).send([returnedData, returnedData2])
 	}
@@ -133,7 +133,7 @@ router.post(
 
 		// [UPDATE] block Followers // [CREATE] blockFollow //
 		const returnedData = await BlocksCollection.s_follow(user_id, block_id)
-		const returnedData2 = await BlockFollowsCollection.create(user_id, block_id)
+		const returnedData2 = await BlockFollowsCollection.s_create(user_id, block_id)
 		
 		res.status(201).send([returnedData, returnedData2])
 	}
@@ -150,7 +150,7 @@ router.post(
 
 		// [UPDATE] block Followers // [DELETE] blockFollow //
 		const returnedData = await BlocksCollection.s_unfollow(user_id, block_id)
-		const returnedData2 = await BlockFollowsCollection.delete(user_id, block_id)
+		const returnedData2 = await BlockFollowsCollection.s_delete(user_id, block_id)
 		
 		res.status(201).send([returnedData, returnedData2])
 	}

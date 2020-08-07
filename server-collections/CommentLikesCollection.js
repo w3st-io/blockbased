@@ -13,7 +13,7 @@ const CommentLikeModel = require('../server-models/CommetLikeModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-let s_create = async (user_id, block_id, comment_id) => {
+const s_create = async (user_id, block_id, comment_id) => {
 	const existance = await s_existance(user_id, comment_id)
 
 	if (existance.status && !existance.existance) {
@@ -52,7 +52,7 @@ let s_create = async (user_id, block_id, comment_id) => {
 
 
 // [DELETE] //
-let s_delete = async (user_id, comment_id) => {
+const s_delete = async (user_id, comment_id) => {
 	try {
 		await CommentLikeModel.deleteMany(
 			{
@@ -80,7 +80,7 @@ let s_delete = async (user_id, comment_id) => {
 
 
 // [DELETE-ALL] //
-let s_deleteAll = async (comment_id) => {
+const s_deleteAll = async (comment_id) => {
 	try {
 		await CommentLikeModel.deleteMany({ comment: comment_id })
 
@@ -102,7 +102,7 @@ let s_deleteAll = async (comment_id) => {
 
 /******************* [EXISTANCE] *******************/
 // [EXISTANCE] //
-let s_existance = async (user_id, comment_id) => {
+const s_existance = async (user_id, comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {
 			const returnedData = await CommentLikeModel.findOne(

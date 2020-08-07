@@ -68,7 +68,7 @@ router.delete(
 	Auth.adminToken(),
 	async (req, res) => {
 		BlocksCollection.s_delete(req.params._id)
-		BlockLikesCollection.deleteAll(req.params._id)
+		BlockLikesCollection.s_deleteAll(req.params._id)
 
 		res.sendStatus(200)
 	}

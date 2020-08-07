@@ -13,7 +13,7 @@ const BlockModel = require('../server-models/BlockModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-let s_create = async (user_id, cat_id, title) => {
+const s_create = async (user_id, cat_id, title) => {
 	const formData = new BlockModel({
 		_id: mongoose.Types.ObjectId(),
 		user: user_id,
@@ -45,7 +45,7 @@ let s_create = async (user_id, cat_id, title) => {
 
 
 // [READ-ALL-ALL] //
-let s_readAllAll = async (skip, amount) => {
+const s_readAllAll = async (skip, amount) => {
 	const skip2 = parseInt(skip)
 	const amount2 = parseInt(amount)
 
@@ -68,7 +68,7 @@ let s_readAllAll = async (skip, amount) => {
 
 
 // [READ-ALL] Within Cat //
-let s_readAll = async (cat_id, skip, amount) => {
+const s_readAll = async (cat_id, skip, amount) => {
 	const skip2 = parseInt(skip)
 	const amount2 = parseInt(amount)
 
@@ -93,7 +93,7 @@ let s_readAll = async (cat_id, skip, amount) => {
 
 
 // [READ] Single Block //
-let s_read = async (block_id) => {
+const s_read = async (block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {
 			const returnedData = await BlockModel.findById(block_id)
@@ -120,7 +120,7 @@ let s_read = async (block_id) => {
 
 
 // [DELETE] //
-let s_delete = async (block_id) => {
+const s_delete = async (block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {
 			await BlockModel.findByIdAndDelete(
@@ -154,7 +154,7 @@ let s_delete = async (block_id) => {
 
 /******************* [LIKE SYSTEM] *******************/
 // [LIKE] //
-let s_like = async (user_id, block_id) => {
+const s_like = async (user_id, block_id) => {
 	const likeExistance = await s_likeExistance(user_id, block_id)
 
 	if (likeExistance.status == true && likeExistance.existance == false) {
@@ -178,7 +178,7 @@ let s_like = async (user_id, block_id) => {
 
 
 // [UNLIKE] //
-let s_unlike = async (user_id, block_id) => {
+const s_unlike = async (user_id, block_id) => {
 	const likeExistance = await s_likeExistance(user_id, block_id)
 
 	if (likeExistance.status == true && likeExistance.existance == true) {
@@ -202,7 +202,7 @@ let s_unlike = async (user_id, block_id) => {
 
 
 // [LIKE-EXISTANCE] //
-let s_likeExistance = async (user_id, block_id) => {
+const s_likeExistance = async (user_id, block_id) => {
 	try {	
 		const returnedData = await BlockModel.findOne(
 			{
@@ -232,7 +232,7 @@ let s_likeExistance = async (user_id, block_id) => {
 
 /******************* [FOLLOW SYSTEM] *******************/
 // [LIKE] //
-let s_follow = async (user_id, block_id) => {
+const s_follow = async (user_id, block_id) => {
 	const followExistance = await s_followExistance(user_id, block_id)
 
 	if (followExistance.status && !followExistance.existance) {
@@ -256,7 +256,7 @@ let s_follow = async (user_id, block_id) => {
 
 
 // [UNLIKE] //
-let s_unfollow = async (user_id, block_id) => {
+const s_unfollow = async (user_id, block_id) => {
 	const followExistance = await s_followExistance(user_id, block_id)
 
 	if (followExistance.status && followExistance.existance) {
@@ -280,7 +280,7 @@ let s_unfollow = async (user_id, block_id) => {
 
 
 // [FOLLOW-EXISTANCE] //
-let s_followExistance = async (user_id, block_id) => {
+const s_followExistance = async (user_id, block_id) => {
 	try {	
 		const returnedData = await BlockModel.findOne(
 			{
@@ -310,7 +310,7 @@ let s_followExistance = async (user_id, block_id) => {
 
 /******************* [EXISTANCE + OWNERSHIP] *******************/
 // [EXISTANCE] //
-let s_existance = async (block_id) => {
+const s_existance = async (block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {	
 			const returnedData = await BlockModel.findOne({ _id: block_id })
@@ -339,7 +339,7 @@ let s_existance = async (block_id) => {
 
 
 // [OWNERSHIP] //
-let s_ownership = async (user_id, block_id) => {
+const s_ownership = async (user_id, block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {	
 			const returnedData = await BlockModel.findOne(
@@ -371,7 +371,7 @@ let s_ownership = async (user_id, block_id) => {
 
 
 /******************* [COUNT] *******************/
-let s_count = async (cat_id) => {
+const s_count = async (cat_id) => {
 	try { return await BlockModel.countDocuments({ cat_id: cat_id }) }
 	catch(e) { return `Caught Error --> ${e}` }
 }

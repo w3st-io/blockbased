@@ -13,7 +13,7 @@ const CommentModel = require('../server-models/CommentModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-let s_create = async (user_id, block_id, text) => {
+const s_create = async (user_id, block_id, text) => {
 	if (text.length <= 6000) {
 		const formData = new CommentModel({
 			_id: mongoose.Types.ObjectId(),
@@ -54,7 +54,7 @@ let s_create = async (user_id, block_id, text) => {
 
 
 // [READ-ALL-ALL] //
-let s_readAllAll = async (skip, limit) => {
+const s_readAllAll = async (skip, limit) => {
 	const skip2 = parseInt(skip)
 	const limit2 = parseInt(limit)
 	
@@ -83,7 +83,7 @@ let s_readAllAll = async (skip, limit) => {
 
 
 // [READ-ALL] Within a Block //
-let s_readAll = async (block_id, skip, limit) => {
+const s_readAll = async (block_id, skip, limit) => {
 	const skip2 = parseInt(skip)
 	const limit2 = parseInt(limit)
 
@@ -113,7 +113,7 @@ let s_readAll = async (block_id, skip, limit) => {
 
 
 // [READ] //
-let s_read = async (comment_id) => {
+const s_read = async (comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {
 			const returnedData = await CommentModel.findById(comment_id)
@@ -150,7 +150,7 @@ let s_read = async (comment_id) => {
 
 
 // [UPDATE] //
-let s_update = async (comment_id, text) => {
+const s_update = async (comment_id, text) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		if (text.length <= 6000) {
 			try {
@@ -196,7 +196,7 @@ let s_update = async (comment_id, text) => {
 
 
 // [DELETE] //
-let s_delete = async (user_id, comment_id) => {
+const s_delete = async (user_id, comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {
 			await CommentModel.findOneAndRemove(
@@ -235,7 +235,7 @@ let s_delete = async (user_id, comment_id) => {
 
 /******************* [LIKE SYSTEM] *******************/
 // [LIKE] //
-let s_like = async (user_id, comment_id) => {
+const s_like = async (user_id, comment_id) => {
 	const likeExistance = await s_likeExistance(user_id, comment_id)
 
 	if (likeExistance.status && !likeExistance.existance) {
@@ -266,7 +266,7 @@ let s_like = async (user_id, comment_id) => {
 
 
 // [UNLIKE] //
-let s_unlike = async (user_id, comment_id) => {
+const s_unlike = async (user_id, comment_id) => {
 	const likeExistance = await s_likeExistance(user_id, comment_id)
 
 	if (likeExistance.status && likeExistance.existance) {
@@ -295,7 +295,7 @@ let s_unlike = async (user_id, comment_id) => {
 
 
 // [LIKE-EXISTANCE] //
-let s_likeExistance = async (user_id, comment_id) => {
+const s_likeExistance = async (user_id, comment_id) => {
 	try {	
 		const returnedData = await CommentModel.findOne(
 			{
@@ -325,7 +325,7 @@ let s_likeExistance = async (user_id, comment_id) => {
 
 /******************* [EXISTANCE + OWNERSHIP] *******************/
 // [EXISTANCE] //
-let s_existance = async (comment_id) => {
+const s_existance = async (comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {	
 			const returnedData = await CommentModel.findOne({ _id: comment_id })
@@ -352,7 +352,7 @@ let s_existance = async (comment_id) => {
 
 
 // [OWNERSHIP] //
-let s_ownership = async (user_id, comment_id) => {
+const s_ownership = async (user_id, comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {	
 			const returnedData = await CommentModel.findOne(
@@ -384,7 +384,7 @@ let s_ownership = async (user_id, comment_id) => {
 
 
 /******************* [COUNT] *******************/
-let s_count = async (block_id) => {
+const s_count = async (block_id) => {
 	try { return await CommentModel.countDocuments({ block_id: block_id }) }
 	catch(e) { return `Caught Error --> ${e}` }
 }

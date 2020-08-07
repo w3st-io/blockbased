@@ -13,7 +13,7 @@ function join(socket_id, user_id) {
 	const userSocket = { socket_id, user_id, }
 	userSockets.push(userSocket)
 
-	console.log('[JOIN] userSockets:', userSockets)
+	console.log('[JOIN-SOCKET] userSockets:', userSockets)
 
 	return userSocket
 }
@@ -43,7 +43,7 @@ function leave(socket_id) {
 		const userSocket = userSockets.splice(uSIndex, 1)[0]
 		
 		// [LOG] //
-		console.log('[LEAVE] userSockets:', userSockets)
+		console.log('[SOCKET-LEAVE] userSockets:', userSockets)
 	
 		return userSocket
 	}
