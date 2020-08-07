@@ -15,7 +15,7 @@ const BlocksCollection = require('../../server-collections/BlocksCollection')
 const CommentsCollection = require('../../server-collections/CommentsCollection')
 const CommentLikesCollection = require('../../server-collections/CommentLikesCollection')
 const CommentReportsCollection = require('../../server-collections/CommentReportsCollections')
-const NotificationsCollection = require('../../server-collections/NotificationsCollections')
+const NotificationsCollection = require('../../server-collections/NotificationsCollection')
 
 
 // [EXPRESS + USE] //
@@ -43,7 +43,7 @@ router.post(
 			)
 
 			for (let i = 0; i < blockFollowers.length; i++) {
-				await NotificationsCollection.create(
+				await NotificationsCollection.s_create(
 					blockFollowers[i],
 					returnedData.commentCreated._id,
 					'comment'
@@ -138,7 +138,7 @@ router.delete(
 			// [DELETE] Comment // [DELETE] CommentLike //
 			const returnedData = await CommentsCollection.s_delete(user_id, comment_id)
 			const returnedData2 = await CommentLikesCollection.s_deleteAll(comment_id)
-			const returnedData3 = await NotificationsCollection.deleteAll(comment_id)
+			const returnedData3 = await NotificationsCollection.s_deleteAll(comment_id)
 
 			res.status(201).send([returnedData, returnedData2, returnedData3])
 		}

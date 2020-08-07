@@ -11,7 +11,7 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const Auth = require('../../server-middleware/AuthMiddleware')
-const NotificationsCollection = require('../../server-collections/NotificationsCollections')
+const NotificationsCollection = require('../../server-collections/NotificationsCollection')
 
 
 // [EXPRESS + USE] //
@@ -24,7 +24,7 @@ router.get(
 	'/read-all',
 	Auth.userToken(),
 	async (req, res) => {
-		const returnedData = await NotificationsCollection.readAll(
+		const returnedData = await NotificationsCollection.s_readAll(
 			req.decoded._id
 		)
 
@@ -38,7 +38,7 @@ router.get(
 	'/mark-read/:notification_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const returnedData = await NotificationsCollection.markRead(
+		const returnedData = await NotificationsCollection.s_markRead(
 			req.decoded._id,
 			req.params.notification_id
 		)

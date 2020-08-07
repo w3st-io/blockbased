@@ -18,149 +18,153 @@ const UserModel = require('../server-models/UserModel')
 const secretKey = process.env.SECRET_KEY || 'secret'
 
 
-class UsersCollection {
-	/******************* [CRUD] *******************/
-	// [READ-ALL] //
-	static async readAll() {
-		try { return await UserModel.find() }
+/******************* [CRUD] *******************/
+// [READ-ALL] //
+const s_readAll = async () => {
+	try { return await UserModel.find() }
+	catch(e) { return `Caught Error --> ${e}` }
+}
+
+
+// [READ] //
+const s_read = async (user_id) => {
+	if (mongoose.isValidObjectId(user_id)) {
+		try { return await UserModel.findOne({ _id: user_id }) }
 		catch(e) { return `Caught Error --> ${e}` }
 	}
+	else { return 'Invalid ID.' }
+}
 
-	
-	// [READ] //
-	static async read(user_id) {
-		if (mongoose.isValidObjectId(user_id)) {
-			try { return await UserModel.findOne({ _id: user_id }) }
-			catch(e) { return `Caught Error --> ${e}` }
+
+// [UPDATE] Profile Picture //
+const s_update = async (user_id, img_url) => {
+	if (mongoose.isValidObjectId(user_id)) {
+		try {
+			await UserModel.findOneAndUpdate(
+				{ _id: user_id },
+				{ $set: { profileImg: img_url } }
+			)
+
+			return {
+				status: true,
+				user_id: user_id,
+				profileImg: img_url,
+				message: `Updated profile with id ${user_id}`,
+			}
 		}
-		else { return 'Invalid ID.' }
+		catch(e) { return `Caught Error --> ${e}` }
 	}
+	else { return 'Invalid ID.' }
+}
 
 
-	// [UPDATE] Profile Picture //
-	static async update(user_id, img_url) {
-		if (mongoose.isValidObjectId(user_id)) {
-			try {
-				await UserModel.findOneAndUpdate(
-					{ _id: user_id },
-					{ $set: { profileImg: img_url } }
-				)
+/******************* [LOGIN/REGISTER] *******************/
+const s_login = async (req) => {
+	try {
+		const accountFound = await UserModel.findOne({ email: req.body.email })
+		
+		// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
+		if (accountFound) {
+			if (bcrypt.compareSync(req.body.password, accountFound.password)) {
+				const payload = {
+					_id: accountFound._id,
+					email: accountFound.email,
+					username: accountFound.username,
+					first_name: accountFound.first_name,
+					last_name: accountFound.last_name,
+				}
+
+				// Set Token //
+				//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
+				const token = jwt.sign(payload, secretKey, {})
 
 				return {
 					status: true,
-					user_id: user_id,
-					profileImg: img_url,
-					message: `Updated profile with id ${user_id}`,
-				}
-			}
-			catch(e) { return `Caught Error --> ${e}` }
-		}
-		else { return 'Invalid ID.' }
-	}
-
-
-	/******************* [LOGIN/REGISTER] *******************/
-	static async login(req) {
-		try {
-			const accountFound = await UserModel.findOne({ email: req.body.email })
-			
-			// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
-			if (accountFound) {
-				if (bcrypt.compareSync(req.body.password, accountFound.password)) {
-					const payload = {
-						_id: accountFound._id,
-						email: accountFound.email,
-						username: accountFound.username,
-						first_name: accountFound.first_name,
-						last_name: accountFound.last_name,
-					}
-
-					// Set Token //
-					//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
-					const token = jwt.sign(payload, secretKey, {})
-
-					return {
-						status: true,
-						message: 'success',
-						validation: true,
-						token: token,
-					}
-				}
-				else {
-					return {
-						status: true,
-						message: 'Invalid email or password',
-						validation: false,
-					}
+					message: 'success',
+					validation: true,
+					token: token,
 				}
 			}
 			else {
 				return {
 					status: true,
 					message: 'Invalid email or password',
-					validation: false
+					validation: false,
 				}
 			}
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+		else {
+			return {
+				status: true,
+				message: 'Invalid email or password',
+				validation: false
+			}
+		}
 	}
+	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+}
 
 
-	static async register(req) {
-		let formData = new UserModel({
-			_id: mongoose.Types.ObjectId(),
-			first_name: req.body.first_name,
-			last_name: req.body.last_name,
-			username: req.body.username,
-			email: req.body.email,
-			password: req.body.password,
-		})
-		
-		try {
-			const usernameFound = await UserModel.findOne({ username: formData.username })
-			const emailFound = await UserModel.findOne({ email: formData.email })
+const s_register = async (req) => {
+	let formData = new UserModel({
+		_id: mongoose.Types.ObjectId(),
+		first_name: req.body.first_name,
+		last_name: req.body.last_name,
+		username: req.body.username,
+		email: req.body.email,
+		password: req.body.password,
+	})
+	
+	try {
+		const usernameFound = await UserModel.findOne({ username: formData.username })
+		const emailFound = await UserModel.findOne({ email: formData.email })
 
-			if (!usernameFound) {
-				if (!emailFound) {
-					try {
-						// Hash Data //
-						formData.password = await bcrypt.hash(formData.password, 10)
-						
-						await formData.save()
-						
-						return {
-							status: true,
-							message: 'Successfully created account',
-							created: true,
-						}
-					}
-					catch(e) {
-						return { status: false, message: `Caught Error --> ${e}`, }
-					}
-				}
-				else {
+		if (!usernameFound) {
+			if (!emailFound) {
+				try {
+					// Hash Data //
+					formData.password = await bcrypt.hash(formData.password, 10)
+					
+					await formData.save()
+					
 					return {
 						status: true,
-						message: 'This email is already registered',
-						created: false,
+						message: 'Successfully created account',
+						created: true,
 					}
+				}
+				catch(e) {
+					return { status: false, message: `Caught Error --> ${e}`, }
 				}
 			}
 			else {
 				return {
 					status: true,
-					message: 'This username is taken',
+					message: 'This email is already registered',
 					created: false,
 				}
 			}
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+		else {
+			return {
+				status: true,
+				message: 'This username is taken',
+				created: false,
+			}
+		}
 	}
-
-
-	/******************* [COUNT] *******************/
+	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 }
 
 
+/******************* [COUNT] *******************/
+
+
 // [EXPORT] //
-module.exports = UsersCollection
+module.exports = {
+	s_readAll,
+	s_read,
+	s_update,
+	s_login,
+	s_register,
+}
