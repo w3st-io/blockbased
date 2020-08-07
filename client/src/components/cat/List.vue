@@ -5,7 +5,6 @@
 			:key="index"
 			class="row m-0 bg-dark"
 		>
-			
 			<!-- Image Section -->
 			<div
 				@click="redirectToCatBlocks(cat.cat_id)"
@@ -20,7 +19,7 @@
 			>
 				<div class="w-100 overflow-auto rounded-circle">
 					<img
-						v-bind:src="require('../../assets/images/caticons/' + cat.image)"
+						v-bind:src="cat.image"
 						class="w-100 bg-primary img-padding"
 					>
 				</div>

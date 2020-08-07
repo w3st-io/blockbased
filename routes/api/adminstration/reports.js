@@ -10,7 +10,7 @@ const express = require('express')
 
 // [REQUIRE] Personal //
 const Auth = require('../../../server-middleware/AuthMiddleware')
-const CommentReportsCollection = require('../../../server-collections/CommentReportsCollections')
+const CommentReportsCollection = require('../../../server-collections/CommentReportsCollection')
 
 
 // [EXPRESS + USE] //
@@ -23,7 +23,7 @@ router.get(
 	'/read-all',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await CommentReportsCollection.readAll()
+		const returnedData = await CommentReportsCollection.s_readAll()
 
 		res.status(200).send(returnedData)
 	}
@@ -35,7 +35,7 @@ router.delete(
 	'/delete/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await CommentReportsCollection.delete(req.params._id)
+		const returnedData = await CommentReportsCollection.s_delete(req.params._id)
 		
 		res.status(200).send(returnedData)
 	}

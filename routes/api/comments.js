@@ -14,7 +14,7 @@ const Auth = require('../../server-middleware/AuthMiddleware')
 const BlocksCollection = require('../../server-collections/BlocksCollection')
 const CommentsCollection = require('../../server-collections/CommentsCollection')
 const CommentLikesCollection = require('../../server-collections/CommentLikesCollection')
-const CommentReportsCollection = require('../../server-collections/CommentReportsCollections')
+const CommentReportsCollection = require('../../server-collections/CommentReportsCollection')
 const NotificationsCollection = require('../../server-collections/NotificationsCollection')
 
 
@@ -198,10 +198,10 @@ router.post(
 		const block_id = req.body.block_id
 		const reportType = req.body.reportType
 
-		const existance = await CommentReportsCollection.existance(user_id, comment_id)
+		const existance = await CommentReportsCollection.s_existance(user_id, comment_id)
 		
 		if (existance.status && !existance.existance) {
-			const returnedData = await CommentReportsCollection.create(
+			const returnedData = await CommentReportsCollection.s_create(
 				user_id,
 				comment_id,
 				block_id,
