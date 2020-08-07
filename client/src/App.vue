@@ -83,7 +83,6 @@
 				let decoded = UserService.getUserTokenDecodeData()
 				this.user_id = decoded._id
 
-				// [EMIT-SOCKET] Join //
 				this.socket.emit('join', this.user_id)
 			}
 
@@ -91,44 +90,43 @@
 			if (localStorage.admintoken) {
 				this.adminLoggedIn = true
 
-				// [EMIT-SOCKET] Join //
 				this.socket.emit('admin-join')
 			}
-		
-			// [EMIT-EVENTBUS] //
-			EventBus.$emit('update-notification')
 
-			// [ON-SOCKET] //
-			socket.on('update-notification', () => {
-				// [EMIT-EVENTBUS] //
-				EventBus.$emit('update-notification')
+			// [SOCKET] //
+			this.socket.on('update', () => {
+				console.log('CALLLLEDD')
+				
+				setTimeout(function() { EventBus.$emit('update-notification') }, 1000)
 			})
 
-			// [ON-EVENTBUS] //
+			// [EVENTBUS] //
+			EventBus.$emit('update-notification')
+
+			EventBus.$on('comment-created', (followers) => {
+				this.socket.emit('comment-created', followers)
+			})
+
 			EventBus.$on('logged-in', () => {
 				this.loggedIn = true
 				this.forceRerender()
 			})
 
-			// [ON-EVENTBUS] //
 			EventBus.$on('logged-out', () => {
 				this.loggedIn = false
 				this.forceRerender()
 			})
 
-			// [ON-EVENTBUS] //
 			EventBus.$on('admin-logged-in', () => {
 				this.adminLoggedIn = true
 				this.forceRerender()
 			})
 			
-			// [ON-EVENTBUS] //
 			EventBus.$on('admin-logged-out', () => {
 				this.adminLoggedIn = false
 				this.forceRerender()
 			})
 
-			// [ON-EVENTBUS] //
 			EventBus.$on('force-rerender', () => { this.forceRerender() })
 
 			// [LOG] //

@@ -77,7 +77,11 @@ io.on('connection', (socket) => {
 	console.log('New WS connected')
 
 
-	// [ON-SOCKET] join //
+	// [EMIT] usersOnline //
+	socket.emit('user', userUtils.getUserSocket(socket.id))
+
+
+	// [ON] join //
 	socket.on('join', (user_id) => {
 		// Check if user_id is not null & user_id isnt already in room
 		if (user_id && !userUtils.getUserSocketByUserId(user_id)) {
@@ -92,12 +96,19 @@ io.on('connection', (socket) => {
 	})
 
 
-	// [EMIT-SOCKET] usersOnline //
-	socket.emit('user', userUtils.getUserSocket(socket.id))
-	
+	// [ON] comment-created //
+	socket.on('comment-created', (followers) => {
+		followers.forEach(follower => {
+			// Get userSicket by user_id
+			const userSocket = userUtils.getUserSocketByUserId(follower)
+			
+			// [EMIT] //
+			if (userSocket) { io.to(userSocket.socket_id).emit('update') }
+		})
+	})
 
-	/************ [DISCONNECT] ************/
-	// [ON-SOCKET] Disconnect //
+	
+	// [ON] Disconnect //
 	socket.on('disconnect', () => {
 		// [LOG] //
 		console.log('WS Closed')

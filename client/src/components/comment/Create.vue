@@ -49,8 +49,9 @@
 
 	// [IMPORT] Personal //
 	import BlockService from '@services/BlockService'
-	import CommentService from '../../services/CommentService'
+	import CommentService from '@services/CommentService'
 	import router from '@router'
+	import { EventBus } from '@main'
 
 	// [EXPORT] //
 	export default {
@@ -62,6 +63,7 @@
 
 		data: function() {
 			return {
+				validBlock: false,
 				disabled: false,
 				loading: false,
 				block: {},
@@ -71,25 +73,22 @@
 		},
 
 		created: async function() {
-			let valid = await this.validateExistance()
+			try {
+				this.validBlock = await BlockService.validateExistance(this.block_id)
+
+				// Get Block Details
+				this.block = await BlockService.read(this.block_id)
+			}
+			catch(e) { this.error = e }
 
 			// If Invalid Block => Disable //
-			if (!valid) { this.disabled = true }
+			if (!this.validBlock) { this.disabled = true }
 
 			// [LOG] //
 			this.log()
 		},
 
 		methods: {
-			async validateExistance() {
-				let status = false
-
-				try { status = await BlockService.validateExistance(this.block_id) } 
-				catch(e) { this.error = e }
-
-				return status
-			},
-
 			/******************* [BTN] Submit *******************/
 			async submit() {
 				if (localStorage.usertoken) {
@@ -97,6 +96,7 @@
 					this.loading = true
 
 					this.create()
+					this.notifySockets()
 				}
 				else { this.error = 'Unable to create comment' }
 			},
@@ -106,9 +106,6 @@
 				this.editorText = this.$refs.toastuiEditor.invoke('getHtml')
 
 				try {
-					// Get Block Details
-					this.block = await BlockService.read(this.block_id)
-
 					await CommentService.create(
 						this.block_id,
 						this.block.followers,
@@ -127,6 +124,11 @@
 					this.loading = false
 					this.error = e
 				}
+			},
+
+			async notifySockets() {
+				// [EMIT-EVENTBUS] //
+				EventBus.$emit('comment-created', this.block.followers)
 			},
 
 			log() {
