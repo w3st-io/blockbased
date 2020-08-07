@@ -75,7 +75,7 @@
 			}
 		},
 
-		created: function() {
+		created: async function() {
 			// [CHECK IF LOGGEDIN] //
 			if (localStorage.usertoken) {
 				this.loggedIn = true
@@ -93,14 +93,12 @@
 				this.socket.emit('admin-join')
 			}
 
-			// [SOCKET] //
-			this.socket.on('update', () => {
-				console.log('CALLLLEDD')
-				
-				setTimeout(function() { EventBus.$emit('update-notification') }, 1000)
+			// [ON-SOCKET] //
+			this.socket.on('update-notification', () => {
+				setTimeout(() => { EventBus.$emit('update-notification') }, 1000)
 			})
 
-			// [EVENTBUS] //
+			// [EMIT-EVENTBUS] //
 			EventBus.$emit('update-notification')
 
 			EventBus.$on('comment-created', (followers) => {

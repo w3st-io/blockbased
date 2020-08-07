@@ -34,7 +34,7 @@
 			}
 		},
 
-		created: function() {
+		created: async function() {
 			// Set Active Tab //
 			this.activeTab = this.tabs[0]
 

@@ -16,7 +16,6 @@
 						v-if="displayEditor"
 						:initialEditType="'wysiwyg'"
 						:initialValue="initialEditorText"
-						:setValue="'<h1>HELLO????</h1>'"
 						ref="toastuiEditor"
 					/>
 
@@ -120,7 +119,7 @@
 						{
 							name: 'Block',
 							params: {
-								block_id: this.commentDetails.block_id,
+								block_id: this.commentDetails.block,
 								page: 1
 							}
 						}

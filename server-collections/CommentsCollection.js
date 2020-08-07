@@ -11,34 +11,166 @@ const mongoose = require('mongoose')
 const CommentModel = require('../server-models/CommentModel')
 
 
-class CommentsCollection {
-	/******************* [CRUD] *******************/
-	// [CREATE] //
-	static async create(user_id, block_id, text) {
-		if (text.length <= 6000) {
-			const formData = new CommentModel({
-				_id: mongoose.Types.ObjectId(),
-				user: user_id,
-				block: block_id,
-				text: text,
-			})
+/******************* [CRUD] *******************/
+// [CREATE] //
+let s_create = async (user_id, block_id, text) => {
+	if (text.length <= 6000) {
+		const formData = new CommentModel({
+			_id: mongoose.Types.ObjectId(),
+			user: user_id,
+			block: block_id,
+			text: text,
+		})
 
+		try {
+			await formData.save()
+			
+			return {
+				status: true,
+				message: `Created comment in ${block_id}.`,
+				user: user_id,
+				block_id: block_id,
+				commentCreated: formData
+			}
+		}
+		catch(e) {
+			return {
+				status: false,
+				user: user_id,
+				block_id: block_id,
+				message: `Caught Error --> ${e}`,
+			}
+		}
+	}
+	else {
+		return {
+			status: true,
+			message: `Comment too long`,
+			user: user_id,
+			block_id: block_id,
+		}
+	}
+}
+
+
+// [READ-ALL-ALL] //
+let s_readAllAll = async (skip, limit) => {
+	const skip2 = parseInt(skip)
+	const limit2 = parseInt(limit)
+	
+	try {
+		const returnedData = await CommentModel.find()
+			.skip(skip2)
+			.limit(limit2)
+			.populate(
+				{
+					path: 'user',
+					select: 'username email profileImg',
+				}
+			)
+			.populate('block')
+			.exec()
+
+		return returnedData
+	}
+	catch(e) {
+		return {
+			status: false,
+			message: `Caught Error --> ${e}`,
+		}
+	}
+}
+
+
+// [READ-ALL] Within a Block //
+let s_readAll = async (block_id, skip, limit) => {
+	const skip2 = parseInt(skip)
+	const limit2 = parseInt(limit)
+
+	try {
+		const returnedData = await CommentModel.find(
+			{ block: block_id }
+		)
+			.skip(skip2)
+			.limit(limit2)
+			.populate(
+				{
+					path: 'user',
+					select: 'username email profileImg',
+				}
+			)
+			.exec()
+
+		return returnedData
+	}
+	catch(e) {
+		return {
+			status: false,
+			message: `Caught Error --> ${e}`,
+		}
+	}
+}
+
+
+// [READ] //
+let s_read = async (comment_id) => {
+	if (mongoose.isValidObjectId(comment_id)) {
+		try {
+			const returnedData = await CommentModel.findById(comment_id)
+				.populate(
+					{
+						path: 'user',
+						select: 'username email profileImg'
+					}
+				)
+				.populate(
+					{
+						path: 'likers',
+						select: '_id user_id block_id text'
+					}
+				)
+				.exec()
+
+			return returnedData
+		}
+		catch(e) {
+			return {
+				status: false,
+				message: `Caught Error --> ${e}`,
+			}
+		}
+	}
+	else {
+		return {
+			status: false,
+			message: 'Invalid Comment ID',
+		}
+	}
+}
+
+
+// [UPDATE] //
+let s_update = async (comment_id, text) => {
+	if (mongoose.isValidObjectId(comment_id)) {
+		if (text.length <= 6000) {
 			try {
-				await formData.save()
-				
+				await CommentModel.updateOne(
+					{ _id: comment_id },
+					{ '$set': { 'text': text } },
+				)
+
 				return {
 					status: true,
-					message: `Created comment in ${block_id}.`,
-					user: user_id,
-					block_id: block_id,
-					commentCreated: formData
+					comment_id: comment_id,
+					text: text,
+					message: 'Updated comment',
 				}
 			}
 			catch(e) {
 				return {
 					status: false,
-					user: user_id,
-					block_id: block_id,
+					comment_id: comment_id,
+					text: text,
 					message: `Caught Error --> ${e}`,
 				}
 			}
@@ -52,346 +184,224 @@ class CommentsCollection {
 			}
 		}
 	}
+	else {
+		return {
+			status: false,
+			comment_id: comment_id,
+			text: text,
+			message: 'Invalid Comment ID',
+		}
+	}
+}
 
 
-	// [READ-ALL-ALL] //
-	static async readAllAll(skip, limit) {
-		const skip2 = parseInt(skip)
-		const limit2 = parseInt(limit)
-		
+// [DELETE] //
+let s_delete = async (user_id, comment_id) => {
+	if (mongoose.isValidObjectId(comment_id)) {
 		try {
-			const returnedData = await CommentModel.find()
-				.skip(skip2)
-				.limit(limit2)
-				.populate(
-					{
-						path: 'user',
-						select: 'username email profileImg',
-					}
-				)
-				.populate('block')
-				.exec()
-
-			return returnedData
-		}
-		catch(e) {
-			return {
-				status: false,
-				message: `Caught Error --> ${e}`,
-			}
-		}
-	}
-	
-
-
-	// [READ-ALL] Within a Block //
-	static async readAll(block_id, skip, limit) {
-		const skip2 = parseInt(skip)
-		const limit2 = parseInt(limit)
-
-		try {
-			const returnedData = await CommentModel.find(
-				{ block: block_id }
-			)
-				.skip(skip2)
-				.limit(limit2)
-				.populate(
-					{
-						path: 'user',
-						select: 'username email profileImg',
-					}
-				)
-				.exec()
-
-			return returnedData
-		}
-		catch(e) {
-			return {
-				status: false,
-				message: `Caught Error --> ${e}`,
-			}
-		}
-	}
-
-
-	// [READ] //
-	static async read(comment_id) {
-		if (mongoose.isValidObjectId(comment_id)) {
-			try {
-				const returnedData = await CommentModel.findById(comment_id)
-					.populate(
-						{
-							path: 'user',
-							select: 'username email profileImg'
-						}
-					)
-					.populate(
-						{
-							path: 'likers',
-							select: '_id user_id block_id text'
-						}
-					)
-					.exec()
-
-				return returnedData
-			}
-			catch(e) {
-				return {
-					status: false,
-					message: `Caught Error --> ${e}`,
-				}
-			}
-		}
-		else {
-			return {
-				status: false,
-				message: 'Invalid Comment ID.',
-			}
-		}
-	}
-
-
-	// [UPDATE] //
-	static async update(comment_id, text) {
-		if (mongoose.isValidObjectId(comment_id)) {
-			if (text.length <= 6000) {
-				try {
-					await CommentModel.updateOne(
-						{ _id: comment_id },
-						{ '$set': { 'text': text } },
-					)
-
-					return {
-						status: true,
-						comment_id: comment_id,
-						text: text,
-						message: 'Updated comment.',
-					}
-				}
-				catch(e) {
-					return {
-						status: false,
-						comment_id: comment_id,
-						text: text,
-						message: `Caught Error --> ${e}`,
-					}
-				}
-			}
-			else {
-				return {
-					status: true,
-					message: `Comment too long`,
+			await CommentModel.findOneAndRemove(
+				{
+					_id: comment_id,
 					user: user_id,
-					block_id: block_id,
 				}
-			}
-		}
-		else {
+			)
+
 			return {
-				status: false,
+				status: true,
+				user_id: user_id,
 				comment_id: comment_id,
-				text: text,
-				message: 'Invalid Comment ID.',
+				message: 'Deleted comment.',
 			}
 		}
-	}
-
-
-	// [DELETE] //
-	static async delete(user_id, comment_id) {
-		if (mongoose.isValidObjectId(comment_id)) {
-			try {
-				await CommentModel.findOneAndRemove(
-					{
-						_id: comment_id,
-						user: user_id,
-					}
-				)
-
-				return {
-					status: true,
-					user_id: user_id,
-					comment_id: comment_id,
-					message: 'Deleted comment.',
-				}
-			}
-			catch(e) {
-				return {
-					status: false,
-					user_id: user_id,
-					comment_id: comment_id,
-					message: `Caught Error --> ${e}`,
-				}
-			}
-		}
-		else {
+		catch(e) {
 			return {
 				status: false,
 				user_id: user_id,
 				comment_id: comment_id,
-				message: 'Invalid Comment ID.',
+				message: `Caught Error --> ${e}`,
 			}
 		}
 	}
+	else {
+		return {
+			status: false,
+			user_id: user_id,
+			comment_id: comment_id,
+			message: 'Invalid Comment ID',
+		}
+	}
+}
 
 
-	/******************* [LIKE SYSTEM] *******************/
-	// [LIKE] //
-	static async like(user_id, comment_id) {
-		const likeExistance = await this.likeExistance(user_id, comment_id)
+/******************* [LIKE SYSTEM] *******************/
+// [LIKE] //
+let s_like = async (user_id, comment_id) => {
+	const likeExistance = await s_likeExistance(user_id, comment_id)
 
-		if (likeExistance.status && !likeExistance.existance) {
-			if (mongoose.isValidObjectId(comment_id)) {
-				try {
-					await CommentModel.updateOne(
-						{ _id: comment_id },
-						{ '$addToSet': { 
-							'likers': user_id
-						} }
-					)
-					
-					return {
-						status: true,
-						message: 'Liked Comment',
-						comment_id: comment_id,
-						user_id: user_id,
-					}
-				}
-				catch(e) {
-					return { status: false, message: `Caught Error --> ${e}` }
+	if (likeExistance.status && !likeExistance.existance) {
+		if (mongoose.isValidObjectId(comment_id)) {
+			try {
+				await CommentModel.updateOne(
+					{ _id: comment_id },
+					{ '$addToSet': { 
+						'likers': user_id
+					} }
+				)
+				
+				return {
+					status: true,
+					message: 'Liked Comment',
+					comment_id: comment_id,
+					user_id: user_id,
 				}
 			}
-			else { return { status: false, message: 'Invalid Comment ID.' } }
-		}
-		else { return { status: false, message: likeExistance.message } }
-	}
-
-
-	// [UNLIKE] //
-	static async unlike(user_id, comment_id) {
-		const likeExistance = await this.likeExistance(user_id, comment_id)
-
-		if (likeExistance.status && likeExistance.existance) {
-			if (mongoose.isValidObjectId(comment_id)) {
-				try {
-					await CommentModel.updateOne(
-						{ _id: comment_id },
-						{ '$pull': { 
-							'likers': user_id
-						} }
-					)
-
-					return {
-						status: true,
-						message: 'Unliked comment',
-						comment_id: comment_id,
-						user_id: user_id,
-					}
-				}
-				catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+			catch(e) {
+				return { status: false, message: `Caught Error --> ${e}` }
 			}
-			else { return { status: false, message: 'Invalid Comment ID.' } }
 		}
-		else { return { status: false, message: likeExistance.message } }
+		else { return { status: false, message: 'Invalid Comment ID' } }
 	}
+	else { return { status: false, message: likeExistance.message } }
+}
 
 
-	// [LIKE-EXISTANCE] //
-	static async likeExistance(user_id, comment_id) {
+// [UNLIKE] //
+let s_unlike = async (user_id, comment_id) => {
+	const likeExistance = await s_likeExistance(user_id, comment_id)
+
+	if (likeExistance.status && likeExistance.existance) {
+		if (mongoose.isValidObjectId(comment_id)) {
+			try {
+				await CommentModel.updateOne(
+					{ _id: comment_id },
+					{ '$pull': { 
+						'likers': user_id
+					} }
+				)
+
+				return {
+					status: true,
+					message: 'Unliked comment',
+					comment_id: comment_id,
+					user_id: user_id,
+				}
+			}
+			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+		}
+		else { return { status: false, message: 'Invalid Comment ID' } }
+	}
+	else { return { status: false, message: likeExistance.message } }
+}
+
+
+// [LIKE-EXISTANCE] //
+let s_likeExistance = async (user_id, comment_id) => {
+	try {	
+		const returnedData = await CommentModel.findOne(
+			{
+				_id: comment_id,
+				likers: user_id
+			}
+		)
+
+		if (returnedData) {
+			return {
+				status: true,
+				message: 'Comment Like does exists',
+				existance: true,
+			}
+		}
+		else {
+			return {
+				status: true,
+				message: 'Comment Like does NOT exists',
+				existance: false,
+			}
+		}
+	}
+	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+}
+
+
+/******************* [EXISTANCE + OWNERSHIP] *******************/
+// [EXISTANCE] //
+let s_existance = async (comment_id) => {
+	if (mongoose.isValidObjectId(comment_id)) {
 		try {	
-			const returnedData = await CommentModel.findOne(
-				{
-					_id: comment_id,
-					likers: user_id
-				}
-			)
+			const returnedData = await CommentModel.findOne({ _id: comment_id })
 
 			if (returnedData) {
 				return {
 					status: true,
-					message: 'Comment Like does exists',
+					message: 'Comment does exists',
 					existance: true,
 				}
 			}
 			else {
 				return {
 					status: true,
-					message: 'Comment Like does NOT exists',
+					message: 'Comment does NOT exists',
 					existance: false,
 				}
 			}
 		}
 		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
+	else { return { status: false, message: 'Invalid comment ID' } }
+}
 
-	
-	/******************* [EXISTANCE + OWNERSHIP] *******************/
-	// [EXISTANCE] //
-	static async existance(comment_id) {
-		if (mongoose.isValidObjectId(comment_id)) {
-			try {	
-				const returnedData = await CommentModel.findOne({ _id: comment_id })
 
-				if (returnedData) {
-					return {
-						status: true,
-						message: 'Comment does exists',
-						existance: true,
-					}
+// [OWNERSHIP] //
+let s_ownership = async (user_id, comment_id) => {
+	if (mongoose.isValidObjectId(comment_id)) {
+		try {	
+			const returnedData = await CommentModel.findOne(
+				{
+					user: user_id,
+					_id: comment_id,
 				}
-				else {
-					return {
-						status: true,
-						message: 'Comment does NOT exists',
-						existance: false,
-					}
+			)
+
+			if (returnedData) {
+				return {
+					status: true,
+					message: 'You own this comment',
+					ownership: true,
 				}
 			}
-			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
-		}
-		else { return { status: false, message: 'Invalid comment ID' } }
-	}
-
-
-	// [OWNERSHIP] //
-	static async ownership(user_id, comment_id) {
-		if (mongoose.isValidObjectId(comment_id)) {
-			try {	
-				const returnedData = await CommentModel.findOne(
-					{
-						user: user_id,
-						_id: comment_id,
-					}
-				)
-
-				if (returnedData) {
-					return {
-						status: true,
-						message: 'You own this comment',
-						ownership: true,
-					}
-				}
-				else {
-					return {
-						status: true,
-						message: 'You do NOT own this comment',
-						ownership: false,
-					}
+			else {
+				return {
+					status: true,
+					message: 'You do NOT own this comment',
+					ownership: false,
 				}
 			}
-			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 		}
-		else { return { status: false, message: 'Invalid comment ID' } }
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
+	else { return { status: false, message: 'Invalid comment ID' } }
+}
 
 
-	/******************* [COUNT] *******************/
-	static async count(block_id) {
-		try { return await CommentModel.countDocuments({ block_id: block_id }) }
-		catch(e) { return `Caught Error --> ${e}` }
-	}
+/******************* [COUNT] *******************/
+let s_count = async (block_id) => {
+	try { return await CommentModel.countDocuments({ block_id: block_id }) }
+	catch(e) { return `Caught Error --> ${e}` }
 }
 
 
 // [EXPORT] //
-module.exports = CommentsCollection
+module.exports = {
+	s_create,
+	s_readAllAll,
+	s_readAll,
+	s_read,
+	s_update,
+	s_delete,
+	s_like,
+	s_unlike,
+	s_likeExistance,
+	s_existance,
+	s_ownership,
+	s_count,
+}

@@ -116,7 +116,10 @@
 					router.push(
 						{
 							name: 'Block',
-							params: { block_id: this.block_id, page: 1 }
+							params: {
+								block_id: this.block_id,
+								page: 1
+							}
 						}
 					)
 				}

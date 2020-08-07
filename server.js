@@ -103,7 +103,7 @@ io.on('connection', (socket) => {
 			const userSocket = userUtils.getUserSocketByUserId(follower)
 			
 			// [EMIT] //
-			if (userSocket) { io.to(userSocket.socket_id).emit('update') }
+			if (userSocket) { io.to(userSocket.socket_id).emit('update-notification') }
 		})
 	})
 
@@ -121,13 +121,12 @@ io.on('connection', (socket) => {
 
 // [PORT + LISTEN] //
 const port = process.env.PORT || 5000
-server.listen(port, function() { console.log(`Server Running on Port: ${port}`) })
+server.listen(port, () => { console.log(`Server Running on Port: ${port}`) })
 
 
 // [MAIN ROUTE] //
 app.get('', async (req, res) => {
-	const html = `<h1 style="color: #4d31ce;">BlockBased API</h1>`
 	console.log('req:', req)
 
-	res.send(html)
+	res.send('<h1 style="color: #f45d22;">BlockBased API</h1>')
 })

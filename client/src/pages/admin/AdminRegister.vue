@@ -154,7 +154,7 @@
 			}
 		},
 
-		created: function() {
+		created: async function() {
 			// [REDIRECT] Not Log Required //
 			if (localStorage.admintoken) { router.push({ name: 'AdminProfile' }) }
 		},

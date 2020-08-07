@@ -92,7 +92,7 @@
 			}
 		},
 
-		created: function() {
+		created: async function() {
 			if (localStorage.usertoken) {
 				// Set Status //
 				this.loggedIn = true

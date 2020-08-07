@@ -61,7 +61,7 @@
 			this.popupItem = this.$el
 		},
 
-		created: function() {
+		created: async function() {
 			// [LOG] //
 			//this.log()
 		},

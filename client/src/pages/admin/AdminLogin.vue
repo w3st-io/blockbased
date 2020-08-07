@@ -80,7 +80,7 @@
 			}
 		},
 
-		created: function() {
+		created: async function() {
 			// [REDIRECT] User Logged In Already //
 			if (localStorage.admintoken) { router.push({ name: 'AdminProfile' }) }
 		},

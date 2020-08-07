@@ -31,7 +31,7 @@
 			badgeValue: { type: Number, required: true, },
 		},
 
-		created() {
+		created: async function() {
 			// [LOG] //
 			//this.log()
 		},

@@ -158,7 +158,7 @@
 			}
 		},
 
-		created: function() {
+		created: async function() {
 			// [REDIRECT] Log Required //
 			if (localStorage.usertoken) { router.push({ name: 'Profile' }) }
 		},

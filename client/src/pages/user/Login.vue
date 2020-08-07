@@ -94,7 +94,7 @@
 			}
 		},
 
-		created: function() {
+		created: async function() {
 			// [REDIRECT] Not Logged Required //
 			if (localStorage.usertoken) { router.push({ path: '/' }) }
 		},
