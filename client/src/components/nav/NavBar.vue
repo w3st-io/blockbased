@@ -98,7 +98,8 @@
 				this.loggedIn = true
 
 				// Retrieve User Data //
-				const decoded = UserService.getUserTokenDecodeData()
+				const decoded = await UserService.getUserTokenDecodeData()
+				
 				this.user_id = decoded._id
 				this.email = decoded.email
 				this.username = decoded.username

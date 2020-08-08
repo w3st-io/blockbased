@@ -69,7 +69,7 @@
 
 		methods: {
 			async readAllNotifications() {
-				this.notifications = await notificationService.s_readAll()
+				this.notifications = await NotificationService.s_readAll()
 			},
 
 			closeClicked(notification_id) {
