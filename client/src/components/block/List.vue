@@ -159,7 +159,7 @@
 			/******************* [INIT] Block *******************/
 			async blocksReadAll() {
 				try {
-					this.blocks = await BlockService.readAll(
+					this.blocks = await BlockService.s_readAll(
 						this.cat_id,
 						this.amount,
 						this.pageIndex
@@ -209,7 +209,7 @@
 				this.disabled = true
 
 				// [CREATE] //
-				try { await BlockService.like(block_id) }
+				try { await BlockService.s_like(block_id) }
 				catch(e) { this.error = e }
 				
 				// [READ] Update Blocks //
@@ -222,7 +222,7 @@
 				this.disabled = true
 
 				// [DELETE] //
-				try { await BlockService.unlike(block_id) }
+				try { await BlockService.s_unlike(block_id) }
 				catch(e) { this.error = e }
 
 				// [READ] Update Blocks //

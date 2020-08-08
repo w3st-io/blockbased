@@ -107,7 +107,7 @@
 
 			/******************* [INIT] Block *******************/
 			async blockRead() {
-				try { this.block = await BlockService.read(this.block_id) }
+				try { this.block = await BlockService.s_read(this.block_id) }
 				catch(e) { this.error = e }
 
 				this.searchForUserInFollowers()
@@ -142,12 +142,12 @@
 			},
 
 			async follow() {
-				try { await BlockService.follow(this.block_id) }
+				try { await BlockService.s_follow(this.block_id) }
 				catch(e) { this.error = e }				
 			},
 
 			async unfollow() {
-				try { await BlockService.unfollow(this.block_id) }
+				try { await BlockService.s_unfollow(this.block_id) }
 				catch(e) { this.error = e }
 			},
 

@@ -8,7 +8,7 @@ import axios from 'axios'
 
 
 // [AUTH-TOKEN-SETUP] //
-async function  authAxios() {
+async function authAxios() {
 	return axios.create({
 		baseURL: '/api/comments',
 		headers: {

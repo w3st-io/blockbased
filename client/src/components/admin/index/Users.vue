@@ -62,7 +62,7 @@
 			async getUsers() {
 				// Get Users //
 				try {
-					let returnedData = await AUserService.getAllUsersProfileData()
+					let returnedData = await AUserService.s_readAll()
 
 					if (returnedData.status) this.users = returnedData.users
 					else this.error = returnedData.message

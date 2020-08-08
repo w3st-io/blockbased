@@ -61,7 +61,7 @@
 
 			// Retrieve User Profile Data //
 			try {
-				this.userProfileData = await UserService.getUserProfileData()
+				this.userProfileData = await UserService.s_read()
 			}
 			catch(e) { this.error = e }
 
@@ -77,7 +77,7 @@
 
 		methods: {
 			async updateUserProfileData() {
-				try { await UserService.updateUserProfileData(this.imgUrl) }
+				try { await UserService.s_update(this.imgUrl) }
 				catch(e) { this.error = e }
 
 				// [REDIRECT] //

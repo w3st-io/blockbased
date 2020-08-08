@@ -59,7 +59,7 @@
 			async getReports() {
 				// Get Reports //
 				try {
-					let returnedData = await AReportService.getAllReports()
+					let returnedData = await AReportService.s_readAllAll()
 
 					if (returnedData.status) this.reports = returnedData.reports
 					else this.error = returnedData.message
@@ -69,7 +69,7 @@
 
 			async deleteReport(report_id) {
 				// Delete Report //
-				try { await AReportService.deleteReport(report_id) }
+				try { await AReportService.s_delete(report_id) }
 				catch(e) { this.error = e }
 				
 				// Refresh Table //

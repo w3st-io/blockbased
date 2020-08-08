@@ -44,7 +44,7 @@
 		},
 
 		created: async function() {
-			let returnedData = await UserService.getUserProfileData(this.user_id)
+			let returnedData = await UserService.s_read(this.user_id)
 
 			this.username = returnedData.username
 			this.email = returnedData.email

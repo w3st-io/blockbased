@@ -18,7 +18,7 @@ async function authAxios() {
 }
 
 /******************* [CRUD] *******************/
-async function readAll() {
+async function s_readAll() {
 	const authAxios = await this.authAxios()
 
 	try {
@@ -48,6 +48,6 @@ async function markRead(notification_id) {
 // [EXPORT] //
 export default {
 	authAxios,
-	readAll,
+	s_readAll,
 	markRead,
 }

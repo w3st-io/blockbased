@@ -80,7 +80,7 @@
 
 		methods: {
 			async readAllNotifications() {
-				this.notifications = await NotificationService.readAll()
+				this.notifications = await notificationService.s_readAll()
 			},
 
 			async clicked(notification_id, block_id) {

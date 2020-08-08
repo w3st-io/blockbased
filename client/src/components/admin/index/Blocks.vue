@@ -61,14 +61,14 @@
 			async getBlocks() {
 				// Get Blocks //
 				try {
-					this.blocks = await ABlockService.getAllBlocks(100, 0)
+					this.blocks = await ABlockService.s_readAllAll(100, 0)
 				}
 				catch(e) { this.error = e }
 			},
 
 			async deleteBlock(block_id) {
 				// Delete Block //
-				try { await ABlockService.deleteBlock(block_id) }
+				try { await ABlockService.s_delete(block_id) }
 				catch(e) { this.error = e }
 				
 				// Refresh Table //

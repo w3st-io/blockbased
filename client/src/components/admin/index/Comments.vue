@@ -60,7 +60,7 @@
 		methods: {
 			async deleteComment(comment_id) {
 				// Delete Comment //
-				try { await ACommentService.deleteComment(comment_id) }
+				try { await ACommentService.s_delete(comment_id) }
 				catch(e) { this.error = e }
 				
 				// Refresh Table //
@@ -69,7 +69,7 @@
 
 			async getComments() {
 				// Get Comments //
-				try { this.comments = await ACommentService.readAllAll(100, 0) }
+				try { this.comments = await ACommentService.s_readAllAll(100, 0) }
 				catch(e) { this.error = e }
 			},
 

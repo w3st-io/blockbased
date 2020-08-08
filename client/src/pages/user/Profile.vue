@@ -70,7 +70,7 @@
 
 			// Retrieve User Profile Data //
 			try {
-				this.userProfileData = await UserService.getUserProfileData()
+				this.userProfileData = await UserService.s_read()
 			}
 			catch(e) { this.error = e }
 

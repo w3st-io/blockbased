@@ -101,7 +101,7 @@
 				for (let i = 0; i < this.cats.length; i++) {
 					let cat_id = this.cats[i].cat_id
 
-					this.totals[cat_id] = await BlockService.countWithinCat(cat_id)
+					this.totals[cat_id] = await BlockService.s_countWithinCat(cat_id)
 				}
 			},
 
