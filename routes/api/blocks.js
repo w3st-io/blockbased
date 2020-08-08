@@ -30,7 +30,7 @@ router.post(
 		const cat_id = req.body.cat_id
 		const title = req.body.title
 
-		const returnedData = await BlocksCollection.s_create(user_id, cat_id, title)
+		const returnedData = await BlocksCollection.c_create(user_id, cat_id, title)
 
 		res.status(201).send(returnedData)
 	}
@@ -45,7 +45,7 @@ router.get(
 		const skip = req.params.skip
 		const amount = req.params.amount
 
-		const returnedData = await BlocksCollection.s_readAll(cat_id, skip, amount)
+		const returnedData = await BlocksCollection.c_readAll(cat_id, skip, amount)
 
 		res.status(200).send(returnedData)
 	}
@@ -58,7 +58,7 @@ router.get(
 	async (req, res) => {
 		const block_id = req.params._id
 
-		const returnedData = await BlocksCollection.s_read(block_id)
+		const returnedData = await BlocksCollection.c_read(block_id)
 
 		res.status(200).send(returnedData)
 	}
@@ -73,11 +73,11 @@ router.delete(
 		const user_id = req.decoded._id
 		const block_id = req.params._id
 
-		const ownership = await BlocksCollection.s_ownership(user_id, block_id)
+		const ownership = await BlocksCollection.c_ownership(user_id, block_id)
 		
 		if (ownership.status && ownership.ownership) {
-			const returnedData = await BlocksCollection.s_delete(block_id)
-			const returnedData2 = await BlockLikesCollection.s_deleteAll(block_id)
+			const returnedData = await BlocksCollection.c_delete(block_id)
+			const returnedData2 = await BlockLikesCollection.c_deleteAll(block_id)
 
 			res.status(200).send([returnedData, returnedData2])
 			
@@ -97,8 +97,8 @@ router.post(
 		const block_id = req.params._id
 
 		// [UPDATE] block's Likers // [CREATE] blockLike //
-		const returnedData = await BlocksCollection.s_like(user_id, block_id)
-		const returnedData2 = await BlockLikesCollection.s_create(user_id, block_id)
+		const returnedData = await BlocksCollection.c_like(user_id, block_id)
+		const returnedData2 = await BlockLikesCollection.c_create(user_id, block_id)
 		
 		res.status(201).send([returnedData, returnedData2])
 	}
@@ -114,8 +114,8 @@ router.post(
 		const block_id = req.params._id
 
 		// [UPDATE] block Likers // [DELETE] blockLike //
-		const returnedData = await BlocksCollection.s_unlike(user_id, block_id)
-		const returnedData2 = await BlockLikesCollection.s_delete(user_id, block_id)
+		const returnedData = await BlocksCollection.c_unlike(user_id, block_id)
+		const returnedData2 = await BlockLikesCollection.c_delete(user_id, block_id)
 		
 		res.status(201).send([returnedData, returnedData2])
 	}
@@ -132,8 +132,8 @@ router.post(
 		const block_id = req.params._id
 
 		// [UPDATE] block Followers // [CREATE] blockFollow //
-		const returnedData = await BlocksCollection.s_follow(user_id, block_id)
-		const returnedData2 = await BlockFollowsCollection.s_create(user_id, block_id)
+		const returnedData = await BlocksCollection.c_follow(user_id, block_id)
+		const returnedData2 = await BlockFollowsCollection.c_create(user_id, block_id)
 		
 		res.status(201).send([returnedData, returnedData2])
 	}
@@ -149,8 +149,8 @@ router.post(
 		const block_id = req.params._id
 
 		// [UPDATE] block Followers // [DELETE] blockFollow //
-		const returnedData = await BlocksCollection.s_unfollow(user_id, block_id)
-		const returnedData2 = await BlockFollowsCollection.s_delete(user_id, block_id)
+		const returnedData = await BlocksCollection.c_unfollow(user_id, block_id)
+		const returnedData2 = await BlockFollowsCollection.c_delete(user_id, block_id)
 		
 		res.status(201).send([returnedData, returnedData2])
 	}
@@ -164,7 +164,7 @@ router.get(
 	async (req, res) => {
 		const block_id = req.params._id
 
-		const existance = await BlocksCollection.s_existance(block_id)
+		const existance = await BlocksCollection.c_existance(block_id)
 
 		if (existance.status) {
 			if (existance.existance) { res.status(200).send(true) }
@@ -183,7 +183,7 @@ router.get(
 		const user_id = req.decoded._id
 		const block_id = req.params._id
 
-		const ownership = await BlocksCollection.s_ownership(user_id, block_id)
+		const ownership = await BlocksCollection.c_ownership(user_id, block_id)
 
 		if (ownership.status) {
 			if (ownership.ownership) { res.status(200).send(true) }
@@ -200,7 +200,7 @@ router.get(
 	async (req, res) => {
 		const cat_id = req.params.cat_id
 
-		const count = (await BlocksCollection.s_count(cat_id))
+		const count = (await BlocksCollection.c_count(cat_id))
 
 		res.status(200).send(count.toString())
 	}

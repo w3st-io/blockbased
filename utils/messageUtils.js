@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%% *
- * %%% USER UTILS %%% *
- * %%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%% *
+ * %%% MESSAGES UTILS %%% *
+ * %%%%%%%%%%%%%%%%%%%%%% *
 */
 // [F] Format Message //
 function formatMessage(user_idFrom, user_idTo, text) {

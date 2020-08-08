@@ -13,8 +13,8 @@ const BlockFollowModel = require('../server-models/BlockFollowModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const s_create = async (user_id, block_id) => {
-	const existance = await s_existance(user_id, block_id)
+const c_create = async (user_id, block_id) => {
+	const existance = await c_existance(user_id, block_id)
 
 	if (existance.status && !existance.existance) {
 		const formData = new BlockFollowModel(
@@ -49,7 +49,7 @@ const s_create = async (user_id, block_id) => {
 
 
 // [DELETE] //
-const s_delete = async (user_id, block_id) => {
+const c_delete = async (user_id, block_id) => {
 	try {
 		await BlockFollowModel.deleteMany({ user: user_id, block: block_id, })
 
@@ -73,7 +73,7 @@ const s_delete = async (user_id, block_id) => {
 
 /******************* [EXISTANCE] *******************/
 // [EXISTANCE] //
-const s_existance = async (user_id, block_id) => {
+const c_existance = async (user_id, block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {
 			const returnedData = await BlockFollowModel.findOne(
@@ -106,7 +106,7 @@ const s_existance = async (user_id, block_id) => {
 
 // [EXPORT] //
 module.exports = {
-	s_create,
-	s_delete,
-	s_existance
+	c_create,
+	c_delete,
+	c_existance
 }

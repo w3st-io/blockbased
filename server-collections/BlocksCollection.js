@@ -13,7 +13,7 @@ const BlockModel = require('../server-models/BlockModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const s_create = async (user_id, cat_id, title) => {
+const c_create = async (user_id, cat_id, title) => {
 	const formData = new BlockModel({
 		_id: mongoose.Types.ObjectId(),
 		user: user_id,
@@ -45,7 +45,7 @@ const s_create = async (user_id, cat_id, title) => {
 
 
 // [READ-ALL-ALL] //
-const s_readAllAll = async (skip, amount) => {
+const c_readAllAll = async (skip, amount) => {
 	const skip2 = parseInt(skip)
 	const amount2 = parseInt(amount)
 
@@ -68,7 +68,7 @@ const s_readAllAll = async (skip, amount) => {
 
 
 // [READ-ALL] Within Cat //
-const s_readAll = async (cat_id, skip, amount) => {
+const c_readAll = async (cat_id, skip, amount) => {
 	const skip2 = parseInt(skip)
 	const amount2 = parseInt(amount)
 
@@ -93,7 +93,7 @@ const s_readAll = async (cat_id, skip, amount) => {
 
 
 // [READ] Single Block //
-const s_read = async (block_id) => {
+const c_read = async (block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {
 			const returnedData = await BlockModel.findById(block_id)
@@ -120,7 +120,7 @@ const s_read = async (block_id) => {
 
 
 // [DELETE] //
-const s_delete = async (block_id) => {
+const c_delete = async (block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {
 			await BlockModel.findByIdAndDelete(
@@ -154,8 +154,8 @@ const s_delete = async (block_id) => {
 
 /******************* [LIKE SYSTEM] *******************/
 // [LIKE] //
-const s_like = async (user_id, block_id) => {
-	const likeExistance = await s_likeExistance(user_id, block_id)
+const c_like = async (user_id, block_id) => {
+	const likeExistance = await c_likeExistance(user_id, block_id)
 
 	if (likeExistance.status == true && likeExistance.existance == false) {
 		try {
@@ -178,8 +178,8 @@ const s_like = async (user_id, block_id) => {
 
 
 // [UNLIKE] //
-const s_unlike = async (user_id, block_id) => {
-	const likeExistance = await s_likeExistance(user_id, block_id)
+const c_unlike = async (user_id, block_id) => {
+	const likeExistance = await c_likeExistance(user_id, block_id)
 
 	if (likeExistance.status == true && likeExistance.existance == true) {
 		try {
@@ -202,7 +202,7 @@ const s_unlike = async (user_id, block_id) => {
 
 
 // [LIKE-EXISTANCE] //
-const s_likeExistance = async (user_id, block_id) => {
+const c_likeExistance = async (user_id, block_id) => {
 	try {	
 		const returnedData = await BlockModel.findOne(
 			{
@@ -232,8 +232,8 @@ const s_likeExistance = async (user_id, block_id) => {
 
 /******************* [FOLLOW SYSTEM] *******************/
 // [LIKE] //
-const s_follow = async (user_id, block_id) => {
-	const followExistance = await s_followExistance(user_id, block_id)
+const c_follow = async (user_id, block_id) => {
+	const followExistance = await c_followExistance(user_id, block_id)
 
 	if (followExistance.status && !followExistance.existance) {
 		try {
@@ -256,8 +256,8 @@ const s_follow = async (user_id, block_id) => {
 
 
 // [UNLIKE] //
-const s_unfollow = async (user_id, block_id) => {
-	const followExistance = await s_followExistance(user_id, block_id)
+const c_unfollow = async (user_id, block_id) => {
+	const followExistance = await c_followExistance(user_id, block_id)
 
 	if (followExistance.status && followExistance.existance) {
 		try {
@@ -280,7 +280,7 @@ const s_unfollow = async (user_id, block_id) => {
 
 
 // [FOLLOW-EXISTANCE] //
-const s_followExistance = async (user_id, block_id) => {
+const c_followExistance = async (user_id, block_id) => {
 	try {	
 		const returnedData = await BlockModel.findOne(
 			{
@@ -310,7 +310,7 @@ const s_followExistance = async (user_id, block_id) => {
 
 /******************* [EXISTANCE + OWNERSHIP] *******************/
 // [EXISTANCE] //
-const s_existance = async (block_id) => {
+const c_existance = async (block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {	
 			const returnedData = await BlockModel.findOne({ _id: block_id })
@@ -339,7 +339,7 @@ const s_existance = async (block_id) => {
 
 
 // [OWNERSHIP] //
-const s_ownership = async (user_id, block_id) => {
+const c_ownership = async (user_id, block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {	
 			const returnedData = await BlockModel.findOne(
@@ -371,7 +371,7 @@ const s_ownership = async (user_id, block_id) => {
 
 
 /******************* [COUNT] *******************/
-const s_count = async (cat_id) => {
+const c_count = async (cat_id) => {
 	try { return await BlockModel.countDocuments({ cat_id: cat_id }) }
 	catch(e) { return `Caught Error --> ${e}` }
 }
@@ -380,18 +380,18 @@ const s_count = async (cat_id) => {
 
 // [EXPORT] //
 module.exports = {
-	s_create,
-	s_readAllAll,
-	s_readAll,
-	s_read,
-	s_delete,
-	s_like,
-	s_unlike,
-	s_likeExistance,
-	s_follow,
-	s_unfollow,
-	s_followExistance,
-	s_existance,
-	s_ownership,
-	s_count,
+	c_create,
+	c_readAllAll,
+	c_readAll,
+	c_read,
+	c_delete,
+	c_like,
+	c_unlike,
+	c_likeExistance,
+	c_follow,
+	c_unfollow,
+	c_followExistance,
+	c_existance,
+	c_ownership,
+	c_count,
 }

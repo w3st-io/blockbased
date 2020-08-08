@@ -20,14 +20,14 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 
 /******************* [CRUD] *******************/
 // [READ-ALL] //
-const s_readAll = async () => {
+const c_readAll = async () => {
 	try { return await UserModel.find() }
 	catch(e) { return `Caught Error --> ${e}` }
 }
 
 
 // [READ] //
-const s_read = async (user_id) => {
+const c_read = async (user_id) => {
 	if (mongoose.isValidObjectId(user_id)) {
 		try { return await UserModel.findOne({ _id: user_id }) }
 		catch(e) { return `Caught Error --> ${e}` }
@@ -37,7 +37,7 @@ const s_read = async (user_id) => {
 
 
 // [UPDATE] Profile Picture //
-const s_update = async (user_id, img_url) => {
+const c_update = async (user_id, img_url) => {
 	if (mongoose.isValidObjectId(user_id)) {
 		try {
 			await UserModel.findOneAndUpdate(
@@ -59,7 +59,7 @@ const s_update = async (user_id, img_url) => {
 
 
 /******************* [LOGIN/REGISTER] *******************/
-const s_login = async (req) => {
+const c_login = async (req) => {
 	try {
 		const accountFound = await UserModel.findOne({ email: req.body.email })
 		
@@ -105,7 +105,7 @@ const s_login = async (req) => {
 }
 
 
-const s_register = async (req) => {
+const c_register = async (req) => {
 	let formData = new UserModel({
 		_id: mongoose.Types.ObjectId(),
 		first_name: req.body.first_name,
@@ -162,9 +162,9 @@ const s_register = async (req) => {
 
 // [EXPORT] //
 module.exports = {
-	s_readAll,
-	s_read,
-	s_update,
-	s_login,
-	s_register,
+	c_readAll,
+	c_read,
+	c_update,
+	c_login,
+	c_register,
 }

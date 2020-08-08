@@ -13,7 +13,7 @@ const CommentReportModel = require('../server-models/CommentReportModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const s_create = async (user_id, comment_id, block_id, reportType) => {
+const c_create = async (user_id, comment_id, block_id, reportType) => {
 	const formData = new CommentReportModel({
 		_id: mongoose.Types.ObjectId(),
 		user: user_id,
@@ -36,7 +36,7 @@ const s_create = async (user_id, comment_id, block_id, reportType) => {
 
 
 // [READ-ALL] //
-const s_readAll = async () => {
+const c_readAll = async () => {
 	try {
 		const returnedData = await CommentReportModel.find()
 			.populate('user')
@@ -50,7 +50,7 @@ const s_readAll = async () => {
 
 
 // [DELETE-ALL-ALL] //
-const s_deleteAllAll = async () => {
+const c_deleteAllAll = async () => {
 	try {
 		await CommentReportModel.deleteMany()
 
@@ -64,7 +64,7 @@ const s_deleteAllAll = async () => {
 
 
 // [DELETE] Single Report //
-const s_delete = async (commentReport_id) => {
+const c_delete = async (commentReport_id) => {
 	let validId = mongoose.isValidObjectId(commentReport_id)
 
 	if (validId) {
@@ -85,7 +85,7 @@ const s_delete = async (commentReport_id) => {
 
 /******************* [EXISTANCE] *******************/
 // Verify that User is not Double Reporting //
-const s_existance = async (user_id, comment_id) => {
+const c_existance = async (user_id, comment_id) => {
 	const validId = mongoose.isValidObjectId(comment_id)
 
 	if (validId) {
@@ -122,9 +122,9 @@ const s_existance = async (user_id, comment_id) => {
 
 // [EXPORT] //
 module.exports = {
-	s_create,
-	s_readAll,
-	s_deleteAllAll,
-	s_delete,
-	s_existance,
+	c_create,
+	c_readAll,
+	c_deleteAllAll,
+	c_delete,
+	c_existance,
 }

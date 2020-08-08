@@ -106,7 +106,7 @@
 				this.editorText = this.$refs.toastuiEditor.invoke('getHtml')
 
 				try {
-					await CommentService.create(
+					await CommentService.s_create(
 						this.block_id,
 						this.block.followers,
 						this.editorText

@@ -19,6 +19,7 @@ const blocks = require('./routes/api/blocks')
 const comments = require('./routes/api/comments')
 const notifications = require('./routes/api/notifications')
 const users = require('./routes/api/users')
+const userUtils = require('./utils/userUtils')
 
 
 // [REQUIRE] Personal - Adminstration //
@@ -26,7 +27,6 @@ const admininstrationBlocks = require('./routes/api/adminstration/blocks')
 const admininstrationComments = require('./routes/api/adminstration/comments')
 const admininstrationReports = require('./routes/api/adminstration/reports')
 const admininstrationUsers = require('./routes/api/adminstration/users')
-const userUtils = require('./utils/userUtils')
 
 
 // [MONGOOSE-CONNECTION] //
@@ -70,7 +70,7 @@ app.use('/api/administration/reports', admininstrationReports)
 app.use('/api/administration/users', admininstrationUsers)
 
 
-// [SOCKET] //
+// [SOCKET + ON/EMIT] //
 const io = new socketIO(server)
 io.on('connection', (socket) => {
 	// [LOG] //

@@ -175,7 +175,7 @@
 			async commentReadAll() {
 				// Get Comments //
 				try {
-					this.comments = await CommentService.readAll(
+					this.comments = await CommentService.s_readAll(
 						this.block_id,
 						this.amount,
 						this.pageIndex
@@ -186,7 +186,7 @@
 
 			async deleteComment(comment_id) {
 				// [DELETE] Comment //
-				try { await CommentService.delete(comment_id) }
+				try { await CommentService.s_delete(comment_id) }
 				catch(e) { this.error = e }
 
 				// [READ] Comments //
@@ -222,7 +222,7 @@
 				this.disabled = true
 
 				// [CREATE] Like in "CommentLikes" Colelction //
-				try { await CommentService.like(this.block_id, comment._id) }
+				try { await CommentService.s_like(this.block_id, comment._id) }
 				catch(e) { this.error = e }
 
 				// [READ] Update Comments //
@@ -233,7 +233,7 @@
 				this.disabled = true
 
 				// [DELETE] Like in "CommentLikes" Collection //
-				try { await CommentService.unlike(comment._id) }
+				try { await CommentService.s_unlike(comment._id) }
 				catch(e) { this.error = e }
 
 				// [READ] Update Comments //
@@ -244,23 +244,23 @@
 
 			/******************* [REPORT] *******************/
 			reportInnapropiate(comment_id) {
-				CommentService.report(this.block_id, comment_id,'Innapropiate')
+				CommentService.s_report(this.block_id, comment_id,'Innapropiate')
 			},
 
 			reportOffensive(comment_id) {
-				CommentService.report(this.block_id, comment_id,'Offensive')
+				CommentService.s_report(this.block_id, comment_id,'Offensive')
 			},
 
 			reportScam(comment_id) {
-				CommentService.report(this.block_id, comment_id,'Scam')
+				CommentService.s_report(this.block_id, comment_id,'Scam')
 			},
 
 			reportBot(comment_id) {
-				CommentService.report(this.block_id, comment_id,'Bot')
+				CommentService.s_report(this.block_id, comment_id,'Bot')
 			},
 
 			reportOther(comment_id) {
-				CommentService.report(this.block_id, comment_id,'Other')
+				CommentService.s_report(this.block_id, comment_id,'Other')
 			},
 
 			/******************* [ROUTER + LOG] *******************/

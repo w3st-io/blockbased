@@ -23,7 +23,7 @@ router.get(
 	'/read-all/profile-data',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await UsersCollection.s_readAll()
+		const returnedData = await UsersCollection.c_readAll()
 
 		res.status(201).send(returnedData)
 	}
@@ -37,7 +37,7 @@ router.get(
 	async (req, res) => {
 		const user_id = req.params._id
 		
-		const returnedData = await UsersCollection.s_read(user_id)
+		const returnedData = await UsersCollection.c_read(user_id)
 
 		res.status(200).send(returnedData)
 	}
@@ -52,7 +52,7 @@ router.post(
 		const user_id = req.decoded._id
 		const img_url = req.body.img_url
 
-		await UsersCollection.s_update(user_id, img_url)
+		await UsersCollection.c_update(user_id, img_url)
 
 		res.status(201).send()
 	}

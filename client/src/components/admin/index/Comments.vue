@@ -16,7 +16,7 @@
 					v-for="comment in comments"
 					:key="comment._id"
 				>
-					<td>{{ comment.block_id.title }}</td>
+					<td>{{ comment.block.title }}</td>
 					<td>{{ comment.text }}</td>
 					<td>{{ comment.user.email }}</td>
 					<td>{{ comment.user.username }}</td>

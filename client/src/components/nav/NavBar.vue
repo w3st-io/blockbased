@@ -98,7 +98,7 @@
 				this.loggedIn = true
 
 				// Retrieve User Data //
-				let decoded = UserService.getUserTokenDecodeData()
+				const decoded = UserService.getUserTokenDecodeData()
 				this.user_id = decoded._id
 				this.email = decoded.email
 				this.username = decoded.username

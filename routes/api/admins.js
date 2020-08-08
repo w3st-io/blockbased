@@ -21,7 +21,7 @@ const router = express.Router().use(cors())
 router.post(
 	'/login',
 	async (req, res) => {
-		const returnedData = await AdminsCollection.s_login(req)
+		const returnedData = await AdminsCollection.c_login(req)
 
 		res.status(200).send(returnedData)
 	}
@@ -31,7 +31,7 @@ router.post(
 router.post(
 	'/register',
 	async (req, res) => {
-		const returnedData = await AdminsCollection.s_register(req)
+		const returnedData = await AdminsCollection.c_register(req)
 
 		console.log('RETURNED DATA', returnedData)
 

@@ -13,7 +13,7 @@ const NotificationModel = require('../server-models/NotificationModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const s_create = async (user_id, comment_id, type) => {
+const c_create = async (user_id, comment_id, type) => {
 	const formData = new NotificationModel(
 		{
 			_id: mongoose.Types.ObjectId(),
@@ -45,7 +45,7 @@ const s_create = async (user_id, comment_id, type) => {
 
 
 // [READ-ALL] //
-const s_readAll = async (user_id) => {
+const c_readAll = async (user_id) => {
 	return await NotificationModel.find(
 		{
 			user: user_id,
@@ -74,7 +74,7 @@ const s_readAll = async (user_id) => {
 
 
 // [DELETE-ALL] //
-const s_deleteAll = async (comment_id) => {
+const c_deleteAll = async (comment_id) => {
 	try {
 		await NotificationModel.deleteMany({ comment: comment_id })
 
@@ -95,11 +95,11 @@ const s_deleteAll = async (comment_id) => {
 
 
 // [DELETE] //
-const s_delete = async () => {}
+const c_delete = async () => {}
 
 
 /******************* [MARK-READ-STATUS] *******************/
-const s_markRead = async (user_id, notification_id) => {
+const c_markRead = async (user_id, notification_id) => {
 	try {
 		await NotificationModel.updateOne(
 			{ _id: notification_id },
@@ -119,9 +119,9 @@ const s_markRead = async (user_id, notification_id) => {
 
 // [EXPORT] //
 module.exports = {
-	s_create,
-	s_readAll,
-	s_deleteAll,
-	s_delete,
-	s_markRead,
+	c_create,
+	c_readAll,
+	c_deleteAll,
+	c_delete,
+	c_markRead,
 }

@@ -13,8 +13,8 @@ const CommentLikeModel = require('../server-models/CommetLikeModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const s_create = async (user_id, block_id, comment_id) => {
-	const existance = await s_existance(user_id, comment_id)
+const c_create = async (user_id, block_id, comment_id) => {
+	const existance = await c_existance(user_id, comment_id)
 
 	if (existance.status && !existance.existance) {
 		const formData = new CommentLikeModel(
@@ -52,7 +52,7 @@ const s_create = async (user_id, block_id, comment_id) => {
 
 
 // [DELETE] //
-const s_delete = async (user_id, comment_id) => {
+const c_delete = async (user_id, comment_id) => {
 	try {
 		await CommentLikeModel.deleteMany(
 			{
@@ -80,7 +80,7 @@ const s_delete = async (user_id, comment_id) => {
 
 
 // [DELETE-ALL] //
-const s_deleteAll = async (comment_id) => {
+const c_deleteAll = async (comment_id) => {
 	try {
 		await CommentLikeModel.deleteMany({ comment: comment_id })
 
@@ -102,7 +102,7 @@ const s_deleteAll = async (comment_id) => {
 
 /******************* [EXISTANCE] *******************/
 // [EXISTANCE] //
-const s_existance = async (user_id, comment_id) => {
+const c_existance = async (user_id, comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {
 			const returnedData = await CommentLikeModel.findOne(
@@ -135,8 +135,8 @@ const s_existance = async (user_id, comment_id) => {
 
 // [EXPORT] //
 module.exports = {
-	s_create,
-	s_delete,
-	s_deleteAll,
-	s_existance,
+	c_create,
+	c_delete,
+	c_deleteAll,
+	c_existance,
 }

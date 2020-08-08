@@ -19,7 +19,7 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 
 
 /******************* [LOGIN/REGISTER] *******************/
-const s_login = async (req) => {
+const c_login = async (req) => {
 	try {
 		const accountFound = await AdminModel.findOne({ email: req.body.email })
 		
@@ -68,7 +68,7 @@ const s_login = async (req) => {
 
 
 // [REGISTER] //
-const s_register = async (req) => {
+const c_register = async (req) => {
 	let formData = new AdminModel({
 		_id: mongoose.Types.ObjectId(),
 		role: 'not-admin',
@@ -134,6 +134,6 @@ const s_register = async (req) => {
 
 // [EXPORT] //
 module.exports = {
-	s_login,
-	s_register,
+	c_login,
+	c_register,
 }

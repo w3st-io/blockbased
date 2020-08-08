@@ -89,7 +89,7 @@
 			
 			async getCommentDetails() {
 				try {
-					this.commentDetails = await CommentService.read(this.comment_id)
+					this.commentDetails = await CommentService.s_read(this.comment_id)
 
 					this.initialEditorText = this.commentDetails.text
 
@@ -113,7 +113,7 @@
 				this.editorText = this.$refs.toastuiEditor.invoke('getHtml')
 
 				try {
-					await CommentService.update(this.comment_id, this.editorText)
+					await CommentService.s_update(this.comment_id, this.editorText)
 
 					router.push(
 						{

@@ -13,7 +13,7 @@ const CommentModel = require('../server-models/CommentModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const s_create = async (user_id, block_id, text) => {
+const c_create = async (user_id, block_id, text) => {
 	if (text.length <= 6000) {
 		const formData = new CommentModel({
 			_id: mongoose.Types.ObjectId(),
@@ -54,7 +54,7 @@ const s_create = async (user_id, block_id, text) => {
 
 
 // [READ-ALL-ALL] //
-const s_readAllAll = async (skip, limit) => {
+const c_readAllAll = async (skip, limit) => {
 	const skip2 = parseInt(skip)
 	const limit2 = parseInt(limit)
 	
@@ -83,7 +83,7 @@ const s_readAllAll = async (skip, limit) => {
 
 
 // [READ-ALL] Within a Block //
-const s_readAll = async (block_id, skip, limit) => {
+const c_readAll = async (block_id, skip, limit) => {
 	const skip2 = parseInt(skip)
 	const limit2 = parseInt(limit)
 
@@ -113,7 +113,7 @@ const s_readAll = async (block_id, skip, limit) => {
 
 
 // [READ] //
-const s_read = async (comment_id) => {
+const c_read = async (comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {
 			const returnedData = await CommentModel.findById(comment_id)
@@ -150,7 +150,7 @@ const s_read = async (comment_id) => {
 
 
 // [UPDATE] //
-const s_update = async (comment_id, text) => {
+const c_update = async (comment_id, text) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		if (text.length <= 6000) {
 			try {
@@ -196,7 +196,7 @@ const s_update = async (comment_id, text) => {
 
 
 // [DELETE] //
-const s_delete = async (user_id, comment_id) => {
+const c_delete = async (user_id, comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {
 			await CommentModel.findOneAndRemove(
@@ -235,8 +235,8 @@ const s_delete = async (user_id, comment_id) => {
 
 /******************* [LIKE SYSTEM] *******************/
 // [LIKE] //
-const s_like = async (user_id, comment_id) => {
-	const likeExistance = await s_likeExistance(user_id, comment_id)
+const c_like = async (user_id, comment_id) => {
+	const likeExistance = await c_likeExistance(user_id, comment_id)
 
 	if (likeExistance.status && !likeExistance.existance) {
 		if (mongoose.isValidObjectId(comment_id)) {
@@ -266,8 +266,8 @@ const s_like = async (user_id, comment_id) => {
 
 
 // [UNLIKE] //
-const s_unlike = async (user_id, comment_id) => {
-	const likeExistance = await s_likeExistance(user_id, comment_id)
+const c_unlike = async (user_id, comment_id) => {
+	const likeExistance = await c_likeExistance(user_id, comment_id)
 
 	if (likeExistance.status && likeExistance.existance) {
 		if (mongoose.isValidObjectId(comment_id)) {
@@ -295,7 +295,7 @@ const s_unlike = async (user_id, comment_id) => {
 
 
 // [LIKE-EXISTANCE] //
-const s_likeExistance = async (user_id, comment_id) => {
+const c_likeExistance = async (user_id, comment_id) => {
 	try {	
 		const returnedData = await CommentModel.findOne(
 			{
@@ -325,7 +325,7 @@ const s_likeExistance = async (user_id, comment_id) => {
 
 /******************* [EXISTANCE + OWNERSHIP] *******************/
 // [EXISTANCE] //
-const s_existance = async (comment_id) => {
+const c_existance = async (comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {	
 			const returnedData = await CommentModel.findOne({ _id: comment_id })
@@ -352,7 +352,7 @@ const s_existance = async (comment_id) => {
 
 
 // [OWNERSHIP] //
-const s_ownership = async (user_id, comment_id) => {
+const c_ownership = async (user_id, comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {	
 			const returnedData = await CommentModel.findOne(
@@ -384,24 +384,24 @@ const s_ownership = async (user_id, comment_id) => {
 
 
 /******************* [COUNT] *******************/
-const s_count = async (block_id) => {
-	try { return await CommentModel.countDocuments({ block_id: block_id }) }
+const c_count = async (block_id) => {
+	try { return await CommentModel.countDocuments({ block: block_id }) }
 	catch(e) { return `Caught Error --> ${e}` }
 }
 
 
 // [EXPORT] //
 module.exports = {
-	s_create,
-	s_readAllAll,
-	s_readAll,
-	s_read,
-	s_update,
-	s_delete,
-	s_like,
-	s_unlike,
-	s_likeExistance,
-	s_existance,
-	s_ownership,
-	s_count,
+	c_create,
+	c_readAllAll,
+	c_readAll,
+	c_read,
+	c_update,
+	c_delete,
+	c_like,
+	c_unlike,
+	c_likeExistance,
+	c_existance,
+	c_ownership,
+	c_count,
 }
