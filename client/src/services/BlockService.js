@@ -18,10 +18,10 @@ async function authAxios() {
 
 /******************* [CRUD] *******************/
 // [CREATE] Auth Required //
-async function s_create(title, cat_id) {
+async function s_create(cat_id, title, text) {
 	const authAxios = await this.authAxios()
 
-	return await authAxios.post('/create', { title, cat_id })
+	return await authAxios.post('/create', { cat_id, title, text })
 }
 
 

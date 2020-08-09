@@ -24,11 +24,30 @@
 					<span class="text-danger">{{ errors[0] }}</span>
 				</ValidationProvider>
 
+				<!-- Text Area -->
+				<ValidationProvider
+					tag="div"
+					class="form-group" 
+					name="confirmation"
+					rules=""
+					v-slot="{ errors }"
+				>
+					<!-- ToastUI Editor -->
+					<Editor
+						initialEditType="wysiwyg"
+						ref="toastuiEditor"
+						height="500px"
+					/>
+
+					<!-- Error -->
+					<span class="text-danger">{{ errors[0] }}</span>
+				</ValidationProvider>
+
 				<!-- Submit Button -->
 				<button
 					type="submit"
 					class="w-100 btn btn-primary"
-					:disabled="submitted"
+					:disabled="disabled"
 				>
 					<span v-show="!loading">+ Create</span>
 					<span v-show="loading" class="spinner-grow"></span>
@@ -42,6 +61,11 @@
 </template>
 
 <script>
+	// [IMPORT] //
+	import { Editor } from '@toast-ui/vue-editor'
+	import 'codemirror/lib/codemirror.css'
+	import '@toast-ui/editor/dist/toastui-editor.css'
+
 	// [IMPORT] Personal //
 	import BlockService from '@services/BlockService'
 	import router from '@router'
@@ -49,6 +73,8 @@
 
 	// [EXPORT] //
 	export default {
+		components: { Editor },
+
 		props: {
 			cat_id: { type: String, required: true, }
 		},
@@ -56,7 +82,7 @@
 		data: function() {
 			return {
 				cat: {},
-				submitted: false,
+				disabled: false,
 				loading: false,
 				title: '',
 				error: '',
@@ -74,7 +100,7 @@
 		methods: {
 			submit() {
 				// Disable Button // Set loading //
-				this.submitted = true
+				this.disabled = true
 				this.loading = true
 				
 				this.createBlock()
@@ -82,11 +108,16 @@
 
 			// [CREATE] Create Post Via PostService Function //
 			async createBlock() {
+				this.editorText = this.$refs.toastuiEditor.invoke('getHtml')
+
 				try {
-					await BlockService.s_create(this.title, this.cat_id)
+					await BlockService.s_create(this.cat_id, this.title, this.editorText)
 
 					// [REDIRECT] Cat Page //
-					router.push({ name: 'Cat', params: { cat_id: this.cat_id, page: '1' } })
+					router.push({
+						name: 'Cat',
+						params: { cat_id: this.cat_id, page: '1' }
+					})
 				}
 				catch(e) {
 					this.loading = false

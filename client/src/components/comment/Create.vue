@@ -95,14 +95,14 @@
 					this.disabled = true
 					this.loading = true
 
-					this.create()
+					this.createComment()
 					this.notifySockets()
 				}
 				else { this.error = 'Unable to create comment' }
 			},
 
 			/******************* [CREATE] Comment *******************/
-			async create() {
+			async createComment() {
 				this.editorText = this.$refs.toastuiEditor.invoke('getHtml')
 
 				try {

@@ -41,7 +41,8 @@ router.post(
 				block_id,
 				text
 			)
-
+			
+			// Create Notification for Followers
 			for (let i = 0; i < blockFollowers.length; i++) {
 				await NotificationsCollection.c_create(
 					blockFollowers[i],

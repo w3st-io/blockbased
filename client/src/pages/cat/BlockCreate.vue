@@ -2,7 +2,7 @@
 	<section class="container">
 		<div class="my-3 row card card-body bg-dark">
 			<h3 class="col-12 mb-3 text-light">
-				Create Block in "{{ cat.title }}"
+				Create Block in "{{ catTitle }}"
 			</h3>
 
 			<!-- [COMPONENT] Create -->
@@ -28,6 +28,7 @@
 			return {
 				cat_id: this.$route.params.cat_id,
 				cat: {},
+				catTitle: '',
 				user_id: 'unset',
 				email: 'unset',
 				username: 'unset',
@@ -37,12 +38,13 @@
 		created: async function() {
 			// Get Cat Details //
 			this.cat = cats.find(cat => cat.cat_id === this.cat_id)
+			this.catTitle = this.cat.title
 
 			// [REDIRECT] Not Log Needed //
 			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
 
 			// Retrieve User Data //
-			let decoded = UserService.getUserTokenDecodeData()
+			let decoded = await UserService.getUserTokenDecodeData()
 			this.user_id = decoded._id
 			this.email = decoded.email
 			this.username = decoded.username

@@ -37,6 +37,7 @@
 	// [EXPORT] //
 	export default {
 		props: {
+			cat_id: { type: String, required: true, },
 			catTitle: { type: String, required: true, },
 			leftBtnEmitName: { type: String, required: true, },
 			rightBtnEmitName: { type: String, required: true, },

@@ -80,7 +80,7 @@
 			if (localStorage.usertoken) {
 				this.loggedIn = true
 				
-				let decoded = UserService.getUserTokenDecodeData()
+				let decoded = await UserService.getUserTokenDecodeData()
 				this.user_id = decoded._id
 
 				this.socket.emit('join', this.user_id)

@@ -14,6 +14,7 @@ const Auth = require('../../server-middleware/AuthMiddleware')
 const BlocksCollection = require('../../server-collections/BlocksCollection')
 const BlockFollowsCollection = require('../../server-collections/BlockFollowsCollection')
 const BlockLikesCollection = require('../../server-collections/BlockLikesCollection')
+const CommentsCollection = require('../../server-collections/CommentsCollection')
 
 
 // [EXPRESS + USE] //
@@ -29,10 +30,16 @@ router.post(
 		const user_id = req.decoded._id
 		const cat_id = req.body.cat_id
 		const title = req.body.title
+		const text = req.body.text
 
 		const returnedData = await BlocksCollection.c_create(user_id, cat_id, title)
+		const returnedData2 = await CommentsCollection.c_create(
+			user_id,
+			returnedData.block._id,
+			text
+		)
 
-		res.status(201).send(returnedData)
+		res.status(201).send([returnedData, returnedData2])
 	}
 )
 

@@ -1,12 +1,13 @@
 <template>
 	<section class="my-4 container">
 		<!-- Set Page Title -->
-		<vue-headful :title="`Cat - ${cat.title}`"/>
+		<vue-headful :title="`Cat - ${catTitle}`"/>
 
 		<article class="card card-body bg-dark">
 			<!-- Title With Create Button -->
 			<title-header
-				:catTitle="cat.title"
+				:cat_id="cat_id"
+				:catTitle="catTitle"
 				:badgeValue="pageNumber"
 				:leftBtnEmitName="'cat-prev'"
 				:rightBtnEmitName="'cat-next'"
@@ -49,6 +50,7 @@
 		data: function() {
 			return {
 				cat: {},
+				catTitle: '',
 				userTokenDecodeData: {},
 				cat_id: this.$route.params.cat_id,
 				pageNumber: parseInt(this.$route.params.page),
@@ -63,9 +65,10 @@
 		created: async function() {
 			// Get Cat Details //
 			this.cat = cats.find(cat => cat.cat_id === this.cat_id)
+			this.catTitle = this.cat.title
 
 			// Retrieve User Data //
-			let decoded = UserService.getUserTokenDecodeData()
+			let decoded = await UserService.getUserTokenDecodeData()
 			this.user_id = decoded._id
 			this.email = decoded.email
 			this.username = decoded.username

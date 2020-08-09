@@ -136,7 +136,7 @@
 		created: async function () {
 			if (localStorage.usertoken) {
 				// Retrieve User Data //
-				let decoded = UserService.getUserTokenDecodeData()
+				let decoded = await UserService.getUserTokenDecodeData()
 				this.user_id = decoded._id
 				this.email = decoded.email
 				this.username = decoded.username
@@ -188,9 +188,7 @@
 			/******************* [INIT] Like *******************/
 			checkForUserLike(block) {
 				// Search For Likers Id in Block's Object //
-				let found = block.likers.find((liker) => (
-					liker == this.user_id
-				))
+				let found = block.likers.find(liker => (liker == this.user_id))
 
 				if (found != null) { return true }
 				else { return false }

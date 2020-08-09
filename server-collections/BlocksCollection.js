@@ -22,14 +22,13 @@ const c_create = async (user_id, cat_id, title) => {
 	})
 
 	try {
-		await formData.save()
+		const createdObj = await formData.save()
 
 		return {
 			status: true,
 			message: 'Created block',
 			user: user_id,
-			cat_id: cat_id,
-			title: title,
+			block: createdObj,
 		}
 	}
 	catch(e) {
