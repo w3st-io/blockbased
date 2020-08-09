@@ -55,7 +55,7 @@
 			await this.getUsers()
 
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {

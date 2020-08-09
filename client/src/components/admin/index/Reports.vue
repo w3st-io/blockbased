@@ -52,7 +52,7 @@
 			await this.getReports()
 
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {

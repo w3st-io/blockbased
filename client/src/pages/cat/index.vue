@@ -81,7 +81,7 @@
 			// Work is progress..
 
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {

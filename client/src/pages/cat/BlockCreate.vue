@@ -50,7 +50,7 @@
 			this.username = decoded.username
 			
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {	

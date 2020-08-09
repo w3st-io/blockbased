@@ -181,7 +181,6 @@
 					let block_id = this.blocks[i]._id
 
 					this.commentCounts[block_id] = await CommentService.s_count(block_id)
-					console.log(this.commentCounts)
 				}
 			},
 

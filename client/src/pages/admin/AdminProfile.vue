@@ -54,7 +54,7 @@
 			await this.getAdminData()
 
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {

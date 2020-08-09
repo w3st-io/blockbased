@@ -85,7 +85,7 @@
 			if (!this.validBlock) { this.disabled = true }
 
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {

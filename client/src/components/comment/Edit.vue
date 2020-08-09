@@ -78,7 +78,7 @@
 			await this.getCommentDetails()
 
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {

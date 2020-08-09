@@ -54,7 +54,7 @@
 			await this.getComments()
 
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {

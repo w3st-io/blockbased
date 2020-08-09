@@ -54,7 +54,7 @@
 			await this.getBlocks()
 
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {

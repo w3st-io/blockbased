@@ -94,7 +94,7 @@
 			this.cat = cats.find(cat => cat.cat_id === this.cat_id)
 
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {

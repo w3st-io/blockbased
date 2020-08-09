@@ -59,7 +59,7 @@
 			this.loading = false
 			
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {
