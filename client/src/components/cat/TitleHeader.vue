@@ -3,7 +3,7 @@
 		<!-- Left Side -->
 		<div class="col-lg-6 col-md-8 col-sm-8">
 			<!-- Title -->
-			<h3 class="text-light">{{ cat_id }}</h3>
+			<h3 class="text-light">{{ catTitle }}</h3>
 
 			<!-- Page Nav Buttons -->
 			<page-nav-buttons
@@ -37,7 +37,7 @@
 	// [EXPORT] //
 	export default {
 		props: {
-			cat_id: { type: String, required: true, },
+			catTitle: { type: String, required: true, },
 			leftBtnEmitName: { type: String, required: true, },
 			rightBtnEmitName: { type: String, required: true, },
 			badgeValue: { required: true, },

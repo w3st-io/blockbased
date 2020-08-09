@@ -11,11 +11,10 @@ import axios from 'axios'
 async function authAxios() {
 	return axios.create({
 		baseURL: '/api/administration/users',
-		headers: {
-			authorization2: `Bearer ${localStorage.admintoken}`,
-		}
+		headers: { authorization2: `Bearer ${localStorage.admintoken}` }
 	})
 }
+
 
 /******************* [USER PROFILE] *******************/
 // [READ-ALL] Auth Required //

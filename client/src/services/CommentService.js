@@ -11,9 +11,7 @@ import axios from 'axios'
 async function authAxios() {
 	return axios.create({
 		baseURL: '/api/comments',
-		headers: {
-			authorization: `Bearer ${localStorage.usertoken}`
-		}
+		headers: { authorization: `Bearer ${localStorage.usertoken}` }
 	})
 }
 

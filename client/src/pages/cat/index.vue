@@ -1,12 +1,12 @@
 <template>
 	<section class="my-4 container">
 		<!-- Set Page Title -->
-		<vue-headful :title="`Cat - ${cat_id}`"/>
+		<vue-headful :title="`Cat - ${cat.title}`"/>
 
 		<article class="card card-body bg-dark">
 			<!-- Title With Create Button -->
 			<title-header
-				:cat_id="cat_id"
+				:catTitle="cat.title"
 				:badgeValue="pageNumber"
 				:leftBtnEmitName="'cat-prev'"
 				:rightBtnEmitName="'cat-next'"
@@ -37,6 +37,7 @@
 	import UserService from '@services/UserService'
 	import router from '@router'
 	import { EventBus } from '@main'
+	import { cats } from '@defaults/cats'
 
 	// [EXPORT] //
 	export default {
@@ -47,6 +48,7 @@
 
 		data: function() {
 			return {
+				cat: {},
 				userTokenDecodeData: {},
 				cat_id: this.$route.params.cat_id,
 				pageNumber: parseInt(this.$route.params.page),
@@ -59,6 +61,9 @@
 		},
 
 		created: async function() {
+			// Get Cat Details //
+			this.cat = cats.find(cat => cat.cat_id === this.cat_id)
+
 			// Retrieve User Data //
 			let decoded = UserService.getUserTokenDecodeData()
 			this.user_id = decoded._id

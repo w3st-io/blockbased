@@ -12,9 +12,7 @@ import axios from 'axios'
 async function authAxios() {
 	return axios.create({
 		baseURL: '/api/users',
-		headers: {
-			authorization: `Bearer ${localStorage.usertoken}`
-		}
+		headers: { authorization: `Bearer ${localStorage.usertoken}` }
 	})
 }
 

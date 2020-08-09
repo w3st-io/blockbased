@@ -37,9 +37,7 @@
 		</ValidationObserver>
 		
 		<!-- [ALERTS] -->
-		<div v-if="error" class="mt-3 alert alert-danger">
-			{{ error }}
-		</div>
+		<div v-if="error" class="mt-3 alert alert-danger">{{ error }}</div>
 	</section>
 </template>
 
@@ -47,6 +45,7 @@
 	// [IMPORT] Personal //
 	import BlockService from '@services/BlockService'
 	import router from '@router'
+	import { cats } from '@defaults/cats'
 
 	// [EXPORT] //
 	export default {
@@ -56,6 +55,7 @@
 
 		data: function() {
 			return {
+				cat: {},
 				submitted: false,
 				loading: false,
 				title: '',
@@ -64,6 +64,9 @@
 		},
 
 		created: async function() {
+			// Get Cat Details //
+			this.cat = cats.find(cat => cat.cat_id === this.cat_id)
+
 			// [LOG] //
 			this.log()
 		},

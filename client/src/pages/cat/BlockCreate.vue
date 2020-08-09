@@ -2,12 +2,11 @@
 	<section class="container">
 		<div class="my-3 row card card-body bg-dark">
 			<h3 class="col-12 mb-3 text-light">
-				Create Block in "{{ cat_id }}"
+				Create Block in "{{ cat.title }}"
 			</h3>
-			
-			<block-create
-				:cat_id="cat_id"
-			/>
+
+			<!-- [COMPONENT] Create -->
+			<block-create :cat_id="cat_id" />
 		</div>
 	</section>
 </template>
@@ -17,6 +16,7 @@
 	import BlockCreate from '@components/block/Create'
 	import UserService from '@services/UserService'
 	import router from '@router'
+	import { cats } from '@defaults/cats'
 
 	// [EXPORT] //
 	export default {
@@ -27,6 +27,7 @@
 		data: function() {
 			return {
 				cat_id: this.$route.params.cat_id,
+				cat: {},
 				user_id: 'unset',
 				email: 'unset',
 				username: 'unset',
@@ -34,6 +35,9 @@
 		},
 
 		created: async function() {
+			// Get Cat Details //
+			this.cat = cats.find(cat => cat.cat_id === this.cat_id)
+
 			// [REDIRECT] Not Log Needed //
 			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
 
