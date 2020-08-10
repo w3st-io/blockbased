@@ -118,39 +118,6 @@ const c_read = async (block_id) => {
 }
 
 
-// [DELETE] //
-const c_delete = async (block_id) => {
-	if (mongoose.isValidObjectId(block_id)) {
-		try {
-			await BlockModel.findByIdAndDelete(
-				block_id,
-				function (e, block) {
-					if (e) {
-						return { status: false, message: `Caught Error --> ${e}`, }
-					}
-					else {
-						return {
-							status: true,
-							message: 'Deleted block',
-							block_id: block_id,
-							block: block,
-						}
-					}
-				}
-			)
-		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
-	}
-	else {
-		return {
-			status: false,
-			message: 'Invalid Block ID',
-			block_id: block_id,
-		}
-	}
-}
-
-
 /******************* [LIKE SYSTEM] *******************/
 // [LIKE] //
 const c_like = async (user_id, block_id) => {
@@ -383,7 +350,6 @@ module.exports = {
 	c_readAllAll,
 	c_readAll,
 	c_read,
-	c_delete,
 	c_like,
 	c_unlike,
 	c_likeExistance,

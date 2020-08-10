@@ -77,7 +77,11 @@
 								@click="deleteComment(comment._id)"
 								class="py-0 btn btn-sm text-danger"
 							>delete</button>
-							
+							<button
+								v-if="adminLoggedIn"
+								@click="deleteComment(comment._id)"
+								class="btn btn-sm btn-outline-danger"
+							>Admin-Delete</button>
 							<button
 								@click="likeBtn(comment)"
 								class="btn"
@@ -113,7 +117,6 @@
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import CommentService from '@services/CommentService'
-	//import UserService from '@services/UserService'
 	import { EventBus } from '@main'
 	
 	// [EXPORT] //
@@ -134,6 +137,7 @@
 
 		data: function() {
 			return {
+				adminLoggedIn: false,
 				loading: true,
 				disabled: false,
 				comments: [],
@@ -142,6 +146,8 @@
 		},
 
 		created: async function() {
+			if (localStorage.admintoken) { this.adminLoggedIn = true }
+			
 			// [INIT] Comments //
 			await this.commentReadAll()
 
@@ -272,6 +278,11 @@
 						params: { comment_id: comment_id, }
 					})
 				}
+			},
+
+			/******************* [ROUTER + LOG] *******************/
+			adminDelete(comment_id) {
+				comment_id
 			},
 
 			log() {

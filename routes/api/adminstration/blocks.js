@@ -9,9 +9,10 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const Auth = require('../../../server-middleware/AuthMiddleware')
+const ABlocksCollection = require('../../../server-collections/administration/BlocksCollection')
 const BlocksCollection = require('../../../server-collections/BlocksCollection')
 const BlockLikesCollection = require('../../../server-collections/BlockLikesCollection')
+const Auth = require('../../../server-middleware/AuthMiddleware')
 
 
 // [EXPRESS + USE] //
@@ -67,7 +68,7 @@ router.delete(
 	'/delete/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		BlocksCollection.c_delete(req.params._id)
+		ABlocksCollection.c_delete(req.params._id)
 		BlockLikesCollection.c_deleteAll(req.params._id)
 
 		res.sendStatus(200)
