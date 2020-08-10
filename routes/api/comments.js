@@ -46,7 +46,7 @@ router.post(
 			for (let i = 0; i < blockFollowers.length; i++) {
 				await NotificationsCollection.c_create(
 					blockFollowers[i],
-					returnedData.commentCreated._id,
+					returnedData.createdComment._id,
 					'comment'
 				)
 			}

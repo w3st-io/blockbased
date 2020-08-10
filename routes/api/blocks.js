@@ -35,7 +35,7 @@ router.post(
 		const returnedData = await BlocksCollection.c_create(user_id, cat_id, title)
 		const returnedData2 = await CommentsCollection.c_create(
 			user_id,
-			returnedData.block._id,
+			returnedData.createdBlock._id,
 			text
 		)
 

@@ -23,14 +23,14 @@ const c_create = async (user_id, block_id, text) => {
 		})
 
 		try {
-			await formData.save()
+			const createdComment = await formData.save()
 			
 			return {
 				status: true,
 				message: `Created comment in ${block_id}.`,
+				createdComment: createdComment,
 				user: user_id,
 				block_id: block_id,
-				commentCreated: formData
 			}
 		}
 		catch(e) {
@@ -208,26 +208,26 @@ const c_delete = async (user_id, comment_id) => {
 
 			return {
 				status: true,
+				message: 'Deleted comment.',
 				user_id: user_id,
 				comment_id: comment_id,
-				message: 'Deleted comment.',
 			}
 		}
 		catch(e) {
 			return {
 				status: false,
+				message: `Caught Error --> ${e}`,
 				user_id: user_id,
 				comment_id: comment_id,
-				message: `Caught Error --> ${e}`,
 			}
 		}
 	}
 	else {
 		return {
 			status: false,
+			message: 'Invalid Comment ID',
 			user_id: user_id,
 			comment_id: comment_id,
-			message: 'Invalid Comment ID',
 		}
 	}
 }

@@ -35,7 +35,6 @@ async function s_readAll() {
 
 /******************* [MARK-READ-STATUS] *******************/
 async function markRead(notification_id) {
-	console.log(notification_id)
 	const authAxios = await this.authAxios()
 
 	try { return await authAxios(`/mark-read/${notification_id}`) }

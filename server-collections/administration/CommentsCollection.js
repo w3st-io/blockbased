@@ -16,29 +16,30 @@ const CommentModel = require('../../server-models/CommentModel')
 const c_delete = async (comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {
-			await CommentModel.findOneAndRemove(
+			const deletedComment = await CommentModel.findOneAndRemove(
 				{ _id: comment_id, }
 			)
 
 			return {
 				status: true,
-				comment_id: comment_id,
 				message: 'Deleted comment.',
+				comment_id: comment_id,
+				deletedComment: deletedComment,
 			}
 		}
 		catch(e) {
 			return {
 				status: false,
-				comment_id: comment_id,
 				message: `Caught Error --> ${e}`,
+				comment_id: comment_id,
 			}
 		}
 	}
 	else {
 		return {
 			status: false,
-			comment_id: comment_id,
 			message: 'Invalid Comment ID',
+			comment_id: comment_id,
 		}
 	}
 }

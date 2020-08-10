@@ -23,12 +23,13 @@ const c_create = async (user_id, comment_id, block_id, reportType) => {
 	})
 	
 	try {
-		await formData.save()
+		const commentReport = await formData.save()
 
 		return {
 			status: true,
-			message: 'Created comment report.',
-			created: true
+			message: 'Created comment report',
+			commentReport: commentReport,
+			created: true,
 		}
 	}
 	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }

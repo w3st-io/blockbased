@@ -27,11 +27,12 @@ const c_create = async (user_id, block_id, comment_id) => {
 		)
 		
 		try {
-			await formData.save()
+			const commentLike = await formData.save()
 
 			return {
 				status: true,
 				message: 'Created commentLike',
+				commentLike: commentLike,
 				user: user_id,
 				comment: comment_id,
 				block: block_id,
