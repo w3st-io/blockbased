@@ -254,12 +254,12 @@
 
 	li {
 		list-style: none;
-		&:hover { @extend .bg-primary; }
+		&:hover { @extend .bg-secondary; }
 	}
 	
 	li:nth-child(even) {
 		background: $backgroundGrey !important;
-		&:hover { @extend .bg-primary; }
+		&:hover { @extend .bg-secondary; }
 	}
 
 	.unliked {

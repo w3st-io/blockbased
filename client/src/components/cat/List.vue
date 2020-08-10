@@ -125,11 +125,11 @@
 
 	li {
 		@extend .bg-dark;
-		&:hover { @extend .bg-primary; }
+		&:hover { @extend .bg-secondary; }
 	}
 	li:nth-child(even) {
 		background: $backgroundGrey !important;
-		&:hover { @extend .bg-primary; }
+		&:hover { @extend .bg-secondary; }
 	}
 
 	.custom-font-size { font-size: 16px; }

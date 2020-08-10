@@ -78,11 +78,6 @@
 								class="py-0 btn btn-sm text-danger"
 							>delete</button>
 							<button
-								v-if="adminLoggedIn"
-								@click="deleteComment(comment._id)"
-								class="btn btn-sm btn-outline-danger"
-							>Admin-Delete</button>
-							<button
 								@click="likeBtn(comment)"
 								class="btn"
 								:class="{
@@ -92,6 +87,15 @@
 								style="font-size: 1em;"
 							>{{ comment.likers.length }} ▲</button>
 						</div>
+					</div>
+					<div
+						v-if="adminLoggedIn"
+						class="col-12 p-2 border border-warning text-light"
+					>
+						<button
+							@click="deleteComment(comment._id)"
+							class="btn btn-sm btn-outline-danger"
+						>Admin-Delete</button>
 					</div>
 				</li>
 			</ul>
