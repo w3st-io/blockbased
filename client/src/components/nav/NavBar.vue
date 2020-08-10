@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<!-- Top Bar -->
-		<article class="py-2 bg-dark">
+		<article class="py-2 bg-dark bg-secondary border-bottom border-primary ctm-b">
 			<div class="container">
 				<nav class=" px-0 navbar navbar-expand-lg navbar-dark">
 					<a class="navbar-brand" href="/">
@@ -38,7 +38,7 @@
 		</article>
 		
 		<!-- Bottom Bar -->
-		<article class="p-0 bg-primary shadow-sm">
+		<article class="p-0 bg-dark border-bottom border-dark shadow-sm ctm-b">
 			<div class="container">
 				<nav class="px-0 py-1 navbar">
 					<div class="mr-auto">
@@ -47,19 +47,19 @@
 
 					<div>
 						<router-link v-if="!loggedIn" to="/login" class="ml-2">
-							<button class="btn btn-sm btn-secondary">Login</button>
+							<button class="btn btn-sm btn-outline-secondary">Login</button>
 						</router-link>
 
 						<router-link v-if="!loggedIn" to="/register" class="ml-2">
-							<button class="btn btn-sm btn-outline-light">Register</button>
+							<button class="btn btn-sm btn-outline-primary">Register</button>
 						</router-link>
 
 						<router-link v-if="loggedIn" to="/profile" class="ml-2">
-							<button class="btn btn-sm btn-secondary">{{ username }}</button>
+							<button class="btn btn-sm btn-outline-primary">{{ username }}</button>
 						</router-link>
 
 						<a v-if="loggedIn" v-on:click="logout" href="#" class="ml-2">
-							<button class="btn btn-sm btn-outline-light">Log Out</button>
+							<button class="btn btn-sm btn-outline-secondary">Log Out</button>
 						</a>
 					</div>
 				</nav>
@@ -70,7 +70,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import NotificationMenuBtn from '../../components/notifications/NotificationMenu'
+	import NotificationMenuBtn from '@components/notifications/NotificationMenu'
 	import router from '@router'
 	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
@@ -131,6 +131,8 @@
 
 
 <style lang="scss" scoped>
+	.ctm-b {}
+
 	.dotted-bg {
 		opacity: 1;
 		background: #343a40;

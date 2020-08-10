@@ -3,9 +3,7 @@
 	<footer class="mt-5 pt-4 page-footer font-small bg-dark border-top border-secondary">
 		<div class="container">
 			<ul class="py-2 list-unstyled list-inline text-center">
-				<li class="list-inline-item">
-					<h6 class="mb-1 text-secondary">Not Finacial Advice</h6>
-				</li>
+				<li class="list-inline-item">:)</li>
 			</ul>
 		</div>
 
