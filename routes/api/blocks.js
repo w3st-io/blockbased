@@ -27,16 +27,15 @@ router.post(
 	'/create',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const cat_id = req.body.cat_id
-		const title = req.body.title
-		const text = req.body.text
-
-		const returnedData = await BlocksCollection.c_create(user_id, cat_id, title)
+		const returnedData = await BlocksCollection.c_create(
+			req.decoded._id,
+			req.body.cat_id,
+			req.body.title
+		)
 		const returnedData2 = await CommentsCollection.c_create(
-			user_id,
+			req.decoded._id,
 			returnedData.createdBlock._id,
-			text
+			req.body.text
 		)
 
 		res.status(201).send([returnedData, returnedData2])
@@ -48,11 +47,11 @@ router.post(
 router.get(
 	'/read-all/:cat_id/:amount/:skip',
 	async (req, res) => {
-		const cat_id = req.params.cat_id
-		const skip = req.params.skip
-		const amount = req.params.amount
-
-		const returnedData = await BlocksCollection.c_readAll(cat_id, skip, amount)
+		const returnedData = await BlocksCollection.c_readAll(
+			req.params.cat_id,
+			req.params.skip,
+			req.params.amount
+		)
 
 		res.status(200).send(returnedData)
 	}
@@ -63,9 +62,7 @@ router.get(
 router.get(
 	'/read/:_id',
 	async (req, res) => {
-		const block_id = req.params._id
-
-		const returnedData = await BlocksCollection.c_read(block_id)
+		const returnedData = await BlocksCollection.c_read(req.params._id)
 
 		res.status(200).send(returnedData)
 	}
@@ -77,14 +74,14 @@ router.delete(
 	'/delete/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const block_id = req.params._id
-
-		const ownership = await BlocksCollection.c_ownership(user_id, block_id)
+		const ownership = await BlocksCollection.c_ownership(
+			req.decoded._id,
+			req.params._id
+		)
 		
 		if (ownership.status && ownership.ownership) {
-			const returnedData = await BlocksCollection.c_delete(block_id)
-			const returnedData2 = await BlockLikesCollection.c_deleteAll(block_id)
+			const returnedData = await BlocksCollection.c_delete(req.params._id)
+			const returnedData2 = await BlockLikesCollection.c_deleteAll(req.params._id)
 
 			res.status(200).send([returnedData, returnedData2])
 			
@@ -100,12 +97,15 @@ router.post(
 	'/like/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const block_id = req.params._id
-
 		// [UPDATE] block's Likers // [CREATE] blockLike //
-		const returnedData = await BlocksCollection.c_like(user_id, block_id)
-		const returnedData2 = await BlockLikesCollection.c_create(user_id, block_id)
+		const returnedData = await BlocksCollection.c_like(
+			req.decoded._id,
+			req.params._id
+		)
+		const returnedData2 = await BlockLikesCollection.c_create(
+			req.decoded._id,
+			req.params._id
+		)
 		
 		res.status(201).send([returnedData, returnedData2])
 	}
@@ -117,12 +117,15 @@ router.post(
 	'/unlike/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const block_id = req.params._id
-
 		// [UPDATE] block Likers // [DELETE] blockLike //
-		const returnedData = await BlocksCollection.c_unlike(user_id, block_id)
-		const returnedData2 = await BlockLikesCollection.c_delete(user_id, block_id)
+		const returnedData = await BlocksCollection.c_unlike(
+			req.decoded._id,
+			req.params._id
+		)
+		const returnedData2 = await BlockLikesCollection.c_delete(
+			req.decoded._id,
+			req.params._id
+		)
 		
 		res.status(201).send([returnedData, returnedData2])
 	}
@@ -135,12 +138,15 @@ router.post(
 	'/follow/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const block_id = req.params._id
-
 		// [UPDATE] block Followers // [CREATE] blockFollow //
-		const returnedData = await BlocksCollection.c_follow(user_id, block_id)
-		const returnedData2 = await BlockFollowsCollection.c_create(user_id, block_id)
+		const returnedData = await BlocksCollection.c_follow(
+			req.decoded._id,
+			req.params._id
+		)
+		const returnedData2 = await BlockFollowsCollection.c_create(
+			req.decoded._id,
+			req.params._id
+		)
 		
 		res.status(201).send([returnedData, returnedData2])
 	}
@@ -152,12 +158,15 @@ router.post(
 	'/unfollow/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const block_id = req.params._id
-
 		// [UPDATE] block Followers // [DELETE] blockFollow //
-		const returnedData = await BlocksCollection.c_unfollow(user_id, block_id)
-		const returnedData2 = await BlockFollowsCollection.c_delete(user_id, block_id)
+		const returnedData = await BlocksCollection.c_unfollow(
+			req.decoded._id,
+			req.params._id
+		)
+		const returnedData2 = await BlockFollowsCollection.c_delete(
+			req.decoded._id,
+			req.params._id
+		)
 		
 		res.status(201).send([returnedData, returnedData2])
 	}
@@ -169,9 +178,7 @@ router.post(
 router.get(
 	'/existance/:_id',
 	async (req, res) => {
-		const block_id = req.params._id
-
-		const existance = await BlocksCollection.c_existance(block_id)
+		const existance = await BlocksCollection.c_existance(req.params._id)
 
 		if (existance.status) {
 			if (existance.existance) { res.status(200).send(true) }
@@ -187,10 +194,10 @@ router.get(
 	'/ownership/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const block_id = req.params._id
-
-		const ownership = await BlocksCollection.c_ownership(user_id, block_id)
+		const ownership = await BlocksCollection.c_ownership(
+			req.decoded._id,
+			req.params._id
+		)
 
 		if (ownership.status) {
 			if (ownership.ownership) { res.status(200).send(true) }
@@ -205,9 +212,7 @@ router.get(
 router.get(
 	'/count/:cat_id',
 	async (req, res) => {
-		const cat_id = req.params.cat_id
-
-		const count = (await BlocksCollection.c_count(cat_id))
+		const count = (await BlocksCollection.c_count(req.params.cat_id))
 
 		res.status(200).send(count.toString())
 	}

@@ -64,9 +64,7 @@
 
 		data: function() {
 			return {
-				user_id: '',
-				email: '',
-				username: '',
+				decoded: {},
 				disabled: false,
 				following: false,
 				pageNumber: this.$route.params.page,
@@ -99,10 +97,7 @@
 		methods: {
 			/******************* [INIT] User Decode *******************/
 			async decode() {
-				const decoded = await UserService.getUserTokenDecodeData()
-				this.user_id = decoded._id
-				this.email = decoded.email
-				this.username = decoded.username
+				this.decoded = await UserService.getUserTokenDecodeData()
 			},
 
 			/******************* [INIT] Block *******************/
@@ -116,7 +111,7 @@
 			searchForUserInFollowers() {
 				// Search For Likers Id in Block's Object //
 				let found = this.block.followers.find((follower) => (
-					follower == this.user_id
+					follower == this.decoded._id
 				))
 
 				if (found) { this.following = true }
@@ -158,11 +153,9 @@
 
 			log() {
 				console.log('%%% [COMPONENT] TitleHeader %%%')
+				console.log('decoded:', this.decoded)
 				console.log('block_id:', this.block_id)
 				console.log('block:', this.block)
-				console.log('user_id:', this.user_id)
-				console.log('email:', this.email)
-				console.log('username:', this.username)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		},

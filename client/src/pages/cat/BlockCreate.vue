@@ -14,7 +14,6 @@
 <script>
 	// [IMPORT] Personal //
 	import BlockCreate from '@components/block/Create'
-	import UserService from '@services/UserService'
 	import router from '@router'
 	import { cats } from '@defaults/cats'
 
@@ -29,9 +28,6 @@
 				cat_id: this.$route.params.cat_id,
 				cat: {},
 				catTitle: '',
-				user_id: 'unset',
-				email: 'unset',
-				username: 'unset',
 			}
 		},
 
@@ -42,12 +38,6 @@
 
 			// [REDIRECT] Not Log Needed //
 			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
-
-			// Retrieve User Data //
-			let decoded = await UserService.getUserTokenDecodeData()
-			this.user_id = decoded._id
-			this.email = decoded.email
-			this.username = decoded.username
 			
 			// [LOG] //
 			//this.log()
@@ -57,9 +47,6 @@
 			log() {
 				console.log('%%% [PAGE] CatBlockCreate %%%')
 				console.log('cat_id:', this.cat_id)
-				console.log('user_id:', this.user_id)
-				console.log('email:', this.email)
-				console.log('username:', this.username)
 			},
 		}
 	}

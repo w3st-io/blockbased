@@ -18,9 +18,9 @@
 				:block_id="block_id"
 				:pageIndex="pageIndex"
 				:amount="5"
-				:user_id="user_id"
-				:email="email"
-				:username="username"
+				:user_id="decoded._id"
+				:email="decoded.email"
+				:username="decoded.username"
 			/>
 		</article>
 
@@ -70,17 +70,14 @@
 
 		data: function() {
 			return {
+				decoded: {},
 				existance: false,
 				loading: true,
-				userTokenDecodeData: {},
 				block_id: this.$route.params.block_id,
 				block: {},
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),
 				commentListKey: 0,
-				user_id: 'unset',
-				email: 'unset',
-				username: 'unset',
 				error: '',
 			}
 		},
@@ -94,9 +91,6 @@
 				// Retrieve User Data //
 				try {
 					this.decoded = await UserService.getUserTokenDecodeData()
-					this.user_id = this.decoded._id
-					this.email = this.decoded.email
-					this.username = this.decoded.username
 				}
 				catch(e) { this.error = e }
 
@@ -147,13 +141,11 @@
 
 			log() {
 				console.log('%%% [PAGE] Block %%%')
+				console.log('decoded:', this.decoded)
 				console.log('block_id:', this.block_id)
 				console.log('existance:', this.existance)
 				console.log('pageIndex:', this.pageIndex)
 				console.log('commentListKey:', this.commentListKey)
-				console.log('user_id:', this.user_id)
-				console.log('email:', this.email)
-				console.log('username:', this.username)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		},

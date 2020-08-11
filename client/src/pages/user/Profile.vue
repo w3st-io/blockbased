@@ -63,9 +63,7 @@
 			}
 
 			// Retrieve User Token Decode Data //
-			try {
-				this.decoded = await UserService.getUserTokenDecodeData()
-			}
+			try { this.decoded = await UserService.getUserTokenDecodeData() }
 			catch(e) { this.error = e }
 
 			// Retrieve User Profile Data //

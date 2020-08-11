@@ -63,6 +63,7 @@
 
 		data: function() {
 			return {
+				decoded: {},
 				socket: io('http://localhost:5000'),
 				adminNavBarKey: 0,
 				navBarKey: 1,
@@ -71,7 +72,6 @@
 				loggedIn: false,
 				message: '',
 				test: 1,
-				user_id: '',
 			}
 		},
 
@@ -80,10 +80,9 @@
 			if (localStorage.usertoken) {
 				this.loggedIn = true
 				
-				let decoded = await UserService.getUserTokenDecodeData()
-				this.user_id = decoded._id
+				this.decoded = await UserService.getUserTokenDecodeData()
 
-				this.socket.emit('join', this.user_id)
+				this.socket.emit('join', this.decoded._id)
 			}
 
 			// [CHECK IF ADMINLOGGEDIN] //
@@ -106,12 +105,17 @@
 			})
 
 			EventBus.$on('logged-in', () => {
+				this.socket.emit('join', this.decoded._id)
 				this.loggedIn = true
+				
 				this.forceRerender()
 			})
 
 			EventBus.$on('logged-out', () => {
+				this.socket.emit('leave')
+				localStorage.removeItem('usertoken')
 				this.loggedIn = false
+
 				this.forceRerender()
 			})
 

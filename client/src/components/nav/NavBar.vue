@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<!-- Top Bar -->
-		<article class="py-2 bg-dark bg-secondary border-bottom border-primary ctm-b">
+		<article class="py-2 bg-dark bg-secondary border-bottom border-primary">
 			<div class="container">
 				<nav class=" px-0 navbar navbar-expand-lg navbar-dark">
 					<a class="navbar-brand" href="/">
@@ -38,7 +38,7 @@
 		</article>
 		
 		<!-- Bottom Bar -->
-		<article class="p-0 bg-dark border-bottom border-dark shadow-sm ctm-b">
+		<article class="p-0 bg-dark border-bottom border-dark shadow-sm">
 			<div class="container">
 				<nav class="px-0 py-1 navbar">
 					<div class="mr-auto">
@@ -55,7 +55,7 @@
 						</router-link>
 
 						<router-link v-if="loggedIn" to="/profile" class="ml-2">
-							<button class="btn btn-sm btn-outline-primary">{{ username }}</button>
+							<button class="btn btn-sm btn-outline-primary">{{ decoded.username }}</button>
 						</router-link>
 
 						<a v-if="loggedIn" v-on:click="logout" href="#" class="ml-2">
@@ -72,7 +72,7 @@
 	// [IMPORT] Personal //
 	import NotificationMenuBtn from '@components/notifications/NotificationMenu'
 	import router from '@router'
-	import UserService from '@services/UserService'
+	import UserService from '../../services/UserService'
 	import { EventBus } from '@main'
 
 	// [EXPORT] //
@@ -83,10 +83,8 @@
 
 		data: function() {
 			return {
+				decoded: {},
 				loggedIn: false,
-				user_id: 'unset',
-				email: 'unset',
-				username: 'unset',
 				notifications: '',
 				totalNotifications: 0,
 			}
@@ -94,16 +92,9 @@
 
 		created: async function() {
 			if (localStorage.usertoken) {
-				// Set Status //
 				this.loggedIn = true
 
-				// Retrieve User Data //
-				const decoded = await UserService.getUserTokenDecodeData()
-				
-				this.user_id = decoded._id
-				this.email = decoded.email
-				this.username = decoded.username
-
+				this.decoded = await UserService.getUserTokenDecodeData()
 			}
 
 			// [ON-EVENTBUS] //
@@ -112,8 +103,9 @@
 
 		methods: {
 			logout() {
-				localStorage.removeItem('usertoken')
+				EventBus.$emit('logged-out')
 				this.loggedIn = false
+
 				router.push({ name: 'Login' })
 			},
 			redirectToQuote(query) {
@@ -131,8 +123,6 @@
 
 
 <style lang="scss" scoped>
-	.ctm-b {}
-
 	.dotted-bg {
 		opacity: 1;
 		background: #343a40;

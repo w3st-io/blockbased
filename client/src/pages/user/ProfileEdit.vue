@@ -43,7 +43,6 @@
 		data: function() {
 			return {
 				loading: true,
-				userTokenData: {},
 				userProfileData: {},
 				imgUrl: '',
 			}
@@ -53,16 +52,8 @@
 			// [REDIRECT] Not Log Required //
 			if (!localStorage.usertoken) { router.push({ name: 'Dashboard' }) }
 
-			// Retrieve User Token Decode Data //
-			try {
-				this.decoded = await UserService.getUserTokenDecodeData()
-			}
-			catch(e) { this.error = e }
-
 			// Retrieve User Profile Data //
-			try {
-				this.userProfileData = await UserService.s_read()
-			}
+			try { this.userProfileData = await UserService.s_read() }
 			catch(e) { this.error = e }
 
 			// Set Image //
@@ -86,7 +77,6 @@
 
 			log() {
 				console.log('%%% [PAGE] User Profile %%%')
-				console.log('userTokenData:', this.userTokenData)
 				console.log('userProfileData:', this.userProfileData)
 				console.log('imgUrl:', this.imgUrl)
 			},

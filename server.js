@@ -95,6 +95,11 @@ io.on('connection', (socket) => {
 		}
 	})
 
+	socket.on('leave', () => {
+		// Leave variable
+		userUtils.leave(socket.id)
+	})
+
 
 	// [ON] comment-created //
 	socket.on('comment-created', (followers) => {

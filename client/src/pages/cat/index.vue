@@ -18,9 +18,6 @@
 				:cat_id="cat_id"
 				:pageIndex="pageIndex"
 				:amount="5"
-				:user_id="user_id"
-				:email="email"
-				:username="username"
 			/>
 		</article>
 
@@ -35,7 +32,6 @@
 	// [IMPORT] Personal //
 	import BlockList from '@components/block/List'
 	import TitleHeader from '@components/cat/TitleHeader'
-	import UserService from '@services/UserService'
 	import router from '@router'
 	import { EventBus } from '@main'
 	import { cats } from '@defaults/cats'
@@ -51,13 +47,9 @@
 			return {
 				cat: {},
 				catTitle: '',
-				userTokenDecodeData: {},
 				cat_id: this.$route.params.cat_id,
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),
-				user_id: 'unset',
-				email: 'unset',
-				username: 'unset',
 				error: '',
 			}
 		},
@@ -67,11 +59,6 @@
 			this.cat = cats.find(cat => cat.cat_id === this.cat_id)
 			this.catTitle = this.cat.title
 
-			// Retrieve User Data //
-			let decoded = await UserService.getUserTokenDecodeData()
-			this.user_id = decoded._id
-			this.email = decoded.email
-			this.username = decoded.username
 
 			// [--> EMMIT] cat-prev, cat-next, redirect-to-block //
 			EventBus.$on('cat-prev', () => { this.prevPage() })
@@ -110,9 +97,6 @@
 				console.log('cat_id:', this.cat_id)
 				console.log('pageNumber:', this.pageNumber)
 				console.log('pageIndex:', this.pageIndex)
-				console.log('user_id:', this.user_id)
-				console.log('email:', this.email)
-				console.log('username:', this.username)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		}
