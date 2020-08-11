@@ -18,9 +18,6 @@
 				:block_id="block_id"
 				:pageIndex="pageIndex"
 				:amount="5"
-				:user_id="decoded._id"
-				:email="decoded.email"
-				:username="decoded.username"
 			/>
 		</article>
 
@@ -56,7 +53,6 @@
 	import TitleHeader from '@components/block/TitleHeader'
 	import router from '@router'
 	import BlockService from '@services/BlockService'
-	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
 
 
@@ -70,7 +66,6 @@
 
 		data: function() {
 			return {
-				decoded: {},
 				existance: false,
 				loading: true,
 				block_id: this.$route.params.block_id,
@@ -88,12 +83,6 @@
 			catch(e) { this.error = e }
 
 			if (this.existance) {
-				// Retrieve User Data //
-				try {
-					this.decoded = await UserService.getUserTokenDecodeData()
-				}
-				catch(e) { this.error = e }
-
 				// [--> EMMIT] block-prev, block-next //
 				EventBus.$on('block-prev', () => { this.prevPage() })
 				EventBus.$on('block-next', () => { this.nextPage() })
@@ -141,7 +130,6 @@
 
 			log() {
 				console.log('%%% [PAGE] Block %%%')
-				console.log('decoded:', this.decoded)
 				console.log('block_id:', this.block_id)
 				console.log('existance:', this.existance)
 				console.log('pageIndex:', this.pageIndex)

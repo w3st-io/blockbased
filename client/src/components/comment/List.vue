@@ -121,6 +121,7 @@
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import CommentService from '@services/CommentService'
+	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
 	
 	// [EXPORT] //
@@ -134,13 +135,11 @@
 			block_id: { type: String, required: true, },
 			pageIndex: { type: Number, required: true, },
 			amount: { type: Number, required: true },
-			user_id: { type: String, required: true },
-			email: { type: String, required: true },
-			username: { type: String, required: true },
 		},
 
 		data: function() {
 			return {
+				decoded: {},
 				adminLoggedIn: false,
 				loading: true,
 				disabled: false,
@@ -151,6 +150,10 @@
 
 		created: async function() {
 			if (localStorage.admintoken) { this.adminLoggedIn = true }
+
+			if (localStorage.usertoken) {
+				this.decoded = await UserService.getUserTokenDecodeData()
+			}
 			
 			// [INIT] Comments //
 			await this.commentReadAll()
@@ -177,7 +180,7 @@
 			})
 
 			// [LOG] //
-			//this.log()
+			this.log()
 		},
 
 		methods: {
@@ -204,15 +207,15 @@
 			},
 
 			doesUserOwnThisComment(user_id) {
-				if (user_id == this.user_id) return true
+				if (user_id == this.decoded._id) return true
 				else return false 
 			},
 
 			/******************* [INIT] Like *******************/
 			checkForUserLike(comment) {
 				// Search For Likers Id in Block's Object //
-				let found = comment.likers.find((liker) => (
-					liker == this.user_id
+				let found = comment.likers.find(liker => (
+					liker == this.decoded._id
 				))
 
 				if (found) { return true }
@@ -291,11 +294,9 @@
 
 			log() {
 				console.log('%%% [COMPONENT] CommentList %%%')
+				console.log('decoded:', this.decoded)
 				console.log('pageIndex:', this.pageIndex)
 				console.log('amount:', this.amount)
-				console.log('user_id:', this.user_id)
-				console.log('email:', this.email)
-				console.log('username:', this.username)
 				console.log('Comments:', this.comments)
 				if (this.error) { console.error('error:', this.error) }
 			},

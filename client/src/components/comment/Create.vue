@@ -1,5 +1,8 @@
 <template>
 	<section>
+		<!-- Informative Message -->
+		<div class="alert alert-info" role="alert">{{ message }}</div>
+
 		<!-- [FORM] Create Comment -->
 		<ValidationObserver v-slot="{ handleSubmit }">
 			<form	@submit.prevent="handleSubmit(submit)">
@@ -69,6 +72,10 @@
 				block: {},
 				editorText: '',
 				error: '',
+				message: `
+					Inserting image directly into message will most likely not work
+					due to a cap on comments. Please use a URL for any Images. Thank You!
+				`,
 			}
 		},
 
