@@ -6,7 +6,9 @@
 // [IMPORT] //
 import Vue from 'vue'
 import vueHeadful from 'vue-headful'
+import { BootstrapVue } from 'bootstrap-vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 
 // [IMPORT] Personal //
@@ -15,6 +17,10 @@ import '@assets/styles/style.scss'
 import './stuff-n-rules'
 import App from './App.vue'
 import router from '@router'
+
+
+// [VUE-USE] //
+Vue.use(BootstrapVue)
 
 
 // [GLOBAL COMPONENTS] //

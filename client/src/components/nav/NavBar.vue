@@ -2,21 +2,18 @@
 	<section>
 		<!-- Top Bar -->
 		<article class="py-2 bg-dark bg-secondary border-bottom border-primary">
-			<div class="container">
+			<b-container>
 				<nav class=" px-0 navbar navbar-expand-lg navbar-dark">
 					<a class="navbar-brand" href="/">
-						<h4>
-							<mark class="bg-primary border border-secondary text-light">
-								BlockBased
-							</mark>
-						</h4>
+						<mark class="h4 bg-primary border border-secondary text-light">
+							BlockBased
+						</mark>
 					</a>
 
 					<!-- Hidden Menu Button -->
-					<button
-						class="navbar-toggler"
-						@click="sideMenuBtnClicked"
-					><span class="navbar-toggler-icon"></span></button>
+					<button class="navbar-toggler" @click="sideMenuBtnClicked">
+						<span class="navbar-toggler-icon"></span>
+					</button>
 
 					<!-- Top Menu -->
 					<div class="collapse navbar-collapse">
@@ -34,36 +31,51 @@
 						</div>
 					</div>
 				</nav>
-			</div>
+			</b-container>
 		</article>
 		
 		<!-- Bottom Bar -->
 		<article class="p-0 bg-dark border-bottom border-dark shadow-sm">
-			<div class="container">
-				<nav class="px-0 py-1 navbar">
+			<b-container>
+				<b-navbar class="px-0 py-1">
 					<div class="mr-auto">
 						<NotificationMenuBtn v-if="loggedIn" />
 					</div>
 
-					<div>
-						<router-link v-if="!loggedIn" to="/login" class="ml-2">
-							<button class="btn btn-sm btn-outline-secondary">Login</button>
-						</router-link>
+					<section>
+						<b-button
+							v-if="!loggedIn"
+							@click="logInRedirect()"
+							variant="outline-secondary"
+							size="sm"
+						>Login</b-button>
+						
+						<b-button
+							v-if="!loggedIn"
+							@click="registerRedirect()"
+							variant="outline-primary"
+							size="sm"
+							class="ml-2"
+						>Register</b-button>
 
-						<router-link v-if="!loggedIn" to="/register" class="ml-2">
-							<button class="btn btn-sm btn-outline-primary">Register</button>
-						</router-link>
-
-						<router-link v-if="loggedIn" to="/profile" class="ml-2">
-							<button class="btn btn-sm btn-outline-primary">{{ decoded.username }}</button>
-						</router-link>
-
-						<a v-if="loggedIn" v-on:click="logout" href="#" class="ml-2">
-							<button class="btn btn-sm btn-outline-secondary">Log Out</button>
-						</a>
-					</div>
-				</nav>
-			</div>
+						<b-button
+							v-if="loggedIn"
+							@click="profileRedirect()"
+							variant="outline-primary"
+							size="sm"
+							class="ml-2"
+						>{{ decoded.username }}</b-button>
+						
+						<b-button
+							v-if="loggedIn"
+							@click="logout()"
+							variant="outline-secondary"
+							size="sm"
+							class="ml-2"
+						>Log Out</b-button>
+					</section>
+				</b-navbar>
+			</b-container>
 		</article>
 	</section>
 </template>
@@ -102,21 +114,21 @@
 		},
 
 		methods: {
+			logInRedirect() { router.push({ path: '/login' }) },
+
+			registerRedirect() { router.push({ path: '/register' }) },
+
+			profileRedirect() { router.push({ path: '/profile' }) },
+
+
 			logout() {
 				EventBus.$emit('logged-out')
 				this.loggedIn = false
 
 				router.push({ name: 'Login' })
 			},
-			redirectToQuote(query) {
-				// [REDIRECT] // [EMIT OUT -->] // Clear Field //
-				router.push({ path: `/quote/${query}` })
-				EventBus.$emit('query')
-				this.query = ''
-			},
-			sideMenuBtnClicked() {
-				EventBus.$emit('navBarSideMenuBtnClicked')
-			}
+			
+			sideMenuBtnClicked() { EventBus.$emit('navBarSideMenuBtnClicked') }
 		},
 	}
 </script>
