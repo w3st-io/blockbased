@@ -28,18 +28,15 @@ router.post(
 	'/create',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const block_id = req.body.block_id
 		const blockFollowers = req.body.blockFollowers
-		const text = req.body.text
 
 		const existance = await BlocksCollection.c_existance(block_id)
 
 		if (existance.status && existance.existance) {
 			const returnedData = await CommentsCollection.c_create(
-				user_id,
-				block_id,
-				text
+				req.decoded._id,
+				req.body.block_id,
+				req.body.text
 			)
 			
 			// Create Notification for Followers
@@ -62,10 +59,10 @@ router.post(
 router.get(
 	'/read-all-all/:amount/:skip',
 	async (req, res) => {
-		const skip = req.params.skip
-		const amount = req.params.amount
-
-		const returnedData = await CommentsCollection.c_readAllAll(skip, amount)
+		const returnedData = await CommentsCollection.c_readAllAll(
+			req.params.skip,
+			req.params.amount
+		)
 		
 		res.status(200).send(returnedData)
 	}
@@ -76,14 +73,13 @@ router.get(
 router.get(
 	'/read-all/:block_id/:amount/:skip',
 	async (req, res) => {
-		const block_id = req.params.block_id
-		const skip = req.params.skip
-		const amount = req.params.amount
-
-		const returnedData = await CommentsCollection.c_readAll(block_id, skip, amount)
+		const returnedData = await CommentsCollection.c_readAll(
+			req.params.block_id,
+			req.params.skip,
+			req.params.amount
+		)
 		
 		res.status(200).send(returnedData)
-		
 	}
 )
 
@@ -92,9 +88,7 @@ router.get(
 router.get(
 	'/read/:_id',
 	async (req, res) => {
-		const comment_id = req.params._id
-
-		const returnedData = await CommentsCollection.c_read(comment_id)
+		const returnedData = await CommentsCollection.c_read(req.params._id)
 
 		res.status(200).send(returnedData)
 	}
@@ -106,19 +100,21 @@ router.post(
 	'/update/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const comment_id = req.params._id
-		const text = req.body.text
-
-		const ownership = await CommentsCollection.c_ownership(user_id, comment_id)
+		const ownership = await CommentsCollection.c_ownership(
+			req.decoded._id,
+			req.params._id
+		)
 
 		if (req.body.text.length < 6000) {
 			if (ownership.status && ownership.ownership) {
-				const returnedData = await CommentsCollection.c_update(comment_id, text)
+				const returnedData = await CommentsCollection.c_update(
+					req.params._id,
+					req.body.text
+				)
 
 				res.status(201).send(returnedData)
 			}
-			else { res.status(400).send(ownership.message) }
+			else { res.status(400).send(ownership) }
 		}
 		else { res.status(400).send('Comment too large') }
 	}
@@ -130,20 +126,27 @@ router.delete(
 	'/delete/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const comment_id = req.params._id
-
-		const ownership = await CommentsCollection.c_ownership(user_id, comment_id)
+		const ownership = await CommentsCollection.c_ownership(
+			req.decoded._id,
+			req.params._id
+		)
 
 		if (ownership.status && ownership.ownership) {
 			// [DELETE] Comment // [DELETE] CommentLike //
-			const returnedData = await CommentsCollection.c_delete(user_id, comment_id)
-			const returnedData2 = await CommentLikesCollection.c_deleteAll(comment_id)
-			const returnedData3 = await NotificationsCollection.c_deleteAll(comment_id)
+			const returnedData = await CommentsCollection.c_delete(
+				req.decoded._id,
+				req.params._id
+			)
+			const returnedData2 = await CommentLikesCollection.c_deleteAll(
+				req.params._id
+			)
+			const returnedData3 = await NotificationsCollection.c_deleteAll(
+				req.params._id
+			)
 
 			res.status(201).send([returnedData, returnedData2, returnedData3])
 		}
-		else { res.status(400).send(ownership.message) }
+		else { res.status(400).send(ownership) }
 	}
 )
 
@@ -154,16 +157,15 @@ router.post(
 	'/like/:_id/:block_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const comment_id = req.params._id
-		const block_id = req.params.block_id
-
 		// [UPDATE] Comment's Likers // [CREATE] CommentLike //
-		const returnedData = await CommentsCollection.c_like(user_id, comment_id)
+		const returnedData = await CommentsCollection.c_like(
+			req.decoded._id,
+			req.params._id,
+		)
 		const returnedData2 = await CommentLikesCollection.c_create(
-			user_id,
-			block_id,
-			comment_id
+			req.decoded._id,
+			req.params._id,
+			req.params.block_id
 		)
 
 		res.status(201).send([returnedData, returnedData2])
@@ -176,12 +178,15 @@ router.post(
 	'/unlike/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const comment_id = req.params._id
-
 		// [UPDATE] Comment's Likers // [DELETE] CommentLike //
-		const returnedData = await CommentsCollection.c_unlike(user_id, comment_id)
-		const returnedData2 = await CommentLikesCollection.c_delete(user_id, comment_id)
+		const returnedData = await CommentsCollection.c_unlike(
+			req.decoded._id,
+			req.params._id
+		)
+		const returnedData2 = await CommentLikesCollection.c_delete(
+			req.decoded._id,
+			req.params._id
+		)
 		
 		res.status(201).send([returnedData, returnedData2])
 	}
@@ -194,19 +199,17 @@ router.post(
 	'/report/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const comment_id = req.params._id
-		const block_id = req.body.block_id
-		const reportType = req.body.reportType
-
-		const existance = await CommentReportsCollection.c_existance(user_id, comment_id)
+		const existance = await CommentReportsCollection.c_existance(
+			req.decoded._id,
+			req.params._id
+		)
 		
 		if (existance.status && !existance.existance) {
 			const returnedData = await CommentReportsCollection.c_create(
-				user_id,
-				comment_id,
-				block_id,
-				reportType
+				req.decoded._id,
+				req.params._id,
+				req.body.block_id,
+				req.body.reportType
 			)
 			
 			res.status(201).send(returnedData)
@@ -220,9 +223,7 @@ router.post(
 router.get(
 	'/existance/:_id',
 	async (req, res) => {
-		const comment_id = req.params._id
-
-		const existance = await CommentsCollection.c_existance(comment_id)
+		const existance = await CommentsCollection.c_existance(req.params._id)
 
 		if (existance.status) {
 			if (existance.existance) { res.status(200).send(true) }
@@ -238,16 +239,16 @@ router.get(
 	'/ownership/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const comment_id = req.params._id
-
-		const ownership = await CommentsCollection.c_ownership(user_id, comment_id)
+		const ownership = await CommentsCollection.c_ownership(
+			req.decoded._id,
+			req.params._id
+		)
 
 		if (ownership.status) {
 			if (ownership.ownership) { res.status(200).send(true) }
 			else { res.status(200).send(false) }
 		}
-		else { res.status(400).send(ownership.message) }
+		else { res.status(400).send(ownership) }
 	}
 )
 
@@ -256,9 +257,7 @@ router.get(
 router.get(
 	'/count/:block_id',
 	async (req, res) => {
-		const block_id = req.params.block_id
-
-		const count = await CommentsCollection.c_count(block_id)
+		const count = await CommentsCollection.c_count(req.params.block_id)
 	
 		res.status(201).send(count.toString())
 	}

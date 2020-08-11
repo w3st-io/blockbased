@@ -86,7 +86,7 @@ router.delete(
 			res.status(200).send([returnedData, returnedData2])
 			
 		}
-		else { res.status(400).send(ownership.message) }
+		else { res.status(400).send(ownership) }
 	}
 )
 
@@ -203,7 +203,7 @@ router.get(
 			if (ownership.ownership) { res.status(200).send(true) }
 			else { res.status(200).send(false) }
 		}
-		else { res.status(400).send(ownership.message) }
+		else { res.status(400).send(ownership) }
 	}
 )
 
