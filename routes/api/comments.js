@@ -30,8 +30,6 @@ router.post(
 	async (req, res) => {
 		const blockFollowers = req.body.blockFollowers
 
-		console.log(blockFollowers);
-
 		const existance = await BlocksCollection.c_existance(req.body.block_id)
 
 		if (existance.status && existance.existance) {
@@ -57,32 +55,40 @@ router.post(
 )
 
 
-// [READ-ALL-ALL] //
-router.get(
-	'/read-all-all/:amount/:skip',
-	async (req, res) => {
-		const returnedData = await CommentsCollection.c_readAllAll(
-			req.params.skip,
-			req.params.amount
-		)
-		
-		res.status(200).send(returnedData)
-	}
-)
-
-
 // [READ-ALL] //
 router.get(
 	'/read-all/:block_id/:amount/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		const returnedData = await CommentsCollection.c_readAll(
+		const comments = await CommentsCollection.c_readAll(
 			req.params.block_id,
 			req.params.skip,
 			req.params.amount
 		)
+
+		// For Each Block in Blocks //
+		for (let i = 0; i < comments.length; i++) {
+			// Set Like Count //
+			try {
+				comments[i].likeCount = await CommentLikesCollection.c_countAll(
+					comments[i]._id
+				)
+			}
+			catch (e) { console.log(`Caught Error --> ${e}`) }
+
+			// Set Liked Status //
+			if (req.decoded) {
+				// check if the block like exist..
+				let liked = await CommentLikesCollection.c_existance(
+					req.decoded._id,
+					comments[i]._id
+				)
+
+				comments[i].liked = liked.existance
+			}
+		}
 		
-		res.status(200).send(returnedData)
+		res.status(200).send(comments)
 	}
 )
 
@@ -160,18 +166,14 @@ router.post(
 	'/like/:_id/:block_id',
 	Auth.userToken(),
 	async (req, res) => {
-		// [UPDATE] Comment's Likers // [CREATE] CommentLike //
-		const returnedData = await CommentsCollection.c_like(
+		// [CREATE] CommentLike //
+		const returnedData = await CommentLikesCollection.c_create(
 			req.decoded._id,
+			req.params.block_id,
 			req.params._id,
-		)
-		const returnedData2 = await CommentLikesCollection.c_create(
-			req.decoded._id,
-			req.params._id,
-			req.params.block_id
 		)
 
-		res.status(201).send([returnedData, returnedData2])
+		res.status(201).send(returnedData)
 	}
 )
 
@@ -181,17 +183,13 @@ router.post(
 	'/unlike/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		// [UPDATE] Comment's Likers // [DELETE] CommentLike //
-		const returnedData = await CommentsCollection.c_unlike(
-			req.decoded._id,
-			req.params._id
-		)
-		const returnedData2 = await CommentLikesCollection.c_delete(
+		// [DELETE] CommentLike //
+		const returnedData = await CommentLikesCollection.c_delete(
 			req.decoded._id,
 			req.params._id
 		)
 		
-		res.status(201).send([returnedData, returnedData2])
+		res.status(201).send(returnedData)
 	}
 )
 

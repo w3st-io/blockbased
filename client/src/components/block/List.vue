@@ -131,7 +131,7 @@
 			}
 		},
 
-		created: async function () {
+		created: async function() {
 			if (localStorage.usertoken) {
 				// Retrieve User Data //
 				this.decoded = await UserService.getUserTokenDecodeData()
@@ -169,7 +169,33 @@
 			/******************* [INIT] Profile *******************/
 			// Add a Profile Data Section of the person who created the block
 
-			/******************* [INIT] Count *******************/
+			/******************* [BTN] Like *******************/
+			async likeBtn(block) {
+				// [LOG REQUIRED] //
+				if (localStorage.usertoken) {
+					if (block.liked) {
+						this.disabled = true
+
+						try { await BlockService.s_unlike(block._id) }
+						catch(e) { this.error = e }
+
+						this.disabled = false
+					}
+					else {
+						this.disabled = true
+
+						try { await BlockService.s_like(block._id) }
+						catch(e) { this.error = e }
+
+						this.disabled = false
+					}
+				}
+
+				// [READ] Update Blocks //
+				await this.blocksReadAll()
+			},
+
+			/******************* [COUNT] *******************/
 			async totalComments() {
 				// For the Size of the # of Cats.. //
 				for (let i = 0; i < this.blocks.length; i++) {
@@ -177,41 +203,6 @@
 
 					this.commentCounts[block_id] = await CommentService.s_count(block_id)
 				}
-			},
-
-			/******************* [BTN] Like *******************/
-			likeBtn(block) {
-				// [LOG REQUIRED] //
-				if (localStorage.usertoken) {
-					if (block.liked) { this.blockUnlike(block._id) }
-					else { this.blockLike(block._id) }
-				}
-			},
-
-			async blockLike(block_id) {
-				this.disabled = true
-
-				// [CREATE] //
-				try { await BlockService.s_like(block_id) }
-				catch(e) { this.error = e }
-				
-				// [READ] Update Blocks //
-				await this.blocksReadAll()
-				
-				this.disabled = false
-			},
-
-			async blockUnlike(block_id) {
-				this.disabled = true
-
-				// [DELETE] //
-				try { await BlockService.s_unlike(block_id) }
-				catch(e) { this.error = e }
-
-				// [READ] Update Blocks //
-				await this.blocksReadAll()
-
-				this.disabled = false
 			},
 
 			/******************* [ROUTER + LOG] *******************/

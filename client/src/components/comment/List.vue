@@ -68,12 +68,12 @@
 						<!-- Buttons -->
 						<div class="w-50 m-0 float-right small text-right text-secondary">
 							<button
-								v-if="doesUserOwnThisComment(comment.user._id)"
+								v-if="comment.user._id == decoded._id"
 								@click="redirectToEdit(comment._id)"
 								class="py-0 btn btn-sm text-secondary"
 							>edit</button>
 							<button
-								v-if="doesUserOwnThisComment(comment.user._id)"
+								v-if="comment.user._id == decoded._id"
 								@click="deleteComment(comment._id)"
 								class="py-0 btn btn-sm text-danger"
 							>delete</button>
@@ -81,11 +81,11 @@
 								@click="likeBtn(comment)"
 								class="btn"
 								:class="{
-									'btn-outline-success': checkForUserLike(comment),
-									'btn-outline-light': !checkForUserLike(comment)
+									'btn-outline-success': comment.liked,
+									'btn-outline-light': !comment.liked
 								}"
 								style="font-size: 1em;"
-							>{{ comment.likers.length }} ▲</button>
+							>{{ comment.likeCount }} ▲</button>
 						</div>
 					</div>
 					<div
@@ -197,6 +197,7 @@
 				catch(e) { this.error = e }
 			},
 
+			/******************* [CRUD] *******************/
 			async deleteComment(comment_id) {
 				// [DELETE] Comment //
 				try { await CommentService.s_delete(comment_id) }
@@ -205,54 +206,31 @@
 				// [READ] Comments //
 				await this.commentReadAll()
 			},
-
-			doesUserOwnThisComment(user_id) {
-				if (user_id == this.decoded._id) return true
-				else return false 
-			},
-
-			/******************* [INIT] Like *******************/
-			checkForUserLike(comment) {
-				// Search For Likers Id in Block's Object //
-				let found = comment.likers.find(liker => (
-					liker == this.decoded._id
-				))
-
-				if (found) { return true }
-				else { return false }
-			},
 			
 			/******************* [BTN] Like *******************/
-			likeBtn(comment) {
+			async likeBtn(comment) {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
-					if (this.checkForUserLike(comment)) { this.commentUnlike(comment) }
-					else { this.commentLike(comment) }		
+					if (comment.liked) {
+						this.disabled = true
+
+						try { await CommentService.s_unlike(comment._id) }
+						catch(e) { this.error = e }
+
+						this.disabled = false
+					}
+					else {
+						this.disabled = true
+
+						try { await CommentService.s_like(this.block_id, comment._id) }
+						catch(e) { this.error = e }
+
+						this.disabled = false
+					}
 				}
-			},
-
-			async commentLike(comment) {
-				this.disabled = true
-
-				// [CREATE] Like in "CommentLikes" Colelction //
-				try { await CommentService.s_like(this.block_id, comment._id) }
-				catch(e) { this.error = e }
 
 				// [READ] Update Comments //
 				await this.commentReadAll()
-			},
-
-			async commentUnlike(comment) {
-				this.disabled = true
-
-				// [DELETE] Like in "CommentLikes" Collection //
-				try { await CommentService.s_unlike(comment._id) }
-				catch(e) { this.error = e }
-
-				// [READ] Update Comments //
-				await this.commentReadAll()
-
-				this.disabled = false
 			},
 
 			/******************* [REPORT] *******************/
@@ -287,11 +265,6 @@
 				}
 			},
 
-			/******************* [ROUTER + LOG] *******************/
-			adminDelete(comment_id) {
-				comment_id
-			},
-
 			log() {
 				console.log('%%% [COMPONENT] CommentList %%%')
 				console.log('decoded:', this.decoded)
@@ -299,6 +272,11 @@
 				console.log('amount:', this.amount)
 				console.log('Comments:', this.comments)
 				if (this.error) { console.error('error:', this.error) }
+			},
+
+			/******************* [ADMINISTRATION] *******************/
+			adminDelete(comment_id) {
+				comment_id
 			},
 		}
 	}

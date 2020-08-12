@@ -24,12 +24,9 @@ const CommentSchema = mongoose.Schema({
 		maxlength: 6000,
 	},
 
-	likers: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User'
-		}
-	],
+	likeCount: { type: Number, default: null },
+	
+	liked: { type: Boolean, default: null },
 
 	createdAt: {
 		type: Date,

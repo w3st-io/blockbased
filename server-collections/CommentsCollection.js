@@ -233,96 +233,6 @@ const c_delete = async (user_id, comment_id) => {
 }
 
 
-/******************* [LIKE SYSTEM] *******************/
-// [LIKE] //
-const c_like = async (user_id, comment_id) => {
-	const likeExistance = await c_likeExistance(user_id, comment_id)
-
-	if (likeExistance.status && !likeExistance.existance) {
-		if (mongoose.isValidObjectId(comment_id)) {
-			try {
-				await CommentModel.updateOne(
-					{ _id: comment_id },
-					{ '$addToSet': { 
-						'likers': user_id
-					} }
-				)
-				
-				return {
-					status: true,
-					message: 'Liked Comment',
-					comment_id: comment_id,
-					user_id: user_id,
-				}
-			}
-			catch(e) {
-				return { status: false, message: `Caught Error --> ${e}` }
-			}
-		}
-		else { return { status: false, message: 'Invalid Comment ID' } }
-	}
-	else { return { status: false, message: likeExistance.message } }
-}
-
-
-// [UNLIKE] //
-const c_unlike = async (user_id, comment_id) => {
-	const likeExistance = await c_likeExistance(user_id, comment_id)
-
-	if (likeExistance.status && likeExistance.existance) {
-		if (mongoose.isValidObjectId(comment_id)) {
-			try {
-				await CommentModel.updateOne(
-					{ _id: comment_id },
-					{ '$pull': { 
-						'likers': user_id
-					} }
-				)
-
-				return {
-					status: true,
-					message: 'Unliked comment',
-					comment_id: comment_id,
-					user_id: user_id,
-				}
-			}
-			catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
-		}
-		else { return { status: false, message: 'Invalid Comment ID' } }
-	}
-	else { return { status: false, message: likeExistance.message } }
-}
-
-
-// [LIKE-EXISTANCE] //
-const c_likeExistance = async (user_id, comment_id) => {
-	try {	
-		const returnedData = await CommentModel.findOne(
-			{
-				_id: comment_id,
-				likers: user_id
-			}
-		)
-
-		if (returnedData) {
-			return {
-				status: true,
-				message: 'Comment Like does exists',
-				existance: true,
-			}
-		}
-		else {
-			return {
-				status: true,
-				message: 'Comment Like does NOT exists',
-				existance: false,
-			}
-		}
-	}
-	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
-}
-
-
 /******************* [EXISTANCE + OWNERSHIP] *******************/
 // [EXISTANCE] //
 const c_existance = async (comment_id) => {
@@ -398,9 +308,6 @@ module.exports = {
 	c_read,
 	c_update,
 	c_delete,
-	c_like,
-	c_unlike,
-	c_likeExistance,
 	c_existance,
 	c_ownership,
 	c_count,

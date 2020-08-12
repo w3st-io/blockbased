@@ -126,7 +126,7 @@ const c_existance = async (user_id, block_id) => {
 }
 
 
-/******************* [EXISTANCE] *******************/
+/******************* [COUNT] *******************/
 const c_countAll = async (block_id) => {
 	return await BlockLikeModel.countDocuments({ block: block_id })
 }

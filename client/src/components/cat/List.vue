@@ -1,10 +1,6 @@
 <template>
 	<ul class="w-100 m-0 px-0 border border-secondary">
-		<li
-			v-for="(cat, index) in cats"
-			:key="index"
-			class="row m-0 bg-dark"
-		>
+		<li v-for="(cat, index) in cats" :key="index" class="row m-0 bg-dark">
 			<!-- Image Section -->
 			<div
 				@click="redirectToCatBlocks(cat.cat_id)"
@@ -18,10 +14,7 @@
 				"
 			>
 				<div class="w-100 overflow-auto rounded-circle">
-					<img
-						v-bind:src="cat.image"
-						class="w-100 bg-primary img-padding"
-					>
+					<img v-bind:src="cat.image" class="w-100 bg-primary img-padding">
 				</div>
 			</div>
 
@@ -55,9 +48,7 @@
 			>
 				<p class="badge badge-primary text-light">
 					<span class="m-0 custom-font-size">
-						<p v-if="!loading" class="m-0">
-							{{ totals[cat.cat_id] }}
-						</p>
+						<p v-if="!loading" class="m-0">{{ totals[cat.cat_id] }}</p>
 						<span class="small">Posts</span>
 					</span>
 				</p>

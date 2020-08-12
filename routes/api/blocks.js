@@ -76,8 +76,6 @@ router.get(
 			}
 		}
 
-		console.log('BLOCKS', blocks)
-
 		res.status(200).send(blocks)
 	}
 )
@@ -87,9 +85,24 @@ router.get(
 router.get(
 	'/read/:_id',
 	async (req, res) => {
-		const returnedData = await BlocksCollection.c_read(req.params._id)
+		const block = await BlocksCollection.c_read(req.params._id)
 
-		res.status(200).send(returnedData)
+		// Set Like Count //
+		try { block.likeCount = await BlockLikesCollection.c_countAll(block._id) }
+		catch (e) { console.log(`Caught Error --> ${e}`) }
+
+		// Set Liked Status //
+		if (req.decoded) {
+			// check if the block like exist..
+			let liked = await BlockLikesCollection.c_existance(
+				req.decoded._id,
+				block._id
+			)
+
+			block.liked = liked.existance
+		}
+
+		res.status(200).send(block)
 	}
 )
 

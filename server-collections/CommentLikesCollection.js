@@ -134,10 +134,17 @@ const c_existance = async (user_id, comment_id) => {
 }
 
 
+/******************* [COUNT] *******************/
+const c_countAll = async (comment_id) => {
+	return await CommentLikeModel.countDocuments({ comment: comment_id })
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_create,
 	c_delete,
 	c_deleteAll,
 	c_existance,
+	c_countAll,
 }

@@ -14,7 +14,7 @@ function join(socket_id, user_id) {
 	const userSocket = { socket_id, user_id }
 	userSockets.push(userSocket)
 
-	console.log('[JOIN] userSockets:', userSockets)
+	//console.log('[JOIN] userSockets:', userSockets)
 
 	return userSocket
 }
