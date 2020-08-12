@@ -294,7 +294,7 @@ const c_ownership = async (user_id, comment_id) => {
 
 
 /******************* [COUNT] *******************/
-const c_count = async (block_id) => {
+const c_countAll = async (block_id) => {
 	try { return await CommentModel.countDocuments({ block: block_id }) }
 	catch(e) { return `Caught Error --> ${e}` }
 }
@@ -310,5 +310,5 @@ module.exports = {
 	c_delete,
 	c_existance,
 	c_ownership,
-	c_count,
+	c_countAll,
 }

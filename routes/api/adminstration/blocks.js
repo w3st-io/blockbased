@@ -12,7 +12,7 @@ const express = require('express')
 const ABlocksCollection = require('../../../server-collections/administration/BlocksCollection')
 const BlocksCollection = require('../../../server-collections/BlocksCollection')
 const BlockLikesCollection = require('../../../server-collections/BlockLikesCollection')
-const Auth = require('../../../server-middleware/AuthMiddleware')
+const Auth = require('../../../server-middleware/Auth')
 
 
 // [EXPRESS + USE] //

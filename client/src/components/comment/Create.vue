@@ -54,7 +54,6 @@
 	import BlockService from '@services/BlockService'
 	import CommentService from '@services/CommentService'
 	import router from '@router'
-	import { EventBus } from '@main'
 
 	// [EXPORT] //
 	export default {
@@ -103,7 +102,6 @@
 					this.loading = true
 
 					this.createComment()
-					this.notifySockets()
 				//}
 				//else { this.error = 'Unable to create comment' }
 			},
@@ -136,17 +134,11 @@
 				}
 			},
 
-			async notifySockets() {
-				// [EMIT-EVENTBUS] //
-				EventBus.$emit('comment-created', this.block.followers)
-			},
-
 			log() {
 				console.log('%%% [COMPONENT] CommentCreate %%%')
 				console.log('block_id:', this.block_id)
 				console.log('block:', this.block)
 				console.log('blockFollowers:', this.block.followers)
-
 			},
 		},
 	}

@@ -10,7 +10,7 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const Auth = require('../../server-middleware/AuthMiddleware')
+const Auth = require('../../server-middleware/Auth')
 const NotificationsCollection = require('../../server-collections/NotificationsCollection')
 
 
@@ -24,9 +24,7 @@ router.get(
 	'/read-all',
 	Auth.userToken(),
 	async (req, res) => {
-		const returnedData = await NotificationsCollection.c_readAll(
-			req.decoded._id
-		)
+		const returnedData = await NotificationsCollection.c_readAll(req.decoded._id)
 
 		res.status(200).send(returnedData)
 	}

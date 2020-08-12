@@ -6,6 +6,9 @@
 // [IMPORT] //
 import axios from 'axios'
 
+// [IMPORT] Personal //
+import { EventBus } from '@main'
+
 
 // [AUTH-TOKEN-SETUP] //
 async function authAxios() {
@@ -21,7 +24,11 @@ async function authAxios() {
 async function s_create(block_id, blockFollowers, text) {
 	const authAxios = await this.authAxios()
 
-	return await authAxios.post(`/create`, { block_id, blockFollowers, text })
+	const returnedData =  await authAxios.post(`/create`, { block_id, blockFollowers, text })
+
+	EventBus.$emit('comment-created', blockFollowers)
+
+	return returnedData
 }
 
 

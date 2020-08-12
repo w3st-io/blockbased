@@ -10,7 +10,7 @@ const express = require('express')
 
 // [REQUIRE] Personal //
 const UsersCollection = require('../../server-collections/UsersCollection')
-const Auth = require('../../server-middleware/AuthMiddleware')
+const Auth = require('../../server-middleware/Auth')
 
 
 // [EXPRESS + USE] //
@@ -23,9 +23,7 @@ router.get(
 	'/read',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-
-		const returnedData = await UsersCollection.c_read(user_id)
+		const returnedData = await UsersCollection.c_read(req.decoded._id)
 
 		res.status(200).send(returnedData)
 	}
@@ -36,9 +34,7 @@ router.get(
 router.get(
 	'/read/:_id',
 	async (req, res) => {
-		const user_id = req.params._id
-
-		const returnedData = await UsersCollection.c_read(user_id)
+		const returnedData = await UsersCollection.c_read(req.decoded._id)
 
 		res.status(200).send(returnedData)
 	}
@@ -50,12 +46,12 @@ router.post(
 	'/update',
 	Auth.userToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const img_url = req.body.img_url
+		const returnedData = await UsersCollection.c_update(
+			req.decoded._id,
+			req.body.img_url
+		)
 
-		await UsersCollection.c_update(user_id, img_url)
-
-		res.status(201).send()
+		res.status(201).send(returnedData)
 	}
 )
 
@@ -65,7 +61,10 @@ router.post(
 router.post(
 	'/login',
 	async (req, res) => {
-		const returnedData = await UsersCollection.c_login(req)
+		const returnedData = await UsersCollection.c_login(
+			req.body.email,
+			req.body.password
+		)
 
 		res.status(200).send(returnedData)
 	}

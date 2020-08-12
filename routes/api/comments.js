@@ -10,7 +10,7 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const Auth = require('../../server-middleware/AuthMiddleware')
+const Auth = require('../../server-middleware/Auth')
 const BlocksCollection = require('../../server-collections/BlocksCollection')
 const CommentsCollection = require('../../server-collections/CommentsCollection')
 const CommentLikesCollection = require('../../server-collections/CommentLikesCollection')
@@ -79,7 +79,7 @@ router.get(
 			// Set Liked Status //
 			if (req.decoded) {
 				// check if the block like exist..
-				let liked = await CommentLikesCollection.c_existance(
+				const liked = await CommentLikesCollection.c_existance(
 					req.decoded._id,
 					comments[i]._id
 				)
@@ -97,9 +97,27 @@ router.get(
 router.get(
 	'/read/:_id',
 	async (req, res) => {
-		const returnedData = await CommentsCollection.c_read(req.params._id)
+		const comment = await CommentsCollection.c_read(req.params._id)
 
-		res.status(200).send(returnedData)
+		
+		// Set Like Count //
+		try {
+			comment.likeCount = await CommentLikesCollection.c_countAll(comment._id)
+		}
+		catch (e) { console.log(`Caught Error --> ${e}`) }
+
+		// Set Liked Status //
+		if (req.decoded) {
+			// check if the block like exist..
+			const liked = await CommentLikesCollection.c_existance(
+				req.decoded._id,
+				comment._id
+			)
+
+			comment.liked = liked.existance
+		}
+
+		res.status(200).send(comment)
 	}
 )
 
@@ -141,7 +159,7 @@ router.delete(
 		)
 
 		if (ownership.status && ownership.ownership) {
-			// [DELETE] Comment // [DELETE] CommentLike //
+			// [DELETE] Comment // [DELETE] CommentLike // [DELETE] Notifications //
 			const returnedData = await CommentsCollection.c_delete(
 				req.decoded._id,
 				req.params._id
@@ -258,7 +276,7 @@ router.get(
 router.get(
 	'/count/:block_id',
 	async (req, res) => {
-		const count = await CommentsCollection.c_count(req.params.block_id)
+		const count = await CommentsCollection.c_countAll(req.params.block_id)
 	
 		res.status(201).send(count.toString())
 	}

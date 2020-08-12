@@ -94,7 +94,7 @@
 
 			// [ON-SOCKET] //
 			this.socket.on('update-notification', () => {
-				setTimeout(() => { EventBus.$emit('update-notification') }, 1000)
+				setTimeout(() => { EventBus.$emit('update-notification') }, 1500)
 			})
 
 			// [EMIT-EVENTBUS] //

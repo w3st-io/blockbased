@@ -21,7 +21,10 @@ const router = express.Router().use(cors())
 router.post(
 	'/login',
 	async (req, res) => {
-		const returnedData = await AdminsCollection.c_login(req)
+		const returnedData = await AdminsCollection.c_login(
+			req.body.email,
+			req.body.password
+		)
 
 		res.status(200).send(returnedData)
 	}

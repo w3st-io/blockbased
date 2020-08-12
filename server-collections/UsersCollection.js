@@ -59,13 +59,13 @@ const c_update = async (user_id, img_url) => {
 
 
 /******************* [LOGIN/REGISTER] *******************/
-const c_login = async (req) => {
+const c_login = async (email, password) => {
 	try {
-		const accountFound = await UserModel.findOne({ email: req.body.email })
+		const accountFound = await UserModel.findOne({ email: email })
 		
 		// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
 		if (accountFound) {
-			if (bcrypt.compareSync(req.body.password, accountFound.password)) {
+			if (bcrypt.compareSync(password, accountFound.password)) {
 				const payload = {
 					_id: accountFound._id,
 					email: accountFound.email,
@@ -155,9 +155,6 @@ const c_register = async (req) => {
 	}
 	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 }
-
-
-/******************* [COUNT] *******************/
 
 
 // [EXPORT] //

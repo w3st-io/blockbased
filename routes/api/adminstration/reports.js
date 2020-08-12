@@ -9,7 +9,7 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const Auth = require('../../../server-middleware/AuthMiddleware')
+const Auth = require('../../../server-middleware/Auth')
 const CommentReportsCollection = require('../../../server-collections/CommentReportsCollection')
 
 

@@ -10,7 +10,7 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const Auth = require('../../server-middleware/AuthMiddleware')
+const Auth = require('../../server-middleware/Auth')
 const BlocksCollection = require('../../server-collections/BlocksCollection')
 const BlockFollowsCollection = require('../../server-collections/BlockFollowsCollection')
 const BlockLikesCollection = require('../../server-collections/BlockLikesCollection')
@@ -67,7 +67,7 @@ router.get(
 			// Set Liked Status //
 			if (req.decoded) {
 				// check if the block like exist..
-				let liked = await BlockLikesCollection.c_existance(
+				const liked = await BlockLikesCollection.c_existance(
 					req.decoded._id,
 					blocks[i]._id
 				)
@@ -94,7 +94,7 @@ router.get(
 		// Set Liked Status //
 		if (req.decoded) {
 			// check if the block like exist..
-			let liked = await BlockLikesCollection.c_existance(
+			const liked = await BlockLikesCollection.c_existance(
 				req.decoded._id,
 				block._id
 			)

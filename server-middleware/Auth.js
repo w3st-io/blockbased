@@ -15,7 +15,7 @@ require('dotenv').config()
 const secretKey = process.env.SECRET_KEY || 'secret'
 
 
-class AuthMiddleware {
+class Auth {
 	// [USER] //
 	static userToken() {
 		return (req, res, next) => {
@@ -54,7 +54,7 @@ class AuthMiddleware {
 
 
 	// [USER] NOT rquired //
-	static userTokenNotRequired(required = true) {
+	static userTokenNotRequired() {
 		return (req, res, next) => {
 			// Get Token from Header and remove "Bearer "
 			const token = req.headers.authorization
@@ -117,4 +117,4 @@ class AuthMiddleware {
 
 
 // [EXPORT] //
-module.exports = AuthMiddleware
+module.exports = Auth

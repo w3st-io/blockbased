@@ -19,13 +19,13 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 
 
 /******************* [LOGIN/REGISTER] *******************/
-const c_login = async (req) => {
+const c_login = async (email, password) => {
 	try {
-		const accountFound = await AdminModel.findOne({ email: req.body.email })
+		const accountFound = await AdminModel.findOne({ email: email })
 		
 		// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
 		if (accountFound) {
-			if (bcrypt.compareSync(req.body.password, accountFound.password)) {
+			if (bcrypt.compareSync(password, accountFound.password)) {
 				// Set Payload //
 				const payload = {
 					_id: accountFound._id,
