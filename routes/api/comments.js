@@ -74,6 +74,7 @@ router.get(
 // [READ-ALL] //
 router.get(
 	'/read-all/:block_id/:amount/:skip',
+	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		const returnedData = await CommentsCollection.c_readAll(
 			req.params.block_id,

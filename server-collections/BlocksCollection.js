@@ -118,55 +118,6 @@ const c_read = async (block_id) => {
 }
 
 
-/******************* [LIKE SYSTEM] *******************/
-// [LIKE] //
-const c_like = async (user_id, block_id) => {
-	const likeExistance = await c_likeExistance(user_id, block_id)
-
-	if (likeExistance.status == true && likeExistance.existance == false) {
-		try {
-			await BlockModel.updateOne(
-				{ _id: block_id },
-				{ '$addToSet': { 'likers': user_id } }
-			)
-				
-			return {
-				status: true,
-				message: 'Liked block',
-				user_id: user_id,
-				block_id: block_id,
-			}
-		}	
-		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
-	}
-	else { return { status: false, message: likeExistance.message } }
-}
-
-
-// [UNLIKE] //
-const c_unlike = async (user_id, block_id) => {
-	const likeExistance = await c_likeExistance(user_id, block_id)
-
-	if (likeExistance.status == true && likeExistance.existance == true) {
-		try {
-			await BlockModel.updateOne(
-				{ _id: block_id },
-				{ '$pull': { 'likers': user_id } }
-			)
-
-			return {
-				status: true,
-				message: 'Unliked block',
-				user_id: user_id,
-				block_id: block_id,
-			}
-		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
-	}
-	else { return { status: false, message: likeExistance.message } }
-}
-
-
 // [LIKE-EXISTANCE] //
 const c_likeExistance = async (user_id, block_id) => {
 	try {	
@@ -350,8 +301,6 @@ module.exports = {
 	c_readAllAll,
 	c_readAll,
 	c_read,
-	c_like,
-	c_unlike,
 	c_likeExistance,
 	c_follow,
 	c_unfollow,

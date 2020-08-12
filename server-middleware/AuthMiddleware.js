@@ -53,6 +53,25 @@ class AuthMiddleware {
 	}
 
 
+	// [USER] NOT rquired //
+	static userTokenNotRequired(required = true) {
+		return (req, res, next) => {
+			// Get Token from Header and remove "Bearer "
+			const token = req.headers.authorization
+
+			// If a token exists =>  Validate JWT //
+			if (token) {
+				const TokenBody = token.slice(7)
+				jwt.verify(TokenBody, secretKey, (err, decoded) => {
+					if (decoded) { req.decoded = decoded }
+				})
+			}
+			
+			next()
+		}
+	}
+
+
 	// [ADMIN] //
 	static adminToken() {
 		return (req, res, next) => {

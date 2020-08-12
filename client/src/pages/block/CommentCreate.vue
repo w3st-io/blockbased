@@ -22,7 +22,7 @@
 <script>
 	// [IMPORT] Personal //
 	import CommentCreate from '@components/comment/Create'
-	import router from '@router'
+	//import router from '@router'
 
 	// [EXPORT] //
 	export default {
@@ -40,7 +40,7 @@
 
 		created: async function() {
 			// [REDIRECT] Log Needed //
-			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }			
+			//if (!localStorage.usertoken) { router.push({ name: 'Login' }) }			
 			
 			// Set Loaded //
 			this.loading = false

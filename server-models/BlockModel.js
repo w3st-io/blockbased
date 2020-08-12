@@ -24,12 +24,9 @@ const BlockSchema = mongoose.Schema({
 		maxlength: 200,
 	},
 
-	likers: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User'
-		}
-	],
+	likeCount: { type: Number, default: null, },
+
+	liked: { type: Boolean, default: null, },
 
 	followers: [
 		{

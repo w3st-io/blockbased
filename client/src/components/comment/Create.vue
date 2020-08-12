@@ -98,14 +98,14 @@
 		methods: {
 			/******************* [BTN] Submit *******************/
 			async submit() {
-				if (localStorage.usertoken) {
+				//if (localStorage.usertoken) {
 					this.disabled = true
 					this.loading = true
 
 					this.createComment()
 					this.notifySockets()
-				}
-				else { this.error = 'Unable to create comment' }
+				//}
+				//else { this.error = 'Unable to create comment' }
 			},
 
 			/******************* [CREATE] Comment *******************/

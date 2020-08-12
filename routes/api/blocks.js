@@ -46,14 +46,39 @@ router.post(
 // [READ-ALL] Within Cat //
 router.get(
 	'/read-all/:cat_id/:amount/:skip',
+	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		const returnedData = await BlocksCollection.c_readAll(
+		const blocks = await BlocksCollection.c_readAll(
 			req.params.cat_id,
 			req.params.skip,
 			req.params.amount
 		)
 
-		res.status(200).send(returnedData)
+		// For Each Block in Blocks //
+		for (let i = 0; i < blocks.length; i++) {
+			// Set Like Count //
+			try {
+				blocks[i].likeCount = await BlockLikesCollection.c_countAll(
+					blocks[i]._id
+				)
+			}
+			catch (e) { console.log(`Caught Error --> ${e}`) }
+
+			// Set Liked Status //
+			if (req.decoded) {
+				// check if the block like exist..
+				let liked = await BlockLikesCollection.c_existance(
+					req.decoded._id,
+					blocks[i]._id
+				)
+
+				blocks[i].liked = liked.existance
+			}
+		}
+
+		console.log('BLOCKS', blocks)
+
+		res.status(200).send(blocks)
 	}
 )
 
@@ -97,17 +122,13 @@ router.post(
 	'/like/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		// [UPDATE] block's Likers // [CREATE] blockLike //
-		const returnedData = await BlocksCollection.c_like(
-			req.decoded._id,
-			req.params._id
-		)
-		const returnedData2 = await BlockLikesCollection.c_create(
+		// [CREATE] blockLike //
+		const returnedData = await BlockLikesCollection.c_create(
 			req.decoded._id,
 			req.params._id
 		)
 		
-		res.status(201).send([returnedData, returnedData2])
+		res.status(201).send(returnedData)
 	}
 )
 
@@ -118,16 +139,12 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		// [UPDATE] block Likers // [DELETE] blockLike //
-		const returnedData = await BlocksCollection.c_unlike(
-			req.decoded._id,
-			req.params._id
-		)
-		const returnedData2 = await BlockLikesCollection.c_delete(
+		const returnedData = await BlockLikesCollection.c_delete(
 			req.decoded._id,
 			req.params._id
 		)
 		
-		res.status(201).send([returnedData, returnedData2])
+		res.status(201).send(returnedData)
 	}
 )
 

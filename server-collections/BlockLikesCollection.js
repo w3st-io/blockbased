@@ -126,10 +126,17 @@ const c_existance = async (user_id, block_id) => {
 }
 
 
+/******************* [EXISTANCE] *******************/
+const c_countAll = async (block_id) => {
+	return await BlockLikeModel.countDocuments({ block: block_id })
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_create,
 	c_delete,
 	c_deleteAll,
 	c_existance,
+	c_countAll
 }

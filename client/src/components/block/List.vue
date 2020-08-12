@@ -67,15 +67,15 @@
 							p-2
 							text-center
 						"
-						v-on:click="redirectToBlock(block._id)"
+						@click="redirectToBlock(block._id)"
 					>
 						<h4 class="m-0 text-white">
 							<button
 								:disabled="disabled"
 								@click.prevent.stop="likeBtn(block)"
-								:class="{ 'liked': checkForUserLike(block) }"
+								:class="{ 'liked': block.liked }"
 								class="w-100 btn btn-outline-secondary unliked"
-							>{{ block.likers.length }} ▲</button>
+							>{{ block.likeCount }} ▲</button>
 						</h4>
 					</div>
 				</li>
@@ -147,7 +147,7 @@
 			this.loading = false
 
 			// [LOG] //
-			//this.log()
+			this.log()
 		},
 
 		methods: {
@@ -179,20 +179,11 @@
 				}
 			},
 
-			/******************* [INIT] Like *******************/
-			checkForUserLike(block) {
-				// Search For Likers Id in Block's Object //
-				let found = block.likers.find(liker => (liker == this.decoded._id))
-
-				if (found != null) { return true }
-				else { return false }
-			},
-
 			/******************* [BTN] Like *******************/
 			likeBtn(block) {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
-					if (this.checkForUserLike(block)) { this.blockUnlike(block._id) }
+					if (block.liked) { this.blockUnlike(block._id) }
 					else { this.blockLike(block._id) }
 				}
 			},
