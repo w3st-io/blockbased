@@ -1,6 +1,6 @@
 <template>
 	<nav class="w-100 m-0">
-		<ul class="pagination">
+		<ul class="pagination m-0">
 			<!-- Left -->
 			<li class="page-item text-center" style="width: 64px;">
 				<a @click="leftBtn()" class="page-link text-light bg-dark">Prev</a>

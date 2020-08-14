@@ -11,13 +11,14 @@ const express = require('express')
 // [REQUIRE] Personal //
 const Auth = require('../../../server-middleware/Auth')
 const UsersCollection = require('../../../server-collections/UsersCollection')
+const BanCollection = require('../../../server-collections/BanCollection')
 
 
 // [EXPRESS + USE] //
 const router = express.Router().use(cors())
 
 
-/******************* [USER PROFILE] *******************/
+/******************* [CRUD] *******************/
 // [READ-ALL] Auth Required //
 router.get(
 	'/read-all/profile-data',
@@ -35,9 +36,7 @@ router.get(
 	'/read/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const user_id = req.params._id
-		
-		const returnedData = await UsersCollection.c_read(user_id)
+		const returnedData = await UsersCollection.c_read(req.params._id)
 
 		res.status(200).send(returnedData)
 	}
@@ -49,12 +48,28 @@ router.post(
 	'/update/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const user_id = req.decoded._id
-		const img_url = req.body.img_url
+		const returnedData = await UsersCollection.c_update(
+			req.decoded._id,
+			req.body.img_url
+		)
 
-		await UsersCollection.c_update(user_id, img_url)
+		res.status(201).send(returnedData)
+	}
+)
 
-		res.status(201).send()
+
+/******************* [BAN] *******************/
+// [UPDATE] Auth Required //
+router.post(
+	'/ban/:_id',
+	Auth.adminToken(),
+	async (req, res) => {
+		const returnedData = await BanCollection.c_create(
+			req.params._id,
+			req.body.hours
+		)
+
+		res.status(201).send(returnedData)
 	}
 )
 

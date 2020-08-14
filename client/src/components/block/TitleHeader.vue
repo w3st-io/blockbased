@@ -3,8 +3,10 @@
 		<!-- Left Side -->
 		<div class="col-lg-9 col-md-8 col-sm-8">
 			<!-- Title + Page Nav Buttons -->
-			<h3 class="m-0 text-light">{{ blockTitle }}</h3>
-			<p class="text-secondary">created by: {{ blockCreatorUsername }}</p>
+			<h3 class="text-light">{{ blockTitle }}</h3>
+			<p class="text-secondary small hide-the-ugly">
+				Posted by: {{ blockCreatorUsername }} - {{ block.createdAt }}
+			</p>
 
 			<page-nav-buttons
 				:leftBtnEmitName="leftBtnEmitName"
@@ -15,10 +17,6 @@
 
 		<!-- Right Side -->
 		<div class="col-lg-3 col-md-4 col-sm-4 text-right">
-			<p class="mb-3 text-secondary small hide-the-ugly">
-				{{ block.createdAt }}
-			</p>
-			
 			<div class="mb-3">
 				<span>
 					<span class="ml-2 badge badge-light">

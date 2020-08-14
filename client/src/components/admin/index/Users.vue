@@ -70,6 +70,8 @@
 				catch(e) { this.error = e }
 			},
 
+			async banUser(user_id) { await AUserService.s_banUser(user_id, 1) },
+
 			log() {
 				console.log('%%% [COMPONENT] Admin UsersTable %%%')
 				console.log('users:', this.users)

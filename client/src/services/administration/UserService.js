@@ -56,6 +56,15 @@ async function s_update(user_id, img_url) {
 	)
 }
 
+/******************* [USER PROFILE] *******************/
+async function s_banUser(user_id, hours) {
+	const authAxios = await this.authAxios()
+
+	return await authAxios.post(`/ban/${user_id}`,
+		{ hours }
+	)
+}
+
 
 // [EXPORT] //
 export default {
@@ -63,4 +72,5 @@ export default {
 	s_readAll,
 	s_read,
 	s_update,
+	s_banUser,
 }
