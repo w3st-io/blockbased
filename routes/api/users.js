@@ -10,7 +10,7 @@ const express = require('express')
 
 // [REQUIRE] Personal //
 const rateLimiters = require('../../rate-limiters')
-const UsersCollection = require('../../server-collections/UsersCollection')
+const usersCollection = require('../../server-collections/usersCollection')
 const Auth = require('../../server-middleware/Auth')
 
 
@@ -24,7 +24,7 @@ router.get(
 	'/read',
 	Auth.userToken(),
 	async (req, res) => {
-		const returnedData = await UsersCollection.c_read(req.decoded._id)
+		const returnedData = await usersCollection.c_read(req.decoded._id)
 
 		res.status(200).send(returnedData)
 	}
@@ -35,7 +35,7 @@ router.get(
 router.get(
 	'/read/:_id',
 	async (req, res) => {
-		const returnedData = await UsersCollection.c_read(req.decoded._id)
+		const returnedData = await usersCollection.c_read(req.params._id)
 
 		res.status(200).send(returnedData)
 	}
@@ -47,7 +47,7 @@ router.post(
 	'/update',
 	Auth.userToken(),
 	async (req, res) => {
-		const returnedData = await UsersCollection.c_update(
+		const returnedData = await usersCollection.c_update(
 			req.decoded._id,
 			req.body.img_url
 		)
@@ -62,7 +62,7 @@ router.post(
 router.post(
 	'/login',
 	async (req, res) => {
-		const returnedData = await UsersCollection.c_login(
+		const returnedData = await usersCollection.c_login(
 			req.body.email,
 			req.body.password
 		)
@@ -77,7 +77,7 @@ router.post(
 	'/register',
 	rateLimiters.registrationlimiter,
 	async (req, res) => {
-		const returnedData = await UsersCollection.c_register(req)
+		const returnedData = await usersCollection.c_register(req)
 
 		res.status(201).send(returnedData)
 	}

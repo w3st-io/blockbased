@@ -11,10 +11,10 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const rateLimiter = require('../../rate-limiters')
-const BlocksCollection = require('../../server-collections/BlocksCollection')
-const BlockFollowsCollection = require('../../server-collections/BlockFollowsCollection')
-const BlockLikesCollection = require('../../server-collections/BlockLikesCollection')
-const CommentsCollection = require('../../server-collections/CommentsCollection')
+const blocksCollection = require('../../server-collections/blocksCollection')
+const blockFollowsCollection = require('../../server-collections/blockFollowsCollection')
+const blockLikesCollection = require('../../server-collections/blockLikesCollection')
+const commentsCollection = require('../../server-collections/commentsCollection')
 const Auth = require('../../server-middleware/Auth')
 
 
@@ -29,12 +29,12 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.blockLimiter,
 	async (req, res) => {
-		const returnedData = await BlocksCollection.c_create(
+		const returnedData = await blocksCollection.c_create(
 			req.decoded._id,
 			req.body.cat_id,
 			req.body.title
 		)
-		const returnedData2 = await CommentsCollection.c_create(
+		const returnedData2 = await commentsCollection.c_create(
 			req.decoded._id,
 			returnedData.createdBlock._id,
 			req.body.text
@@ -50,7 +50,7 @@ router.get(
 	'/read-all/:cat_id/:amount/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		const blocks = await BlocksCollection.c_readAll(
+		const blocks = await blocksCollection.c_readAll(
 			req.params.cat_id,
 			req.params.skip,
 			req.params.amount
@@ -60,7 +60,7 @@ router.get(
 		for (let i = 0; i < blocks.length; i++) {
 			// Set Like Count //
 			try {
-				blocks[i].likeCount = await BlockLikesCollection.c_countAll(
+				blocks[i].likeCount = await blockLikesCollection.c_countAll(
 					blocks[i]._id
 				)
 			}
@@ -69,7 +69,7 @@ router.get(
 			// Set Liked Status //
 			if (req.decoded) {
 				// check if the block like exist..
-				const liked = await BlockLikesCollection.c_existance(
+				const liked = await blockLikesCollection.c_existance(
 					req.decoded._id,
 					blocks[i]._id
 				)
@@ -87,16 +87,16 @@ router.get(
 router.get(
 	'/read/:_id',
 	async (req, res) => {
-		const block = await BlocksCollection.c_read(req.params._id)
+		const block = await blocksCollection.c_read(req.params._id)
 
 		// Set Like Count //
-		try { block.likeCount = await BlockLikesCollection.c_countAll(block._id) }
+		try { block.likeCount = await blockLikesCollection.c_countAll(block._id) }
 		catch (e) { console.log(`Caught Error --> ${e}`) }
 
 		// Set Liked Status //
 		if (req.decoded) {
 			// check if the block like exist..
-			const liked = await BlockLikesCollection.c_existance(
+			const liked = await blockLikesCollection.c_existance(
 				req.decoded._id,
 				block._id
 			)
@@ -114,14 +114,14 @@ router.delete(
 	'/delete/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const ownership = await BlocksCollection.c_ownership(
+		const ownership = await blocksCollection.c_ownership(
 			req.decoded._id,
 			req.params._id
 		)
 		
 		if (ownership.status && ownership.ownership) {
-			const returnedData = await BlocksCollection.c_delete(req.params._id)
-			const returnedData2 = await BlockLikesCollection.c_deleteAll(req.params._id)
+			const returnedData = await blocksCollection.c_delete(req.params._id)
+			const returnedData2 = await blockLikesCollection.c_deleteAll(req.params._id)
 
 			res.status(200).send([returnedData, returnedData2])
 			
@@ -139,7 +139,7 @@ router.post(
 	rateLimiter.likelimiter,
 	async (req, res) => {
 		// [CREATE] blockLike //
-		const returnedData = await BlockLikesCollection.c_create(
+		const returnedData = await blockLikesCollection.c_create(
 			req.decoded._id,
 			req.params._id
 		)
@@ -156,7 +156,7 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		// [UPDATE] block Likers // [DELETE] blockLike //
-		const returnedData = await BlockLikesCollection.c_delete(
+		const returnedData = await blockLikesCollection.c_delete(
 			req.decoded._id,
 			req.params._id
 		)
@@ -173,11 +173,11 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		// [UPDATE] block Followers // [CREATE] blockFollow //
-		const returnedData = await BlocksCollection.c_follow(
+		const returnedData = await blocksCollection.c_follow(
 			req.decoded._id,
 			req.params._id
 		)
-		const returnedData2 = await BlockFollowsCollection.c_create(
+		const returnedData2 = await blockFollowsCollection.c_create(
 			req.decoded._id,
 			req.params._id
 		)
@@ -193,11 +193,11 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		// [UPDATE] block Followers // [DELETE] blockFollow //
-		const returnedData = await BlocksCollection.c_unfollow(
+		const returnedData = await blocksCollection.c_unfollow(
 			req.decoded._id,
 			req.params._id
 		)
-		const returnedData2 = await BlockFollowsCollection.c_delete(
+		const returnedData2 = await blockFollowsCollection.c_delete(
 			req.decoded._id,
 			req.params._id
 		)
@@ -212,7 +212,7 @@ router.post(
 router.get(
 	'/existance/:_id',
 	async (req, res) => {
-		const existance = await BlocksCollection.c_existance(req.params._id)
+		const existance = await blocksCollection.c_existance(req.params._id)
 
 		if (existance.status) {
 			if (existance.existance) { res.status(200).send(true) }
@@ -228,7 +228,7 @@ router.get(
 	'/ownership/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const ownership = await BlocksCollection.c_ownership(
+		const ownership = await blocksCollection.c_ownership(
 			req.decoded._id,
 			req.params._id
 		)
@@ -246,7 +246,7 @@ router.get(
 router.get(
 	'/count/:cat_id',
 	async (req, res) => {
-		const count = (await BlocksCollection.c_count(req.params.cat_id))
+		const count = (await blocksCollection.c_count(req.params.cat_id))
 
 		res.status(200).send(count.toString())
 	}

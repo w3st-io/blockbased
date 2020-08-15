@@ -9,9 +9,9 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const ABlocksCollection = require('../../../server-collections/administration/BlocksCollection')
-const BlocksCollection = require('../../../server-collections/BlocksCollection')
-const BlockLikesCollection = require('../../../server-collections/BlockLikesCollection')
+const aBlocksCollection = require('../../../server-collections/administration/blocksCollection')
+const blocksCollection = require('../../../server-collections/blocksCollection')
+const blockLikesCollection = require('../../../server-collections/blockLikesCollection')
 const Auth = require('../../../server-middleware/Auth')
 
 
@@ -25,7 +25,7 @@ router.get(
 	'/read-all/:amount/:skip',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await BlocksCollection.c_readAllAll(
+		const returnedData = await blocksCollection.c_readAllAll(
 			req.params.skip,
 			req.params.amount
 		)
@@ -40,7 +40,7 @@ router.get(
 	'/read-all/:cat_id/:amount/:skip',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await BlocksCollection.c_readAll(
+		const returnedData = await blocksCollection.c_readAll(
 			req.params.cat_id,
 			req.params.skip,
 			req.params.amount
@@ -56,7 +56,7 @@ router.get(
 	'/read/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await BlocksCollection.c_read(req.params._id)
+		const returnedData = await blocksCollection.c_read(req.params._id)
 
 		res.status(200).send(returnedData)
 	}
@@ -68,8 +68,8 @@ router.delete(
 	'/delete/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		ABlocksCollection.c_delete(req.params._id)
-		BlockLikesCollection.c_deleteAll(req.params._id)
+		aBlocksCollection.c_delete(req.params._id)
+		blockLikesCollection.c_deleteAll(req.params._id)
 
 		res.sendStatus(200)
 	}

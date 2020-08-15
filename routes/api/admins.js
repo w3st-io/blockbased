@@ -10,7 +10,7 @@ const express = require('express')
 
 // [REQUIRE] Personal //
 const rateLimiters = require('../../rate-limiters')
-const AdminsCollection = require('../../server-collections/AdminsCollection')
+const adminsCollection = require('../../server-collections/adminsCollection')
 
 
 // [EXPRESS + USE] //
@@ -22,7 +22,7 @@ const router = express.Router().use(cors())
 router.post(
 	'/login',
 	async (req, res) => {
-		const returnedData = await AdminsCollection.c_login(
+		const returnedData = await adminsCollection.c_login(
 			req.body.email,
 			req.body.password
 		)
@@ -36,7 +36,7 @@ router.post(
 	'/register',
 	rateLimiters.registrationlimiter,
 	async (req, res) => {
-		const returnedData = await AdminsCollection.c_register(req)
+		const returnedData = await adminsCollection.c_register(req)
 
 		console.log('RETURNED DATA', returnedData)
 

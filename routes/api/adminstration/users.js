@@ -9,8 +9,8 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const UsersCollection = require('../../../server-collections/UsersCollection')
-const BanCollection = require('../../../server-collections/BanCollection')
+const usersCollection = require('../../../server-collections/usersCollection')
+const banCollection = require('../../../server-collections/banCollection')
 const Auth = require('../../../server-middleware/Auth')
 
 
@@ -24,7 +24,7 @@ router.get(
 	'/read-all/profile-data',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await UsersCollection.c_readAll()
+		const returnedData = await usersCollection.c_readAll()
 
 		res.status(201).send(returnedData)
 	}
@@ -36,7 +36,7 @@ router.get(
 	'/read/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await UsersCollection.c_read(req.params._id)
+		const returnedData = await usersCollection.c_read(req.params._id)
 
 		res.status(200).send(returnedData)
 	}
@@ -48,7 +48,7 @@ router.post(
 	'/update/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await UsersCollection.c_update(
+		const returnedData = await usersCollection.c_update(
 			req.decoded._id,
 			req.body.img_url
 		)
@@ -64,7 +64,7 @@ router.post(
 	'/ban/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await BanCollection.c_create(
+		const returnedData = await banCollection.c_create(
 			req.params._id,
 			req.body.hours
 		)

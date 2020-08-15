@@ -9,10 +9,10 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const ACommentsCollection = require('../../../server-collections/administration/CommentsCollection')
-const CommentsCollection = require('../../../server-collections/CommentsCollection')
-const CommentLikesCollection = require('../../../server-collections/CommentLikesCollection')
-const NotificationsCollection = require('../../../server-collections/NotificationsCollection')
+const aCommentsCollection = require('../../../server-collections/administration/commentsCollection')
+const commentsCollection = require('../../../server-collections/commentsCollection')
+const commentLikesCollection = require('../../../server-collections/commentLikesCollection')
+const notificationsCollection = require('../../../server-collections/notificationsCollection')
 const Auth = require('../../../server-middleware/Auth')
 
 
@@ -26,7 +26,7 @@ router.get(
 	'/read-all-all/:amount/:skip',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await CommentsCollection.c_readAllAll(
+		const returnedData = await commentsCollection.c_readAllAll(
 			req.params.skip,
 			req.params.amount
 		)
@@ -41,7 +41,7 @@ router.get(
 	'/read-all/:block_id/:amount/:skip',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await CommentsCollection.c_readAll(
+		const returnedData = await commentsCollection.c_readAll(
 			req.params.block_id,
 			req.params.skip,
 			req.params.amount
@@ -57,7 +57,7 @@ router.get(
 	'/read/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await CommentsCollection.c_read(req.params._id)
+		const returnedData = await commentsCollection.c_read(req.params._id)
 
 		res.status(200).send(returnedData)
 	}
@@ -69,7 +69,7 @@ router.post(
 	'/update/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await CommentsCollection.c_update(
+		const returnedData = await commentsCollection.c_update(
 			req.params._id,
 			req.body.text
 		)
@@ -84,9 +84,9 @@ router.delete(
 	'/delete/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await ACommentsCollection.c_delete(req.params._id)
-		const returnedData2 = await CommentLikesCollection.c_deleteAll(req.params._id)
-		const returnedData3 = await NotificationsCollection.c_deleteAll(req.params._id)
+		const returnedData = await aCommentsCollection.c_delete(req.params._id)
+		const returnedData2 = await commentLikesCollection.c_deleteAll(req.params._id)
+		const returnedData3 = await notificationsCollection.c_deleteAll(req.params._id)
 
 		res.status(200).send([returnedData, returnedData2, returnedData3])
 	}

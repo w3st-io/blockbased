@@ -12,10 +12,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr
-					v-for="comment in comments"
-					:key="comment._id"
-				>
+				<tr v-for="comment in comments" :key="comment._id">
 					<td>{{ comment.block.title }}</td>
 					<td>{{ comment.text }}</td>
 					<td>{{ comment.user.email }}</td>
