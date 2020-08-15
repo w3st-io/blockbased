@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken')
 
 
 // [REQUIRE] Personal //
+const ban = require('../utils/banUtil')
 require('dotenv').config()
 
 
@@ -21,18 +22,24 @@ class Auth {
 		return (req, res, next) => {
 			// Get Token from Header and remove "Bearer "
 			const token = req.headers.authorization
+			const tokenBody = token.slice(7)
 
-			// If a token exists =>  Validate JWT //
-			if (token) {
-				const TokenBody = token.slice(7)
-				jwt.verify(TokenBody, secretKey, (err, decoded) => {
+			// If a token exists => Validate JWT //
+			if (tokenBody !== 'undefined') {
+				jwt.verify(tokenBody, secretKey, async (e, decoded) => {
 					if (decoded) {
+						let returnedData = ''
 						req.decoded = decoded
+
+						try { returnedData = await ban.checkBanned(req.decoded) }
+						catch(e) { console.log(`foundBan: Caught Error --> ${e}`) }
+
+						console.log('Auth foundBan:', returnedData)
 
 						next()
 					}
 					else {
-						console.log(`JWT Error: ${err}`)
+						console.log(`JWT Error: ${e}`)
 
 						res.status(401).send({
 							status: true,
@@ -58,15 +65,17 @@ class Auth {
 		return (req, res, next) => {
 			// Get Token from Header and remove "Bearer "
 			const token = req.headers.authorization
+			const tokenBody = token.slice(7)
 
-			// If a token exists =>  Validate JWT //
-			if (token) {
-				const TokenBody = token.slice(7)
-				jwt.verify(TokenBody, secretKey, (err, decoded) => {
+			// If a token exists => Validate JWT //
+			if (tokenBody !== 'undefined') {
+				jwt.verify(tokenBody, secretKey, async (e, decoded) => {
 					if (decoded) { req.decoded = decoded }
+					else { console.log('JWT Verify:', e) }
 				})
 			}
 			
+			// Since token is not required move on anyways
 			next()
 		}
 	}
@@ -77,11 +86,11 @@ class Auth {
 		return (req, res, next) => {
 			// Get Token from Header and remove "Bearer "
 			const token = req.headers.authorization2
+			const tokenBody = token.slice(7)
 			
 			// If a token exists =>  Validate JWT //
-			if (token) {
-				const TokenBody = token.slice(7)
-				jwt.verify(TokenBody, secretKey, (err, decoded) => {
+			if (tokenBody !== 'undefined') {
+				jwt.verify(tokenBody, secretKey, async (e, decoded) => {
 					if (decoded) {
 						// Check if the role is admin
 						if (decoded.role == 'admin') { next() }
@@ -94,7 +103,7 @@ class Auth {
 						}
 					}
 					else {
-						console.log(`Admin JWT Error: ${err}`)
+						console.log(`Admin JWT Error: ${e}`)
 
 						res.status(401).send({
 							status: true,

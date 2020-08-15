@@ -1,22 +1,20 @@
 <template>
-	<nav class="w-100 m-0">
-		<ul class="pagination m-0">
-			<!-- Left -->
-			<li class="page-item text-center" style="width: 64px;">
-				<a @click="leftBtn()" class="page-link text-light bg-dark">Prev</a>
-			</li>
+	<ul class="pagination w-100 m-0">
+		<!-- Left -->
+		<li class="page-item text-center" style="width: 64px;">
+			<a @click="leftBtn()" class="page-link text-light bg-dark">Prev</a>
+		</li>
 
-			<!-- Page Number -->
-			<li class="page-item">
-				<a class="page-link text-light bg-dark">{{ badgeValue }}</a>
-			</li>
+		<!-- Page Number -->
+		<li class="page-item">
+			<a class="page-link text-light bg-dark">{{ badgeValue }}</a>
+		</li>
 
-			<!-- Right -->
-			<li class="page-item text-center" style="width: 64px;">
-				<a @click="rightBtn()" class="page-link text-light bg-dark">Next</a>
-			</li>
-		</ul>
-	</nav>
+		<!-- Right -->
+		<li class="page-item text-center" style="width: 64px;">
+			<a @click="rightBtn()" class="page-link text-light bg-dark">Next</a>
+		</li>
+	</ul>
 </template>
 
 <script>

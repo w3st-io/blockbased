@@ -71,11 +71,11 @@ router.get(
 					req.decoded._id,
 					blocks[i]._id
 				)
-
+					
 				blocks[i].liked = liked.existance
 			}
 		}
-
+	
 		res.status(200).send(blocks)
 	}
 )

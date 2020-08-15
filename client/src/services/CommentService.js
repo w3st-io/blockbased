@@ -24,9 +24,11 @@ async function authAxios() {
 async function s_create(block_id, blockFollowers, text) {
 	const authAxios = await this.authAxios()
 
-	const returnedData =  await authAxios.post(`/create`,
-		{ block_id, blockFollowers, text }
-	)
+	const returnedData =  await authAxios.post(`/create`, {
+		block_id,
+		blockFollowers,
+		text
+	})
 
 	EventBus.$emit('comment-created', blockFollowers)
 
