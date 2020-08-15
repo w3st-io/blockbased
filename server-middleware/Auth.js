@@ -34,7 +34,7 @@ class Auth {
 						try { returnedData = await ban.checkBanned(req.decoded) }
 						catch(e) { console.log(`foundBan: Caught Error --> ${e}`) }
 
-						console.log('Auth foundBan:', returnedData)
+						//console.log('Auth foundBan:', returnedData)
 
 						next()
 					}

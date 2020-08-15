@@ -9,6 +9,7 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
+const rateLimiters = require('../../rate-limiters')
 const UsersCollection = require('../../server-collections/UsersCollection')
 const Auth = require('../../server-middleware/Auth')
 
@@ -74,6 +75,7 @@ router.post(
 // [REGISTER] //
 router.post(
 	'/register',
+	rateLimiters.registrationlimiter,
 	async (req, res) => {
 		const returnedData = await UsersCollection.c_register(req)
 

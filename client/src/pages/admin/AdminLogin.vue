@@ -1,7 +1,9 @@
 <template>
-	<div class="login-terminal">
+	<div class="mx-auto my-3 text-light login-terminal">
+		<!-- Title -->
 		<h3 class="mb-3 text-center">Admin Login</h3>
-		<div class="p-4 card bg-dark border-danger">
+
+		<div class="card card-body bg-dark border-danger">
 			<!-- lOG IN FORM -->
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(login)">
@@ -17,7 +19,7 @@
 							v-model="email"
 							name="email"
 							type="email"
-							class="form-control bg-dark text-white border-secondary"
+							class="form-control bg-dark text-light border-secondary"
 							:class="{ 'is-invalid': errors!='' }"
 							placeholder="Example@example.com"
 						>
@@ -36,27 +38,25 @@
 							v-model="password"
 							name="password"
 							type="password"
-							class="form-control bg-dark text-white border-secondary"
+							class="form-control bg-dark text-light border-secondary"
 							:class="{ 'is-invalid': errors!='' }"
 							placeholder="******"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
 					</ValidationProvider>
-					<br>
 
 					<!-- FORM SUBMIT -->
 					<button
-						class="btn btn-lg btn-primary border-danger btn-block"
+						class="mt-5 btn btn-lg btn-primary border-danger btn-block"
 						type="submit"
 						:disabled="submitted"
 					>Login</button>
 				</form>
 			</ValidationObserver>
 		</div>
-		<br>
 
 		<!-- [ALERTS] -->
-		<div v-if="error" class="m-0 mt-3 alert alert-danger">
+		<div v-if="error" class="w-100 m-0 mt-3 alert alert-danger">
 			{{ error }}
 		</div>
 	</div>
@@ -96,17 +96,17 @@
 
 					// Check Validation Status //
 					if (
-						this.returnedData.data.status == true &&
-						this.returnedData.data.validation == true
+						this.returnedData.status == true &&
+						this.returnedData.validation == true
 					) { this.successful() }
-					else { this.error = this.returnedData.data.message }
+					else { this.error = this.returnedData.message }
 				}
 				catch(e) { this.error = e }
 			},
 
 			successful() {
 				// [SET TOKEN] // Emit // [REDIRECT] //
-				localStorage.setItem('admintoken', this.returnedData.data.token)
+				localStorage.setItem('admintoken', this.returnedData.token)
 				EventBus.$emit('admin-logged-in')
 				router.push({ name: 'AdminDashboard' })
 			}
@@ -115,13 +115,5 @@
 </script>
 
 <style scoped>
-	.login-terminal {
-		max-width: 350px;
-		margin: 50px auto;
-	}
-
-	.login-terminal label,
-	.login-terminal h3 {
-		color: white;
-	}
+	.login-terminal { max-width: 350px; }
 </style>

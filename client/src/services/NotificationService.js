@@ -20,9 +20,9 @@ async function s_readAll() {
 	const authAxios = await this.authAxios()
 
 	try {
-		let res = await authAxios.get(`/read-all`)
+		let { data } = await authAxios.get(`/read-all`)
 
-		const notifications = res.data.map((notification) => ({
+		const notifications = data.map((notification) => ({
 			...notification,
 			createdAt: new Date(notification.createdAt).toLocaleString(),
 		}))

@@ -9,9 +9,9 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const Auth = require('../../../server-middleware/Auth')
 const UsersCollection = require('../../../server-collections/UsersCollection')
 const BanCollection = require('../../../server-collections/BanCollection')
+const Auth = require('../../../server-middleware/Auth')
 
 
 // [EXPRESS + USE] //

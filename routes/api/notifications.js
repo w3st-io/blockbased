@@ -10,8 +10,8 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const Auth = require('../../server-middleware/Auth')
 const NotificationsCollection = require('../../server-collections/NotificationsCollection')
+const Auth = require('../../server-middleware/Auth')
 
 
 // [EXPRESS + USE] //

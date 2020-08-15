@@ -63,8 +63,7 @@ async function s_read(block_id) {
 // [DELETE] Auth Required //
 async function s_delete(block_id) {
 	const authAxios = await this.authAxios()
-	console.log(block_id)
-	console.log(authAxios)
+	console.log(block_id, authAxios)
 	
 	/*
 	try { return await authAxios.delete(`/blocks/delete/${block_id}`) }

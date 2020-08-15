@@ -1,9 +1,9 @@
 <template>
-	<div class="register-terminal">
+	<div class="mx-auto my-3 text-light register-terminal">
 		<!-- Title -->
 		<h3 class="mb-3 text-center">Admin Register</h3>
-		<div class="p-4 card bg-dark border-danger">
 
+		<div class="card card-body bg-dark border-danger">
 			<!-- FORM + VEE-VALIDATE -->
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(register)">
@@ -19,7 +19,7 @@
 							v-model="first_name"
 							name="first_name"
 							type="text"
-							class="form-control bg-dark text-white border-secondary"
+							class="form-control bg-dark text-light border-secondary"
 							placeholder="John"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -37,7 +37,7 @@
 							v-model="last_name"
 							name="last_name"
 							type="text"
-							class="form-control bg-dark text-white border-secondary"
+							class="form-control bg-dark text-light border-secondary"
 							placeholder="Doe"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -91,7 +91,7 @@
 							v-model="password"
 							name="password"
 							type="password"
-							class="form-control bg-dark text-white border-secondary"
+							class="form-control bg-dark text-light border-secondary"
 							placeholder="******"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -110,27 +110,23 @@
 							v-model="confirm"
 							name="confirm"
 							type="password"
-							class="form-control bg-dark text-white border-secondary"
+							class="form-control bg-dark text-light border-secondary"
 							placeholder="******"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
 					</ValidationProvider>
-					<br>
 
 					<!-- Submit -->
 					<button
 						type="submit"
-						class="btn btn-lg btn-outline-primary btn-block"
+						class="mt-5 btn btn-lg btn-primary btn-block"
 					>Register</button>
 				</form>
 			</ValidationObserver>
 		</div>
-		<br>
 
 		<!-- [ALERTS] -->
-		<div v-if="error" class="m-0 mt-3 alert alert-danger">
-			{{ error }}
-		</div>
+		<div v-if="error" class="m-0 mt-3 alert alert-danger">{{ error }}</div>
 	</div>
 </template>
 
@@ -173,10 +169,10 @@
 
 					// Check Status //
 					if (
-						this.returnedData.data.status == true &&
-						this.returnedData.data.created == true
+						this.returnedData.status == true &&
+						this.returnedData.created == true
 					) { this.redirect() }
-					else { this.error = this.returnedData.data.message }
+					else { this.error = this.returnedData.message }
 				}
 				catch(e) { this.error = e }
 			},
@@ -194,13 +190,7 @@
 </script>
 
 <style scoped>
-	.register-terminal {
-		max-width: 350px;
-		margin: 50px auto;
-	}
+	.register-terminal { max-width: 350px; }
 
-	.register-terminal label,
-	.register-terminal h3 {
-		color: white;
-	}
+
 </style>

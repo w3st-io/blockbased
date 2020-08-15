@@ -1,8 +1,10 @@
 <template>
-	<article>
-		<h3 class="m-3 text-center text-light">Join Something Awesome!</h3>
-		<div class="m-auto p-4 card bg-dark border-secondary register-terminal">
-			<!-- FORM + VEE-VALIDATE -->
+	<article class="mx-auto my-3 text-light register-terminal">
+		<!-- Title -->
+		<h3 class="mb-3 text-center">Join Something Awesome!</h3>
+
+		<div class="card card-body bg-dark border-secondary">
+				<!-- FORM + VEE-VALIDATE -->
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(register)">
 					<!-- First Name -->
@@ -12,12 +14,12 @@
 						rules="required"
 						v-slot="{ errors }"
 					>
-						<label for="first_name" class="text-light">First Name</label>
+						<label for="first_name">First Name</label>
 						<input
 							v-model="first_name"
 							name="first_name"
 							type="text"
-							class="form-control bg-dark border-secondary text-light"
+							class="form-control bg-dark text-light border-secondary"
 							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="John"
 						>
@@ -31,12 +33,12 @@
 						rules="required"
 						v-slot="{ errors }"
 					>
-						<label for="last_name" class="text-light">Last Name</label>
+						<label for="last_name">Last Name</label>
 						<input
 							v-model="last_name"
 							name="last_name"
 							type="text"
-							class="form-control bg-dark border-secondary text-light"
+							class="form-control bg-dark text-light border-secondary"
 							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="Doe"
 						>
@@ -50,12 +52,12 @@
 						rules="required"
 						v-slot="{ errors }"
 					>
-						<label for="username" class="text-light">Username</label>
+						<label for="username">Username</label>
 						<input
 							v-model="username"
 							name="username"
 							type="text"
-							class="form-control bg-dark border-secondary text-light"
+							class="form-control bg-dark text-light border-secondary"
 							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="username"
 						>
@@ -69,11 +71,11 @@
 						rules="required|email"
 						v-slot="{ errors }"
 					>
-						<label for="email" class="text-light">Email Address</label>
+						<label for="email">Email Address</label>
 						<input
 							name="email"
 							type="email"
-							class="form-control bg-dark border-secondary text-light"
+							class="form-control bg-dark text-light border-secondary"
 							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="Example@example.com"
 							v-model="email"
@@ -88,12 +90,12 @@
 						rules="required|password:8, 50|confirmed:@confirmation"
 						v-slot="{ errors }"
 					>
-						<label for="password" class="text-light">Password</label>
+						<label for="password">Password</label>
 						<input
 							v-model="password"
 							name="password"
 							type="password"
-							class="form-control bg-dark border-secondary text-light"
+							class="form-control bg-dark text-light border-secondary"
 							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="******"
 						>
@@ -108,34 +110,29 @@
 						rules="required"
 						v-slot="{ errors }"
 					>
-						<label for="confirm" class="text-light">Confirm Password</label>
+						<label for="confirm">Confirm Password</label>
 						<input
 							v-model="confirm"
 							name="confirm"
 							type="password"
-							class="form-control bg-dark border-secondary text-light"
+							class="form-control bg-dark text-light border-secondary"
 							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="******"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
 					</ValidationProvider>
-					<br>
 
 					<!-- Submit -->
 					<button
 						type="submit"
-						class="btn btn-lg btn-primary btn-block"
+						class="mt-5 btn btn-lg btn-primary btn-block"
 					>Register</button>
 				</form>
 			</ValidationObserver>
 		</div>
-
+		
 		<!-- [ALERTS] -->
-		<div class="mx-auto my-3 register-terminal">
-			<div v-show="error" class="m-0 mt-3 alert alert-danger">
-				{{ error }}
-			</div>
-		</div>
+		<div v-show="error" class="m-0 mt-3 alert alert-danger">{{ error }}</div>
 	</article>
 </template>
 
@@ -176,14 +173,14 @@
 
 					// Check Status //
 					if (
-						this.returnedData.data.status == true &&
-						this.returnedData.data.created == true
+						this.returnedData.status == true &&
+						this.returnedData.created == true
 					) {
 						// [LOG] // Change Page //
 						console.log('Account successfully created.')
 						router.push({ name: 'Login' })
 					}
-					else { this.error = this.returnedData.data.message }
+					else { this.error = this.returnedData.message }
 				}
 				catch(e) { this.error = e }
 				

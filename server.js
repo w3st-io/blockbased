@@ -17,6 +17,7 @@ require('dotenv').config()
 const admins = require('./routes/api/admins')
 const blocks = require('./routes/api/blocks')
 const comments = require('./routes/api/comments')
+const rateLimiter = require('./rate-limiters')
 const notifications = require('./routes/api/notifications')
 const users = require('./routes/api/users')
 const userUtils = require('./utils/userUtils')
@@ -36,9 +37,9 @@ mongoose.connect(
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	},
-	(e) => {
-		if (e) { console.log(`Mongoose Connection Error --> ${e}`) }
-		else { console.log('Mongoose Connected to DB') }
+	(e, connected) => {
+		if(connected) { console.log('Mongoose Connected to DB') }
+		else { console.log(`Mongoose Connection Error --> ${e}`) }
 	}
 )
 mongoose.set('useFindAndModify', false)
@@ -50,9 +51,10 @@ const server = http.createServer(app)
 
 
 // [USE] //
-app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cors())
+app.use(rateLimiter.limiter)
 
 
 // [USE] Personal //

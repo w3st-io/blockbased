@@ -159,6 +159,8 @@
 						this.amount,
 						this.pageIndex
 					)
+
+					console.log('this.blocks:',this.blocks)
 				}
 				catch(e) { this.error = e }
 

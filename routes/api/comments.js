@@ -10,12 +10,13 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const Auth = require('../../server-middleware/Auth')
+const rateLimiter = require('../../rate-limiters')
 const BlocksCollection = require('../../server-collections/BlocksCollection')
 const CommentsCollection = require('../../server-collections/CommentsCollection')
 const CommentLikesCollection = require('../../server-collections/CommentLikesCollection')
 const CommentReportsCollection = require('../../server-collections/CommentReportsCollection')
 const NotificationsCollection = require('../../server-collections/NotificationsCollection')
+const Auth = require('../../server-middleware/Auth')
 
 
 // [EXPRESS + USE] //
@@ -27,6 +28,7 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userToken(),
+	rateLimiter.commentLimiter,
 	async (req, res) => {
 		const blockFollowers = req.body.blockFollowers
 
@@ -183,6 +185,7 @@ router.delete(
 router.post(
 	'/like/:_id/:block_id',
 	Auth.userToken(),
+	rateLimiter.likelimiter,
 	async (req, res) => {
 		// [CREATE] CommentLike //
 		const returnedData = await CommentLikesCollection.c_create(
@@ -200,6 +203,7 @@ router.post(
 router.post(
 	'/unlike/:_id',
 	Auth.userToken(),
+	rateLimiter.likelimiter,
 	async (req, res) => {
 		// [DELETE] CommentLike //
 		const returnedData = await CommentLikesCollection.c_delete(

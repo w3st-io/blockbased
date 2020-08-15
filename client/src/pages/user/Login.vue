@@ -1,6 +1,6 @@
 <template>
 	<article>
-		<section class="mx-auto my-5 p-4 card bg-dark border-secondary login-terminal">
+		<section class="mx-auto mt-5 p-4 card bg-dark border-secondary login-terminal">
 			<section class="row">
 				<!-- Welcome Half -->
 				<section class="col-6">
@@ -69,9 +69,7 @@
 
 		<!-- [ALERTS] -->
 		<div class="mx-auto my-3 login-terminal">
-			<div v-if="error" class="m-0 mt-3 alert alert-danger">
-				{{ error }}
-			</div>
+			<div v-if="error" class="alert alert-danger">{{ error }}</div>
 		</div>
 	</article>
 </template>
@@ -107,17 +105,17 @@
 					
 					// Check Validation Status //
 					if (
-						this.returnedData.data.status == true &&
-						this.returnedData.data.validation == true
+						this.returnedData.status == true &&
+						this.returnedData.validation == true
 					) { this.successful() }
-					else { this.error = this.returnedData.data.message }
+					else { this.error = this.returnedData.message }
 				}
 				catch(err) { this.error = err }
 			},
 
 			successful() {
 				// [SET TOKEN] // Emit // [REDIRECT] //
-				localStorage.setItem('usertoken', this.returnedData.data.token)
+				localStorage.setItem('usertoken', this.returnedData.token)
 				EventBus.$emit('logged-in')
 				router.push({ path: '/' })
 			},

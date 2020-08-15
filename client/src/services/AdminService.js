@@ -42,8 +42,13 @@ function getAdminTokenDecodeData() {
 // [LOGIN] //
 async function login(email, password) {
 	const authAxios = await this.authAxios()
+	let returnedData = ''
 
-	try { return await authAxios.post('/login', { email, password }) }
+	try {
+		returnedData = await authAxios.post('/login', { email, password })
+
+		return returnedData.data
+	}
 	catch(e) { return e }
 }
 
@@ -51,19 +56,27 @@ async function login(email, password) {
 // [REGISTER] //
 async function register(first_name, last_name, username, email, password) {
 	const authAxios = await this.authAxios()
+	let returnedData = ''
 
 	try {
-		return await authAxios.post('/register', {
+		returnedData = await authAxios.post('/register', {
 			first_name,
 			last_name,
 			username,
 			email,
 			password,
 		})
+
+		return returnedData.data
 	}
 	catch (e) {
 		console.log(`Caught Error --> ${e}`)
-		return e	
+		
+		return {
+			status: false,
+			message: `AdminService: Caught Error --> ${e}`,
+			error: e,
+		}
 	}
 }
 

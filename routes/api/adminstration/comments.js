@@ -9,11 +9,11 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const Auth = require('../../../server-middleware/Auth')
 const ACommentsCollection = require('../../../server-collections/administration/CommentsCollection')
 const CommentsCollection = require('../../../server-collections/CommentsCollection')
 const CommentLikesCollection = require('../../../server-collections/CommentLikesCollection')
 const NotificationsCollection = require('../../../server-collections/NotificationsCollection')
+const Auth = require('../../../server-middleware/Auth')
 
 
 // [EXPRESS + USE] //

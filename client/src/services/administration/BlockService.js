@@ -26,6 +26,7 @@ async function s_readAllAll(amount, pageNumber) {
 		authAxios.get(`/read-all/${amount}/${skip}`)
 			.then((res) => {
 				const returnedData = res.data
+				
 				resolve(
 					returnedData.map((block) => ({
 						...block,

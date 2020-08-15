@@ -20,7 +20,7 @@ async function authAxios() {
 /******************* [USER PROFILE] *******************/
 // [TOKEN DECODE] //
 async function getUserTokenDecodeData() {
-	let decoded = {}
+	let decoded
 
 	if (localStorage.usertoken) {
 		decoded = jwtDecode(localStorage.usertoken)
@@ -42,12 +42,12 @@ async function getUserTokenDecodeData() {
 // [READ] //
 async function s_read(user_id) {
 	const authAxios = await this.authAxios()
-	let profileData = ''
+	let returnedData
 
-	if (user_id) { profileData = await authAxios.get(`/read/${user_id}`) }
-	else { profileData = await authAxios.get('/read') }
+	if (user_id) { returnedData = await authAxios.get(`/read/${user_id}`) }
+	else { returnedData = await authAxios.get('/read') }
 
-	return profileData.data
+	return returnedData.data
 }
 
 
@@ -64,8 +64,12 @@ async function s_update(img_url) {
 async function login(email, password) {
 	const authAxios = await this.authAxios()
 
-	try { return await authAxios.post('/login', { email, password }) }
-	catch(e) { return e }
+	try {
+		const returnedData = await authAxios.post('/login', { email, password })
+		
+		return returnedData.data
+	}
+	catch(e) { return { status: false, message: e } }
 }
 
 
@@ -74,17 +78,23 @@ async function register(first_name, last_name, username, email, password) {
 	const authAxios = await this.authAxios()
 	
 	try {
-		return await authAxios.post('/register', {
+		const returnedData = await authAxios.post('/register', {
 			first_name,
 			last_name,
 			username,
 			email,
 			password,
 		})
+
+		return returnedData.data
 	}
 	catch (e) {
-		console.log(`Caught Error --> ${e}`)
-		return e	
+		console.log(`UserService: Caught Error --> ${e}`)
+
+		return {
+			status: false,
+			message: `UserService: Caught Error --> ${e}`
+		}
 	}
 }
 
