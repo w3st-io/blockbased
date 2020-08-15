@@ -20,7 +20,7 @@ const limiter = rateLimit({
 
 // [RATE-LIMIT] Block //
 const blockLimiter = rateLimit({
-	windowMs: 60 * 60 * 1000, // 15 minutes
+	windowMs: 60 * 60 * 1000,
 	max: 60,
 	message: {
 		status: false,
@@ -31,7 +31,7 @@ const blockLimiter = rateLimit({
 
 // [RATE-LIMIT] Comment //
 const commentLimiter = rateLimit({
-	windowMs: 60 * 60 * 1000, // 60 minutes
+	windowMs: 60 * 60 * 1000,
 	max: 60,
 	message: {
 		status: false,
@@ -42,8 +42,8 @@ const commentLimiter = rateLimit({
 
 // [RATE-LIMIT] Follow //
 const followLimiter = rateLimit({
-	windowMs: 30 * 60 * 1000, // 10 minutes
-	max: 50,
+	windowMs: 60 * 60 * 1000,
+	max: 100,
 	message: {
 		status: false,
 		message: 'Too many requests, please try again later',
@@ -53,8 +53,8 @@ const followLimiter = rateLimit({
 
 // [RATE-LIMIT] Like //
 const likeLimiter = rateLimit({
-	windowMs: 10 * 60 * 1000, // 10 minutes
-	max: 10,
+	windowMs: 60 * 60 * 1000,
+	max: 200,
 	message: {
 		status: false,
 		message: 'Too many requests, please try again later',
@@ -64,7 +64,7 @@ const likeLimiter = rateLimit({
 
 // [RATE-LIMIT] Registration //
 const registrationLimiter = rateLimit({
-	windowMs: 60 * 60 * 1000, // 60 minutes
+	windowMs: 60 * 60 * 1000,
 	max: 20,
 	message: {
 		status: false,
@@ -75,7 +75,7 @@ const registrationLimiter = rateLimit({
 
 // [RATE-LIMIT] Registration //
 const reportLimiter = rateLimit({
-	windowMs: 60 * 60 * 1000, // 60 minutes
+	windowMs: 60 * 60 * 1000,
 	max: 10,
 	message: {
 		status: false,

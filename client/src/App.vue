@@ -1,29 +1,22 @@
 <template>
-	<div id="app">
+	<div id="app" :key="appKey">
 		<!-- Hidden Side Menu -->
 		<side-menu />
 
-		<!-- Admin Bottom Bar -->
-		<admin-nav-bar
-			v-if="adminLoggedIn"
-			:key="adminNavBarKey"
-		/>
-
 		<!-- Top Bar -->
-		<nav-bar :key="navBarKey" />
+		<nav-bar />
 
 		<!-- Display the router Stuff -->
-		<router-view :key="routerViewKey" />
+		<router-view />
 
 		<!-- Bottom Footer -->
 		<Footer />
 
+		<!-- Admin Bottom Bar -->
+		<admin-nav-bar v-if="adminLoggedIn" />
+
 		<!-- Floating Pop Up Notifications -->
-		<PopUpNotifications
-			v-if="loggedIn"
-			class="ml-auto"
-			style="width: 30%;"
-		/>
+		<PopUpNotifications v-if="loggedIn" class="ml-auto" style="width: 30%;" />
 
 		<!-- Floating Pop Up Banner -->
 		<PopUpBanner
@@ -63,15 +56,12 @@
 
 		data: function() {
 			return {
-				decoded: {},
-				socket: io('http://localhost:5000'),
-				adminNavBarKey: 0,
-				navBarKey: 1,
-				routerViewKey: 2,
+				appKey: 0,
 				adminLoggedIn: false,
 				loggedIn: false,
+				decoded: {},
 				message: '',
-				test: 1,
+				socket: io('http://localhost:5000'),
 			}
 		},
 
@@ -80,7 +70,8 @@
 			if (localStorage.usertoken) {
 				this.loggedIn = true
 				
-				this.decoded = await UserService.getUserTokenDecodeData()
+				try { this.decoded = await UserService.getUserTokenDecodeData() }
+				catch (e) { `App: Caught Error --> ${e}` }
 
 				this.socket.emit('join', this.decoded._id)
 			}
@@ -121,11 +112,13 @@
 
 			EventBus.$on('admin-logged-in', () => {
 				this.adminLoggedIn = true
+
 				this.forceRerender()
 			})
 			
 			EventBus.$on('admin-logged-out', () => {
 				this.adminLoggedIn = false
+
 				this.forceRerender()
 			})
 
@@ -137,9 +130,7 @@
 
 		methods: {
 			forceRerender() {
-				this.adminNavBarKey += 1
-				this.routerViewKey += 1
-				this.navBarKey += 1
+				this.appKey++
 				
 				console.log('Forced rerender')
 			},
