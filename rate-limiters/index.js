@@ -20,8 +20,8 @@ const limiter = rateLimit({
 
 // [RATE-LIMIT] Block //
 const blockLimiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-	max: 5,
+	windowMs: 60 * 60 * 1000, // 15 minutes
+	max: 60,
 	message: {
 		status: false,
 		message: 'Too many requests, please try again later',
@@ -29,7 +29,7 @@ const blockLimiter = rateLimit({
 })
 
 
-// [RATE-LIMIT] Coment //
+// [RATE-LIMIT] Comment //
 const commentLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000, // 60 minutes
 	max: 60,
@@ -40,10 +40,21 @@ const commentLimiter = rateLimit({
 })
 
 
+// [RATE-LIMIT] Follow //
+const followLimiter = rateLimit({
+	windowMs: 30 * 60 * 1000, // 10 minutes
+	max: 50,
+	message: {
+		status: false,
+		message: 'Too many requests, please try again later',
+	}
+})
+
+
 // [RATE-LIMIT] Like //
-const likelimiter = rateLimit({
+const likeLimiter = rateLimit({
 	windowMs: 10 * 60 * 1000, // 10 minutes
-	max: 30,
+	max: 10,
 	message: {
 		status: false,
 		message: 'Too many requests, please try again later',
@@ -52,9 +63,20 @@ const likelimiter = rateLimit({
 
 
 // [RATE-LIMIT] Registration //
-const registrationlimiter = rateLimit({
+const registrationLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000, // 60 minutes
 	max: 20,
+	message: {
+		status: false,
+		message: 'Too many requests, please try again later',
+	}
+})
+
+
+// [RATE-LIMIT] Registration //
+const reportLimiter = rateLimit({
+	windowMs: 60 * 60 * 1000, // 60 minutes
+	max: 10,
 	message: {
 		status: false,
 		message: 'Too many requests, please try again later',
@@ -67,6 +89,8 @@ module.exports = {
 	limiter,
 	blockLimiter,
 	commentLimiter,
-	likelimiter,
-	registrationlimiter,
+	followLimiter,
+	likeLimiter,
+	registrationLimiter,
+	reportLimiter,
 }

@@ -185,7 +185,7 @@ router.delete(
 router.post(
 	'/like/:_id/:block_id',
 	Auth.userToken(),
-	rateLimiter.likelimiter,
+	rateLimiter.likeLimiter,
 	async (req, res) => {
 		// [CREATE] CommentLike //
 		const returnedData = await commentLikesCollection.c_create(
@@ -203,7 +203,7 @@ router.post(
 router.post(
 	'/unlike/:_id',
 	Auth.userToken(),
-	rateLimiter.likelimiter,
+	rateLimiter.likeLimiter,
 	async (req, res) => {
 		// [DELETE] CommentLike //
 		const returnedData = await commentLikesCollection.c_delete(
@@ -221,6 +221,7 @@ router.post(
 router.post(
 	'/report/:_id',
 	Auth.userToken(),
+	rateLimiter.reportLimiter,
 	async (req, res) => {
 		const existance = await commentReportsCollection.c_existance(
 			req.decoded._id,

@@ -34,7 +34,7 @@ router.post(
 // [REGISTER] //
 router.post(
 	'/register',
-	rateLimiters.registrationlimiter,
+	rateLimiters.registrationLimiter,
 	async (req, res) => {
 		const returnedData = await adminsCollection.c_register(req)
 

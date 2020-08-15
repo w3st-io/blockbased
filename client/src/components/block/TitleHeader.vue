@@ -19,9 +19,7 @@
 		<div class="col-lg-3 col-md-4 col-sm-4 text-right">
 			<div class="mb-3">
 				<span>
-					<span class="ml-2 badge badge-light">
-						{{ blockFollowersCount }}
-					</span>
+					<span class="ml-2 badge badge-light">{{ blockFollowersCount }}</span>
 					<button
 						:disabled="disabled" 
 						@click="followBtn()"
@@ -117,31 +115,27 @@
 			},
 
 			/******************* [BTN] FOLLOW *******************/
-			followBtn() {
+			async followBtn() {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
 					// Disable Buttons //
 					this.disabled = true
 
-					if (!this.following) { this.follow() }
-					else { this.unfollow() }
+					if (!this.following) {
+						try { await BlockService.s_follow(this.block_id) }
+						catch(e) { this.error = e }
+					}
+					else {
+						try { await BlockService.s_unfollow(this.block_id) }
+						catch(e) { this.error = e }
+					}
 
 					// Get Block Details //
-					this.following = !this.following
+					await this.blockRead()
 
 					// Enable Buttons //
 					this.disabled = false
 				}
-			},
-
-			async follow() {
-				try { await BlockService.s_follow(this.block_id) }
-				catch(e) { this.error = e }				
-			},
-
-			async unfollow() {
-				try { await BlockService.s_unfollow(this.block_id) }
-				catch(e) { this.error = e }
 			},
 
 			/******************* [ROUTER + LOG] *******************/

@@ -136,7 +136,7 @@ router.delete(
 router.post(
 	'/like/:_id',
 	Auth.userToken(),
-	rateLimiter.likelimiter,
+	rateLimiter.likeLimiter,
 	async (req, res) => {
 		// [CREATE] blockLike //
 		const returnedData = await blockLikesCollection.c_create(
@@ -152,7 +152,7 @@ router.post(
 // [UNLIKE] Auth Required //
 router.post(
 	'/unlike/:_id',
-	rateLimiter.likelimiter,
+	rateLimiter.likeLimiter,
 	Auth.userToken(),
 	async (req, res) => {
 		// [UPDATE] block Likers // [DELETE] blockLike //
@@ -171,6 +171,7 @@ router.post(
 router.post(
 	'/follow/:_id',
 	Auth.userToken(),
+	rateLimiter.followLimiter,
 	async (req, res) => {
 		// [UPDATE] block Followers // [CREATE] blockFollow //
 		const returnedData = await blocksCollection.c_follow(
@@ -190,6 +191,7 @@ router.post(
 // [UNFOLLOW] Auth Required //
 router.post(
 	'/unfollow/:_id',
+	rateLimiter.followLimiter,
 	Auth.userToken(),
 	async (req, res) => {
 		// [UPDATE] block Followers // [DELETE] blockFollow //
