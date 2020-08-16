@@ -101,7 +101,7 @@ const c_readAll = async (block_id, skip, limit) => {
 			)
 			.exec()
 
-		return returnedData
+		return { status: true, comments: returnedData }
 	}
 	catch(e) {
 		return {
@@ -131,7 +131,7 @@ const c_read = async (comment_id) => {
 				)
 				.exec()
 
-			return returnedData
+			return { status: true, comment: returnedData }
 		}
 		catch(e) {
 			return {
@@ -161,17 +161,17 @@ const c_update = async (comment_id, text) => {
 
 				return {
 					status: true,
+					message: 'Updated comment',
 					comment_id: comment_id,
 					text: text,
-					message: 'Updated comment',
 				}
 			}
 			catch(e) {
 				return {
 					status: false,
+					message: `commentsCollection: Caught Error --> ${e}`,
 					comment_id: comment_id,
 					text: text,
-					message: `Caught Error --> ${e}`,
 				}
 			}
 		}
@@ -179,17 +179,17 @@ const c_update = async (comment_id, text) => {
 			return {
 				status: true,
 				message: `Comment too long`,
-				user: user_id,
-				block_id: block_id,
+				comment_id: comment_id,
+				text: text,
 			}
 		}
 	}
 	else {
 		return {
 			status: false,
+			message: 'Invalid Comment ID',
 			comment_id: comment_id,
 			text: text,
-			message: 'Invalid Comment ID',
 		}
 	}
 }
@@ -199,12 +199,7 @@ const c_update = async (comment_id, text) => {
 const c_delete = async (user_id, comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {
-			await CommentModel.findOneAndRemove(
-				{
-					_id: comment_id,
-					user: user_id,
-				}
-			)
+			await CommentModel.findOneAndRemove({ _id: comment_id, user: user_id, })
 
 			return {
 				status: true,
@@ -216,7 +211,7 @@ const c_delete = async (user_id, comment_id) => {
 		catch(e) {
 			return {
 				status: false,
-				message: `Caught Error --> ${e}`,
+				message: `commentsCollection: Caught Error --> ${e}`,
 				user_id: user_id,
 				comment_id: comment_id,
 			}

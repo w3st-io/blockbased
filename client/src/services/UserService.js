@@ -42,24 +42,40 @@ async function getUserTokenDecodeData() {
 // [READ] //
 async function s_read(user_id) {
 	const authAxios = await this.authAxios()
-	let returnedData
-
+	
 	if (user_id) {
-		returnedData = await authAxios.get(`/read/${user_id}`)
+		try {
+			const returnedData = await authAxios.get(`/read/${user_id}`)
+
+			return returnedData.data
+		}
+		catch (e) {
+			return { status: false, message: `UserService: Caught Error --> ${e}` }
+		}
 	}
 	else {
-		returnedData = await authAxios.get('/read')
-	}
+		try {
+			const returnedData = await authAxios.get('/read')
 
-	return returnedData.data
+			return returnedData.data
+		}
+		catch (e) {
+			return { status: false, message: `UserService: Caught Error --> ${e}` }
+		}
+	}
 }
 
-
-// [UPDATE] //
+// [UPDATE] Auth Required //
 async function s_update(img_url) {
 	const authAxios = await this.authAxios()
 
-	return await authAxios.post(`/update`, { img_url })
+	try {
+		const returnedData = await authAxios.post(`/update`, { img_url })
+
+		return returnedData.data
+	}
+	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
+	
 }
 
 

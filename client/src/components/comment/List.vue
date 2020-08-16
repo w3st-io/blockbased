@@ -104,13 +104,15 @@
 			<no-content v-if="comments == ''" class="my-3" />
 		</section>
 		
-		<!-- [LOADING] -->
+		<!-- [LOADING + ERROR] -->
 		<section class="col-12">
 			<div v-if="loading" class="my-3 alert alert-primary">
 				<div class="d-flex justify-content-center">
 					<div class="spinner-grow"></div>
 				</div>
 			</div>
+
+			<div v-if="error" class="my-3 alert alert-primary">{{ error }}</div>
 		</section>
 	</article>
 </template>
@@ -188,11 +190,14 @@
 			async commentReadAll() {
 				// Get Comments //
 				try {
-					this.comments = await CommentService.s_readAll(
+					const returnedData = await CommentService.s_readAll(
 						this.block_id,
 						this.amount,
 						this.pageIndex
 					)
+
+					if (returnedData.status) { this.comments = returnedData.comments }
+					else { this.error = returnedData.message }
 				}
 				catch(e) { this.error = e }
 			},

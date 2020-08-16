@@ -36,49 +36,6 @@ router.get(
 )
 
 
-// [READ-ALL] Auth Required - Within a Block //
-router.get(
-	'/read-all/:block_id/:amount/:skip',
-	Auth.adminToken(),
-	async (req, res) => {
-		const returnedData = await commentsCollection.c_readAll(
-			req.params.block_id,
-			req.params.skip,
-			req.params.amount
-		)
-
-		res.status(200).send(returnedData)
-	}
-)
-
-
-// [READ] Auth Required //
-router.get(
-	'/read/:_id',
-	Auth.adminToken(),
-	async (req, res) => {
-		const returnedData = await commentsCollection.c_read(req.params._id)
-
-		res.status(200).send(returnedData)
-	}
-)
-
-
-// [UPDATE] Auth Required //
-router.post(
-	'/update/:_id',
-	Auth.adminToken(),
-	async (req, res) => {
-		const returnedData = await commentsCollection.c_update(
-			req.params._id,
-			req.body.text
-		)
-
-		res.status(201).send(returnedData)
-	}
-)
-
-
 // [DELETE] Auth Required //
 router.delete(
 	'/delete/:_id',

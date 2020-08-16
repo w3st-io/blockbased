@@ -33,7 +33,7 @@ async function s_readAll(cat_id, amount, pageNumber) {
 	try {
 		let res = await authAxios.get(`/read-all/${cat_id}/${amount}/${skip}`)
 
-		const blocks = res.data.map((block) => ({
+		const blocks = res.data.map(block => ({
 			...block,
 			createdAt: new Date(block.createdAt).toLocaleString()
 		}))

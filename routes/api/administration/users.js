@@ -31,18 +31,6 @@ router.get(
 )
 
 
-// [READ] Auth Required //
-router.get(
-	'/read/:_id',
-	Auth.adminToken(),
-	async (req, res) => {
-		const returnedData = await usersCollection.c_read(req.params._id)
-
-		res.status(200).send(returnedData)
-	}
-)
-
-
 // [UPDATE] Auth Required //
 router.post(
 	'/update/:_id',

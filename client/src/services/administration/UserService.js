@@ -50,16 +50,25 @@ async function s_read(user_id) {
 async function s_update(user_id, img_url) {
 	const authAxios = await this.authAxios()
 
-	return await authAxios.post(`/update/${user_id}`,
-		{ img_url }
-	)
+	try {
+		const returnedData = await authAxios.post(`/update/${user_id}`, { img_url })
+
+		return returnedData.data
+	}
+	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
+	
 }
 
 /******************* [USER PROFILE] *******************/
 async function s_banUser(user_id, hours) {
 	const authAxios = await this.authAxios()
 
-	return await authAxios.post(`/ban/${user_id}`, { hours })
+	try {
+		const returnedData = await authAxios.post(`/ban/${user_id}`, { hours })
+	
+		return returnedData.data
+	}
+	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
 }
 
 

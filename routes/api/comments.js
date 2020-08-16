@@ -62,18 +62,18 @@ router.get(
 	'/read-all/:block_id/:amount/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		const comments = await commentsCollection.c_readAll(
+		const returnedData = await commentsCollection.c_readAll(
 			req.params.block_id,
 			req.params.skip,
 			req.params.amount
 		)
 
 		// For Each Block in Blocks //
-		for (let i = 0; i < comments.length; i++) {
+		for (let i = 0; i < returnedData.comments.length; i++) {
 			// Set Like Count //
 			try {
-				comments[i].likeCount = await commentLikesCollection.c_countAll(
-					comments[i]._id
+				returnedData.comments[i].likeCount = await commentLikesCollection.c_countAll(
+					returnedData.comments[i]._id
 				)
 			}
 			catch (e) { console.log(`Caught Error --> ${e}`) }
@@ -83,14 +83,14 @@ router.get(
 				// check if the block like exist..
 				const liked = await commentLikesCollection.c_existance(
 					req.decoded._id,
-					comments[i]._id
+					returnedData.comments[i]._id
 				)
 
-				comments[i].liked = liked.existance
+				returnedData.comments[i].liked = liked.existance
 			}
 		}
 		
-		res.status(200).send(comments)
+		res.status(200).send(returnedData)
 	}
 )
 
@@ -99,12 +99,12 @@ router.get(
 router.get(
 	'/read/:_id',
 	async (req, res) => {
-		const comment = await commentsCollection.c_read(req.params._id)
+		const returnedData = await commentsCollection.c_read(req.params._id)
 
 		
 		// Set Like Count //
 		try {
-			comment.likeCount = await commentLikesCollection.c_countAll(comment._id)
+			returnedData.comment.likeCount = await commentLikesCollection.c_countAll(comment._id)
 		}
 		catch (e) { console.log(`Caught Error --> ${e}`) }
 
@@ -113,13 +113,13 @@ router.get(
 			// check if the block like exist..
 			const liked = await commentLikesCollection.c_existance(
 				req.decoded._id,
-				comment._id
+				returnedData.comment._id
 			)
 
-			comment.liked = liked.existance
+			returnedData.comment.liked = liked.existance
 		}
 
-		res.status(200).send(comment)
+		res.status(200).send(returnedData)
 	}
 )
 

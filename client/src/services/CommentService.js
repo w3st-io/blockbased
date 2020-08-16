@@ -32,26 +32,7 @@ async function s_create(block_id, blockFollowers, text) {
 
 	EventBus.$emit('comment-created', blockFollowers)
 
-	return returnedData
-}
-
-
-// [READ-ALL] Auth Required //
-async function s_readAllAll(amount, pageNumber) {
-	const skip = pageNumber * amount
-	const authAxios = await this.authAxios()
-
-	try {
-		let res = await authAxios.get(`/read-all-all/${amount}/${skip}`)
-
-		const comments = res.data.map((comment) => ({
-			...comment,
-			createdAt: new Date(comment.createdAt).toLocaleString(),
-		}))
-
-		return comments
-	}
-	catch (e) { return e }
+	return returnedData.data
 }
 
 
@@ -61,16 +42,18 @@ async function s_readAll(block_id, amount, pageNumber) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let res = await authAxios.get(`/read-all/${block_id}/${amount}/${skip}`)
+		let returnedData = await authAxios.get(`/read-all/${block_id}/${amount}/${skip}`)
 
-		const comments = res.data.map((comment) => ({
+		returnedData = returnedData.data.comments.map(comment => ({
 			...comment,
 			createdAt: new Date(comment.createdAt).toLocaleString(),
 		}))
 
-		return comments
+		return { status: true, comments: returnedData }
 	}
-	catch (e) { return e }
+	catch (e) {
+		return { status: false, message: `CommentService: Caught Error --> ${e}` }
+	}
 }
 
 
@@ -79,13 +62,17 @@ async function s_read(comment_id) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let res = await authAxios.get(`/read/${comment_id}`)
+		let returnedData = await authAxios.get(`/read/${comment_id}`)
 	
-		res.data.createdAt = new Date(res.data.createdAt).toLocaleString()
+		returnedData.data.comment.createdAt = new Date(
+			returnedData.data.comment.createdAt
+		).toLocaleString()
 
-		return res.data
+		return returnedData.data
 	}
-	catch (e) { return e }
+	catch (e) {
+		return { status: false, message: `CommentService: Caught Error --> ${e}` }
+	}
 }
 
 
@@ -93,8 +80,16 @@ async function s_read(comment_id) {
 async function s_update(comment_id, text) {
 	const authAxios = await this.authAxios()
 
-	try { return await authAxios.post(`/update/${comment_id}`, { text }) }
-	catch(e) { return e }
+	try {
+		const returnedData = await authAxios.post(`/update/${comment_id}`,
+			{ text }
+		)
+
+		return returnedData.data
+	}
+	catch(e) {
+		return { status: false, message: `CommentService: Caught Error --> ${e}` }
+	}
 }
 
 
@@ -102,8 +97,14 @@ async function s_update(comment_id, text) {
 async function  s_delete(comment_id) {
 	const authAxios = await this.authAxios()	
 
-	try { return await authAxios.delete(`/delete/${comment_id}`) }
-	catch(e) { return e }
+	try {
+		const returnedData = await authAxios.delete(`/delete/${comment_id}`)
+
+		return returnedData.data
+	}
+	catch(e) {
+		return { status: false, message: `CommentService: Caught Error --> ${e}` }
+	}
 }
 
 
@@ -127,12 +128,11 @@ async function  s_unlike(comment_id) {
 async function s_report(block_id, comment_id, reportType) {
 	const authAxios = await this.authAxios()
 
-	const status = await authAxios.post(
-		`/report/${comment_id}`,
+	const returnedData = await authAxios.post(`/report/${comment_id}`,
 		{ block_id, reportType }
 	)
 
-	return status
+	return returnedData
 }
 
 
@@ -150,7 +150,6 @@ async function s_count(block_id) {
 export default {
 	authAxios,
 	s_create,
-	s_readAllAll,
 	s_readAll,
 	s_read,
 	s_update,
