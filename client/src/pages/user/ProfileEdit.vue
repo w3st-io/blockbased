@@ -1,33 +1,36 @@
 <template>
 	<div class="container">
-		<div v-if="loading" class="row my-3 alert alert-warning">
-			Loading..
-		</div>
-
-		<div v-if="!loading" class="row">
+		<div class="row">
 			<div class="my-3 card card-body bg-dark">
-				
-				<label for="profileImgInput" class="text-light">Profile Pic Url</label>
-				<input
-					name="profileImgInput"
-					type="text"
-					class="my-2 form-control"
-					v-model="imgUrl"
-				>
+				<div v-if="!loading">
+					<label for="profileImgInput" class="text-light">
+						Profile Pic Url
+					</label>
 
-				<div class="w-100 p-3 text-center">
-					<img
-						:src="imgUrl"
-						alt="Profile Pic Here"
-						class="border border-warning"
-						style="width: 200px;"
+					<input
+						name="profileImgInput"
+						type="text"
+						class="my-2 form-control"
+						v-model="imgUrl"
 					>
+
+					<div class="w-100 p-3 text-center">
+						<img
+							:src="imgUrl"
+							alt="Profile Pic Here"
+							class="border border-warning"
+							style="width: 200px;"
+						>
+					</div>
+
+					<button @click="updateUserData()" class="w-100 btn btn-secondary">
+						Edit Your Profile
+					</button>
 				</div>
 
-				<button
-					@click="updateUserProfileData()"
-					class="w-100 btn btn-secondary"
-				>Edit Your Profile</button>
+				<!-- [LOADING + ERROR] -->
+				<div v-if="loading" class="alert alert-warning">Loading..</div>
+				<div v-if="error" class="my-3 alert alert-danger">{{ error }}</div>
 			</div>
 		</div>
 	</div>
@@ -43,8 +46,9 @@
 		data: function() {
 			return {
 				loading: true,
-				userProfileData: {},
+				userData: {},
 				imgUrl: '',
+				error: '',
 			}
 		},
 
@@ -53,11 +57,16 @@
 			if (!localStorage.usertoken) { router.push({ name: 'Dashboard' }) }
 
 			// Retrieve User Profile Data //
-			try { this.userProfileData = await UserService.s_read() }
+			try {
+				const returnedData = await UserService.s_read()
+
+				if (returnedData.status) { this.userData = returnedData.user }
+				else { this.error = returnedData.message }
+			}
 			catch(e) { this.error = e }
 
 			// Set Image //
-			this.imgUrl = this.userProfileData.profileImg
+			this.imgUrl = this.userData.profileImg
 
 			// Enable Loading //
 			this.loading = false
@@ -67,7 +76,7 @@
 		},
 
 		methods: {
-			async updateUserProfileData() {
+			async updateUserData() {
 				try { await UserService.s_update(this.imgUrl) }
 				catch(e) { this.error = e }
 
@@ -77,7 +86,7 @@
 
 			log() {
 				console.log('%%% [PAGE] User Profile %%%')
-				console.log('userProfileData:', this.userProfileData)
+				console.log('userData:', this.userData)
 				console.log('imgUrl:', this.imgUrl)
 			},
 		},
@@ -85,8 +94,6 @@
 </script>
 
 <style lang="scss" scoped>
-	td { color: white; }
-
 	@media screen and (max-width: 768px) {
 		.hidden-768 {
 			display: none !important;

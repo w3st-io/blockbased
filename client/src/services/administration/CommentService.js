@@ -25,14 +25,14 @@ async function s_readAllAll(amount, pageNumber) {
 	const result = new Promise ((resolve, reject) => {
 		authAxios.get(`/read-all-all/${amount}/${skip}`)
 			.then((res) => {
-				const returnedData = res.data
+				let comments = res.data
 
-				resolve(
-					returnedData.map((comment) => ({
-						...comment,
-						createdAt: new Date(comment.createdAt).toLocaleString(),
-					}))
-				)
+				comments = comments.map(comment => ({
+					...comment,
+					createdAt: new Date(comment.createdAt).toLocaleString(),
+				}))
+
+				resolve(comments)
 			})
 			.catch((err) => { reject(err) })
 	})
@@ -49,11 +49,14 @@ async function s_readAll(block_id, amount, pageNumber) {
 	const result = new Promise ((resolve, reject) => {
 		authAxios.get(`/read-all/${block_id}/${amount}/${skip}`)
 			.then((res) => {
-				const data = res.data
-				resolve(data.map((comment) => ({
+				let comments = res.data
+
+				comments = comments.map(comment => ({
 					...comment,
 					createdAt: new Date(comment.createdAt).toLocaleString()
-				})))
+				}))
+
+				resolve(comments)
 			})
 			.catch((err) => { reject(err) })
 	})

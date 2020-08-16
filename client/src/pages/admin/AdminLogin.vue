@@ -94,12 +94,12 @@
 						this.password
 					)
 
-					// Check Validation Status //
 					if (
-						this.returnedData.status == true &&
-						this.returnedData.validation == true
+						this.returnedData.status &&
+						this.returnedData.validation
 					) { this.successful() }
 					else { this.error = this.returnedData.message }
+					
 				}
 				catch(e) { this.error = e }
 			},

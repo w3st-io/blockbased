@@ -25,14 +25,15 @@ async function s_readAllAll(amount, pageNumber) {
 	const result = new Promise ((resolve, reject) => {
 		authAxios.get(`/read-all/${amount}/${skip}`)
 			.then((res) => {
-				const returnedData = res.data
+				let returnedData = res.data
+
+				// Reformat
+				returnedData = returnedData.map(block => ({
+					...block,
+					createdAt: new Date(block.createdAt).toLocaleString()
+				}))
 				
-				resolve(
-					returnedData.map((block) => ({
-						...block,
-						createdAt: new Date(block.createdAt).toLocaleString()
-					}))
-				)
+				resolve(returnedData)
 			})
 			.catch((err) => { reject(err) })
 	})

@@ -5,7 +5,7 @@
 			<section class="col-12 col-md-3 hidden-768">
 				<div class="card card-body bg-dark">
 					<img
-						:src="userProfileData.profileImg"
+						:src="userData.profileImg"
 						alt="Profile Image Here"
 						class="w-100"
 					>
@@ -52,7 +52,7 @@
 		data: function() {
 			return {
 				decoded: {},
-				userProfileData: {},
+				userData: {},
 			}
 		},
 
@@ -68,7 +68,10 @@
 
 			// Retrieve User Profile Data //
 			try {
-				this.userProfileData = await UserService.s_read()
+				const returnedData = await UserService.s_read()
+
+				if (returnedData.status) { this.userData = returnedData.user }
+				else { this.error = returnedData.message }
 			}
 			catch(e) { this.error = e }
 
@@ -84,7 +87,7 @@
 			log() {
 				console.log('%%% [PAGE] User Profile %%%')
 				console.log('decoded:', this.decoded)
-				console.log('userProfileData:', this.userProfileData)
+				console.log('userData:', this.userData)
 			},
 		},
 	}

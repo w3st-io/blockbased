@@ -23,11 +23,11 @@ const users = require('./routes/api/users')
 const userUtils = require('./utils/userUtils')
 
 
-// [REQUIRE] Personal - Adminstration //
-const admininstrationBlocks = require('./routes/api/adminstration/blocks')
-const admininstrationComments = require('./routes/api/adminstration/comments')
-const admininstrationReports = require('./routes/api/adminstration/reports')
-const admininstrationUsers = require('./routes/api/adminstration/users')
+// [REQUIRE] Personal - Administration //
+const admininstrationBlocks = require('./routes/api/administration/blocks')
+const admininstrationComments = require('./routes/api/administration/comments')
+const admininstrationReports = require('./routes/api/administration/reports')
+const admininstrationUsers = require('./routes/api/administration/users')
 
 
 // [MONGOOSE-CONNECTION] //
@@ -65,7 +65,7 @@ app.use('/api/notifications', notifications)
 app.use('/api/users', users)
 
 
-// [USE] Personal - Adminstration //
+// [USE] Personal - Administration //
 app.use('/api/administration/blocks', admininstrationBlocks)
 app.use('/api/administration/comments', admininstrationComments)
 app.use('/api/administration/reports', admininstrationReports)

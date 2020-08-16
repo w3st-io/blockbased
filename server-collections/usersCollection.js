@@ -21,18 +21,30 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 /******************* [CRUD] *******************/
 // [READ-ALL] //
 const c_readAll = async () => {
-	try { return await UserModel.find() }
-	catch(e) { return `Caught Error --> ${e}` }
+	try {
+		const users = await UserModel.find()
+
+		return { status: true, users: users }
+	}
+	catch(e) {
+		return { status: false, message: `UserCollection: Caught Error --> ${e}` }
+	}
 }
 
 
 // [READ] //
 const c_read = async (user_id) => {
 	if (mongoose.isValidObjectId(user_id)) {
-		try { return await UserModel.findOne({ _id: user_id }) }
-		catch(e) { return `Caught Error --> ${e}` }
+		try {
+			const user = await UserModel.findOne({ _id: user_id })
+
+			return { status: true, user: user }
+		}
+		catch(e) {
+			return { status: false, message: `UserCollection: Caught Error --> ${e}` }
+		}
 	}
-	else { return 'Invalid ID.' }
+	else { return { status: false, message: 'Invalid "user_id"' } }
 }
 
 
@@ -40,21 +52,22 @@ const c_read = async (user_id) => {
 const c_update = async (user_id, img_url) => {
 	if (mongoose.isValidObjectId(user_id)) {
 		try {
-			await UserModel.findOneAndUpdate(
+			const updatedUser = await UserModel.findOneAndUpdate(
 				{ _id: user_id },
 				{ $set: { profileImg: img_url } }
 			)
 
 			return {
 				status: true,
+				message: 'Updated profile',
 				user_id: user_id,
 				profileImg: img_url,
-				message: `Updated profile with id ${user_id}`,
+				updatedUser: updatedUser
 			}
 		}
-		catch(e) { return `Caught Error --> ${e}` }
+		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
-	else { return 'Invalid ID.' }
+	else { return { status: false, message: 'Invalid "user_id"' } }
 }
 
 

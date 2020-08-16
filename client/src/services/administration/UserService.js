@@ -24,12 +24,14 @@ async function s_readAll() {
 	try {
 		const returnedData = await authAxios.get(`/read-all/profile-data`)
 
+		return returnedData.data
+	}
+	catch(e) {
 		return {
-			status: true,
-			users: returnedData.data,
+			status: false,
+			message: `UserService: Caught Error --> ${e}`
 		}
 	}
-	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 }
 
 // [READ] Auth Required //
@@ -39,10 +41,7 @@ async function s_read(user_id) {
 	try {
 		const returnedData = await authAxios.get(`/read/${user_id}`)
 
-		return {
-			status: true,
-			users: returnedData.data,
-		}
+		return returnedData.data
 	}
 	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 }

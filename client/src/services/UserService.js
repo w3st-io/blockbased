@@ -44,8 +44,12 @@ async function s_read(user_id) {
 	const authAxios = await this.authAxios()
 	let returnedData
 
-	if (user_id) { returnedData = await authAxios.get(`/read/${user_id}`) }
-	else { returnedData = await authAxios.get('/read') }
+	if (user_id) {
+		returnedData = await authAxios.get(`/read/${user_id}`)
+	}
+	else {
+		returnedData = await authAxios.get('/read')
+	}
 
 	return returnedData.data
 }
@@ -69,7 +73,9 @@ async function login(email, password) {
 		
 		return returnedData.data
 	}
-	catch(e) { return { status: false, message: e } }
+	catch(e) {
+		return { status: false, message: `UserService: Caught Error --> ${e}` }
+	}
 }
 
 
@@ -89,12 +95,7 @@ async function register(first_name, last_name, username, email, password) {
 		return returnedData.data
 	}
 	catch (e) {
-		console.log(`UserService: Caught Error --> ${e}`)
-
-		return {
-			status: false,
-			message: `UserService: Caught Error --> ${e}`
-		}
+		return { status: false, message: `UserService: Caught Error --> ${e}` }
 	}
 }
 

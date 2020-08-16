@@ -52,7 +52,7 @@
 			await this.getReports()
 
 			// [LOG] //
-			//this.log()
+			this.log()
 		},
 
 		methods: {
@@ -61,8 +61,8 @@
 				try {
 					let returnedData = await AReportService.s_readAllAll()
 
-					if (returnedData.status) this.reports = returnedData.reports
-					else this.error = returnedData.message
+					if (returnedData.status) { this.reports = returnedData.reports }
+					else { this.error = returnedData.message }
 				}
 				catch(e) { this.error = e }
 			},

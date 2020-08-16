@@ -12,10 +12,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr
-					v-for="block in blocks"
-					:key="block._id"
-				>
+				<tr v-for="block in blocks" :key="block._id">
 					<td>{{ block.cat_id }}</td>
 					<td>{{ block.title }}</td>
 					<td>{{ block.user.email }}</td>
@@ -60,9 +57,7 @@
 		methods: {
 			async getBlocks() {
 				// Get Blocks //
-				try {
-					this.blocks = await ABlockService.s_readAllAll(100, 0)
-				}
+				try { this.blocks = await ABlockService.s_readAllAll(100, 0) }
 				catch(e) { this.error = e }
 			},
 

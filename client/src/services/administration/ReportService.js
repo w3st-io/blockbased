@@ -23,6 +23,7 @@ async function s_readAllAll() {
 
 	try {
 		const returnedData = await authAxios.get('/read-all')
+		console.log(returnedData.data)
 
 		return {
 			status: true,
@@ -37,10 +38,9 @@ async function s_delete(report_id) {
 	const authAxios = await this.authAxios()
 
 	let result = new Promise ((resolve, reject) => {
-		authAxios
-			.delete(`/delete/${report_id}`)
+		authAxios.delete(`/delete/${report_id}`)
 			.then((res) => { resolve(res) })
-			.catch((e) => { reject(e) })
+			.catch((err) => { reject(err) })
 	})
 
 	return result	

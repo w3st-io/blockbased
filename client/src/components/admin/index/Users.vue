@@ -12,10 +12,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr
-					v-for="user in users"
-					:key="user._id"
-				>
+				<tr v-for="user in users" :key="user._id">
 					<td>{{ user.email }}</td>
 					<td>{{ user.username }}</td>
 					<td>{{ user.first_name }}</td>
@@ -64,8 +61,8 @@
 				try {
 					let returnedData = await AUserService.s_readAll()
 
-					if (returnedData.status) this.users = returnedData.users
-					else this.error = returnedData.message
+					if (returnedData.status) { this.users = returnedData.users }
+					else { this.error = returnedData.message }
 				}
 				catch(e) { this.error = e }
 			},
