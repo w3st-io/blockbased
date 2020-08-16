@@ -40,7 +40,12 @@ router.post(
 			req.body.text
 		)
 
-		res.status(201).send([returnedData, returnedData2])
+		const created = {
+			status: true,
+			created: [returnedData, returnedData2],
+		}
+
+		res.status(201).send(created)
 	}
 )
 
@@ -50,18 +55,18 @@ router.get(
 	'/read-all/:cat_id/:amount/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		const blocks = await blocksCollection.c_readAll(
+		const returnedData = await blocksCollection.c_readAll(
 			req.params.cat_id,
 			req.params.skip,
 			req.params.amount
 		)
 
 		// For Each Block in Blocks //
-		for (let i = 0; i < blocks.length; i++) {
+		for (let i = 0; i < returnedData.blocks.length; i++) {
 			// Set Like Count //
 			try {
-				blocks[i].likeCount = await blockLikesCollection.c_countAll(
-					blocks[i]._id
+				returnedData.blocks[i].likeCount = await blockLikesCollection.c_countAll(
+					returnedData.blocks[i]._id
 				)
 			}
 			catch (e) { console.log(`Caught Error --> ${e}`) }
@@ -71,14 +76,14 @@ router.get(
 				// check if the block like exist..
 				const liked = await blockLikesCollection.c_existance(
 					req.decoded._id,
-					blocks[i]._id
+					returnedData.blocks[i]._id
 				)
 					
-				blocks[i].liked = liked.existance
+				returnedData.blocks[i].liked = liked.existance
 			}
 		}
 	
-		res.status(200).send(blocks)
+		res.status(200).send(returnedData)
 	}
 )
 

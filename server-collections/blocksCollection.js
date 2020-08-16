@@ -42,14 +42,13 @@ const c_create = async (user_id, cat_id, title) => {
 	}
 }
 
-
 // [READ-ALL-ALL] //
 const c_readAllAll = async (skip, amount) => {
 	const skip2 = parseInt(skip)
 	const amount2 = parseInt(amount)
 
 	try {
-		const returnedData = await BlockModel.find()
+		const blocks = await BlockModel.find()
 			.skip(skip2)
 			.limit(amount2)
 			.populate(
@@ -60,11 +59,10 @@ const c_readAllAll = async (skip, amount) => {
 			)
 			.exec()
 
-		return returnedData
+		return { status: true, blocks: blocks }
 	}
 	catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
 }
-
 
 // [READ-ALL] Within Cat //
 const c_readAll = async (cat_id, skip, amount) => {
@@ -72,7 +70,7 @@ const c_readAll = async (cat_id, skip, amount) => {
 	const amount2 = parseInt(amount)
 
 	try {
-		const returnedData = await BlockModel.find(
+		const blocks = await BlockModel.find(
 			{ cat_id: cat_id }
 		)
 			.skip(skip2)
@@ -85,17 +83,16 @@ const c_readAll = async (cat_id, skip, amount) => {
 			)
 			.exec()
 
-		return returnedData
+		return { status: true, blocks: blocks }
 	}
 	catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
 }
-
 
 // [READ] Single Block //
 const c_read = async (block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {
-			const returnedData = await BlockModel.findById(block_id)
+			const block = await BlockModel.findById(block_id)
 				.populate(
 					{
 						path: 'user',
@@ -104,9 +101,11 @@ const c_read = async (block_id) => {
 				)
 				.exec()
 			
-			return returnedData
+			return { status: true, block: block }
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
+		catch(e) {
+			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
+		}
 	}
 	else {
 		return {
@@ -118,37 +117,8 @@ const c_read = async (block_id) => {
 }
 
 
-// [LIKE-EXISTANCE] //
-const c_likeExistance = async (user_id, block_id) => {
-	try {	
-		const returnedData = await BlockModel.findOne(
-			{
-				_id: block_id,
-				likers: user_id,
-			}
-		)
-
-		if (returnedData) {
-			return {
-				status: true,
-				message: 'Block Like does exists',
-				existance: true,
-			}
-		}
-		else {
-			return {
-				status: true,
-				message: 'Block Like does NOT exists',
-				existance: false,
-			}
-		}
-	}
-	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
-}
-
-
 /******************* [FOLLOW SYSTEM] *******************/
-// [LIKE] //
+// [FOLLOW] //
 const c_follow = async (user_id, block_id) => {
 	const followExistance = await c_followExistance(user_id, block_id)
 
@@ -171,8 +141,7 @@ const c_follow = async (user_id, block_id) => {
 	else { return { status: false, message: followExistance.message } }
 }
 
-
-// [UNLIKE] //
+// [UNFOLLOW] //
 const c_unfollow = async (user_id, block_id) => {
 	const followExistance = await c_followExistance(user_id, block_id)
 
@@ -194,7 +163,6 @@ const c_unfollow = async (user_id, block_id) => {
 	}
 	else { return { status: false, message: followExistance.message } }
 }
-
 
 // [FOLLOW-EXISTANCE] //
 const c_followExistance = async (user_id, block_id) => {
@@ -254,7 +222,6 @@ const c_existance = async (block_id) => {
 	else { return { status: false, message: 'Invalid Block ID' } }
 }
 
-
 // [OWNERSHIP] //
 const c_ownership = async (user_id, block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
@@ -294,14 +261,12 @@ const c_count = async (cat_id) => {
 }
 
 
-
 // [EXPORT] //
 module.exports = {
 	c_create,
 	c_readAllAll,
 	c_readAll,
 	c_read,
-	c_likeExistance,
 	c_follow,
 	c_unfollow,
 	c_followExistance,

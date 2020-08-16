@@ -21,26 +21,32 @@ async function authAxios() {
 async function s_create(cat_id, title, text) {
 	const authAxios = await this.authAxios()
 
-	return await authAxios.post('/create', { cat_id, title, text })
+	try {
+		const returnedData = await authAxios.post('/create', { cat_id, title, text })
+		return returnedData.data
+	}
+	catch (e) {
+		return { status: false, message: `BlockService: Caught Error --> ${e}` }
+	}
 }
 
 
-// [READ-ALL] //
+// [READ-ALL] Within Cat //
 async function s_readAll(cat_id, amount, pageNumber) {
 	const skip = pageNumber * amount
 	const authAxios = await this.authAxios()
 
 	try {
-		let res = await authAxios.get(`/read-all/${cat_id}/${amount}/${skip}`)
+		const returnedData = await authAxios.get(`/read-all/${cat_id}/${amount}/${skip}`)
 
-		const blocks = res.data.map(block => ({
+		const blocks = returnedData.data.blocks.map(block => ({
 			...block,
 			createdAt: new Date(block.createdAt).toLocaleString()
 		}))
 
 		return blocks
 	}
-	catch (e) {console.log(e); return { status: false, error: e } }
+	catch (e) { return { status: false, error: e } }
 }
 
 
@@ -49,13 +55,19 @@ async function s_read(block_id) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let res = await authAxios.get(`/read/${block_id}`)
+		let returnedData = await authAxios.get(`/read/${block_id}`)
 
-		res.data.createdAt = new Date(res.data.createdAt).toLocaleString()
+		returnedData.data.block.createdAt = new Date(
+			returnedData.data.block.createdAt
+		).toLocaleString()
 
-		return res.data
+		return returnedData.data.block
 	}
-	catch(e) { return e }
+	catch(e) {
+		console.log(`BlockService: Caught Error --> ${e}`)
+		
+		return { status: false, message: `BlockService: Caught Error --> ${e}` }
+	}
 }
 
 
