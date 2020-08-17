@@ -27,24 +27,24 @@ const c_create = async (user_id, block_id, comment_id) => {
 		)
 		
 		try {
-			const commentLike = await formData.save()
+			const createdCommentLike = await formData.save()
 
 			return {
 				status: true,
 				message: 'Created commentLike',
-				commentLike: commentLike,
-				user: user_id,
-				comment: comment_id,
-				block: block_id,
+				user_id: user_id,
+				comment_id: comment_id,
+				block_id: block_id,
+				createdCommentLike: createdCommentLike,
 			}
 		}
 		catch(e) {
 			return {
 				status: false,
 				message: `Caught Error --> ${e}`,
-				user: user_id,
-				comment: comment_id,
-				block: block_id,
+				user_id: user_id,
+				comment_id: comment_id,
+				block_id: block_id,
 			}
 		}
 	}
@@ -55,7 +55,7 @@ const c_create = async (user_id, block_id, comment_id) => {
 // [DELETE] //
 const c_delete = async (user_id, comment_id) => {
 	try {
-		await CommentLikeModel.deleteMany(
+		const deletedCommentLike = await CommentLikeModel.deleteMany(
 			{
 				user: user_id,
 				comment: comment_id,
@@ -65,16 +65,17 @@ const c_delete = async (user_id, comment_id) => {
 		return {
 			status: true,
 			message: 'Deleted CommentLike',
-			user: user_id,
-			comment: comment_id,
+			user_id: user_id,
+			comment_id: comment_id,
+			deletedCommentLike: deletedCommentLike,
 		}
 	}
 	catch(e) {
 		return {
 			status: false,
 			message: `Caught Error --> ${e}`,
-			user: user_id,
-			comment: comment_id,
+			user_id: user_id,
+			comment_id: comment_id,
 		}
 	}
 }
@@ -83,19 +84,22 @@ const c_delete = async (user_id, comment_id) => {
 // [DELETE-ALL] //
 const c_deleteAll = async (comment_id) => {
 	try {
-		await CommentLikeModel.deleteMany({ comment: comment_id })
+		const deletedCommentLikes = await CommentLikeModel.deleteMany(
+			{ comment: comment_id }
+		)
 
 		return {
 			status: true,
 			message: 'Deleted All CommentLike for this comment',
-			comment: comment_id,
+			comment_id: comment_id,
+			deletedCommentLikes: deletedCommentLikes
 		}
 	}
 	catch(e) {
 		return {
 			status: false,
 			message: `Caught Error --> ${e}`,
-			comment: comment_id,
+			comment_id: comment_id,
 		}
 	}
 }
@@ -118,6 +122,8 @@ const c_existance = async (user_id, comment_id) => {
 					status: true,
 					message: 'CommentLike does exists',
 					existance: true,
+					user_id: user_id,
+					comment_id: comment_id,
 				}
 			}
 			else {
@@ -125,6 +131,8 @@ const c_existance = async (user_id, comment_id) => {
 					status: true,
 					message: 'CommentLike does NOT exists',
 					existance: false,
+					user_id: user_id,
+					comment_id: comment_id,
 				}
 			}
 		}

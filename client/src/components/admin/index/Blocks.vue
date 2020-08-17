@@ -57,7 +57,12 @@
 		methods: {
 			async getBlocks() {
 				// Get Blocks //
-				try { this.blocks = await ABlockService.s_readAllAll(100, 0) }
+				try {
+					let returnedData = await ABlockService.s_readAllAll(100, 0)
+
+					if (returnedData.status) { this.blocks = returnedData.blocks }
+					else { this.error = returnedData.message }
+				}
 				catch(e) { this.error = e }
 			},
 

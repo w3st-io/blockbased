@@ -73,11 +73,9 @@ router.get(
 
 			// Follow Count //
 			try {
-				const count = await blockFollowersCollection.c_countAll(
+				returnedData.blocks[i].followersCount = await blockFollowersCollection.c_countAll(
 					returnedData.blocks[i]._id
 				)
-
-				returnedData.blocks[i].followersCount = count
 			}
 			catch (e) { console.log(`Caught Error --> ${e}`) }
 
@@ -88,8 +86,6 @@ router.get(
 					req.decoded._id,
 					returnedData.blocks[i]._id
 				)
-					
-				returnedData.blocks[i].liked = liked.existance
 
 				// Follwed Status //
 				const followed = await blockFollowersCollection.c_existance(
@@ -97,6 +93,7 @@ router.get(
 					returnedData.blocks[i]._id
 				)
 				
+				returnedData.blocks[i].liked = liked.existance
 				returnedData.blocks[i].followed = followed.existance
 			}
 		}

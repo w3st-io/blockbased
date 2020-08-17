@@ -25,10 +25,7 @@ async function s_readAllAll() {
 		const returnedData = await authAxios.get('/read-all')
 		console.log(returnedData.data)
 
-		return {
-			status: true,
-			reports: returnedData.data,
-		}
+		return returnedData.data
 	}
 	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 }

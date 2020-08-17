@@ -27,18 +27,18 @@ const c_create = async (user_id, block_id, text) => {
 			
 			return {
 				status: true,
-				message: `Created comment in ${block_id}.`,
-				createdComment: createdComment,
+				message: `Created comment`,
 				user: user_id,
 				block_id: block_id,
+				createdComment: createdComment,
 			}
 		}
 		catch(e) {
 			return {
 				status: false,
+				message: `commentsCollection: Caught Error --> ${e}`,
 				user: user_id,
 				block_id: block_id,
-				message: `Caught Error --> ${e}`,
 			}
 		}
 	}
@@ -52,14 +52,13 @@ const c_create = async (user_id, block_id, text) => {
 	}
 }
 
-
 // [READ-ALL-ALL] //
 const c_readAllAll = async (skip, limit) => {
 	const skip2 = parseInt(skip)
 	const limit2 = parseInt(limit)
 	
 	try {
-		const returnedData = await CommentModel.find()
+		const comments = await CommentModel.find()
 			.skip(skip2)
 			.limit(limit2)
 			.populate(
@@ -71,16 +70,15 @@ const c_readAllAll = async (skip, limit) => {
 			.populate('block')
 			.exec()
 
-		return returnedData
+		return { status: true, comments: comments }
 	}
 	catch(e) {
 		return {
 			status: false,
-			message: `Caught Error --> ${e}`,
+			message: `commentsCollection: Caught Error --> ${e}`,
 		}
 	}
 }
-
 
 // [READ-ALL] Within a Block //
 const c_readAll = async (block_id, skip, limit) => {
@@ -111,12 +109,11 @@ const c_readAll = async (block_id, skip, limit) => {
 	}
 }
 
-
 // [READ] //
 const c_read = async (comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {
-			const returnedData = await CommentModel.findById(comment_id)
+			const comment = await CommentModel.findById(comment_id)
 				.populate(
 					{
 						path: 'user',
@@ -131,7 +128,7 @@ const c_read = async (comment_id) => {
 				)
 				.exec()
 
-			return { status: true, comment: returnedData }
+			return { status: true, comment: comment }
 		}
 		catch(e) {
 			return {
@@ -148,13 +145,12 @@ const c_read = async (comment_id) => {
 	}
 }
 
-
 // [UPDATE] //
 const c_update = async (comment_id, text) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		if (text.length <= 6000) {
 			try {
-				await CommentModel.updateOne(
+				const updatedCollent = await CommentModel.updateOne(
 					{ _id: comment_id },
 					{ '$set': { 'text': text } },
 				)
@@ -164,6 +160,7 @@ const c_update = async (comment_id, text) => {
 					message: 'Updated comment',
 					comment_id: comment_id,
 					text: text,
+					updatedCollent: updatedCollent,
 				}
 			}
 			catch(e) {
@@ -194,18 +191,23 @@ const c_update = async (comment_id, text) => {
 	}
 }
 
-
 // [DELETE] //
 const c_delete = async (user_id, comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {
-			await CommentModel.findOneAndRemove({ _id: comment_id, user: user_id, })
+			const deletedComment = await CommentModel.findOneAndRemove(
+				{
+					_id: comment_id,
+					user: user_id,
+				}
+			)
 
 			return {
 				status: true,
-				message: 'Deleted comment.',
+				message: 'Deleted comment',
 				user_id: user_id,
 				comment_id: comment_id,
+				deletedComment: deletedComment,
 			}
 		}
 		catch(e) {
@@ -228,8 +230,7 @@ const c_delete = async (user_id, comment_id) => {
 }
 
 
-/******************* [EXISTANCE + OWNERSHIP] *******************/
-// [EXISTANCE] //
+/******************* [EXISTANCE] *******************/
 const c_existance = async (comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {	
@@ -250,28 +251,34 @@ const c_existance = async (comment_id) => {
 				}
 			}
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+		catch(e) {
+			return {
+				status: false,
+				message: `commentsCollection: Caught Error --> ${e}`
+			}
+		}
 	}
 	else { return { status: false, message: 'Invalid comment ID' } }
 }
 
 
-// [OWNERSHIP] //
+/******************* [OWNERSHIP] *******************/
 const c_ownership = async (user_id, comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {	
-			const returnedData = await CommentModel.findOne(
+			const comment = await CommentModel.findOne(
 				{
 					user: user_id,
 					_id: comment_id,
 				}
 			)
 
-			if (returnedData) {
+			if (comment) {
 				return {
 					status: true,
 					message: 'You own this comment',
 					ownership: true,
+					comment: comment,
 				}
 			}
 			else {
@@ -279,10 +286,16 @@ const c_ownership = async (user_id, comment_id) => {
 					status: true,
 					message: 'You do NOT own this comment',
 					ownership: false,
+					comment: comment,
 				}
 			}
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+		catch(e) {
+			return {
+				status: false,
+				message: `commentsCollection: Caught Error --> ${e}`
+			}
+		}
 	}
 	else { return { status: false, message: 'Invalid comment ID' } }
 }
@@ -291,7 +304,7 @@ const c_ownership = async (user_id, comment_id) => {
 /******************* [COUNT] *******************/
 const c_countAll = async (block_id) => {
 	try { return await CommentModel.countDocuments({ block: block_id }) }
-	catch(e) { return `Caught Error --> ${e}` }
+	catch(e) { return `commentsCollection: Caught Error --> ${e}` }
 }
 
 

@@ -41,6 +41,7 @@
 	export default {
 		data: function() {
 			return {
+				returnedData: {},
 				comments: {},
 				error: '',
 			}
@@ -66,8 +67,13 @@
 
 			async getComments() {
 				// Get Comments //
-				try { this.comments = await ACommentService.s_readAllAll(100, 0) }
-				catch(e) { this.error = e }
+				try { this.returnedData = await ACommentService.s_readAllAll(100, 0) }
+				catch(e) { this.error = `Caught Error --> ${e}` }
+
+				if (this.returnedData.status) {
+					this.comments = this.returnedData.comments
+				}
+				else { this.error = this.returnedData.message }
 			},
 
 			log() {

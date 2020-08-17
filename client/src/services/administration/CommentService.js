@@ -22,22 +22,19 @@ async function s_readAllAll(amount, pageNumber) {
 	const authAxios = await this.authAxios()
 	const skip = pageNumber * amount
 
-	const result = new Promise ((resolve, reject) => {
-		authAxios.get(`/read-all-all/${amount}/${skip}`)
-			.then((res) => {
-				let comments = res.data
+	try {
+		let returnedData = await authAxios.get(`/read-all-all/${amount}/${skip}`)
 
-				comments = comments.map(comment => ({
-					...comment,
-					createdAt: new Date(comment.createdAt).toLocaleString(),
-				}))
+		returnedData = returnedData.data.comments.map(comment => ({
+			...comment,
+			createdAt: new Date(comment.createdAt).toLocaleString(),
+		}))
 
-				resolve(comments)
-			})
-			.catch((err) => { reject(err) })
-	})
-
-	return result
+		return { status: true, comments: returnedData }
+	}
+	catch (e) {
+		return { status: false, message: `CommentService: Caught Error --> ${e}` }
+	}
 }
 
 

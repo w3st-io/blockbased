@@ -28,8 +28,8 @@ const c_create = async (user_id, comment_id, block_id, reportType) => {
 		return {
 			status: true,
 			message: 'Created comment report',
-			commentReport: commentReport,
 			created: true,
+			commentReport: commentReport,
 		}
 	}
 	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
@@ -44,21 +44,7 @@ const c_readAll = async () => {
 			.populate('comment')
 			.exec()
 
-		return returnedData
-	}
-	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
-}
-
-
-// [DELETE-ALL-ALL] //
-const c_deleteAllAll = async () => {
-	try {
-		await CommentReportModel.deleteMany()
-
-		return {
-			status: true,
-			message: 'Deleted all comment reports',
-		}
+		return { status: true, reports: returnedData }
 	}
 	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 }
@@ -125,7 +111,6 @@ const c_existance = async (user_id, comment_id) => {
 module.exports = {
 	c_create,
 	c_readAll,
-	c_deleteAllAll,
 	c_delete,
 	c_existance,
 }

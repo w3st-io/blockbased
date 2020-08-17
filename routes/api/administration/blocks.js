@@ -22,10 +22,10 @@ const router = express.Router().use(cors())
 /******************* [CRUD] *******************/
 // [READ-ALL-ALL] Auth Required //
 router.get(
-	'/read-all/:amount/:skip',
+	'/read-all-all/:amount/:skip',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await blocksCollection.c_readAllAll(
+		const returnedData = await aBlocksCollection.c_readAllAll(
 			req.params.skip,
 			req.params.amount
 		)

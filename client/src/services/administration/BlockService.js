@@ -19,26 +19,22 @@ async function authAxios() {
 /******************* [CRUD] *******************/
 // [READ-ALL-ALL] Auth Required //
 async function s_readAllAll(amount, pageNumber) {
-	const authAxios = await this.authAxios()
 	const skip = pageNumber * amount
+	const authAxios = await this.authAxios()
 
-	const result = new Promise ((resolve, reject) => {
-		authAxios.get(`/read-all/${amount}/${skip}`)
-			.then((res) => {
-				let returnedData = res.data.blocks
+	try {
+		const returnedData = await authAxios.get(`/read-all-all/${amount}/${skip}`)
 
-				// Reformat
-				returnedData = returnedData.map(block => ({
-					...block,
-					createdAt: new Date(block.createdAt).toLocaleString()
-				}))
-				
-				resolve(returnedData)
-			})
-			.catch((err) => { reject(err) })
-	})
+		const blocks = returnedData.data.blocks.map(block => ({
+			...block,
+			createdAt: new Date(block.createdAt).toLocaleString()
+		}))
 
-	return result
+		return { status: true, blocks: blocks }
+	}
+	catch (e) {
+		return { status: false, message: `BlockService: Caught Error --> ${e}` }
+	}
 }
 
 // [DELETE] Auth Required //
