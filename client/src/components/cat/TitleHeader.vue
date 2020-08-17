@@ -18,7 +18,7 @@
 		<div class="col-lg-6 col-md-4 col-sm-4 mb-3 text-right">
 			<!-- Post Count -->
 			<div class="mb-2 badge badge-dark text-secondary">
-				<h5 class="m-0">Total Posts: {{ '--' }}</h5>
+				<h5 class="m-0">Total Posts: {{ postCount }}</h5>
 			</div>
 			<br>
 
@@ -48,6 +48,12 @@
 
 		components: {
 			PageNavButtons,
+		},
+
+		data: function() {
+			return {
+				postCount: '--'
+			}
 		},
 
 		methods: {

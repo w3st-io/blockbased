@@ -35,13 +35,9 @@
 		},
 
 		methods: {
-			leftBtn() {
-				EventBus.$emit(this.leftBtnEmitName)
-			},
+			leftBtn() { EventBus.$emit(this.leftBtnEmitName) },
 
-			rightBtn() {
-				EventBus.$emit(this.rightBtnEmitName)
-			},
+			rightBtn() { EventBus.$emit(this.rightBtnEmitName) },
 
 			log() {
 				console.log('%%% [COMPONENT] PageNavButtons %%%')
