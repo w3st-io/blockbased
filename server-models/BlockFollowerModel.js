@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 
 
 // [SCHEMA MODEL] //
-const BlockFollowSchema = mongoose.Schema({
+const BlockFollowerSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	
 	user: {
@@ -27,4 +27,4 @@ const BlockFollowSchema = mongoose.Schema({
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('blockFollow', BlockFollowSchema)
+module.exports = mongoose.model('BlockFollower', BlockFollowerSchema)

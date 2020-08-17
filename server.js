@@ -105,13 +105,15 @@ io.on('connection', (socket) => {
 
 	// [ON] comment-created //
 	socket.on('comment-created', (followers) => {
-		followers.forEach(follower => {
-			// Get userSicket by user_id
-			const userSocket = userUtils.getUserSocketByUserId(follower)
-			
-			// [EMIT] //
-			if (userSocket) { io.to(userSocket.socket_id).emit('update-notification') }
-		})
+		if (followers) {
+			followers.forEach(follower => {
+				// Get userSicket by user_id
+				const userSocket = userUtils.getUserSocketByUserId(follower)
+				
+				// [EMIT] //
+				if (userSocket) io.to(userSocket.socket_id).emit('update-notification')
+			})
+		}
 	})
 
 	

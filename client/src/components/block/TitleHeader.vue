@@ -3,7 +3,7 @@
 		<!-- Left Side -->
 		<div class="col-lg-9 col-md-8 col-sm-8">
 			<!-- Title + Page Nav Buttons -->
-			<h3 class="text-light">{{ blockTitle }}</h3>
+			<h3 class="text-light">{{ block.title }}</h3>
 			<p class="text-secondary small hide-the-ugly">
 				Posted by: {{ blockCreatorUsername }} - {{ block.createdAt }}
 			</p>
@@ -19,13 +19,13 @@
 		<div class="col-lg-3 col-md-4 col-sm-4 text-right">
 			<div class="mb-3">
 				<span>
-					<span class="ml-2 badge badge-light">{{ blockFollowersCount }}</span>
+					<span class="ml-2 badge badge-light">{{ block.followersCount }}</span>
 					<button
-						:disabled="disabled" 
+						:disabled="disabled"
 						@click="followBtn()"
 						class="ml-2 btn btn-sm btn-outline-secondary"
-						:class="{ 'btn-outline-success': following }"
-					>{{ following ? 'following ✓' : 'follow' }}</button>
+						:class="{ 'btn-outline-success': block.followed }"
+					>{{ block.followed ? 'following ✓' : 'follow' }}</button>
 				</span>
 			</div>
 			
@@ -43,7 +43,6 @@
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import router from '@router'
 	import BlockService from '@services/BlockService'
-	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {
@@ -60,58 +59,33 @@
 
 		data: function() {
 			return {
-				decoded: {},
 				disabled: false,
 				following: false,
 				pageNumber: this.$route.params.page,
 				block: {},
 
 				// Render Variables
-				blockTitle: '',
 				blockCreatorUsername: '',
-				blockFollowersCount: 0,
 				
 				error: '',
 			}
 		},
 
 		created: async function() {
-			// Decode User Profile //
-			await this.decode()
-
 			// Get Block Details //
 			await this.blockRead()
 
-			this.blockTitle = this.block.title
 			this.blockCreatorUsername = this.block.user.username
-			this.blockFollowersCount = this.block.followers.length
 			
 			// [LOG] //
-			//this.log()
+			this.log()
 		},
 
 		methods: {
-			/******************* [INIT] User Decode *******************/
-			async decode() {
-				this.decoded = await UserService.getUserTokenDecodeData()
-			},
-
 			/******************* [INIT] Block *******************/
 			async blockRead() {
 				try { this.block = await BlockService.s_read(this.block_id) }
 				catch(e) { this.error = e }
-
-				this.searchForUserInFollowers()
-			},
-
-			searchForUserInFollowers() {
-				// Search For Likers Id in Block's Object //
-				let found = this.block.followers.find((follower) => (
-					follower == this.decoded._id
-				))
-
-				if (found) { this.following = true }
-				else { this.following = false }
 			},
 
 			/******************* [BTN] FOLLOW *******************/
@@ -121,7 +95,7 @@
 					// Disable Buttons //
 					this.disabled = true
 
-					if (!this.following) {
+					if (!this.block.followed) {
 						try { await BlockService.s_follow(this.block_id) }
 						catch(e) { this.error = e }
 					}
@@ -145,7 +119,6 @@
 
 			log() {
 				console.log('%%% [COMPONENT] TitleHeader %%%')
-				console.log('decoded:', this.decoded)
 				console.log('block_id:', this.block_id)
 				console.log('block:', this.block)
 				if (this.error) { console.error('error:', this.error) }

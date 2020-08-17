@@ -21,16 +21,16 @@ async function authAxios() {
 
 /******************* [CRUD] *******************/
 // [CREATE] Auth Required //
-async function s_create(block_id, blockFollowers, text) {
+async function s_create(block_id, text) {
 	const authAxios = await this.authAxios()
 
-	const returnedData =  await authAxios.post(`/create`, {
+	const returnedData = await authAxios.post(`/create`, {
 		block_id,
-		blockFollowers,
-		text
+		text,
 	})
 
-	EventBus.$emit('comment-created', blockFollowers)
+	// [EMIT] Notify sockets that comment is created //
+	EventBus.$emit('comment-created', returnedData.data[1])
 
 	return returnedData.data
 }

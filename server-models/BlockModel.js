@@ -28,12 +28,9 @@ const BlockSchema = mongoose.Schema({
 
 	liked: { type: Boolean, default: null, },
 
-	followers: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User'
-		}
-	],
+	followersCount: { type: Number, default: null, },
+
+	followed: { type: Boolean, default: null, },
 
 	createdAt: {
 		type: Date,

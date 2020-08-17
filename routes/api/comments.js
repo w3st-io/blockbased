@@ -12,6 +12,7 @@ require('dotenv').config()
 // [REQUIRE] Personal //
 const rateLimiter = require('../../rate-limiters')
 const blocksCollection = require('../../server-collections/blocksCollection')
+const blockFollowersCollection = require('../../server-collections/blockFollowersCollection')
 const commentsCollection = require('../../server-collections/commentsCollection')
 const commentLikesCollection = require('../../server-collections/commentLikesCollection')
 const commentReportsCollection = require('../../server-collections/commentReportsCollection')
@@ -30,27 +31,34 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.commentLimiter,
 	async (req, res) => {
-		const blockFollowers = req.body.blockFollowers
-
 		const existance = await blocksCollection.c_existance(req.body.block_id)
 
 		if (existance.status && existance.existance) {
+			let returnFollowers = []
+
 			const returnedData = await commentsCollection.c_create(
 				req.decoded._id,
 				req.body.block_id,
 				req.body.text
 			)
+
+			// [CREATE] Notifications // Get Block Followers //
+			const followers = await blockFollowersCollection.c_readAll(
+				req.body.block_id
+			)
 			
 			// Create Notification for Followers
-			for (let i = 0; i < blockFollowers.length; i++) {
+			for (let i = 0; i < followers.blockFollowers.length; i++) {
 				await notificationsCollection.c_create(
-					blockFollowers[i],
+					followers.blockFollowers[i].user,
 					returnedData.createdComment._id,
 					'comment'
 				)
+
+				returnFollowers.push(followers.blockFollowers[i].user)
 			}
 
-			res.status(201).send(returnedData)
+			res.status(201).send([returnedData, returnFollowers])
 		}
 		else { res.status(400).send(existance.message) }
 	}

@@ -65,22 +65,9 @@ async function s_read(block_id) {
 	}
 	catch(e) {
 		console.log(`BlockService: Caught Error --> ${e}`)
-		
+
 		return { status: false, message: `BlockService: Caught Error --> ${e}` }
 	}
-}
-
-
-
-// [DELETE] Auth Required //
-async function s_delete(block_id) {
-	const authAxios = await this.authAxios()
-	console.log(block_id, authAxios)
-	
-	/*
-	try { return await authAxios.delete(`/blocks/delete/${block_id}`) }
-	catch(e) { return e }
-	*/
 }
 
 
@@ -89,14 +76,18 @@ async function s_delete(block_id) {
 async function s_like(block_id) {
 	const authAxios = await this.authAxios()
 
-	return await authAxios.post(`/like/${block_id}`)
+	const returnedData = await authAxios.post(`/like/${block_id}`)
+
+	return returnedData.data
 }
 
 async function s_unlike(block_id) {
 	const authAxios = await this.authAxios()
 
 	// Remove the liker from the Block Object //
-	return await authAxios.post(`/unlike/${block_id}`)
+	const returnedData = await authAxios.post(`/unlike/${block_id}`)
+
+	return returnedData.data
 }
 
 
@@ -108,6 +99,7 @@ async function s_follow(block_id) {
 	// Add the liker from the Block Object
 	return await authAxios.post(`/follow/${block_id}`)
 }
+
 async function s_unfollow(block_id) {
 	const authAxios = await this.authAxios()
 
@@ -120,9 +112,9 @@ async function s_unfollow(block_id) {
 async function s_validateExistance(block_id) {
 	const authAxios = await this.authAxios()
 
-	let valid = await authAxios.get(`/existance/${block_id}`)
+	const returnedData = await authAxios.get(`/existance/${block_id}`)
 	
-	return valid.data
+	return returnedData.data
 }
 
 
@@ -130,9 +122,9 @@ async function s_validateExistance(block_id) {
 async function s_countWithinCat(cat_id) {
 	const authAxios = await this.authAxios()
 
-	let count = await authAxios.get(`/count/${cat_id}`)
+	const returnedData = await authAxios.get(`/count/${cat_id}`)
 
-	return count.data
+	return returnedData.data
 }
 
 
@@ -142,7 +134,6 @@ export default {
 	s_create,
 	s_readAll,
 	s_read,
-	s_delete,
 	s_like,
 	s_unlike,
 	s_follow,

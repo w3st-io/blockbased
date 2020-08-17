@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
-const BlockFollowModel = require('../server-models/BlockFollowModel')
+const BlockFollowerModel = require('../server-models/BlockFollowerModel')
 
 
 /******************* [CRUD] *******************/
@@ -17,7 +17,7 @@ const c_create = async (user_id, block_id) => {
 	const existance = await c_existance(user_id, block_id)
 
 	if (existance.status && !existance.existance) {
-		const formData = new BlockFollowModel(
+		const formData = new BlockFollowerModel(
 			{
 				_id: mongoose.Types.ObjectId(),
 				user: user_id,
@@ -49,10 +49,32 @@ const c_create = async (user_id, block_id) => {
 }
 
 
+// [READ-ALL] //
+const c_readAll = async (block_id) => {
+	try {
+		const blockFollowers = await BlockFollowerModel.find({ block: block_id })
+
+		return {
+			status: true,
+			message: 'Found',
+			block_id: block_id,
+			blockFollowers: blockFollowers,
+		}
+	}
+	catch(e) {
+		return {
+			status: true,
+			message: 'blockFollowersCollection Error',
+			block_id: block_id,
+		}
+	}
+}
+
+
 // [DELETE] //
 const c_delete = async (user_id, block_id) => {
 	try {
-		await BlockFollowModel.deleteMany({ user: user_id, block: block_id, })
+		await BlockFollowerModel.deleteMany({ user: user_id, block: block_id, })
 
 		return {
 			status: true,
@@ -77,7 +99,7 @@ const c_delete = async (user_id, block_id) => {
 const c_existance = async (user_id, block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {
-			const returnedData = await BlockFollowModel.findOne(
+			const returnedData = await BlockFollowerModel.findOne(
 				{
 					user: user_id,
 					block: block_id,
@@ -105,9 +127,17 @@ const c_existance = async (user_id, block_id) => {
 }
 
 
+/******************* [COUNT] *******************/
+const c_countAll = async (block_id) => {
+	return await BlockFollowerModel.countDocuments({ block: block_id })
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_create,
+	c_readAll,
 	c_delete,
-	c_existance
+	c_existance,
+	c_countAll,
 }

@@ -117,82 +117,6 @@ const c_read = async (block_id) => {
 }
 
 
-/******************* [FOLLOW SYSTEM] *******************/
-// [FOLLOW] //
-const c_follow = async (user_id, block_id) => {
-	const followExistance = await c_followExistance(user_id, block_id)
-
-	if (followExistance.status && !followExistance.existance) {
-		try {
-			await BlockModel.updateOne(
-				{ _id: block_id },
-				{ '$addToSet': { 'followers': user_id } }
-			)
-				
-			return {
-				status: true,
-				message: 'Followed block',
-				user_id: user_id,
-				block_id: block_id,
-			}
-		}	
-		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
-	}
-	else { return { status: false, message: followExistance.message } }
-}
-
-// [UNFOLLOW] //
-const c_unfollow = async (user_id, block_id) => {
-	const followExistance = await c_followExistance(user_id, block_id)
-
-	if (followExistance.status && followExistance.existance) {
-		try {
-			await BlockModel.updateOne(
-				{ _id: block_id },
-				{ '$pull': { 'followers': user_id } }
-			)
-
-			return {
-				status: true,
-				message: 'Unfollowed block',
-				user_id: user_id,
-				block_id: block_id,
-			}
-		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
-	}
-	else { return { status: false, message: followExistance.message } }
-}
-
-// [FOLLOW-EXISTANCE] //
-const c_followExistance = async (user_id, block_id) => {
-	try {	
-		const returnedData = await BlockModel.findOne(
-			{
-				_id: block_id,
-				followers: user_id
-			}
-		)
-
-		if (returnedData) {
-			return {
-				status: true,
-				message: 'Block follow does exists',
-				existance: true,
-			}
-		}
-		else {
-			return {
-				status: true,
-				message: 'Block follow does NOT exists',
-				existance: false,
-			}
-		}
-	}
-	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
-}
-
-
 /******************* [EXISTANCE + OWNERSHIP] *******************/
 // [EXISTANCE] //
 const c_existance = async (block_id) => {
@@ -267,9 +191,6 @@ module.exports = {
 	c_readAllAll,
 	c_readAll,
 	c_read,
-	c_follow,
-	c_unfollow,
-	c_followExistance,
 	c_existance,
 	c_ownership,
 	c_count,

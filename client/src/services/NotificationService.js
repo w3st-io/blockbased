@@ -38,7 +38,7 @@ async function markRead(notification_id) {
 	const authAxios = await this.authAxios()
 
 	try { return await authAxios(`/mark-read/${notification_id}`) }
-	catch (e) { return e}
+	catch (e) { return e }
 }
 
 

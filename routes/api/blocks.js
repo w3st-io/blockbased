@@ -12,7 +12,7 @@ require('dotenv').config()
 // [REQUIRE] Personal //
 const rateLimiter = require('../../rate-limiters')
 const blocksCollection = require('../../server-collections/blocksCollection')
-const blockFollowsCollection = require('../../server-collections/blockFollowsCollection')
+const blockFollowersCollection = require('../../server-collections/blockFollowersCollection')
 const blockLikesCollection = require('../../server-collections/blockLikesCollection')
 const commentsCollection = require('../../server-collections/commentsCollection')
 const Auth = require('../../server-middleware/Auth')
@@ -63,7 +63,7 @@ router.get(
 
 		// For Each Block in Blocks //
 		for (let i = 0; i < returnedData.blocks.length; i++) {
-			// Set Like Count //
+			// Like Count //
 			try {
 				returnedData.blocks[i].likeCount = await blockLikesCollection.c_countAll(
 					returnedData.blocks[i]._id
@@ -71,15 +71,33 @@ router.get(
 			}
 			catch (e) { console.log(`Caught Error --> ${e}`) }
 
-			// Set Liked Status //
+			// Follow Count //
+			try {
+				const count = await blockFollowersCollection.c_countAll(
+					returnedData.blocks[i]._id
+				)
+
+				returnedData.blocks[i].followersCount = count
+			}
+			catch (e) { console.log(`Caught Error --> ${e}`) }
+
+			// If User Logged In.. //
 			if (req.decoded) {
-				// check if the block like exist..
+				// Liked Status //
 				const liked = await blockLikesCollection.c_existance(
 					req.decoded._id,
 					returnedData.blocks[i]._id
 				)
 					
 				returnedData.blocks[i].liked = liked.existance
+
+				// Follwed Status //
+				const followed = await blockFollowersCollection.c_existance(
+					req.decoded._id,
+					returnedData.blocks[i]._id
+				)
+				
+				returnedData.blocks[i].followed = followed.existance
 			}
 		}
 	
@@ -91,25 +109,49 @@ router.get(
 // [READ] Single Block //
 router.get(
 	'/read/:_id',
+	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		const block = await blocksCollection.c_read(req.params._id)
+		let returnedData = await blocksCollection.c_read(req.params._id)
 
 		// Set Like Count //
-		try { block.likeCount = await blockLikesCollection.c_countAll(block._id) }
+		try {
+			returnedData.block.likeCount = await blockLikesCollection.c_countAll(
+				returnedData.block._id
+			)
+		}
 		catch (e) { console.log(`Caught Error --> ${e}`) }
 
-		// Set Liked Status //
+		// Follow Count //
+		try {
+			returnedData.block.followersCount = await blockFollowersCollection.c_countAll(
+				returnedData.block._id
+			)
+		}
+		catch (e) { console.log(`Caught Error --> ${e}`) }
+
+		// If User Logged In.. //
 		if (req.decoded) {
-			// check if the block like exist..
+			// Liked Status //
 			const liked = await blockLikesCollection.c_existance(
 				req.decoded._id,
-				block._id
+				returnedData.block._id
 			)
 
-			block.liked = liked.existance
+			returnedData.block.liked = liked.existance
+
+			// Follwed Status //
+			try {
+				const followed = await blockFollowersCollection.c_existance(
+					req.decoded._id,
+					returnedData.block._id
+				)
+
+				returnedData.block.followed = followed.existance
+			}
+			catch (e) { console.log(e) }
 		}
 
-		res.status(200).send(block)
+		res.status(200).send(returnedData)
 	}
 )
 
@@ -178,17 +220,12 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.followLimiter,
 	async (req, res) => {
-		// [UPDATE] block Followers // [CREATE] blockFollow //
-		const returnedData = await blocksCollection.c_follow(
-			req.decoded._id,
-			req.params._id
-		)
-		const returnedData2 = await blockFollowsCollection.c_create(
+		const returnedData = await blockFollowersCollection.c_create(
 			req.decoded._id,
 			req.params._id
 		)
 		
-		res.status(201).send([returnedData, returnedData2])
+		res.status(201).send(returnedData)
 	}
 )
 
@@ -199,17 +236,12 @@ router.post(
 	rateLimiter.followLimiter,
 	Auth.userToken(),
 	async (req, res) => {
-		// [UPDATE] block Followers // [DELETE] blockFollow //
-		const returnedData = await blocksCollection.c_unfollow(
-			req.decoded._id,
-			req.params._id
-		)
-		const returnedData2 = await blockFollowsCollection.c_delete(
+		const returnedData = await blockFollowersCollection.c_delete(
 			req.decoded._id,
 			req.params._id
 		)
 		
-		res.status(201).send([returnedData, returnedData2])
+		res.status(201).send(returnedData)
 	}
 )
 

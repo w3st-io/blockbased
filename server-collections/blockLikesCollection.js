@@ -31,9 +31,9 @@ const c_create = async (user_id, block_id) => {
 			return {
 				status: true,
 				message: 'Created blockLike',
-				createdBlockLike: createdBlockLike,
 				block: block_id,
 				user: user_id,
+				createdBlockLike: createdBlockLike,
 			}
 		}
 		catch(e) {
@@ -52,13 +52,16 @@ const c_create = async (user_id, block_id) => {
 // [DELETE] //
 const c_delete = async (user_id, block_id) => {
 	try {
-		await BlockLikeModel.deleteMany({ user: user_id, block: block_id, })
+		const deletedBlockLike = await BlockLikeModel.deleteMany(
+			{ user: user_id, block: block_id, }
+		)
 
 		return {
 			status: true,
 			message: `Deleted blockLike`,
 			user: user_id,
 			block: block_id,
+			deletedBlockLike: deletedBlockLike,
 		}
 	}
 	catch(e) {
@@ -138,5 +141,5 @@ module.exports = {
 	c_delete,
 	c_deleteAll,
 	c_existance,
-	c_countAll
+	c_countAll,
 }
