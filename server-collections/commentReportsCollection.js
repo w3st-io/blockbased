@@ -56,17 +56,24 @@ const c_delete = async (commentReport_id) => {
 
 	if (validId) {
 		try {
-			await CommentReportModel.deleteOne({ _id: commentReport_id })
+			const deletedCommentReport = await CommentReportModel.deleteOne(
+				{ _id: commentReport_id }
+				)
 
 			return {
 				status: true,
 				message: 'Deleted report',
-				commentReport_id: commentReport_id,
+				deletedCommentReport: deletedCommentReport,
 			}
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+		catch(e) {
+			return {
+				status: false,
+				message: `commentReportsCollection: Caught Error --> ${e}`
+			}
+		}
 	}
-	else { return { status: false, message: 'Invalid commentReport ID' } }
+	else { return { status: false, message: 'Invalid commentReport_id' } }
 }
 
 
@@ -77,7 +84,7 @@ const c_existance = async (user_id, comment_id) => {
 
 	if (validId) {
 		try {
-			const returnedData = await CommentReportModel.findOne({	
+			const commentReport = await CommentReportModel.findOne({	
 				comment: comment_id,
 				user: user_id,
 			})
@@ -87,8 +94,7 @@ const c_existance = async (user_id, comment_id) => {
 					status: true,
 					message: 'CommentReport does exist',
 					existance: true,
-					comment_id: comment_id,
-					user: user_id,
+					commentReport: commentReport,
 				}
 			}
 			else {
@@ -96,14 +102,18 @@ const c_existance = async (user_id, comment_id) => {
 					status: true,
 					message: 'CommentReport does NOT exist',
 					existance: false,
-					comment_id: comment_id,
-					user: user_id,
+					commentReport: commentReport,
 				}
 			}
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+		catch(e) {
+			return {
+				status: false,
+				message: `commentReportsCollection: Caught Error --> ${e}`
+			}
+		}
 	}
-	else { return { status: false, message: 'Invalid comment ID' } }
+	else { return { status: false, message: 'Invalid comment_id' } }
 }
 
 

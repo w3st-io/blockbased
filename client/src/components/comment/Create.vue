@@ -80,7 +80,7 @@
 
 		created: async function() {
 			try {
-				this.validBlock = await BlockService.s_validateExistance(this.block_id)
+				this.validBlock = await BlockService.s_existance(this.block_id)
 
 				// Get Block Details
 				this.block = await BlockService.s_read(this.block_id)

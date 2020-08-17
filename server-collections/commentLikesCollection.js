@@ -32,19 +32,13 @@ const c_create = async (user_id, block_id, comment_id) => {
 			return {
 				status: true,
 				message: 'Created commentLike',
-				user_id: user_id,
-				comment_id: comment_id,
-				block_id: block_id,
 				createdCommentLike: createdCommentLike,
 			}
 		}
 		catch(e) {
 			return {
 				status: false,
-				message: `Caught Error --> ${e}`,
-				user_id: user_id,
-				comment_id: comment_id,
-				block_id: block_id,
+				message: `commentLikesCollection: Caught Error --> ${e}`,
 			}
 		}
 	}
@@ -65,17 +59,13 @@ const c_delete = async (user_id, comment_id) => {
 		return {
 			status: true,
 			message: 'Deleted CommentLike',
-			user_id: user_id,
-			comment_id: comment_id,
 			deletedCommentLike: deletedCommentLike,
 		}
 	}
 	catch(e) {
 		return {
 			status: false,
-			message: `Caught Error --> ${e}`,
-			user_id: user_id,
-			comment_id: comment_id,
+			message: `commentLikesCollection: Caught Error --> ${e}`,
 		}
 	}
 }
@@ -91,15 +81,13 @@ const c_deleteAll = async (comment_id) => {
 		return {
 			status: true,
 			message: 'Deleted All CommentLike for this comment',
-			comment_id: comment_id,
 			deletedCommentLikes: deletedCommentLikes
 		}
 	}
 	catch(e) {
 		return {
 			status: false,
-			message: `Caught Error --> ${e}`,
-			comment_id: comment_id,
+			message: `commentLikesCollection: Caught Error --> ${e}`,
 		}
 	}
 }
@@ -122,8 +110,6 @@ const c_existance = async (user_id, comment_id) => {
 					status: true,
 					message: 'CommentLike does exists',
 					existance: true,
-					user_id: user_id,
-					comment_id: comment_id,
 				}
 			}
 			else {
@@ -131,14 +117,17 @@ const c_existance = async (user_id, comment_id) => {
 					status: true,
 					message: 'CommentLike does NOT exists',
 					existance: false,
-					user_id: user_id,
-					comment_id: comment_id,
 				}
 			}
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
+		catch(e) {
+			return {
+				status: false,
+				message: `commentLikesCollection: Caught Error --> ${e}`,
+			}
+		}
 	}
-	else { return { status: false, message: 'Invalid Block ID', } }
+	else { return { status: false, message: 'Invalid block_id', } }
 }
 
 

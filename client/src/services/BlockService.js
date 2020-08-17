@@ -108,8 +108,8 @@ async function s_unfollow(block_id) {
 }
 
 
-/******************* [VALIDATION] *******************/
-async function s_validateExistance(block_id) {
+/******************* [EXISTANCE] *******************/
+async function s_existance(block_id) {
 	const authAxios = await this.authAxios()
 
 	const returnedData = await authAxios.get(`/existance/${block_id}`)
@@ -138,6 +138,6 @@ export default {
 	s_unlike,
 	s_follow,
 	s_unfollow,
-	s_validateExistance,
+	s_existance,
 	s_countWithinCat,
 }

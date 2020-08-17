@@ -28,16 +28,12 @@ const c_create = async (user_id, cat_id, title) => {
 			status: true,
 			message: 'Created block',
 			createdBlock: createdBlock,
-			user: user_id,
 		}
 	}
 	catch(e) {
 		return {
 			status: false,
-			message: `Caught Error --> ${e}`,
-			user: user_id,
-			cat_id: cat_id,
-			title: title,
+			message: `blocksCollection: Caught Error --> ${e}`,
 		}
 	}
 }
@@ -64,7 +60,9 @@ const c_readAll = async (cat_id, skip, amount) => {
 
 		return { status: true, blocks: blocks }
 	}
-	catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
+	catch(e) {
+		return { status: false, message: `blocksCollection: Caught Error --> ${e}`, }
+	}
 }
 
 // [READ] Single Block //
@@ -86,29 +84,22 @@ const c_read = async (block_id) => {
 			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
 		}
 	}
-	else {
-		return {
-			status: false,
-			message: 'Invalid Block ID',
-			block_id: block_id,
-		}
-	}
+	else { return { status: false, message: 'Invalid block_id', } }
 }
 
 
-/******************* [EXISTANCE + OWNERSHIP] *******************/
-// [EXISTANCE] //
+/******************* [EXISTANCE] *******************/
 const c_existance = async (block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {	
-			const returnedData = await BlockModel.findOne({ _id: block_id })
+			const block = await BlockModel.findOne({ _id: block_id })
 
-			if (returnedData) {
+			if (block) {
 				return {
 					status: true,
 					message: 'Block does exist',
 					existance: true,
-					block_id: block_id,
+					block: block,
 				}
 			}
 			else {
@@ -116,20 +107,23 @@ const c_existance = async (block_id) => {
 					status: true,
 					message: 'Block does NOT exist',
 					existance: false,
-					block_id: block_id,
+					block: block,
 				}
 			}
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+		catch(e) {
+			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
+		}
 	}
-	else { return { status: false, message: 'Invalid Block ID' } }
+	else { return { status: false, message: 'Invalid block_id' } }
 }
 
-// [OWNERSHIP] //
+
+/******************* [OWNERSHIP] *******************/
 const c_ownership = async (user_id, block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {	
-			const returnedData = await BlockModel.findOne(
+			const block = await BlockModel.findOne(
 				{
 					user: user_id,
 					_id: block_id,
@@ -141,6 +135,7 @@ const c_ownership = async (user_id, block_id) => {
 					status: true,
 					message: 'You own this',
 					ownership: true,
+					block: block,
 				}
 			}
 			else {
@@ -148,12 +143,15 @@ const c_ownership = async (user_id, block_id) => {
 					status: true,
 					message: 'You dont own this',
 					ownership: false,
+					block: block,
 				}
 			}
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+		catch(e) {
+			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
+		}
 	}
-	else { { return { status: false, message: 'Invalid Block ID' } } }
+	else { { return { status: false, message: 'Invalid block_id' } } }
 }
 
 

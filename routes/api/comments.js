@@ -84,7 +84,7 @@ router.get(
 					returnedData.comments[i]._id
 				)
 			}
-			catch (e) { console.log(`Caught Error --> ${e}`) }
+			catch (e) { console.log(`comments: Caught Error --> ${e}`) }
 
 			// Set Liked Status //
 			if (req.decoded) {
@@ -108,13 +108,14 @@ router.get(
 	'/read/:_id',
 	async (req, res) => {
 		const returnedData = await commentsCollection.c_read(req.params._id)
-
 		
 		// Set Like Count //
 		try {
-			returnedData.comment.likeCount = await commentLikesCollection.c_countAll(comment._id)
+			returnedData.comment.likeCount = await commentLikesCollection.c_countAll(
+				req.params._id
+			)
 		}
-		catch (e) { console.log(`Caught Error --> ${e}`) }
+		catch (e) { console.log(`comment: Caught Error --> ${e}`) }
 
 		// Set Liked Status //
 		if (req.decoded) {

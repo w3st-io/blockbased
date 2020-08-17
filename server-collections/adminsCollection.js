@@ -63,9 +63,10 @@ const c_login = async (email, password) => {
 			}
 		}
 	}
-	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch(e) {
+		return { status: false, message: `adminsCollection: Caught Error --> ${e}` }
+	}
 }
-
 
 // [REGISTER] //
 const c_register = async (req) => {
@@ -101,7 +102,10 @@ const c_register = async (req) => {
 						}
 					}
 					catch(e) {
-						return { status: false, message: `Caught Error --> ${e}`, }
+						return {
+							status: false,
+							message: `adminsCollection: Caught Error --> ${e}`,
+						}
 					}
 				}
 				else {
@@ -128,7 +132,9 @@ const c_register = async (req) => {
 			}
 		}
 	}
-	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch(e) {
+		return { status: false, message: `adminsCollection: Caught Error --> ${e}` }
+	}
 }
 
 

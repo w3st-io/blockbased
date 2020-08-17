@@ -61,10 +61,11 @@
 
 		data: function() {
 			return {
+				returnedData: {},
 				displayEditor: false,
 				disabled: false,
 				loading: false,
-				commentDetails: {},
+				comment: {},
 				editorText: '',
 				error: '',
 			}
@@ -88,14 +89,16 @@
 			},
 			
 			async getCommentDetails() {
-				try {
-					this.commentDetails = await CommentService.s_read(this.comment_id)
-
-					this.initialEditorText = this.commentDetails.text
-
-					this.displayEditor = true
-				}
+				try { this.returnedData = await CommentService.s_read(this.comment_id) }
 				catch(e) { this.error = e }
+
+				if (this.returnedData.status) {
+					this.comment = this.returnedData.comment
+					this.initialEditorText = this.returnedData.comment.text
+				}
+				else { this.error = this.returnedData.message }
+
+				this.displayEditor = true
 			},
 
 			async submit() {
@@ -119,7 +122,7 @@
 						{
 							name: 'Block',
 							params: {
-								block_id: this.commentDetails.block,
+								block_id: this.comment.block,
 								page: 1
 							}
 						}
@@ -131,7 +134,7 @@
 
 			log() {
 				console.log('%%% [COMPONENT] CommentEdit %%%')
-				console.log('comment_id:', this.comment_id)
+				console.log('comment:', this.comment)
 				console.log('commentDetails:', this.commentDetails)
 				if (this.error) { console.log('error:', this.error) }
 			},

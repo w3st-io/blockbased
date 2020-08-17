@@ -37,7 +37,6 @@ router.get(
 	Auth.userToken(),
 	async (req, res) => {
 		const returnedData = await notificationsCollection.c_markRead(
-			req.decoded._id,
 			req.params.notification_id
 		)
 

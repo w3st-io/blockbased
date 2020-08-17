@@ -31,23 +31,18 @@ const c_create = async (user_id, block_id) => {
 			return {
 				status: true,
 				message: 'Created blockLike',
-				block: block_id,
-				user: user_id,
 				createdBlockLike: createdBlockLike,
 			}
 		}
 		catch(e) {
 			return {
 				status: false,
-				message: `Caught Error --> ${e}`,
-				user: user_id,
-				block: block_id,
+				message: `blockLikesCollection: Caught Error --> ${e}`,
 			}
 		}
 	}
 	else { return { status: false, message: existance.message } }
 }
-
 
 // [DELETE] //
 const c_delete = async (user_id, block_id) => {
@@ -59,17 +54,13 @@ const c_delete = async (user_id, block_id) => {
 		return {
 			status: true,
 			message: `Deleted blockLike`,
-			user: user_id,
-			block: block_id,
 			deletedBlockLike: deletedBlockLike,
 		}
 	}
 	catch(e) {
 		return {
 			status: false,
-			message: `Caught Error --> ${e}`,
-			user: user_id,
-			block: block_id,
+			message: `blockLikesCollection: Caught Error --> ${e}`,
 		}
 	}
 }
@@ -78,19 +69,18 @@ const c_delete = async (user_id, block_id) => {
 // [DELETE-ALL] //
 const c_deleteAll = async (block_id) => {
 	try {
-		await BlockLikeModel.deleteMany({ block: block_id })
+		const deletedBlockLike = await BlockLikeModel.deleteMany({ block: block_id })
 
 		return {
 			status: true,
-			message: `Deleted all blockLikes for ${block_id}`,
-			block: block_id,
+			message: `Deleted all blockLikes`,
+			deletedBlockLike: deletedBlockLike,
 		}
 	}
 	catch(e) {
 		return {
 			status: false,
-			message: `Caught Error --> ${e}`,
-			block: block_id,
+			message: `deletedBlockLike: Caught Error --> ${e}`,
 		}
 	}
 }
@@ -123,9 +113,14 @@ const c_existance = async (user_id, block_id) => {
 				}
 			}
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
+		catch(e) {
+			return {
+				status: false,
+				message: `blockLikesCollection: Caught Error --> ${e}`,
+			}
+		}
 	}
-	else { return { status: false, message: 'Invalid Block ID', } }
+	else { return { status: false, message: 'Invalid block_id', } }
 }
 
 

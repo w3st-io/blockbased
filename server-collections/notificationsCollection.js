@@ -24,84 +24,89 @@ const c_create = async (user_id, comment_id, type) => {
 	)
 	
 	try {
-		await formData.save()
+		const createdNotification = await formData.save()
 
 		return {
 			status: true,
 			message: 'Created notification',
-			user: user_id,
-			comment: comment_id,
+			createdNotification: createdNotification,
 		}
 	}
 	catch(e) {
 		return {
 			status: false,
-			message: `Caught Error --> ${e}`,
-			user: user_id,
-			comment: comment_id,
+			message: `notificationsCollection: Caught Error --> ${e}`,
 		}
 	}
 }
 
-
 // [READ-ALL] //
 const c_readAll = async (user_id) => {
-	return await NotificationModel.find(
-		{
-			user: user_id,
-			read: false
-		}
-	)
-	.populate(
-		{
-			path: 'comment',
-			populate: {
-				path: 'user',
-				select: 'username',
+	try {
+		const notifications = await NotificationModel.find(
+			{
+				user: user_id,
+				read: false
 			}
-		}
-	)
-	.populate(
-		{
-			path: 'comment',
-			populate: {
-				path: 'block',
-				select: 'title',
+		)
+		.populate(
+			{
+				path: 'comment',
+				populate: {
+					path: 'user',
+					select: 'username',
+				}
 			}
+		)
+		.populate(
+			{
+				path: 'comment',
+				populate: {
+					path: 'block',
+					select: 'title',
+				}
+			}
+		)
+	
+		return { status: true, notifications: notifications }
+	}
+	catch(e) {
+		return {
+			status: false,
+			message: `nofiticationsCollection: Caught Error --> ${e}`
 		}
-	)
+	}
 }
-
 
 // [DELETE-ALL] //
 const c_deleteAll = async (comment_id) => {
 	try {
-		await NotificationModel.deleteMany({ comment: comment_id })
+		const deletedNotications = await NotificationModel.deleteMany(
+			{ comment: comment_id }
+		)
 
 		return {
 			status: true,
 			message: 'Deleted All Notifications for this comment',
-			comment: comment_id,
+			deletedNotications: deletedNotications,
 		}
 	}
 	catch(e) {
 		return {
 			status: false,
-			message: `Caught Error --> ${e}`,
-			comment: comment_id,
+			message: `notificationsCollection: Caught Error --> ${e}`,
 		}
 	}
 }
-
 
 // [DELETE] //
 const c_delete = async () => {}
 
 
 /******************* [MARK-READ-STATUS] *******************/
-const c_markRead = async (user_id, notification_id) => {
+const c_markRead = async (notification_id) => {
 	try {
-		await NotificationModel.updateOne(
+		const notification = await NotificationModel.updateOne(
 			{ _id: notification_id },
 			{ read: true },
 		)
@@ -109,8 +114,7 @@ const c_markRead = async (user_id, notification_id) => {
 		return {
 			status: true,
 			message: 'Marked read',
-			user_id: user_id,
-			notification_id: notification_id,
+			notification: notification
 		}
 	}	
 	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }

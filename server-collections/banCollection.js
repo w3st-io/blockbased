@@ -18,7 +18,7 @@ const c_create = async (user_id, hours) => {
 	const existance = await c_existance(user_id)
 
 	if (existance.status && !existance.existance) {
-		// Add Hours to current time
+		// Calculate ban time by adding hours to current time //
 		let banTime = new Date()
 		banTime.setHours(banTime.getHours() + hours)
 		
@@ -35,39 +35,33 @@ const c_create = async (user_id, hours) => {
 				status: true,
 				message: 'Created ban',
 				createdBan: createdBan,
-				user: user_id,
-				hours: hours,
 			}
 		}
 		catch(e) {
 			return {
 				status: false,
-				message: `Caught Error --> ${e}`,
-				user: user_id,
-				hours: hours,
+				message: `banCollection: Caught Error --> ${e}`,
 			}
 		}
 	}
 	else { return { status: false, message: existance.message } }
 }
 
-
 // [DELETE] //
 const c_delete = async (user_id) => {
 	try {
-		await BanModel.deleteMany({ user: user_id })
+		const deletedBans = await BanModel.deleteMany({ user: user_id })
 
 		return {
 			status: true,
 			message: `Deleted ban`,
-			user: user_id,
+			deletedBans: deletedBans,
 		}
 	}
 	catch(e) {
 		return {
 			status: false,
-			message: `Caught Error --> ${e}`,
-			user: user_id,
+			message: `banCollection: Caught Error --> ${e}`,
 		}
 	}
 }
@@ -85,6 +79,7 @@ const c_existance = async (user_id) => {
 					status: true,
 					message: 'Ban does exists',
 					existance: true,
+					foundBan: foundBan,
 				}
 			}
 			else {
@@ -95,9 +90,14 @@ const c_existance = async (user_id) => {
 				}
 			}
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
+		catch(e) {
+			return {
+				status: false,
+				message: `banCollection: Caught Error --> ${e}`,
+			}
+		}
 	}
-	else { return { status: false, message: 'Invalid User ID', } }
+	else { return { status: false, message: 'Invalid user_id', } }
 }
 
 

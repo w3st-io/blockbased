@@ -79,7 +79,7 @@
 
 		created: async function() {
 			// Check If Block Is Valid //
-			try { this.existance = await BlockService.s_validateExistance(this.block_id) }
+			try { this.existance = await BlockService.s_existance(this.block_id) }
 			catch(e) { this.error = e }
 
 			if (this.existance) {

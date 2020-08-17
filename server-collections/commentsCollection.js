@@ -28,8 +28,6 @@ const c_create = async (user_id, block_id, text) => {
 			return {
 				status: true,
 				message: `Created comment`,
-				user: user_id,
-				block_id: block_id,
 				createdComment: createdComment,
 			}
 		}
@@ -37,8 +35,6 @@ const c_create = async (user_id, block_id, text) => {
 			return {
 				status: false,
 				message: `commentsCollection: Caught Error --> ${e}`,
-				user: user_id,
-				block_id: block_id,
 			}
 		}
 	}
@@ -46,8 +42,6 @@ const c_create = async (user_id, block_id, text) => {
 		return {
 			status: true,
 			message: `Comment too long`,
-			user: user_id,
-			block_id: block_id,
 		}
 	}
 }
@@ -86,9 +80,7 @@ const c_readAll = async (block_id, skip, limit) => {
 	const limit2 = parseInt(limit)
 
 	try {
-		const returnedData = await CommentModel.find(
-			{ block: block_id }
-		)
+		const comments = await CommentModel.find({ block: block_id })
 			.skip(skip2)
 			.limit(limit2)
 			.populate(
@@ -99,12 +91,12 @@ const c_readAll = async (block_id, skip, limit) => {
 			)
 			.exec()
 
-		return { status: true, comments: returnedData }
+		return { status: true, comments: comments }
 	}
 	catch(e) {
 		return {
 			status: false,
-			message: `Caught Error --> ${e}`,
+			message: `commentsCollection: Caught Error --> ${e}`,
 		}
 	}
 }
@@ -133,14 +125,14 @@ const c_read = async (comment_id) => {
 		catch(e) {
 			return {
 				status: false,
-				message: `Caught Error --> ${e}`,
+				message: `commentsCollection: Caught Error --> ${e}`,
 			}
 		}
 	}
 	else {
 		return {
 			status: false,
-			message: 'Invalid Comment ID',
+			message: 'Invalid comment_id',
 		}
 	}
 }
@@ -158,8 +150,6 @@ const c_update = async (comment_id, text) => {
 				return {
 					status: true,
 					message: 'Updated comment',
-					comment_id: comment_id,
-					text: text,
 					updatedCollent: updatedCollent,
 				}
 			}
@@ -167,28 +157,12 @@ const c_update = async (comment_id, text) => {
 				return {
 					status: false,
 					message: `commentsCollection: Caught Error --> ${e}`,
-					comment_id: comment_id,
-					text: text,
 				}
 			}
 		}
-		else {
-			return {
-				status: true,
-				message: `Comment too long`,
-				comment_id: comment_id,
-				text: text,
-			}
-		}
+		else { return { status: false, message: `Comment too long`, } }
 	}
-	else {
-		return {
-			status: false,
-			message: 'Invalid Comment ID',
-			comment_id: comment_id,
-			text: text,
-		}
-	}
+	else { return { status: false, message: 'Invalid comment_id', } }
 }
 
 // [DELETE] //
@@ -205,8 +179,6 @@ const c_delete = async (user_id, comment_id) => {
 			return {
 				status: true,
 				message: 'Deleted comment',
-				user_id: user_id,
-				comment_id: comment_id,
 				deletedComment: deletedComment,
 			}
 		}
@@ -214,17 +186,13 @@ const c_delete = async (user_id, comment_id) => {
 			return {
 				status: false,
 				message: `commentsCollection: Caught Error --> ${e}`,
-				user_id: user_id,
-				comment_id: comment_id,
 			}
 		}
 	}
 	else {
 		return {
 			status: false,
-			message: 'Invalid Comment ID',
-			user_id: user_id,
-			comment_id: comment_id,
+			message: 'Invalid comment_id',
 		}
 	}
 }
@@ -234,13 +202,14 @@ const c_delete = async (user_id, comment_id) => {
 const c_existance = async (comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {	
-			const returnedData = await CommentModel.findOne({ _id: comment_id })
+			const comment = await CommentModel.findOne({ _id: comment_id })
 
-			if (returnedData) {
+			if (comment) {
 				return {
 					status: true,
 					message: 'Comment does exists',
 					existance: true,
+					comment: comment,
 				}
 			}
 			else {
@@ -248,6 +217,7 @@ const c_existance = async (comment_id) => {
 					status: true,
 					message: 'Comment does NOT exists',
 					existance: false,
+					comment: comment,
 				}
 			}
 		}
@@ -258,7 +228,7 @@ const c_existance = async (comment_id) => {
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid comment ID' } }
+	else { return { status: false, message: 'Invalid comment_id' } }
 }
 
 
@@ -297,7 +267,7 @@ const c_ownership = async (user_id, comment_id) => {
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid comment ID' } }
+	else { return { status: false, message: 'Invalid comment_id' } }
 }
 
 

@@ -32,22 +32,17 @@ const c_create = async (user_id, block_id) => {
 				status: true,
 				message: 'Created blockFollow',
 				createdBlockFollow: createdBlockFollow,
-				block: block_id,
-				user: user_id,
 			}
 		}
 		catch(e) {
 			return {
 				status: false,
-				message: `Caught Error --> ${e}`,
-				user: user_id,
-				block: block_id,
+				message: `blockFollowersCollection: Caught Error --> ${e}`,
 			}
 		}
 	}
 	else { return { status: false, message: existance.message } }
 }
-
 
 // [READ-ALL] //
 const c_readAll = async (block_id) => {
@@ -57,7 +52,6 @@ const c_readAll = async (block_id) => {
 		return {
 			status: true,
 			message: 'Found',
-			block_id: block_id,
 			blockFollowers: blockFollowers,
 		}
 	}
@@ -65,52 +59,52 @@ const c_readAll = async (block_id) => {
 		return {
 			status: true,
 			message: 'blockFollowersCollection Error',
-			block_id: block_id,
 		}
 	}
 }
 
-
 // [DELETE] //
 const c_delete = async (user_id, block_id) => {
 	try {
-		await BlockFollowerModel.deleteMany({ user: user_id, block: block_id, })
+		const deletedBlockFollower = await BlockFollowerModel.deleteMany(
+			{
+				user: user_id,
+				block: block_id,
+			}
+		)
 
 		return {
 			status: true,
 			message: `Deleted blockFollow`,
-			user: user_id,
-			block: block_id,
+			deletedBlockFollower: deletedBlockFollower
 		}
 	}
 	catch(e) {
 		return {
 			status: false,
-			message: `Caught Error --> ${e}`,
-			user: user_id,
-			block: block_id,
+			message: `blockFollowersCollection: Caught Error --> ${e}`,
 		}
 	}
 }
 
 
 /******************* [EXISTANCE] *******************/
-// [EXISTANCE] //
 const c_existance = async (user_id, block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {
-			const returnedData = await BlockFollowerModel.findOne(
+			const blockFollower = await BlockFollowerModel.findOne(
 				{
 					user: user_id,
 					block: block_id,
 				}
 			)
 
-			if (returnedData) {
+			if (blockFollower) {
 				return {
 					status: true,
 					message: 'BlockFollow does exists',
 					existance: true,
+					blockFollower: blockFollower,
 				}
 			}
 			else {
@@ -121,9 +115,14 @@ const c_existance = async (user_id, block_id) => {
 				}
 			}
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
+		catch(e) {
+			return {
+				status: false,
+				message: `blockFollowersCollection: Caught Error --> ${e}`,
+			}
+		}
 	}
-	else { return { status: false, message: 'Invalid Block ID', } }
+	else { return { status: false, message: 'Invalid block_id', } }
 }
 
 
