@@ -31,7 +31,12 @@ const c_readAllAll = async (skip, amount) => {
 
 		return { status: true, blocks: blocks }
 	}
-	catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
+	catch(e) {
+		return {
+			status: false,
+			message: `blockCollections: Caught Error --> ${e}`,
+		}
+	}
 }
 
 
@@ -43,26 +48,32 @@ const c_delete = async (block_id) => {
 				block_id,
 				function (e, block) {
 					if (e) {
-						return { status: false, message: `Caught Error --> ${e}`, }
+						return {
+							status: false,
+							message: `blockCollections: Caught Error --> ${e}`,
+						}
 					}
 					else {
 						return {
 							status: true,
 							message: 'Deleted block',
-							block_id: block_id,
 							block: block,
 						}
 					}
 				}
 			)
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}`, } }
+		catch(e) {
+			return {
+				status: false,
+				message: `blockCollections: Caught Error --> ${e}`,
+			}
+		}
 	}
 	else {
 		return {
 			status: false,
-			message: 'Invalid Block ID',
-			block_id: block_id,
+			message: 'Invalid block_id',
 		}
 	}
 }

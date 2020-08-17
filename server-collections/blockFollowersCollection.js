@@ -58,7 +58,7 @@ const c_readAll = async (block_id) => {
 	catch(e) {
 		return {
 			status: true,
-			message: 'blockFollowersCollection Error',
+			message: 'blockFollowersCollection: Error',
 		}
 	}
 }
@@ -75,7 +75,7 @@ const c_delete = async (user_id, block_id) => {
 
 		return {
 			status: true,
-			message: `Deleted blockFollow`,
+			message: 'Deleted blockFollow',
 			deletedBlockFollower: deletedBlockFollower
 		}
 	}

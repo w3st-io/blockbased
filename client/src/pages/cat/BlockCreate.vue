@@ -14,7 +14,7 @@
 <script>
 	// [IMPORT] Personal //
 	import BlockCreate from '@components/block/Create'
-	import router from '@router'
+	//import router from '@router'
 	import { cats } from '@defaults/cats'
 
 	// [EXPORT] //
@@ -37,7 +37,7 @@
 			this.catTitle = this.cat.title
 
 			// [REDIRECT] Not Log Needed //
-			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
+			//if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
 			
 			// [LOG] //
 			//this.log()

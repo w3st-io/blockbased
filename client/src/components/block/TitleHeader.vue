@@ -3,23 +3,27 @@
 		<!-- Left Side -->
 		<div class="col-lg-9 col-md-8 col-sm-8">
 			<!-- Title + Page Nav Buttons -->
-			<h3 class="text-light">{{ block.title }}</h3>
-			<p class="text-secondary small hide-the-ugly">
-				Posted by: {{ blockCreatorUsername }} - {{ block.createdAt }}
-			</p>
+			<h3 class="mb-2 text-light">
+				{{ block.title }}
+				<span class="text-secondary hide-the-ugly" style="font-size: .5em;">
+					Posted by: {{ blockCreatorUsername }} - {{ block.createdAt }}
+				</span>
+			</h3>
 
-			<page-nav-buttons
-				:leftBtnEmitName="leftBtnEmitName"
-				:rightBtnEmitName="rightBtnEmitName"
-				:badgeValue="badgeValue"
-			/>
+			<button
+				:disabled="disabled"
+				@click="redirectToBlockCommentCreate(block._id)"
+				class="btn btn-sm btn-primary"
+			>Add Comment</button>
 		</div>
 
 		<!-- Right Side -->
 		<div class="col-lg-3 col-md-4 col-sm-4 text-right">
 			<div class="mb-3">
 				<span>
-					<span class="ml-2 badge badge-light">{{ block.followersCount }}</span>
+					<span class="ml-2 badge badge-light">
+						{{ block.followersCount }}
+					</span>
 					<button
 						:disabled="disabled"
 						@click="followBtn()"
@@ -28,12 +32,12 @@
 					>{{ block.followed ? 'following ✓' : 'follow' }}</button>
 				</span>
 			</div>
-			
-			<button
-				:disabled="disabled"
-				@click="redirectToBlockCommentCreate(block._id)"
-				class="btn btn-primary"
-			>Add Comment</button>
+
+			<page-nav-buttons
+				:leftBtnEmitName="leftBtnEmitName"
+				:rightBtnEmitName="rightBtnEmitName"
+				:badgeValue="badgeValue"
+			/>
 		</div>
 	</section>
 </template>

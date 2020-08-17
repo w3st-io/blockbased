@@ -10,12 +10,14 @@
 				:leftBtnEmitName="leftBtnEmitName"
 				:rightBtnEmitName="rightBtnEmitName"
 				:badgeValue="badgeValue"
+				style="max-width: 300px;"
 			/>
 		</div>
 
 		<!-- Right Side -->
 		<div class="col-lg-6 col-md-4 col-sm-4 mb-3 text-right">
-			<div class="mb-2 badge badge-light text-primary">
+			<!-- Post Count -->
+			<div class="mb-2 badge badge-dark text-secondary">
 				<h5 class="m-0">Total Posts: {{ '--' }}</h5>
 			</div>
 			<br>
@@ -23,7 +25,7 @@
 			<!-- Create Button -->
 			<button
 				@click="redirectToCatBlockCreate(cat_id)"
-				class="btn btn-primary"
+				class="btn btn-sm btn-primary"
 			>Create Block</button>
 		</div>
 	</section>

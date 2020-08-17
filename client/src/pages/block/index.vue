@@ -19,19 +19,19 @@
 				:pageIndex="pageIndex"
 				:amount="5"
 			/>
-		</article>
-
-		<!-- Botton Page Control -->
-		<article class="mt-3">
-			<div class="row">
+		
+			<!-- Botton Page Control -->
+			<section class="mt-3">
 				<page-nav-buttons
 					:leftBtnEmitName="'block-prev'"
 					:rightBtnEmitName="'block-next'"
 					:badgeValue="pageNumber"
-					class="col-lg-6 col-md-12"
+					class="m-auto w-100"
+					style="max-width: 300px;"
 				/>
-			</div>
+			</section>
 		</article>
+
 
 		<!-- [ALERTS] -->
 		<div>

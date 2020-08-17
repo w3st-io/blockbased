@@ -22,24 +22,21 @@ const c_delete = async (comment_id) => {
 
 			return {
 				status: true,
-				message: 'Deleted comment.',
-				comment_id: comment_id,
+				message: 'Deleted comment',
 				deletedComment: deletedComment,
 			}
 		}
 		catch(e) {
 			return {
 				status: false,
-				message: `Caught Error --> ${e}`,
-				comment_id: comment_id,
+				message: `commentsCollection: Caught Error --> ${e}`,
 			}
 		}
 	}
 	else {
 		return {
 			status: false,
-			message: 'Invalid Comment ID',
-			comment_id: comment_id,
+			message: 'Invalid comment_id',
 		}
 	}
 }
