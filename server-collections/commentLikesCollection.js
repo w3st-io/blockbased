@@ -45,7 +45,6 @@ const c_create = async (user_id, block_id, comment_id) => {
 	else { return { status: false, message: existance.message } }
 }
 
-
 // [DELETE] //
 const c_delete = async (user_id, comment_id) => {
 	try {
@@ -69,7 +68,6 @@ const c_delete = async (user_id, comment_id) => {
 		}
 	}
 }
-
 
 // [DELETE-ALL] //
 const c_deleteAll = async (comment_id) => {
@@ -127,13 +125,23 @@ const c_existance = async (user_id, comment_id) => {
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid block_id', } }
+	else { return { status: true, message: 'Invalid block_id', } }
 }
 
 
 /******************* [COUNT] *******************/
 const c_countAll = async (comment_id) => {
-	return await CommentLikeModel.countDocuments({ comment: comment_id })
+	try {
+		const count = await CommentLikeModel.countDocuments({ comment: comment_id })
+
+		return { status: true, count: count }
+	}
+	catch(e) {
+		return {
+			status: false,
+			message: `commentLikesCollection: Caught Error --> ${e}`,
+		}
+	}
 }
 
 

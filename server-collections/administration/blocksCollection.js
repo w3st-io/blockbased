@@ -71,10 +71,7 @@ const c_delete = async (block_id) => {
 		}
 	}
 	else {
-		return {
-			status: false,
-			message: 'Invalid block_id',
-		}
+		return { status: true, message: 'Invalid block_id', }
 	}
 }
 

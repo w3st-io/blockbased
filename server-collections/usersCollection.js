@@ -44,7 +44,7 @@ const c_read = async (user_id) => {
 			return { status: false, message: `UserCollection: Caught Error --> ${e}` }
 		}
 	}
-	else { return { status: false, message: 'Invalid "user_id"' } }
+	else { return { status: true, message: 'Invalid user_id' } }
 }
 
 
@@ -67,7 +67,7 @@ const c_update = async (user_id, img_url) => {
 		}
 		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
-	else { return { status: false, message: 'Invalid "user_id"' } }
+	else { return { status: true, message: 'Invalid user_id' } }
 }
 
 

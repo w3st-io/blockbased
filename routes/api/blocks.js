@@ -65,17 +65,21 @@ router.get(
 		for (let i = 0; i < returnedData.blocks.length; i++) {
 			// Like Count //
 			try {
-				returnedData.blocks[i].likeCount = await blockLikesCollection.c_countAll(
+				const count = await blockLikesCollection.c_countAll(
 					returnedData.blocks[i]._id
 				)
+
+				returnedData.blocks[i].likeCount = count.count
 			}
 			catch (e) { console.log(`Caught Error --> ${e}`) }
 
 			// Follow Count //
 			try {
-				returnedData.blocks[i].followersCount = await blockFollowersCollection.c_countAll(
+				const count = await blockFollowersCollection.c_countAll(
 					returnedData.blocks[i]._id
 				)
+
+				returnedData.blocks[i].followersCount = count.count
 			}
 			catch (e) { console.log(`Caught Error --> ${e}`) }
 
@@ -112,17 +116,21 @@ router.get(
 
 		// Set Like Count //
 		try {
-			returnedData.block.likeCount = await blockLikesCollection.c_countAll(
+			const count = await blockLikesCollection.c_countAll(
 				returnedData.block._id
 			)
+
+			returnedData.block.likeCount = count.count
 		}
 		catch (e) { console.log(`Caught Error --> ${e}`) }
 
 		// Follow Count //
 		try {
-			returnedData.block.followersCount = await blockFollowersCollection.c_countAll(
+			const count = await blockFollowersCollection.c_countAll(
 				returnedData.block._id
 			)
+
+			returnedData.block.followersCount = count.count
 		}
 		catch (e) { console.log(`Caught Error --> ${e}`) }
 
@@ -149,9 +157,8 @@ router.get(
 		}
 
 		res.status(200).send(returnedData)
-	}
+	},
 )
-
 
 // [DELETE] Auth Required //
 router.delete(
@@ -171,7 +178,7 @@ router.delete(
 			
 		}
 		else { res.status(400).send(ownership) }
-	}
+	},
 )
 
 
@@ -189,9 +196,8 @@ router.post(
 		)
 		
 		res.status(201).send(returnedData)
-	}
+	},
 )
-
 
 // [UNLIKE] Auth Required //
 router.post(
@@ -206,7 +212,7 @@ router.post(
 		)
 		
 		res.status(201).send(returnedData)
-	}
+	},
 )
 
 
@@ -223,9 +229,8 @@ router.post(
 		)
 		
 		res.status(201).send(returnedData)
-	}
+	},
 )
-
 
 // [UNFOLLOW] Auth Required //
 router.post(
@@ -239,7 +244,7 @@ router.post(
 		)
 		
 		res.status(201).send(returnedData)
-	}
+	},
 )
 
 
@@ -255,26 +260,7 @@ router.get(
 			else { res.status(200).send(false) }
 		}
 		else { res.status(400).send(existance.message) }
-	}
-)
-
-
-// [OWNERSHIP] //
-router.get(
-	'/ownership/:_id',
-	Auth.userToken(),
-	async (req, res) => {
-		const ownership = await blocksCollection.c_ownership(
-			req.decoded._id,
-			req.params._id
-		)
-
-		if (ownership.status) {
-			if (ownership.ownership) { res.status(200).send(true) }
-			else { res.status(200).send(false) }
-		}
-		else { res.status(400).send(ownership) }
-	}
+	},
 )
 
 
@@ -282,10 +268,11 @@ router.get(
 router.get(
 	'/count/:cat_id',
 	async (req, res) => {
-		const count = (await blocksCollection.c_count(req.params.cat_id))
+		const x = await blocksCollection.c_count(req.params.cat_id)
 
-		res.status(200).send(count.toString())
-	}
+		if (x.status) { res.status(200).send(x.count.toString()) }
+		else { res.status(200).send(x.message.toString()) }
+	},
 )
 
 

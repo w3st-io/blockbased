@@ -122,13 +122,24 @@ const c_existance = async (user_id, block_id) => {
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid block_id', } }
+	else { return { status: true, message: 'Invalid block_id', } }
 }
 
 
 /******************* [COUNT] *******************/
 const c_countAll = async (block_id) => {
-	return await BlockFollowerModel.countDocuments({ block: block_id })
+	try {
+		const count = await BlockFollowerModel.countDocuments({ block: block_id })
+		
+		return { status: true, count: count }
+	}
+	catch (e) {
+		return {
+			status: false,
+			message: `blockFollowersCollection: Caught error --> ${e}`
+		}
+	}
+
 }
 
 

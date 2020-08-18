@@ -61,9 +61,8 @@ router.post(
 			res.status(201).send([returnedData, returnFollowers])
 		}
 		else { res.status(400).send(existance.message) }
-	}
+	},
 )
-
 
 // [READ-ALL] //
 router.get(
@@ -80,9 +79,11 @@ router.get(
 		for (let i = 0; i < returnedData.comments.length; i++) {
 			// Set Like Count //
 			try {
-				returnedData.comments[i].likeCount = await commentLikesCollection.c_countAll(
+				const count = await commentLikesCollection.c_countAll(
 					returnedData.comments[i]._id
 				)
+
+				returnedData.comments[i].likeCount = count.count
 			}
 			catch (e) { console.log(`comments: Caught Error --> ${e}`) }
 
@@ -99,9 +100,8 @@ router.get(
 		}
 		
 		res.status(200).send(returnedData)
-	}
+	},
 )
-
 
 // [READ] //
 router.get(
@@ -111,9 +111,11 @@ router.get(
 		
 		// Set Like Count //
 		try {
-			returnedData.comment.likeCount = await commentLikesCollection.c_countAll(
+			const count = await commentLikesCollection.c_countAll(
 				req.params._id
 			)
+
+			returnedData.comment.likeCount = count.count
 		}
 		catch (e) { console.log(`comment: Caught Error --> ${e}`) }
 
@@ -129,9 +131,8 @@ router.get(
 		}
 
 		res.status(200).send(returnedData)
-	}
+	},
 )
-
 
 // [UPDATE] Auth Required //
 router.post(
@@ -155,9 +156,8 @@ router.post(
 			else { res.status(400).send(ownership) }
 		}
 		else { res.status(400).send('Comment too large') }
-	}
+	},
 )
-
 
 // [DELETE] Auth Required //
 router.delete(
@@ -185,7 +185,7 @@ router.delete(
 			res.status(201).send([returnedData, returnedData2, returnedData3])
 		}
 		else { res.status(400).send(ownership) }
-	}
+	},
 )
 
 
@@ -204,9 +204,8 @@ router.post(
 		)
 
 		res.status(201).send(returnedData)
-	}
+	},
 )
-
 
 // [UNLIKE] Auth Required //
 router.post(
@@ -221,7 +220,7 @@ router.post(
 		)
 		
 		res.status(201).send(returnedData)
-	}
+	},
 )
 
 
@@ -248,11 +247,11 @@ router.post(
 			res.status(201).send(returnedData)
 		}
 		else { res.status(400).send(existance.message) }
-	}
+	},
 )
 
-/******************* [EXISTANCE + OWNERSHIP] *******************/
-// [EXISTANCE] //
+
+/******************* [EXISTANCE] *******************/
 router.get(
 	'/existance/:_id',
 	async (req, res) => {
@@ -267,25 +266,6 @@ router.get(
 )
 
 
-// [OWNERSHIP] //
-router.get(
-	'/ownership/:_id',
-	Auth.userToken(),
-	async (req, res) => {
-		const ownership = await commentsCollection.c_ownership(
-			req.decoded._id,
-			req.params._id
-		)
-
-		if (ownership.status) {
-			if (ownership.ownership) { res.status(200).send(true) }
-			else { res.status(200).send(false) }
-		}
-		else { res.status(400).send(ownership) }
-	}
-)
-
-
 /******************* [COUNT] *******************/
 router.get(
 	'/count/:block_id',
@@ -293,7 +273,7 @@ router.get(
 		const count = await commentsCollection.c_countAll(req.params.block_id)
 	
 		res.status(201).send(count.toString())
-	}
+	},
 )
 
 

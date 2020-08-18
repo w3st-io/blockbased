@@ -32,7 +32,6 @@ contains blocks but read-all blocks should not fall under cat services.
 /api/blocks/unlike/:_id
 
 /api/blocks/existance/:_id
-/api/blocks/ownership/:_id
 
 /api/blocks/count/:cat_id
 
@@ -53,7 +52,6 @@ contains blocks but read-all blocks should not fall under cat services.
 /api/comments/report/:_id
 
 /api/blocks/existance/:_id
-/api/blocks/ownership/:_id
 
 /api/comments/count/:block_id
 

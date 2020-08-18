@@ -73,7 +73,7 @@ const c_delete = async (commentReport_id) => {
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid commentReport_id' } }
+	else { return { status: true, message: 'Invalid commentReport_id' } }
 }
 
 
@@ -113,7 +113,7 @@ const c_existance = async (user_id, comment_id) => {
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid comment_id' } }
+	else { return { status: true, message: 'Invalid comment_id' } }
 }
 
 

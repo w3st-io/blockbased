@@ -84,7 +84,7 @@ const c_read = async (block_id) => {
 			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
 		}
 	}
-	else { return { status: false, message: 'Invalid block_id', } }
+	else { return { status: true, message: 'Invalid block_id', } }
 }
 
 
@@ -115,7 +115,7 @@ const c_existance = async (block_id) => {
 			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
 		}
 	}
-	else { return { status: false, message: 'Invalid block_id' } }
+	else { return { status: true, message: 'Invalid block_id' } }
 }
 
 
@@ -151,14 +151,20 @@ const c_ownership = async (user_id, block_id) => {
 			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
 		}
 	}
-	else { { return { status: false, message: 'Invalid block_id' } } }
+	else { { return { status: true, message: 'Invalid block_id' } } }
 }
 
 
 /******************* [COUNT] *******************/
 const c_count = async (cat_id) => {
-	try { return await BlockModel.countDocuments({ cat_id: cat_id }) }
-	catch(e) { return `Caught Error --> ${e}` }
+	try {
+		const count = await BlockModel.countDocuments({ cat_id: cat_id })
+
+		return { status: true, count: count }
+	}
+	catch(e) {
+		return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
+	}
 }
 
 

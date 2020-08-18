@@ -41,14 +41,17 @@ const c_create = async (user_id, block_id) => {
 			}
 		}
 	}
-	else { return { status: false, message: existance.message } }
+	else { return { status: true, message: existance.message } }
 }
 
 // [DELETE] //
 const c_delete = async (user_id, block_id) => {
 	try {
 		const deletedBlockLike = await BlockLikeModel.deleteMany(
-			{ user: user_id, block: block_id, }
+			{
+				user: user_id,
+				block: block_id,
+			}
 		)
 
 		return {
@@ -120,13 +123,24 @@ const c_existance = async (user_id, block_id) => {
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid block_id', } }
+	else { return { status: true, message: 'Invalid block_id', } }
 }
 
 
 /******************* [COUNT] *******************/
 const c_countAll = async (block_id) => {
-	return await BlockLikeModel.countDocuments({ block: block_id })
+	try {
+		const count = await BlockLikeModel.countDocuments({ block: block_id })
+
+		return { status: true, count: count }
+	}
+	catch (e) {
+		return {
+			status: false,
+			message: `blockLikesCollection: Caught Error --> ${e}`
+		}
+	}
+	
 }
 
 

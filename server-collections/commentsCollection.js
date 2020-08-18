@@ -130,10 +130,7 @@ const c_read = async (comment_id) => {
 		}
 	}
 	else {
-		return {
-			status: false,
-			message: 'Invalid comment_id',
-		}
+		return { status: true, message: 'Invalid comment_id', }
 	}
 }
 
@@ -162,7 +159,7 @@ const c_update = async (comment_id, text) => {
 		}
 		else { return { status: false, message: `Comment too long`, } }
 	}
-	else { return { status: false, message: 'Invalid comment_id', } }
+	else { return { status: true, message: 'Invalid comment_id', } }
 }
 
 // [DELETE] //
