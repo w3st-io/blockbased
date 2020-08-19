@@ -132,16 +132,3 @@
 		},
 	}
 </script>
-
-
-<style lang="scss" scoped>
-	.dotted-bg {
-		opacity: 1;
-		background: #343a40;
-		background-image:
-			linear-gradient(#42484e 4px,transparent 0),
-			linear-gradient(90deg,#42484e 4px,transparent 0)
-		;
-		background-size: 8px 8px,8px 8px;
-	}
-</style>

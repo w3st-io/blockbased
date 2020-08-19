@@ -6,13 +6,13 @@
 			<h3 class="mb-2 text-light">
 				{{ block.title }}
 				<span class="text-secondary hide-the-ugly" style="font-size: .5em;">
-					Posted by: {{ blockCreatorUsername }} - {{ block.createdAt }}
+					Posted by: {{ block.user.username }} - {{ block.createdAt }}
 				</span>
 			</h3>
 
 			<button
 				:disabled="disabled"
-				@click="redirectToBlockCommentCreate(block._id)"
+				@click="redirectToBlockCommentCreate()"
 				class="btn btn-sm btn-primary"
 			>Add Comment</button>
 		</div>
@@ -55,7 +55,7 @@
 		},
 		
 		props: {
-			block_id: { type: String, required: true, },
+			block: { type: Object, required: true },
 			leftBtnEmitName: { type: String, required: true, },
 			rightBtnEmitName: { type: String, required: true, },
 			badgeValue: { required: true, },
@@ -66,32 +66,16 @@
 				disabled: false,
 				following: false,
 				pageNumber: this.$route.params.page,
-				block: {},
-
-				// Render Variables
-				blockCreatorUsername: '',
-				
 				error: '',
 			}
 		},
 
-		created: async function() {
-			// Get Block Details //
-			await this.blockRead()
-
-			this.blockCreatorUsername = this.block.user.username
-			
+		created: function() {
 			// [LOG] //
 			this.log()
 		},
 
 		methods: {
-			/******************* [INIT] Block *******************/
-			async blockRead() {
-				try { this.block = await BlockService.s_read(this.block_id) }
-				catch (e) { this.error = e }
-			},
-
 			/******************* [BTN] FOLLOW *******************/
 			async followBtn() {
 				// [LOG REQUIRED] //
@@ -100,16 +84,15 @@
 					this.disabled = true
 
 					if (!this.block.followed) {
-						try { await BlockService.s_follow(this.block_id) }
+						try { await BlockService.s_follow(this.block._id) }
 						catch (e) { this.error = e }
 					}
 					else {
-						try { await BlockService.s_unfollow(this.block_id) }
+						try { await BlockService.s_unfollow(this.block._id) }
 						catch (e) { this.error = e }
 					}
 
-					// Get Block Details //
-					await this.blockRead()
+					this.$emit('refreshBlock')
 
 					// Enable Buttons //
 					this.disabled = false
@@ -117,13 +100,12 @@
 			},
 
 			/******************* [ROUTER + LOG] *******************/
-			redirectToBlockCommentCreate(block_id) {
-				router.push({ path: `/block-comment-create/${block_id}` })
+			redirectToBlockCommentCreate() {
+				router.push({ path: `/block-comment-create/${this.block._id}` })
 			},
 
 			log() {
 				console.log('%%% [COMPONENT] TitleHeader %%%')
-				console.log('block_id:', this.block_id)
 				console.log('block:', this.block)
 				if (this.error) { console.error('error:', this.error) }
 			},

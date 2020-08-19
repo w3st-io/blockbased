@@ -52,7 +52,7 @@ const c_readAll = async () => {
 
 // [DELETE] Single Report //
 const c_delete = async (commentReport_id) => {
-	let validId = mongoose.isValidObjectId(commentReport_id)
+	const validId = mongoose.isValidObjectId(commentReport_id)
 
 	if (validId) {
 		try {
@@ -89,7 +89,7 @@ const c_existance = async (user_id, comment_id) => {
 				user: user_id,
 			})
 
-			if (returned) {
+			if (commentReport) {
 				return {
 					status: true,
 					message: 'CommentReport does exist',

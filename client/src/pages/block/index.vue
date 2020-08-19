@@ -6,18 +6,21 @@
 		<article class="card card-body bg-dark">
 			<!-- Title Header -->
 			<title-header
-				:block_id="block_id"
+				:block="block"
 				:leftBtnEmitName="'block-prev'"
 				:rightBtnEmitName="'block-next'"
 				:badgeValue="pageNumber"
 				class="mb-3"
+				@refreshBlock="blockRead()"
 			/>
 
 			<!-- Comments List -->
 			<comment-list
+				:comments="comments"
 				:block_id="block_id"
 				:pageIndex="pageIndex"
 				:amount="5"
+				@refreshComments="commentReadAll()"
 			/>
 		
 			<!-- Botton Page Control -->
@@ -35,9 +38,10 @@
 
 		<!-- [ALERTS] -->
 		<div>
-			<div v-if="!loading && !existance && !error" class="row mt-3 alert alert-warning">
-				Block Does Not Exist.
-			</div>
+			<div
+				v-if="!loading && !existance && !error"
+				class="row mt-3 alert alert-warning"
+			>Block Does Not Exist.</div>
 
 			<div v-if="error" class="row mt-3 alert alert-danger">
 				Block Page {{ error }}
@@ -53,6 +57,7 @@
 	import TitleHeader from '@components/block/TitleHeader'
 	import router from '@router'
 	import BlockService from '@services/BlockService'
+	import CommentService from '@services/CommentService'
 	import { EventBus } from '@main'
 
 
@@ -70,6 +75,7 @@
 				loading: true,
 				block_id: this.$route.params.block_id,
 				block: {},
+				comments: [],
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),
 				commentListKey: 0,
@@ -82,26 +88,46 @@
 			try { this.existance = await BlockService.s_existance(this.block_id) }
 			catch (e) { this.error = e }
 
-			if (this.existance) {
-				// [--> EMMIT] block-prev, block-next //
-				EventBus.$on('block-prev', () => { this.prevPage() })
-				EventBus.$on('block-next', () => { this.nextPage() })
+			// [UPDATE] //
+			await this.blockRead()
 
-				// [UPDATE] //
-				try { await this.blockRead() }
-				catch (e) { this.error = e }
-			}
+			// [INIT] Comments //
+			await this.commentReadAll()
+
+			// [--> EMMIT] block-prev, block-next //
+			EventBus.$on('block-prev', () => { this.prevPage() })
+			EventBus.$on('block-next', () => { this.nextPage() })
+
 
 			// Disable Loading //
 			this.loading = false
 
 			// [LOG] //
 			//this.log()
+
+			EventBus.$on('refresh-block', () => { this.blockRead() })
 		},
 
 		methods: {
 			async blockRead() {
+				console.log('sdfsdfss');
 				try { this.block = await BlockService.s_read(this.block_id) }
+				catch (e) { this.error = e }
+			},
+
+			/******************* [INIT] Comments *******************/
+			async commentReadAll() {
+				// Get Comments //
+				try {
+					const returned = await CommentService.s_readAll(
+						this.block_id,
+						this.amount,
+						this.pageIndex
+					)
+
+					if (returned.status) { this.comments = returned.comments }
+					else { this.error = returned.message }
+				}
 				catch (e) { this.error = e }
 			},
 
@@ -131,6 +157,8 @@
 			log() {
 				console.log('%%% [PAGE] Block %%%')
 				console.log('block_id:', this.block_id)
+				console.log('block:', this.block)
+				console.log('comments:', this.comments)
 				console.log('existance:', this.existance)
 				console.log('pageIndex:', this.pageIndex)
 				console.log('commentListKey:', this.commentListKey)

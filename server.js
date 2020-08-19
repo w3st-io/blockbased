@@ -97,10 +97,9 @@ io.on('connection', (socket) => {
 		}
 	})
 
-	socket.on('leave', () => {
-		// Leave variable
-		userUtils.leave(socket.id)
-	})
+	
+	// [ON] leave //
+	socket.on('leave', () => { userUtils.leave(socket.id) })
 
 
 	// [ON] comment-created //
@@ -109,7 +108,7 @@ io.on('connection', (socket) => {
 			followers.forEach(follower => {
 				// Get userSicket by user_id
 				const userSocket = userUtils.getUserSocketByUserId(follower)
-				
+
 				// [EMIT] //
 				if (userSocket) io.to(userSocket.socket_id).emit('update-notification')
 			})

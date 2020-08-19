@@ -84,10 +84,11 @@
 	export default {
 		data: function() {
 			return {
-				submitted: false,
 				email: '',
 				password: '',
 				returned: '',
+				decoded: {},
+				submitted: false,
 				error: '',
 			}
 		},
@@ -113,7 +114,7 @@
 				catch (e) { this.error = e }
 			},
 
-			successful() {
+			async successful() {
 				// [SET TOKEN] // Emit // [REDIRECT] //
 				localStorage.setItem('usertoken', this.returned.token)
 				EventBus.$emit('logged-in')

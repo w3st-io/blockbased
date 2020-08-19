@@ -64,9 +64,6 @@
 			EventBus.$on('cat-prev', () => { this.prevPage() })
 			EventBus.$on('cat-next', () => { this.nextPage() })
 
-			// Get Cat Details //
-			// Work is progress..
-
 			// [LOG] //
 			//this.log()
 		},
@@ -90,6 +87,10 @@
 					router.push({ path: `/cat/${this.cat_id}/${this.pageNumber}` })
 					EventBus.$emit('force-rerender')
 				}
+			},
+
+			test() {
+				
 			},
 
 			log() {

@@ -22,9 +22,7 @@
 						"
 						@click="redirectToBlock(block._id)"
 					>
-						<h5 class="text-light">
-							{{ block.title }}
-						</h5>
+						<h5 class="text-light">{{ block.title }}</h5>
 						<p class="m-0 small text-secondary">
 							<span v-if="block.user.username" class="text-light">
 								{{ block.user.username }}
@@ -44,11 +42,13 @@
 							p-2
 							text-center
 						" 
-						v-on:click="redirectToBlock(block._id)"
+						@click="redirectToBlock(block._id)"
 					>
-						<p class="
-							pb-0 m-0 badge badge-primary align-self-center text-light
-						">
+						<p
+							class="
+								pb-0 m-0 badge badge-primary align-self-center text-light
+							"
+						>
 							<span class="m-0">
 								<p class="h4 m-0">
 									{{ block.commentCount }}
@@ -73,8 +73,11 @@
 							<button
 								:disabled="disabled"
 								@click.prevent.stop="likeBtn(block)"
-								:class="{ 'liked': block.liked }"
-								class="w-100 btn btn-outline-secondary unliked"
+								class="w-100 btn"
+								:class="{
+									'btn-outline-success': block.liked,
+									'btn-outline-secondary': !block.liked,
+								}"
 							>{{ block.likeCount }} ▲</button>
 						</h4>
 					</div>
@@ -104,7 +107,6 @@
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import BlockService from '@services/BlockService'
-	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {
@@ -121,7 +123,6 @@
 
 		data: function() {
 			return {
-				decoded: {},
 				loading: true,
 				disabled: false,
 				blocks: [],
@@ -130,11 +131,6 @@
 		},
 
 		created: async function() {
-			if (localStorage.usertoken) {
-				// Retrieve User Data //
-				this.decoded = await UserService.getUserTokenDecodeData()
-			}
-
 			// [INIT] Blocks //
 			await this.blocksReadAll()
 
@@ -221,12 +217,5 @@
 		&:hover { @extend .bg-secondary; }
 	}
 
-	.unliked {
-		color: white;
-		font-size: 1em;
-
-		&:hover { color: $like !important; }
-	}
-
-	.liked { color: $like !important; }
+	.btn { font-size: 1em; }
 </style>

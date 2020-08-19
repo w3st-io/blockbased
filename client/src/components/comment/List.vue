@@ -88,6 +88,8 @@
 							>{{ comment.likeCount }} ▲</button>
 						</div>
 					</div>
+
+					<!-- Admin Bar -->
 					<div
 						v-if="adminLoggedIn"
 						class="col-12 p-2 border border-warning text-light"
@@ -135,6 +137,7 @@
 		
 		props: {
 			block_id: { type: String, required: true, },
+			comments: { type: Array, required: true, },
 			pageIndex: { type: Number, required: true, },
 			amount: { type: Number, required: true },
 		},
@@ -145,7 +148,6 @@
 				adminLoggedIn: false,
 				loading: true,
 				disabled: false,
-				comments: [],
 				error: '',
 			}
 		},
@@ -156,10 +158,6 @@
 			if (localStorage.usertoken) {
 				this.decoded = await UserService.getUserTokenDecodeData()
 			}
-			
-			// [INIT] Comments //
-			await this.commentReadAll()
-
 			
 			// Disable Loading //
 			this.loading = false
@@ -186,30 +184,13 @@
 		},
 
 		methods: {
-			/******************* [INIT] Comments *******************/
-			async commentReadAll() {
-				// Get Comments //
-				try {
-					const returned = await CommentService.s_readAll(
-						this.block_id,
-						this.amount,
-						this.pageIndex
-					)
-
-					if (returned.status) { this.comments = returned.comments }
-					else { this.error = returned.message }
-				}
-				catch (e) { this.error = e }
-			},
-
-			/******************* [CRUD] *******************/
 			async deleteComment(comment_id) {
 				// [DELETE] Comment //
 				try { await CommentService.s_delete(comment_id) }
 				catch (e) { this.error = e }
 
-				// [READ] Comments //
-				await this.commentReadAll()
+				// [EMIT] Refresh Comments //
+				this.$emit('refreshComments') 
 			},
 			
 			/******************* [BTN] Like *******************/
@@ -235,7 +216,7 @@
 				}
 
 				// [READ] Update Comments //
-				await this.commentReadAll()
+				this.$emit('refreshComments') 
 			},
 
 			/******************* [REPORT] *******************/
