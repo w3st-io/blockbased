@@ -44,11 +44,11 @@ async function login(email, password) {
 	const authAxios = await this.authAxios()
 	
 	try {
-		const returnedData = await authAxios.post('/login', { email, password })
+		const returned = await authAxios.post('/login', { email, password })
 
-		return returnedData.data
+		return returned.data
 	}
-	catch(e) {
+	catch (e) {
 		return { status: false, message: `AdminService: Caught Error --> ${e}` }
 	}
 }
@@ -57,10 +57,10 @@ async function login(email, password) {
 // [REGISTER] //
 async function register(first_name, last_name, username, email, password) {
 	const authAxios = await this.authAxios()
-	let returnedData = ''
+	let returned = ''
 
 	try {
-		returnedData = await authAxios.post('/register', {
+		returned = await authAxios.post('/register', {
 			first_name,
 			last_name,
 			username,
@@ -68,7 +68,7 @@ async function register(first_name, last_name, username, email, password) {
 			password,
 		})
 
-		return returnedData.data
+		return returned.data
 	}
 	catch (e) {
 		return {

@@ -31,7 +31,7 @@ const c_create = async (user_id, block_id, text) => {
 				createdComment: createdComment,
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `commentsCollection: Caught Error --> ${e}`,
@@ -66,7 +66,7 @@ const c_readAllAll = async (skip, limit) => {
 
 		return { status: true, comments: comments }
 	}
-	catch(e) {
+	catch (e) {
 		return {
 			status: false,
 			message: `commentsCollection: Caught Error --> ${e}`,
@@ -93,7 +93,7 @@ const c_readAll = async (block_id, skip, limit) => {
 
 		return { status: true, comments: comments }
 	}
-	catch(e) {
+	catch (e) {
 		return {
 			status: false,
 			message: `commentsCollection: Caught Error --> ${e}`,
@@ -122,7 +122,7 @@ const c_read = async (comment_id) => {
 
 			return { status: true, comment: comment }
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `commentsCollection: Caught Error --> ${e}`,
@@ -150,7 +150,7 @@ const c_update = async (comment_id, text) => {
 					updatedCollent: updatedCollent,
 				}
 			}
-			catch(e) {
+			catch (e) {
 				return {
 					status: false,
 					message: `commentsCollection: Caught Error --> ${e}`,
@@ -179,7 +179,7 @@ const c_delete = async (user_id, comment_id) => {
 				deletedComment: deletedComment,
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `commentsCollection: Caught Error --> ${e}`,
@@ -218,7 +218,7 @@ const c_existance = async (comment_id) => {
 				}
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `commentsCollection: Caught Error --> ${e}`
@@ -257,7 +257,7 @@ const c_ownership = async (user_id, comment_id) => {
 				}
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `commentsCollection: Caught Error --> ${e}`
@@ -270,8 +270,14 @@ const c_ownership = async (user_id, comment_id) => {
 
 /******************* [COUNT] *******************/
 const c_countAll = async (block_id) => {
-	try { return await CommentModel.countDocuments({ block: block_id }) }
-	catch(e) { return `commentsCollection: Caught Error --> ${e}` }
+	try {
+		const count = await CommentModel.countDocuments({ block: block_id })
+
+		return { status: true, count: count }
+	}
+	catch (e) {
+		return { status: false, message: `commentsCollection: Caught Error --> ${e}` }
+	}
 }
 
 

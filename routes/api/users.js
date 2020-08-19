@@ -24,9 +24,9 @@ router.get(
 	'/read',
 	Auth.userToken(),
 	async (req, res) => {
-		const returnedData = await usersCollection.c_read(req.decoded._id)
+		const returned = await usersCollection.c_read(req.decoded._id)
 
-		res.status(200).send(returnedData)
+		res.status(200).send(returned)
 	}
 )
 
@@ -35,9 +35,9 @@ router.get(
 router.get(
 	'/read/:_id',
 	async (req, res) => {
-		const returnedData = await usersCollection.c_read(req.params._id)
+		const returned = await usersCollection.c_read(req.params._id)
 
-		res.status(200).send(returnedData)
+		res.status(200).send(returned)
 	}
 )
 
@@ -47,12 +47,12 @@ router.post(
 	'/update',
 	Auth.userToken(),
 	async (req, res) => {
-		const returnedData = await usersCollection.c_update(
+		const returned = await usersCollection.c_update(
 			req.decoded._id,
 			req.body.img_url
 		)
 
-		res.status(201).send(returnedData)
+		res.status(201).send(returned)
 	}
 )
 
@@ -62,12 +62,12 @@ router.post(
 router.post(
 	'/login',
 	async (req, res) => {
-		const returnedData = await usersCollection.c_login(
+		const returned = await usersCollection.c_login(
 			req.body.email,
 			req.body.password
 		)
 
-		res.status(200).send(returnedData)
+		res.status(200).send(returned)
 	}
 )
 
@@ -77,9 +77,9 @@ router.post(
 	'/register',
 	rateLimiters.registrationLimiter,
 	async (req, res) => {
-		const returnedData = await usersCollection.c_register(req)
+		const returned = await usersCollection.c_register(req)
 
-		res.status(201).send(returnedData)
+		res.status(201).send(returned)
 	}
 )
 

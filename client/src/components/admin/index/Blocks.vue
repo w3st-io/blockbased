@@ -58,18 +58,18 @@
 			async getBlocks() {
 				// Get Blocks //
 				try {
-					let returnedData = await ABlockService.s_readAllAll(100, 0)
+					let returned = await ABlockService.s_readAllAll(100, 0)
 
-					if (returnedData.status) { this.blocks = returnedData.blocks }
-					else { this.error = returnedData.message }
+					if (returned.status) { this.blocks = returned.blocks }
+					else { this.error = returned.message }
 				}
-				catch(e) { this.error = e }
+				catch (e) { this.error = e }
 			},
 
 			async deleteBlock(block_id) {
 				// Delete Block //
 				try { await ABlockService.s_delete(block_id) }
-				catch(e) { this.error = e }
+				catch (e) { this.error = e }
 				
 				// Refresh Table //
 				this.getBlocks()

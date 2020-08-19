@@ -58,12 +58,12 @@
 
 			// Retrieve User Profile Data //
 			try {
-				const returnedData = await UserService.s_read()
+				const returned = await UserService.s_read()
 
-				if (returnedData.status) { this.userData = returnedData.user }
-				else { this.error = returnedData.message }
+				if (returned.status) { this.userData = returned.user }
+				else { this.error = returned.message }
 			}
-			catch(e) { this.error = e }
+			catch (e) { this.error = e }
 
 			// Set Image //
 			this.imgUrl = this.userData.profileImg
@@ -78,7 +78,7 @@
 		methods: {
 			async updateUserData() {
 				try { await UserService.s_update(this.imgUrl) }
-				catch(e) { this.error = e }
+				catch (e) { this.error = e }
 
 				// [REDIRECT] //
 				router.push({ path: '/profile' })

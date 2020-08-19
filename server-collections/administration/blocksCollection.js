@@ -31,7 +31,7 @@ const c_readAllAll = async (skip, amount) => {
 
 		return { status: true, blocks: blocks }
 	}
-	catch(e) {
+	catch (e) {
 		return {
 			status: false,
 			message: `blockCollections: Caught Error --> ${e}`,
@@ -63,7 +63,7 @@ const c_delete = async (block_id) => {
 				}
 			)
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `blockCollections: Caught Error --> ${e}`,

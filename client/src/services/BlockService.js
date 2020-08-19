@@ -22,8 +22,8 @@ async function s_create(cat_id, title, text) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returnedData = await authAxios.post('/create', { cat_id, title, text })
-		return returnedData.data
+		const returned = await authAxios.post('/create', { cat_id, title, text })
+		return returned.data
 	}
 	catch (e) {
 		return { status: false, message: `BlockService: Caught Error --> ${e}` }
@@ -37,9 +37,11 @@ async function s_readAll(cat_id, amount, pageNumber) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returnedData = await authAxios.get(`/read-all/${cat_id}/${amount}/${skip}`)
+		const returned = await authAxios.get(`/read-all/${cat_id}/${amount}/${skip}`)
+		
+		console.log(returned)
 
-		const blocks = returnedData.data.blocks.map(block => ({
+		const blocks = returned.data.blocks.map(block => ({
 			...block,
 			createdAt: new Date(block.createdAt).toLocaleString()
 		}))
@@ -55,15 +57,15 @@ async function s_read(block_id) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let returnedData = await authAxios.get(`/read/${block_id}`)
+		let returned = await authAxios.get(`/read/${block_id}`)
 
-		returnedData.data.block.createdAt = new Date(
-			returnedData.data.block.createdAt
+		returned.data.block.createdAt = new Date(
+			returned.data.block.createdAt
 		).toLocaleString()
 
-		return returnedData.data.block
+		return returned.data.block
 	}
-	catch(e) {
+	catch (e) {
 		console.log(`BlockService: Caught Error --> ${e}`)
 
 		return { status: false, message: `BlockService: Caught Error --> ${e}` }
@@ -76,18 +78,18 @@ async function s_read(block_id) {
 async function s_like(block_id) {
 	const authAxios = await this.authAxios()
 
-	const returnedData = await authAxios.post(`/like/${block_id}`)
+	const returned = await authAxios.post(`/like/${block_id}`)
 
-	return returnedData.data
+	return returned.data
 }
 
 async function s_unlike(block_id) {
 	const authAxios = await this.authAxios()
 
 	// Remove the liker from the Block Object //
-	const returnedData = await authAxios.post(`/unlike/${block_id}`)
+	const returned = await authAxios.post(`/unlike/${block_id}`)
 
-	return returnedData.data
+	return returned.data
 }
 
 
@@ -112,19 +114,19 @@ async function s_unfollow(block_id) {
 async function s_existance(block_id) {
 	const authAxios = await this.authAxios()
 
-	const returnedData = await authAxios.get(`/existance/${block_id}`)
+	const returned = await authAxios.get(`/existance/${block_id}`)
 	
-	return returnedData.data
+	return returned.data
 }
 
 
 /******************* [COUNT] *******************/
-async function s_countWithinCat(cat_id) {
+async function s_count(cat_id) {
 	const authAxios = await this.authAxios()
 
-	const returnedData = await authAxios.get(`/count/${cat_id}`)
+	const returned = await authAxios.get(`/count/${cat_id}`)
 
-	return returnedData.data
+	return returned.data
 }
 
 
@@ -139,5 +141,5 @@ export default {
 	s_follow,
 	s_unfollow,
 	s_existance,
-	s_countWithinCat,
+	s_count,
 }

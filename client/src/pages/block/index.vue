@@ -80,7 +80,7 @@
 		created: async function() {
 			// Check If Block Is Valid //
 			try { this.existance = await BlockService.s_existance(this.block_id) }
-			catch(e) { this.error = e }
+			catch (e) { this.error = e }
 
 			if (this.existance) {
 				// [--> EMMIT] block-prev, block-next //
@@ -89,7 +89,7 @@
 
 				// [UPDATE] //
 				try { await this.blockRead() }
-				catch(e) { this.error = e }
+				catch (e) { this.error = e }
 			}
 
 			// Disable Loading //
@@ -102,7 +102,7 @@
 		methods: {
 			async blockRead() {
 				try { this.block = await BlockService.s_read(this.block_id) }
-				catch(e) { this.error = e }
+				catch (e) { this.error = e }
 			},
 
 			prevPage() {

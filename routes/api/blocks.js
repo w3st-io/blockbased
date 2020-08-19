@@ -29,20 +29,20 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.blockLimiter,
 	async (req, res) => {
-		const returnedData = await blocksCollection.c_create(
+		const returned = await blocksCollection.c_create(
 			req.decoded._id,
 			req.body.cat_id,
 			req.body.title
 		)
-		const returnedData2 = await commentsCollection.c_create(
+		const returned2 = await commentsCollection.c_create(
 			req.decoded._id,
-			returnedData.createdBlock._id,
+			returned.createdBlock._id,
 			req.body.text
 		)
 
 		const created = {
 			status: true,
-			created: [returnedData, returnedData2],
+			created: [returned, returned2],
 		}
 
 		res.status(201).send(created)
@@ -55,31 +55,41 @@ router.get(
 	'/read-all/:cat_id/:amount/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		const returnedData = await blocksCollection.c_readAll(
+		const returned = await blocksCollection.c_readAll(
 			req.params.cat_id,
 			req.params.skip,
 			req.params.amount
 		)
 
 		// For Each Block in Blocks //
-		for (let i = 0; i < returnedData.blocks.length; i++) {
+		for (let i = 0; i < returned.blocks.length; i++) {
 			// Like Count //
 			try {
 				const count = await blockLikesCollection.c_countAll(
-					returnedData.blocks[i]._id
+					returned.blocks[i]._id
 				)
 
-				returnedData.blocks[i].likeCount = count.count
+				returned.blocks[i].likeCount = count.count
 			}
 			catch (e) { console.log(`Caught Error --> ${e}`) }
 
 			// Follow Count //
 			try {
 				const count = await blockFollowersCollection.c_countAll(
-					returnedData.blocks[i]._id
+					returned.blocks[i]._id
 				)
 
-				returnedData.blocks[i].followersCount = count.count
+				returned.blocks[i].followersCount = count.count
+			}
+			catch (e) { console.log(`Caught Error --> ${e}`) }
+
+			// Comment Count //
+			try {
+				const count = await commentsCollection.c_countAll(
+					returned.blocks[i]._id
+				)
+
+				returned.blocks[i].commentCount = count.count
 			}
 			catch (e) { console.log(`Caught Error --> ${e}`) }
 
@@ -88,21 +98,24 @@ router.get(
 				// Liked Status //
 				const liked = await blockLikesCollection.c_existance(
 					req.decoded._id,
-					returnedData.blocks[i]._id
+					returned.blocks[i]._id
 				)
 
 				// Follwed Status //
 				const followed = await blockFollowersCollection.c_existance(
 					req.decoded._id,
-					returnedData.blocks[i]._id
+					returned.blocks[i]._id
 				)
 				
-				returnedData.blocks[i].liked = liked.existance
-				returnedData.blocks[i].followed = followed.existance
+				returned.blocks[i].liked = liked.existance
+				returned.blocks[i].followed = followed.existance
 			}
 		}
+
+		// Set Total Blocks & Total Pages //
+		returned.totalBlocks = 12
 	
-		res.status(200).send(returnedData)
+		res.status(200).send(returned)
 	}
 )
 
@@ -112,25 +125,25 @@ router.get(
 	'/read/:_id',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		let returnedData = await blocksCollection.c_read(req.params._id)
+		let returned = await blocksCollection.c_read(req.params._id)
 
 		// Set Like Count //
 		try {
 			const count = await blockLikesCollection.c_countAll(
-				returnedData.block._id
+				returned.block._id
 			)
 
-			returnedData.block.likeCount = count.count
+			returned.block.likeCount = count.count
 		}
 		catch (e) { console.log(`Caught Error --> ${e}`) }
 
 		// Follow Count //
 		try {
 			const count = await blockFollowersCollection.c_countAll(
-				returnedData.block._id
+				returned.block._id
 			)
 
-			returnedData.block.followersCount = count.count
+			returned.block.followersCount = count.count
 		}
 		catch (e) { console.log(`Caught Error --> ${e}`) }
 
@@ -139,24 +152,24 @@ router.get(
 			// Liked Status //
 			const liked = await blockLikesCollection.c_existance(
 				req.decoded._id,
-				returnedData.block._id
+				returned.block._id
 			)
 
-			returnedData.block.liked = liked.existance
+			returned.block.liked = liked.existance
 
 			// Follwed Status //
 			try {
 				const followed = await blockFollowersCollection.c_existance(
 					req.decoded._id,
-					returnedData.block._id
+					returned.block._id
 				)
 
-				returnedData.block.followed = followed.existance
+				returned.block.followed = followed.existance
 			}
 			catch (e) { console.log(e) }
 		}
 
-		res.status(200).send(returnedData)
+		res.status(200).send(returned)
 	},
 )
 
@@ -171,10 +184,10 @@ router.delete(
 		)
 		
 		if (ownership.status && ownership.ownership) {
-			const returnedData = await blocksCollection.c_delete(req.params._id)
-			const returnedData2 = await blockLikesCollection.c_deleteAll(req.params._id)
+			const returned = await blocksCollection.c_delete(req.params._id)
+			const returned2 = await blockLikesCollection.c_deleteAll(req.params._id)
 
-			res.status(200).send([returnedData, returnedData2])
+			res.status(200).send([returned, returned2])
 			
 		}
 		else { res.status(400).send(ownership) }
@@ -190,12 +203,12 @@ router.post(
 	rateLimiter.likeLimiter,
 	async (req, res) => {
 		// [CREATE] blockLike //
-		const returnedData = await blockLikesCollection.c_create(
+		const returned = await blockLikesCollection.c_create(
 			req.decoded._id,
 			req.params._id
 		)
 		
-		res.status(201).send(returnedData)
+		res.status(201).send(returned)
 	},
 )
 
@@ -206,12 +219,12 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		// [UPDATE] block Likers // [DELETE] blockLike //
-		const returnedData = await blockLikesCollection.c_delete(
+		const returned = await blockLikesCollection.c_delete(
 			req.decoded._id,
 			req.params._id
 		)
 		
-		res.status(201).send(returnedData)
+		res.status(201).send(returned)
 	},
 )
 
@@ -223,12 +236,12 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.followLimiter,
 	async (req, res) => {
-		const returnedData = await blockFollowersCollection.c_create(
+		const returned = await blockFollowersCollection.c_create(
 			req.decoded._id,
 			req.params._id
 		)
 		
-		res.status(201).send(returnedData)
+		res.status(201).send(returned)
 	},
 )
 
@@ -238,12 +251,12 @@ router.post(
 	rateLimiter.followLimiter,
 	Auth.userToken(),
 	async (req, res) => {
-		const returnedData = await blockFollowersCollection.c_delete(
+		const returned = await blockFollowersCollection.c_delete(
 			req.decoded._id,
 			req.params._id
 		)
 		
-		res.status(201).send(returnedData)
+		res.status(201).send(returned)
 	},
 )
 

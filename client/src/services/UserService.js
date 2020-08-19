@@ -45,9 +45,9 @@ async function s_read(user_id) {
 	
 	if (user_id) {
 		try {
-			const returnedData = await authAxios.get(`/read/${user_id}`)
+			const returned = await authAxios.get(`/read/${user_id}`)
 
-			return returnedData.data
+			return returned.data
 		}
 		catch (e) {
 			return { status: false, message: `UserService: Caught Error --> ${e}` }
@@ -55,9 +55,9 @@ async function s_read(user_id) {
 	}
 	else {
 		try {
-			const returnedData = await authAxios.get('/read')
+			const returned = await authAxios.get('/read')
 
-			return returnedData.data
+			return returned.data
 		}
 		catch (e) {
 			return { status: false, message: `UserService: Caught Error --> ${e}` }
@@ -70,9 +70,9 @@ async function s_update(img_url) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returnedData = await authAxios.post(`/update`, { img_url })
+		const returned = await authAxios.post(`/update`, { img_url })
 
-		return returnedData.data
+		return returned.data
 	}
 	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
 	
@@ -85,11 +85,11 @@ async function login(email, password) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returnedData = await authAxios.post('/login', { email, password })
+		const returned = await authAxios.post('/login', { email, password })
 		
-		return returnedData.data
+		return returned.data
 	}
-	catch(e) {
+	catch (e) {
 		return { status: false, message: `UserService: Caught Error --> ${e}` }
 	}
 }
@@ -100,7 +100,7 @@ async function register(first_name, last_name, username, email, password) {
 	const authAxios = await this.authAxios()
 	
 	try {
-		const returnedData = await authAxios.post('/register', {
+		const returned = await authAxios.post('/register', {
 			first_name,
 			last_name,
 			username,
@@ -108,7 +108,7 @@ async function register(first_name, last_name, username, email, password) {
 			password,
 		})
 
-		return returnedData.data
+		return returned.data
 	}
 	catch (e) {
 		return { status: false, message: `UserService: Caught Error --> ${e}` }

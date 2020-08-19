@@ -32,6 +32,8 @@ const BlockSchema = mongoose.Schema({
 
 	followed: { type: Boolean, default: null, },
 
+	commentCount: { type: Number, default: null },
+
 	createdAt: {
 		type: Date,
 		default: Date.now,

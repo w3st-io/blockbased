@@ -85,7 +85,7 @@
 				// Get Block Details
 				this.block = await BlockService.s_read(this.block_id)
 			}
-			catch(e) { this.error = e }
+			catch (e) { this.error = e }
 
 			// If Invalid Block => Disable //
 			if (!this.validBlock) { this.disabled = true }
@@ -127,7 +127,7 @@
 						}
 					)
 				}
-				catch(e) {
+				catch (e) {
 					this.loading = false
 					this.error = e
 				}

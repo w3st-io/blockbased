@@ -87,7 +87,7 @@
 				submitted: false,
 				email: '',
 				password: '',
-				returnedData: '',
+				returned: '',
 				error: '',
 			}
 		},
@@ -101,21 +101,21 @@
 			async login() {
 				try {
 					// Get Status from Login Function //
-					this.returnedData = await UserService.login(this.email, this.password)
+					this.returned = await UserService.login(this.email, this.password)
 					
 					// Check Validation Status //
 					if (
-						this.returnedData.status == true &&
-						this.returnedData.validation == true
+						this.returned.status == true &&
+						this.returned.validation == true
 					) { this.successful() }
-					else { this.error = this.returnedData.message }
+					else { this.error = this.returned.message }
 				}
-				catch(err) { this.error = err }
+				catch (e) { this.error = e }
 			},
 
 			successful() {
 				// [SET TOKEN] // Emit // [REDIRECT] //
-				localStorage.setItem('usertoken', this.returnedData.token)
+				localStorage.setItem('usertoken', this.returned.token)
 				EventBus.$emit('logged-in')
 				router.push({ path: '/' })
 			},

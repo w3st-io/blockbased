@@ -59,12 +59,12 @@
 			async getUsers() {
 				// Get Users //
 				try {
-					const returnedData = await AUserService.s_readAll()
+					const returned = await AUserService.s_readAll()
 
-					if (returnedData.status) { this.users = returnedData.users }
-					else { this.error = returnedData.message }
+					if (returned.status) { this.users = returned.users }
+					else { this.error = returned.message }
 				}
-				catch(e) { this.error = e }
+				catch (e) { this.error = e }
 			},
 
 			async banUser(user_id) { await AUserService.s_banUser(user_id, 1) },

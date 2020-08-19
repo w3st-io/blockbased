@@ -64,16 +64,16 @@
 
 			// Retrieve User Token Decode Data //
 			try { this.decoded = await UserService.getUserTokenDecodeData() }
-			catch(e) { this.error = e }
+			catch (e) { this.error = e }
 
 			// Retrieve User Profile Data //
 			try {
-				const returnedData = await UserService.s_read()
+				const returned = await UserService.s_read()
 
-				if (returnedData.status) { this.userData = returnedData.user }
-				else { this.error = returnedData.message }
+				if (returned.status) { this.userData = returned.user }
+				else { this.error = returned.message }
 			}
-			catch(e) { this.error = e }
+			catch (e) { this.error = e }
 
 			// [LOG] //
 			//this.log()

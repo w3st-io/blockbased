@@ -34,7 +34,7 @@ const c_create = async (user_id, block_id) => {
 				createdBlockFollow: createdBlockFollow,
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `blockFollowersCollection: Caught Error --> ${e}`,
@@ -55,7 +55,7 @@ const c_readAll = async (block_id) => {
 			blockFollowers: blockFollowers,
 		}
 	}
-	catch(e) {
+	catch (e) {
 		return {
 			status: true,
 			message: 'blockFollowersCollection: Error',
@@ -79,7 +79,7 @@ const c_delete = async (user_id, block_id) => {
 			deletedBlockFollower: deletedBlockFollower
 		}
 	}
-	catch(e) {
+	catch (e) {
 		return {
 			status: false,
 			message: `blockFollowersCollection: Caught Error --> ${e}`,
@@ -115,7 +115,7 @@ const c_existance = async (user_id, block_id) => {
 				}
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `blockFollowersCollection: Caught Error --> ${e}`,

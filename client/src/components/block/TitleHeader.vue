@@ -89,7 +89,7 @@
 			/******************* [INIT] Block *******************/
 			async blockRead() {
 				try { this.block = await BlockService.s_read(this.block_id) }
-				catch(e) { this.error = e }
+				catch (e) { this.error = e }
 			},
 
 			/******************* [BTN] FOLLOW *******************/
@@ -101,11 +101,11 @@
 
 					if (!this.block.followed) {
 						try { await BlockService.s_follow(this.block_id) }
-						catch(e) { this.error = e }
+						catch (e) { this.error = e }
 					}
 					else {
 						try { await BlockService.s_unfollow(this.block_id) }
-						catch(e) { this.error = e }
+						catch (e) { this.error = e }
 					}
 
 					// Get Block Details //

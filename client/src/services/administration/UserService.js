@@ -22,11 +22,11 @@ async function s_readAll() {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returnedData = await authAxios.get(`/read-all/profile-data`)
+		const returned = await authAxios.get(`/read-all/profile-data`)
 
-		return returnedData.data
+		return returned.data
 	}
-	catch(e) {
+	catch (e) {
 		return {
 			status: false,
 			message: `UserService: Caught Error --> ${e}`
@@ -39,11 +39,11 @@ async function s_read(user_id) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returnedData = await authAxios.get(`/read/${user_id}`)
+		const returned = await authAxios.get(`/read/${user_id}`)
 
-		return returnedData.data
+		return returned.data
 	}
-	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
 }
 
 // [UPDATE] Auth Required //
@@ -51,9 +51,9 @@ async function s_update(user_id, img_url) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returnedData = await authAxios.post(`/update/${user_id}`, { img_url })
+		const returned = await authAxios.post(`/update/${user_id}`, { img_url })
 
-		return returnedData.data
+		return returned.data
 	}
 	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
 	
@@ -64,9 +64,9 @@ async function s_banUser(user_id, hours) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returnedData = await authAxios.post(`/ban/${user_id}`, { hours })
+		const returned = await authAxios.post(`/ban/${user_id}`, { hours })
 	
-		return returnedData.data
+		return returned.data
 	}
 	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
 }

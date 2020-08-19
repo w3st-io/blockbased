@@ -190,23 +190,23 @@
 			async commentReadAll() {
 				// Get Comments //
 				try {
-					const returnedData = await CommentService.s_readAll(
+					const returned = await CommentService.s_readAll(
 						this.block_id,
 						this.amount,
 						this.pageIndex
 					)
 
-					if (returnedData.status) { this.comments = returnedData.comments }
-					else { this.error = returnedData.message }
+					if (returned.status) { this.comments = returned.comments }
+					else { this.error = returned.message }
 				}
-				catch(e) { this.error = e }
+				catch (e) { this.error = e }
 			},
 
 			/******************* [CRUD] *******************/
 			async deleteComment(comment_id) {
 				// [DELETE] Comment //
 				try { await CommentService.s_delete(comment_id) }
-				catch(e) { this.error = e }
+				catch (e) { this.error = e }
 
 				// [READ] Comments //
 				await this.commentReadAll()
@@ -220,7 +220,7 @@
 						this.disabled = true
 
 						try { await CommentService.s_unlike(comment._id) }
-						catch(e) { this.error = e }
+						catch (e) { this.error = e }
 
 						this.disabled = false
 					}
@@ -228,7 +228,7 @@
 						this.disabled = true
 
 						try { await CommentService.s_like(this.block_id, comment._id) }
-						catch(e) { this.error = e }
+						catch (e) { this.error = e }
 
 						this.disabled = false
 					}

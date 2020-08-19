@@ -22,12 +22,12 @@ const router = express.Router().use(cors())
 router.post(
 	'/login',
 	async (req, res) => {
-		const returnedData = await adminsCollection.c_login(
+		const returned = await adminsCollection.c_login(
 			req.body.email,
 			req.body.password
 		)
 
-		res.status(200).send(returnedData)
+		res.status(200).send(returned)
 	}
 )
 
@@ -36,11 +36,11 @@ router.post(
 	'/register',
 	rateLimiters.registrationLimiter,
 	async (req, res) => {
-		const returnedData = await adminsCollection.c_register(req)
+		const returned = await adminsCollection.c_register(req)
 
-		console.log('RETURNED DATA', returnedData)
+		console.log('RETURNED DATA', returned)
 
-		res.status(201).send(returnedData)
+		res.status(201).send(returned)
 	}
 )
 

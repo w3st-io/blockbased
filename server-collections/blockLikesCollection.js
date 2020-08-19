@@ -34,7 +34,7 @@ const c_create = async (user_id, block_id) => {
 				createdBlockLike: createdBlockLike,
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `blockLikesCollection: Caught Error --> ${e}`,
@@ -60,7 +60,7 @@ const c_delete = async (user_id, block_id) => {
 			deletedBlockLike: deletedBlockLike,
 		}
 	}
-	catch(e) {
+	catch (e) {
 		return {
 			status: false,
 			message: `blockLikesCollection: Caught Error --> ${e}`,
@@ -80,7 +80,7 @@ const c_deleteAll = async (block_id) => {
 			deletedBlockLike: deletedBlockLike,
 		}
 	}
-	catch(e) {
+	catch (e) {
 		return {
 			status: false,
 			message: `deletedBlockLike: Caught Error --> ${e}`,
@@ -94,14 +94,14 @@ const c_deleteAll = async (block_id) => {
 const c_existance = async (user_id, block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {
-			const returnedData = await BlockLikeModel.findOne(
+			const returned = await BlockLikeModel.findOne(
 				{
 					user: user_id,
 					block: block_id,
 				}
 			)
 
-			if (returnedData) {
+			if (returned) {
 				return {
 					status: true,
 					message: 'BlockLike does exists',
@@ -116,7 +116,7 @@ const c_existance = async (user_id, block_id) => {
 				}
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `blockLikesCollection: Caught Error --> ${e}`,

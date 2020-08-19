@@ -24,9 +24,9 @@ router.get(
 	'/read-all/profile-data',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await usersCollection.c_readAll()
+		const returned = await usersCollection.c_readAll()
 
-		res.status(201).send(returnedData)
+		res.status(201).send(returned)
 	}
 )
 
@@ -36,12 +36,12 @@ router.post(
 	'/update/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await usersCollection.c_update(
+		const returned = await usersCollection.c_update(
 			req.decoded._id,
 			req.body.img_url
 		)
 
-		res.status(201).send(returnedData)
+		res.status(201).send(returned)
 	}
 )
 
@@ -52,12 +52,12 @@ router.post(
 	'/ban/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await banCollection.c_create(
+		const returned = await banCollection.c_create(
 			req.params._id,
 			req.body.hours
 		)
 
-		res.status(201).send(returnedData)
+		res.status(201).send(returned)
 	}
 )
 

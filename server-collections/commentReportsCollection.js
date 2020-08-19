@@ -32,21 +32,21 @@ const c_create = async (user_id, comment_id, block_id, reportType) => {
 			commentReport: commentReport,
 		}
 	}
-	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
 }
 
 
 // [READ-ALL] //
 const c_readAll = async () => {
 	try {
-		const returnedData = await CommentReportModel.find()
+		const returned = await CommentReportModel.find()
 			.populate('user')
 			.populate('comment')
 			.exec()
 
-		return { status: true, reports: returnedData }
+		return { status: true, reports: returned }
 	}
-	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
 }
 
 
@@ -66,7 +66,7 @@ const c_delete = async (commentReport_id) => {
 				deletedCommentReport: deletedCommentReport,
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `commentReportsCollection: Caught Error --> ${e}`
@@ -89,7 +89,7 @@ const c_existance = async (user_id, comment_id) => {
 				user: user_id,
 			})
 
-			if (returnedData) {
+			if (returned) {
 				return {
 					status: true,
 					message: 'CommentReport does exist',
@@ -106,7 +106,7 @@ const c_existance = async (user_id, comment_id) => {
 				}
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `commentReportsCollection: Caught Error --> ${e}`

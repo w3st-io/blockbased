@@ -51,7 +51,7 @@
 						">
 							<span class="m-0">
 								<p class="h4 m-0">
-									{{ commentCounts[block._id] }}
+									{{ block.commentCount }}
 								</p>
 								<span>Comments</span>
 							</span>
@@ -104,7 +104,6 @@
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import BlockService from '@services/BlockService'
-	import CommentService from '@services/CommentService'
 	import UserService from '@services/UserService'
 
 	// [EXPORT] //
@@ -126,7 +125,6 @@
 				loading: true,
 				disabled: false,
 				blocks: [],
-				commentCounts: {},
 				error: '',
 			}
 		},
@@ -139,9 +137,6 @@
 
 			// [INIT] Blocks //
 			await this.blocksReadAll()
-			
-			// [INIT] Total Comments //
-			await this.totalComments()
 
 			// Disable Loading //
 			this.loading = false
@@ -159,17 +154,12 @@
 						this.amount,
 						this.pageIndex
 					)
-
-					console.log('this.blocks:',this.blocks)
 				}
-				catch(e) { this.error = e }
+				catch (e) { this.error = e }
 
 				// Set Error //
 				if (!this.blocks.status) this.error = this.blocks.error
 			},
-
-			/******************* [INIT] Profile *******************/
-			// Add a Profile Data Section of the person who created the block
 
 			/******************* [BTN] Like *******************/
 			async likeBtn(block) {
@@ -179,7 +169,7 @@
 						this.disabled = true
 
 						try { await BlockService.s_unlike(block._id) }
-						catch(e) { this.error = e }
+						catch (e) { this.error = e }
 
 						this.disabled = false
 					}
@@ -187,7 +177,7 @@
 						this.disabled = true
 
 						try { await BlockService.s_like(block._id) }
-						catch(e) { this.error = e }
+						catch (e) { this.error = e }
 
 						this.disabled = false
 					}
@@ -195,16 +185,6 @@
 
 				// [READ] Update Blocks //
 				await this.blocksReadAll()
-			},
-
-			/******************* [COUNT] *******************/
-			async totalComments() {
-				// For the Size of the # of Cats.. //
-				for (let i = 0; i < this.blocks.length; i++) {
-					let block_id = this.blocks[i]._id
-
-					this.commentCounts[block_id] = await CommentService.s_count(block_id)
-				}
 			},
 
 			/******************* [ROUTER + LOG] *******************/

@@ -119,7 +119,7 @@
 						params: { cat_id: this.cat_id, page: '1' }
 					})
 				}
-				catch(e) {
+				catch (e) {
 					this.loading = false
 					this.error = e
 				}

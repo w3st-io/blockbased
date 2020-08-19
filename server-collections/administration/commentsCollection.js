@@ -26,7 +26,7 @@ const c_delete = async (comment_id) => {
 				deletedComment: deletedComment,
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `commentsCollection: Caught Error --> ${e}`,

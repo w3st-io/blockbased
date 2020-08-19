@@ -92,12 +92,11 @@
 				for (let i = 0; i < this.cats.length; i++) {
 					let cat_id = this.cats[i].cat_id
 
-					this.totals[cat_id] = await BlockService.s_countWithinCat(cat_id)
+					this.totals[cat_id] = await BlockService.s_count(cat_id)
 				}
 			},
 
 			redirectToCatBlocks(cat_id) {
-				// [REDIRECT] Cat Page //
 				router.push({ name: 'Cat', params: { cat_id: cat_id, page: 1 } })
 			},
 

@@ -26,7 +26,7 @@ const c_readAll = async () => {
 
 		return { status: true, users: users }
 	}
-	catch(e) {
+	catch (e) {
 		return { status: false, message: `UserCollection: Caught Error --> ${e}` }
 	}
 }
@@ -40,7 +40,7 @@ const c_read = async (user_id) => {
 
 			return { status: true, user: user }
 		}
-		catch(e) {
+		catch (e) {
 			return { status: false, message: `UserCollection: Caught Error --> ${e}` }
 		}
 	}
@@ -65,7 +65,7 @@ const c_update = async (user_id, img_url) => {
 				updatedUser: updatedUser
 			}
 		}
-		catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+		catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
 	}
 	else { return { status: true, message: 'Invalid user_id' } }
 }
@@ -114,7 +114,7 @@ const c_login = async (email, password) => {
 			}
 		}
 	}
-	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
 }
 
 
@@ -146,7 +146,7 @@ const c_register = async (req) => {
 						created: true,
 					}
 				}
-				catch(e) {
+				catch (e) {
 					return { status: false, message: `Caught Error --> ${e}`, }
 				}
 			}
@@ -166,7 +166,7 @@ const c_register = async (req) => {
 			}
 		}
 	}
-	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
 }
 
 

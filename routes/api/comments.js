@@ -36,7 +36,7 @@ router.post(
 		if (existance.status && existance.existance) {
 			let returnFollowers = []
 
-			const returnedData = await commentsCollection.c_create(
+			const returned = await commentsCollection.c_create(
 				req.decoded._id,
 				req.body.block_id,
 				req.body.text
@@ -51,14 +51,14 @@ router.post(
 			for (let i = 0; i < followers.blockFollowers.length; i++) {
 				await notificationsCollection.c_create(
 					followers.blockFollowers[i].user,
-					returnedData.createdComment._id,
+					returned.createdComment._id,
 					'comment'
 				)
 
 				returnFollowers.push(followers.blockFollowers[i].user)
 			}
 
-			res.status(201).send([returnedData, returnFollowers])
+			res.status(201).send([returned, returnFollowers])
 		}
 		else { res.status(400).send(existance.message) }
 	},
@@ -69,21 +69,21 @@ router.get(
 	'/read-all/:block_id/:amount/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		const returnedData = await commentsCollection.c_readAll(
+		const returned = await commentsCollection.c_readAll(
 			req.params.block_id,
 			req.params.skip,
 			req.params.amount
 		)
 
 		// For Each Block in Blocks //
-		for (let i = 0; i < returnedData.comments.length; i++) {
+		for (let i = 0; i < returned.comments.length; i++) {
 			// Set Like Count //
 			try {
 				const count = await commentLikesCollection.c_countAll(
-					returnedData.comments[i]._id
+					returned.comments[i]._id
 				)
 
-				returnedData.comments[i].likeCount = count.count
+				returned.comments[i].likeCount = count.count
 			}
 			catch (e) { console.log(`comments: Caught Error --> ${e}`) }
 
@@ -92,14 +92,14 @@ router.get(
 				// check if the block like exist..
 				const liked = await commentLikesCollection.c_existance(
 					req.decoded._id,
-					returnedData.comments[i]._id
+					returned.comments[i]._id
 				)
 
-				returnedData.comments[i].liked = liked.existance
+				returned.comments[i].liked = liked.existance
 			}
 		}
 		
-		res.status(200).send(returnedData)
+		res.status(200).send(returned)
 	},
 )
 
@@ -107,7 +107,7 @@ router.get(
 router.get(
 	'/read/:_id',
 	async (req, res) => {
-		const returnedData = await commentsCollection.c_read(req.params._id)
+		const returned = await commentsCollection.c_read(req.params._id)
 		
 		// Set Like Count //
 		try {
@@ -115,7 +115,7 @@ router.get(
 				req.params._id
 			)
 
-			returnedData.comment.likeCount = count.count
+			returned.comment.likeCount = count.count
 		}
 		catch (e) { console.log(`comment: Caught Error --> ${e}`) }
 
@@ -124,13 +124,13 @@ router.get(
 			// check if the block like exist..
 			const liked = await commentLikesCollection.c_existance(
 				req.decoded._id,
-				returnedData.comment._id
+				returned.comment._id
 			)
 
-			returnedData.comment.liked = liked.existance
+			returned.comment.liked = liked.existance
 		}
 
-		res.status(200).send(returnedData)
+		res.status(200).send(returned)
 	},
 )
 
@@ -146,12 +146,12 @@ router.post(
 
 		if (req.body.text.length < 6000) {
 			if (ownership.status && ownership.ownership) {
-				const returnedData = await commentsCollection.c_update(
+				const returned = await commentsCollection.c_update(
 					req.params._id,
 					req.body.text
 				)
 
-				res.status(201).send(returnedData)
+				res.status(201).send(returned)
 			}
 			else { res.status(400).send(ownership) }
 		}
@@ -171,18 +171,18 @@ router.delete(
 
 		if (ownership.status && ownership.ownership) {
 			// [DELETE] Comment // [DELETE] CommentLike // [DELETE] Notifications //
-			const returnedData = await commentsCollection.c_delete(
+			const returned = await commentsCollection.c_delete(
 				req.decoded._id,
 				req.params._id
 			)
-			const returnedData2 = await commentLikesCollection.c_deleteAll(
+			const returned2 = await commentLikesCollection.c_deleteAll(
 				req.params._id
 			)
-			const returnedData3 = await notificationsCollection.c_deleteAll(
+			const returned3 = await notificationsCollection.c_deleteAll(
 				req.params._id
 			)
 
-			res.status(201).send([returnedData, returnedData2, returnedData3])
+			res.status(201).send([returned, returned2, returned3])
 		}
 		else { res.status(400).send(ownership) }
 	},
@@ -197,13 +197,13 @@ router.post(
 	rateLimiter.likeLimiter,
 	async (req, res) => {
 		// [CREATE] CommentLike //
-		const returnedData = await commentLikesCollection.c_create(
+		const returned = await commentLikesCollection.c_create(
 			req.decoded._id,
 			req.params.block_id,
 			req.params._id,
 		)
 
-		res.status(201).send(returnedData)
+		res.status(201).send(returned)
 	},
 )
 
@@ -214,12 +214,12 @@ router.post(
 	rateLimiter.likeLimiter,
 	async (req, res) => {
 		// [DELETE] CommentLike //
-		const returnedData = await commentLikesCollection.c_delete(
+		const returned = await commentLikesCollection.c_delete(
 			req.decoded._id,
 			req.params._id
 		)
 		
-		res.status(201).send(returnedData)
+		res.status(201).send(returned)
 	},
 )
 
@@ -237,14 +237,14 @@ router.post(
 		)
 		
 		if (existance.status && !existance.existance) {
-			const returnedData = await commentReportsCollection.c_create(
+			const returned = await commentReportsCollection.c_create(
 				req.decoded._id,
 				req.params._id,
 				req.body.block_id,
 				req.body.reportType
 			)
 			
-			res.status(201).send(returnedData)
+			res.status(201).send(returned)
 		}
 		else { res.status(400).send(existance.message) }
 	},
@@ -262,17 +262,6 @@ router.get(
 			else { res.status(200).send(false) }
 		}
 		else { res.status(400).send(existance.message) }
-	},
-)
-
-
-/******************* [COUNT] *******************/
-router.get(
-	'/count/:block_id',
-	async (req, res) => {
-		const count = await commentsCollection.c_countAll(req.params.block_id)
-	
-		res.status(201).send(count.toString())
 	},
 )
 

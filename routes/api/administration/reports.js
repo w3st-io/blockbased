@@ -23,9 +23,9 @@ router.get(
 	'/read-all',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await commentReportsCollection.c_readAll()
+		const returned = await commentReportsCollection.c_readAll()
 
-		res.status(200).send(returnedData)
+		res.status(200).send(returned)
 	}
 )
 
@@ -35,9 +35,9 @@ router.delete(
 	'/delete/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await commentReportsCollection.c_delete(req.params._id)
+		const returned = await commentReportsCollection.c_delete(req.params._id)
 		
-		res.status(200).send(returnedData)
+		res.status(200).send(returned)
 	}
 )
 

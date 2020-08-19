@@ -37,7 +37,7 @@ const c_create = async (user_id, hours) => {
 				createdBan: createdBan,
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `banCollection: Caught Error --> ${e}`,
@@ -58,7 +58,7 @@ const c_delete = async (user_id) => {
 			deletedBans: deletedBans,
 		}
 	}
-	catch(e) {
+	catch (e) {
 		return {
 			status: false,
 			message: `banCollection: Caught Error --> ${e}`,
@@ -90,7 +90,7 @@ const c_existance = async (user_id) => {
 				}
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `banCollection: Caught Error --> ${e}`,

@@ -24,9 +24,9 @@ router.get(
 	'/read-all',
 	Auth.userToken(),
 	async (req, res) => {
-		const returnedData = await notificationsCollection.c_readAll(req.decoded._id)
+		const returned = await notificationsCollection.c_readAll(req.decoded._id)
 
-		res.status(200).send(returnedData)
+		res.status(200).send(returned)
 	}
 )
 
@@ -36,11 +36,11 @@ router.get(
 	'/mark-read/:notification_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const returnedData = await notificationsCollection.c_markRead(
+		const returned = await notificationsCollection.c_markRead(
 			req.params.notification_id
 		)
 
-		res.status(200).send(returnedData)
+		res.status(200).send(returned)
 	}
 )
 

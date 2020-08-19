@@ -75,7 +75,7 @@
 				submitted: false,
 				email: '',
 				password: '',
-				returnedData: '',
+				returned: '',
 				error: '',
 			}
 		},
@@ -89,24 +89,24 @@
 			async login() {
 				// Get Status from Login Function //
 				try {
-					this.returnedData = await AdminService.login(
+					this.returned = await AdminService.login(
 						this.email,
 						this.password
 					)
 
 					if (
-						this.returnedData.status &&
-						this.returnedData.validation
+						this.returned.status &&
+						this.returned.validation
 					) { this.successful() }
-					else { this.error = this.returnedData.message }
+					else { this.error = this.returned.message }
 					
 				}
-				catch(e) { this.error = e }
+				catch (e) { this.error = e }
 			},
 
 			successful() {
 				// [SET TOKEN] // Emit // [REDIRECT] //
-				localStorage.setItem('admintoken', this.returnedData.token)
+				localStorage.setItem('admintoken', this.returned.token)
 				EventBus.$emit('admin-logged-in')
 				router.push({ name: 'AdminDashboard' })
 			}

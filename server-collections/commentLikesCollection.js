@@ -35,7 +35,7 @@ const c_create = async (user_id, block_id, comment_id) => {
 				createdCommentLike: createdCommentLike,
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `commentLikesCollection: Caught Error --> ${e}`,
@@ -61,7 +61,7 @@ const c_delete = async (user_id, comment_id) => {
 			deletedCommentLike: deletedCommentLike,
 		}
 	}
-	catch(e) {
+	catch (e) {
 		return {
 			status: false,
 			message: `commentLikesCollection: Caught Error --> ${e}`,
@@ -82,7 +82,7 @@ const c_deleteAll = async (comment_id) => {
 			deletedCommentLikes: deletedCommentLikes
 		}
 	}
-	catch(e) {
+	catch (e) {
 		return {
 			status: false,
 			message: `commentLikesCollection: Caught Error --> ${e}`,
@@ -96,14 +96,14 @@ const c_deleteAll = async (comment_id) => {
 const c_existance = async (user_id, comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {
-			const returnedData = await CommentLikeModel.findOne(
+			const returned = await CommentLikeModel.findOne(
 				{
 					user: user_id,
 					comment: comment_id,
 				}
 			)
 
-			if (returnedData) {
+			if (returned) {
 				return {
 					status: true,
 					message: 'CommentLike does exists',
@@ -118,7 +118,7 @@ const c_existance = async (user_id, comment_id) => {
 				}
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return {
 				status: false,
 				message: `commentLikesCollection: Caught Error --> ${e}`,
@@ -136,7 +136,7 @@ const c_countAll = async (comment_id) => {
 
 		return { status: true, count: count }
 	}
-	catch(e) {
+	catch (e) {
 		return {
 			status: false,
 			message: `commentLikesCollection: Caught Error --> ${e}`,

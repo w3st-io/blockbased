@@ -23,9 +23,9 @@ async function s_readAllAll(amount, pageNumber) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returnedData = await authAxios.get(`/read-all-all/${amount}/${skip}`)
+		const returned = await authAxios.get(`/read-all-all/${amount}/${skip}`)
 
-		const blocks = returnedData.data.blocks.map(block => ({
+		const blocks = returned.data.blocks.map(block => ({
 			...block,
 			createdAt: new Date(block.createdAt).toLocaleString()
 		}))

@@ -61,7 +61,7 @@
 
 		data: function() {
 			return {
-				returnedData: {},
+				returned: {},
 				displayEditor: false,
 				disabled: false,
 				loading: false,
@@ -89,14 +89,14 @@
 			},
 			
 			async getCommentDetails() {
-				try { this.returnedData = await CommentService.s_read(this.comment_id) }
-				catch(e) { this.error = e }
+				try { this.returned = await CommentService.s_read(this.comment_id) }
+				catch (e) { this.error = e }
 
-				if (this.returnedData.status) {
-					this.comment = this.returnedData.comment
-					this.initialEditorText = this.returnedData.comment.text
+				if (this.returned.status) {
+					this.comment = this.returned.comment
+					this.initialEditorText = this.returned.comment.text
 				}
-				else { this.error = this.returnedData.message }
+				else { this.error = this.returned.message }
 
 				this.displayEditor = true
 			},
@@ -128,7 +128,7 @@
 						}
 					)
 				}
-				catch(e) { this.error = e }
+				catch (e) { this.error = e }
 				
 			},
 

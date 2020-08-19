@@ -63,7 +63,7 @@ const c_login = async (email, password) => {
 			}
 		}
 	}
-	catch(e) {
+	catch (e) {
 		return { status: false, message: `adminsCollection: Caught Error --> ${e}` }
 	}
 }
@@ -101,7 +101,7 @@ const c_register = async (req) => {
 							created: true,
 						}
 					}
-					catch(e) {
+					catch (e) {
 						return {
 							status: false,
 							message: `adminsCollection: Caught Error --> ${e}`,
@@ -132,7 +132,7 @@ const c_register = async (req) => {
 			}
 		}
 	}
-	catch(e) {
+	catch (e) {
 		return { status: false, message: `adminsCollection: Caught Error --> ${e}` }
 	}
 }

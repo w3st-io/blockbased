@@ -28,13 +28,13 @@ class Auth {
 			if (tokenBody !== 'undefined') {
 				jwt.verify(tokenBody, secretKey, async (e, decoded) => {
 					if (decoded) {
-						let returnedData = ''
+						let returned = ''
 						req.decoded = decoded
 
-						try { returnedData = await ban.checkBanned(req.decoded) }
-						catch(e) { console.log(`foundBan: Caught Error --> ${e}`) }
+						try { returned = await ban.checkBanned(req.decoded) }
+						catch (e) { console.log(`foundBan: Caught Error --> ${e}`) }
 
-						//console.log('Auth foundBan:', returnedData)
+						//console.log('Auth foundBan:', returned)
 
 						next()
 					}

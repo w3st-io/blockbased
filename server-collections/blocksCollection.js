@@ -30,7 +30,7 @@ const c_create = async (user_id, cat_id, title) => {
 			createdBlock: createdBlock,
 		}
 	}
-	catch(e) {
+	catch (e) {
 		return {
 			status: false,
 			message: `blocksCollection: Caught Error --> ${e}`,
@@ -60,7 +60,7 @@ const c_readAll = async (cat_id, skip, amount) => {
 
 		return { status: true, blocks: blocks }
 	}
-	catch(e) {
+	catch (e) {
 		return { status: false, message: `blocksCollection: Caught Error --> ${e}`, }
 	}
 }
@@ -80,7 +80,7 @@ const c_read = async (block_id) => {
 			
 			return { status: true, block: block }
 		}
-		catch(e) {
+		catch (e) {
 			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
 		}
 	}
@@ -111,7 +111,7 @@ const c_existance = async (block_id) => {
 				}
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
 		}
 	}
@@ -130,7 +130,7 @@ const c_ownership = async (user_id, block_id) => {
 				}
 			)
 
-			if (returnedData) {
+			if (returned) {
 				return {
 					status: true,
 					message: 'You own this',
@@ -147,7 +147,7 @@ const c_ownership = async (user_id, block_id) => {
 				}
 			}
 		}
-		catch(e) {
+		catch (e) {
 			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
 		}
 	}
@@ -162,7 +162,7 @@ const c_count = async (cat_id) => {
 
 		return { status: true, count: count }
 	}
-	catch(e) {
+	catch (e) {
 		return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
 	}
 }

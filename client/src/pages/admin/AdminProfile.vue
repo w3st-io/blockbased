@@ -61,7 +61,7 @@
 		methods: {
 			async getAdminData() {
 				try { this.adminDecoded = await AdminService.getAdminTokenDecodeData() }
-				catch(e) { this.error = e }
+				catch (e) { this.error = e }
 			},
 
 			log() {

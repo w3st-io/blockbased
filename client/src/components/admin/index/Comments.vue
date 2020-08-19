@@ -41,7 +41,7 @@
 	export default {
 		data: function() {
 			return {
-				returnedData: {},
+				returned: {},
 				comments: {},
 				error: '',
 			}
@@ -59,7 +59,7 @@
 			async deleteComment(comment_id) {
 				// Delete Comment //
 				try { await ACommentService.s_delete(comment_id) }
-				catch(e) { this.error = e }
+				catch (e) { this.error = e }
 				
 				// Refresh Table //
 				this.getComments()
@@ -67,13 +67,13 @@
 
 			async getComments() {
 				// Get Comments //
-				try { this.returnedData = await ACommentService.s_readAllAll(100, 0) }
-				catch(e) { this.error = `Caught Error --> ${e}` }
+				try { this.returned = await ACommentService.s_readAllAll(100, 0) }
+				catch (e) { this.error = `Caught Error --> ${e}` }
 
-				if (this.returnedData.status) {
-					this.comments = this.returnedData.comments
+				if (this.returned.status) {
+					this.comments = this.returned.comments
 				}
-				else { this.error = this.returnedData.message }
+				else { this.error = this.returned.message }
 			},
 
 			log() {

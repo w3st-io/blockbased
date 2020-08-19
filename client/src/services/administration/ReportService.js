@@ -22,12 +22,12 @@ async function s_readAllAll() {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returnedData = await authAxios.get('/read-all')
-		console.log(returnedData.data)
+		const returned = await authAxios.get('/read-all')
+		console.log(returned.data)
 
-		return returnedData.data
+		return returned.data
 	}
-	catch(e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
 }
 
 // [DELETE] Auth Required //

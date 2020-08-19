@@ -41,10 +41,10 @@
 		},
 
 		created: async function() {
-			const returnedData = await UserService.s_read(this.user_id)
+			const returned = await UserService.s_read(this.user_id)
 
-			if (returnedData.status) { this.user = returnedData.user }
-			else { this.error = returnedData.message }
+			if (returned.status) { this.user = returned.user }
+			else { this.error = returned.message }
 		},
 	}
 </script>

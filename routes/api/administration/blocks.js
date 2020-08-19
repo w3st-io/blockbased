@@ -25,12 +25,12 @@ router.get(
 	'/read-all-all/:amount/:skip',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await aBlocksCollection.c_readAllAll(
+		const returned = await aBlocksCollection.c_readAllAll(
 			req.params.skip,
 			req.params.amount
 		)
 
-		res.status(200).send(returnedData)
+		res.status(200).send(returned)
 	}
 )
 
@@ -40,13 +40,13 @@ router.get(
 	'/read-all/:cat_id/:amount/:skip',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await blocksCollection.c_readAll(
+		const returned = await blocksCollection.c_readAll(
 			req.params.cat_id,
 			req.params.skip,
 			req.params.amount
 		)
 		
-		res.status(200).send(returnedData)
+		res.status(200).send(returned)
 	}
 )
 
@@ -56,9 +56,9 @@ router.get(
 	'/read/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returnedData = await blocksCollection.c_read(req.params._id)
+		const returned = await blocksCollection.c_read(req.params._id)
 
-		res.status(200).send(returnedData)
+		res.status(200).send(returned)
 	}
 )
 
