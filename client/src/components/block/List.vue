@@ -116,9 +116,6 @@
 
 		props: {
 			blocks: { type: Array, required: true, },
-			cat_id: { type: String, required: true, },
-			pageIndex: { type: Number, required: true, },
-			amount: { type: Number, required: true, },
 		},
 
 		data: function() {

@@ -16,9 +16,6 @@
 			<!-- Display All the Blocks -->
 			<block-list
 				:blocks="blocks"
-				:cat_id="cat_id"
-				:pageIndex="pageIndex"
-				:amount="5"
 				@refreshBlocks="blocksReadAll()"
 			/>
 		</article>
@@ -48,6 +45,7 @@
 
 		data: function() {
 			return {
+				amount: 5,
 				cat_id: this.$route.params.cat_id,
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),
@@ -115,6 +113,7 @@
 
 			log() {
 				console.log('%%% [PAGE] Cat %%%')
+				console.log('amount:', this.amount)
 				console.log('cat_id:', this.cat_id)
 				console.log('pageIndex:', this.pageIndex)
 				console.log('pageNumber:', this.pageNumber)

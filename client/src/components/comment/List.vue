@@ -138,7 +138,6 @@
 		props: {
 			block_id: { type: String, required: true, },
 			comments: { type: Array, required: true, },
-			pageIndex: { type: Number, required: true, },
 		},
 
 		data: function() {
@@ -253,7 +252,6 @@
 			log() {
 				console.log('%%% [COMPONENT] CommentList %%%')
 				console.log('decoded:', this.decoded)
-				console.log('pageIndex:', this.pageIndex)
 				console.log('Comments:', this.comments)
 				if (this.error) { console.error('error:', this.error) }
 			},

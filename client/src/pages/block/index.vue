@@ -18,7 +18,6 @@
 			<comment-list
 				:comments="comments"
 				:block_id="block_id"
-				:pageIndex="pageIndex"
 				@refreshComments="commentReadAll()"
 			/>
 		
