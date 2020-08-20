@@ -64,15 +64,13 @@
 		data: function() {
 			return {
 				disabled: false,
-				following: false,
-				pageNumber: this.$route.params.page,
 				error: '',
 			}
 		},
 
 		created: function() {
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {

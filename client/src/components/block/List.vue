@@ -44,11 +44,7 @@
 						" 
 						@click="redirectToBlock(block._id)"
 					>
-						<p
-							class="
-								pb-0 m-0 badge badge-primary align-self-center text-light
-							"
-						>
+						<p class="pb-0 m-0 align-self-center text-light">
 							<span class="m-0">
 								<p class="h4 m-0">
 									{{ block.commentCount }}

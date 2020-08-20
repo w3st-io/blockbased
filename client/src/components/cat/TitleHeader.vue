@@ -50,8 +50,6 @@
 			PageNavButtons,
 		},
 
-		created: function() { console.log(this.cat);},
-
 		methods: {
 			redirectToCatBlockCreate() {
 				router.push({ name: 'BlockCreate', params: { cat_id: this.cat.cat_id } })

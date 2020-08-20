@@ -167,15 +167,12 @@ router.get(
 				returned.block.liked = liked.existance
 
 				// Follwed Status //
-				try {
-					const followed = await blockFollowersCollection.c_existance(
-						req.decoded._id,
-						returned.block._id
-					)
+				const followed = await blockFollowersCollection.c_existance(
+					req.decoded._id,
+					returned.block._id
+				)
 
-					returned.block.followed = followed.existance
-				}
-				catch (e) { console.log(e) }
+				returned.block.followed = followed.existance
 			}
 
 			res.status(200).send(returned)

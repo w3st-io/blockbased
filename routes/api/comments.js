@@ -6,6 +6,7 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
+const mongoose = require('mongoose')
 require('dotenv').config()
 
 
@@ -69,37 +70,40 @@ router.get(
 	'/read-all/:block_id/:amount/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		const returned = await commentsCollection.c_readAll(
-			req.params.block_id,
-			req.params.skip,
-			req.params.amount
-		)
+		if (mongoose.isValidObjectId(req.params.block_id)) {
+			const returned = await commentsCollection.c_readAll(
+				req.params.block_id,
+				req.params.skip,
+				req.params.amount
+			)
 
-		// For Each Block in Blocks //
-		for (let i = 0; i < returned.comments.length; i++) {
-			// Set Like Count //
-			try {
-				const count = await commentLikesCollection.c_countAll(
-					returned.comments[i]._id
-				)
+			// For Each Block in Blocks //
+			for (let i = 0; i < returned.comments.length; i++) {
+				// Set Like Count //
+				try {
+					const count = await commentLikesCollection.c_countAll(
+						returned.comments[i]._id
+					)
 
-				returned.comments[i].likeCount = count.count
+					returned.comments[i].likeCount = count.count
+				}
+				catch (e) { console.log(`comments: Caught Error --> ${e}`) }
+
+				// Set Liked Status //
+				if (req.decoded) {
+					// check if the block like exist..
+					const liked = await commentLikesCollection.c_existance(
+						req.decoded._id,
+						returned.comments[i]._id
+					)
+
+					returned.comments[i].liked = liked.existance
+				}
 			}
-			catch (e) { console.log(`comments: Caught Error --> ${e}`) }
-
-			// Set Liked Status //
-			if (req.decoded) {
-				// check if the block like exist..
-				const liked = await commentLikesCollection.c_existance(
-					req.decoded._id,
-					returned.comments[i]._id
-				)
-
-				returned.comments[i].liked = liked.existance
-			}
+			
+			res.status(200).send(returned)
 		}
-		
-		res.status(200).send(returned)
+		else { res.status(200).send({ status: false, message: 'Invalid block_id' }) }
 	},
 )
 
@@ -107,30 +111,33 @@ router.get(
 router.get(
 	'/read/:_id',
 	async (req, res) => {
-		const returned = await commentsCollection.c_read(req.params._id)
-		
-		// Set Like Count //
-		try {
-			const count = await commentLikesCollection.c_countAll(
-				req.params._id
-			)
+		if (mongoose.isValidObjectId(req.params._id)) {
+			const returned = await commentsCollection.c_read(req.params._id)
+			
+			// Set Like Count //
+			try {
+				const count = await commentLikesCollection.c_countAll(
+					req.params._id
+				)
 
-			returned.comment.likeCount = count.count
+				returned.comment.likeCount = count.count
+			}
+			catch (e) { console.log(`comment: Caught Error --> ${e}`) }
+
+			// Set Liked Status //
+			if (req.decoded) {
+				// check if the block like exist..
+				const liked = await commentLikesCollection.c_existance(
+					req.decoded._id,
+					returned.comment._id
+				)
+
+				returned.comment.liked = liked.existance
+			}
+
+			res.status(200).send(returned)
 		}
-		catch (e) { console.log(`comment: Caught Error --> ${e}`) }
-
-		// Set Liked Status //
-		if (req.decoded) {
-			// check if the block like exist..
-			const liked = await commentLikesCollection.c_existance(
-				req.decoded._id,
-				returned.comment._id
-			)
-
-			returned.comment.liked = liked.existance
-		}
-
-		res.status(200).send(returned)
+		else { res.status(200).send({ status: false, message: 'invalid _id' }) }
 	},
 )
 
@@ -139,23 +146,26 @@ router.post(
 	'/update/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const ownership = await commentsCollection.c_ownership(
-			req.decoded._id,
-			req.params._id
-		)
+		if (mongoose.isValidObjectId(req.params._id)) {
+			const ownership = await commentsCollection.c_ownership(
+				req.decoded._id,
+				req.params._id
+			)
 
-		if (req.body.text.length < 6000) {
-			if (ownership.status && ownership.ownership) {
-				const returned = await commentsCollection.c_update(
-					req.params._id,
-					req.body.text
-				)
+			if (req.body.text.length < 6000) {
+				if (ownership.status && ownership.ownership) {
+					const returned = await commentsCollection.c_update(
+						req.params._id,
+						req.body.text
+					)
 
-				res.status(201).send(returned)
+					res.status(201).send(returned)
+				}
+				else { res.status(400).send(ownership) }
 			}
-			else { res.status(400).send(ownership) }
+			else { res.status(400).send('Comment too large') }
 		}
-		else { res.status(400).send('Comment too large') }
+		else { res.status(200).send({ status: false, message: 'invalid _id' }) }
 	},
 )
 
@@ -164,27 +174,30 @@ router.delete(
 	'/delete/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const ownership = await commentsCollection.c_ownership(
-			req.decoded._id,
-			req.params._id
-		)
-
-		if (ownership.status && ownership.ownership) {
-			// [DELETE] Comment // [DELETE] CommentLike // [DELETE] Notifications //
-			const returned = await commentsCollection.c_delete(
+		if (mongoose.isValidObjectId(req.params._id)) {
+			const ownership = await commentsCollection.c_ownership(
 				req.decoded._id,
 				req.params._id
 			)
-			const returned2 = await commentLikesCollection.c_deleteAll(
-				req.params._id
-			)
-			const returned3 = await notificationsCollection.c_deleteAll(
-				req.params._id
-			)
 
-			res.status(201).send([returned, returned2, returned3])
+			if (ownership.status && ownership.ownership) {
+				// [DELETE] Comment // [DELETE] CommentLike // [DELETE] Notifications //
+				const returned = await commentsCollection.c_delete(
+					req.decoded._id,
+					req.params._id
+				)
+				const returned2 = await commentLikesCollection.c_deleteAll(
+					req.params._id
+				)
+				const returned3 = await notificationsCollection.c_deleteAll(
+					req.params._id
+				)
+
+				res.status(201).send([returned, returned2, returned3])
+			}
+			else { res.status(400).send(ownership) }
 		}
-		else { res.status(400).send(ownership) }
+		else { res.status(200).send({ status: false, message: 'invalid _id' }) }
 	},
 )
 
@@ -196,14 +209,20 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
-		// [CREATE] CommentLike //
-		const returned = await commentLikesCollection.c_create(
-			req.decoded._id,
-			req.params.block_id,
-			req.params._id,
-		)
+		if (
+			mongoose.isValidObjectId(req.params._id) &&
+			mongoose.isValidObjectId(req.params.block_id)
+		) {
+			// [CREATE] CommentLike //
+			const returned = await commentLikesCollection.c_create(
+				req.decoded._id,
+				req.params.block_id,
+				req.params._id,
+			)
 
-		res.status(201).send(returned)
+			res.status(201).send(returned)
+		}
+		else { res.status(200).send({ status: false, message: 'invalid params' }) }
 	},
 )
 
@@ -213,13 +232,19 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
-		// [DELETE] CommentLike //
-		const returned = await commentLikesCollection.c_delete(
-			req.decoded._id,
-			req.params._id
-		)
-		
-		res.status(201).send(returned)
+		if (
+			mongoose.isValidObjectId(req.params._id) &&
+			mongoose.isValidObjectId(req.params.block_id)
+		) {
+			// [DELETE] CommentLike //
+			const returned = await commentLikesCollection.c_delete(
+				req.decoded._id,
+				req.params._id
+			)
+			
+			res.status(201).send(returned)
+		}
+		else { res.status(200).send({ status: false, message: 'invalid params' }) }
 	},
 )
 
@@ -231,22 +256,25 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.reportLimiter,
 	async (req, res) => {
-		const existance = await commentReportsCollection.c_existance(
-			req.decoded._id,
-			req.params._id
-		)
-		
-		if (existance.status && !existance.existance) {
-			const returned = await commentReportsCollection.c_create(
+		if (mongoose.isValidObjectId(req.params._id)) {
+			const existance = await commentReportsCollection.c_existance(
 				req.decoded._id,
-				req.params._id,
-				req.body.block_id,
-				req.body.reportType
+				req.params._id
 			)
 			
-			res.status(201).send(returned)
+			if (existance.status && !existance.existance) {
+				const returned = await commentReportsCollection.c_create(
+					req.decoded._id,
+					req.params._id,
+					req.body.block_id,
+					req.body.reportType
+				)
+				
+				res.status(201).send(returned)
+			}
+			else { res.status(400).send(existance.message) }
 		}
-		else { res.status(400).send(existance.message) }
+		else { res.status(200).send({ status: false, message: 'invalid _id' }) }
 	},
 )
 
@@ -255,13 +283,16 @@ router.post(
 router.get(
 	'/existance/:_id',
 	async (req, res) => {
-		const existance = await commentsCollection.c_existance(req.params._id)
+		if (mongoose.isValidObjectId(req.params._id)) {
+			const existance = await commentsCollection.c_existance(req.params._id)
 
-		if (existance.status) {
-			if (existance.existance) { res.status(200).send(true) }
-			else { res.status(200).send(false) }
+			if (existance.status) {
+				if (existance.existance) { res.status(200).send(true) }
+				else { res.status(200).send(false) }
+			}
+			else { res.status(400).send(existance.message) }
 		}
-		else { res.status(400).send(existance.message) }
+		else { res.status(200).send({ status: false, message: 'invalid _id' }) }
 	},
 )
 
