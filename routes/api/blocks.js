@@ -213,13 +213,17 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
-		// [CREATE] blockLike //
-		const returned = await blockLikesCollection.c_create(
-			req.decoded._id,
-			req.params._id
-		)
-		
-		res.status(201).send(returned)
+		if (mongoose.isValidObjectId(req.params._id)) {
+			// [CREATE] blockLike //
+			const returned = await blockLikesCollection.c_create(
+				req.decoded._id,
+				req.params._id
+			)
+			
+			res.status(201).send(returned)
+		}
+		else { res.status(200).send({ status: false, message: 'Invalid block_id' }) }
+
 	},
 )
 
@@ -229,13 +233,16 @@ router.post(
 	rateLimiter.likeLimiter,
 	Auth.userToken(),
 	async (req, res) => {
-		// [UPDATE] block Likers // [DELETE] blockLike //
-		const returned = await blockLikesCollection.c_delete(
-			req.decoded._id,
-			req.params._id
-		)
-		
-		res.status(201).send(returned)
+		if (mongoose.isValidObjectId(req.params._id)) {
+			// [UPDATE] block Likers // [DELETE] blockLike //
+			const returned = await blockLikesCollection.c_delete(
+				req.decoded._id,
+				req.params._id
+			)
+			
+			res.status(201).send(returned)
+		}
+		else { res.status(200).send({ status: false, message: 'Invalid block_id' }) }
 	},
 )
 
@@ -247,12 +254,15 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.followLimiter,
 	async (req, res) => {
-		const returned = await blockFollowersCollection.c_create(
-			req.decoded._id,
-			req.params._id
-		)
-		
-		res.status(201).send(returned)
+		if (mongoose.isValidObjectId(req.params._id)) {
+			const returned = await blockFollowersCollection.c_create(
+				req.decoded._id,
+				req.params._id
+			)
+			
+			res.status(201).send(returned)
+		}
+		else { res.status(200).send({ status: false, message: 'Invalid block_id' }) }
 	},
 )
 
@@ -262,12 +272,15 @@ router.post(
 	rateLimiter.followLimiter,
 	Auth.userToken(),
 	async (req, res) => {
-		const returned = await blockFollowersCollection.c_delete(
-			req.decoded._id,
-			req.params._id
-		)
-		
-		res.status(201).send(returned)
+		if (mongoose.isValidObjectId(req.params._id)) {
+			const returned = await blockFollowersCollection.c_delete(
+				req.decoded._id,
+				req.params._id
+			)
+			
+			res.status(201).send(returned)
+		}
+		else { res.status(200).send({ status: false, message: 'Invalid block_id' }) }
 	},
 )
 
@@ -277,13 +290,16 @@ router.post(
 router.get(
 	'/existance/:_id',
 	async (req, res) => {
-		const existance = await blocksCollection.c_existance(req.params._id)
+		if (mongoose.isValidObjectId(req.params._id)) {
+			const existance = await blocksCollection.c_existance(req.params._id)
 
-		if (existance.status) {
-			if (existance.existance) { res.status(200).send(true) }
-			else { res.status(200).send(false) }
+			if (existance.status) {
+				if (existance.existance) { res.status(200).send(true) }
+				else { res.status(200).send(false) }
+			}
+			else { res.status(400).send(existance.message) }
 		}
-		else { res.status(400).send(existance.message) }
+		else { res.status(200).send({ status: false, message: 'Invalid block_id' }) }
 	},
 )
 

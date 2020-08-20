@@ -10,7 +10,6 @@ const express = require('express')
 
 // [REQUIRE] Personal //
 const aBlocksCollection = require('../../../server-collections/administration/blocksCollection')
-const blocksCollection = require('../../../server-collections/blocksCollection')
 const blockLikesCollection = require('../../../server-collections/blockLikesCollection')
 const Auth = require('../../../server-middleware/Auth')
 
@@ -35,43 +34,18 @@ router.get(
 )
 
 
-// [READ-ALL] Auth Required - Within a Cat //
-router.get(
-	'/read-all/:cat_id/:amount/:skip',
-	Auth.adminToken(),
-	async (req, res) => {
-		const returned = await blocksCollection.c_readAll(
-			req.params.cat_id,
-			req.params.skip,
-			req.params.amount
-		)
-		
-		res.status(200).send(returned)
-	}
-)
-
-
-// [READ] Auth Required - Single Block Details //
-router.get(
-	'/read/:_id',
-	Auth.adminToken(),
-	async (req, res) => {
-		const returned = await blocksCollection.c_read(req.params._id)
-
-		res.status(200).send(returned)
-	}
-)
-
-
 // [DELETE] Auth Required //
 router.delete(
 	'/delete/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		aBlocksCollection.c_delete(req.params._id)
-		blockLikesCollection.c_deleteAll(req.params._id)
+		if (mongoose.isValidObjectId(req.params._id)) {
+			aBlocksCollection.c_delete(req.params._id)
+			blockLikesCollection.c_deleteAll(req.params._id)
 
-		res.sendStatus(200)
+			res.sendStatus(200)
+		}
+		else { res.status(200).send({ status: false, message: 'Invalid _id' }) }
 	}
 )
 

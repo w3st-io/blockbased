@@ -41,11 +41,14 @@ router.delete(
 	'/delete/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returned = await aCommentsCollection.c_delete(req.params._id)
-		const returned2 = await commentLikesCollection.c_deleteAll(req.params._id)
-		const returned3 = await notificationsCollection.c_deleteAll(req.params._id)
+		if (mongoose.isValidObjectId(req.params._id)) {
+			const returned = await aCommentsCollection.c_delete(req.params._id)
+			const returned2 = await commentLikesCollection.c_deleteAll(req.params._id)
+			const returned3 = await notificationsCollection.c_deleteAll(req.params._id)
 
-		res.status(200).send([returned, returned2, returned3])
+			res.status(200).send([returned, returned2, returned3])
+		}
+		else { res.status(200).send({ status: false, message: 'Invalid _id' }) }
 	}
 )
 

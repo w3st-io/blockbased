@@ -104,10 +104,10 @@ const c_delete = async () => {}
 
 
 /******************* [MARK-READ-STATUS] *******************/
-const c_markRead = async (notification_id) => {
+const c_markRead = async (_id) => {
 	try {
 		const notification = await NotificationModel.updateOne(
-			{ _id: notification_id },
+			{ _id: _id },
 			{ read: true },
 		)
 			
