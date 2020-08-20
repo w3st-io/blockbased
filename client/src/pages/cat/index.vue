@@ -1,13 +1,13 @@
 <template>
 	<section class="my-4 container">
 		<!-- Set Page Title -->
-		<vue-headful :title="`Cat - ${catTitle}`"/>
+		<vue-headful :title="`Cat - ${cat.title}`"/>
 
 		<article class="card card-body bg-dark">
 			<!-- Title With Create Button -->
 			<title-header
-				:cat_id="cat_id"
-				:catTitle="catTitle"
+				:cat="cat"
+				:postCount="data.totalBlocks"
 				:badgeValue="pageNumber"
 				:leftBtnEmitName="'cat-prev'"
 				:rightBtnEmitName="'cat-next'"
@@ -15,9 +15,11 @@
 
 			<!-- Display All the Blocks -->
 			<block-list
+				:blocks="blocks"
 				:cat_id="cat_id"
 				:pageIndex="pageIndex"
 				:amount="5"
+				@refreshBlocks="blocksReadAll()"
 			/>
 		</article>
 
@@ -33,6 +35,7 @@
 	import BlockList from '@components/block/List'
 	import TitleHeader from '@components/cat/TitleHeader'
 	import router from '@router'
+	import BlockService from '@services/BlockService'
 	import { EventBus } from '@main'
 	import { cats } from '@defaults/cats'
 
@@ -45,11 +48,12 @@
 
 		data: function() {
 			return {
-				cat: {},
-				catTitle: '',
 				cat_id: this.$route.params.cat_id,
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),
+				cat: {},
+				data: {},
+				blocks: [],
 				error: '',
 			}
 		},
@@ -57,8 +61,9 @@
 		created: async function() {
 			// Get Cat Details //
 			this.cat = cats.find(cat => cat.cat_id === this.cat_id)
-			this.catTitle = this.cat.title
 
+			// [INIT] Blocks //
+			await this.blocksReadAll()
 
 			// [--> EMMIT] cat-prev, cat-next, redirect-to-block //
 			EventBus.$on('cat-prev', () => { this.prevPage() })
@@ -69,6 +74,21 @@
 		},
 
 		methods: {
+			/******************* [INIT] Block *******************/
+			async blocksReadAll() {
+				try {
+					this.data = await BlockService.s_readAll(
+						this.cat_id,
+						this.amount,
+						this.pageIndex
+					)
+				}
+				catch (e) { this.error = e }
+
+				if (this.data.status) { this.blocks = this.data.blocks }
+				else { this.error = this.data.message }
+			},
+
 			prevPage() {
 				// As long as the page is not going into 0 or negative //
 				if (this.pageNumber != 1) {
@@ -96,8 +116,11 @@
 			log() {
 				console.log('%%% [PAGE] Cat %%%')
 				console.log('cat_id:', this.cat_id)
-				console.log('pageNumber:', this.pageNumber)
 				console.log('pageIndex:', this.pageIndex)
+				console.log('pageNumber:', this.pageNumber)
+				console.log('data:', this.data)
+				console.log('blocks:', this.blocks)
+				console.log('cat:', this.cat)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		}

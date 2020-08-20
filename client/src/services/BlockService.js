@@ -22,8 +22,9 @@ async function s_create(cat_id, title, text) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returned = await authAxios.post('/create', { cat_id, title, text })
-		return returned.data
+		const { data } = await authAxios.post('/create', { cat_id, title, text })
+		
+		return data
 	}
 	catch (e) {
 		return { status: false, message: `BlockService: Caught Error --> ${e}` }
@@ -37,16 +38,14 @@ async function s_readAll(cat_id, amount, pageNumber) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returned = await authAxios.get(`/read-all/${cat_id}/${amount}/${skip}`)
-		
-		console.log(returned)
+		let { data } = await authAxios.get(`/read-all/${cat_id}/${amount}/${skip}`)
+		if (data.status) {
+			data.blocks.forEach(block => {
+				block.createdAt = new Date(block.createdAt).toLocaleString()
+			})
+		}
 
-		const blocks = returned.data.blocks.map(block => ({
-			...block,
-			createdAt: new Date(block.createdAt).toLocaleString()
-		}))
-
-		return blocks
+		return data
 	}
 	catch (e) { return { status: false, error: e } }
 }
@@ -57,17 +56,15 @@ async function s_read(block_id) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let returned = await authAxios.get(`/read/${block_id}`)
+		let { data } = await authAxios.get(`/read/${block_id}`)
 
-		returned.data.block.createdAt = new Date(
-			returned.data.block.createdAt
-		).toLocaleString()
+		if (data.status) {
+			data.block.createdAt = new Date(data.block.createdAt).toLocaleString()
+		}
 
-		return returned.data.block
+		return data
 	}
 	catch (e) {
-		console.log(`BlockService: Caught Error --> ${e}`)
-
 		return { status: false, message: `BlockService: Caught Error --> ${e}` }
 	}
 }
@@ -78,18 +75,18 @@ async function s_read(block_id) {
 async function s_like(block_id) {
 	const authAxios = await this.authAxios()
 
-	const returned = await authAxios.post(`/like/${block_id}`)
+	const { data } = await authAxios.post(`/like/${block_id}`)
 
-	return returned.data
+	return data
 }
 
 async function s_unlike(block_id) {
 	const authAxios = await this.authAxios()
 
 	// Remove the liker from the Block Object //
-	const returned = await authAxios.post(`/unlike/${block_id}`)
+	const { data } = await authAxios.post(`/unlike/${block_id}`)
 
-	return returned.data
+	return data
 }
 
 
@@ -114,9 +111,9 @@ async function s_unfollow(block_id) {
 async function s_existance(block_id) {
 	const authAxios = await this.authAxios()
 
-	const returned = await authAxios.get(`/existance/${block_id}`)
+	const { data } = await authAxios.get(`/existance/${block_id}`)
 	
-	return returned.data
+	return data
 }
 
 
@@ -124,9 +121,9 @@ async function s_existance(block_id) {
 async function s_count(cat_id) {
 	const authAxios = await this.authAxios()
 
-	const returned = await authAxios.get(`/count/${cat_id}`)
+	const { data } = await authAxios.get(`/count/${cat_id}`)
 
-	return returned.data
+	return data
 }
 
 

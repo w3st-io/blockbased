@@ -45,9 +45,9 @@ async function s_read(user_id) {
 	
 	if (user_id) {
 		try {
-			const returned = await authAxios.get(`/read/${user_id}`)
+			const { data } = await authAxios.get(`/read/${user_id}`)
 
-			return returned.data
+			return data
 		}
 		catch (e) {
 			return { status: false, message: `UserService: Caught Error --> ${e}` }
@@ -55,9 +55,9 @@ async function s_read(user_id) {
 	}
 	else {
 		try {
-			const returned = await authAxios.get('/read')
+			const { data } = await authAxios.get('/read')
 
-			return returned.data
+			return data
 		}
 		catch (e) {
 			return { status: false, message: `UserService: Caught Error --> ${e}` }
@@ -70,9 +70,9 @@ async function s_update(img_url) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returned = await authAxios.post(`/update`, { img_url })
+		const { data } = await authAxios.post(`/update`, { img_url })
 
-		return returned.data
+		return data
 	}
 	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
 	
@@ -85,9 +85,9 @@ async function login(email, password) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returned = await authAxios.post('/login', { email, password })
+		const { data } = await authAxios.post('/login', { email, password })
 		
-		return returned.data
+		return data
 	}
 	catch (e) {
 		return { status: false, message: `UserService: Caught Error --> ${e}` }
@@ -100,7 +100,7 @@ async function register(first_name, last_name, username, email, password) {
 	const authAxios = await this.authAxios()
 	
 	try {
-		const returned = await authAxios.post('/register', {
+		const { data } = await authAxios.post('/register', {
 			first_name,
 			last_name,
 			username,
@@ -108,7 +108,7 @@ async function register(first_name, last_name, username, email, password) {
 			password,
 		})
 
-		return returned.data
+		return data
 	}
 	catch (e) {
 		return { status: false, message: `UserService: Caught Error --> ${e}` }

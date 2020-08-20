@@ -22,12 +22,11 @@ async function s_readAll() {
 	try {
 		let { data } = await authAxios.get(`/read-all`)
 
-		const notifications = data.notifications.map((notification) => ({
-			...notification,
-			createdAt: new Date(notification.createdAt).toLocaleString(),
-		}))
+		data.notifications.forEach(notification => {
+			notification.createdAt = new Date(notification.createdAt).toLocaleString()
+		})
 
-		return notifications
+		return data.notifications
 	}
 	catch (e) { return e }
 }

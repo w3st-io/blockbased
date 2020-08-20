@@ -70,10 +70,8 @@
 			if (localStorage.usertoken) {
 				this.loggedIn = true
 				
-				try { this.decoded = await UserService.getUserTokenDecodeData()}
+				try { this.decoded = await UserService.getUserTokenDecodeData() }
 				catch (e) { `App: Caught Error --> ${e}` }
-
-				console.log('decoded.username', localStorage.username)
 
 				this.socket.emit('join', this.decoded._id)
 			}
@@ -141,7 +139,6 @@
 				console.log('%%% [APP] App %%%')
 				console.log('usertoken:', localStorage.usertoken)
 				console.log('admintoken:', localStorage.admintoken)
-				console.log('decoded:', localStorage.decoded.username)
 			}
 		}
 	}

@@ -24,15 +24,15 @@ async function authAxios() {
 async function s_create(block_id, text) {
 	const authAxios = await this.authAxios()
 
-	const returned = await authAxios.post(`/create`, {
+	const { data } = await authAxios.post(`/create`, {
 		block_id,
 		text,
 	})
 
 	// [EMIT] Notify sockets that comment is created //
-	EventBus.$emit('comment-created', returned.data[1])
+	EventBus.$emit('comment-created', data[1])
 
-	return returned.data
+	return data
 }
 
 
@@ -42,14 +42,15 @@ async function s_readAll(block_id, amount, pageNumber) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let returned = await authAxios.get(`/read-all/${block_id}/${amount}/${skip}`)
+		let { data } = await authAxios.get(`/read-all/${block_id}/${amount}/${skip}`)
 
-		returned = returned.data.comments.map(comment => ({
-			...comment,
-			createdAt: new Date(comment.createdAt).toLocaleString(),
-		}))
+		if (data.status) {
+			data.comments.forEach(comment => {
+				comment.createdAt = new Date(comment.createdAt).toLocaleString()
+			})
+		}
 
-		return { status: true, comments: returned }
+		return data
 	}
 	catch (e) {
 		return { status: false, message: `CommentService: Caught Error --> ${e}` }
@@ -62,13 +63,13 @@ async function s_read(comment_id) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let returned = await authAxios.get(`/read/${comment_id}`)
+		let { data } = await authAxios.get(`/read/${comment_id}`)
 	
-		returned.data.comment.createdAt = new Date(
-			returned.data.comment.createdAt
-		).toLocaleString()
+		if (data.status) {
+			data.comment.createdAt = new Date(data.comment.createdAt).toLocaleString()
+		}
 
-		return returned.data
+		return data
 	}
 	catch (e) {
 		return { status: false, message: `CommentService: Caught Error --> ${e}` }
@@ -81,11 +82,11 @@ async function s_update(comment_id, text) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returned = await authAxios.post(`/update/${comment_id}`,
+		const { data } = await authAxios.post(`/update/${comment_id}`,
 			{ text }
 		)
 
-		return returned.data
+		return data
 	}
 	catch (e) {
 		return { status: false, message: `CommentService: Caught Error --> ${e}` }
@@ -98,9 +99,9 @@ async function  s_delete(comment_id) {
 	const authAxios = await this.authAxios()	
 
 	try {
-		const returned = await authAxios.delete(`/delete/${comment_id}`)
+		const { data } = await authAxios.delete(`/delete/${comment_id}`)
 
-		return returned.data
+		return data
 	}
 	catch (e) {
 		return { status: false, message: `CommentService: Caught Error --> ${e}` }

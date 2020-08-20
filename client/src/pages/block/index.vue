@@ -2,7 +2,7 @@
 	<section class="my-4 container">
 		<!-- Set Page Title -->
 		<vue-headful :title="`Post - ${block.title}`"/>
-
+		
 		<article class="card card-body bg-dark">
 			<!-- Title Header -->
 			<title-header
@@ -19,7 +19,6 @@
 				:comments="comments"
 				:block_id="block_id"
 				:pageIndex="pageIndex"
-				:amount="5"
 				@refreshComments="commentReadAll()"
 			/>
 		
@@ -35,18 +34,8 @@
 			</section>
 		</article>
 
-
 		<!-- [ALERTS] -->
-		<div>
-			<div
-				v-if="!loading && !existance && !error"
-				class="row mt-3 alert alert-warning"
-			>Block Does Not Exist.</div>
-
-			<div v-if="error" class="row mt-3 alert alert-danger">
-				Block Page {{ error }}
-			</div>
-		</div>
+		<div v-if="error" class="mt-3 alert alert-danger">{{ error }}</div>
 	</section>
 </template>
 
@@ -73,26 +62,24 @@
 			return {
 				existance: false,
 				loading: true,
+				returned: {},
 				block_id: this.$route.params.block_id,
 				block: {},
 				comments: [],
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),
+				amount: 5,
 				commentListKey: 0,
 				error: '',
 			}
 		},
 
 		created: async function() {
-			// Check If Block Is Valid //
-			try { this.existance = await BlockService.s_existance(this.block_id) }
-			catch (e) { this.error = e }
-
 			// [UPDATE] //
 			await this.blockRead()
 
 			// [INIT] Comments //
-			await this.commentReadAll()
+			if (!this.error) await this.commentReadAll()
 
 			// [--> EMMIT] block-prev, block-next //
 			EventBus.$on('block-prev', () => { this.prevPage() })
@@ -104,15 +91,21 @@
 
 			// [LOG] //
 			//this.log()
-
-			EventBus.$on('refresh-block', () => { this.blockRead() })
 		},
 
 		methods: {
 			async blockRead() {
-				console.log('sdfsdfss');
-				try { this.block = await BlockService.s_read(this.block_id) }
+				// Check If Block Is Valid //
+				try { this.existance = await BlockService.s_existance(this.block_id) }
 				catch (e) { this.error = e }
+
+				if (this.existance) {
+					try { this.returned = await BlockService.s_read(this.block_id) }
+					catch (e) { this.error = e }
+	
+					if (this.returned.status) { this.block = this.returned.block }
+					else { this.error = this.returned.message }
+				}
 			},
 
 			/******************* [INIT] Comments *******************/

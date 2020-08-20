@@ -156,7 +156,7 @@ const c_ownership = async (user_id, block_id) => {
 
 
 /******************* [COUNT] *******************/
-const c_count = async (cat_id) => {
+const c_countAll = async (cat_id) => {
 	try {
 		const count = await BlockModel.countDocuments({ cat_id: cat_id })
 
@@ -175,5 +175,5 @@ module.exports = {
 	c_read,
 	c_existance,
 	c_ownership,
-	c_count,
+	c_countAll,
 }

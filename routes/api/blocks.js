@@ -6,6 +6,7 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
+const mongoose = require('mongoose')
 require('dotenv').config()
 
 
@@ -64,36 +65,45 @@ router.get(
 		// For Each Block in Blocks //
 		for (let i = 0; i < returned.blocks.length; i++) {
 			// Like Count //
-			try {
-				const count = await blockLikesCollection.c_countAll(
-					returned.blocks[i]._id
-				)
+			const likeCount = await blockLikesCollection.c_countAll(
+				returned.blocks[i]._id
+			)
 
-				returned.blocks[i].likeCount = count.count
-			}
-			catch (e) { console.log(`Caught Error --> ${e}`) }
+			if (likeCount.status) { returned.blocks[i].likeCount = likeCount.count }	
+			else { returned.blocks[i].likeCount = likeCount.message }
 
+			
 			// Follow Count //
-			try {
-				const count = await blockFollowersCollection.c_countAll(
-					returned.blocks[i]._id
-				)
-
-				returned.blocks[i].followersCount = count.count
+			const followersCount = await blockFollowersCollection.c_countAll(
+				returned.blocks[i]._id
+			)
+			
+			if (followersCount.status) {
+				returned.blocks[i].followersCount = followersCount.count
 			}
-			catch (e) { console.log(`Caught Error --> ${e}`) }
+			else { returned.blocks[i].followersCount = followersCount.message }
 
+			
 			// Comment Count //
-			try {
-				const count = await commentsCollection.c_countAll(
-					returned.blocks[i]._id
-				)
-
-				returned.blocks[i].commentCount = count.count
+			const commentCount = await commentsCollection.c_countAll(
+				returned.blocks[i]._id
+			)
+			
+			if (commentCount.status) {
+				returned.blocks[i].commentCount = commentCount.count
 			}
-			catch (e) { console.log(`Caught Error --> ${e}`) }
+			else { returned.blocks[i].commentCount = commentCount.message }
 
-			// If User Logged In.. //
+			
+			// Block Count //
+			const blocksCount = await blocksCollection.c_countAll(req.params.cat_id)
+
+			if (blocksCount.status) {
+				returned.totalBlocks = blocksCount.count
+			}
+			else { returned.blocks[i].blocksCount = blocksCount.message }
+
+			// If User Token Passed.. //
 			if (req.decoded) {
 				// Liked Status //
 				const liked = await blockLikesCollection.c_existance(
@@ -101,19 +111,17 @@ router.get(
 					returned.blocks[i]._id
 				)
 
+				returned.blocks[i].liked = liked.existance
+
 				// Follwed Status //
 				const followed = await blockFollowersCollection.c_existance(
 					req.decoded._id,
 					returned.blocks[i]._id
 				)
 				
-				returned.blocks[i].liked = liked.existance
 				returned.blocks[i].followed = followed.existance
 			}
 		}
-
-		// Set Total Blocks & Total Pages //
-		returned.totalBlocks = 12
 	
 		res.status(200).send(returned)
 	}
@@ -125,51 +133,54 @@ router.get(
 	'/read/:_id',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		let returned = await blocksCollection.c_read(req.params._id)
+		if (mongoose.isValidObjectId(req.params._id)) {
+			let returned = await blocksCollection.c_read(req.params._id)
 
-		// Set Like Count //
-		try {
-			const count = await blockLikesCollection.c_countAll(
-				returned.block._id
-			)
-
-			returned.block.likeCount = count.count
-		}
-		catch (e) { console.log(`Caught Error --> ${e}`) }
-
-		// Follow Count //
-		try {
-			const count = await blockFollowersCollection.c_countAll(
-				returned.block._id
-			)
-
-			returned.block.followersCount = count.count
-		}
-		catch (e) { console.log(`Caught Error --> ${e}`) }
-
-		// If User Logged In.. //
-		if (req.decoded) {
-			// Liked Status //
-			const liked = await blockLikesCollection.c_existance(
-				req.decoded._id,
-				returned.block._id
-			)
-
-			returned.block.liked = liked.existance
-
-			// Follwed Status //
+			// Set Like Count //
 			try {
-				const followed = await blockFollowersCollection.c_existance(
+				const count = await blockLikesCollection.c_countAll(
+					returned.block._id
+				)
+
+				returned.block.likeCount = count.count
+			}
+			catch (e) { console.log(`Caught Error --> ${e}`) }
+
+			// Follow Count //
+			try {
+				const count = await blockFollowersCollection.c_countAll(
+					returned.block._id
+				)
+
+				returned.block.followersCount = count.count
+			}
+			catch (e) { console.log(`Caught Error --> ${e}`) }
+
+			// If User Logged In.. //
+			if (req.decoded) {
+				// Liked Status //
+				const liked = await blockLikesCollection.c_existance(
 					req.decoded._id,
 					returned.block._id
 				)
 
-				returned.block.followed = followed.existance
-			}
-			catch (e) { console.log(e) }
-		}
+				returned.block.liked = liked.existance
 
-		res.status(200).send(returned)
+				// Follwed Status //
+				try {
+					const followed = await blockFollowersCollection.c_existance(
+						req.decoded._id,
+						returned.block._id
+					)
+
+					returned.block.followed = followed.existance
+				}
+				catch (e) { console.log(e) }
+			}
+
+			res.status(200).send(returned)
+		}
+		else { res.status(200).send({ status: false, message: 'Invalid block_id' }) }
 	},
 )
 
@@ -178,19 +189,22 @@ router.delete(
 	'/delete/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		const ownership = await blocksCollection.c_ownership(
-			req.decoded._id,
-			req.params._id
-		)
-		
-		if (ownership.status && ownership.ownership) {
-			const returned = await blocksCollection.c_delete(req.params._id)
-			const returned2 = await blockLikesCollection.c_deleteAll(req.params._id)
-
-			res.status(200).send([returned, returned2])
+		if (mongoose.isValidObjectId(req.params._id)) {
+			const ownership = await blocksCollection.c_ownership(
+				req.decoded._id,
+				req.params._id
+			)
 			
+			if (ownership.status && ownership.ownership) {
+				const returned = await blocksCollection.c_delete(req.params._id)
+				const returned2 = await blockLikesCollection.c_deleteAll(req.params._id)
+
+				res.status(200).send([returned, returned2])
+				
+			}
+			else { res.status(200).send(ownership) }
 		}
-		else { res.status(400).send(ownership) }
+		else { res.status(400).send({ status: false, message: 'Invalid block_id' }) }
 	},
 )
 
@@ -281,7 +295,7 @@ router.get(
 router.get(
 	'/count/:cat_id',
 	async (req, res) => {
-		const x = await blocksCollection.c_count(req.params.cat_id)
+		const x = await blocksCollection.c_countAll(req.params.cat_id)
 
 		if (x.status) { res.status(200).send(x.count.toString()) }
 		else { res.status(200).send(x.message.toString()) }

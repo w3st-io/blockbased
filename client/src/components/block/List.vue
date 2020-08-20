@@ -95,7 +95,7 @@
 			</div>
 
 			<!-- [ALERTS] -->
-			<div v-show="error" class="m-0 mt-3 alert alert-danger">
+			<div v-if="error" class="m-0 mt-3 alert alert-danger">
 				Block List: {{ error }}
 			</div>
 		</section>
@@ -115,25 +115,21 @@
 		},
 
 		props: {
+			blocks: { type: Array, required: true, },
 			cat_id: { type: String, required: true, },
 			pageIndex: { type: Number, required: true, },
 			amount: { type: Number, required: true, },
-			
 		},
 
 		data: function() {
 			return {
 				loading: true,
 				disabled: false,
-				blocks: [],
 				error: '',
 			}
 		},
 
 		created: async function() {
-			// [INIT] Blocks //
-			await this.blocksReadAll()
-
 			// Disable Loading //
 			this.loading = false
 
@@ -142,45 +138,26 @@
 		},
 
 		methods: {
-			/******************* [INIT] Block *******************/
-			async blocksReadAll() {
-				try {
-					this.blocks = await BlockService.s_readAll(
-						this.cat_id,
-						this.amount,
-						this.pageIndex
-					)
-				}
-				catch (e) { this.error = e }
-
-				// Set Error //
-				if (!this.blocks.status) this.error = this.blocks.error
-			},
-
 			/******************* [BTN] Like *******************/
 			async likeBtn(block) {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
+					this.disabled = true
+						
 					if (block.liked) {
-						this.disabled = true
-
 						try { await BlockService.s_unlike(block._id) }
 						catch (e) { this.error = e }
-
-						this.disabled = false
 					}
 					else {
-						this.disabled = true
-
 						try { await BlockService.s_like(block._id) }
 						catch (e) { this.error = e }
-
-						this.disabled = false
 					}
+
+					this.disabled = false
 				}
 
 				// [READ] Update Blocks //
-				await this.blocksReadAll()
+				this.$emit('refreshBlocks')
 			},
 
 			/******************* [ROUTER + LOG] *******************/

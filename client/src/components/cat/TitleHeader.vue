@@ -3,7 +3,7 @@
 		<!-- Left Side -->
 		<div class="col-lg-6 col-md-8 col-sm-8">
 			<!-- Title -->
-			<h3 class="text-light">{{ catTitle }}</h3>
+			<h3 class="text-light">{{ cat.title }}</h3>
 
 			<!-- Page Nav Buttons -->
 			<page-nav-buttons
@@ -24,7 +24,7 @@
 
 			<!-- Create Button -->
 			<button
-				@click="redirectToCatBlockCreate(cat_id)"
+				@click="redirectToCatBlockCreate()"
 				class="btn btn-sm btn-primary"
 			>Create Block</button>
 		</div>
@@ -39,8 +39,8 @@
 	// [EXPORT] //
 	export default {
 		props: {
-			cat_id: { type: String, required: true, },
-			catTitle: { type: String, required: true, },
+			cat: { type: Object, required: true, },
+			postCount: { type: Number, default: 0},
 			leftBtnEmitName: { type: String, required: true, },
 			rightBtnEmitName: { type: String, required: true, },
 			badgeValue: { required: true, },
@@ -50,15 +50,11 @@
 			PageNavButtons,
 		},
 
-		data: function() {
-			return {
-				postCount: '--'
-			}
-		},
+		created: function() { console.log(this.cat);},
 
 		methods: {
-			redirectToCatBlockCreate(cat_id) {
-				router.push({ name: 'BlockCreate', params: { cat_id: cat_id } })
+			redirectToCatBlockCreate() {
+				router.push({ name: 'BlockCreate', params: { cat_id: this.cat.cat_id } })
 			},
 		}
 	}
