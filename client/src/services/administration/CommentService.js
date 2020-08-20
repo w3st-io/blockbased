@@ -23,70 +23,17 @@ async function s_readAllAll(amount, pageNumber) {
 	const skip = pageNumber * amount
 
 	try {
-		let returned = await authAxios.get(`/read-all-all/${amount}/${skip}`)
+		let { data } = await authAxios.get(`/read-all-all/${amount}/${skip}`)
 
-		returned = returned.data.comments.map(comment => ({
-			...comment,
-			createdAt: new Date(comment.createdAt).toLocaleString(),
-		}))
+		data.comments.forEach(comment => {
+			comment.createdAt = new Date(comment.createdAt).toLocaleString()
+		})
 
-		return { status: true, comments: returned }
+		return data
 	}
 	catch (e) {
 		return { status: false, message: `CommentService: Caught Error --> ${e}` }
 	}
-}
-
-
-// [READ-ALL] Auth Required - Within a Block //
-async function s_readAll(block_id, amount, pageNumber) {
-	const authAxios = await this.authAxios()
-	const skip = pageNumber * amount
-
-	const result = new Promise ((resolve, reject) => {
-		authAxios.get(`/read-all/${block_id}/${amount}/${skip}`)
-			.then((res) => {
-				let comments = res.data
-
-				comments = comments.map(comment => ({
-					...comment,
-					createdAt: new Date(comment.createdAt).toLocaleString()
-				}))
-
-				resolve(comments)
-			})
-			.catch((err) => { reject(err) })
-	})
-
-	return result
-}
-
-
-// [READ] //
-async function s_read(comment_id) {
-	const authAxios = await this.authAxios()
-
-	const result = new Promise ((resolve, reject) => {
-		authAxios.get(`/read/${comment_id}`)
-		.then((res) => { resolve(res.data) })
-		.catch((err) => { reject(err) })
-	})
-
-	return result
-}
-
-
-// [UPDATE] //
-async function s_update(comment_id, comment) {
-	const authAxios = await this.authAxios()
-
-	const result = new Promise ((resolve, reject) => {
-		authAxios.post(`/update/${comment_id}`, { comment })
-			.then((res) => { resolve(res.data) })
-			.catch((err) => { reject(err) })
-	})
-
-	return result
 }
 
 
@@ -108,8 +55,5 @@ async function s_delete(comment_id) {
 export default {
 	authAxios,
 	s_readAllAll,
-	s_readAll,
-	s_read,
-	s_update,
 	s_delete,
 }

@@ -23,14 +23,15 @@ async function s_readAllAll(amount, pageNumber) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returned = await authAxios.get(`/read-all-all/${amount}/${skip}`)
+		let { data } = await authAxios.get(`/read-all-all/${amount}/${skip}`)
+		
+		if (data.status) {
+			data.blocks.forEach(block => {
+				block.createdAt = new Date(block.createdAt).toLocaleString()
+			})
+		}
 
-		const blocks = returned.data.blocks.map(block => ({
-			...block,
-			createdAt: new Date(block.createdAt).toLocaleString()
-		}))
-
-		return { status: true, blocks: blocks }
+		return data
 	}
 	catch (e) {
 		return { status: false, message: `BlockService: Caught Error --> ${e}` }
