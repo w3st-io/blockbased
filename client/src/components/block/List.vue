@@ -80,16 +80,6 @@
 				</li>
 			</ul>
 
-			<!-- [DEFAULT] If No content -->
-			<no-content v-if="!loading && blocks == ''" class="mt-3" />
-
-			<!-- [LOADING] -->
-			<div v-show="loading" class="m-0 mt-3 alert alert-primary">
-				<div class="d-flex justify-content-center">
-					<div class="spinner-grow"></div>
-				</div>
-			</div>
-
 			<!-- [ALERTS] -->
 			<div v-if="error" class="m-0 mt-3 alert alert-danger">
 				Block List: {{ error }}
@@ -100,16 +90,11 @@
 
 <script>
 	// [IMPORT] Personal //
-	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import BlockService from '@services/BlockService'
 
 	// [EXPORT] //
 	export default {
-		components: {
-			NoContent,
-		},
-
 		props: {
 			blocks: { type: Array, required: true, },
 		},

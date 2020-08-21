@@ -41,7 +41,7 @@ const c_create = async (user_id, block_id, text) => {
 	else {
 		return {
 			status: false,
-			message: `Comment too long`,
+			message: `commentsCollection: Comment too long`,
 		}
 	}
 }

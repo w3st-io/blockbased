@@ -10,8 +10,8 @@
 				:leftBtnEmitName="'block-prev'"
 				:rightBtnEmitName="'block-next'"
 				:badgeValue="pageNumber"
-				class="mb-3"
 				@refreshBlock="blockRead()"
+				class="mb-3"
 			/>
 
 			<!-- Comments List -->
@@ -20,7 +20,19 @@
 				:block_id="block_id"
 				@refreshComments="commentReadAll()"
 			/>
-		
+
+			<!-- [DEFAULT] If No content -->
+			<no-content v-if="!loading && comments == ''" class="my-3" />
+			
+			<!-- [LOADING + ERROR] -->
+			<section class="col-12">
+				<div v-if="loading" class="my-3 alert alert-primary">
+					<div class="d-flex justify-content-center">
+						<div class="spinner-grow"></div>
+					</div>
+				</div>
+			</section>
+
 			<!-- Botton Page Control -->
 			<section class="mt-3">
 				<page-nav-buttons
@@ -43,6 +55,7 @@
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import CommentList from '@components/comment/List'
 	import TitleHeader from '@components/block/TitleHeader'
+	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import BlockService from '@services/BlockService'
 	import CommentService from '@services/CommentService'
@@ -54,6 +67,7 @@
 		components: {
 			CommentList,
 			TitleHeader,
+			NoContent,
 			PageNavButtons,
 		},
 

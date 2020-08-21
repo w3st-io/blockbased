@@ -7,7 +7,7 @@
 			<!-- Title With Create Button -->
 			<title-header
 				:cat="cat"
-				:postCount="data.totalBlocks"
+				:postCount="data.blockCount"
 				:badgeValue="pageNumber"
 				:leftBtnEmitName="'cat-prev'"
 				:rightBtnEmitName="'cat-next'"
@@ -18,6 +18,16 @@
 				:blocks="blocks"
 				@refreshBlocks="blocksReadAll()"
 			/>
+
+			<!-- [DEFAULT] If No content -->
+			<no-content v-if="!loading && blocks == ''" class="mt-3" />
+
+			<!-- [LOADING] -->
+			<div v-show="loading" class="m-0 mt-3 alert alert-primary">
+				<div class="d-flex justify-content-center">
+					<div class="spinner-grow"></div>
+				</div>
+			</div>
 		</article>
 
 		<!-- [ALERTS] -->
@@ -31,6 +41,7 @@
 	// [IMPORT] Personal //
 	import BlockList from '@components/block/List'
 	import TitleHeader from '@components/cat/TitleHeader'
+	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import BlockService from '@services/BlockService'
 	import { EventBus } from '@main'
@@ -40,11 +51,13 @@
 	export default {
 		components: {
 			BlockList,
+			NoContent,
 			TitleHeader,
 		},
 
 		data: function() {
 			return {
+				loading: true,
 				amount: 5,
 				cat_id: this.$route.params.cat_id,
 				pageNumber: parseInt(this.$route.params.page),
@@ -62,6 +75,8 @@
 
 			// [INIT] Blocks //
 			await this.blocksReadAll()
+
+			this.loading = false
 
 			// [--> EMMIT] cat-prev, cat-next, redirect-to-block //
 			EventBus.$on('cat-prev', () => { this.prevPage() })
@@ -99,16 +114,12 @@
 
 			nextPage() {
 				// As long as page does not exceed max Number of Pages //
-				if (this.pageNumber == this.pageNumber) {
+				if (this.pageNumber < this.data.pageCount) {
 					this.pageNumber++
 
 					router.push({ path: `/cat/${this.cat_id}/${this.pageNumber}` })
 					EventBus.$emit('force-rerender')
 				}
-			},
-
-			test() {
-				
 			},
 
 			log() {

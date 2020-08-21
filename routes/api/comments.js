@@ -61,7 +61,9 @@ router.post(
 
 				res.status(201).send({
 					status: true,
-					created: [returned, returnFollowers]
+					created: returned,
+					blockFollowers: returnFollowers,
+					commentCount: await commentsCollection.c_countAll(req.body.block_id)
 				})
 			}
 			else { res.status(200).send(returned) }
@@ -110,7 +112,12 @@ router.get(
 			
 			res.status(200).send(returned)
 		}
-		else { res.status(200).send({ status: false, message: 'Invalid block_id' }) }
+		else {
+			res.status(200).send({
+				status: false,
+				message: 'comments: Invalid block_id'
+			})
+		}
 	},
 )
 

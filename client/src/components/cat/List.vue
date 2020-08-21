@@ -77,7 +77,7 @@
 
 		created: async function() {
 			// Set Totals //
-			await this.totalBlocks()
+			await this.blockCount()
 
 			// Disable Loading //
 			this.loading = false
@@ -87,7 +87,7 @@
 		},
 
 		methods: {
-			async totalBlocks() {
+			async blockCount() {
 				// For the Size of the # of Cats.. //
 				for (let i = 0; i < this.cats.length; i++) {
 					let cat_id = this.cats[i].cat_id

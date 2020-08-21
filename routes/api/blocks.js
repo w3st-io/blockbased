@@ -98,10 +98,14 @@ router.get(
 				const blocksCount = await blocksCollection.c_countAll(req.params.cat_id)
 	
 				if (blocksCount.status) {
-					returned.totalBlocks = blocksCount.count
+					returned.blockCount = blocksCount.count
+					
+					// Page Count //
+					returned.pageCount = Math.ceil(blocksCount.count / req.params.amount)
 				}
 				else { returned.blocks[i].blocksCount = blocksCount.message }
-	
+
+
 				// If User Token Passed.. //
 				if (req.decoded) {
 					// Liked Status //

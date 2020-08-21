@@ -31,7 +31,7 @@ async function s_create(block_id, text) {
 
 	if (data.status) {
 		// [EMIT] Notify sockets that comment is created //
-		EventBus.$emit('comment-created', data.created[1])
+		EventBus.$emit('comment-created', data.blockFollowers)
 	}
 
 	return data

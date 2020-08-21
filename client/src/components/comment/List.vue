@@ -1,6 +1,6 @@
 <template>
 	<article class="row">
-		<section v-if="!loading" class="col-12">
+		<section class="col-12">
 			<ul
 				v-if="comments != ''"
 				class="m-0 p-0 border border-bottom-0 border-secondary"
@@ -101,20 +101,6 @@
 					</div>
 				</li>
 			</ul>
-
-			<!-- [DEFAULT] If No content -->
-			<no-content v-if="comments == ''" class="my-3" />
-		</section>
-		
-		<!-- [LOADING + ERROR] -->
-		<section class="col-12">
-			<div v-if="loading" class="my-3 alert alert-primary">
-				<div class="d-flex justify-content-center">
-					<div class="spinner-grow"></div>
-				</div>
-			</div>
-
-			<div v-if="error" class="my-3 alert alert-primary">{{ error }}</div>
 		</section>
 	</article>
 </template>
@@ -122,7 +108,6 @@
 <script>
 	// [IMPORT] Personal //
 	import dropDownMenuBtn from '@components/controls/dropDownMenuBtn'
-	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import CommentService from '@services/CommentService'
 	import UserService from '@services/UserService'
@@ -132,7 +117,6 @@
 	export default {
 		components: {
 			dropDownMenuBtn,
-			NoContent,
 		},
 		
 		props: {
@@ -144,7 +128,6 @@
 			return {
 				decoded: {},
 				adminLoggedIn: false,
-				loading: true,
 				disabled: false,
 				error: '',
 			}
@@ -156,9 +139,6 @@
 			if (localStorage.usertoken) {
 				this.decoded = await UserService.getUserTokenDecodeData()
 			}
-			
-			// Disable Loading //
-			this.loading = false
 
 			// [--> EMMIT] //
 			EventBus.$on('Innapropiate', (comment_id) => {
@@ -178,7 +158,7 @@
 			})
 
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {
