@@ -47,7 +47,10 @@ router.delete(
 			const returned2 = await commentLikesCollection.c_deleteAll(req.params._id)
 			const returned3 = await notificationsCollection.c_deleteAll(req.params._id)
 
-			res.status(200).send([returned, returned2, returned3])
+			res.status(200).send({
+				status: true,
+				deletedStuff: [returned, returned2, returned3]
+			})
 		}
 		else {
 			res.status(200).send({
