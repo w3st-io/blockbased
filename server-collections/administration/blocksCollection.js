@@ -44,34 +44,28 @@ const c_readAllAll = async (skip, amount) => {
 const c_delete = async (block_id) => {
 	if (mongoose.isValidObjectId(block_id)) {
 		try {
-			await BlockModel.findByIdAndDelete(
-				block_id,
-				function (e, block) {
-					if (e) {
-						return {
-							status: false,
-							message: `blockCollections: Caught Error --> ${e}`,
-						}
-					}
-					else {
-						return {
-							status: true,
-							message: 'Deleted block',
-							block: block,
-						}
-					}
-				}
-			)
+			const deletedBlock = await BlockModel.findByIdAndDelete(block_id)
+			
+			return {
+				status: true,
+				deleted: true,
+				deletedBlock: deletedBlock,
+			}
 		}
 		catch (e) {
 			return {
 				status: false,
 				message: `blockCollections: Caught Error --> ${e}`,
+				deleted: false,
 			}
 		}
 	}
 	else {
-		return { status: false, message: 'Invalid block_id', }
+		return {
+			status: false,
+			message: 'blocksCollection: Invalid block_id',
+			deleted: false,
+		}
 	}
 }
 

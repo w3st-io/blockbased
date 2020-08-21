@@ -19,7 +19,7 @@ class Ban {
 			catch (e) {
 				return {
 					status: true,
-					message: `Caught Error --> ${e}`,
+					message: `banUtil: Caught Error --> ${e}`,
 					foundBan: foundBan,
 				}
 			}

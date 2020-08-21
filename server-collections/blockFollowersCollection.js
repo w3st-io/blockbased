@@ -30,7 +30,6 @@ const c_create = async (user_id, block_id) => {
 
 			return {
 				status: true,
-				message: 'Created blockFollow',
 				createdBlockFollow: createdBlockFollow,
 			}
 		}
@@ -75,7 +74,6 @@ const c_delete = async (user_id, block_id) => {
 
 		return {
 			status: true,
-			message: 'Deleted blockFollow',
 			deletedBlockFollower: deletedBlockFollower
 		}
 	}
@@ -102,7 +100,6 @@ const c_existance = async (user_id, block_id) => {
 			if (blockFollower) {
 				return {
 					status: true,
-					message: 'BlockFollow does exists',
 					existance: true,
 					blockFollower: blockFollower,
 				}
@@ -110,7 +107,6 @@ const c_existance = async (user_id, block_id) => {
 			else {
 				return {
 					status: true,
-					message: 'BlockFollow does NOT exists',
 					existance: false,
 				}
 			}

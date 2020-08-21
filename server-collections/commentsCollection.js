@@ -27,7 +27,6 @@ const c_create = async (user_id, block_id, text) => {
 			
 			return {
 				status: true,
-				message: `Created comment`,
 				createdComment: createdComment,
 			}
 		}
@@ -175,7 +174,6 @@ const c_delete = async (user_id, comment_id) => {
 
 			return {
 				status: true,
-				message: 'Deleted comment',
 				deletedComment: deletedComment,
 			}
 		}
@@ -201,7 +199,6 @@ const c_existance = async (comment_id) => {
 			if (comment) {
 				return {
 					status: true,
-					message: 'Comment does exists',
 					existance: true,
 					comment: comment,
 				}
@@ -209,7 +206,6 @@ const c_existance = async (comment_id) => {
 			else {
 				return {
 					status: true,
-					message: 'Comment does NOT exists',
 					existance: false,
 					comment: comment,
 				}
@@ -242,7 +238,6 @@ const c_ownership = async (user_id, comment_id) => {
 			if (comment) {
 				return {
 					status: true,
-					message: 'You own this comment',
 					ownership: true,
 					comment: comment,
 				}
@@ -250,7 +245,6 @@ const c_ownership = async (user_id, comment_id) => {
 			else {
 				return {
 					status: true,
-					message: 'You do NOT own this comment',
 					ownership: false,
 					comment: comment,
 				}

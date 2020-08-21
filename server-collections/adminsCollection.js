@@ -133,7 +133,11 @@ const c_register = async (req) => {
 		}
 	}
 	catch (e) {
-		return { status: false, message: `adminsCollection: Caught Error --> ${e}` }
+		return {
+			status: false,
+			message: `adminsCollection: Caught Error --> ${e}`,
+			created: false,
+		}
 	}
 }
 

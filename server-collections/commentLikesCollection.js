@@ -31,7 +31,6 @@ const c_create = async (user_id, block_id, comment_id) => {
 
 			return {
 				status: true,
-				message: 'Created commentLike',
 				createdCommentLike: createdCommentLike,
 			}
 		}
@@ -57,7 +56,6 @@ const c_delete = async (user_id, comment_id) => {
 
 		return {
 			status: true,
-			message: 'Deleted CommentLike',
 			deletedCommentLike: deletedCommentLike,
 		}
 	}
@@ -78,7 +76,6 @@ const c_deleteAll = async (comment_id) => {
 
 		return {
 			status: true,
-			message: 'Deleted All CommentLike for this comment',
 			deletedCommentLikes: deletedCommentLikes
 		}
 	}
@@ -106,14 +103,12 @@ const c_existance = async (user_id, comment_id) => {
 			if (returned) {
 				return {
 					status: true,
-					message: 'CommentLike does exists',
 					existance: true,
 				}
 			}
 			else {
 				return {
 					status: true,
-					message: 'CommentLike does NOT exists',
 					existance: false,
 				}
 			}

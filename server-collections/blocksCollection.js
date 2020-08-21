@@ -26,7 +26,6 @@ const c_create = async (user_id, cat_id, title) => {
 
 		return {
 			status: true,
-			message: 'Created block',
 			createdBlock: createdBlock,
 		}
 	}
@@ -81,7 +80,7 @@ const c_read = async (block_id) => {
 			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
 		}
 	}
-	else { return { status: false, message: 'Invalid block_id', } }
+	else { return { status: false, message: 'blocksCollection: Invalid block_id', } }
 }
 
 
@@ -94,7 +93,6 @@ const c_existance = async (block_id) => {
 			if (block) {
 				return {
 					status: true,
-					message: 'Block does exist',
 					existance: true,
 					block: block,
 				}
@@ -102,7 +100,6 @@ const c_existance = async (block_id) => {
 			else {
 				return {
 					status: true,
-					message: 'Block does NOT exist',
 					existance: false,
 					block: block,
 				}
@@ -112,7 +109,7 @@ const c_existance = async (block_id) => {
 			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
 		}
 	}
-	else { return { status: false, message: 'Invalid block_id' } }
+	else { return { status: false, message: 'blocksCollection: Invalid block_id' } }
 }
 
 
@@ -130,7 +127,6 @@ const c_ownership = async (user_id, block_id) => {
 			if (returned) {
 				return {
 					status: true,
-					message: 'You own this',
 					ownership: true,
 					block: block,
 				}
@@ -138,7 +134,6 @@ const c_ownership = async (user_id, block_id) => {
 			else {
 				return {
 					status: true,
-					message: 'You dont own this',
 					ownership: false,
 					block: block,
 				}
@@ -148,7 +143,7 @@ const c_ownership = async (user_id, block_id) => {
 			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
 		}
 	}
-	else { { return { status: false, message: 'Invalid block_id' } } }
+	else { { return { status: false, message: 'blocksCollection: Invalid block_id' } } }
 }
 
 

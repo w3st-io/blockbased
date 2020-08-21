@@ -30,7 +30,6 @@ const c_create = async (user_id, block_id) => {
 
 			return {
 				status: true,
-				message: 'Created blockLike',
 				createdBlockLike: createdBlockLike,
 			}
 		}
@@ -56,7 +55,6 @@ const c_delete = async (user_id, block_id) => {
 
 		return {
 			status: true,
-			message: `Deleted blockLike`,
 			deletedBlockLike: deletedBlockLike,
 		}
 	}
@@ -76,7 +74,6 @@ const c_deleteAll = async (block_id) => {
 
 		return {
 			status: true,
-			message: `Deleted all blockLikes`,
 			deletedBlockLike: deletedBlockLike,
 		}
 	}
@@ -104,14 +101,12 @@ const c_existance = async (user_id, block_id) => {
 			if (returned) {
 				return {
 					status: true,
-					message: 'BlockLike does exists',
 					existance: true,
 				}
 			}
 			else {
 				return {
 					status: true,
-					message: 'BlockLike does NOT exists',
 					existance: false,
 				}
 			}

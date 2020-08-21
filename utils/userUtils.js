@@ -39,7 +39,7 @@ function joinRoom(socket_id, user_id, room) {
 	const userSocket = { socket_id, user_id, room }
 	userSocketsInRooms.push(userSocket)
 
-	console.log('[JOINROOM] userSocketsInRooms:',userSocketsInRooms)
+	//console.log('[JOINROOM] userSocketsInRooms:',userSocketsInRooms)
 
 	return userSocket
 }
@@ -70,8 +70,8 @@ function leave(socket_id) {
 		const userSocket = userSockets.splice(uSIndex, 1)[0]
 		
 		// [LOG] //
-		console.log('[LEAVE] userSockets:', userSockets)
-		console.log('[LEAVE] userSocketsInRooms:', userSocketsInRooms)
+		//console.log('[LEAVE] userSockets:', userSockets)
+		//console.log('[LEAVE] userSocketsInRooms:', userSocketsInRooms)
 	
 		return userSocket
 	}

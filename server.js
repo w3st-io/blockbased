@@ -76,7 +76,7 @@ app.use('/api/administration/users', admininstrationUsers)
 const io = new socketIO(server)
 io.on('connection', (socket) => {
 	// [LOG] //
-	console.log('New WS connected')
+	//console.log('New WS connected')
 
 
 	// [EMIT] usersOnline //
@@ -119,7 +119,7 @@ io.on('connection', (socket) => {
 	// [ON] Disconnect //
 	socket.on('disconnect', () => {
 		// [LOG] //
-		console.log('WS Closed')
+		//console.log('WS Closed')
 
 		// Leave variable
 		userUtils.leave(socket.id)

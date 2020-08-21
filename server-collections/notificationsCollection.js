@@ -28,7 +28,6 @@ const c_create = async (user_id, comment_id, type) => {
 
 		return {
 			status: true,
-			message: 'Created notification',
 			createdNotification: createdNotification,
 		}
 	}
@@ -87,7 +86,6 @@ const c_deleteAll = async (comment_id) => {
 
 		return {
 			status: true,
-			message: 'Deleted All Notifications for this comment',
 			deletedNotications: deletedNotications,
 		}
 	}
@@ -113,11 +111,17 @@ const c_markRead = async (_id) => {
 			
 		return {
 			status: true,
-			message: 'Marked read',
+			markedRead: true,
 			notification: notification
 		}
 	}	
-	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch (e) {
+		return {
+			status: false,
+			markedRead: true,
+			message: `notificationsCollection: Caught Error --> ${e}`
+		}
+	}
 }
 
 

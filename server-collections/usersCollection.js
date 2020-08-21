@@ -65,7 +65,12 @@ const c_update = async (user_id, img_url) => {
 				updatedUser: updatedUser
 			}
 		}
-		catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
+		catch (e) {
+			return {
+				status: false,
+				message: `usersCollection: Caught Error --> ${e}`
+			}
+		}
 	}
 	else { return { status: false, message: 'Invalid user_id' } }
 }
@@ -114,7 +119,12 @@ const c_login = async (email, password) => {
 			}
 		}
 	}
-	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch (e) {
+		return {
+			status: false,
+			message: `usersCollection: Caught Error --> ${e}`
+		}
+	}
 }
 
 
@@ -147,7 +157,10 @@ const c_register = async (req) => {
 					}
 				}
 				catch (e) {
-					return { status: false, message: `Caught Error --> ${e}`, }
+					return {
+						status: false,
+						message: `usersCollection: Caught Error --> ${e}`,
+					}
 				}
 			}
 			else {
@@ -166,7 +179,13 @@ const c_register = async (req) => {
 			}
 		}
 	}
-	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch (e) {
+		return {
+			status: false,
+			message: `usersCollection: Caught Error --> ${e}`,
+			created: false,
+		}
+	}
 }
 
 

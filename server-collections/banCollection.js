@@ -33,7 +33,6 @@ const c_create = async (user_id, hours) => {
 
 			return {
 				status: true,
-				message: 'Created ban',
 				createdBan: createdBan,
 			}
 		}
@@ -54,7 +53,6 @@ const c_delete = async (user_id) => {
 
 		return {
 			status: true,
-			message: `Deleted ban`,
 			deletedBans: deletedBans,
 		}
 	}
@@ -97,7 +95,12 @@ const c_existance = async (user_id) => {
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid user_id', } }
+	else {
+		return {
+			status: false,
+			message: 'banCollection: Invalid user_id',
+		}
+	}
 }
 
 
