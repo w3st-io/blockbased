@@ -81,6 +81,7 @@
 
 		data: function() {
 			return {
+				returned: {},
 				cat: {},
 				disabled: false,
 				loading: false,
@@ -111,18 +112,25 @@
 				this.editorText = this.$refs.toastuiEditor.invoke('getHtml')
 
 				try {
-					await BlockService.s_create(this.cat_id, this.title, this.editorText)
+					this.returned = await BlockService.s_create(
+						this.cat_id,
+						this.title,
+						this.editorText
+					)
+				}
+				catch (e) { this.error = e }
+				
+				this.disabled = false
+				this.loading = false
 
+				if (this.returned.status) {
 					// [REDIRECT] Cat Page //
 					router.push({
 						name: 'Cat',
-						params: { cat_id: this.cat_id, page: '1' }
+						params: { cat_id: this.cat_id, page: 1 }
 					})
 				}
-				catch (e) {
-					this.loading = false
-					this.error = e
-				}
+				else { this.error = this.returned.message }
 			},
 
 			log() {

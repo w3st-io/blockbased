@@ -115,17 +115,12 @@
 					this.disabled = false
 					this.loading = false
 
-					console.log('returned', this.returned)
-
 					if (this.returned.status) {
 						// [REDIRECT] Block Page //
 						router.push(
 							{
 								name: 'Block',
-								params: {
-									block_id: this.block_id,
-									page: 1
-								}
+								params: { block_id: this.block_id, page: 1 }
 							}
 						)
 					}

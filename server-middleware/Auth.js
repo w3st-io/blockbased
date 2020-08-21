@@ -41,8 +41,8 @@ class Auth {
 					else {
 						console.log(`JWT Error: ${e}`)
 
-						res.status(401).send({
-							status: true,
+						res.status(200).send({
+							status: false,
 							message: 'Access Denied, Token Invalid.',
 							auth: false,
 						})
@@ -50,8 +50,8 @@ class Auth {
 				})
 			}
 			else {
-				res.status(401).send({
-					status: true,
+				res.status(200).send({
+					status: false,
 					message: 'Access Denied, No Token Passed.',
 					auth: false,
 				})
@@ -95,8 +95,8 @@ class Auth {
 						// Check if the role is admin
 						if (decoded.role == 'admin') { next() }
 						else {
-							res.status(401).send({
-								status: true,
+							res.status(200).send({
+								status: false,
 								message: 'Access Denied, Admin Token Needed',
 								auth: false,
 							})
@@ -105,8 +105,8 @@ class Auth {
 					else {
 						console.log(`Admin JWT Error: ${e}`)
 
-						res.status(401).send({
-							status: true,
+						res.status(200).send({
+							status: false,
 							message: 'Access Denied, Invalid Token',
 							auth: false,
 						})
@@ -114,8 +114,8 @@ class Auth {
 				})
 			}
 			else {
-				res.status(401).send({
-					status: true,
+				res.status(200).send({
+					status: false,
 					message: 'Access Denied, No Token Passed',
 					auth: false,
 				})
