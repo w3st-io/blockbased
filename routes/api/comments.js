@@ -32,36 +32,41 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.commentLimiter,
 	async (req, res) => {
+		let returnFollowers = []
 		const existance = await blocksCollection.c_existance(req.body.block_id)
 
 		if (existance.status && existance.existance) {
-			let returnFollowers = []
-
 			const returned = await commentsCollection.c_create(
 				req.decoded._id,
 				req.body.block_id,
 				req.body.text
 			)
 
-			// [CREATE] Notifications // Get Block Followers //
-			const followers = await blockFollowersCollection.c_readAll(
-				req.body.block_id
-			)
-			
-			// Create Notification for Followers
-			for (let i = 0; i < followers.blockFollowers.length; i++) {
-				await notificationsCollection.c_create(
-					followers.blockFollowers[i].user,
-					returned.createdComment._id,
-					'comment'
+			if (returned.status) {
+				// Get Block Followers //
+				const followers = await blockFollowersCollection.c_readAll(
+					req.body.block_id
 				)
+				
+				// [CREATE] Create Notification for Followers //
+				for (let i = 0; i < followers.blockFollowers.length; i++) {
+					await notificationsCollection.c_create(
+						followers.blockFollowers[i].user,
+						returned.createdComment._id,
+						'comment'
+					)
 
-				returnFollowers.push(followers.blockFollowers[i].user)
+					returnFollowers.push(followers.blockFollowers[i].user)
+				}
+
+				res.status(201).send({
+					status: true,
+					created: [returned, returnFollowers]
+				})
 			}
-
-			res.status(201).send([returned, returnFollowers])
+			else { res.status(200).send(returned) }
 		}
-		else { res.status(400).send(existance.message) }
+		else { res.status(200).send(existance) }
 	},
 )
 
@@ -76,28 +81,30 @@ router.get(
 				req.params.skip,
 				req.params.amount
 			)
-
-			// For Each Block in Blocks //
-			for (let i = 0; i < returned.comments.length; i++) {
-				// Set Like Count //
-				try {
-					const count = await commentLikesCollection.c_countAll(
-						returned.comments[i]._id
-					)
-
-					returned.comments[i].likeCount = count.count
-				}
-				catch (e) { console.log(`comments: Caught Error --> ${e}`) }
-
-				// Set Liked Status //
-				if (req.decoded) {
-					// check if the block like exist..
-					const liked = await commentLikesCollection.c_existance(
-						req.decoded._id,
-						returned.comments[i]._id
-					)
-
-					returned.comments[i].liked = liked.existance
+			
+			if (returned.status) {
+				// For Each Block in Blocks //
+				for (let i = 0; i < returned.comments.length; i++) {
+					// Set Like Count //
+					try {
+						const count = await commentLikesCollection.c_countAll(
+							returned.comments[i]._id
+						)
+	
+						returned.comments[i].likeCount = count.count
+					}
+					catch (e) { console.log(`comments: Caught Error --> ${e}`) }
+	
+					// Set Liked Status //
+					if (req.decoded) {
+						// check if the block like exist..
+						const liked = await commentLikesCollection.c_existance(
+							req.decoded._id,
+							returned.comments[i]._id
+						)
+	
+						returned.comments[i].liked = liked.existance
+					}
 				}
 			}
 			
@@ -114,25 +121,27 @@ router.get(
 		if (mongoose.isValidObjectId(req.params._id)) {
 			const returned = await commentsCollection.c_read(req.params._id)
 			
-			// Set Like Count //
-			try {
-				const count = await commentLikesCollection.c_countAll(
-					req.params._id
-				)
+			if (returned.status) {
+				// Set Like Count //
+				try {
+					const count = await commentLikesCollection.c_countAll(
+						req.params._id
+					)
 
-				returned.comment.likeCount = count.count
-			}
-			catch (e) { console.log(`comment: Caught Error --> ${e}`) }
+					returned.comment.likeCount = count.count
+				}
+				catch (e) { console.log(`comment: Caught Error --> ${e}`) }
 
-			// Set Liked Status //
-			if (req.decoded) {
-				// check if the block like exist..
-				const liked = await commentLikesCollection.c_existance(
-					req.decoded._id,
-					returned.comment._id
-				)
+				// Set Liked Status //
+				if (req.decoded) {
+					// check if the block like exist..
+					const liked = await commentLikesCollection.c_existance(
+						req.decoded._id,
+						returned.comment._id
+					)
 
-				returned.comment.liked = liked.existance
+					returned.comment.liked = liked.existance
+				}
 			}
 
 			res.status(200).send(returned)
@@ -152,8 +161,8 @@ router.post(
 				req.params._id
 			)
 
-			if (req.body.text.length < 6000) {
-				if (ownership.status && ownership.ownership) {
+			if (ownership.status && ownership.ownership) {
+				if (req.body.text.length < 6000) {
 					const returned = await commentsCollection.c_update(
 						req.params._id,
 						req.body.text
@@ -161,9 +170,9 @@ router.post(
 
 					res.status(201).send(returned)
 				}
-				else { res.status(400).send(ownership) }
+				else { res.status(200).send('Comment too large') }
 			}
-			else { res.status(400).send('Comment too large') }
+			else { res.status(200).send(ownership) }
 		}
 		else { res.status(200).send({ status: false, message: 'invalid _id' }) }
 	},
@@ -195,7 +204,7 @@ router.delete(
 
 				res.status(201).send([returned, returned2, returned3])
 			}
-			else { res.status(400).send(ownership) }
+			else { res.status(200).send(ownership) }
 		}
 		else { res.status(200).send({ status: false, message: 'invalid _id' }) }
 	},
@@ -220,7 +229,7 @@ router.post(
 				req.params._id,
 			)
 
-			res.status(201).send(returned)
+			res.status(200).send(returned)
 		}
 		else { res.status(200).send({ status: false, message: 'invalid params' }) }
 	},
@@ -242,7 +251,7 @@ router.post(
 				req.params._id
 			)
 			
-			res.status(201).send(returned)
+			res.status(200).send(returned)
 		}
 		else { res.status(200).send({ status: false, message: 'invalid params' }) }
 	},
@@ -272,7 +281,7 @@ router.post(
 				
 				res.status(201).send(returned)
 			}
-			else { res.status(400).send(existance.message) }
+			else { res.status(200).send(existance) }
 		}
 		else { res.status(200).send({ status: false, message: 'invalid _id' }) }
 	},
@@ -290,7 +299,7 @@ router.get(
 				if (existance.existance) { res.status(200).send(true) }
 				else { res.status(200).send(false) }
 			}
-			else { res.status(400).send(existance.message) }
+			else { res.status(200).send(existance) }
 		}
 		else { res.status(200).send({ status: false, message: 'invalid _id' }) }
 	},

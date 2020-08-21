@@ -6,6 +6,7 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
+const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
@@ -35,9 +36,17 @@ router.delete(
 	'/delete/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returned = await commentReportsCollection.c_delete(req.params._id)
-		
-		res.status(200).send(returned)
+		if (mongoose.isValidObjectId(req.params._id)) {
+			const returned = await commentReportsCollection.c_delete(req.params._id)
+			
+			res.status(200).send(returned)
+		}
+		else {
+			res.status(200).send({
+				status: false,
+				message: 'a reports: Invalid _id'
+			})
+		}
 	}
 )
 

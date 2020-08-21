@@ -125,7 +125,7 @@ const c_existance = async (user_id, comment_id) => {
 			}
 		}
 	}
-	else { return { status: true, message: 'Invalid block_id', } }
+	else { return { status: false, message: 'Invalid block_id', } }
 }
 
 

@@ -44,7 +44,7 @@ const c_create = async (user_id, hours) => {
 			}
 		}
 	}
-	else { return { status: true, message: existance.message } }
+	else { return existance }
 }
 
 // [DELETE] //
@@ -97,7 +97,7 @@ const c_existance = async (user_id) => {
 			}
 		}
 	}
-	else { return { status: true, message: 'Invalid user_id', } }
+	else { return { status: false, message: 'Invalid user_id', } }
 }
 
 

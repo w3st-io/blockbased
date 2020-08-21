@@ -68,6 +68,7 @@
 				validBlock: false,
 				disabled: false,
 				loading: false,
+				returned: {},
 				block: {},
 				editorText: '',
 				error: '',
@@ -97,40 +98,38 @@
 		methods: {
 			/******************* [BTN] Submit *******************/
 			async submit() {
-				//if (localStorage.usertoken) {
+				if (localStorage.usertoken) {
 					this.disabled = true
 					this.loading = true
 
-					this.createComment()
-				//}
-				//else { this.error = 'Unable to create comment' }
-			},
+					this.editorText = this.$refs.toastuiEditor.invoke('getHtml')
 
-			/******************* [CREATE] Comment *******************/
-			async createComment() {
-				this.editorText = this.$refs.toastuiEditor.invoke('getHtml')
+					try {
+						this.returned = await CommentService.s_create(
+							this.block_id,
+							this.editorText
+						)
+					}
+					catch (e) { this.error = `This: Caught Error --> ${e}` }
 
-				try {
-					await CommentService.s_create(
-						this.block_id,
-						this.editorText
-					)
-					
-					// [REDIRECT] Block Page //
-					router.push(
-						{
-							name: 'Block',
-							params: {
-								block_id: this.block_id,
-								page: 1
-							}
-						}
-					)
-				}
-				catch (e) {
+					this.disabled = false
 					this.loading = false
-					this.error = e
+
+					if (this.returned.status) {
+						// [REDIRECT] Block Page //
+						router.push(
+							{
+								name: 'Block',
+								params: {
+									block_id: this.block_id,
+									page: 1
+								}
+							}
+						)
+					}
+					else { this.error = this.returned.message }
 				}
+				else { this.error = 'Unable to create comment' }
 			},
 
 			log() {

@@ -6,6 +6,7 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
+const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
@@ -48,7 +49,12 @@ router.delete(
 
 			res.status(200).send([returned, returned2, returned3])
 		}
-		else { res.status(200).send({ status: false, message: 'Invalid _id' }) }
+		else {
+			res.status(200).send({
+				status: false,
+				message: 'a comments: Invalid _id'
+			})
+		}
 	}
 )
 

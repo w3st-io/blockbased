@@ -40,7 +40,7 @@ const c_create = async (user_id, block_id, text) => {
 	}
 	else {
 		return {
-			status: true,
+			status: false,
 			message: `Comment too long`,
 		}
 	}
@@ -130,7 +130,7 @@ const c_read = async (comment_id) => {
 		}
 	}
 	else {
-		return { status: true, message: 'Invalid comment_id', }
+		return { status: true, message: 'commentsCollection: Invalid comment_id', }
 	}
 }
 
@@ -187,10 +187,7 @@ const c_delete = async (user_id, comment_id) => {
 		}
 	}
 	else {
-		return {
-			status: false,
-			message: 'Invalid comment_id',
-		}
+		return { status: false, message: 'commentsCollection: Invalid comment_id', }
 	}
 }
 
@@ -225,7 +222,9 @@ const c_existance = async (comment_id) => {
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid comment_id' } }
+	else {
+		return { status: false, message: 'commentsCollection: Invalid comment_id' }
+	}
 }
 
 
@@ -264,7 +263,9 @@ const c_ownership = async (user_id, comment_id) => {
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid comment_id' } }
+	else {
+		return { status: false, message: 'commentsCollection: Invalid comment_id' }
+	}
 }
 
 

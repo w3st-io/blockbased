@@ -41,7 +41,7 @@ const c_create = async (user_id, block_id) => {
 			}
 		}
 	}
-	else { return { status: true, message: existance.message } }
+	else { return existance }
 }
 
 // [DELETE] //
@@ -123,7 +123,7 @@ const c_existance = async (user_id, block_id) => {
 			}
 		}
 	}
-	else { return { status: true, message: 'Invalid block_id', } }
+	else { return { status: false, message: 'Invalid block_id', } }
 }
 
 

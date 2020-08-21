@@ -34,7 +34,7 @@ const c_delete = async (comment_id) => {
 		}
 	}
 	else {
-		return { status: true, message: 'Invalid comment_id', }
+		return { status: false, message: 'Invalid comment_id', }
 	}
 }
 

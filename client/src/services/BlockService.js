@@ -39,6 +39,7 @@ async function s_readAll(cat_id, amount, pageNumber) {
 
 	try {
 		let { data } = await authAxios.get(`/read-all/${cat_id}/${amount}/${skip}`)
+		console.log('data returned:', data)
 		if (data.status) {
 			data.blocks.forEach(block => {
 				block.createdAt = new Date(block.createdAt).toLocaleString()

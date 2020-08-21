@@ -6,6 +6,7 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
+const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
@@ -36,12 +37,15 @@ router.post(
 	'/update/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returned = await usersCollection.c_update(
-			req.decoded._id,
-			req.body.img_url
-		)
+		if (mongoose.isValidObjectId(req.params._id)) {
+			const returned = await usersCollection.c_update(
+				req.decoded._id,
+				req.body.img_url
+			)
 
-		res.status(201).send(returned)
+			res.status(201).send(returned)
+		}
+		else { res.status(200).send({ status: false, message: 'Invalid _id' }) }
 	}
 )
 
@@ -52,12 +56,15 @@ router.post(
 	'/ban/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returned = await banCollection.c_create(
-			req.params._id,
-			req.body.hours
-		)
+		if (mongoose.isValidObjectId(req.params._id)) {
+			const returned = await banCollection.c_create(
+				req.params._id,
+				req.body.hours
+			)
 
-		res.status(201).send(returned)
+			res.status(201).send(returned)
+		}
+		else { res.status(200).send({ status: false, message: 'Invalid _id' }) }
 	}
 )
 
