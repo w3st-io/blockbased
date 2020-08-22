@@ -31,6 +31,7 @@ const c_create = async (user_id, block_id) => {
 			return {
 				status: true,
 				createdBlockLike: createdBlockLike,
+				existance: existance,
 			}
 		}
 		catch (e) {

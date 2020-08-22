@@ -24,7 +24,7 @@ const CommentSchema = mongoose.Schema({
 		maxlength: 6000,
 	},
 
-	likeCount: { type: Number, default: null },
+	likeCount: { type: Number, default: 0 },
 	
 	liked: { type: Boolean, default: null },
 

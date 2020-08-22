@@ -37,6 +37,35 @@ const c_create = async (user_id, cat_id, title) => {
 	}
 }
 
+// [READ-ALL] Within Cat //
+const c_readAllbyLikes = async (cat_id, skip, amount) => {
+	const skip2 = parseInt(skip)
+	const amount2 = parseInt(amount)
+
+	try {
+		const blocks = await BlockModel.find(
+			{ cat_id: cat_id }
+		)
+			.skip(skip2)
+			.limit(amount2)
+			.populate(
+				{
+					path: 'user',
+					select: 'username email profileImg',
+				}
+			)
+			.exec()
+
+		return { status: true, blocks: blocks }
+	}
+	catch (e) {
+		return {
+			status: false,
+			message: `blocksCollection: Caught Error --> ${e}`,
+		}
+	}
+}
+
 
 // [READ-ALL] Within Cat //
 const c_readAll = async (cat_id, skip, amount) => {
@@ -93,6 +122,43 @@ const c_read = async (block_id) => {
 		return {
 			status: false,
 			message: 'blocksCollection: Invalid block_id',
+		}
+	}
+}
+
+
+/******************* [LIKE-SYSTEM] *******************/
+const c_incrementLike = async (block_id) => {
+	try {
+		const block = await BlockModel.findOneAndUpdate(
+			{ _id: block_id },
+			{ $inc: { likeCount: 1 } },
+		)
+	
+		return { status: true, block: block }
+	}
+	catch (e) {
+		return {
+			status: false,
+			message: `blocksCollection: Caught Error --> ${e}`
+		}
+	}
+}
+
+
+const c_decrementLike = async (block_id) => {
+	try {
+		const block = await BlockModel.findOneAndUpdate(
+			{ _id: block_id },
+			{ $inc: { likeCount: -1 } },
+		)
+	
+		return { status: true, block: block }
+	}
+	catch (e) {
+		return {
+			status: false,
+			message: `blocksCollection: Caught Error --> ${e}`
 		}
 	}
 }
@@ -198,6 +264,8 @@ module.exports = {
 	c_create,
 	c_readAll,
 	c_read,
+	c_incrementLike,
+	c_decrementLike,
 	c_existance,
 	c_ownership,
 	c_countAll,

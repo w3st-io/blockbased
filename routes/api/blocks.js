@@ -225,15 +225,39 @@ router.post(
 	rateLimiter.likeLimiter,
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			// [CREATE] blockLike //
-			const returned = await blockLikesCollection.c_create(
+			const existance = await blockLikesCollection.c_existance(
 				req.decoded._id,
 				req.params._id
 			)
-			
-			res.status(201).send(returned)
+
+			if (!existance.existance) {
+				// [CREATE] blockLike //
+				const returned = await blockLikesCollection.c_create(
+					req.decoded._id,
+					req.params._id
+				)
+	
+				if (returned.status) {
+					// [UPDATE] likeCount //
+					const returned2 = await blocksCollection.c_incrementLike(
+						req.params._id
+					)
+
+					res.status(201).send({
+						status: true,
+						blockLike: returned,
+						block: returned2
+					})
+				}
+			}
+			else { res.status(200).send(existance) }
 		}
-		else { res.status(200).send({ status: false, message: 'Invalid block_id' }) }
+		else {
+			res.status(200).send({
+				status: false,
+				message: 'Invalid block_id'
+			})
+		}
 
 	},
 )
@@ -245,13 +269,28 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			// [UPDATE] block Likers // [DELETE] blockLike //
-			const returned = await blockLikesCollection.c_delete(
+			const existance = await blockLikesCollection.c_existance(
 				req.decoded._id,
 				req.params._id
 			)
-			
-			res.status(201).send(returned)
+
+			if (existance.existance) {
+				// [CREATE] blockLike //
+				const returned = await blockLikesCollection.c_delete(
+					req.decoded._id,
+					req.params._id
+				)
+				
+				if (returned.status) {
+					// [UPDATE] likeCount //
+					const returned2 = await blocksCollection.c_decrementLike(
+						req.params._id
+					)
+				}
+
+				res.status(201).send(returned)
+			}
+			else { res.status(200).send(existance) }
 		}
 		else { res.status(200).send({ status: false, message: 'Invalid block_id' }) }
 	},

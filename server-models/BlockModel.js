@@ -24,15 +24,15 @@ const BlockSchema = mongoose.Schema({
 		maxlength: 200,
 	},
 
-	likeCount: { type: Number, default: null, },
+	likeCount: { type: Number, default: 0, },
 
 	liked: { type: Boolean, default: null, },
 
-	followersCount: { type: Number, default: null, },
+	followersCount: { type: Number, default: 0, },
 
 	followed: { type: Boolean, default: null, },
 
-	commentCount: { type: Number, default: null },
+	commentCount: { type: Number, default: 0, },
 
 	createdAt: {
 		type: Date,
