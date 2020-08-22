@@ -81,7 +81,12 @@ const c_delete = async (commentReport_id) => {
 			}
 		}
 	}
-	else { return { status: true, message: 'Invalid commentReport_id' } }
+	else {
+		return {
+			status: true,
+			message: 'Invalid commentReport_id'
+		}
+	}
 }
 
 

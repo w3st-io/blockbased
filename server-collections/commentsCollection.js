@@ -129,7 +129,10 @@ const c_read = async (comment_id) => {
 		}
 	}
 	else {
-		return { status: true, message: 'commentsCollection: Invalid comment_id', }
+		return {
+			status: true,
+			message: 'commentsCollection: Invalid comment_id',
+		}
 	}
 }
 
@@ -145,7 +148,6 @@ const c_update = async (comment_id, text) => {
 
 				return {
 					status: true,
-					message: 'Updated comment',
 					updatedCollent: updatedCollent,
 				}
 			}
@@ -156,9 +158,19 @@ const c_update = async (comment_id, text) => {
 				}
 			}
 		}
-		else { return { status: false, message: `Comment too long`, } }
+		else {
+			return {
+				status: false,
+				message: `Comment too long`,
+			}
+		}
 	}
-	else { return { status: true, message: 'Invalid comment_id', } }
+	else {
+		return {
+			status: true,
+			message: 'commentsCollection: Invalid comment_id',
+		}
+	}
 }
 
 // [DELETE] //
@@ -185,7 +197,10 @@ const c_delete = async (user_id, comment_id) => {
 		}
 	}
 	else {
-		return { status: false, message: 'commentsCollection: Invalid comment_id', }
+		return {
+			status: false,
+			message: 'commentsCollection: Invalid comment_id',
+		}
 	}
 }
 
@@ -219,7 +234,10 @@ const c_existance = async (comment_id) => {
 		}
 	}
 	else {
-		return { status: false, message: 'commentsCollection: Invalid comment_id' }
+		return {
+			status: false,
+			message: 'commentsCollection: Invalid comment_id'
+		}
 	}
 }
 

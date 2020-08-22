@@ -49,7 +49,7 @@ router.delete(
 
 			res.status(200).send({
 				status: true,
-				deletedStuff: [returned, returned2, returned3]
+				deleted: [returned, returned2, returned3]
 			})
 		}
 		else {

@@ -32,8 +32,8 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.commentLimiter,
 	async (req, res) => {
-		let returnFollowers = []
 		const existance = await blocksCollection.c_existance(req.body.block_id)
+		let returnFollowers = []
 
 		if (existance.status && existance.existance) {
 			const returned = await commentsCollection.c_create(
@@ -115,7 +115,7 @@ router.get(
 		else {
 			res.status(200).send({
 				status: false,
-				message: 'comments: Invalid block_id'
+				message: 'comments: Invalid block_id',
 			})
 		}
 	},
@@ -211,7 +211,7 @@ router.delete(
 
 				res.status(201).send({
 					status: true,
-					deletedStuff: [returned, returned2, returned3],
+					deleted: [returned, returned2, returned3],
 				})
 			}
 			else { res.status(200).send(ownership) }

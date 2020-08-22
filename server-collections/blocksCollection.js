@@ -30,7 +30,10 @@ const c_create = async (user_id, cat_id, title) => {
 		}
 	}
 	catch (e) {
-		return { status: false, message: `blocksCollection: Caught Error --> ${e}`, }
+		return {
+			status: false,
+			message: `blocksCollection: Caught Error --> ${e}`,
+		}
 	}
 }
 
@@ -57,7 +60,10 @@ const c_readAll = async (cat_id, skip, amount) => {
 		return { status: true, blocks: blocks }
 	}
 	catch (e) {
-		return { status: false, message: `blocksCollection: Caught Error --> ${e}`, }
+		return {
+			status: false,
+			message: `blocksCollection: Caught Error --> ${e}`,
+		}
 	}
 }
 
@@ -77,10 +83,18 @@ const c_read = async (block_id) => {
 			return { status: true, block: block }
 		}
 		catch (e) {
-			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
+			return {
+				status: false,
+				message: `blocksCollection: Caught Error --> ${e}`
+			}
 		}
 	}
-	else { return { status: false, message: 'blocksCollection: Invalid block_id', } }
+	else {
+		return {
+			status: false,
+			message: 'blocksCollection: Invalid block_id',
+		}
+	}
 }
 
 
@@ -106,10 +120,18 @@ const c_existance = async (block_id) => {
 			}
 		}
 		catch (e) {
-			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
+			return {
+				status: false,
+				message: `blocksCollection: Caught Error --> ${e}`
+			}
 		}
 	}
-	else { return { status: false, message: 'blocksCollection: Invalid block_id' } }
+	else {
+		return {
+			status: false,
+			message: 'blocksCollection: Invalid block_id'
+		}
+	}
 }
 
 
@@ -140,10 +162,18 @@ const c_ownership = async (user_id, block_id) => {
 			}
 		}
 		catch (e) {
-			return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
+			return {
+				status: false,
+				message: `blocksCollection: Caught Error --> ${e}`,
+			}
 		}
 	}
-	else { { return { status: false, message: 'blocksCollection: Invalid block_id' } } }
+	else {
+		return {
+			status: false,
+			message: 'blocksCollection: Invalid block_id',
+		}
+	}
 }
 
 
@@ -155,7 +185,10 @@ const c_countAll = async (cat_id) => {
 		return { status: true, count: count }
 	}
 	catch (e) {
-		return { status: false, message: `blocksCollection: Caught Error --> ${e}` }
+		return {
+			status: false,
+			message: `blocksCollection: Caught Error --> ${e}`,
+		}
 	}
 }
 
