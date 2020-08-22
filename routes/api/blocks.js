@@ -43,7 +43,8 @@ router.post(
 
 		res.status(201).send({
 			status: true,
-			created: [returned, returned2],
+			block: returned,
+			comment: returned2
 		})
 	}
 )
@@ -54,7 +55,7 @@ router.get(
 	'/read-all/:cat_id/:amount/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		let returned = await blocksCollection.c_readAll(
+		let returned = await blocksCollection.c_readAllbyLikes(
 			req.params.cat_id,
 			req.params.skip,
 			req.params.amount

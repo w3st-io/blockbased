@@ -38,6 +38,37 @@ const c_create = async (user_id, cat_id, title) => {
 }
 
 // [READ-ALL] Within Cat //
+const c_readAllDesending = async (cat_id, skip, amount) => {
+	const skip2 = parseInt(skip)
+	const amount2 = parseInt(amount)
+
+	try {
+		const blocks = await BlockModel.find(
+			{ cat_id: cat_id }
+		)
+			.sort({ createdAt: -1 })
+			.skip(skip2)
+			.limit(amount2)
+			.populate(
+				{
+					path: 'user',
+					select: 'username email profileImg',
+				}
+			)
+			.exec()
+
+		return { status: true, blocks: blocks }
+	}
+	catch (e) {
+		return {
+			status: false,
+			message: `blocksCollection: Caught Error --> ${e}`,
+		}
+	}
+}
+
+
+// [READ-ALL] Within Cat //
 const c_readAllbyLikes = async (cat_id, skip, amount) => {
 	const skip2 = parseInt(skip)
 	const amount2 = parseInt(amount)
@@ -46,6 +77,7 @@ const c_readAllbyLikes = async (cat_id, skip, amount) => {
 		const blocks = await BlockModel.find(
 			{ cat_id: cat_id }
 		)
+			.sort({ likeCount: -1 })
 			.skip(skip2)
 			.limit(amount2)
 			.populate(
@@ -262,6 +294,8 @@ const c_countAll = async (cat_id) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
+	c_readAllDesending,
+	c_readAllbyLikes,
 	c_readAll,
 	c_read,
 	c_incrementLike,
