@@ -127,7 +127,11 @@
 					// [REDIRECT] Cat Page //
 					router.push({
 						name: 'Cat',
-						params: { cat_id: this.cat_id, page: 1 }
+						params: {
+							cat_id: this.cat_id,
+							tab: 0,
+							page: 1
+						}
 					})
 				}
 				else { this.error = this.returned.message }

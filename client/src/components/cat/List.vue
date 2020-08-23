@@ -97,7 +97,14 @@
 			},
 
 			redirectToCatBlocks(cat_id) {
-				router.push({ name: 'Cat', params: { cat_id: cat_id, page: 1 } })
+				router.push({
+					name: 'Cat',
+					params: {
+						cat_id: cat_id,
+						tab: 0,
+						page: 1
+					}
+				})
 			},
 
 			log() {

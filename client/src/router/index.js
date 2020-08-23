@@ -102,7 +102,7 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/cat/:cat_id/:page',
+			path: '/cat/:cat_id/:tab/:page',
 			name: 'Cat',
 			component: Cat,
 			meta: {

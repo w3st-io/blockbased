@@ -4,7 +4,7 @@
 		<label
 			v-for="(tab, index) in tabs" :key="index"
 			:class="{ active: activeTab == tab }"
-			class="btn btn-sm btn-outline-primary"
+			class="btn btn-sm btn-outline-primary py-0"
 		>
 			<input @click="toggler(index)" type="radio" autocomplete="off">
 			{{ tab }}

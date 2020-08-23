@@ -68,12 +68,12 @@
 
 		data: function() {
 			return {
-				activeTab: 1,
-				loading: true,
-				limit: 5,
 				cat_id: this.$route.params.cat_id,
+				activeTab: parseInt(this.$route.params.tab),
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),
+				loading: true,
+				limit: 5,
 				cat: {},
 				data: {},
 				blocks: [],
@@ -99,8 +99,14 @@
 				
 				this.loading = true
 
-				if (tab == 'recent') { this.activeTab = 0 }
-				else { this.activeTab = 1 }
+				if (tab == 'recent') {
+					this.activeTab = 0
+					this.$route.params.tab = 0
+				}
+				else {
+					this.activeTab = 1
+					this.$route.params.tab = 1
+				}
 
 				this.blocksReadAll()
 			},
@@ -132,7 +138,16 @@
 				if (this.pageNumber != 1) {
 					this.pageNumber--
 
-					router.push({ path: `/cat/${this.cat_id}/${this.pageNumber}` })
+					// [REDIRECT] Cat Page //
+					router.push({
+						name: 'Cat',
+						params: {
+							cat_id: this.cat_id,
+							tab: this.activeTab,
+							page: this.pageNumber
+						}
+					})
+					
 					EventBus.$emit('force-rerender')
 				}
 			},
@@ -142,7 +157,15 @@
 				if (this.pageNumber < this.data.pageCount) {
 					this.pageNumber++
 
-					router.push({ path: `/cat/${this.cat_id}/${this.pageNumber}` })
+					// [REDIRECT] Cat Page //
+					router.push({
+						name: 'Cat',
+						params: {
+							cat_id: this.cat_id,
+							tab: this.activeTab,
+							page: this.pageNumber
+						}
+					})
 					EventBus.$emit('force-rerender')
 				}
 			},
