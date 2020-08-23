@@ -3,11 +3,7 @@
 		<!-- Button Tabs -->
 		<div class="row">
 			<div class="col-6 my-3">
-				<button-tabs
-					:tabs="tabs"
-					:emitName="'tabClicked'"
-					@tabClicked="switchTab"
-				/>
+				<button-tabs :tabs="tabs" @tabClicked="switchTab" />
 			</div>
 
 			<div class="col-6 text-right my-3">
@@ -68,9 +64,9 @@
 		},
 
 		methods: {
-			switchTab(tabClicked) {
-				this.activeTab = tabClicked
-			}
+			switchTab(tabccClicked) {
+				this.activeTab = tabccClicked
+			},
 		}
 	}
 </script>

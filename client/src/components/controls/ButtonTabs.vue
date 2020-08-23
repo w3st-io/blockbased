@@ -22,7 +22,7 @@
 	export default {
 		props: {
 			tabs: { type: Array, required: true, },
-			emitName: { type: String, required: true, },
+			initialTab: { type: Number, default: 0, }
 		},
 
 		data: function() {
@@ -33,16 +33,16 @@
 
 		created: async function() {
 			// Set Active Tab //
-			this.activeTab = this.tabs[0]
+			this.activeTab = this.tabs[this.initialTab]
 
 			// [EMIT] //
-			this.$emit(this.emitName, this.activeTab)
+			this.$emit('tabClicked', this.activeTab)
 		},
 
 		methods: {
 			toggler(index) {
 				this.activeTab = this.tabs[index]
-				this.$emit(this.emitName, this.activeTab)
+				this.$emit('tabClicked', this.activeTab)
 			}
 		}
 	}

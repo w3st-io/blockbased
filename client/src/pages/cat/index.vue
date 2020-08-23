@@ -9,20 +9,23 @@
 				:cat="cat"
 				:postCount="data.blockCount"
 				:badgeValue="pageNumber"
-				:leftBtnEmitName="'cat-prev'"
-				:rightBtnEmitName="'cat-next'"
+				:leftBtnEmitName="'cat-page-prev'"
+				:rightBtnEmitName="'cat-page-next'"
 			/>
 
 			<button-tabs
 				:tabs="['recent', 'popular']"
+				:initialTab="activeTab"
+				@tabClicked="tab"
 				class="mx-auto mb-2"
 				style="max-width: 300px;"
 			/>
 
 			<!-- Display All the Blocks -->
 			<block-list
+				v-if="!loading"
 				:blocks="blocks"
-				@refreshBlocks="blocksReadAll()"
+				@refreshBlocks="blocksReadAll"
 			/>
 
 			<!-- [DEFAULT] If No content -->
@@ -65,6 +68,7 @@
 
 		data: function() {
 			return {
+				activeTab: 1,
 				loading: true,
 				limit: 5,
 				cat_id: this.$route.params.cat_id,
@@ -81,33 +85,46 @@
 			// Get Cat Details //
 			this.cat = cats.find(cat => cat.cat_id === this.cat_id)
 
-			// [INIT] Blocks //
-			await this.blocksReadAll()
-
-			this.loading = false
-
 			// [--> EMMIT] cat-prev, cat-next, redirect-to-block //
-			EventBus.$on('cat-prev', () => { this.prevPage() })
-			EventBus.$on('cat-next', () => { this.nextPage() })
+			EventBus.$on('cat-page-prev', () => { this.prevPage() })
+			EventBus.$on('cat-page-next', () => { this.nextPage() })
 
 			// [LOG] //
 			//this.log()
 		},
 
 		methods: {
+			tab(tab) {
+				console.log('tab', tab)
+				
+				this.loading = true
+
+				if (tab == 'recent') { this.activeTab = 0 }
+				else { this.activeTab = 1 }
+
+				this.blocksReadAll()
+			},
+
 			/******************* [INIT] Block *******************/
 			async blocksReadAll() {
+				let sort = ''
+				if (this.activeTab == 0) { sort = 'descending' }
+				else { sort = 'popularity' }
+
 				try {
 					this.data = await BlockService.s_readAll(
 						this.cat_id,
 						this.limit,
-						this.pageIndex
+						this.pageIndex,
+						sort,
 					)
 				}
 				catch (e) { this.error = e }
 
 				if (this.data.status) { this.blocks = this.data.blocks }
 				else { this.error = this.data.message }
+
+				this.loading = false
 			},
 
 			prevPage() {
