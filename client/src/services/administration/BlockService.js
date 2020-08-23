@@ -18,12 +18,12 @@ async function authAxios() {
 
 /******************* [CRUD] *******************/
 // [READ-ALL-ALL] Auth Required //
-async function s_readAllAll(amount, pageNumber) {
-	const skip = pageNumber * amount
+async function s_readAllAll(limit, pageNumber) {
+	const skip = pageNumber * limit
 	const authAxios = await this.authAxios()
 
 	try {
-		let { data } = await authAxios.get(`/read-all-all/${amount}/${skip}`)
+		let { data } = await authAxios.get(`/read-all-all/${limit}/${skip}`)
 		
 		if (data.status) {
 			data.blocks.forEach(block => {

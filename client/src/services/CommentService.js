@@ -39,12 +39,12 @@ async function s_create(block_id, text) {
 
 
 // [READ-ALL] //
-async function s_readAll(block_id, amount, pageNumber) {
-	const skip = pageNumber * amount
+async function s_readAll(block_id, limit, pageNumber) {
+	const skip = pageNumber * limit
 	const authAxios = await this.authAxios()
 
 	try {
-		let { data } = await authAxios.get(`/read-all/${block_id}/${amount}/${skip}`)
+		let { data } = await authAxios.get(`/read-all/${block_id}/${limit}/${skip}`)
 
 		if (data.status) {
 			data.comments.forEach(comment => {

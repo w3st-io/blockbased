@@ -13,14 +13,14 @@ const BlockModel = require('../../server-models/BlockModel')
 
 /******************* [CRUD] *******************/
 // [READ-ALL-ALL] //
-const c_readAllAll = async (skip, amount) => {
+const c_readAllAll = async (skip, limit) => {
 	const skip2 = parseInt(skip)
-	const amount2 = parseInt(amount)
+	const limit2 = parseInt(limit)
 
 	try {
 		const blocks = await BlockModel.find()
 			.skip(skip2)
-			.limit(amount2)
+			.limit(limit2)
 			.populate(
 				{
 					path: 'user',

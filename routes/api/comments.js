@@ -74,14 +74,14 @@ router.post(
 
 // [READ-ALL] //
 router.get(
-	'/read-all/:block_id/:amount/:skip',
+	'/read-all/:block_id/:limit/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params.block_id)) {
 			const returned = await commentsCollection.c_readAll(
 				req.params.block_id,
 				req.params.skip,
-				req.params.amount
+				req.params.limit
 			)
 			
 			if (returned.status) {

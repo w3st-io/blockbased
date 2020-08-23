@@ -3,7 +3,11 @@
 		<!-- Button Tabs -->
 		<div class="row">
 			<div class="col-6 my-3">
-				<button-tabs :tabs="tabs" :emitName="'tab-clicked'" />
+				<button-tabs
+					:tabs="tabs"
+					:emitName="'tabClicked'"
+					@tabClicked="switchTab"
+				/>
 			</div>
 
 			<div class="col-6 text-right my-3">
@@ -39,7 +43,6 @@
 	import Users from '@components/admin/index/Users'
 	import ButtonTabs from '@components/controls/ButtonTabs'
 	import router from '@router'
-	import { EventBus } from '@main'
 
 	// [EXPORT] //
 	export default {
@@ -62,11 +65,12 @@
 		created: async function() {
 			// [REDIRECT] Not Admin Log Required //
 			if (!localStorage.admintoken) { router.push({ name: 'AdminLogin' }) }
-
-			// Detect Tab Clicked //
-			EventBus.$on('tab-clicked', (tabClicked) => {
-				this.activeTab = tabClicked
-			})
 		},
+
+		methods: {
+			switchTab(tabClicked) {
+				this.activeTab = tabClicked
+			}
+		}
 	}
 </script>

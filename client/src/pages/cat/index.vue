@@ -13,6 +13,12 @@
 				:rightBtnEmitName="'cat-next'"
 			/>
 
+			<button-tabs
+				:tabs="['recent', 'popular']"
+				class="mx-auto mb-2"
+				style="max-width: 300px;"
+			/>
+
 			<!-- Display All the Blocks -->
 			<block-list
 				:blocks="blocks"
@@ -39,6 +45,7 @@
 
 <script>
 	// [IMPORT] Personal //
+	import buttonTabs from '../../components/controls/ButtonTabs'
 	import BlockList from '@components/block/List'
 	import TitleHeader from '@components/cat/TitleHeader'
 	import NoContent from '@components/placeholders/NoContent'
@@ -51,6 +58,7 @@
 	export default {
 		components: {
 			BlockList,
+			buttonTabs,
 			NoContent,
 			TitleHeader,
 		},
@@ -58,7 +66,7 @@
 		data: function() {
 			return {
 				loading: true,
-				amount: 5,
+				limit: 5,
 				cat_id: this.$route.params.cat_id,
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),
@@ -92,7 +100,7 @@
 				try {
 					this.data = await BlockService.s_readAll(
 						this.cat_id,
-						this.amount,
+						this.limit,
 						this.pageIndex
 					)
 				}
@@ -124,7 +132,7 @@
 
 			log() {
 				console.log('%%% [PAGE] Cat %%%')
-				console.log('amount:', this.amount)
+				console.log('limit:', this.limit)
 				console.log('cat_id:', this.cat_id)
 				console.log('pageIndex:', this.pageIndex)
 				console.log('pageNumber:', this.pageNumber)

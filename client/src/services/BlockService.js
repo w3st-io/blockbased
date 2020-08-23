@@ -33,12 +33,14 @@ async function s_create(cat_id, title, text) {
 
 
 // [READ-ALL] Within Cat //
-async function s_readAll(cat_id, amount, pageNumber) {
-	const skip = pageNumber * amount
+async function s_readAll(cat_id, limit, pageNumber, sort) {
+	const skip = pageNumber * limit
 	const authAxios = await this.authAxios()
 
 	try {
-		let { data } = await authAxios.get(`/read-all/${cat_id}/${amount}/${skip}`)
+		let { data } = await authAxios.get(
+			`/read-all/${cat_id}/${limit}/${skip}/${sort}`
+		)
 		
 		if (data.status) {
 			data.blocks.forEach(block => {

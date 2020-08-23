@@ -52,13 +52,14 @@ router.post(
 
 // [READ-ALL] Within Cat //
 router.get(
-	'/read-all/:cat_id/:amount/:skip',
+	'/read-all/:cat_id/:limit/:skip/:sort',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		let returned = await blocksCollection.c_readAllbyLikes(
+		let returned = await blocksCollection.c_readAll(
 			req.params.cat_id,
 			req.params.skip,
-			req.params.amount
+			req.params.limit,
+			req.params.sort,
 		)
 		
 		if (returned.status) {
@@ -102,7 +103,7 @@ router.get(
 					returned.blockCount = blocksCount.count
 					
 					// Page Count //
-					returned.pageCount = Math.ceil(blocksCount.count / req.params.amount)
+					returned.pageCount = Math.ceil(blocksCount.count / req.params.limit)
 				}
 				else { returned.blocks[i].blocksCount = blocksCount.message }
 

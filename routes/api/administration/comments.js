@@ -24,12 +24,12 @@ const router = express.Router().use(cors())
 /******************* [CRUD] *******************/
 // [READ-ALL-ALL] //
 router.get(
-	'/read-all-all/:amount/:skip',
+	'/read-all-all/:limit/:skip',
 	Auth.adminToken(),
 	async (req, res) => {
 		const returned = await commentsCollection.c_readAllAll(
 			req.params.skip,
-			req.params.amount
+			req.params.limit
 		)
 
 		res.status(200).send(returned)

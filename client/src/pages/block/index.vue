@@ -36,8 +36,8 @@
 			<!-- Botton Page Control -->
 			<section class="mt-3">
 				<page-nav-buttons
-					:leftBtnEmitName="'block-prev'"
-					:rightBtnEmitName="'block-next'"
+					:leftBtnEmitName="'block-page-prev'"
+					:rightBtnEmitName="'block-page-next'"
 					:badgeValue="pageNumber"
 					class="m-auto w-100"
 					style="max-width: 300px;"
@@ -81,7 +81,7 @@
 				comments: [],
 				pageNumber: parseInt(this.$route.params.page),
 				pageIndex: parseInt(this.$route.params.page - 1),
-				amount: 5,
+				limit: 5,
 				commentListKey: 0,
 				error: '',
 			}
@@ -95,8 +95,8 @@
 			if (!this.error) await this.commentReadAll()
 
 			// [--> EMMIT] block-prev, block-next //
-			EventBus.$on('block-prev', () => { this.prevPage() })
-			EventBus.$on('block-next', () => { this.nextPage() })
+			EventBus.$on('block-page-prev', () => { this.prevPage() })
+			EventBus.$on('block-page-next', () => { this.nextPage() })
 
 
 			// Disable Loading //
@@ -127,7 +127,7 @@
 				try {
 					const returned = await CommentService.s_readAll(
 						this.block_id,
-						this.amount,
+						this.limit,
 						this.pageIndex
 					)
 
