@@ -42,7 +42,7 @@ const c_create = async (user_id, cat_id, title) => {
 const c_readAll = async (cat_id, skip, limit, sort) => {
 	const skip2 = parseInt(skip)
 	const limit2 = parseInt(limit)
-	let sort2 = {}
+	let sort2
 
 	if (sort == 'descending') { sort2 = { createdAt: -1 } }
 	else if (sort == 'popularity') { sort2 = { likeCount: -1 } }

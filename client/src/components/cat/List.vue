@@ -101,7 +101,6 @@
 					name: 'Cat',
 					params: {
 						cat_id: cat_id,
-						tab: 0,
 						page: 1
 					}
 				})

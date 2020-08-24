@@ -1,5 +1,5 @@
 <template>
-	<section class="my-4 container">
+	<section :key="catKey" class="my-4 container">
 		<!-- Set Page Title -->
 		<vue-headful :title="`Cat - ${cat.title}`"/>
 
@@ -21,6 +21,7 @@
 				style="max-width: 300px;"
 			/>
 
+			<h1 class="text-light">{{ catKey }} page{{ pageNumber }}</h1>
 			<!-- Display All the Blocks -->
 			<block-list
 				v-if="!loading"
@@ -69,9 +70,9 @@
 		data: function() {
 			return {
 				cat_id: this.$route.params.cat_id,
-				activeTab: parseInt(this.$route.params.tab),
 				pageNumber: parseInt(this.$route.params.page),
-				pageIndex: parseInt(this.$route.params.page - 1),
+				activeTab: 0,
+				catKey: 0,
 				loading: true,
 				limit: 5,
 				cat: {},
@@ -114,6 +115,7 @@
 			/******************* [INIT] Block *******************/
 			async blocksReadAll() {
 				let sort = ''
+				let pageIndex = this.pageNumber - 1
 				if (this.activeTab == 0) { sort = 'descending' }
 				else { sort = 'popularity' }
 
@@ -121,7 +123,7 @@
 					this.data = await BlockService.s_readAll(
 						this.cat_id,
 						this.limit,
-						this.pageIndex,
+						pageIndex,
 						sort,
 					)
 				}
@@ -138,17 +140,18 @@
 				if (this.pageNumber != 1) {
 					this.pageNumber--
 
+					this.blocksReadAll()
+					
 					// [REDIRECT] Cat Page //
 					router.push({
 						name: 'Cat',
 						params: {
 							cat_id: this.cat_id,
-							tab: this.activeTab,
 							page: this.pageNumber
 						}
-					})
-					
-					EventBus.$emit('force-rerender')
+					})	
+
+					this.catKey++
 				}
 			},
 
@@ -157,16 +160,18 @@
 				if (this.pageNumber < this.data.pageCount) {
 					this.pageNumber++
 
+					this.blocksReadAll()
+					
 					// [REDIRECT] Cat Page //
 					router.push({
 						name: 'Cat',
 						params: {
 							cat_id: this.cat_id,
-							tab: this.activeTab,
 							page: this.pageNumber
 						}
 					})
-					EventBus.$emit('force-rerender')
+
+					this.catKey++
 				}
 			},
 
@@ -174,7 +179,6 @@
 				console.log('%%% [PAGE] Cat %%%')
 				console.log('limit:', this.limit)
 				console.log('cat_id:', this.cat_id)
-				console.log('pageIndex:', this.pageIndex)
 				console.log('pageNumber:', this.pageNumber)
 				console.log('data:', this.data)
 				console.log('blocks:', this.blocks)
