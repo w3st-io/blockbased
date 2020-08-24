@@ -33,6 +33,7 @@
 				</span>
 			</div>
 
+			<!-- Page Control -->
 			<page-nav-buttons
 				:leftBtnEmitName="leftBtnEmitName"
 				:rightBtnEmitName="rightBtnEmitName"

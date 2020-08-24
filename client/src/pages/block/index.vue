@@ -7,8 +7,8 @@
 			<!-- Title Header -->
 			<title-header
 				:block="block"
-				:leftBtnEmitName="'block-prev'"
-				:rightBtnEmitName="'block-next'"
+				:leftBtnEmitName="'block-page-prev'"
+				:rightBtnEmitName="'block-page-next'"
 				:badgeValue="pageNumber"
 				@refreshBlock="blockRead()"
 				class="mb-3"
@@ -16,6 +16,7 @@
 
 			<!-- Comments List -->
 			<comment-list
+				v-if="!loading"
 				:comments="comments"
 				:block_id="block_id"
 				@refreshComments="commentReadAll()"
@@ -73,16 +74,14 @@
 
 		data: function() {
 			return {
+				block_id: this.$route.params.block_id,
+				pageNumber: parseInt(this.$route.params.page),
+				limit: 5,
 				existance: false,
 				loading: true,
 				returned: {},
-				block_id: this.$route.params.block_id,
 				block: {},
 				comments: [],
-				pageNumber: parseInt(this.$route.params.page),
-				pageIndex: parseInt(this.$route.params.page - 1),
-				limit: 5,
-				commentListKey: 0,
 				error: '',
 			}
 		},
@@ -97,10 +96,6 @@
 			// [--> EMMIT] block-prev, block-next //
 			EventBus.$on('block-page-prev', () => { this.prevPage() })
 			EventBus.$on('block-page-next', () => { this.nextPage() })
-
-
-			// Disable Loading //
-			this.loading = false
 
 			// [LOG] //
 			//this.log()
@@ -123,40 +118,59 @@
 
 			/******************* [INIT] Comments *******************/
 			async commentReadAll() {
-				// Get Comments //
+				// Enable Loading //
+				this.loading = true
+
+				let pageIndex = this.pageNumber - 1
+
+				// [READ] Comments //
 				try {
 					const returned = await CommentService.s_readAll(
 						this.block_id,
 						this.limit,
-						this.pageIndex
+						pageIndex
 					)
-
+					console.log(returned);
 					if (returned.status) { this.comments = returned.comments }
 					else { this.error = returned.message }
 				}
 				catch (e) { this.error = e }
+
+				// Disable Loading //
+				this.loading = false
 			},
 
 			prevPage() {
-				this.pageIndex++
-
 				// As long as the page is not going into 0 or negative
-				if (this.pageIndex != 1) {
-					this.pageIndex--
-					router.push({ path: `/block/${this.block_id}/${this.pageIndex}` })
-					EventBus.$emit('force-rerender')
+				if (this.pageNumber != 1) {
+					this.pageNumber--
+
+					this.commentReadAll()
+
+					router.push({
+						name: 'Block',
+						params: {
+							block_id: this.block_id,
+							page: this.pageNumber
+						}
+					})
 				}
 			},
 
 			nextPage() {
-				this.pageIndex++
-
 				// As long as page does not exceed max Number of Pages
-				if (this.pageIndex == this.pageIndex) {
-					this.pageIndex++
+				if (this.pageNumber == this.pageNumber) {
 					this.pageNumber++
-					router.push({ path: `/block/${this.block_id}/${this.pageIndex}` })
-					EventBus.$emit('force-rerender')
+
+					this.commentReadAll()
+
+					router.push({
+						name: 'Block',
+						params: {
+							block_id: this.block_id,
+							page: this.pageNumber
+						}
+					})
 				}
 			},
 
@@ -166,8 +180,6 @@
 				console.log('block:', this.block)
 				console.log('comments:', this.comments)
 				console.log('existance:', this.existance)
-				console.log('pageIndex:', this.pageIndex)
-				console.log('commentListKey:', this.commentListKey)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		},

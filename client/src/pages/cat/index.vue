@@ -1,5 +1,5 @@
 <template>
-	<section :key="catKey" class="my-4 container">
+	<section class="my-4 container">
 		<!-- Set Page Title -->
 		<vue-headful :title="`Cat - ${cat.title}`"/>
 
@@ -21,7 +21,6 @@
 				style="max-width: 300px;"
 			/>
 
-			<h1 class="text-light">{{ catKey }} page{{ pageNumber }}</h1>
 			<!-- Display All the Blocks -->
 			<block-list
 				v-if="!loading"
@@ -49,7 +48,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import buttonTabs from '../../components/controls/ButtonTabs'
+	import buttonTabs from '@components/controls/ButtonTabs'
 	import BlockList from '@components/block/List'
 	import TitleHeader from '@components/cat/TitleHeader'
 	import NoContent from '@components/placeholders/NoContent'
@@ -72,11 +71,10 @@
 				cat_id: this.$route.params.cat_id,
 				pageNumber: parseInt(this.$route.params.page),
 				activeTab: 0,
-				catKey: 0,
-				loading: true,
 				limit: 5,
-				cat: {},
+				loading: true,
 				data: {},
+				cat: {},
 				blocks: [],
 				error: '',
 			}
@@ -114,8 +112,11 @@
 
 			/******************* [INIT] Block *******************/
 			async blocksReadAll() {
+				this.loading = true
+				
 				let sort = ''
 				let pageIndex = this.pageNumber - 1
+
 				if (this.activeTab == 0) { sort = 'descending' }
 				else { sort = 'popularity' }
 
@@ -149,9 +150,7 @@
 							cat_id: this.cat_id,
 							page: this.pageNumber
 						}
-					})	
-
-					this.catKey++
+					})
 				}
 			},
 
@@ -170,8 +169,6 @@
 							page: this.pageNumber
 						}
 					})
-
-					this.catKey++
 				}
 			},
 
