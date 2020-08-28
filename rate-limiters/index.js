@@ -18,8 +18,8 @@ const limiter = rateLimit({
 })
 
 
-// [RATE-LIMIT] Block //
-const blockLimiter = rateLimit({
+// [RATE-LIMIT] Post //
+const postLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000,
 	max: 60,
 	message: {
@@ -87,7 +87,7 @@ const reportLimiter = rateLimit({
 // [EXPORTS] //
 module.exports = {
 	limiter,
-	blockLimiter,
+	postLimiter,
 	commentLimiter,
 	followLimiter,
 	likeLimiter,

@@ -3,7 +3,7 @@
 		<li v-for="(cat, index) in cats" :key="index" class="row m-0 bg-dark">
 			<!-- Image Section -->
 			<div
-				@click="redirectToCatBlocks(cat.cat_id)"
+				@click="redirectToCatPosts(cat.cat_id)"
 				class="
 					col-lg-1
 					col-md-2
@@ -20,7 +20,7 @@
 
 			<!-- Title -->
 			<div
-				@click="redirectToCatBlocks(cat.cat_id)"
+				@click="redirectToCatPosts(cat.cat_id)"
 				class="
 					col-lg-9
 					col-md-8
@@ -35,7 +35,7 @@
 
 			<!-- Count -->
 			<div
-				@click="redirectToCatBlocks(cat.cat_id)"
+				@click="redirectToCatPosts(cat.cat_id)"
 				class="
 					col-lg-2
 					col-md-2
@@ -60,7 +60,7 @@
 <script>
 	// [IMPORT] Personal //
 	import router from '@router'
-	import BlockService from '@services/BlockService'
+	import PostService from '@services/PostService'
 
 	// [EXPORT] //
 	export default {
@@ -77,7 +77,7 @@
 
 		created: async function() {
 			// Set Totals //
-			await this.blockCount()
+			await this.postCount()
 
 			// Disable Loading //
 			this.loading = false
@@ -87,16 +87,16 @@
 		},
 
 		methods: {
-			async blockCount() {
+			async postCount() {
 				// For the Size of the # of Cats.. //
 				for (let i = 0; i < this.cats.length; i++) {
 					let cat_id = this.cats[i].cat_id
 
-					this.totals[cat_id] = await BlockService.s_count(cat_id)
+					this.totals[cat_id] = await PostService.s_count(cat_id)
 				}
 			},
 
-			redirectToCatBlocks(cat_id) {
+			redirectToCatPosts(cat_id) {
 				router.push({
 					name: 'Cat',
 					params: {

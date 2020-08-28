@@ -1,20 +1,20 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% BLOCKS COLLECTION %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% POSTS COLLECTION %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
 
 
 // [REQUIRE] //
-const BlockModel = require('../server-models/BlockModel')
+const PostModel = require('../server-models/PostModel')
 
 
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, cat_id, title) => {
-	const formData = new BlockModel({
+	const formData = new PostModel({
 		_id: mongoose.Types.ObjectId(),
 		user: user_id,
 		cat_id: cat_id,
@@ -22,17 +22,17 @@ const c_create = async (user_id, cat_id, title) => {
 	})
 
 	try {
-		const createdBlock = await formData.save()
+		const createdPost = await formData.save()
 
 		return {
 			status: true,
-			createdBlock: createdBlock,
+			createdPost: createdPost,
 		}
 	}
 	catch (e) {
 		return {
 			status: false,
-			message: `blocksCollection: Caught Error --> ${e}`,
+			message: `postsCollection: Caught Error --> ${e}`,
 		}
 	}
 }
@@ -48,7 +48,7 @@ const c_readAll = async (cat_id, skip, limit, sort) => {
 	else if (sort == 'popularity') { sort2 = { likeCount: -1 } }
 
 	try {
-		const blocks = await BlockModel.find(
+		const posts = await PostModel.find(
 			{ cat_id: cat_id }
 		)
 			.sort(sort2)
@@ -62,21 +62,21 @@ const c_readAll = async (cat_id, skip, limit, sort) => {
 			)
 			.exec()
 
-		return { status: true, blocks: blocks }
+		return { status: true, posts: posts }
 	}
 	catch (e) {
 		return {
 			status: false,
-			message: `blocksCollection: Caught Error --> ${e}`,
+			message: `postsCollection: Caught Error --> ${e}`,
 		}
 	}
 }
 
-// [READ] Single Block //
-const c_read = async (block_id) => {
-	if (mongoose.isValidObjectId(block_id)) {
+// [READ] Single Post //
+const c_read = async (post_id) => {
+	if (mongoose.isValidObjectId(post_id)) {
 		try {
-			const block = await BlockModel.findById(block_id)
+			const post = await PostModel.findById(post_id)
 				.populate(
 					{
 						path: 'user',
@@ -85,106 +85,106 @@ const c_read = async (block_id) => {
 				)
 				.exec()
 			
-			return { status: true, block: block }
+			return { status: true, post: post }
 		}
 		catch (e) {
 			return {
 				status: false,
-				message: `blocksCollection: Caught Error --> ${e}`
+				message: `postsCollection: Caught Error --> ${e}`
 			}
 		}
 	}
 	else {
 		return {
 			status: false,
-			message: 'blocksCollection: Invalid block_id',
+			message: 'postsCollection: Invalid post_id',
 		}
 	}
 }
 
 
 /******************* [LIKE-SYSTEM] *******************/
-const c_incrementLike = async (block_id) => {
+const c_incrementLike = async (post_id) => {
 	try {
-		const block = await BlockModel.findOneAndUpdate(
-			{ _id: block_id },
+		const post = await PostModel.findOneAndUpdate(
+			{ _id: post_id },
 			{ $inc: { likeCount: 1 } },
 		)
 	
-		return { status: true, block: block }
+		return { status: true, post: post }
 	}
 	catch (e) {
 		return {
 			status: false,
-			message: `blocksCollection: Caught Error --> ${e}`
+			message: `postsCollection: Caught Error --> ${e}`
 		}
 	}
 }
 
 
-const c_decrementLike = async (block_id) => {
+const c_decrementLike = async (post_id) => {
 	try {
-		const block = await BlockModel.findOneAndUpdate(
-			{ _id: block_id },
+		const post = await PostModel.findOneAndUpdate(
+			{ _id: post_id },
 			{ $inc: { likeCount: -1 } },
 		)
 	
-		return { status: true, block: block }
+		return { status: true, post: post }
 	}
 	catch (e) {
 		return {
 			status: false,
-			message: `blocksCollection: Caught Error --> ${e}`
+			message: `postsCollection: Caught Error --> ${e}`
 		}
 	}
 }
 
 
 /******************* [EXISTANCE] *******************/
-const c_existance = async (block_id) => {
-	if (mongoose.isValidObjectId(block_id)) {
+const c_existance = async (post_id) => {
+	if (mongoose.isValidObjectId(post_id)) {
 		try {	
-			const block = await BlockModel.findOne({ _id: block_id })
+			const post = await PostModel.findOne({ _id: post_id })
 
-			if (block) {
+			if (post) {
 				return {
 					status: true,
 					existance: true,
-					block: block,
+					post: post,
 				}
 			}
 			else {
 				return {
 					status: true,
 					existance: false,
-					block: block,
+					post: post,
 				}
 			}
 		}
 		catch (e) {
 			return {
 				status: false,
-				message: `blocksCollection: Caught Error --> ${e}`
+				message: `postsCollection: Caught Error --> ${e}`
 			}
 		}
 	}
 	else {
 		return {
 			status: false,
-			message: 'blocksCollection: Invalid block_id'
+			message: 'postsCollection: Invalid post_id'
 		}
 	}
 }
 
 
 /******************* [OWNERSHIP] *******************/
-const c_ownership = async (user_id, block_id) => {
-	if (mongoose.isValidObjectId(block_id)) {
+const c_ownership = async (user_id, post_id) => {
+	if (mongoose.isValidObjectId(post_id)) {
 		try {	
-			const block = await BlockModel.findOne(
+			const post = await PostModel.findOne(
 				{
 					user: user_id,
-					_id: block_id,
+					_id: post_id,
 				}
 			)
 
@@ -192,28 +192,28 @@ const c_ownership = async (user_id, block_id) => {
 				return {
 					status: true,
 					ownership: true,
-					block: block,
+					post: post,
 				}
 			}
 			else {
 				return {
 					status: true,
 					ownership: false,
-					block: block,
+					post: post,
 				}
 			}
 		}
 		catch (e) {
 			return {
 				status: false,
-				message: `blocksCollection: Caught Error --> ${e}`,
+				message: `postsCollection: Caught Error --> ${e}`,
 			}
 		}
 	}
 	else {
 		return {
 			status: false,
-			message: 'blocksCollection: Invalid block_id',
+			message: 'postsCollection: Invalid post_id',
 		}
 	}
 }
@@ -222,14 +222,14 @@ const c_ownership = async (user_id, block_id) => {
 /******************* [COUNT] *******************/
 const c_countAll = async (cat_id) => {
 	try {
-		const count = await BlockModel.countDocuments({ cat_id: cat_id })
+		const count = await PostModel.countDocuments({ cat_id: cat_id })
 
 		return { status: true, count: count }
 	}
 	catch (e) {
 		return {
 			status: false,
-			message: `blocksCollection: Caught Error --> ${e}`,
+			message: `postsCollection: Caught Error --> ${e}`,
 		}
 	}
 }

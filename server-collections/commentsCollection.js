@@ -13,12 +13,12 @@ const CommentModel = require('../server-models/CommentModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (user_id, block_id, text) => {
+const c_create = async (user_id, post_id, text) => {
 	if (text.length <= 6000) {
 		const formData = new CommentModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
-			block: block_id,
+			post: post_id,
 			text: text,
 		})
 
@@ -60,7 +60,7 @@ const c_readAllAll = async (skip, limit) => {
 					select: 'username email profileImg',
 				}
 			)
-			.populate('block')
+			.populate('post')
 			.exec()
 
 		return { status: true, comments: comments }
@@ -73,13 +73,13 @@ const c_readAllAll = async (skip, limit) => {
 	}
 }
 
-// [READ-ALL] Within a Block //
-const c_readAll = async (block_id, skip, limit) => {
+// [READ-ALL] Within a Post //
+const c_readAll = async (post_id, skip, limit) => {
 	const skip2 = parseInt(skip)
 	const limit2 = parseInt(limit)
 
 	try {
-		const comments = await CommentModel.find({ block: block_id })
+		const comments = await CommentModel.find({ post: post_id })
 			.skip(skip2)
 			.limit(limit2)
 			.populate(
@@ -114,7 +114,7 @@ const c_read = async (comment_id) => {
 				.populate(
 					{
 						path: 'likers',
-						select: '_id user_id block_id text'
+						select: '_id user_id post_id text'
 					}
 				)
 				.exec()
@@ -282,9 +282,9 @@ const c_ownership = async (user_id, comment_id) => {
 
 
 /******************* [COUNT] *******************/
-const c_countAll = async (block_id) => {
+const c_countAll = async (post_id) => {
 	try {
-		const count = await CommentModel.countDocuments({ block: block_id })
+		const count = await CommentModel.countDocuments({ post: post_id })
 
 		return { status: true, count: count }
 	}

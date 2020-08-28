@@ -21,17 +21,17 @@ async function authAxios() {
 
 /******************* [CRUD] *******************/
 // [CREATE] Auth Required //
-async function s_create(block_id, text) {
+async function s_create(post_id, text) {
 	const authAxios = await this.authAxios()
 
 	const { data } = await authAxios.post(`/create`, {
-		block_id,
+		post_id,
 		text,
 	})
 
 	if (data.status) {
 		// [EMIT] Notify sockets that comment is created //
-		EventBus.$emit('comment-created', data.blockFollowers)
+		EventBus.$emit('comment-created', data.postFollowers)
 	}
 
 	return data
@@ -39,12 +39,12 @@ async function s_create(block_id, text) {
 
 
 // [READ-ALL] //
-async function s_readAll(block_id, limit, pageNumber) {
+async function s_readAll(post_id, limit, pageNumber) {
 	const skip = pageNumber * limit
 	const authAxios = await this.authAxios()
 
 	try {
-		let { data } = await authAxios.get(`/read-all/${block_id}/${limit}/${skip}`)
+		let { data } = await authAxios.get(`/read-all/${post_id}/${limit}/${skip}`)
 
 		if (data.status) {
 			data.comments.forEach(comment => {
@@ -113,26 +113,26 @@ async function  s_delete(comment_id) {
 
 /******************* [LIKE SYSTEM] *******************/
 // ADD/REMOVE LIKE //
-async function s_like(block_id, comment_id) {
+async function s_like(post_id, comment_id) {
 	const authAxios = await this.authAxios()
 
-	// Add the liker from the Block Object
-	return await authAxios.post(`/like/${comment_id}/${block_id}`)
+	// Add the liker from the Post Object
+	return await authAxios.post(`/like/${comment_id}/${post_id}`)
 }
 async function  s_unlike(comment_id) {
 	const authAxios = await this.authAxios()
 
-	// Remove the liker from the Block Object
+	// Remove the liker from the Post Object
 	return await authAxios.post(`/unlike/${comment_id}`)
 }
 
 
 /******************* [REPORT] *******************/
-async function s_report(block_id, comment_id, reportType) {
+async function s_report(post_id, comment_id, reportType) {
 	const authAxios = await this.authAxios()
 
 	const returned = await authAxios.post(`/report/${comment_id}`,
-		{ block_id, reportType }
+		{ post_id, reportType }
 	)
 
 	return returned

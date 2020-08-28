@@ -125,7 +125,7 @@
 					<!-- Submit -->
 					<button
 						type="submit"
-						class="mt-5 btn btn-lg btn-primary btn-block"
+						class="w-100 mt-5 btn btn-lg btn-primary"
 					>Register</button>
 				</form>
 			</ValidationObserver>

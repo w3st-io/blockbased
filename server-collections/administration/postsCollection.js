@@ -1,14 +1,14 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% BLOCKS COLLECTION %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% POSTS COLLECTION %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
 
 
 // [REQUIRE] //
-const BlockModel = require('../../server-models/BlockModel')
+const PostModel = require('../../server-models/PostModel')
 
 
 /******************* [CRUD] *******************/
@@ -18,7 +18,7 @@ const c_readAllAll = async (skip, limit) => {
 	const limit2 = parseInt(limit)
 
 	try {
-		const blocks = await BlockModel.find()
+		const posts = await PostModel.find()
 			.skip(skip2)
 			.limit(limit2)
 			.populate(
@@ -29,33 +29,33 @@ const c_readAllAll = async (skip, limit) => {
 			)
 			.exec()
 
-		return { status: true, blocks: blocks }
+		return { status: true, posts: posts }
 	}
 	catch (e) {
 		return {
 			status: false,
-			message: `blockCollections: Caught Error --> ${e}`,
+			message: `postCollections: Caught Error --> ${e}`,
 		}
 	}
 }
 
 
 // [DELETE] //
-const c_delete = async (block_id) => {
-	if (mongoose.isValidObjectId(block_id)) {
+const c_delete = async (post_id) => {
+	if (mongoose.isValidObjectId(post_id)) {
 		try {
-			const deletedBlock = await BlockModel.findByIdAndDelete(block_id)
+			const deletedPost = await PostModel.findByIdAndDelete(post_id)
 			
 			return {
 				status: true,
 				deleted: true,
-				deletedBlock: deletedBlock,
+				deletedPost: deletedPost,
 			}
 		}
 		catch (e) {
 			return {
 				status: false,
-				message: `blockCollections: Caught Error --> ${e}`,
+				message: `postCollections: Caught Error --> ${e}`,
 				deleted: false,
 			}
 		}
@@ -63,7 +63,7 @@ const c_delete = async (block_id) => {
 	else {
 		return {
 			status: false,
-			message: 'blocksCollection: Invalid block_id',
+			message: 'postsCollection: Invalid post_id',
 			deleted: false,
 		}
 	}

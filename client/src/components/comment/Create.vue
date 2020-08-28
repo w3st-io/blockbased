@@ -51,7 +51,7 @@
 	import '@toast-ui/editor/dist/toastui-editor.css'
 
 	// [IMPORT] Personal //
-	import BlockService from '@services/BlockService'
+	import PostService from '@services/PostService'
 	import CommentService from '@services/CommentService'
 	import router from '@router'
 
@@ -60,16 +60,16 @@
 		components: { Editor },
 
 		props: {
-			block_id: { type: String, required: true, },
+			post_id: { type: String, required: true, },
 		},
 
 		data: function() {
 			return {
-				validBlock: false,
+				validPost: false,
 				disabled: false,
 				loading: false,
 				returned: {},
-				block: {},
+				post: {},
 				editorText: '',
 				error: '',
 				message: `
@@ -81,15 +81,15 @@
 
 		created: async function() {
 			try {
-				this.validBlock = await BlockService.s_existance(this.block_id)
+				this.validPost = await PostService.s_existance(this.post_id)
 
-				// Get Block Details
-				this.block = await BlockService.s_read(this.block_id)
+				// Get Post Details //
+				this.post = await PostService.s_read(this.post_id)
 			}
 			catch (e) { this.error = e }
 
-			// If Invalid Block => Disable //
-			if (!this.validBlock) { this.disabled = true }
+			// If Invalid Post => Disable //
+			if (!this.validPost) { this.disabled = true }
 
 			// [LOG] //
 			//this.log()
@@ -106,7 +106,7 @@
 
 					try {
 						this.returned = await CommentService.s_create(
-							this.block_id,
+							this.post_id,
 							this.editorText
 						)
 					}
@@ -116,11 +116,11 @@
 					this.loading = false
 
 					if (this.returned.status) {
-						// [REDIRECT] Block Page //
+						// [REDIRECT] Post Page //
 						router.push(
 							{
-								name: 'Block',
-								params: { block_id: this.block_id, page: 1 }
+								name: 'Post',
+								params: { post_id: this.post_id, page: 1 }
 							}
 						)
 					}
@@ -131,9 +131,9 @@
 
 			log() {
 				console.log('%%% [COMPONENT] CommentCreate %%%')
-				console.log('block_id:', this.block_id)
-				console.log('block:', this.block)
-				console.log('blockFollowers:', this.block.followers)
+				console.log('post_id:', this.post_id)
+				console.log('post:', this.post)
+				console.log('post.followers:', this.post.followers)
 			},
 		},
 	}

@@ -2,25 +2,25 @@
 	<section class="container">
 		<div class="my-3 row card card-body bg-dark">
 			<h3 class="col-12 mb-3 text-light">
-				Create Block in "{{ catTitle }}"
+				Create Post in "{{ catTitle }}"
 			</h3>
 
 			<!-- [COMPONENT] Create -->
-			<block-create :cat_id="cat_id" />
+			<post-create :cat_id="cat_id" />
 		</div>
 	</section>
 </template>
 
 <script>
 	// [IMPORT] Personal //
-	import BlockCreate from '@components/block/Create'
+	import PostCreate from '@components/post/Create'
 	//import router from '@router'
 	import { cats } from '@defaults/cats'
 
 	// [EXPORT] //
 	export default {
 		components: {
-			BlockCreate
+			PostCreate
 		},
 
 		data: function() {
@@ -45,7 +45,7 @@
 
 		methods: {	
 			log() {
-				console.log('%%% [PAGE] CatBlockCreate %%%')
+				console.log('%%% [PAGE] CatPostCreate %%%')
 				console.log('cat_id:', this.cat_id)
 			},
 		}

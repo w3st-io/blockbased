@@ -1,6 +1,6 @@
 <template>
 	<section class="col-12">
-		<!-- [FORM] Create Block -->
+		<!-- [FORM] Create Post -->
 		<ValidationObserver v-slot="{ handleSubmit }">
 			<form @submit.prevent="handleSubmit(submit)">
 				<!-- Text Input -->
@@ -67,7 +67,7 @@
 	import '@toast-ui/editor/dist/toastui-editor.css'
 
 	// [IMPORT] Personal //
-	import BlockService from '@services/BlockService'
+	import PostService from '@services/PostService'
 	import router from '@router'
 	import { cats } from '@defaults/cats'
 
@@ -104,15 +104,15 @@
 				this.disabled = true
 				this.loading = true
 				
-				this.createBlock()
+				this.createPost()
 			},
 
 			// [CREATE] Create Post Via PostService Function //
-			async createBlock() {
+			async createPost() {
 				this.editorText = this.$refs.toastuiEditor.invoke('getHtml')
 
 				try {
-					this.returned = await BlockService.s_create(
+					this.returned = await PostService.s_create(
 						this.cat_id,
 						this.title,
 						this.editorText
@@ -137,7 +137,7 @@
 			},
 
 			log() {
-				console.log('%%% [COMPONENT] BlockCreate %%%')
+				console.log('%%% [COMPONENT] PostCreate %%%')
 				console.log('cat_id:', this.cat_id)
 			},
 		},

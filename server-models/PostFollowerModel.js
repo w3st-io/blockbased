@@ -1,9 +1,9 @@
 // [REQUIRE] //
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
 
 // [SCHEMA MODEL] //
-const BlockFollowerSchema = mongoose.Schema({
+const PostFollowerSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	
 	user: {
@@ -12,9 +12,9 @@ const BlockFollowerSchema = mongoose.Schema({
 		required: true,
 	},
 	
-	block: {
+	post: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Block',
+		ref: 'Post',
 		required: true,
 	},
 
@@ -27,4 +27,4 @@ const BlockFollowerSchema = mongoose.Schema({
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('BlockFollower', BlockFollowerSchema)
+module.exports = mongoose.model('PostFollower', PostFollowerSchema)

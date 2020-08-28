@@ -115,11 +115,12 @@
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
 					</ValidationProvider>
+					<br>
 
 					<!-- Submit -->
 					<button
 						type="submit"
-						class="mt-5 btn btn-lg btn-primary btn-block"
+						class="w-100 btn btn-lg btn-primary"
 					>Register</button>
 				</form>
 			</ValidationObserver>

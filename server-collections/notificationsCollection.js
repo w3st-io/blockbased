@@ -61,7 +61,7 @@ const c_readAll = async (user_id) => {
 			{
 				path: 'comment',
 				populate: {
-					path: 'block',
+					path: 'post',
 					select: 'title',
 				}
 			}

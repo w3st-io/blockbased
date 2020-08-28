@@ -16,7 +16,7 @@
 					">
 						<div
 							class="
-								d-block
+								d-post
 								m-auto
 								border
 								border-primary
@@ -120,7 +120,7 @@
 		},
 		
 		props: {
-			block_id: { type: String, required: true, },
+			post_id: { type: String, required: true, },
 			comments: { type: Array, required: true, },
 		},
 
@@ -186,7 +186,7 @@
 					else {
 						this.disabled = true
 
-						try { await CommentService.s_like(this.block_id, comment._id) }
+						try { await CommentService.s_like(this.post_id, comment._id) }
 						catch (e) { this.error = e }
 
 						this.disabled = false
@@ -199,23 +199,23 @@
 
 			/******************* [REPORT] *******************/
 			reportInnapropiate(comment_id) {
-				CommentService.s_report(this.block_id, comment_id,'Innapropiate')
+				CommentService.s_report(this.post_id, comment_id,'Innapropiate')
 			},
 
 			reportOffensive(comment_id) {
-				CommentService.s_report(this.block_id, comment_id,'Offensive')
+				CommentService.s_report(this.post_id, comment_id,'Offensive')
 			},
 
 			reportScam(comment_id) {
-				CommentService.s_report(this.block_id, comment_id,'Scam')
+				CommentService.s_report(this.post_id, comment_id,'Scam')
 			},
 
 			reportBot(comment_id) {
-				CommentService.s_report(this.block_id, comment_id,'Bot')
+				CommentService.s_report(this.post_id, comment_id,'Bot')
 			},
 
 			reportOther(comment_id) {
-				CommentService.s_report(this.block_id, comment_id,'Other')
+				CommentService.s_report(this.post_id, comment_id,'Other')
 			},
 
 			/******************* [ROUTER + LOG] *******************/

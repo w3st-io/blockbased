@@ -15,7 +15,7 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const admins = require('./routes/api/admins')
-const blocks = require('./routes/api/blocks')
+const posts = require('./routes/api/posts')
 const comments = require('./routes/api/comments')
 const rateLimiter = require('./rate-limiters')
 const notifications = require('./routes/api/notifications')
@@ -24,7 +24,7 @@ const userUtils = require('./utils/userUtils')
 
 
 // [REQUIRE] Personal - Administration //
-const admininstrationBlocks = require('./routes/api/administration/blocks')
+const admininstrationPosts = require('./routes/api/administration/posts')
 const admininstrationComments = require('./routes/api/administration/comments')
 const admininstrationReports = require('./routes/api/administration/reports')
 const admininstrationUsers = require('./routes/api/administration/users')
@@ -59,14 +59,14 @@ app.use(rateLimiter.limiter)
 
 // [USE] Personal //
 app.use('/api/admins', admins)
-app.use('/api/blocks', blocks)
+app.use('/api/posts', posts)
 app.use('/api/comments', comments)
 app.use('/api/notifications', notifications)
 app.use('/api/users', users)
 
 
 // [USE] Personal - Administration //
-app.use('/api/administration/blocks', admininstrationBlocks)
+app.use('/api/administration/posts', admininstrationPosts)
 app.use('/api/administration/comments', admininstrationComments)
 app.use('/api/administration/reports', admininstrationReports)
 app.use('/api/administration/users', admininstrationUsers)
@@ -136,5 +136,5 @@ server.listen(port, () => { console.log(`Server Running on Port: ${port}`) })
 app.get('', async (req, res) => {
 	console.log('req:', req)
 
-	res.send('<h1 style="color: #f45d22;">BlockBased API</h1>')
+	res.send('<h1 style="color: #f45d22;">BlockBased.io API</h1>')
 })

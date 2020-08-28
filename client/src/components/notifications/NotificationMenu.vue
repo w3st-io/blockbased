@@ -29,12 +29,12 @@
 				v-for="(notification, index) in notifications"
 				:key="index"
 				@click="
-					clicked(notification._id, notification.comment.block._id);
+					clicked(notification._id, notification.comment.post._id);
 					showPopper = !showPopper;
 				"
 				class="dropdown-item bg-primary text-light"
 			>
-				<h6 class="text-light">{{ notification.comment.block.title }}</h6>
+				<h6 class="text-light">{{ notification.comment.post.title }}</h6>
 				<p class="m-0">
 					{{ notification.comment.user.username }} made a {{ notification.type }}
 				</p>
@@ -83,7 +83,7 @@
 				this.notifications = await NotificationService.s_readAll()
 			},
 
-			async clicked(notification_id, block_id) {
+			async clicked(notification_id, post_id) {
 				// Mark Read
 				NotificationService.markRead(notification_id)
 
@@ -96,8 +96,8 @@
 
 				// [REDIRECT] //
 				router.push({
-					name: 'Block',
-					params: { block_id: block_id, page: 1 }
+					name: 'Post',
+					params: { post_id: post_id, page: 1 }
 				})
 			},
 

@@ -13,7 +13,7 @@ const CommentLikeModel = require('../server-models/CommetLikeModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (user_id, block_id, comment_id) => {
+const c_create = async (user_id, post_id, comment_id) => {
 	const existance = await c_existance(user_id, comment_id)
 
 	if (existance.status && !existance.existance) {
@@ -21,7 +21,7 @@ const c_create = async (user_id, block_id, comment_id) => {
 			{
 				_id: mongoose.Types.ObjectId(),
 				user: user_id,
-				block: block_id,
+				post: post_id,
 				comment: comment_id,
 			}
 		)
@@ -120,7 +120,7 @@ const c_existance = async (user_id, comment_id) => {
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid block_id', } }
+	else { return { status: false, message: 'Invalid post_id', } }
 }
 
 

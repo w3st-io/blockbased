@@ -1,5 +1,5 @@
 // [REQUIRE] //
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
 
 // [SCHEMA MODEL] //
@@ -47,6 +47,7 @@ const UserSchema = mongoose.Schema({
 		maxlength: 50
 	}
 })
+
 
 // [EXPORTS] //
 module.exports = mongoose.model('User', UserSchema)

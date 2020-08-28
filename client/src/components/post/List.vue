@@ -2,11 +2,11 @@
 	<article class="row">
 		<section class="col-12">
 			<ul
-				v-if="!loading && blocks != ''"
+				v-if="!loading && posts != ''"
 				class="m-0 px-0 border border-secondary"
 			>
 				<li
-					v-for="(block, index) in blocks"
+					v-for="(post, index) in posts"
 					:key="index"
 					class="row m-0 bg-dark"
 				>
@@ -20,14 +20,14 @@
 							col-8
 							p-2
 						"
-						@click="redirectToBlock(block._id)"
+						@click="redirectToPost(post._id)"
 					>
-						<h5 class="text-light">{{ block.title }}</h5>
+						<h5 class="text-light">{{ post.title }}</h5>
 						<p class="m-0 small text-secondary">
-							<span v-if="block.user.username" class="text-light">
-								{{ block.user.username }}
+							<span v-if="post.user.username" class="text-light">
+								{{ post.user.username }}
 							</span>
-							- {{ block.createdAt }}
+							- {{ post.createdAt }}
 						</p>
 					</div>
 
@@ -42,12 +42,12 @@
 							p-2
 							text-center
 						" 
-						@click="redirectToBlock(block._id)"
+						@click="redirectToPost(post._id)"
 					>
 						<p class="pb-0 m-0 align-self-center text-light">
 							<span class="m-0">
 								<p class="h4 m-0">
-									{{ block.commentCount }}
+									{{ post.commentCount }}
 								</p>
 								<span>Comments</span>
 							</span>
@@ -63,27 +63,25 @@
 							p-2
 							text-center
 						"
-						@click="redirectToBlock(block._id)"
+						@click="redirectToPost(post._id)"
 					>
 						<h4 class="m-0 text-white">
 							<button
 								:disabled="disabled"
-								@click.prevent.stop="likeBtn(block)"
+								@click.prevent.stop="likeBtn(post)"
 								class="w-100 btn"
 								:class="{
-									'btn-outline-success': block.liked,
-									'btn-outline-secondary': !block.liked,
+									'btn-outline-success': post.liked,
+									'btn-outline-secondary': !post.liked,
 								}"
-							>{{ block.likeCount }} ▲</button>
+							>{{ post.likeCount }} ▲</button>
 						</h4>
 					</div>
 				</li>
 			</ul>
 
 			<!-- [ALERTS] -->
-			<div v-if="error" class="m-0 mt-3 alert alert-danger">
-				Block List: {{ error }}
-			</div>
+			<div v-if="error" class="m-0 mt-3 alert alert-danger">{{ error }}</div>
 		</section>
 	</article>
 </template>
@@ -91,12 +89,12 @@
 <script>
 	// [IMPORT] Personal //
 	import router from '@router'
-	import BlockService from '@services/BlockService'
+	import PostService from '@services/PostService'
 
 	// [EXPORT] //
 	export default {
 		props: {
-			blocks: { type: Array, required: true, },
+			posts: { type: Array, required: true, },
 		},
 
 		data: function() {
@@ -112,46 +110,46 @@
 			this.loading = false
 
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {
 			/******************* [BTN] Like *******************/
-			async likeBtn(block) {
+			async likeBtn(post) {
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
 					this.disabled = true
 						
-					if (block.liked) {
-						try { await BlockService.s_unlike(block._id) }
+					if (post.liked) {
+						try { await PostService.s_unlike(post._id) }
 						catch (e) { this.error = e }
 					}
 					else {
-						try { await BlockService.s_like(block._id) }
+						try { await PostService.s_like(post._id) }
 						catch (e) { this.error = e }
 					}
 
 					this.disabled = false
 				}
 
-				// [READ] Update Blocks //
-				this.$emit('refreshBlocks')
+				// [READ] Update Posts //
+				this.$emit('refreshPosts')
 			},
 
 			/******************* [ROUTER + LOG] *******************/
-			redirectToBlock(block_id) {
+			redirectToPost(post_id) {
 				if (!this.disabled) {
 					// [REDIRECT] //
 					router.push({
-						name: 'Block',
-						params: { block_id: block_id, page: 1 }
+						name: 'Post',
+						params: { post_id: post_id, page: 1 }
 					})
 				}
 			},
 
 			log() {
-				console.log('%%% [COMPONENT] BlockList %%%')
-				console.log('blocks:', this.blocks)
+				console.log('%%% [COMPONENT] PostList %%%')
+				console.log('posts:', this.posts)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		}

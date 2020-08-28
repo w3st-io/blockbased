@@ -23,7 +23,6 @@ async function s_readAllAll() {
 
 	try {
 		const returned = await authAxios.get('/read-all')
-		console.log(returned.data)
 
 		return returned.data
 	}

@@ -44,10 +44,11 @@
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
 					</ValidationProvider>
+					<br>
 
 					<!-- FORM SUBMIT -->
 					<button
-						class="mt-5 btn btn-lg btn-primary border-danger btn-block"
+						class="w-100 btn btn-lg btn-primary border-danger"
 						type="submit"
 						:disabled="submitted"
 					>Login</button>

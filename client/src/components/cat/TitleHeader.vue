@@ -24,9 +24,9 @@
 
 			<!-- Create Button -->
 			<button
-				@click="redirectToCatBlockCreate()"
+				@click="redirectToCatPostCreate()"
 				class="btn btn-sm btn-primary"
-			>Create Block</button>
+			>Create Post</button>
 		</div>
 	</section>
 </template>
@@ -51,8 +51,11 @@
 		},
 
 		methods: {
-			redirectToCatBlockCreate() {
-				router.push({ name: 'BlockCreate', params: { cat_id: this.cat.cat_id } })
+			redirectToCatPostCreate() {
+				router.push({
+					name: 'PostCreate',
+					params: { cat_id: this.cat.cat_id }
+				})
 			},
 		}
 	}

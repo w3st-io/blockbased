@@ -120,9 +120,9 @@
 
 					router.push(
 						{
-							name: 'Block',
+							name: 'Post',
 							params: {
-								block_id: this.comment.block,
+								post_id: this.comment.post,
 								page: 1
 							}
 						}

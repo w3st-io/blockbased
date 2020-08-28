@@ -2,13 +2,13 @@
 	<section class="my-3 container">
 		<div class="card card-body bg-dark">
 			<h3 class="mb-3 text-light">
-				Create Comment in "{{ block_id }}"
+				Create Comment in "{{ post_id }}"
 			</h3>
 		
 			<!-- Comment Create Component -->
 			<comment-create
 				v-if="!loading"
-				:block_id="block_id"
+				:post_id="post_id"
 			/>
 		</div>
 
@@ -33,7 +33,7 @@
 		data: function() {
 			return {
 				loading: true,
-				block_id: this.$route.params.block_id,
+				post_id: this.$route.params.post_id,
 				error: '',
 			}
 		},
@@ -51,8 +51,8 @@
 
 		methods: {
 			log() {
-				console.log('%%% [PAGE] BlockCommentCreate %%%')
-				console.log('block_id:', this.block_id)
+				console.log('%%% [PAGE] PostCommentCreate %%%')
+				console.log('post_id:', this.post_id)
 			},
 		}
 	}

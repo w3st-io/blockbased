@@ -58,7 +58,7 @@
 
 						<!-- FORM SUBMIT -->
 						<button
-							class="btn btn-lg btn-primary btn-block"
+							class="w-100 btn btn-lg btn-primary"
 							type="submit"
 							:disabled="submitted"
 						>Login</button>

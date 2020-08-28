@@ -4,15 +4,15 @@
 		<div class="col-lg-9 col-md-8 col-sm-8">
 			<!-- Title + Page Nav Buttons -->
 			<h3 class="mb-2 text-light">
-				{{ block.title }}
+				{{ post.title }}
 				<span class="text-secondary hide-the-ugly" style="font-size: .5em;">
-					Posted by: {{ block.user.username }} - {{ block.createdAt }}
+					Posted by: {{ post.user.username }} - {{ post.createdAt }}
 				</span>
 			</h3>
 
 			<button
 				:disabled="disabled"
-				@click="redirectToBlockCommentCreate()"
+				@click="redirectToPostCommentCreate()"
 				class="btn btn-sm btn-primary"
 			>Add Comment</button>
 		</div>
@@ -22,14 +22,14 @@
 			<div class="mb-3">
 				<span>
 					<span class="ml-2 badge badge-light">
-						{{ block.followersCount }}
+						{{ post.followersCount }}
 					</span>
 					<button
 						:disabled="disabled"
 						@click="followBtn()"
 						class="ml-2 btn btn-sm btn-outline-secondary"
-						:class="{ 'btn-outline-success': block.followed }"
-					>{{ block.followed ? 'following ✓' : 'follow' }}</button>
+						:class="{ 'btn-outline-success': post.followed }"
+					>{{ post.followed ? 'following ✓' : 'follow' }}</button>
 				</span>
 			</div>
 
@@ -47,7 +47,7 @@
 	// [IMPORT] Personal //
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import router from '@router'
-	import BlockService from '@services/BlockService'
+	import PostService from '@services/PostService'
 
 	// [EXPORT] //
 	export default {
@@ -56,7 +56,7 @@
 		},
 		
 		props: {
-			block: { type: Object, required: true },
+			post: { type: Object, required: true },
 			leftBtnEmitName: { type: String, required: true, },
 			rightBtnEmitName: { type: String, required: true, },
 			badgeValue: { required: true, },
@@ -82,16 +82,16 @@
 					// Disable Buttons //
 					this.disabled = true
 
-					if (!this.block.followed) {
-						try { await BlockService.s_follow(this.block._id) }
+					if (!this.post.followed) {
+						try { await PostService.s_follow(this.post._id) }
 						catch (e) { this.error = e }
 					}
 					else {
-						try { await BlockService.s_unfollow(this.block._id) }
+						try { await PostService.s_unfollow(this.post._id) }
 						catch (e) { this.error = e }
 					}
 
-					this.$emit('refreshBlock')
+					this.$emit('refreshPost')
 
 					// Enable Buttons //
 					this.disabled = false
@@ -99,13 +99,13 @@
 			},
 
 			/******************* [ROUTER + LOG] *******************/
-			redirectToBlockCommentCreate() {
-				router.push({ path: `/block-comment-create/${this.block._id}` })
+			redirectToPostCommentCreate() {
+				router.push({ path: `/post-comment-create/${this.post._id}` })
 			},
 
 			log() {
 				console.log('%%% [COMPONENT] TitleHeader %%%')
-				console.log('block:', this.block)
+				console.log('post:', this.post)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		},

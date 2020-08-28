@@ -8,7 +8,7 @@
 				Admin Profile
 			</router-link>
 		</div>
-		<button v-on:click="logout" class="btn btn-warning">Logout</button>
+		<button @click="logout" class="btn btn-warning">Logout</button>
 	</nav>
 </template>
 

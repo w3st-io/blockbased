@@ -13,12 +13,12 @@ const CommentReportModel = require('../server-models/CommentReportModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (user_id, comment_id, block_id, reportType) => {
+const c_create = async (user_id, comment_id, post_id, reportType) => {
 	const formData = new CommentReportModel({
 		_id: mongoose.Types.ObjectId(),
 		user: user_id,
 		comment: comment_id,
-		block: block_id,
+		post: post_id,
 		reportType: reportType,
 	})
 	

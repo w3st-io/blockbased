@@ -1,9 +1,9 @@
 // [REQUIRE] //
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
 
 // [SCHEMA MODEL] //
-const BlockLikeSchema = mongoose.Schema({
+const PostLikeSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	
 	user: {
@@ -12,9 +12,9 @@ const BlockLikeSchema = mongoose.Schema({
 		required: true,
 	},
 	
-	block: {
+	post: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Block',
+		ref: 'Post',
 		required: true,
 	},
 
@@ -27,4 +27,4 @@ const BlockLikeSchema = mongoose.Schema({
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('BlockLike', BlockLikeSchema)
+module.exports = mongoose.model('PostLike', PostLikeSchema)

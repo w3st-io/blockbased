@@ -10,7 +10,7 @@ import axios from 'axios'
 // [AUTH-TOKEN-SETUP] //
 async function authAxios() {
 	return axios.create({
-		baseURL: '/api/blocks',
+		baseURL: '/api/posts',
 		headers: { authorization: `Bearer ${localStorage.usertoken}` }
 	})
 }
@@ -27,7 +27,7 @@ async function s_create(cat_id, title, text) {
 		return data
 	}
 	catch (e) {
-		return { status: false, message: `BlockService: Caught Error --> ${e}` }
+		return { status: false, message: `PostService: Caught Error --> ${e}` }
 	}
 }
 
@@ -43,8 +43,8 @@ async function s_readAll(cat_id, limit, pageNumber, sort) {
 		)
 		
 		if (data.status) {
-			data.blocks.forEach(block => {
-				block.createdAt = new Date(block.createdAt).toLocaleString()
+			data.posts.forEach(post => {
+				post.createdAt = new Date(post.createdAt).toLocaleString()
 			})
 		}
 
@@ -54,40 +54,40 @@ async function s_readAll(cat_id, limit, pageNumber, sort) {
 }
 
 
-// [READ] This for Single Block Details //
-async function s_read(block_id) {
+// [READ] This for Single Post Details //
+async function s_read(post_id) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let { data } = await authAxios.get(`/read/${block_id}`)
+		let { data } = await authAxios.get(`/read/${post_id}`)
 
 		if (data.status) {
-			data.block.createdAt = new Date(data.block.createdAt).toLocaleString()
+			data.post.createdAt = new Date(data.post.createdAt).toLocaleString()
 		}
 
 		return data
 	}
 	catch (e) {
-		return { status: false, message: `BlockService: Caught Error --> ${e}` }
+		return { status: false, message: `PostService: Caught Error --> ${e}` }
 	}
 }
 
 
 /******************* [LIKE SYSTEM] *******************/
 // ADD/REMOVE LIKE //
-async function s_like(block_id) {
+async function s_like(post_id) {
 	const authAxios = await this.authAxios()
 
-	const { data } = await authAxios.post(`/like/${block_id}`)
+	const { data } = await authAxios.post(`/like/${post_id}`)
 
 	return data
 }
 
-async function s_unlike(block_id) {
+async function s_unlike(post_id) {
 	const authAxios = await this.authAxios()
 
-	// Remove the liker from the Block Object //
-	const { data } = await authAxios.post(`/unlike/${block_id}`)
+	// Remove the liker from the Post Object //
+	const { data } = await authAxios.post(`/unlike/${post_id}`)
 
 	return data
 }
@@ -95,26 +95,26 @@ async function s_unlike(block_id) {
 
 /******************* [FOLLOW SYSTEM] *******************/
 // ADD/REMOVE LIKE //
-async function s_follow(block_id) {
+async function s_follow(post_id) {
 	const authAxios = await this.authAxios()
 
-	// Add the liker from the Block Object
-	return await authAxios.post(`/follow/${block_id}`)
+	// Add the liker from the Post Object
+	return await authAxios.post(`/follow/${post_id}`)
 }
 
-async function s_unfollow(block_id) {
+async function s_unfollow(post_id) {
 	const authAxios = await this.authAxios()
 
-	// Remove the liker from the Block Object
-	return await authAxios.post(`/unfollow/${block_id}`)
+	// Remove the liker from the Post Object
+	return await authAxios.post(`/unfollow/${post_id}`)
 }
 
 
 /******************* [EXISTANCE] *******************/
-async function s_existance(block_id) {
+async function s_existance(post_id) {
 	const authAxios = await this.authAxios()
 
-	const { data } = await authAxios.get(`/existance/${block_id}`)
+	const { data } = await authAxios.get(`/existance/${post_id}`)
 	
 	return data
 }

@@ -1,5 +1,5 @@
 // [REQUIRE] //
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
 
 // [SCHEMA MODEL] //

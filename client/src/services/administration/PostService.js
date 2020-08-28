@@ -10,7 +10,7 @@ import axios from 'axios'
 // [AUTH-TOKEN-SETUP] //
 async function authAxios() {
 	return axios.create({
-		baseURL: '/api/administration/blocks',
+		baseURL: '/api/administration/posts',
 		headers: { authorization2: `Bearer ${localStorage.admintoken}` }
 	})
 }
@@ -26,24 +26,24 @@ async function s_readAllAll(limit, pageNumber) {
 		let { data } = await authAxios.get(`/read-all-all/${limit}/${skip}`)
 		
 		if (data.status) {
-			data.blocks.forEach(block => {
-				block.createdAt = new Date(block.createdAt).toLocaleString()
+			data.posts.forEach(post => {
+				post.createdAt = new Date(post.createdAt).toLocaleString()
 			})
 		}
 
 		return data
 	}
 	catch (e) {
-		return { status: false, message: `BlockService: Caught Error --> ${e}` }
+		return { status: false, message: `PostService: Caught Error --> ${e}` }
 	}
 }
 
 // [DELETE] Auth Required //
-async function s_delete(block_id) {
+async function s_delete(post_id) {
 	const authAxios = await this.authAxios()
 
 	const result = new Promise ((resolve, reject) => {
-		authAxios.delete(`/delete/${block_id}`)
+		authAxios.delete(`/delete/${post_id}`)
 			.then((res) => { resolve(res) })
 			.catch((err) => { reject(err) })
 	})

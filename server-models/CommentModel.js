@@ -1,14 +1,14 @@
 // [REQUIRE] //
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
 
 // [SCHEMA MODEL] //
 const CommentSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
-	block: {
+	post: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Block',
+		ref: 'Post',
 		required: true,
 	},
 

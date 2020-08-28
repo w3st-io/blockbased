@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%% *
- * %%% BLOCK ROUTES %%% *
- * %%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%% *
+ * %%% POST ROUTES %%% *
+ * %%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
 const cors = require('cors')
@@ -12,9 +12,9 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const rateLimiter = require('../../rate-limiters')
-const blocksCollection = require('../../server-collections/blocksCollection')
-const blockFollowersCollection = require('../../server-collections/blockFollowersCollection')
-const blockLikesCollection = require('../../server-collections/blockLikesCollection')
+const postsCollection = require('../../server-collections/postsCollection')
+const postFollowersCollection = require('../../server-collections/postFollowersCollection')
+const postLikesCollection = require('../../server-collections/postLikesCollection')
 const commentsCollection = require('../../server-collections/commentsCollection')
 const Auth = require('../../server-middleware/Auth')
 
@@ -28,22 +28,22 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userToken(),
-	rateLimiter.blockLimiter,
+	rateLimiter.postLimiter,
 	async (req, res) => {
-		const returned = await blocksCollection.c_create(
+		const returned = await postsCollection.c_create(
 			req.decoded._id,
 			req.body.cat_id,
 			req.body.title
 		)
 		const returned2 = await commentsCollection.c_create(
 			req.decoded._id,
-			returned.createdBlock._id,
+			returned.createdPost._id,
 			req.body.text
 		)
 
 		res.status(201).send({
 			status: true,
-			block: returned,
+			post: returned,
 			comment: returned2
 		})
 	}
@@ -55,7 +55,7 @@ router.get(
 	'/read-all/:cat_id/:limit/:skip/:sort',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		let returned = await blocksCollection.c_readAll(
+		let returned = await postsCollection.c_readAll(
 			req.params.cat_id,
 			req.params.skip,
 			req.params.limit,
@@ -63,70 +63,70 @@ router.get(
 		)
 		
 		if (returned.status) {
-			// For Each Block in Blocks //
-			for (let i = 0; i < returned.blocks.length; i++) {
+			// For Each Post in Posts //
+			for (let i = 0; i < returned.posts.length; i++) {
 				// Like Count //
-				const likeCount = await blockLikesCollection.c_countAll(
-					returned.blocks[i]._id
+				const likeCount = await postLikesCollection.c_countAll(
+					returned.posts[i]._id
 				)
 	
-				if (likeCount.status) { returned.blocks[i].likeCount = likeCount.count }	
-				else { returned.blocks[i].likeCount = likeCount.message }
+				if (likeCount.status) { returned.posts[i].likeCount = likeCount.count }	
+				else { returned.posts[i].likeCount = likeCount.message }
 	
 				
 				// Follow Count //
-				const followersCount = await blockFollowersCollection.c_countAll(
-					returned.blocks[i]._id
+				const followersCount = await postFollowersCollection.c_countAll(
+					returned.posts[i]._id
 				)
 				
 				if (followersCount.status) {
-					returned.blocks[i].followersCount = followersCount.count
+					returned.posts[i].followersCount = followersCount.count
 				}
-				else { returned.blocks[i].followersCount = followersCount.message }
+				else { returned.posts[i].followersCount = followersCount.message }
 	
 				
 				// Comment Count //
 				const commentCount = await commentsCollection.c_countAll(
-					returned.blocks[i]._id
+					returned.posts[i]._id
 				)
 				
 				if (commentCount.status) {
-					returned.blocks[i].commentCount = commentCount.count
+					returned.posts[i].commentCount = commentCount.count
 				}
-				else { returned.blocks[i].commentCount = commentCount.message }
+				else { returned.posts[i].commentCount = commentCount.message }
 	
 				
-				// Block Count //
-				const blocksCount = await blocksCollection.c_countAll(req.params.cat_id)
+				// Post Count //
+				const postsCount = await postsCollection.c_countAll(req.params.cat_id)
 	
-				if (blocksCount.status) {
-					returned.blockCount = blocksCount.count
+				if (postsCount.status) {
+					returned.postCount = postsCount.count
 					
 					// Page Count //
-					returned.pageCount = Math.ceil(blocksCount.count / req.params.limit)
+					returned.pageCount = Math.ceil(postsCount.count / req.params.limit)
 				}
-				else { returned.blocks[i].blocksCount = blocksCount.message }
+				else { returned.posts[i].postsCount = postsCount.message }
 
 
 				// If User Token Passed.. //
 				if (req.decoded) {
 					// Liked Status //
-					const liked = await blockLikesCollection.c_existance(
+					const liked = await postLikesCollection.c_existance(
 						req.decoded._id,
-						returned.blocks[i]._id
+						returned.posts[i]._id
 					)
 	
-					if (liked.status) { returned.blocks[i].liked = liked.existance }
-					else { returned.blocks[i].liked = liked.message }
+					if (liked.status) { returned.posts[i].liked = liked.existance }
+					else { returned.posts[i].liked = liked.message }
 	
 					// Follwed Status //
-					const followed = await blockFollowersCollection.c_existance(
+					const followed = await postFollowersCollection.c_existance(
 						req.decoded._id,
-						returned.blocks[i]._id
+						returned.posts[i]._id
 					)
 					
-					if (followed.status) { returned.blocks[i].followed = followed.existance }
-					else { returned.blocks[i].followed = followed.message }
+					if (followed.status) { returned.posts[i].followed = followed.existance }
+					else { returned.posts[i].followed = followed.message }
 				}
 			}
 		}
@@ -136,58 +136,58 @@ router.get(
 )
 
 
-// [READ] Single Block //
+// [READ] Single Post //
 router.get(
 	'/read/:_id',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			let returned = await blocksCollection.c_read(req.params._id)
+			let returned = await postsCollection.c_read(req.params._id)
 
 			if (returned.status) {
 				// Set Like Count //
 				try {
-					const count = await blockLikesCollection.c_countAll(
-						returned.block._id
+					const count = await postLikesCollection.c_countAll(
+						returned.post._id
 					)
 	
-					returned.block.likeCount = count.count
+					returned.post.likeCount = count.count
 				}
-				catch (e) { console.log(`blocks: Caught Error --> ${e}`) }
+				catch (e) { console.log(`posts: Caught Error --> ${e}`) }
 	
 				// Follow Count //
 				try {
-					const count = await blockFollowersCollection.c_countAll(
-						returned.block._id
+					const count = await postFollowersCollection.c_countAll(
+						returned.post._id
 					)
 	
-					returned.block.followersCount = count.count
+					returned.post.followersCount = count.count
 				}
-				catch (e) { console.log(`blocks: Caught Error --> ${e}`) }
+				catch (e) { console.log(`posts: Caught Error --> ${e}`) }
 	
 				// If User Logged In.. //
 				if (req.decoded) {
 					// Liked Status //
-					const liked = await blockLikesCollection.c_existance(
+					const liked = await postLikesCollection.c_existance(
 						req.decoded._id,
-						returned.block._id
+						returned.post._id
 					)
 	
-					returned.block.liked = liked.existance
+					returned.post.liked = liked.existance
 	
 					// Follwed Status //
-					const followed = await blockFollowersCollection.c_existance(
+					const followed = await postFollowersCollection.c_existance(
 						req.decoded._id,
-						returned.block._id
+						returned.post._id
 					)
 	
-					returned.block.followed = followed.existance
+					returned.post.followed = followed.existance
 				}
 			}
 
 			res.status(200).send(returned)
 		}
-		else { res.status(200).send({ status: false, message: 'Invalid block_id' }) }
+		else { res.status(200).send({ status: false, message: 'Invalid post_id' }) }
 	},
 )
 
@@ -197,14 +197,14 @@ router.delete(
 	Auth.userToken(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const ownership = await blocksCollection.c_ownership(
+			const ownership = await postsCollection.c_ownership(
 				req.decoded._id,
 				req.params._id
 			)
 			
 			if (ownership.status && ownership.ownership) {
-				const returned = await blocksCollection.c_delete(req.params._id)
-				const returned2 = await blockLikesCollection.c_deleteAll(req.params._id)
+				const returned = await postsCollection.c_delete(req.params._id)
+				const returned2 = await postLikesCollection.c_deleteAll(req.params._id)
 
 				res.status(200).send({
 					status: true,
@@ -214,7 +214,7 @@ router.delete(
 			}
 			else { res.status(200).send(ownership) }
 		}
-		else { res.status(200).send({ status: false, message: 'Invalid block_id' }) }
+		else { res.status(200).send({ status: false, message: 'Invalid post_id' }) }
 	},
 )
 
@@ -227,28 +227,28 @@ router.post(
 	rateLimiter.likeLimiter,
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const existance = await blockLikesCollection.c_existance(
+			const existance = await postLikesCollection.c_existance(
 				req.decoded._id,
 				req.params._id
 			)
 
 			if (!existance.existance) {
-				// [CREATE] blockLike //
-				const returned = await blockLikesCollection.c_create(
+				// [CREATE] postLike //
+				const returned = await postLikesCollection.c_create(
 					req.decoded._id,
 					req.params._id
 				)
 	
 				if (returned.status) {
 					// [UPDATE] likeCount //
-					const returned2 = await blocksCollection.c_incrementLike(
+					const returned2 = await postsCollection.c_incrementLike(
 						req.params._id
 					)
 
 					res.status(201).send({
 						status: true,
-						blockLike: returned,
-						block: returned2
+						postLike: returned,
+						post: returned2
 					})
 				}
 			}
@@ -257,7 +257,7 @@ router.post(
 		else {
 			res.status(200).send({
 				status: false,
-				message: 'Invalid block_id'
+				message: 'Invalid post_id'
 			})
 		}
 
@@ -271,21 +271,21 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const existance = await blockLikesCollection.c_existance(
+			const existance = await postLikesCollection.c_existance(
 				req.decoded._id,
 				req.params._id
 			)
 
 			if (existance.existance) {
-				// [CREATE] blockLike //
-				const returned = await blockLikesCollection.c_delete(
+				// [CREATE] postLike //
+				const returned = await postLikesCollection.c_delete(
 					req.decoded._id,
 					req.params._id
 				)
 				
 				if (returned.status) {
 					// [UPDATE] likeCount //
-					const returned2 = await blocksCollection.c_decrementLike(
+					const returned2 = await postsCollection.c_decrementLike(
 						req.params._id
 					)
 				}
@@ -294,7 +294,7 @@ router.post(
 			}
 			else { res.status(200).send(existance) }
 		}
-		else { res.status(200).send({ status: false, message: 'Invalid block_id' }) }
+		else { res.status(200).send({ status: false, message: 'Invalid post_id' }) }
 	},
 )
 
@@ -307,14 +307,14 @@ router.post(
 	rateLimiter.followLimiter,
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const returned = await blockFollowersCollection.c_create(
+			const returned = await postFollowersCollection.c_create(
 				req.decoded._id,
 				req.params._id
 			)
 			
 			res.status(201).send(returned)
 		}
-		else { res.status(200).send({ status: false, message: 'Invalid block_id' }) }
+		else { res.status(200).send({ status: false, message: 'Invalid post_id' }) }
 	},
 )
 
@@ -325,7 +325,7 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const returned = await blockFollowersCollection.c_delete(
+			const returned = await postFollowersCollection.c_delete(
 				req.decoded._id,
 				req.params._id
 			)
@@ -335,7 +335,7 @@ router.post(
 		else {
 			res.status(200).send({
 				status: false,
-				message: 'Invalid block_id'
+				message: 'Invalid post_id'
 			})
 		}
 	},
@@ -348,7 +348,7 @@ router.get(
 	'/existance/:_id',
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const returned = await blocksCollection.c_existance(req.params._id)
+			const returned = await postsCollection.c_existance(req.params._id)
 
 			if (returned.status) {
 				if (returned.existance) { res.status(200).send(true) }
@@ -359,7 +359,7 @@ router.get(
 		else {
 			res.status(200).send({
 				status: false,
-				message: 'Invalid block_id'
+				message: 'Invalid post_id'
 			})
 		}
 	},
@@ -370,7 +370,7 @@ router.get(
 router.get(
 	'/count/:cat_id',
 	async (req, res) => {
-		const returned = await blocksCollection.c_countAll(req.params.cat_id)
+		const returned = await postsCollection.c_countAll(req.params.cat_id)
 
 		if (returned.status) { res.status(200).send(returned.count.toString()) }
 		else { res.status(200).send(returned.message.toString()) }

@@ -12,15 +12,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="block in blocks" :key="block._id">
-					<td>{{ block.cat_id }}</td>
-					<td>{{ block.title }}</td>
-					<td>{{ block.user.email }}</td>
-					<td>{{ block.user.username }}</td>
-					<td>{{ block.createdAt }}</td>
+				<tr v-for="post in posts" :key="post._id">
+					<td>{{ post.cat_id }}</td>
+					<td>{{ post.title }}</td>
+					<td>{{ post.user.email }}</td>
+					<td>{{ post.user.username }}</td>
+					<td>{{ post.createdAt }}</td>
 					<td class="text-center">
 						<button
-							@click="deleteBlock(block._id)"
+							@click="deletePost(post._id)"
 							class="btn btn-danger"
 						>Delete</button>
 					</td>
@@ -35,49 +35,47 @@
 
 <script>
 	// [IMPORT] Personal //
-	import ABlockService from '@services/administration/BlockService'
+	import APostService from '@services/administration/PostService'
 
 	// [EXPORT] //
 	export default {
 		data: function() {
 			return {
-				blocks: {},
+				posts: {},
 				error: '',
 			}
 		},
 
 		created: async function() {
-			// Get Blocks //
-			await this.getBlocks()
+			await this.getPosts()
 
 			// [LOG] //
 			//this.log()
 		},
 
 		methods: {
-			async getBlocks() {
-				// Get Blocks //
+			async getPosts() {
+				// Get Posts //
 				try {
-					let returned = await ABlockService.s_readAllAll(100, 0)
+					let returned = await APostService.s_readAllAll(100, 0)
 
-					if (returned.status) { this.blocks = returned.blocks }
+					if (returned.status) { this.posts = returned.posts }
 					else { this.error = returned.message }
 				}
 				catch (e) { this.error = e }
 			},
 
-			async deleteBlock(block_id) {
-				// Delete Block //
-				try { await ABlockService.s_delete(block_id) }
+			async deletePost(post_id) {
+				try { await APostService.s_delete(post_id) }
 				catch (e) { this.error = e }
 				
 				// Refresh Table //
-				this.getBlocks()
+				this.getPosts()
 			},
 
 			log() {
-				console.log('%%% [COMPONENT] Admin BlocksTable %%%')
-				console.log('blocks:', this.blocks)
+				console.log('%%% [COMPONENT] Admin PostsTable %%%')
+				console.log('posts:', this.posts)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		},

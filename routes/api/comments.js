@@ -12,8 +12,8 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const rateLimiter = require('../../rate-limiters')
-const blocksCollection = require('../../server-collections/blocksCollection')
-const blockFollowersCollection = require('../../server-collections/blockFollowersCollection')
+const postsCollection = require('../../server-collections/postsCollection')
+const postFollowersCollection = require('../../server-collections/postFollowersCollection')
 const commentsCollection = require('../../server-collections/commentsCollection')
 const commentLikesCollection = require('../../server-collections/commentLikesCollection')
 const commentReportsCollection = require('../../server-collections/commentReportsCollection')
@@ -32,38 +32,38 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.commentLimiter,
 	async (req, res) => {
-		const existance = await blocksCollection.c_existance(req.body.block_id)
+		const existance = await postsCollection.c_existance(req.body.post_id)
 		let returnFollowers = []
 
 		if (existance.status && existance.existance) {
 			const returned = await commentsCollection.c_create(
 				req.decoded._id,
-				req.body.block_id,
+				req.body.post_id,
 				req.body.text
 			)
 
 			if (returned.status) {
-				// Get Block Followers //
-				const followers = await blockFollowersCollection.c_readAll(
-					req.body.block_id
+				// Get Post Followers //
+				const followers = await postFollowersCollection.c_readAll(
+					req.body.post_id
 				)
 				
 				// [CREATE] Create Notification for Followers //
-				for (let i = 0; i < followers.blockFollowers.length; i++) {
+				for (let i = 0; i < followers.postFollowers.length; i++) {
 					await notificationsCollection.c_create(
-						followers.blockFollowers[i].user,
+						followers.postFollowers[i].user,
 						returned.createdComment._id,
 						'comment'
 					)
 
-					returnFollowers.push(followers.blockFollowers[i].user)
+					returnFollowers.push(followers.postFollowers[i].user)
 				}
 
 				res.status(201).send({
 					status: true,
 					created: returned,
-					blockFollowers: returnFollowers,
-					commentCount: await commentsCollection.c_countAll(req.body.block_id)
+					postFollowers: returnFollowers,
+					commentCount: await commentsCollection.c_countAll(req.body.post_id)
 				})
 			}
 			else { res.status(200).send(returned) }
@@ -74,18 +74,18 @@ router.post(
 
 // [READ-ALL] //
 router.get(
-	'/read-all/:block_id/:limit/:skip',
+	'/read-all/:post_id/:limit/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params.block_id)) {
+		if (mongoose.isValidObjectId(req.params.post_id)) {
 			const returned = await commentsCollection.c_readAll(
-				req.params.block_id,
+				req.params.post_id,
 				req.params.skip,
 				req.params.limit
 			)
 			
 			if (returned.status) {
-				// For Each Block in Blocks //
+				// For Each Post in Posts //
 				for (let i = 0; i < returned.comments.length; i++) {
 					// Set Like Count //
 					try {
@@ -99,7 +99,7 @@ router.get(
 	
 					// Set Liked Status //
 					if (req.decoded) {
-						// check if the block like exist..
+						// check if the post like exist..
 						const liked = await commentLikesCollection.c_existance(
 							req.decoded._id,
 							returned.comments[i]._id
@@ -115,7 +115,7 @@ router.get(
 		else {
 			res.status(200).send({
 				status: false,
-				message: 'comments: Invalid block_id',
+				message: 'comments: Invalid post_id',
 			})
 		}
 	},
@@ -141,7 +141,7 @@ router.get(
 
 				// Set Liked Status //
 				if (req.decoded) {
-					// check if the block like exist..
+					// check if the post like exist..
 					const liked = await commentLikesCollection.c_existance(
 						req.decoded._id,
 						returned.comment._id
@@ -224,18 +224,18 @@ router.delete(
 /******************* [LIKE SYSTEM] *******************/
 // [LIKE] Auth Required //
 router.post(
-	'/like/:_id/:block_id',
+	'/like/:_id/:post_id',
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
 		if (
 			mongoose.isValidObjectId(req.params._id) &&
-			mongoose.isValidObjectId(req.params.block_id)
+			mongoose.isValidObjectId(req.params.post_id)
 		) {
 			// [CREATE] CommentLike //
 			const returned = await commentLikesCollection.c_create(
 				req.decoded._id,
-				req.params.block_id,
+				req.params.post_id,
 				req.params._id,
 			)
 
@@ -253,7 +253,7 @@ router.post(
 	async (req, res) => {
 		if (
 			mongoose.isValidObjectId(req.params._id) &&
-			mongoose.isValidObjectId(req.params.block_id)
+			mongoose.isValidObjectId(req.params.post_id)
 		) {
 			// [DELETE] CommentLike //
 			const returned = await commentLikesCollection.c_delete(
@@ -285,7 +285,7 @@ router.post(
 				const returned = await commentReportsCollection.c_create(
 					req.decoded._id,
 					req.params._id,
-					req.body.block_id,
+					req.body.post_id,
 					req.body.reportType
 				)
 				

@@ -2,7 +2,7 @@ export const cats = [
 	{
 		cat_id: 'general',
 		title: 'General Discussion',
-		description: 'Generic discussions about anything relating to blockchain',
+		description: 'Generic discussions about anything relating to postchain',
 		image: require('../assets/images/caticons/message-square.svg'),
 	},
 	{

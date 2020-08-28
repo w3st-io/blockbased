@@ -1,9 +1,9 @@
 // [REQUIRE] //
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
 
 // [SCHEMA MODEL] //
-const BlockSchema = mongoose.Schema({
+const PostSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
 	user: {
@@ -43,4 +43,4 @@ const BlockSchema = mongoose.Schema({
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('Block', BlockSchema)
+module.exports = mongoose.model('Post', PostSchema)

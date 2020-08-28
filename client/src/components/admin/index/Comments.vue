@@ -3,7 +3,7 @@
 		<table class="table table-sm table-bordered table-striped table-dark">
 			<thead>
 				<tr>
-					<th>Block Id</th>
+					<th>Post Id</th>
 					<th>Comment</th>
 					<th>Owner Email</th>
 					<th>Owner Username</th>
@@ -13,7 +13,7 @@
 			</thead>
 			<tbody>
 				<tr v-for="comment in comments" :key="comment._id">
-					<td>{{ comment.block.title }}</td>
+					<td>{{ comment.post.title }}</td>
 					<td>{{ comment.text }}</td>
 					<td>{{ comment.user.email }}</td>
 					<td>{{ comment.user.username }}</td>

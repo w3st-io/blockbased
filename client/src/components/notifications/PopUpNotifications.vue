@@ -22,7 +22,7 @@
 		>
 			<div class="card-header p-2">
 				<span class="small">
-					{{ notification.comment.block.title }}
+					{{ notification.comment.post.title }}
 				</span>
 				<button
 					@click="closeClicked(notification._id)"

@@ -7,11 +7,11 @@ import Admin from '@pages/admin'
 import AdminLogin from '@pages/admin/AdminLogin'
 import AdminProfile from '@pages/admin/AdminProfile'
 import AdminRegister from '@pages/admin/AdminRegister'
-import Block from '@pages/block'
-import CommentCreate from '@pages/block/CommentCreate'
-import CommentEdit from '@pages/block/CommentEdit'
+import Post from '@pages/post'
+import CommentCreate from '@pages/post/CommentCreate'
+import CommentEdit from '@pages/post/CommentEdit'
 import Cat from '@pages/cat'
-import BlockCreate from '@pages/cat/BlockCreate'
+import PostCreate from '@pages/cat/PostCreate'
 import Forum from '@pages/Forum'
 import Login from '@pages/user/Login'
 import Profile from '@pages/user/Profile'
@@ -35,7 +35,7 @@ const router = new Router ({
 			component: Forum,
 			meta: {
 				auth: true,
-				title: 'BlockBased'
+				title: 'BlockBased.io'
 			}
 		},
 		{
@@ -75,16 +75,16 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/block/:block_id/:page',
-			name: 'Block',
-			component: Block,
+			path: '/post/:post_id/:page',
+			name: 'Post',
+			component: Post,
 			meta: {
 				auth: true,
 				title: 'Post -'
 			}
 		},
 		{
-			path: '/block-comment-create/:block_id',
+			path: '/post-comment-create/:post_id',
 			name: 'CommentCreate',
 			component: CommentCreate,
 			meta: {
@@ -93,7 +93,7 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/block-comment-edit/:comment_id',
+			path: '/post-comment-edit/:comment_id',
 			name: 'CommentEdit',
 			component: CommentEdit,
 			meta: {
@@ -111,12 +111,12 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/cat/block-create/:cat_id',
-			name: 'BlockCreate',
-			component: BlockCreate,
+			path: '/cat/post-create/:cat_id',
+			name: 'PostCreate',
+			component: PostCreate,
 			meta: {
 				auth: true,
-				title: 'Create a Block'
+				title: 'Create a Post'
 			}
 		},
 		{
