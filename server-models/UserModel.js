@@ -41,6 +41,11 @@ const UserSchema = mongoose.Schema({
 		required: [true, "This is required"],
 	},
 
+	verified: {
+		type: Boolean,
+		default: false,
+	},
+
 	createdAt: {
 		type: Date,
 		default: Date.now,

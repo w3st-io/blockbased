@@ -2,7 +2,7 @@
 	<div class="card bg-dark border-secondary box-shadow">
 		<img
 			:src="image"
-			class="d-post w-100 card-img-top"
+			class="w-100 card-img-top"
 		>
 		<div class="card-body">
 		<p class="card-text text-light">

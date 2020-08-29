@@ -148,12 +148,13 @@ const c_register = async (req) => {
 					// Hash Data //
 					formData.password = await bcrypt.hash(formData.password, 10)
 					
-					await formData.save()
+					const createdUser = await formData.save()
 					
 					return {
 						status: true,
 						message: 'Successfully created account',
 						created: true,
+						createdUser: createdUser,
 					}
 				}
 				catch (e) {

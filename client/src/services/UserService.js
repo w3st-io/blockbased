@@ -108,6 +108,8 @@ async function register(first_name, last_name, username, email, password) {
 			password,
 		})
 
+		console.log('data', data)
+
 		return data
 	}
 	catch (e) {

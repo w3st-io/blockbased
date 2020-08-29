@@ -84,7 +84,7 @@
 	// [IMPORT] Personal //
 	import NotificationMenuBtn from '@components/notifications/NotificationMenu'
 	import router from '@router'
-	import UserService from '../../services/UserService'
+	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
 
 	// [EXPORT] //

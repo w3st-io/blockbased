@@ -11,7 +11,9 @@ const express = require('express')
 // [REQUIRE] Personal //
 const rateLimiters = require('../../rate-limiters')
 const usersCollection = require('../../server-collections/usersCollection')
+const verificationCodesCollection = require('../../server-collections/verificationCodesCollection')
 const Auth = require('../../server-middleware/Auth')
+const mailerUtil = require('../../utils/mailerUtil')
 
 
 // [EXPRESS + USE] //
@@ -77,7 +79,38 @@ router.post(
 	'/register',
 	rateLimiters.registrationLimiter,
 	async (req, res) => {
-		const returned = await usersCollection.c_register(req)
+		let returned = ''
+		let returned2 = ''
+
+		// [CREATE] Register Account //
+		try { returned = await usersCollection.c_register(req) }
+		catch (e) {
+			return {
+				status: false,
+				message: `users: Caught Error --> ${e}`
+			}
+		}
+
+		// [CREATE] Verification Code //
+		try {
+			returned2 = await verificationCodesCollection.c_create(
+				returned.createdUser._id
+			)
+		}
+		catch (e) {
+			return {
+				status: false,
+				message: `users: Caught Error --> ${e}`
+			}
+		}
+		
+		console.log('returned.createdUser:', returned.createdUser)
+		console.log('returned2:', returned2)
+
+		mailerUtil.sendVerificationMail(
+			returned.createdUser.email,
+			returned2.createdVerificationCode.verificationCode
+		)
 
 		res.status(201).send(returned)
 	}

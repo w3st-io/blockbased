@@ -150,7 +150,7 @@
 				username: '',
 				email: '',
 				password: '',
-				returned: '',
+				data: '',
 				error: '',
 			}
 		},
@@ -163,7 +163,7 @@
 		methods: {
 			async register() {
 				try {
-					this.returned = await UserService.register(
+					this.data = await UserService.register(
 						this.first_name,
 						this.last_name,
 						this.username,
@@ -172,15 +172,12 @@
 					)
 
 					// Check Status //
-					if (
-						this.returned.status == true &&
-						this.returned.created == true
-					) {
+					if (this.data.status == true && this.data.created == true) {
 						// [LOG] // Change Page //
-						console.log('Account successfully created.')
+						console.log('Account successfully created')
 						router.push({ name: 'Login' })
 					}
-					else { this.error = this.returned.message }
+					else { this.error = this.data.message }
 				}
 				catch (e) { this.error = e }
 				

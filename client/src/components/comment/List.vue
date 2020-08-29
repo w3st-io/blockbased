@@ -16,7 +16,6 @@
 					">
 						<div
 							class="
-								d-post
 								m-auto
 								border
 								border-primary

@@ -2,7 +2,7 @@
  * %%%%%%%%%%%% *
  * %%% MAIN %%% *
  * %%%%%%%%%%%% *
- */
+*/
 // [IMPORT] //
 import Vue from 'vue'
 import vueHeadful from 'vue-headful'

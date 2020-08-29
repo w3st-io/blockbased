@@ -2,7 +2,7 @@
  * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
  * %%% AUTHORIZATION MIDDLEWARE %%% *
  * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
- */
+*/
 // [REQUIRE] //
 const jwt = require('jsonwebtoken')
 

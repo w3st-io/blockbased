@@ -17,7 +17,7 @@
 	 * this component takes in 2 properties,
 	 * 1) the list of tabs
 	 * 2) what the emit is going to be called
-	 */
+	*/
 	// [EXPORT] //
 	export default {
 		props: {

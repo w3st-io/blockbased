@@ -2,7 +2,7 @@
  * %%%%%%%%%%%%%%%%%%%%%% *
  * %%% BAN COLLECTION %%% *
  * %%%%%%%%%%%%%%%%%%%%%% *
- */
+*/
 // [REQUIRE] //
 const mongoose = require('mongoose')
 
