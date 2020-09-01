@@ -214,6 +214,45 @@ const c_verify = async (user_id) => {
 }
 
 
+const c_verifiedStatus = async (user_id) => {
+	if (mongoose.isValidObjectId(user_id)) {
+		try {
+			const user = await UserModel.findOne({
+				_id: user_id,
+				verified: true,
+			})
+
+			if (user) {
+				return {
+					status: true,
+					message: 'User verified',
+					user: user,
+				}
+			}
+			else {
+				return {
+					status: false,
+					message: 'User NOT verified',
+					user: user,
+				}
+			}
+		}
+		catch (e) {
+			return {
+				status: false,
+				message: `usersCollection: Caught Error --> ${e}`,
+			}
+		}
+	}
+	else {
+		return {
+			status: false,
+			message: 'usersCollection: Invalid user_id',
+		}
+	}
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_readAll,
@@ -222,4 +261,5 @@ module.exports = {
 	c_login,
 	c_register,
 	c_verify,
+	c_verifiedStatus,
 }

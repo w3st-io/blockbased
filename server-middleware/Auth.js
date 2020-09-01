@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken')
 
 // [REQUIRE] Personal //
 const banCollection = require('../server-collections/banCollection')
+const usersCollection = require('../server-collections/usersCollection')
 require('dotenv').config()
 
 
@@ -28,25 +29,37 @@ class Auth {
 			if (tokenBody !== 'undefined') {
 				jwt.verify(tokenBody, secretKey, async (e, decoded) => {
 					if (decoded) {
-						let returned = ''
+						let ban
+						let verified
 						req.decoded = decoded
 
 						try {
-							returned = await banCollection.c_existance(req.decoded._id)
-							//console.log('Auth foundBan2:', returned)
+							// Check verified //
+							verified = await usersCollection.c_verifiedStatus(
+								req.decoded._id
+							)
 
+							//console.log('Auth verified:', verified)
 						}
-						catch (e) { console.log(`foundBan: Caught Error --> ${e}`) }
+						catch (e) { console.log(`Auth: Caught Error --> ${e}`) }
 
+						if (verified.status) {
+							// Check Ban //
+							try { ban = await banCollection.c_existance(req.decoded._id) }
+							catch (e) { console.log(`Auth: Caught Error --> ${e}`) }
+							//console.log('Auth ban:', ban)
+							
+							next()
+						}
+						else { res.status(200).send(verified) }
 
-						next()
 					}
 					else {
 						console.log(`JWT Error: ${e}`)
 
 						res.status(200).send({
 							status: false,
-							message: 'Access Denied, Token Invalid.',
+							message: 'Access denied, token invalid',
 							auth: false,
 						})
 					}
@@ -55,7 +68,7 @@ class Auth {
 			else {
 				res.status(200).send({
 					status: false,
-					message: 'Access Denied, No Token Passed.',
+					message: 'Access denied, no token passed',
 					auth: false,
 				})
 			}
