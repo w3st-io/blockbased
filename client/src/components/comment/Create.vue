@@ -126,7 +126,7 @@
 					}
 					else { this.error = this.returned.message }
 				}
-				else { this.error = 'Unable to create comment' }
+				else { this.error = 'No token in local storage' }
 			},
 
 			log() {

@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken')
 
 
 // [REQUIRE] Personal //
-const ban = require('../utils/banUtil')
+const banCollection = require('../server-collections/banCollection')
 require('dotenv').config()
 
 
@@ -31,10 +31,13 @@ class Auth {
 						let returned = ''
 						req.decoded = decoded
 
-						try { returned = await ban.checkBanned(req.decoded) }
+						try {
+							returned = await banCollection.c_existance(req.decoded._id)
+							//console.log('Auth foundBan2:', returned)
+
+						}
 						catch (e) { console.log(`foundBan: Caught Error --> ${e}`) }
 
-						//console.log('Auth foundBan:', returned)
 
 						next()
 					}

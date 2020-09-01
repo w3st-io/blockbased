@@ -31,7 +31,7 @@ function sendMail(to, subject, html) {
 }
 
 
-function sendVerificationMail(to, VCode) {
+function sendVerificationMail(to, user_id, VCode) {
 	const service = process.env.EMAIL_SERVICE || 'gmail'
 	const email = process.env.EMAIL || ''
 	const password = process.env.EMAIL_PASSWORD || ''
@@ -46,11 +46,13 @@ function sendVerificationMail(to, VCode) {
 	// Step 2
 	const mailOptions = {
 		from: email,
-		to: to,
+		to: 'aleem.ahmed1997@gmail.com',//to,
 		subject: 'Verify your BlockBased.io Account',
 		html: `
-			<h1>your verification Code is ${VCode}<h1/>
-			<button>Click to Verify</button>
+			<h1>Thank you creating an account! Verify & Join us!<h1/>
+			<a href="http://localhost:8080/verify/${user_id}/${VCode}">
+				<button>Click to Verify</button>
+			</a>
 		`
 	}
 

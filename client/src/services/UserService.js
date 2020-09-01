@@ -17,28 +17,7 @@ async function authAxios() {
 }
 
 
-/******************* [USER PROFILE] *******************/
-// [TOKEN DECODE] //
-async function getUserTokenDecodeData() {
-	let decoded
-
-	if (localStorage.usertoken) {
-		decoded = jwtDecode(localStorage.usertoken)
-	}
-	else {
-		decoded = {
-			_id: '',
-			email: '',
-			username: '',
-			first_name: '',
-			last_name: '',
-		}
-	}
-
-	return decoded
-}
-
-
+/******************* [CRUD] *******************/
 // [READ] //
 async function s_read(user_id) {
 	const authAxios = await this.authAxios()
@@ -76,6 +55,28 @@ async function s_update(img_url) {
 	}
 	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
 	
+}
+
+
+/******************* [USER-PROFILE] *******************/
+// [TOKEN DECODE] //
+async function getUserTokenDecodeData() {
+	let decoded
+
+	if (localStorage.usertoken) {
+		decoded = jwtDecode(localStorage.usertoken)
+	}
+	else {
+		decoded = {
+			_id: '',
+			email: '',
+			username: '',
+			first_name: '',
+			last_name: '',
+		}
+	}
+
+	return decoded
 }
 
 
@@ -118,12 +119,31 @@ async function register(first_name, last_name, username, email, password) {
 }
 
 
+/******************* [VERIFY] *******************/
+async function verify(user_id, verificationCode) {
+	const authAxios = await this.authAxios()
+
+	try {
+		const { data } = await authAxios.post('/verify', {
+			user_id,
+			verificationCode,
+		})
+		
+		return data
+	}
+	catch (e) {
+		return { status: false, message: `UserService: Caught Error --> ${e}` }
+	}
+}
+
+
 // [EXPORT] //
 export default {
 	authAxios,
-	getUserTokenDecodeData,
 	s_read,
 	s_update,
+	getUserTokenDecodeData,
 	login,
 	register,
+	verify,
 }

@@ -143,7 +143,7 @@ const c_update = async (comment_id, text) => {
 			try {
 				const updatedCollent = await CommentModel.updateOne(
 					{ _id: comment_id },
-					{ '$set': { 'text': text } },
+					{ $set: { 'text': text } },
 				)
 
 				return {

@@ -17,9 +17,10 @@ import Login from '@pages/user/Login'
 import Profile from '@pages/user/Profile'
 import ProfileEdit from '@pages/user/ProfileEdit'
 import ProfileView from '@pages/user/ProfileView'
+import Verify from '../pages/user/Verify'
 import Register from '@pages/user/Register'
-import NotFound from '@pages/404'
 import z from '@pages/z'
+import NotFound from '@pages/404'
 
 // [USE] //
 Vue.use(Router)
@@ -84,24 +85,6 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/post-comment-create/:post_id',
-			name: 'CommentCreate',
-			component: CommentCreate,
-			meta: {
-				auth: true,
-				title: 'Create Comment'
-			}
-		},
-		{
-			path: '/post-comment-edit/:comment_id',
-			name: 'CommentEdit',
-			component: CommentEdit,
-			meta: {
-				auth: true,
-				title: 'Edit Comment'
-			}
-		},
-		{
 			path: '/cat/:cat_id/:page',
 			name: 'Cat',
 			component: Cat,
@@ -138,6 +121,24 @@ const router = new Router ({
 			}
 		},
 		{
+			path: '/post-comment-create/:post_id',
+			name: 'CommentCreate',
+			component: CommentCreate,
+			meta: {
+				auth: true,
+				title: 'Create Comment'
+			}
+		},
+		{
+			path: '/post-comment-edit/:comment_id',
+			name: 'CommentEdit',
+			component: CommentEdit,
+			meta: {
+				auth: true,
+				title: 'Edit Comment'
+			}
+		},
+		{
 			path: '/profile',
 			name: 'Profile',
 			component: Profile,
@@ -163,6 +164,11 @@ const router = new Router ({
 				auth: true,
 				title: ''
 			}
+		},
+		{
+			path: '/verify/:user_id/:verification_code',
+			name: 'Verify',
+			component: Verify,
 		},
 		{
 			path: '/z',

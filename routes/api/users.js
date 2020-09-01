@@ -103,16 +103,39 @@ router.post(
 				message: `users: Caught Error --> ${e}`
 			}
 		}
-		
-		console.log('returned.createdUser:', returned.createdUser)
-		console.log('returned2:', returned2)
 
+		// [MAIL] Verification Email //
 		mailerUtil.sendVerificationMail(
 			returned.createdUser.email,
+			returned.createdUser._id,
 			returned2.createdVerificationCode.verificationCode
 		)
 
 		res.status(201).send(returned)
+	}
+)
+
+
+/******************* [USER-VERIFICATION] *******************/
+// [LOGIN] //
+router.post(
+	'/verify',
+	async (req, res) => {
+		// [EXISTANCE] //
+		const valid = await verificationCodesCollection.c_existance(
+			req.body.user_id,
+			req.body.verificationCode
+		)
+
+		console.log('valid', valid)
+
+		if (valid.status) {
+			if (valid.existance) {
+				res.status(200).send(valid)
+			}
+			else { res.status(200).send(valid) }
+		}
+		else { res.status(200).send(valid) }
 	}
 )
 

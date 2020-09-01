@@ -60,8 +60,6 @@ const c_update = async (user_id, img_url) => {
 			return {
 				status: true,
 				message: 'Updated profile',
-				user_id: user_id,
-				profileImg: img_url,
 				updatedUser: updatedUser
 			}
 		}
@@ -190,6 +188,32 @@ const c_register = async (req) => {
 }
 
 
+/******************* [VERIFY] *******************/
+const c_verify = async (user_id) => {
+	if (mongoose.isValidObjectId(user_id)) {
+		try {
+			const user = await UserModel.findOneAndUpdate(
+				{ _id: user_id },
+				{ $set: { verified: true } }
+			)
+
+			return {
+				status: true,
+				message: 'Verified profile',
+				user: user
+			}
+		}
+		catch (e) {
+			return {
+				status: false,
+				message: `usersCollection: Caught Error --> ${e}`
+			}
+		}
+	}
+	else { return { status: false, message: 'Invalid user_id' } }
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_readAll,
@@ -197,4 +221,5 @@ module.exports = {
 	c_update,
 	c_login,
 	c_register,
+	c_verify,
 }
