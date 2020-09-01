@@ -276,7 +276,10 @@ const c_ownership = async (user_id, comment_id) => {
 		}
 	}
 	else {
-		return { status: false, message: 'commentsCollection: Invalid comment_id' }
+		return {
+			status: false,
+			message: 'commentsCollection: Invalid comment_id'
+		}
 	}
 }
 

@@ -1,21 +1,14 @@
 <template>
 	<section class="my-3 container">
 		<div class="card card-body bg-dark">
-			<h3 class="mb-3 text-light">
-				Create Comment in "{{ post_id }}"
-			</h3>
+			<h3 class="mb-3 text-light">Create Comment in "{{ post_id }}"</h3>
 		
 			<!-- Comment Create Component -->
-			<comment-create
-				v-if="!loading"
-				:post_id="post_id"
-			/>
+			<comment-create v-if="!loading" :post_id="post_id" />
 		</div>
 
 		<!-- [ALERTS] -->
-		<div v-if="error" class="mt-3 alert alert-danger">
-			{{ error }}
-		</div>
+		<div v-if="error" class="mt-3 alert alert-danger">{{ error }}</div>
 	</section>
 </template>
 

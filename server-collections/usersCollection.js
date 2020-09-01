@@ -217,10 +217,12 @@ const c_verify = async (user_id) => {
 const c_verifiedStatus = async (user_id) => {
 	if (mongoose.isValidObjectId(user_id)) {
 		try {
-			const user = await UserModel.findOne({
-				_id: user_id,
-				verified: true,
-			})
+			const user = await UserModel.findOne(
+				{
+					_id: user_id,
+					verified: true,
+				}
+			)
 
 			if (user) {
 				return {
