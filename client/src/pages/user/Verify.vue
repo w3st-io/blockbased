@@ -1,9 +1,9 @@
 <template>
 	<section class="container">
 		<div class="mt-5 mx-auto card card-body bg-dark" style="max-width: 500px;">
-			<div v-if="!error">
+			<div v-if="success">
 				<h1 class="text-success text-center" style="font-size: 6em;">✓</h1>
-				<h3 class="text-success text-center">Account Verified!</h3>
+				<h3 class="text-success text-center">{{ success }}</h3>
 			</div>
 
 			<div v-if="error">
@@ -18,7 +18,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import UserService from '../../services/UserService'
+	import UserService from '@services/UserService'
 
 	export default {
 		data: function() {
@@ -26,6 +26,7 @@
 				user_id: this.$route.params.user_id,
 				verificationCode: this.$route.params.verification_code,
 				data: {},
+				success: '',
 				error: '',
 			}
 		},
@@ -37,14 +38,14 @@
 					this.verificationCode
 				)
 
-				console.log('sdf', this.data)
-				console.log('ajsdfklajsdkl;fjaskl;dfj')
+				console.log('data', this.data)
 			}
 			catch (err) { this.error = err }
 
-			
-
-			if (this.data.status && this.data.existance) { console.log('success') }
+			if (this.data.status) {
+				if (this.data.existance) { this.success = this.data.message }
+				else { this.error = this.data.message }
+			}
 			else { this.error = this.data.message }
 		},
 	}

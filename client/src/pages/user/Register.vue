@@ -177,9 +177,13 @@
 						console.log('Account successfully created')
 						router.push({ name: 'Login' })
 					}
-					else { this.error = this.data.message }
+					else {
+						console.log('something')
+						this.error = this.data.message }
 				}
 				catch (e) { this.error = e }
+
+				console.log('data', this.data);
 				
 			},
 		}

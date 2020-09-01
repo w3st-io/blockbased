@@ -79,39 +79,39 @@ router.post(
 	'/register',
 	rateLimiters.registrationLimiter,
 	async (req, res) => {
-		let returned = ''
-		let returned2 = ''
+		let user = ''
+		let vCode = ''
 
 		// [CREATE] Register Account //
-		try { returned = await usersCollection.c_register(req) }
+		try { user = await usersCollection.c_register(req) }
 		catch (e) {
-			return {
+			res.status(201).send({
 				status: false,
 				message: `users: Caught Error --> ${e}`
-			}
+			})
 		}
 
-		// [CREATE] Verification Code //
-		try {
-			returned2 = await verificationCodesCollection.c_create(
-				returned.createdUser._id
+		if (user.status && user.created) {
+			// [CREATE] Verification Code //
+			try {
+				vCode = await verificationCodesCollection.c_create(user.createdUser._id)
+			}
+			catch (e) {
+				res.status(201).send({
+					status: false,
+					message: `users: Caught Error --> ${e}`
+				})
+			}
+
+			// [MAIL] Verification Email //
+			mailerUtil.sendVerificationMail(
+				user.createdUser.email,
+				user.createdUser._id,
+				vCode.createdVerificationCode.verificationCode
 			)
 		}
-		catch (e) {
-			return {
-				status: false,
-				message: `users: Caught Error --> ${e}`
-			}
-		}
 
-		// [MAIL] Verification Email //
-		mailerUtil.sendVerificationMail(
-			returned.createdUser.email,
-			returned.createdUser._id,
-			returned2.createdVerificationCode.verificationCode
-		)
-
-		res.status(201).send(returned)
+		res.status(201).send(user)
 	}
 )
 
@@ -131,6 +131,9 @@ router.post(
 
 		if (valid.status) {
 			if (valid.existance) {
+				// [UPDATE] Verify User //
+				usersCollection.c_verify(req.body.user_id)
+
 				res.status(200).send(valid)
 			}
 			else { res.status(200).send(valid) }

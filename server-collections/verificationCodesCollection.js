@@ -73,7 +73,7 @@ const c_existance = async (user_id, verificationCode) => {
 			if (foundVerificationCode) {
 				return {
 					status: true,
-					message: 'Verified account',
+					message: 'Success! Verified Account',
 					existance: true,
 					foundVerificationCode: foundVerificationCode,
 				}

@@ -7,7 +7,7 @@
 		<nav-bar />
 
 		<!-- Display the router Stuff -->
-		<router-view />
+		<router-view :key="$route.name + ($route.params.id || '')" />
 
 		<!-- Bottom Footer -->
 		<Footer />
