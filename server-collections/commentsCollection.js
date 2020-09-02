@@ -48,22 +48,15 @@ const c_create = async (user_id, post_id, text) => {
 	}
 }
 
+
 // [READ-ALL-ALL] //
 const c_readAllAll = async (skip, limit) => {
-	const skip2 = parseInt(skip)
-	const limit2 = parseInt(limit)
-	
 	try {
 		const comments = await CommentModel.find()
-			.skip(skip2)
-			.limit(limit2)
-			.populate(
-				{
-					path: 'user',
-					select: 'username email profileImg',
-				}
-			)
-			.populate('post')
+			.skip(parseInt(skip))
+			.limit(parseInt(limit))
+			.populate({ path: 'user', select: 'username email profileImg', })
+			.populate({ path: 'post' })
 			.exec()
 
 		return {
@@ -80,22 +73,15 @@ const c_readAllAll = async (skip, limit) => {
 		}
 	}
 }
+
 
 // [READ-ALL] Within a Post //
 const c_readAll = async (post_id, skip, limit) => {
-	const skip2 = parseInt(skip)
-	const limit2 = parseInt(limit)
-
 	try {
 		const comments = await CommentModel.find({ post: post_id })
-			.skip(skip2)
-			.limit(limit2)
-			.populate(
-				{
-					path: 'user',
-					select: 'username email profileImg',
-				}
-			)
+			.skip(parseInt(skip))
+			.limit(parseInt(limit))
+			.populate({ path: 'user', select: 'username email profileImg', })
 			.exec()
 
 		return {
@@ -112,24 +98,15 @@ const c_readAll = async (post_id, skip, limit) => {
 		}
 	}
 }
+
 
 // [READ] //
 const c_read = async (comment_id) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		try {
 			const comment = await CommentModel.findById(comment_id)
-				.populate(
-					{
-						path: 'user',
-						select: 'username email profileImg'
-					}
-				)
-				.populate(
-					{
-						path: 'likers',
-						select: '_id user_id post_id text'
-					}
-				)
+				.populate({ path: 'user', select: 'username email profileImg' })
+				.populate({ path: 'likers', select: '_id user_id post_id text' })
 				.exec()
 
 			return {
@@ -155,20 +132,23 @@ const c_read = async (comment_id) => {
 	}
 }
 
+
 // [UPDATE] //
 const c_update = async (comment_id, text) => {
 	if (mongoose.isValidObjectId(comment_id)) {
 		if (text.length <= 6000) {
 			try {
-				const updatedCollent = await CommentModel.updateOne(
+				const comment = await CommentModel.updateOne(
 					{ _id: comment_id },
-					{ $set: { 'text': text } },
+					{ $set: { text: text } },
 				)
 
 				return {
 					executed: true,
 					status: true,
-					updatedCollent: updatedCollent,
+					updated: true,
+					comment: comment,
+
 				}
 			}
 			catch (e) {
@@ -176,6 +156,7 @@ const c_update = async (comment_id, text) => {
 					executed: false,
 					status: false,
 					message: `commentsCollection: Caught Error --> ${e}`,
+					updated: false,
 				}
 			}
 		}
@@ -184,6 +165,7 @@ const c_update = async (comment_id, text) => {
 				executed: true,
 				status: false,
 				message: `Comment too long`,
+				updated: false,
 			}
 		}
 	}
@@ -192,9 +174,11 @@ const c_update = async (comment_id, text) => {
 			executed: true,
 			status: false,
 			message: 'Invalid comment_id',
+			updated: false,
 		}
 	}
 }
+
 
 // [DELETE] //
 const c_delete = async (user_id, comment_id) => {
@@ -250,7 +234,6 @@ const c_existance = async (comment_id) => {
 					executed: true,
 					status: true,
 					existance: false,
-					comment: comment,
 				}
 			}
 		}
@@ -287,6 +270,7 @@ const c_ownership = async (user_id, comment_id) => {
 				return {
 					executed: true,
 					status: true,
+					message: 'You own this comment',
 					ownership: true,
 					comment: comment,
 				}
@@ -295,8 +279,8 @@ const c_ownership = async (user_id, comment_id) => {
 				return {
 					executed: true,
 					status: true,
+					message: 'You do NOT own this comment',
 					ownership: false,
-					comment: comment,
 				}
 			}
 		}

@@ -118,7 +118,7 @@ router.post(
 )
 
 
-/******************* [USER-VERIFICATION] *******************/
+/******************* [VERIFICATION] *******************/
 // [LOGIN] //
 router.post(
 	'/verify',

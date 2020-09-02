@@ -6,10 +6,7 @@
 			</h3>
 		
 			<!-- Comment Edit Component -->
-			<comment-edit
-				v-if="!loading"
-				:comment_id="comment_id"
-			/>
+			<comment-edit v-if="!loading" :comment_id="comment_id" />
 		</div>
 
 		<!-- [ALERTS] -->

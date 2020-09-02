@@ -61,7 +61,7 @@
 
 		data: function() {
 			return {
-				returned: {},
+				data: {},
 				displayEditor: false,
 				disabled: false,
 				loading: false,
@@ -71,32 +71,27 @@
 			}
 		},
 
-		created: async function() { 
-			// Check if Comment is Valid //
-			this.validateExistance()
-
+		created: async function() {
 			// Get Comment Details //
 			await this.getCommentDetails()
 
 			// [LOG] //
-			//this.log()
+			this.log()
 		},
 
 		methods: {
-			async validateExistance() {
-				try { console.log('Incomplete') }
-				catch (e) { this.error = e }
-			},
-			
 			async getCommentDetails() {
-				try { this.returned = await CommentService.s_read(this.comment_id) }
+				console.log('RUN2')
+				try { this.data = await CommentService.s_read(this.comment_id) }
 				catch (e) { this.error = e }
 
-				if (this.returned.status) {
-					this.comment = this.returned.comment
-					this.initialEditorText = this.returned.comment.text
+				console.log('data', this.data)
+
+				if (this.data) {
+					this.comment = this.data.comment
+					this.initialEditorText = this.data.comment.text
 				}
-				else { this.error = this.returned.message }
+				else { this.error = this.data.message }
 
 				this.displayEditor = true
 			},
@@ -114,28 +109,34 @@
 			// [UPDATE] Comment //
 			async update() {
 				this.editorText = this.$refs.toastuiEditor.invoke('getHtml')
+				this.disabled = true
+				this.loading = false
 
 				try {
-					await CommentService.s_update(this.comment_id, this.editorText)
-
-					router.push(
-						{
-							name: 'Post',
-							params: {
-								post_id: this.comment.post,
-								page: 1
-							}
-						}
+					const updated = await CommentService.s_update(
+						this.comment_id,
+						this.editorText
 					)
+
+					if (updated.updated) {
+						router.push(
+							{
+								name: 'Post',
+								params: {
+									post_id: this.comment.post,
+									page: 1
+								}
+							}
+						)
+					}
+					else { this.error = updated.message }
 				}
-				catch (e) { this.error = e }
-				
+				catch (e) { this.error = e }	
 			},
 
 			log() {
 				console.log('%%% [COMPONENT] CommentEdit %%%')
 				console.log('comment:', this.comment)
-				console.log('commentDetails:', this.commentDetails)
 				if (this.error) { console.log('error:', this.error) }
 			},
 		},

@@ -70,11 +70,12 @@ async function s_read(comment_id) {
 
 	try {
 		let { data } = await authAxios.get(`/read/${comment_id}`)
-	
+		
 		if (data.status) {
 			data.comment.createdAt = new Date(data.comment.createdAt).toLocaleString()
 		}
 
+		console.log('CommentService: data:', data)
 		return data
 	}
 	catch (e) {

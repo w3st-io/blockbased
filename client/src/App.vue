@@ -125,7 +125,7 @@
 			EventBus.$on('force-rerender', () => { this.forceRerender() })
 
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {

@@ -62,7 +62,7 @@ const c_login = async (email, password) => {
 				executed: true,
 				status: false,
 				message: 'Invalid email',
-				validation: false
+				validation: false,
 			}
 		}
 	}
@@ -70,7 +70,8 @@ const c_login = async (email, password) => {
 		return {
 			executed: false,
 			status: false,
-			message: `adminsCollection: Caught Error --> ${e}`
+			message: `adminsCollection: Caught Error --> ${e}`,
+			validation: false,
 		}
 	}
 }
@@ -100,20 +101,21 @@ const c_register = async (req) => {
 						// Hash Data //
 						formData.password = await bcrypt.hash(formData.password, 10)
 
-						await formData.save()
+						const user = await formData.save()
 						
 						return {
 							executed: true,
 							status: true,
 							message: 'Successfully created account',
 							created: true,
+							user: user,
 						}
 					}
 					catch (e) {
 						return {
 							executed: false,
 							status: false,
-							message: `adminsCollection:sss Caught Error --> ${e}`,
+							message: `adminsCollection: Caught Error --> ${e}`,
 							created: false,
 						}
 					}

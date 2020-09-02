@@ -146,6 +146,7 @@
 				email: '',
 				password: '',
 				confirm: '',
+				
 				data: '',
 				error: '',
 			}

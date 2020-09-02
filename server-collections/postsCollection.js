@@ -42,8 +42,6 @@ const c_create = async (user_id, cat_id, title) => {
 
 // [READ-ALL] Within Cat //
 const c_readAll = async (cat_id, skip, limit, sort) => {
-	const skip2 = parseInt(skip)
-	const limit2 = parseInt(limit)
 	let sort2
 
 	if (sort == 'descending') { sort2 = { createdAt: -1 } }
@@ -54,8 +52,8 @@ const c_readAll = async (cat_id, skip, limit, sort) => {
 			{ cat_id: cat_id }
 		)
 			.sort(sort2)
-			.skip(skip2)
-			.limit(limit2)
+			.skip(parseInt(skip))
+			.limit(parseInt(limit))
 			.populate(
 				{
 					path: 'user',
@@ -190,7 +188,8 @@ const c_existance = async (post_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `postsCollection: Caught Error --> ${e}`
+				message: `postsCollection: Caught Error --> ${e}`,
+				existance: false,
 			}
 		}
 	}
@@ -198,7 +197,8 @@ const c_existance = async (post_id) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid post _id'
+			message: 'Invalid post _id',
+			existance: false,
 		}
 	}
 }

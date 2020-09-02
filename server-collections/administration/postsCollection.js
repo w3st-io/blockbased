@@ -14,13 +14,10 @@ const PostModel = require('../../server-models/PostModel')
 /******************* [CRUD] *******************/
 // [READ-ALL-ALL] //
 const c_readAllAll = async (skip, limit) => {
-	const skip2 = parseInt(skip)
-	const limit2 = parseInt(limit)
-
 	try {
 		const posts = await PostModel.find()
-			.skip(skip2)
-			.limit(limit2)
+			.skip(parseInt(skip))
+			.limit(parseInt(limit))
 			.populate(
 				{
 					path: 'user',

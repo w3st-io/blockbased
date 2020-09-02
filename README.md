@@ -5,10 +5,12 @@ Manually clone the repo and then run `npm install` in both the server and the cl
 
 ## .env should look like this:
 
-MONGO_URI = < Mongo uri goes here (no quotes) >
+MONGO_URI = < Mongo uri goes here >
 DB = < DB name here >
-PORT = < Chosen Port Here >
+PORT = < Chosen port here >
 SECRET_KEY = < Your secret goes here >
+EMAIL = < email to send verification >
+EMAIL_PASSWORD = < email password >
 
 
 ### Note to myself..
@@ -24,19 +26,10 @@ contains blocks but read-all blocks should not fall under cat services.
 
 ### Routes
 
-/////// [DATA] //////
-// [BLOCKS] //
-/api/blocks/create
-/api/blocks/read-all/:cat_id/:amount/:skip
-/api/blocks/read/:_id
-/api/blocks/delete/:_id
-
-/api/blocks/like/:_id
-/api/blocks/unlike/:_id
-
-/api/blocks/existance/:_id
-
-/api/blocks/count/:cat_id
+////////// [ROUTES] /////////
+// [ADMINS] //
+/api/admin/login
+/api/admin/register
 
 
 // [COMMENTS] //
@@ -46,16 +39,11 @@ contains blocks but read-all blocks should not fall under cat services.
 /api/comments/read/:_id
 /api/comments/update/:_id
 /api/comments/delete/:_id
-
 /api/comments/like/:_id
 /api/comments/unlike/:_id
-
 /api/comments/follow/:_id
-
 /api/comments/report/:_id
-
 /api/blocks/existance/:_id
-
 /api/comments/count/:block_id
 
 
@@ -63,7 +51,21 @@ contains blocks but read-all blocks should not fall under cat services.
 /api/notifications/read-all/:amount/:skip
 
 
-////// [USERS + ADMINS] //////
-// [ADMINS] //
-/api/admin/login
-/api/admin/register
+// [POSTS] //
+/api/posts/create
+/api/posts/read-all/:cat_id/:amount/:skip
+/api/posts/read/:_id
+/api/posts/delete/:_id
+/api/posts/like/:_id
+/api/posts/unlike/:_id
+/api/posts/existance/:_id
+/api/posts/count/:cat_id
+
+
+// [USERS] //
+/api/users/read
+/api/users/read/:_id
+/api/users/update
+/api/users/login
+/api/users/register
+/api/users/verify

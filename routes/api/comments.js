@@ -35,7 +35,7 @@ router.post(
 		const existance = await postsCollection.c_existance(req.body.post_id)
 		let returnFollowers = []
 
-		if (existance.status && existance.existance) {
+		if (existance.existance) {
 			const returned = await commentsCollection.c_create(
 				req.decoded._id,
 				req.body.post_id,
@@ -43,12 +43,12 @@ router.post(
 			)
 
 			if (returned.status) {
-				// Get Post Followers //
+				// [READ-ALL] Followers //
 				const followers = await postFollowersCollection.c_readAll(
 					req.body.post_id
 				)
 				
-				// [CREATE] Create Notification for Followers //
+				// [CREATE] Notification //
 				for (let i = 0; i < followers.postFollowers.length; i++) {
 					await notificationsCollection.c_create(
 						followers.postFollowers[i].user,
@@ -59,6 +59,10 @@ router.post(
 					returnFollowers.push(followers.postFollowers[i].user)
 				}
 
+				/*
+				 * Send follwors so they are notificed and the comment count to know
+				 * what the last page is
+				*/
 				res.status(201).send({
 					executed: true,
 					status: true,
@@ -72,6 +76,7 @@ router.post(
 		else { res.status(200).send(existance) }
 	},
 )
+
 
 // [READ-ALL] //
 router.get(
@@ -88,8 +93,8 @@ router.get(
 			if (returned.status) {
 				// For Each Post in Posts //
 				for (let i = 0; i < returned.comments.length; i++) {
-					// Set Like Count //
 					try {
+						// Set Like Count //
 						const count = await commentLikesCollection.c_countAll(
 							returned.comments[i]._id
 						)
@@ -98,15 +103,18 @@ router.get(
 					}
 					catch (e) { console.log(`comments: Caught Error --> ${e}`) }
 	
-					// Set Liked Status //
 					if (req.decoded) {
-						// check if the post like exist..
-						const liked = await commentLikesCollection.c_existance(
-							req.decoded._id,
-							returned.comments[i]._id
-						)
-	
-						returned.comments[i].liked = liked.existance
+						// Set Liked Status //
+						try {
+							// check if the post like exist..
+							const liked = await commentLikesCollection.c_existance(
+								req.decoded._id,
+								returned.comments[i]._id
+							)
+		
+							returned.comments[i].liked = liked.existance
+						}
+						catch (e) { console.log(`comments: Caught Error --> ${e}`) }
 					}
 				}
 			}
@@ -123,13 +131,14 @@ router.get(
 	},
 )
 
+
 // [READ] //
 router.get(
 	'/read/:_id',
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
 			const returned = await commentsCollection.c_read(req.params._id)
-			
+		
 			if (returned.status) {
 				// Set Like Count //
 				try {
@@ -143,13 +152,17 @@ router.get(
 
 				// Set Liked Status //
 				if (req.decoded) {
-					// check if the post like exist..
-					const liked = await commentLikesCollection.c_existance(
-						req.decoded._id,
-						returned.comment._id
-					)
+					// Set Like Count //
+					try {
+						// check if the post like exist..
+						const liked = await commentLikesCollection.c_existance(
+							req.decoded._id,
+							returned.comment._id
+						)
 
-					returned.comment.liked = liked.existance
+						returned.comment.liked = liked.existance
+					}
+					catch (e) { console.log(`comment: Caught Error --> ${e}`) }
 				}
 			}
 
@@ -165,6 +178,7 @@ router.get(
 	},
 )
 
+
 // [UPDATE] Auth Required //
 router.post(
 	'/update/:_id',
@@ -176,20 +190,19 @@ router.post(
 				req.params._id
 			)
 
-			if (ownership.status && ownership.ownership) {
-				if (req.body.text.length < 6000) {
-					const returned = await commentsCollection.c_update(
-						req.params._id,
-						req.body.text
-					)
-
-					res.status(201).send(returned)
-				}
-				else { res.status(200).send('Comment too large') }
+			if (ownership.ownership) {
+				const returned = await commentsCollection.c_update(
+					req.params._id,
+					req.body.text
+				)
+				
+				res.status(201).send(returned)
+				
 			}
 			else { res.status(200).send(ownership) }
 		}
 		else {
+			console.log('677', returned)
 			res.status(200).send({
 				executed: true,
 				status: false,
@@ -198,6 +211,7 @@ router.post(
 		}
 	},
 )
+
 
 // [DELETE] Auth Required //
 router.delete(

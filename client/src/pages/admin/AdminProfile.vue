@@ -47,9 +47,7 @@
 
 		created: async function() {
 			// [REDIRECT] Log Required //
-			if (!localStorage.admintoken) {
-				router.push({ name: 'Dashboard' })
-			}
+			if (!localStorage.admintoken) { router.push({ name: 'Dashboard' }) }
 
 			// Retrieve User Data //
 			await this.getAdminData()

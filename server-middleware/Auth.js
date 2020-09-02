@@ -48,7 +48,7 @@ class Auth {
 							// Check Ban //
 							try { ban = await banCollection.c_existance(req.decoded._id) }
 							catch (e) { console.log(`Auth: Caught Error --> ${e}`) }
-							console.log('Auth ban:', ban)
+							//console.log('Auth ban:', ban)
 							
 							
 							next()
