@@ -24,10 +24,18 @@ const c_readAll = async () => {
 	try {
 		const users = await UserModel.find()
 
-		return { status: true, users: users }
+		return {
+			executed: true,
+			status: true,
+			users: users
+		}
 	}
 	catch (e) {
-		return { status: false, message: `UserCollection: Caught Error --> ${e}` }
+		return {
+			executed: false,
+			status: false,
+			message: `UserCollection: Caught Error --> ${e}`
+		}
 	}
 }
 
@@ -38,13 +46,27 @@ const c_read = async (user_id) => {
 		try {
 			const user = await UserModel.findOne({ _id: user_id })
 
-			return { status: true, user: user }
+			return {
+				executed: true,
+				status: true,
+				user: user
+			}
 		}
 		catch (e) {
-			return { status: false, message: `UserCollection: Caught Error --> ${e}` }
+			return {
+				executed: false,
+				status: false,
+				message: `UserCollection: Caught Error --> ${e}`
+			}
 		}
 	}
-	else { return { status: false, message: 'Invalid user_id' } }
+	else {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid user _id'
+		}
+	}
 }
 
 
@@ -58,6 +80,7 @@ const c_update = async (user_id, img_url) => {
 			)
 
 			return {
+				executed: true,
 				status: true,
 				message: 'Updated profile',
 				updatedUser: updatedUser
@@ -65,12 +88,19 @@ const c_update = async (user_id, img_url) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `usersCollection: Caught Error --> ${e}`
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid user_id' } }
+	else {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid user _id'
+		}
+	}
 }
 
 
@@ -95,6 +125,7 @@ const c_login = async (email, password) => {
 				const token = jwt.sign(payload, secretKey, {})
 
 				return {
+					executed: true,
 					status: true,
 					message: 'success',
 					validation: true,
@@ -103,6 +134,7 @@ const c_login = async (email, password) => {
 			}
 			else {
 				return {
+					executed: true,
 					status: true,
 					message: 'Invalid email or password',
 					validation: false,
@@ -111,6 +143,7 @@ const c_login = async (email, password) => {
 		}
 		else {
 			return {
+				executed: true,
 				status: true,
 				message: 'Invalid email or password',
 				validation: false
@@ -119,6 +152,7 @@ const c_login = async (email, password) => {
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `usersCollection: Caught Error --> ${e}`
 		}
@@ -149,6 +183,7 @@ const c_register = async (req) => {
 					const createdUser = await formData.save()
 					
 					return {
+						executed: true,
 						status: true,
 						message: 'Successfully created account',
 						created: true,
@@ -157,13 +192,16 @@ const c_register = async (req) => {
 				}
 				catch (e) {
 					return {
+						executed: false,
 						status: false,
 						message: `usersCollection: Caught Error --> ${e}`,
+						created: false,
 					}
 				}
 			}
 			else {
 				return {
+					executed: true,
 					status: true,
 					message: 'This email is already registered',
 					created: false,
@@ -172,6 +210,7 @@ const c_register = async (req) => {
 		}
 		else {
 			return {
+				executed: true,
 				status: true,
 				message: 'This username is taken',
 				created: false,
@@ -180,6 +219,7 @@ const c_register = async (req) => {
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `usersCollection: Caught Error --> ${e}`,
 			created: false,
@@ -198,6 +238,7 @@ const c_verify = async (user_id) => {
 			)
 
 			return {
+				executed: true,
 				status: true,
 				message: 'Verified profile',
 				user: user
@@ -205,12 +246,19 @@ const c_verify = async (user_id) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `usersCollection: Caught Error --> ${e}`
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid user_id' } }
+	else {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid user _id'
+		}
+	}
 }
 
 
@@ -226,6 +274,7 @@ const c_verifiedStatus = async (user_id) => {
 
 			if (user) {
 				return {
+					executed: true,
 					status: true,
 					message: 'User verified',
 					user: user,
@@ -233,6 +282,7 @@ const c_verifiedStatus = async (user_id) => {
 			}
 			else {
 				return {
+					executed: true,
 					status: false,
 					message: 'User NOT verified',
 					user: user,
@@ -241,6 +291,7 @@ const c_verifiedStatus = async (user_id) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `usersCollection: Caught Error --> ${e}`,
 			}
@@ -248,8 +299,9 @@ const c_verifiedStatus = async (user_id) => {
 	}
 	else {
 		return {
+			executed: true,
 			status: false,
-			message: 'usersCollection: Invalid user_id',
+			message: 'Invalid user _id',
 		}
 	}
 }

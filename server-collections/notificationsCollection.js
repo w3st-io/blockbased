@@ -27,12 +27,14 @@ const c_create = async (user_id, comment_id, type) => {
 		const createdNotification = await formData.save()
 
 		return {
+			executed: true,
 			status: true,
 			createdNotification: createdNotification,
 		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `notificationsCollection: Caught Error --> ${e}`,
 		}
@@ -67,10 +69,15 @@ const c_readAll = async (user_id) => {
 			}
 		)
 	
-		return { status: true, notifications: notifications }
+		return {
+			executed: true,
+			status: true,
+			notifications: notifications
+		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `nofiticationsCollection: Caught Error --> ${e}`
 		}
@@ -85,12 +92,14 @@ const c_deleteAll = async (comment_id) => {
 		)
 
 		return {
+			executed: true,
 			status: true,
 			deletedNotications: deletedNotications,
 		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `notificationsCollection: Caught Error --> ${e}`,
 		}
@@ -110,6 +119,7 @@ const c_markRead = async (_id) => {
 		)
 			
 		return {
+			executed: true,
 			status: true,
 			markedRead: true,
 			notification: notification
@@ -117,9 +127,10 @@ const c_markRead = async (_id) => {
 	}	
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
+			message: `notificationsCollection: Caught Error --> ${e}`,
 			markedRead: true,
-			message: `notificationsCollection: Caught Error --> ${e}`
 		}
 	}
 }

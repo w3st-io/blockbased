@@ -172,11 +172,7 @@
 					)
 
 					// Check Status //
-					if (this.data.status == true && this.data.created == true) {
-						// [LOG] // Change Page //
-						console.log('Account successfully created')
-						router.push({ name: 'Login' })
-					}
+					if (this.data.created) { router.push({ name: 'Login' }) }
 					else { this.error = this.data.message }
 				}
 				catch (e) { this.error = e }

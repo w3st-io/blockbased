@@ -25,12 +25,14 @@ const c_create = async (user_id, cat_id, title) => {
 		const createdPost = await formData.save()
 
 		return {
+			executed: true,
 			status: true,
 			createdPost: createdPost,
 		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `postsCollection: Caught Error --> ${e}`,
 		}
@@ -62,10 +64,15 @@ const c_readAll = async (cat_id, skip, limit, sort) => {
 			)
 			.exec()
 
-		return { status: true, posts: posts }
+		return {
+			executed: true,
+			status: true,
+			posts: posts
+		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `postsCollection: Caught Error --> ${e}`,
 		}
@@ -85,10 +92,15 @@ const c_read = async (post_id) => {
 				)
 				.exec()
 			
-			return { status: true, post: post }
+			return {
+				executed: true,
+				status: true,
+				post: post
+			}
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `postsCollection: Caught Error --> ${e}`
 			}
@@ -96,8 +108,9 @@ const c_read = async (post_id) => {
 	}
 	else {
 		return {
+			executed: true,
 			status: false,
-			message: 'postsCollection: Invalid post_id',
+			message: 'Invalid post_id',
 		}
 	}
 }
@@ -111,10 +124,15 @@ const c_incrementLike = async (post_id) => {
 			{ $inc: { likeCount: 1 } },
 		)
 	
-		return { status: true, post: post }
+		return {
+			executed: true,
+			status: true,
+			post: post
+		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `postsCollection: Caught Error --> ${e}`
 		}
@@ -129,10 +147,15 @@ const c_decrementLike = async (post_id) => {
 			{ $inc: { likeCount: -1 } },
 		)
 	
-		return { status: true, post: post }
+		return {
+			executed: true,
+			status: true,
+			post: post
+		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `postsCollection: Caught Error --> ${e}`
 		}
@@ -148,6 +171,7 @@ const c_existance = async (post_id) => {
 
 			if (post) {
 				return {
+					executed: true,
 					status: true,
 					existance: true,
 					post: post,
@@ -155,6 +179,7 @@ const c_existance = async (post_id) => {
 			}
 			else {
 				return {
+					executed: true,
 					status: true,
 					existance: false,
 					post: post,
@@ -163,6 +188,7 @@ const c_existance = async (post_id) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `postsCollection: Caught Error --> ${e}`
 			}
@@ -170,8 +196,9 @@ const c_existance = async (post_id) => {
 	}
 	else {
 		return {
+			executed: true,
 			status: false,
-			message: 'postsCollection: Invalid post_id'
+			message: 'Invalid post _id'
 		}
 	}
 }
@@ -190,6 +217,7 @@ const c_ownership = async (user_id, post_id) => {
 
 			if (returned) {
 				return {
+					executed: true,
 					status: true,
 					ownership: true,
 					post: post,
@@ -197,6 +225,7 @@ const c_ownership = async (user_id, post_id) => {
 			}
 			else {
 				return {
+					executed: true,
 					status: true,
 					ownership: false,
 					post: post,
@@ -205,6 +234,7 @@ const c_ownership = async (user_id, post_id) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `postsCollection: Caught Error --> ${e}`,
 			}
@@ -212,8 +242,9 @@ const c_ownership = async (user_id, post_id) => {
 	}
 	else {
 		return {
+			executed: true,
 			status: false,
-			message: 'postsCollection: Invalid post_id',
+			message: 'Invalid post _id',
 		}
 	}
 }
@@ -224,10 +255,15 @@ const c_countAll = async (cat_id) => {
 	try {
 		const count = await PostModel.countDocuments({ cat_id: cat_id })
 
-		return { status: true, count: count }
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `postsCollection: Caught Error --> ${e}`,
 		}

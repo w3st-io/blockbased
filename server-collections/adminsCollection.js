@@ -41,6 +41,7 @@ const c_login = async (email, password) => {
 				const token = jwt.sign(payload, secretKey, {})
 
 				return {
+					executed: true,
 					status: true,
 					message: 'success',
 					validation: true,
@@ -49,6 +50,7 @@ const c_login = async (email, password) => {
 			}
 			else {
 				return {
+					executed: true,
 					status: true,
 					message: 'Invalid password',
 					validation: false,
@@ -57,6 +59,7 @@ const c_login = async (email, password) => {
 		}
 		else {
 			return {
+				executed: true,
 				status: true,
 				message: 'Invalid email',
 				validation: false
@@ -64,7 +67,11 @@ const c_login = async (email, password) => {
 		}
 	}
 	catch (e) {
-		return { status: false, message: `adminsCollection: Caught Error --> ${e}` }
+		return {
+			executed: false,
+			status: false,
+			message: `adminsCollection: Caught Error --> ${e}`
+		}
 	}
 }
 
@@ -96,6 +103,7 @@ const c_register = async (req) => {
 						await formData.save()
 						
 						return {
+							executed: true,
 							status: true,
 							message: 'Successfully created account',
 							created: true,
@@ -103,6 +111,7 @@ const c_register = async (req) => {
 					}
 					catch (e) {
 						return {
+							executed: false,
 							status: false,
 							message: `adminsCollection: Caught Error --> ${e}`,
 						}
@@ -110,6 +119,7 @@ const c_register = async (req) => {
 				}
 				else {
 					return {
+						executed: true,
 						status: true,
 						message: 'Password too short',
 						created: false,
@@ -118,6 +128,7 @@ const c_register = async (req) => {
 			}
 			else {
 				return {
+					executed: true,
 					status: true,
 					message: 'This email is already registered',
 					created: false,
@@ -126,6 +137,7 @@ const c_register = async (req) => {
 		}
 		else {
 			return {
+				executed: true,
 				status: true,
 				message: 'This username is taken',
 				created: false,
@@ -134,6 +146,7 @@ const c_register = async (req) => {
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `adminsCollection: Caught Error --> ${e}`,
 			created: false,

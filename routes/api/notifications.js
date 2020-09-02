@@ -44,7 +44,13 @@ router.get(
 
 			res.status(200).send(returned)
 		}
-		else { res.status(200).send({ status: false, message: 'Invalid post_id' }) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid post_id'
+			})
+		}
 	}
 )
 

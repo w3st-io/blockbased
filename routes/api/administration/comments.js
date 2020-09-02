@@ -48,14 +48,16 @@ router.delete(
 			const returned3 = await notificationsCollection.c_deleteAll(req.params._id)
 
 			res.status(200).send({
+				executed: true,
 				status: true,
 				deleted: [returned, returned2, returned3]
 			})
 		}
 		else {
 			res.status(200).send({
+				executed: true,
 				status: false,
-				message: 'a comments: Invalid _id'
+				message: 'Invalid comment _id'
 			})
 		}
 	}

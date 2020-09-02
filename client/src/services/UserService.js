@@ -29,7 +29,11 @@ async function s_read(user_id) {
 			return data
 		}
 		catch (e) {
-			return { status: false, message: `UserService: Caught Error --> ${e}` }
+			return {
+				executed: false,
+				status: false,
+				message: `UserService: Caught Error --> ${e}`
+			}
 		}
 	}
 	else {
@@ -39,7 +43,11 @@ async function s_read(user_id) {
 			return data
 		}
 		catch (e) {
-			return { status: false, message: `UserService: Caught Error --> ${e}` }
+			return {
+				executed: false,
+				status: false,
+				message: `UserService: Caught Error --> ${e}`
+			}
 		}
 	}
 }
@@ -53,7 +61,13 @@ async function s_update(img_url) {
 
 		return data
 	}
-	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch (e) {
+		return {
+			executed: true,
+			status: false,
+			message: `UserService: Caught Error --> ${e}`
+		}
+	}
 	
 }
 
@@ -91,7 +105,11 @@ async function login(email, password) {
 		return data
 	}
 	catch (e) {
-		return { status: false, message: `UserService: Caught Error --> ${e}` }
+		return {
+			executed: false,
+			status: false,
+			message: `UserService: Caught Error --> ${e}`
+		}
 	}
 }
 
@@ -114,7 +132,11 @@ async function register(first_name, last_name, username, email, password) {
 		return data
 	}
 	catch (e) {
-		return { status: false, message: `UserService: Caught Error --> ${e}` }
+		return {
+			executed: false,
+			status: false,
+			message: `UserService: Caught Error --> ${e}`
+		}
 	}
 }
 
@@ -132,7 +154,11 @@ async function verify(user_id, verificationCode) {
 		return data
 	}
 	catch (e) {
-		return { status: false, message: `UserService: Caught Error --> ${e}` }
+		return {
+			executed: false,
+			status: false,
+			message: `UserService: Caught Error --> ${e}`
+		}
 	}
 }
 

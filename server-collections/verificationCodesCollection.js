@@ -27,12 +27,14 @@ const c_create = async (user_id) => {
 		const createdVerificationCode = await formData.save()
 
 		return {
+			executed: true,
 			status: true,
 			createdVerificationCode: createdVerificationCode,
 		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `verificationCodesCollection: Caught Error --> ${e}`,
 		}
@@ -47,12 +49,14 @@ const c_delete = async (user_id) => {
 		)
 
 		return {
+			executed: true,
 			status: true,
 			deletedVerificationCode: deletedVerificationCode,
 		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `verificationCodesCollection: Caught Error --> ${e}`,
 		}
@@ -72,6 +76,7 @@ const c_existance = async (user_id, verificationCode) => {
 
 			if (foundVerificationCode) {
 				return {
+					executed: true,
 					status: true,
 					message: 'Success! Verified Account',
 					existance: true,
@@ -80,6 +85,7 @@ const c_existance = async (user_id, verificationCode) => {
 			}
 			else {
 				return {
+					executed: true,
 					status: true,
 					message: 'Invalid verification code',
 					existance: false,
@@ -88,6 +94,7 @@ const c_existance = async (user_id, verificationCode) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `verificationCodesCollection: Caught Error --> ${e}`,
 			}
@@ -95,8 +102,9 @@ const c_existance = async (user_id, verificationCode) => {
 	}
 	else {
 		return {
+			executed: true,
 			status: false,
-			message: 'verificationCodesCollection: Invalid user_id',
+			message: 'Invalid user _id',
 		}
 	}
 }

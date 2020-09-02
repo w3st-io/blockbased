@@ -42,9 +42,8 @@
 			}
 			catch (err) { this.error = err }
 
-			if (this.data.status) {
-				if (this.data.existance) { this.success = this.data.message }
-				else { this.error = this.data.message }
+			if (this.data.status && this.data.existance) {
+				this.success = this.data.message
 			}
 			else { this.error = this.data.message }
 		},

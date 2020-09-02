@@ -28,6 +28,7 @@ async function s_readAll() {
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `UserService: Caught Error --> ${e}`
 		}
@@ -43,7 +44,13 @@ async function s_read(user_id) {
 
 		return returned.data
 	}
-	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch (e) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserService: Caught Error --> ${e}`
+		}
+	}
 }
 
 // [UPDATE] Auth Required //
@@ -55,7 +62,13 @@ async function s_update(user_id, img_url) {
 
 		return returned.data
 	}
-	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch (e) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserService: Caught Error --> ${e}`
+		}
+	}
 	
 }
 
@@ -68,7 +81,13 @@ async function s_banUser(user_id, hours) {
 	
 		return returned.data
 	}
-	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch (e) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserService: Caught Error --> ${e}`
+		}
+	}
 }
 
 

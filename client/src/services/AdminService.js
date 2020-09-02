@@ -49,7 +49,11 @@ async function login(email, password) {
 		return returned.data
 	}
 	catch (e) {
-		return { status: false, message: `AdminService: Caught Error --> ${e}` }
+		return {
+			executed: true,
+			status: false,
+			message: `AdminService: Caught Error --> ${e}`
+		}
 	}
 }
 
@@ -72,6 +76,7 @@ async function register(first_name, last_name, username, email, password) {
 	}
 	catch (e) {
 		return {
+			executed: true,
 			status: false,
 			message: `AdminService: Caught Error --> ${e}`,
 		}

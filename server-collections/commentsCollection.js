@@ -26,12 +26,14 @@ const c_create = async (user_id, post_id, text) => {
 			const createdComment = await formData.save()
 			
 			return {
+				executed: true,
 				status: true,
 				createdComment: createdComment,
 			}
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `commentsCollection: Caught Error --> ${e}`,
 			}
@@ -39,8 +41,9 @@ const c_create = async (user_id, post_id, text) => {
 	}
 	else {
 		return {
+			executed: true,
 			status: false,
-			message: `commentsCollection: Comment too long`,
+			message: `Comment too long`,
 		}
 	}
 }
@@ -63,10 +66,15 @@ const c_readAllAll = async (skip, limit) => {
 			.populate('post')
 			.exec()
 
-		return { status: true, comments: comments }
+		return {
+			executed: true,
+			status: true,
+			comments: comments
+		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `commentsCollection: Caught Error --> ${e}`,
 		}
@@ -90,10 +98,15 @@ const c_readAll = async (post_id, skip, limit) => {
 			)
 			.exec()
 
-		return { status: true, comments: comments }
+		return {
+			executed: true,
+			status: true,
+			comments: comments
+		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `commentsCollection: Caught Error --> ${e}`,
 		}
@@ -119,10 +132,15 @@ const c_read = async (comment_id) => {
 				)
 				.exec()
 
-			return { status: true, comment: comment }
+			return {
+				executed: true,
+				status: true,
+				comment: comment
+			}
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `commentsCollection: Caught Error --> ${e}`,
 			}
@@ -130,8 +148,9 @@ const c_read = async (comment_id) => {
 	}
 	else {
 		return {
-			status: true,
-			message: 'commentsCollection: Invalid comment_id',
+			executed: true,
+			status: false,
+			message: 'Invalid comment_id',
 		}
 	}
 }
@@ -147,12 +166,14 @@ const c_update = async (comment_id, text) => {
 				)
 
 				return {
+					executed: true,
 					status: true,
 					updatedCollent: updatedCollent,
 				}
 			}
 			catch (e) {
 				return {
+					executed: false,
 					status: false,
 					message: `commentsCollection: Caught Error --> ${e}`,
 				}
@@ -160,6 +181,7 @@ const c_update = async (comment_id, text) => {
 		}
 		else {
 			return {
+				executed: true,
 				status: false,
 				message: `Comment too long`,
 			}
@@ -167,8 +189,9 @@ const c_update = async (comment_id, text) => {
 	}
 	else {
 		return {
-			status: true,
-			message: 'commentsCollection: Invalid comment_id',
+			executed: true,
+			status: false,
+			message: 'Invalid comment_id',
 		}
 	}
 }
@@ -185,12 +208,14 @@ const c_delete = async (user_id, comment_id) => {
 			)
 
 			return {
+				executed: true,
 				status: true,
 				deletedComment: deletedComment,
 			}
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `commentsCollection: Caught Error --> ${e}`,
 			}
@@ -198,8 +223,9 @@ const c_delete = async (user_id, comment_id) => {
 	}
 	else {
 		return {
+			executed: true,
 			status: false,
-			message: 'commentsCollection: Invalid comment_id',
+			message: 'Invalid comment_id',
 		}
 	}
 }
@@ -213,6 +239,7 @@ const c_existance = async (comment_id) => {
 
 			if (comment) {
 				return {
+					executed: true,
 					status: true,
 					existance: true,
 					comment: comment,
@@ -220,6 +247,7 @@ const c_existance = async (comment_id) => {
 			}
 			else {
 				return {
+					executed: true,
 					status: true,
 					existance: false,
 					comment: comment,
@@ -228,6 +256,7 @@ const c_existance = async (comment_id) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `commentsCollection: Caught Error --> ${e}`
 			}
@@ -235,8 +264,9 @@ const c_existance = async (comment_id) => {
 	}
 	else {
 		return {
+			executed: true,
 			status: false,
-			message: 'commentsCollection: Invalid comment_id'
+			message: 'Invalid comment_id'
 		}
 	}
 }
@@ -255,6 +285,7 @@ const c_ownership = async (user_id, comment_id) => {
 
 			if (comment) {
 				return {
+					executed: true,
 					status: true,
 					ownership: true,
 					comment: comment,
@@ -262,6 +293,7 @@ const c_ownership = async (user_id, comment_id) => {
 			}
 			else {
 				return {
+					executed: true,
 					status: true,
 					ownership: false,
 					comment: comment,
@@ -270,6 +302,7 @@ const c_ownership = async (user_id, comment_id) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `commentsCollection: Caught Error --> ${e}`
 			}
@@ -277,8 +310,9 @@ const c_ownership = async (user_id, comment_id) => {
 	}
 	else {
 		return {
+			executed: true,
 			status: false,
-			message: 'commentsCollection: Invalid comment_id'
+			message: 'Invalid comment_id'
 		}
 	}
 }
@@ -289,10 +323,18 @@ const c_countAll = async (post_id) => {
 	try {
 		const count = await CommentModel.countDocuments({ post: post_id })
 
-		return { status: true, count: count }
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
 	}
 	catch (e) {
-		return { status: false, message: `commentsCollection: Caught Error --> ${e}` }
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Caught Error --> ${e}`
+		}
 	}
 }
 

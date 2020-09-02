@@ -34,7 +34,11 @@ async function s_readAllAll(limit, pageNumber) {
 		return data
 	}
 	catch (e) {
-		return { status: false, message: `PostService: Caught Error --> ${e}` }
+		return {
+			executed: false,
+			status: false,
+			message: `PostService: Caught Error --> ${e}`
+		}
 	}
 }
 

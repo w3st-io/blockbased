@@ -42,6 +42,7 @@ router.post(
 		)
 
 		res.status(201).send({
+			executed: true,
 			status: true,
 			post: returned,
 			comment: returned2
@@ -187,7 +188,13 @@ router.get(
 
 			res.status(200).send(returned)
 		}
-		else { res.status(200).send({ status: false, message: 'Invalid post_id' }) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid post _id',
+			})
+		}
 	},
 )
 
@@ -207,6 +214,7 @@ router.delete(
 				const returned2 = await postLikesCollection.c_deleteAll(req.params._id)
 
 				res.status(200).send({
+					executed: true,
 					status: true,
 					delete: [returned, returned2]
 				})
@@ -214,7 +222,13 @@ router.delete(
 			}
 			else { res.status(200).send(ownership) }
 		}
-		else { res.status(200).send({ status: false, message: 'Invalid post_id' }) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid post _id',
+			})
+		}
 	},
 )
 
@@ -246,6 +260,7 @@ router.post(
 					)
 
 					res.status(201).send({
+						executed: true,
 						status: true,
 						postLike: returned,
 						post: returned2
@@ -256,8 +271,9 @@ router.post(
 		}
 		else {
 			res.status(200).send({
+				executed: true,
 				status: false,
-				message: 'Invalid post_id'
+				message: 'Invalid post _id'
 			})
 		}
 
@@ -294,7 +310,13 @@ router.post(
 			}
 			else { res.status(200).send(existance) }
 		}
-		else { res.status(200).send({ status: false, message: 'Invalid post_id' }) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid post _id'
+			})
+		}
 	},
 )
 
@@ -314,7 +336,13 @@ router.post(
 			
 			res.status(201).send(returned)
 		}
-		else { res.status(200).send({ status: false, message: 'Invalid post_id' }) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid post _id',
+			})
+		}
 	},
 )
 
@@ -334,8 +362,9 @@ router.post(
 		}
 		else {
 			res.status(200).send({
+				executed: true,
 				status: false,
-				message: 'Invalid post_id'
+				message: 'Invalid post _id'
 			})
 		}
 	},
@@ -358,8 +387,9 @@ router.get(
 		}
 		else {
 			res.status(200).send({
+				executed: true,
 				status: false,
-				message: 'Invalid post_id'
+				message: 'Invalid post _id'
 			})
 		}
 	},

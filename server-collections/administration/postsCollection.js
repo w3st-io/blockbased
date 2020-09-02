@@ -29,10 +29,15 @@ const c_readAllAll = async (skip, limit) => {
 			)
 			.exec()
 
-		return { status: true, posts: posts }
+		return {
+			executed: true,
+			status: true,
+			posts: posts
+		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `postCollections: Caught Error --> ${e}`,
 		}
@@ -47,6 +52,7 @@ const c_delete = async (post_id) => {
 			const deletedPost = await PostModel.findByIdAndDelete(post_id)
 			
 			return {
+				executed: true,
 				status: true,
 				deleted: true,
 				deletedPost: deletedPost,
@@ -54,6 +60,7 @@ const c_delete = async (post_id) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `postCollections: Caught Error --> ${e}`,
 				deleted: false,
@@ -62,8 +69,9 @@ const c_delete = async (post_id) => {
 	}
 	else {
 		return {
+			executed: true,
 			status: false,
-			message: 'postsCollection: Invalid post_id',
+			message: 'Invalid post _id',
 			deleted: false,
 		}
 	}

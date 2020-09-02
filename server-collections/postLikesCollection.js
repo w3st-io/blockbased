@@ -29,6 +29,7 @@ const c_create = async (user_id, post_id) => {
 			const createdPostLike = await formData.save()
 
 			return {
+				executed: true,
 				status: true,
 				createdPostLike: createdPostLike,
 				existance: existance,
@@ -36,6 +37,7 @@ const c_create = async (user_id, post_id) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `postLikesCollection: Caught Error --> ${e}`,
 			}
@@ -55,12 +57,14 @@ const c_delete = async (user_id, post_id) => {
 		)
 
 		return {
+			executed: true,
 			status: true,
 			deletedPostLike: deletedPostLike,
 		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `postLikesCollection: Caught Error --> ${e}`,
 		}
@@ -74,12 +78,14 @@ const c_deleteAll = async (post_id) => {
 		const deletedPostLike = await PostLikeModel.deleteMany({ post: post_id })
 
 		return {
+			executed: true,
 			status: true,
 			deletedPostLike: deletedPostLike,
 		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `deletedPostLike: Caught Error --> ${e}`,
 		}
@@ -101,12 +107,14 @@ const c_existance = async (user_id, post_id) => {
 
 			if (returned) {
 				return {
+					executed: true,
 					status: true,
 					existance: true,
 				}
 			}
 			else {
 				return {
+					executed: true,
 					status: true,
 					existance: false,
 				}
@@ -114,12 +122,19 @@ const c_existance = async (user_id, post_id) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `postLikesCollection: Caught Error --> ${e}`,
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid post_id', } }
+	else {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid post_id',
+		}
+	}
 }
 
 
@@ -128,10 +143,15 @@ const c_countAll = async (post_id) => {
 	try {
 		const count = await PostLikeModel.countDocuments({ post: post_id })
 
-		return { status: true, count: count }
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `postLikesCollection: Caught Error --> ${e}`
 		}

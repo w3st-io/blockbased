@@ -115,9 +115,11 @@
 			},
 
 			async successful() {
-				// [SET TOKEN] // Emit // [REDIRECT] //
+				// [SET TOKEN] // Emit //
 				localStorage.setItem('usertoken', this.returned.token)
 				EventBus.$emit('logged-in')
+
+				// [REDIRECT] //
 				router.push({ path: '/' })
 			},
 		}

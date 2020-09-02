@@ -43,8 +43,9 @@ router.delete(
 		}
 		else {
 			res.status(200).send({
+				executed: true,
 				status: false,
-				message: 'a reports: Invalid _id'
+				message: 'Invalid report _id'
 			})
 		}
 	}

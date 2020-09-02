@@ -45,7 +45,13 @@ router.post(
 
 			res.status(201).send(returned)
 		}
-		else { res.status(200).send({ status: false, message: 'Invalid _id' }) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid user _id'
+			})
+		}
 	}
 )
 
@@ -64,7 +70,13 @@ router.post(
 
 			res.status(201).send(returned)
 		}
-		else { res.status(200).send({ status: false, message: 'Invalid _id' }) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid user _id'
+			})
+		}
 	}
 )
 

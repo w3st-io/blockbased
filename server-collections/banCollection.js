@@ -32,12 +32,14 @@ const c_create = async (user_id, hours) => {
 			const createdBan = await formData.save()
 
 			return {
+				executed: true,
 				status: true,
 				createdBan: createdBan,
 			}
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `banCollection: Caught Error --> ${e}`,
 			}
@@ -46,18 +48,21 @@ const c_create = async (user_id, hours) => {
 	else { return existance }
 }
 
+
 // [DELETE] //
 const c_delete = async (user_id) => {
 	try {
 		const deletedBans = await BanModel.deleteMany({ user: user_id })
 
 		return {
+			executed: true,
 			status: true,
 			deletedBans: deletedBans,
 		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `banCollection: Caught Error --> ${e}`,
 		}
@@ -74,6 +79,7 @@ const c_existance = async (user_id) => {
 
 			if (foundBan) {
 				return {
+					executed: true,
 					status: true,
 					message: 'Ban does exists',
 					existance: true,
@@ -82,6 +88,7 @@ const c_existance = async (user_id) => {
 			}
 			else {
 				return {
+					executed: true,
 					status: true,
 					message: 'Ban does NOT exists',
 					existance: false,
@@ -90,6 +97,7 @@ const c_existance = async (user_id) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `banCollection: Caught Error --> ${e}`,
 			}
@@ -97,8 +105,9 @@ const c_existance = async (user_id) => {
 	}
 	else {
 		return {
+			executed: true,
 			status: false,
-			message: 'banCollection: Invalid user_id',
+			message: 'Invalid user_id',
 		}
 	}
 }

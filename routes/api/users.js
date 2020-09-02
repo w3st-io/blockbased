@@ -86,6 +86,7 @@ router.post(
 		try { user = await usersCollection.c_register(req) }
 		catch (e) {
 			res.status(201).send({
+				executed: false,
 				status: false,
 				message: `users: Caught Error --> ${e}`
 			})
@@ -98,6 +99,7 @@ router.post(
 			}
 			catch (e) {
 				res.status(201).send({
+					executed: false,
 					status: false,
 					message: `users: Caught Error --> ${e}`
 				})

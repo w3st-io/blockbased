@@ -30,18 +30,20 @@ const c_create = async (user_id, post_id, comment_id) => {
 			const createdCommentLike = await formData.save()
 
 			return {
+				executed: true,
 				status: true,
 				createdCommentLike: createdCommentLike,
 			}
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `commentLikesCollection: Caught Error --> ${e}`,
 			}
 		}
 	}
-	else { return { status: false, message: existance.message } }
+	else { return existance }
 }
 
 // [DELETE] //
@@ -55,12 +57,14 @@ const c_delete = async (user_id, comment_id) => {
 		)
 
 		return {
+			executed: true,
 			status: true,
 			deletedCommentLike: deletedCommentLike,
 		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `commentLikesCollection: Caught Error --> ${e}`,
 		}
@@ -75,12 +79,14 @@ const c_deleteAll = async (comment_id) => {
 		)
 
 		return {
+			executed: true,
 			status: true,
 			deletedCommentLikes: deletedCommentLikes
 		}
 	}
 	catch (e) {
 		return {
+			executed: true,
 			status: false,
 			message: `commentLikesCollection: Caught Error --> ${e}`,
 		}
@@ -102,12 +108,14 @@ const c_existance = async (user_id, comment_id) => {
 
 			if (returned) {
 				return {
+					executed: true,
 					status: true,
 					existance: true,
 				}
 			}
 			else {
 				return {
+					executed: true,
 					status: true,
 					existance: false,
 				}
@@ -115,12 +123,19 @@ const c_existance = async (user_id, comment_id) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `commentLikesCollection: Caught Error --> ${e}`,
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid post_id', } }
+	else {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid post_id',
+		}
+	}
 }
 
 
@@ -129,10 +144,15 @@ const c_countAll = async (comment_id) => {
 	try {
 		const count = await CommentLikeModel.countDocuments({ comment: comment_id })
 
-		return { status: true, count: count }
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `commentLikesCollection: Caught Error --> ${e}`,
 		}

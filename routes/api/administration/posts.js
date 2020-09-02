@@ -48,8 +48,9 @@ router.delete(
 		}
 		else {
 			res.status(200).send({
+				executed: true,
 				status: false,
-				message: 'a posts: Invalid _id'
+				message: 'Invalid post _id'
 			})
 		}
 	}

@@ -26,6 +26,7 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 		const commentReport = await formData.save()
 
 		return {
+			executed: true,
 			status: true,
 			created: true,
 			commentReport: commentReport,
@@ -33,6 +34,7 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `commentReportsCollection: Caught Error --> ${e}`
 		}
@@ -48,10 +50,15 @@ const c_readAll = async () => {
 			.populate('comment')
 			.exec()
 
-		return { status: true, reports: returned }
+		return {
+			executed: true,
+			status: true,
+			reports: returned
+		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `commentReportsCollection: Caught Error --> ${e}`
 		}
@@ -70,12 +77,14 @@ const c_delete = async (commentReport_id) => {
 				)
 
 			return {
+				executed: true,
 				status: true,
 				deletedCommentReport: deletedCommentReport,
 			}
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `commentReportsCollection: Caught Error --> ${e}`
 			}
@@ -83,7 +92,8 @@ const c_delete = async (commentReport_id) => {
 	}
 	else {
 		return {
-			status: true,
+			executed: true,
+			status: false,
 			message: 'Invalid commentReport_id'
 		}
 	}
@@ -104,14 +114,18 @@ const c_existance = async (user_id, comment_id) => {
 
 			if (commentReport) {
 				return {
+					executed: true,
 					status: true,
+					checkedExistance: true,
 					existance: true,
 					commentReport: commentReport,
 				}
 			}
 			else {
 				return {
+					executed: true,
 					status: true,
+					checkedExistance: true,
 					existance: false,
 					commentReport: commentReport,
 				}
@@ -119,12 +133,20 @@ const c_existance = async (user_id, comment_id) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `commentReportsCollection: Caught Error --> ${e}`
 			}
 		}
 	}
-	else { return { status: true, message: 'Invalid comment_id' } }
+	else {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid comment_id',
+			checkedExistance: false,
+		}
+	}
 }
 
 

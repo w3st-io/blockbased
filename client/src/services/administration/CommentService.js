@@ -32,7 +32,10 @@ async function s_readAllAll(limit, pageNumber) {
 		return data
 	}
 	catch (e) {
-		return { status: false, message: `CommentService: Caught Error --> ${e}` }
+		return {
+			executed: false,
+			status: false,
+			message: `CommentService: Caught Error --> ${e}` }
 	}
 }
 

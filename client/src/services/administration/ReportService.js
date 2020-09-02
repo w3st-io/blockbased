@@ -26,7 +26,13 @@ async function s_readAllAll() {
 
 		return returned.data
 	}
-	catch (e) { return { status: false, message: `Caught Error --> ${e}` } }
+	catch (e) {
+		return {
+			executed: false,
+			status: false,
+			message: `Reports Service: Caught Error --> ${e}`
+		}
+	}
 }
 
 // [DELETE] Auth Required //

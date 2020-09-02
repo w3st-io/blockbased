@@ -44,20 +44,22 @@ class Auth {
 						catch (e) { console.log(`Auth: Caught Error --> ${e}`) }
 
 						if (verified.status) {
+							/*
 							// Check Ban //
 							try { ban = await banCollection.c_existance(req.decoded._id) }
 							catch (e) { console.log(`Auth: Caught Error --> ${e}`) }
-							//console.log('Auth ban:', ban)
+							console.log('Auth ban:', ban)
+							*/
 							
 							next()
 						}
 						else { res.status(200).send(verified) }
-
 					}
 					else {
 						console.log(`JWT Error: ${e}`)
 
 						res.status(200).send({
+							executed: true,
 							status: false,
 							message: 'Access denied, token invalid',
 							auth: false,
@@ -67,6 +69,7 @@ class Auth {
 			}
 			else {
 				res.status(200).send({
+					executed: true,
 					status: false,
 					message: 'Access denied, no token passed',
 					auth: false,
@@ -112,6 +115,7 @@ class Auth {
 						if (decoded.role == 'admin') { next() }
 						else {
 							res.status(200).send({
+								executed: true,
 								status: false,
 								message: 'Access Denied, Admin Token Needed',
 								auth: false,
@@ -122,6 +126,7 @@ class Auth {
 						console.log(`Admin JWT Error: ${e}`)
 
 						res.status(200).send({
+							executed: true,
 							status: false,
 							message: 'Access Denied, Invalid Token',
 							auth: false,
@@ -131,6 +136,7 @@ class Auth {
 			}
 			else {
 				res.status(200).send({
+					executed: true,
 					status: false,
 					message: 'Access Denied, No Token Passed',
 					auth: false,

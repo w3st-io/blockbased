@@ -60,6 +60,7 @@ router.post(
 				}
 
 				res.status(201).send({
+					executed: true,
 					status: true,
 					created: returned,
 					postFollowers: returnFollowers,
@@ -114,8 +115,9 @@ router.get(
 		}
 		else {
 			res.status(200).send({
+				executed: true,
 				status: false,
-				message: 'comments: Invalid post_id',
+				message: 'Invalid post_id',
 			})
 		}
 	},
@@ -153,7 +155,13 @@ router.get(
 
 			res.status(200).send(returned)
 		}
-		else { res.status(200).send({ status: false, message: 'invalid _id' }) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid comment _id'
+			})
+		}
 	},
 )
 
@@ -181,7 +189,13 @@ router.post(
 			}
 			else { res.status(200).send(ownership) }
 		}
-		else { res.status(200).send({ status: false, message: 'invalid _id' }) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid comment _id'
+			})
+		}
 	},
 )
 
@@ -210,13 +224,20 @@ router.delete(
 				)
 
 				res.status(201).send({
+					executed: true,
 					status: true,
 					deleted: [returned, returned2, returned3],
 				})
 			}
 			else { res.status(200).send(ownership) }
 		}
-		else { res.status(200).send({ status: false, message: 'invalid _id' }) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid comment _id'
+			})
+		}
 	},
 )
 
@@ -241,7 +262,13 @@ router.post(
 
 			res.status(200).send(returned)
 		}
-		else { res.status(200).send({ status: false, message: 'invalid params' }) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'invalid params'
+			})
+		}
 	},
 )
 
@@ -263,7 +290,13 @@ router.post(
 			
 			res.status(200).send(returned)
 		}
-		else { res.status(200).send({ status: false, message: 'invalid params' }) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'invalid params'
+			})
+		}
 	},
 )
 
@@ -293,7 +326,13 @@ router.post(
 			}
 			else { res.status(200).send(existance) }
 		}
-		else { res.status(200).send({ status: false, message: 'invalid _id' }) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid comment _id',
+			})
+		}
 	},
 )
 
@@ -311,7 +350,13 @@ router.get(
 			}
 			else { res.status(200).send(existance) }
 		}
-		else { res.status(200).send({ status: false, message: 'invalid _id' }) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid comment _id'
+			})
+		}
 	},
 )
 

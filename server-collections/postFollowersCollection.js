@@ -29,18 +29,20 @@ const c_create = async (user_id, post_id) => {
 			const createdPostFollow = await formData.save()
 
 			return {
+				executed: true,
 				status: true,
 				createdPostFollow: createdPostFollow,
 			}
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `postFollowersCollection: Caught Error --> ${e}`,
 			}
 		}
 	}
-	else { return { status: false, message: existance.message } }
+	else { return existance }
 }
 
 // [READ-ALL] //
@@ -49,6 +51,7 @@ const c_readAll = async (post_id) => {
 		const postFollowers = await PostFollowerModel.find({ post: post_id })
 
 		return {
+			executed: true,
 			status: true,
 			message: 'Found',
 			postFollowers: postFollowers,
@@ -56,8 +59,9 @@ const c_readAll = async (post_id) => {
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
-			message: 'postFollowersCollection: Error',
+			message: `postFollowersCollection: Caught Error --> ${e}`,
 		}
 	}
 }
@@ -73,12 +77,14 @@ const c_delete = async (user_id, post_id) => {
 		)
 
 		return {
+			executed: true,
 			status: true,
 			deletedPostFollower: deletedPostFollower
 		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `postFollowersCollection: Caught Error --> ${e}`,
 		}
@@ -99,6 +105,7 @@ const c_existance = async (user_id, post_id) => {
 
 			if (postFollower) {
 				return {
+					executed: true,
 					status: true,
 					existance: true,
 					postFollower: postFollower,
@@ -106,6 +113,7 @@ const c_existance = async (user_id, post_id) => {
 			}
 			else {
 				return {
+					executed: true,
 					status: true,
 					existance: false,
 				}
@@ -113,12 +121,19 @@ const c_existance = async (user_id, post_id) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `postFollowersCollection: Caught Error --> ${e}`,
 			}
 		}
 	}
-	else { return { status: false, message: 'Invalid post_id', } }
+	else {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid post_id',
+		}
+	}
 }
 
 
@@ -127,10 +142,15 @@ const c_countAll = async (post_id) => {
 	try {
 		const count = await PostFollowerModel.countDocuments({ post: post_id })
 		
-		return { status: true, count: count }
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
 	}
 	catch (e) {
 		return {
+			executed: false,
 			status: false,
 			message: `postFollowersCollection: Caught error --> ${e}`
 		}

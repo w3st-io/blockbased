@@ -21,6 +21,7 @@ const c_delete = async (comment_id) => {
 			)
 
 			return {
+				executed: true,
 				status: true,
 				deleted: true,
 				deletedComment: deletedComment,
@@ -28,6 +29,7 @@ const c_delete = async (comment_id) => {
 		}
 		catch (e) {
 			return {
+				executed: false,
 				status: false,
 				message: `commentsCollection: Caught Error --> ${e}`,
 			}
@@ -35,8 +37,9 @@ const c_delete = async (comment_id) => {
 	}
 	else {
 		return {
+			executed: true,
 			status: false,
-			message: 'commentsCollection: Invalid comment_id',
+			message: 'Invalid comment _id',
 		}
 	}
 }

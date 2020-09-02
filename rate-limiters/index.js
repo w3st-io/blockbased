@@ -12,6 +12,7 @@ const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
 	max: 500, // limit each IP to 100 requests per windowMs
 	message: {
+		executed: true,
 		status: false,
 		message: 'Too many requests, please try again later',
 	}
@@ -23,6 +24,7 @@ const postLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000,
 	max: 60,
 	message: {
+		executed: true,
 		status: false,
 		message: 'Too many requests, please try again later',
 	}
@@ -34,6 +36,7 @@ const commentLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000,
 	max: 60,
 	message: {
+		executed: true,
 		status: false,
 		message: 'Too many requests, please try again later',
 	}
@@ -45,6 +48,7 @@ const followLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000,
 	max: 100,
 	message: {
+		executed: true,
 		status: false,
 		message: 'Too many requests, please try again later',
 	}
@@ -56,6 +60,7 @@ const likeLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000,
 	max: 200,
 	message: {
+		executed: true,
 		status: false,
 		message: 'Too many requests, please try again later',
 	}
@@ -67,6 +72,7 @@ const registrationLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000,
 	max: 20,
 	message: {
+		executed: true,
 		status: false,
 		message: 'Too many requests, please try again later',
 	}
@@ -78,6 +84,7 @@ const reportLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000,
 	max: 10,
 	message: {
+		executed: true,
 		status: false,
 		message: 'Too many requests, please try again later',
 	}
