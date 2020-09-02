@@ -103,9 +103,7 @@ const c_delete = async (commentReport_id) => {
 /******************* [EXISTANCE] *******************/
 // Verify that User is not Double Reporting //
 const c_existance = async (user_id, comment_id) => {
-	const validId = mongoose.isValidObjectId(comment_id)
-
-	if (validId) {
+	if (mongoose.isValidObjectId(comment_id)) {
 		try {
 			const commentReport = await CommentReportModel.findOne({	
 				comment: comment_id,

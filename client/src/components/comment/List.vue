@@ -198,23 +198,23 @@
 
 			/******************* [REPORT] *******************/
 			reportInnapropiate(comment_id) {
-				CommentService.s_report(this.post_id, comment_id,'Innapropiate')
+				CommentService.s_report(this.post_id, comment_id, 'Innapropiate')
 			},
 
 			reportOffensive(comment_id) {
-				CommentService.s_report(this.post_id, comment_id,'Offensive')
+				CommentService.s_report(this.post_id, comment_id, 'Offensive')
 			},
 
 			reportScam(comment_id) {
-				CommentService.s_report(this.post_id, comment_id,'Scam')
+				CommentService.s_report(this.post_id, comment_id, 'Scam')
 			},
 
 			reportBot(comment_id) {
-				CommentService.s_report(this.post_id, comment_id,'Bot')
+				CommentService.s_report(this.post_id, comment_id, 'Bot')
 			},
 
 			reportOther(comment_id) {
-				CommentService.s_report(this.post_id, comment_id,'Other')
+				CommentService.s_report(this.post_id, comment_id, 'Other')
 			},
 
 			/******************* [ROUTER + LOG] *******************/

@@ -51,7 +51,7 @@ const c_login = async (email, password) => {
 			else {
 				return {
 					executed: true,
-					status: true,
+					status: false,
 					message: 'Invalid password',
 					validation: false,
 				}
@@ -60,7 +60,7 @@ const c_login = async (email, password) => {
 		else {
 			return {
 				executed: true,
-				status: true,
+				status: false,
 				message: 'Invalid email',
 				validation: false
 			}
@@ -113,14 +113,15 @@ const c_register = async (req) => {
 						return {
 							executed: false,
 							status: false,
-							message: `adminsCollection: Caught Error --> ${e}`,
+							message: `adminsCollection:sss Caught Error --> ${e}`,
+							created: false,
 						}
 					}
 				}
 				else {
 					return {
 						executed: true,
-						status: true,
+						status: false,
 						message: 'Password too short',
 						created: false,
 					}
@@ -129,7 +130,7 @@ const c_register = async (req) => {
 			else {
 				return {
 					executed: true,
-					status: true,
+					status: false,
 					message: 'This email is already registered',
 					created: false,
 				}
@@ -138,7 +139,7 @@ const c_register = async (req) => {
 		else {
 			return {
 				executed: true,
-				status: true,
+				status: false,
 				message: 'This username is taken',
 				created: false,
 			}

@@ -46,6 +46,7 @@ const c_create = async (user_id, post_id, comment_id) => {
 	else { return existance }
 }
 
+
 // [DELETE] //
 const c_delete = async (user_id, comment_id) => {
 	try {
@@ -70,6 +71,7 @@ const c_delete = async (user_id, comment_id) => {
 		}
 	}
 }
+
 
 // [DELETE-ALL] //
 const c_deleteAll = async (comment_id) => {

@@ -48,7 +48,7 @@ router.get(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid post_id'
+				message: 'Invalid notification _id'
 			})
 		}
 	}

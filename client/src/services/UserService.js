@@ -63,7 +63,7 @@ async function s_update(img_url) {
 	}
 	catch (e) {
 		return {
-			executed: true,
+			executed: false,
 			status: false,
 			message: `UserService: Caught Error --> ${e}`
 		}

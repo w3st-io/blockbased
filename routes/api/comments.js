@@ -266,7 +266,7 @@ router.post(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'invalid params'
+				message: 'Invalid params'
 			})
 		}
 	},
@@ -294,7 +294,7 @@ router.post(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'invalid params'
+				message: 'Invalid params'
 			})
 		}
 	},

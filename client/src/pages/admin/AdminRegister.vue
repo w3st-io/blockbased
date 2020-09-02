@@ -146,7 +146,7 @@
 				email: '',
 				password: '',
 				confirm: '',
-				returned: '',
+				data: '',
 				error: '',
 			}
 		},
@@ -160,7 +160,7 @@
 			async register() {
 				// [REGISTER] //
 				try {
-					this.returned = await AdminService.register(
+					this.data = await AdminService.register(
 						this.first_name,
 						this.last_name,
 						this.username,
@@ -169,11 +169,8 @@
 					)
 
 					// Check Status //
-					if (
-						this.returned.status == true &&
-						this.returned.created == true
-					) { this.redirect() }
-					else { this.error = this.returned.message }
+					if (this.data.created) { this.redirect() }
+					else { this.error = this.data.message }
 				}
 				catch (e) { this.error = e }
 			},

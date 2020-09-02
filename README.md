@@ -18,6 +18,9 @@ anytime you are creating code that will modify the database
 think from the servers perspective first. sure the cat page
 contains blocks but read-all blocks should not fall under cat services.
 
+"executed: false" --> Unexpected Error
+"status: false" --> Expected Error
+
 
 ### Routes
 
