@@ -63,7 +63,7 @@
 				if (returned.status) { this.userData = returned.user }
 				else { this.error = returned.message }
 			}
-			catch (e) { this.error = e }
+			catch (err) { this.error = err }
 
 			// Set Image //
 			this.imgUrl = this.userData.profileImg
@@ -78,7 +78,7 @@
 		methods: {
 			async updateUserData() {
 				try { await UserService.s_update(this.imgUrl) }
-				catch (e) { this.error = e }
+				catch (err) { this.error = err }
 
 				// [REDIRECT] //
 				router.push({ path: '/profile' })

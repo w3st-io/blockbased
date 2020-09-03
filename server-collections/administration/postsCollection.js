@@ -32,11 +32,11 @@ const c_readAllAll = async (skip, limit) => {
 			posts: posts
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `postCollections: Error --> ${e}`,
+			message: `postCollections: Error --> ${err}`,
 		}
 	}
 }
@@ -55,11 +55,11 @@ const c_delete = async (post_id) => {
 				deletedPost: deletedPost,
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `postCollections: Error --> ${e}`,
+				message: `postCollections: Error --> ${err}`,
 				deleted: false,
 			}
 		}

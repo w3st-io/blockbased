@@ -28,7 +28,7 @@ async function s_readAll() {
 
 		return data.notifications
 	}
-	catch (e) { return e }
+	catch (err) { return err }
 }
 
 
@@ -37,7 +37,7 @@ async function markRead(notification_id) {
 	const authAxios = await this.authAxios()
 
 	try { return await authAxios(`/mark-read/${notification_id}`) }
-	catch (e) { return e }
+	catch (err) { return err }
 }
 
 

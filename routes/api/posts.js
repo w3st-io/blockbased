@@ -144,8 +144,8 @@ router.get(
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
 			let returned = await postsCollection.c_read(req.params._id)
-
-			if (returned.status) {
+			
+			if (returned.status && !returned.existance == false) {
 				// Set Like Count //
 				try {
 					const count = await postLikesCollection.c_countAll(
@@ -154,7 +154,7 @@ router.get(
 	
 					returned.post.likeCount = count.count
 				}
-				catch (e) { console.log(`posts: Error --> ${e}`) }
+				catch (err) { console.log(`posts: Error --> ${err}`) }
 	
 				// Follow Count //
 				try {
@@ -164,7 +164,7 @@ router.get(
 	
 					returned.post.followersCount = count.count
 				}
-				catch (e) { console.log(`posts: Error --> ${e}`) }
+				catch (err) { console.log(`posts: Error --> ${err}`) }
 	
 				// If User Logged In.. //
 				if (req.decoded) {
@@ -197,6 +197,7 @@ router.get(
 		}
 	},
 )
+
 
 // [DELETE] Auth Required //
 router.delete(
@@ -266,6 +267,7 @@ router.post(
 						post: returned2
 					})
 				}
+				else { res.send(200).send(returned) }
 			}
 			else { res.status(200).send(existance) }
 		}
@@ -279,6 +281,7 @@ router.post(
 
 	},
 )
+
 
 // [UNLIKE] Auth Required //
 router.post(
@@ -304,9 +307,16 @@ router.post(
 					const returned2 = await postsCollection.c_decrementLike(
 						req.params._id
 					)
+					
+					res.status(201).send({
+						executed: true,
+						status: true,
+						postLike: returned,
+						post: returned2
+					})
 				}
+				else { res.send(200).send(returned) }
 
-				res.status(201).send(returned)
 			}
 			else { res.status(200).send(existance) }
 		}
@@ -346,6 +356,7 @@ router.post(
 	},
 )
 
+
 // [UNFOLLOW] Auth Required //
 router.post(
 	'/unfollow/:_id',
@@ -359,31 +370,6 @@ router.post(
 			)
 			
 			res.status(201).send(returned)
-		}
-		else {
-			res.status(200).send({
-				executed: true,
-				status: false,
-				message: 'Invalid post _id'
-			})
-		}
-	},
-)
-
-
-/******************* [EXISTANCE] *******************/
-// [EXISTANCE] //
-router.get(
-	'/existance/:_id',
-	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params._id)) {
-			const returned = await postsCollection.c_existance(req.params._id)
-
-			if (returned.status) {
-				if (returned.existance) { res.status(200).send(true) }
-				else { res.status(200).send(false) }
-			}
-			else { res.status(200).send(returned) }
 		}
 		else {
 			res.status(200).send({

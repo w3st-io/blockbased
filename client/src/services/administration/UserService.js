@@ -26,11 +26,11 @@ async function s_readAll() {
 
 		return returned.data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `UserService: Error --> ${e}`
+			message: `UserService: Error --> ${err}`
 		}
 	}
 }
@@ -44,11 +44,11 @@ async function s_read(user_id) {
 
 		return returned.data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `UserService: Error --> ${e}`
+			message: `UserService: Error --> ${err}`
 		}
 	}
 }
@@ -62,11 +62,11 @@ async function s_update(user_id, img_url) {
 
 		return returned.data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `UserService: Error --> ${e}`
+			message: `UserService: Error --> ${err}`
 		}
 	}
 	
@@ -81,11 +81,11 @@ async function s_banUser(user_id, hours) {
 	
 		return returned.data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `UserService: Error --> ${e}`
+			message: `UserService: Error --> ${err}`
 		}
 	}
 }

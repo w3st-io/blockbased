@@ -173,7 +173,7 @@
 					if (this.data.created) { this.redirect() }
 					else { this.error = this.data.message }
 				}
-				catch (e) { this.error = e }
+				catch (err) { this.error = err }
 			},
 
 			redirect() {

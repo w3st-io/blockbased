@@ -30,11 +30,11 @@ const c_readAll = async () => {
 			users: users
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `UserCollection: Error --> ${e}`
+			message: `UserCollection: Error --> ${err}`
 		}
 	}
 }
@@ -52,11 +52,11 @@ const c_read = async (user_id) => {
 				user: user
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `UserCollection: Error --> ${e}`
+				message: `UserCollection: Error --> ${err}`
 			}
 		}
 	}
@@ -86,11 +86,11 @@ const c_update = async (user_id, img_url) => {
 				updatedUser: updatedUser
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `usersCollection: Error --> ${e}`
+				message: `usersCollection: Error --> ${err}`
 			}
 		}
 	}
@@ -121,8 +121,7 @@ const c_login = async (email, password) => {
 				}
 
 				// Set Token //
-				//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
-				const token = jwt.sign(payload, secretKey, {})
+				let token = jwt.sign(payload, secretKey, {/*  expiresIn: 7200  */})
 
 				return {
 					executed: true,
@@ -150,11 +149,11 @@ const c_login = async (email, password) => {
 			}
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `usersCollection: Error --> ${e}`
+			message: `usersCollection: Error --> ${err}`
 		}
 	}
 }
@@ -190,11 +189,11 @@ const c_register = async (req) => {
 						createdUser: createdUser,
 					}
 				}
-				catch (e) {
+				catch (err) {
 					return {
 						executed: false,
 						status: false,
-						message: `usersCollection: Error --> ${e}`,
+						message: `usersCollection: Error --> ${err}`,
 						created: false,
 					}
 				}
@@ -217,11 +216,11 @@ const c_register = async (req) => {
 			}
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `usersCollection: Error --> ${e}`,
+			message: `usersCollection: Error --> ${err}`,
 			created: false,
 		}
 	}
@@ -244,11 +243,11 @@ const c_verify = async (user_id) => {
 				user: user
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `usersCollection: Error --> ${e}`
+				message: `usersCollection: Error --> ${err}`
 			}
 		}
 	}
@@ -289,11 +288,11 @@ const c_verifiedStatus = async (user_id) => {
 				}
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `usersCollection: Error --> ${e}`,
+				message: `usersCollection: Error --> ${err}`,
 			}
 		}
 	}

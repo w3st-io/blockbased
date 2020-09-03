@@ -125,7 +125,7 @@
 						sort,
 					)
 				}
-				catch (e) { this.error = e }
+				catch (err) { this.error = err }
 
 				if (this.data.status) { this.posts = this.data.posts }
 				else { this.error = this.data.message }

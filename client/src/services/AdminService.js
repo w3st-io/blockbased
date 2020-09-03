@@ -48,11 +48,11 @@ async function login(email, password) {
 
 		return returned.data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: true,
 			status: false,
-			message: `AdminService: Error --> ${e}`
+			message: `AdminService: Error --> ${err}`
 		}
 	}
 }
@@ -74,11 +74,11 @@ async function register(first_name, last_name, username, email, password) {
 
 		return returned.data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: true,
 			status: false,
-			message: `AdminService: Error --> ${e}`,
+			message: `AdminService: Error --> ${err}`,
 		}
 	}
 }

@@ -85,11 +85,11 @@
 
 					if (!this.post.followed) {
 						try { await PostService.s_follow(this.post._id) }
-						catch (e) { this.error = e }
+						catch (err) { this.error = err }
 					}
 					else {
 						try { await PostService.s_unfollow(this.post._id) }
-						catch (e) { this.error = e }
+						catch (err) { this.error = err }
 					}
 
 					this.$emit('refreshPost')

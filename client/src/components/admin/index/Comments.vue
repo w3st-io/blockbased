@@ -59,7 +59,7 @@
 			async deleteComment(comment_id) {
 				// Delete Comment //
 				try { await ACommentService.s_delete(comment_id) }
-				catch (e) { this.error = e }
+				catch (err) { this.error = err }
 				
 				// Refresh Table //
 				this.getComments()
@@ -68,7 +68,7 @@
 			async getComments() {
 				// Get Comments //
 				try { this.returned = await ACommentService.s_readAllAll(100, 0) }
-				catch (e) { this.error = `Error --> ${e}` }
+				catch (err) { this.error = `Error --> ${err}` }
 
 				if (this.returned.status) {
 					this.comments = this.returned.comments

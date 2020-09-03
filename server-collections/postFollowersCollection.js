@@ -34,11 +34,11 @@ const c_create = async (user_id, post_id) => {
 				createdPostFollow: createdPostFollow,
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `postFollowersCollection: Error --> ${e}`,
+				message: `postFollowersCollection: Error --> ${err}`,
 			}
 		}
 	}
@@ -57,11 +57,11 @@ const c_readAll = async (post_id) => {
 			postFollowers: postFollowers,
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `postFollowersCollection: Error --> ${e}`,
+			message: `postFollowersCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -82,11 +82,11 @@ const c_delete = async (user_id, post_id) => {
 			deletedPostFollower: deletedPostFollower
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `postFollowersCollection: Error --> ${e}`,
+			message: `postFollowersCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -119,11 +119,11 @@ const c_existance = async (user_id, post_id) => {
 				}
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `postFollowersCollection: Error --> ${e}`,
+				message: `postFollowersCollection: Error --> ${err}`,
 			}
 		}
 	}
@@ -148,11 +148,11 @@ const c_countAll = async (post_id) => {
 			count: count
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `postFollowersCollection: Error --> ${e}`
+			message: `postFollowersCollection: Error --> ${err}`
 		}
 	}
 

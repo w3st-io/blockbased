@@ -27,11 +27,11 @@ const c_delete = async (comment_id) => {
 				deletedComment: deletedComment,
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `commentsCollection: Error --> ${e}`,
+				message: `commentsCollection: Error --> ${err}`,
 			}
 		}
 	}

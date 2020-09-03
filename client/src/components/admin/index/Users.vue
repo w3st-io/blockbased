@@ -64,7 +64,7 @@
 					if (returned.status) { this.users = returned.users }
 					else { this.error = returned.message }
 				}
-				catch (e) { this.error = e }
+				catch (err) { this.error = err }
 			},
 
 			async banUser(user_id) { await AUserService.s_banUser(user_id, 1) },

@@ -62,12 +62,12 @@
 					if (returned.status) { this.posts = returned.posts }
 					else { this.error = returned.message }
 				}
-				catch (e) { this.error = e }
+				catch (err) { this.error = err }
 			},
 
 			async deletePost(post_id) {
 				try { await APostService.s_delete(post_id) }
-				catch (e) { this.error = e }
+				catch (err) { this.error = err }
 				
 				// Refresh Table //
 				this.getPosts()

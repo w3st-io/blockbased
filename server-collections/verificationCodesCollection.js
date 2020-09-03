@@ -32,11 +32,11 @@ const c_create = async (user_id) => {
 			createdVerificationCode: createdVerificationCode,
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `verificationCodesCollection: Error --> ${e}`,
+			message: `verificationCodesCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -54,11 +54,11 @@ const c_delete = async (user_id) => {
 			deletedVerificationCode: deletedVerificationCode,
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `verificationCodesCollection: Error --> ${e}`,
+			message: `verificationCodesCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -92,11 +92,11 @@ const c_existance = async (user_id, verificationCode) => {
 				}
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `verificationCodesCollection: Error --> ${e}`,
+				message: `verificationCodesCollection: Error --> ${err}`,
 			}
 		}
 	}

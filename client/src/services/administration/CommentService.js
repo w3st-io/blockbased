@@ -31,11 +31,11 @@ async function s_readAllAll(limit, pageNumber) {
 
 		return data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `CommentService: Error --> ${e}` }
+			message: `CommentService: Error --> ${err}` }
 	}
 }
 

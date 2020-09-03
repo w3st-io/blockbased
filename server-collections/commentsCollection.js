@@ -31,11 +31,11 @@ const c_create = async (user_id, post_id, text) => {
 				createdComment: createdComment,
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `commentsCollection: Error --> ${e}`,
+				message: `commentsCollection: Error --> ${err}`,
 			}
 		}
 	}
@@ -65,11 +65,11 @@ const c_readAllAll = async (skip, limit) => {
 			comments: comments
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `commentsCollection: Error --> ${e}`,
+			message: `commentsCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -90,11 +90,11 @@ const c_readAll = async (post_id, skip, limit) => {
 			comments: comments
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `commentsCollection: Error --> ${e}`,
+			message: `commentsCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -115,11 +115,11 @@ const c_read = async (comment_id) => {
 				comment: comment
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `commentsCollection: Error --> ${e}`,
+				message: `commentsCollection: Error --> ${err}`,
 			}
 		}
 	}
@@ -151,11 +151,11 @@ const c_update = async (comment_id, text) => {
 
 				}
 			}
-			catch (e) {
+			catch (err) {
 				return {
 					executed: false,
 					status: false,
-					message: `commentsCollection: Error --> ${e}`,
+					message: `commentsCollection: Error --> ${err}`,
 					updated: false,
 				}
 			}
@@ -197,11 +197,11 @@ const c_delete = async (user_id, comment_id) => {
 				deletedComment: deletedComment,
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `commentsCollection: Error --> ${e}`,
+				message: `commentsCollection: Error --> ${err}`,
 			}
 		}
 	}
@@ -237,11 +237,11 @@ const c_existance = async (comment_id) => {
 				}
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `commentsCollection: Error --> ${e}`
+				message: `commentsCollection: Error --> ${err}`
 			}
 		}
 	}
@@ -284,11 +284,11 @@ const c_ownership = async (user_id, comment_id) => {
 				}
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `commentsCollection: Error --> ${e}`
+				message: `commentsCollection: Error --> ${err}`
 			}
 		}
 	}
@@ -313,11 +313,11 @@ const c_countAll = async (post_id) => {
 			count: count
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `commentsCollection: Error --> ${e}`
+			message: `commentsCollection: Error --> ${err}`
 		}
 	}
 }

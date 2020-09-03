@@ -27,7 +27,7 @@ class Auth {
 
 			// If a token exists => Validate JWT //
 			if (tokenBody !== 'undefined') {
-				jwt.verify(tokenBody, secretKey, async (e, decoded) => {
+				jwt.verify(tokenBody, secretKey, async (err, decoded) => {
 					if (decoded) {
 						let ban
 						let verified
@@ -41,13 +41,13 @@ class Auth {
 
 							//console.log('Auth verified:', verified)
 						}
-						catch (e) { console.log(`Auth: Error --> ${e}`) }
+						catch (err) { console.log(`Auth: Error --> ${err}`) }
 
 						if (verified.status) {
 							
 							// Check Ban //
 							try { ban = await banCollection.c_existance(req.decoded._id) }
-							catch (e) { console.log(`Auth: Error --> ${e}`) }
+							catch (err) { console.log(`Auth: Error --> ${err}`) }
 							//console.log('Auth ban:', ban)
 							
 							
@@ -56,7 +56,7 @@ class Auth {
 						else { res.status(200).send(verified) }
 					}
 					else {
-						console.log(`JWT Error: ${e}`)
+						console.log(`JWT Error: ${err}`)
 
 						res.status(200).send({
 							executed: true,
@@ -88,9 +88,9 @@ class Auth {
 
 			// If a token exists => Validate JWT //
 			if (tokenBody !== 'undefined') {
-				jwt.verify(tokenBody, secretKey, async (e, decoded) => {
+				jwt.verify(tokenBody, secretKey, async (err, decoded) => {
 					if (decoded) { req.decoded = decoded }
-					else { console.log('JWT Verify:', e) }
+					else { console.log('JWT Verify:', err) }
 				})
 			}
 			
@@ -109,7 +109,7 @@ class Auth {
 			
 			// If a token exists =>  Validate JWT //
 			if (tokenBody !== 'undefined') {
-				jwt.verify(tokenBody, secretKey, async (e, decoded) => {
+				jwt.verify(tokenBody, secretKey, async (err, decoded) => {
 					if (decoded) {
 						// Check if the role is admin
 						if (decoded.role == 'admin') { next() }
@@ -123,7 +123,7 @@ class Auth {
 						}
 					}
 					else {
-						console.log(`Admin JWT Error: ${e}`)
+						console.log(`Admin JWT Error: ${err}`)
 
 						res.status(200).send({
 							executed: true,

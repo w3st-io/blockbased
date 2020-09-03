@@ -35,11 +35,11 @@ const c_create = async (user_id, post_id, comment_id) => {
 				createdCommentLike: createdCommentLike,
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `commentLikesCollection: Error --> ${e}`,
+				message: `commentLikesCollection: Error --> ${err}`,
 			}
 		}
 	}
@@ -63,11 +63,11 @@ const c_delete = async (user_id, comment_id) => {
 			deletedCommentLike: deletedCommentLike,
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `commentLikesCollection: Error --> ${e}`,
+			message: `commentLikesCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -86,11 +86,11 @@ const c_deleteAll = async (comment_id) => {
 			deletedCommentLikes: deletedCommentLikes
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: true,
 			status: false,
-			message: `commentLikesCollection: Error --> ${e}`,
+			message: `commentLikesCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -123,11 +123,11 @@ const c_existance = async (user_id, comment_id) => {
 				}
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `commentLikesCollection: Error --> ${e}`,
+				message: `commentLikesCollection: Error --> ${err}`,
 			}
 		}
 	}
@@ -152,11 +152,11 @@ const c_countAll = async (comment_id) => {
 			count: count
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `commentLikesCollection: Error --> ${e}`,
+			message: `commentLikesCollection: Error --> ${err}`,
 		}
 	}
 }

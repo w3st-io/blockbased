@@ -32,8 +32,8 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.commentLimiter,
 	async (req, res) => {
-		const existance = await postsCollection.c_existance(req.body.post_id)
 		let returnFollowers = []
+		const existance = await postsCollection.c_existance(req.body.post_id)
 
 		if (existance.existance) {
 			const returned = await commentsCollection.c_create(
@@ -84,42 +84,47 @@ router.get(
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params.post_id)) {
-			const returned = await commentsCollection.c_readAll(
-				req.params.post_id,
-				req.params.skip,
-				req.params.limit
-			)
-			
-			if (returned.status) {
-				// For Each Post in Posts //
-				for (let i = 0; i < returned.comments.length; i++) {
-					try {
-						// Set Like Count //
-						const count = await commentLikesCollection.c_countAll(
-							returned.comments[i]._id
-						)
-	
-						returned.comments[i].likeCount = count.count
-					}
-					catch (e) { console.log(`comments: Error --> ${e}`) }
-	
-					if (req.decoded) {
-						// Set Liked Status //
+			const existance = await postsCollection.c_existance(req.params.post_id)
+
+			if (existance.existance) {
+				const returned = await commentsCollection.c_readAll(
+					req.params.post_id,
+					req.params.skip,
+					req.params.limit
+				)
+				
+				if (returned.status) {
+					// For Each Post in Posts //
+					for (let i = 0; i < returned.comments.length; i++) {
 						try {
-							// check if the post like exist..
-							const liked = await commentLikesCollection.c_existance(
-								req.decoded._id,
+							// Set Like Count //
+							const count = await commentLikesCollection.c_countAll(
 								returned.comments[i]._id
 							)
 		
-							returned.comments[i].liked = liked.existance
+							returned.comments[i].likeCount = count.count
 						}
-						catch (e) { console.log(`comments: Error --> ${e}`) }
+						catch (err) { console.log(`comments: Error --> ${err}`) }
+		
+						if (req.decoded) {
+							// Set Liked Status //
+							try {
+								// check if the post like exist..
+								const liked = await commentLikesCollection.c_existance(
+									req.decoded._id,
+									returned.comments[i]._id
+								)
+			
+								returned.comments[i].liked = liked.existance
+							}
+							catch (err) { console.log(`comments: Error --> ${err}`) }
+						}
 					}
 				}
-			}
 			
-			res.status(200).send(returned)
+				res.status(200).send(returned)
+			}
+			else { res.status(200).send(existance) }
 		}
 		else {
 			res.status(200).send({
@@ -148,7 +153,7 @@ router.get(
 
 					returned.comment.likeCount = count.count
 				}
-				catch (e) { console.log(`comment: Error --> ${e}`) }
+				catch (err) { console.log(`comment: Error --> ${err}`) }
 
 				// Set Liked Status //
 				if (req.decoded) {
@@ -162,7 +167,7 @@ router.get(
 
 						returned.comment.liked = liked.existance
 					}
-					catch (e) { console.log(`comment: Error --> ${e}`) }
+					catch (err) { console.log(`comment: Error --> ${err}`) }
 				}
 			}
 
@@ -197,12 +202,10 @@ router.post(
 				)
 				
 				res.status(201).send(returned)
-				
 			}
 			else { res.status(200).send(ownership) }
 		}
 		else {
-			console.log('677', returned)
 			res.status(200).send({
 				executed: true,
 				status: false,

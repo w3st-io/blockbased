@@ -54,11 +54,11 @@ async function s_readAll(post_id, limit, pageNumber) {
 
 		return data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `CommentService: Error --> ${e}`
+			message: `CommentService: Error --> ${err}`
 		}
 	}
 }
@@ -78,11 +78,11 @@ async function s_read(comment_id) {
 		console.log('CommentService: data:', data)
 		return data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `CommentService: Error --> ${e}`
+			message: `CommentService: Error --> ${err}`
 		}
 	}
 }
@@ -99,11 +99,11 @@ async function s_update(comment_id, text) {
 
 		return data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `CommentService: Error --> ${e}`
+			message: `CommentService: Error --> ${err}`
 		}
 	}
 }
@@ -118,11 +118,11 @@ async function  s_delete(comment_id) {
 
 		return data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `CommentService: Error --> ${e}`
+			message: `CommentService: Error --> ${err}`
 		}
 	}
 }

@@ -111,7 +111,7 @@
 					) { this.successful() }
 					else { this.error = this.returned.message }
 				}
-				catch (e) { this.error = e }
+				catch (err) { this.error = err }
 			},
 
 			async successful() {

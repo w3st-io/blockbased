@@ -81,7 +81,7 @@
 				this.loggedIn = true
 				
 				try { this.decoded = await UserService.getUserTokenDecodeData() }
-				catch (e) { `App: Error --> ${e}` }
+				catch (err) { `App: Error --> ${err}` }
 
 				this.socket.emit('join', this.decoded._id)
 			}
@@ -155,9 +155,9 @@
 
 			log() {
 				console.log('%%% [APP] App %%%')
-				console.log('data:', this.data)
 				console.log('usertoken:', localStorage.usertoken)
 				console.log('admintoken:', localStorage.admintoken)
+				console.log('data:', this.data)
 			}
 		}
 	}

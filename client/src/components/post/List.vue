@@ -122,11 +122,11 @@
 						
 					if (post.liked) {
 						try { await PostService.s_unlike(post._id) }
-						catch (e) { this.error = e }
+						catch (err) { this.error = err }
 					}
 					else {
 						try { await PostService.s_like(post._id) }
-						catch (e) { this.error = e }
+						catch (err) { this.error = err }
 					}
 
 					this.disabled = false

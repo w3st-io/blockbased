@@ -118,7 +118,7 @@
 						this.editorText
 					)
 				}
-				catch (e) { this.error = e }
+				catch (err) { this.error = err }
 				
 				this.disabled = false
 				this.loading = false

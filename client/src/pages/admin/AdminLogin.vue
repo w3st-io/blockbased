@@ -99,7 +99,7 @@
 					else { this.error = this.data.message }
 					
 				}
-				catch (e) { this.error = e }
+				catch (err) { this.error = err }
 			},
 
 			successful() {

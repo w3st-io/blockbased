@@ -64,7 +64,7 @@
 
 			// Retrieve User Token Decode Data //
 			try { this.decoded = await UserService.getUserTokenDecodeData() }
-			catch (e) { this.error = e }
+			catch (err) { this.error = err }
 
 			// Retrieve User Profile Data //
 			try {
@@ -73,7 +73,7 @@
 				if (returned.status) { this.userData = returned.user }
 				else { this.error = returned.message }
 			}
-			catch (e) { this.error = e }
+			catch (err) { this.error = err }
 
 			// [LOG] //
 			//this.log()

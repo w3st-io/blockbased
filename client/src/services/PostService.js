@@ -26,11 +26,11 @@ async function s_create(cat_id, title, text) {
 		
 		return data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `PostService: Error --> ${e}`
+			message: `PostService: Error --> ${err}`
 		}
 	}
 }
@@ -45,7 +45,7 @@ async function s_readAll(cat_id, limit, pageNumber, sort) {
 		let { data } = await authAxios.get(
 			`/read-all/${cat_id}/${limit}/${skip}/${sort}`
 		)
-		
+
 		if (data.status) {
 			data.posts.forEach(post => {
 				post.createdAt = new Date(post.createdAt).toLocaleString()
@@ -54,11 +54,11 @@ async function s_readAll(cat_id, limit, pageNumber, sort) {
 
 		return data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			error: `PostService: Error --> ${e}`
+			error: `PostService: Error --> ${err}`
 		}
 	}
 }
@@ -77,11 +77,11 @@ async function s_read(post_id) {
 
 		return data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `PostService: Error --> ${e}`
+			message: `PostService: Error --> ${err}`
 		}
 	}
 }
@@ -124,16 +124,6 @@ async function s_unfollow(post_id) {
 }
 
 
-/******************* [EXISTANCE] *******************/
-async function s_existance(post_id) {
-	const authAxios = await this.authAxios()
-
-	const { data } = await authAxios.get(`/existance/${post_id}`)
-	
-	return data
-}
-
-
 /******************* [COUNT] *******************/
 async function s_count(cat_id) {
 	const authAxios = await this.authAxios()
@@ -154,6 +144,5 @@ export default {
 	s_unlike,
 	s_follow,
 	s_unfollow,
-	s_existance,
 	s_count,
 }

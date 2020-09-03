@@ -80,13 +80,8 @@
 		},
 
 		created: async function() {
-			try {
-				this.validPost = await PostService.s_existance(this.post_id)
-
-				// Get Post Details //
-				this.post = await PostService.s_read(this.post_id)
-			}
-			catch (e) { this.error = e }
+			// Get Post Details //
+			this.post = await PostService.s_read(this.post_id)
 
 			// If Invalid Post => Disable //
 			if (!this.validPost) { this.disabled = true }
@@ -110,7 +105,7 @@
 							this.editorText
 						)
 					}
-					catch (e) { this.error = `This: Error --> ${e}` }
+					catch (err) { this.error = err }
 
 					this.disabled = false
 					this.loading = false

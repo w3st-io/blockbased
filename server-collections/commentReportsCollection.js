@@ -32,11 +32,11 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 			commentReport: commentReport,
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `commentReportsCollection: Error --> ${e}`
+			message: `commentReportsCollection: Error --> ${err}`
 		}
 	}
 }
@@ -56,11 +56,11 @@ const c_readAll = async () => {
 			reports: returned
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `commentReportsCollection: Error --> ${e}`
+			message: `commentReportsCollection: Error --> ${err}`
 		}
 	}
 }
@@ -82,11 +82,11 @@ const c_delete = async (commentReport_id) => {
 				deletedCommentReport: deletedCommentReport,
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `commentReportsCollection: Error --> ${e}`
+				message: `commentReportsCollection: Error --> ${err}`
 			}
 		}
 	}
@@ -129,11 +129,11 @@ const c_existance = async (user_id, comment_id) => {
 				}
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `commentReportsCollection: Error --> ${e}`
+				message: `commentReportsCollection: Error --> ${err}`
 			}
 		}
 	}

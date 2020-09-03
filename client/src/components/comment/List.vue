@@ -164,7 +164,7 @@
 			async deleteComment(comment_id) {
 				// [DELETE] Comment //
 				try { await CommentService.s_delete(comment_id) }
-				catch (e) { this.error = e }
+				catch (err) { this.error = err }
 
 				// [EMIT] Refresh Comments //
 				this.$emit('refreshComments') 
@@ -178,7 +178,7 @@
 						this.disabled = true
 
 						try { await CommentService.s_unlike(comment._id) }
-						catch (e) { this.error = e }
+						catch (err) { this.error = err }
 
 						this.disabled = false
 					}
@@ -186,7 +186,7 @@
 						this.disabled = true
 
 						try { await CommentService.s_like(this.post_id, comment._id) }
-						catch (e) { this.error = e }
+						catch (err) { this.error = err }
 
 						this.disabled = false
 					}

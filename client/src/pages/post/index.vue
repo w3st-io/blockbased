@@ -103,17 +103,14 @@
 		},
 
 		methods: {
-			async postRead() {
-				// Check If Post Is Valid //
-				try { this.existance = await PostService.s_existance(this.post_id) }
-				catch (e) { this.error = e }
+			async postRead() {				
+				try { this.returned = await PostService.s_read(this.post_id) }
+				catch (err) { this.error = err }
 
-				if (this.existance) {
-					try { this.returned = await PostService.s_read(this.post_id) }
-					catch (e) { this.error = e }
-	
-					if (this.returned.status) { this.post = this.returned.post }
-					else { this.error = this.returned.message }
+				if (this.returned.status) { this.post = this.returned.post }
+				else {
+					this.error = this.returned.message
+					this.loading = false
 				}
 			},
 
@@ -132,7 +129,7 @@
 					if (returned.status) { this.comments = returned.comments }
 					else { this.error = returned.message }
 				}
-				catch (e) { this.error = e }
+				catch (err) { this.error = err }
 
 				// Disable Loading //
 				this.loading = false

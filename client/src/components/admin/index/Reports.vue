@@ -64,13 +64,13 @@
 					if (returned.status) { this.reports = returned.reports }
 					else { this.error = returned.message }
 				}
-				catch (e) { this.error = e }
+				catch (err) { this.error = err }
 			},
 
 			async deleteReport(report_id) {
 				// Delete Report //
 				try { await AReportService.s_delete(report_id) }
-				catch (e) { this.error = e }
+				catch (err) { this.error = err }
 				
 				// Refresh Table //
 				this.getReports()

@@ -26,11 +26,11 @@ async function s_readAllAll() {
 
 		return returned.data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `Reports Service: Error --> ${e}`
+			message: `Reports Service: Error --> ${err}`
 		}
 	}
 }

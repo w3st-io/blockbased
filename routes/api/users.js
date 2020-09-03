@@ -84,11 +84,11 @@ router.post(
 
 		// [CREATE] Register Account //
 		try { user = await usersCollection.c_register(req) }
-		catch (e) {
+		catch (err) {
 			res.status(201).send({
 				executed: false,
 				status: false,
-				message: `users: Error --> ${e}`
+				message: `users: Error --> ${err}`
 			})
 		}
 
@@ -97,11 +97,11 @@ router.post(
 			try {
 				vCode = await verificationCodesCollection.c_create(user.createdUser._id)
 			}
-			catch (e) {
+			catch (err) {
 				res.status(201).send({
 					executed: false,
 					status: false,
-					message: `users: Error --> ${e}`
+					message: `users: Error --> ${err}`
 				})
 			}
 

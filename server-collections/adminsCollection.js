@@ -37,8 +37,7 @@ const c_login = async (email, password) => {
 				}
 
 				// Set Token //
-				//let token = jwt.sign(payload, secretKey, { expiresIn: 7200 })
-				const token = jwt.sign(payload, secretKey, {})
+				let token = jwt.sign(payload, secretKey, {/* expiresIn: 7200 */})
 
 				return {
 					executed: true,
@@ -66,11 +65,11 @@ const c_login = async (email, password) => {
 			}
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `adminsCollection: Error --> ${e}`,
+			message: `adminsCollection: Error --> ${err}`,
 			validation: false,
 		}
 	}
@@ -111,11 +110,11 @@ const c_register = async (req) => {
 							user: user,
 						}
 					}
-					catch (e) {
+					catch (err) {
 						return {
 							executed: false,
 							status: false,
-							message: `adminsCollection: Error --> ${e}`,
+							message: `adminsCollection: Error --> ${err}`,
 							created: false,
 						}
 					}
@@ -147,11 +146,11 @@ const c_register = async (req) => {
 			}
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `adminsCollection: Error --> ${e}`,
+			message: `adminsCollection: Error --> ${err}`,
 			created: false,
 		}
 	}

@@ -81,11 +81,8 @@
 
 		methods: {
 			async getCommentDetails() {
-				console.log('RUN2')
 				try { this.data = await CommentService.s_read(this.comment_id) }
-				catch (e) { this.error = e }
-
-				console.log('data', this.data)
+				catch (err) { this.error = err }
 
 				if (this.data) {
 					this.comment = this.data.comment
@@ -122,16 +119,13 @@
 						router.push(
 							{
 								name: 'Post',
-								params: {
-									post_id: this.comment.post,
-									page: 1
-								}
+								params: { post_id: this.comment.post, page: 1 }
 							}
 						)
 					}
 					else { this.error = updated.message }
 				}
-				catch (e) { this.error = e }	
+				catch (err) { this.error = err }	
 			},
 
 			log() {

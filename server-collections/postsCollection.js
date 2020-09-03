@@ -30,11 +30,11 @@ const c_create = async (user_id, cat_id, title) => {
 			createdPost: createdPost,
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `postsCollection: Error --> ${e}`,
+			message: `postsCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -68,11 +68,11 @@ const c_readAll = async (cat_id, skip, limit, sort) => {
 			posts: posts
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `postsCollection: Error --> ${e}`,
+			message: `postsCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -80,29 +80,34 @@ const c_readAll = async (cat_id, skip, limit, sort) => {
 // [READ] Single Post //
 const c_read = async (post_id) => {
 	if (mongoose.isValidObjectId(post_id)) {
-		try {
-			const post = await PostModel.findById(post_id)
-				.populate(
-					{
-						path: 'user',
-						select: 'username email profileImg',
-					}
-				)
-				.exec()
-			
-			return {
-				executed: true,
-				status: true,
-				post: post
+		const existance = await c_existance(post_id)
+		
+		if (existance.existance) {
+			try {
+				const post = await PostModel.findById(post_id)
+					.populate(
+						{
+							path: 'user',
+							select: 'username email profileImg',
+						}
+					)
+					.exec()
+				
+				return {
+					executed: true,
+					status: true,
+					post: post
+				}
+			}
+			catch (err) {
+				return {
+					executed: false,
+					status: false,
+					message: `postsCollection: Error --> ${err}`
+				}
 			}
 		}
-		catch (e) {
-			return {
-				executed: false,
-				status: false,
-				message: `postsCollection: Error --> ${e}`
-			}
-		}
+		else { return existance }
 	}
 	else {
 		return {
@@ -128,11 +133,11 @@ const c_incrementLike = async (post_id) => {
 			post: post
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `postsCollection: Error --> ${e}`
+			message: `postsCollection: Error --> ${err}`
 		}
 	}
 }
@@ -151,11 +156,11 @@ const c_decrementLike = async (post_id) => {
 			post: post
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `postsCollection: Error --> ${e}`
+			message: `postsCollection: Error --> ${err}`
 		}
 	}
 }
@@ -171,6 +176,7 @@ const c_existance = async (post_id) => {
 				return {
 					executed: true,
 					status: true,
+					message: `Post does exist`,
 					existance: true,
 					post: post,
 				}
@@ -178,17 +184,18 @@ const c_existance = async (post_id) => {
 			else {
 				return {
 					executed: true,
-					status: true,
+					status: false,
+					message: `Post does NOT exist`,
 					existance: false,
 					post: post,
 				}
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `postsCollection: Error --> ${e}`,
+				message: `postsCollection: Error --> ${err}`,
 				existance: false,
 			}
 		}
@@ -232,11 +239,11 @@ const c_ownership = async (user_id, post_id) => {
 				}
 			}
 		}
-		catch (e) {
+		catch (err) {
 			return {
 				executed: false,
 				status: false,
-				message: `postsCollection: Error --> ${e}`,
+				message: `postsCollection: Error --> ${err}`,
 			}
 		}
 	}
@@ -261,11 +268,11 @@ const c_countAll = async (cat_id) => {
 			count: count
 		}
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `postsCollection: Error --> ${e}`,
+			message: `postsCollection: Error --> ${err}`,
 		}
 	}
 }

@@ -33,11 +33,11 @@ async function s_readAllAll(limit, pageNumber) {
 
 		return data
 	}
-	catch (e) {
+	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `PostService: Error --> ${e}`
+			message: `PostService: Error --> ${err}`
 		}
 	}
 }
