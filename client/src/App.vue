@@ -33,6 +33,7 @@
 	import io from 'socket.io-client'
 
 	// [IMPORT] Personal //
+	import utils from './utils'
 	import AdminNavBar from '@components/admin/AdminNavBar'
 	import PopUpNotifications from '@components/notifications/PopUpNotifications'
 	import PopUpBanner from '@components/misc/PopUpBanner'
@@ -56,12 +57,13 @@
 
 		data: function() {
 			return {
+				port: 5000,
 				appKey: 0,
 				adminLoggedIn: false,
 				loggedIn: false,
 				decoded: {},
 				message: '',
-				socket: io('http://localhost:5000'),
+				socket: io(`http://localhost:${port}`),
 			}
 		},
 
@@ -82,6 +84,10 @@
 
 				this.socket.emit('admin-join')
 			}
+
+			// [GET-PORT] //
+			try { this.port = await utils.getPort() }
+			catch (err) { `App: Caught Error --> ${e}` }
 
 			// [ON-SOCKET] //
 			this.socket.on('update-notification', () => {
@@ -125,7 +131,7 @@
 			EventBus.$on('force-rerender', () => { this.forceRerender() })
 
 			// [LOG] //
-			//this.log()
+			this.log()
 		},
 
 		methods: {
@@ -137,6 +143,7 @@
 
 			log() {
 				console.log('%%% [APP] App %%%')
+				console.log('port:', this.port)
 				console.log('usertoken:', localStorage.usertoken)
 				console.log('admintoken:', localStorage.admintoken)
 			}

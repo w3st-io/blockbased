@@ -128,6 +128,21 @@ io.on('connection', (socket) => {
 })
 
 
+// [PORT + LISTEN] //
+const port = process.env.PORT || 5000
+server.listen(port, () => { console.log(`Server Running on Port: ${port}`) })
+
+
+// [MAIN-ROUTE] //
+app.get('/api', async (req, res) => {
+	res.send('<h1 style="color: #f45d22;">BlockBased.io API</h1>')
+})
+
+
+// [SEND-PORT-ROUTE] //
+app.get('/api/get-port', async (req, res) => { res.send(port) })
+
+
 // [HEROKU] Set static folder //
 if (process.env.NODE_ENV == 'production') {
 	app.use(express.static('client/dist'))
@@ -136,14 +151,3 @@ if (process.env.NODE_ENV == 'production') {
 		res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
 	})
 }
-
-
-// [PORT + LISTEN] //
-const port = process.env.PORT || 5000
-server.listen(port, () => { console.log(`Server Running on Port: ${port}`) })
-
-
-// [MAIN ROUTE] //
-app.get('', async (req, res) => {
-	res.send('<h1 style="color: #f45d22;">BlockBased.io API</h1>')
-})
