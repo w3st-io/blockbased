@@ -145,7 +145,7 @@ router.get(
 		if (mongoose.isValidObjectId(req.params._id)) {
 			let returned = await postsCollection.c_read(req.params._id)
 			
-			if (returned.status && !returned.existance == false) {
+			if (returned.status) {
 				// Set Like Count //
 				try {
 					const count = await postLikesCollection.c_countAll(

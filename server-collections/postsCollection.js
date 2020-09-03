@@ -54,12 +54,7 @@ const c_readAll = async (cat_id, skip, limit, sort) => {
 			.sort(sort2)
 			.skip(parseInt(skip))
 			.limit(parseInt(limit))
-			.populate(
-				{
-					path: 'user',
-					select: 'username email profileImg',
-				}
-			)
+			.populate({ path: 'user', select: 'username email profileImg', })
 			.exec()
 
 		return {
@@ -85,12 +80,7 @@ const c_read = async (post_id) => {
 		if (existance.existance) {
 			try {
 				const post = await PostModel.findById(post_id)
-					.populate(
-						{
-							path: 'user',
-							select: 'username email profileImg',
-						}
-					)
+					.populate({ path: 'user', select: 'username email profileImg', })
 					.exec()
 				
 				return {
