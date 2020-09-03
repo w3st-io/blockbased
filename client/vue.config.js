@@ -8,7 +8,7 @@ const port = process.env.PORT || 5000
 
 // [EXPORT] //
 module.exports = {
-	publicPath: './',
+	publicPath: '/',
 	devServer: {
 		proxy: {
 			'^/api': {

@@ -9,6 +9,7 @@ const cors = require('cors')
 const express = require('express')
 const http = require('http')
 const mongoose = require('mongoose')
+const path = require('path')
 const socketIO = require('socket.io')
 require('dotenv').config()
 
@@ -125,6 +126,16 @@ io.on('connection', (socket) => {
 		userUtils.leave(socket.id)
 	})
 })
+
+
+// [HEROKU] Set static folder //
+if (process.env.NODE_ENV == 'production') {
+	app.use(express.static('client/dist'))
+
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
+	})
+}
 
 
 // [PORT + LISTEN] //
