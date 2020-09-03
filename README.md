@@ -5,12 +5,14 @@ Manually clone the repo and then run `npm install` in both the server and the cl
 
 ## .env should look like this:
 
-MONGO_URI = < Mongo uri goes here >
 DB = < DB name here >
+EMAIL = < Email to send verification >
+EMAIL_PASSWORD = < Email password >
+MAILER_URL = < Url for email >
+MONGO_URI = < Mongo uri goes here >
 PORT = < Chosen port here >
 SECRET_KEY = < Your secret goes here >
-EMAIL = < email to send verification >
-EMAIL_PASSWORD = < email password >
+URL = < Url of Site >
 
 
 ### Note to myself..

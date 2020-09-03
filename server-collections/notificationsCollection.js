@@ -36,7 +36,7 @@ const c_create = async (user_id, comment_id, type) => {
 		return {
 			executed: false,
 			status: false,
-			message: `notificationsCollection: Caught Error --> ${e}`,
+			message: `notificationsCollection: Error --> ${e}`,
 		}
 	}
 }
@@ -79,7 +79,7 @@ const c_readAll = async (user_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `nofiticationsCollection: Caught Error --> ${e}`
+			message: `nofiticationsCollection: Error --> ${e}`
 		}
 	}
 }
@@ -101,7 +101,7 @@ const c_deleteAll = async (comment_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `notificationsCollection: Caught Error --> ${e}`,
+			message: `notificationsCollection: Error --> ${e}`,
 		}
 	}
 }
@@ -129,7 +129,7 @@ const c_markRead = async (_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `notificationsCollection: Caught Error --> ${e}`,
+			message: `notificationsCollection: Error --> ${e}`,
 			markedRead: true,
 		}
 	}

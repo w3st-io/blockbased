@@ -16,11 +16,11 @@ async function authAxios() {
 }
 
 
-/******************* [PORT] *******************/
-async function getPort() {
+/******************* [URL + PORT] *******************/
+async function getUrl() {
 	const authAxios = await this.authAxios()
 
-	const returned = await authAxios.get('/get-port')
+	const returned = await authAxios.get('/get-url')
 
 	return returned
 }
@@ -29,5 +29,5 @@ async function getPort() {
 // [EXPORT] //
 export default {
 	authAxios,
-	getPort,
+	getUrl
 }

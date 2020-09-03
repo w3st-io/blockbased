@@ -34,7 +34,7 @@ const c_readAll = async () => {
 		return {
 			executed: false,
 			status: false,
-			message: `UserCollection: Caught Error --> ${e}`
+			message: `UserCollection: Error --> ${e}`
 		}
 	}
 }
@@ -56,7 +56,7 @@ const c_read = async (user_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `UserCollection: Caught Error --> ${e}`
+				message: `UserCollection: Error --> ${e}`
 			}
 		}
 	}
@@ -90,7 +90,7 @@ const c_update = async (user_id, img_url) => {
 			return {
 				executed: false,
 				status: false,
-				message: `usersCollection: Caught Error --> ${e}`
+				message: `usersCollection: Error --> ${e}`
 			}
 		}
 	}
@@ -154,7 +154,7 @@ const c_login = async (email, password) => {
 		return {
 			executed: false,
 			status: false,
-			message: `usersCollection: Caught Error --> ${e}`
+			message: `usersCollection: Error --> ${e}`
 		}
 	}
 }
@@ -194,7 +194,7 @@ const c_register = async (req) => {
 					return {
 						executed: false,
 						status: false,
-						message: `usersCollection: Caught Error --> ${e}`,
+						message: `usersCollection: Error --> ${e}`,
 						created: false,
 					}
 				}
@@ -221,7 +221,7 @@ const c_register = async (req) => {
 		return {
 			executed: false,
 			status: false,
-			message: `usersCollection: Caught Error --> ${e}`,
+			message: `usersCollection: Error --> ${e}`,
 			created: false,
 		}
 	}
@@ -248,7 +248,7 @@ const c_verify = async (user_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `usersCollection: Caught Error --> ${e}`
+				message: `usersCollection: Error --> ${e}`
 			}
 		}
 	}
@@ -293,7 +293,7 @@ const c_verifiedStatus = async (user_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `usersCollection: Caught Error --> ${e}`,
+				message: `usersCollection: Error --> ${e}`,
 			}
 		}
 	}

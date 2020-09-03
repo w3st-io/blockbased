@@ -57,23 +57,31 @@
 
 		data: function() {
 			return {
-				port: 5000,
-				appKey: 0,
+				// [SOCKET] //
+				socket: '',
+				data: {},
+
+				// [USER] //
 				adminLoggedIn: false,
 				loggedIn: false,
 				decoded: {},
+
+				// [APP] //
+				appKey: 0,
 				message: '',
-				socket: io(`http://localhost:${port}`),
 			}
 		},
 
 		created: async function() {
+			// Set Socket //
+			await this.setSocket()
+
 			// [CHECK IF LOGGEDIN] //
 			if (localStorage.usertoken) {
 				this.loggedIn = true
 				
 				try { this.decoded = await UserService.getUserTokenDecodeData() }
-				catch (e) { `App: Caught Error --> ${e}` }
+				catch (e) { `App: Error --> ${e}` }
 
 				this.socket.emit('join', this.decoded._id)
 			}
@@ -84,10 +92,6 @@
 
 				this.socket.emit('admin-join')
 			}
-
-			// [GET-PORT] //
-			try { this.port = await utils.getPort() }
-			catch (err) { `App: Caught Error --> ${e}` }
 
 			// [ON-SOCKET] //
 			this.socket.on('update-notification', () => {
@@ -135,6 +139,16 @@
 		},
 
 		methods: {
+			async setSocket() {
+				// [GET-PORT] //
+				try { this.data = await utils.getUrl() }
+				catch (err) { `App: Error --> ${err}` }
+				
+				console.log('socket data:', this.data)
+
+				if (this.data.data) { this.socket = io(this.data.data) }
+			},
+
 			forceRerender() {
 				this.appKey++
 				

@@ -31,6 +31,11 @@ const admininstrationReports = require('./routes/api/administration/reports')
 const admininstrationUsers = require('./routes/api/administration/users')
 
 
+// [INIT] Const //
+const url = process.env.URL || 'http://localhost:5000'
+const port = process.env.PORT || 5000
+
+
 // [MONGOOSE-CONNECTION] //
 mongoose.connect(
 	process.env.MONGO_URI,
@@ -120,7 +125,7 @@ io.on('connection', (socket) => {
 	// [ON] Disconnect //
 	socket.on('disconnect', () => {
 		// [LOG] //
-		//console.log('WS Closed')
+		console.log('WS Closed')
 
 		// Leave variable
 		userUtils.leave(socket.id)
@@ -128,22 +133,15 @@ io.on('connection', (socket) => {
 })
 
 
-// [PORT + LISTEN] //
-const port = process.env.PORT || 5000
-server.listen(port, () => { console.log(`Server Running on Port: ${port}`) })
-
-
 // [MAIN-ROUTE] //
-app.get('/api', async (req, res) => {
-	res.send('<h1 style="color: #f45d22;">BlockBased.io API</h1>')
-})
+app.get('/api', async (req, res) => { res.send('API!') })
 
 
-// [SEND-PORT-ROUTE] //
-app.get('/api/get-port', async (req, res) => { res.send(port) })
+// [URL-ROUTE] For the socket //
+app.get('/api/get-url', async (req, res) => { res.send(url) })
 
 
-// [HEROKU] Set static folder //
+// [HEROKU] Set Static Folder for Heroku //
 if (process.env.NODE_ENV == 'production') {
 	app.use(express.static('client/dist'))
 
@@ -151,3 +149,7 @@ if (process.env.NODE_ENV == 'production') {
 		res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
 	})
 }
+
+
+// [LISTEN] //
+server.listen(port, () => { console.log(`Server Running on Port: ${port}`) })

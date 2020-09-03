@@ -36,7 +36,7 @@ const c_create = async (user_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `verificationCodesCollection: Caught Error --> ${e}`,
+			message: `verificationCodesCollection: Error --> ${e}`,
 		}
 	}
 }
@@ -58,7 +58,7 @@ const c_delete = async (user_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `verificationCodesCollection: Caught Error --> ${e}`,
+			message: `verificationCodesCollection: Error --> ${e}`,
 		}
 	}
 }
@@ -96,7 +96,7 @@ const c_existance = async (user_id, verificationCode) => {
 			return {
 				executed: false,
 				status: false,
-				message: `verificationCodesCollection: Caught Error --> ${e}`,
+				message: `verificationCodesCollection: Error --> ${e}`,
 			}
 		}
 	}

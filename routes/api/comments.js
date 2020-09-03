@@ -101,7 +101,7 @@ router.get(
 	
 						returned.comments[i].likeCount = count.count
 					}
-					catch (e) { console.log(`comments: Caught Error --> ${e}`) }
+					catch (e) { console.log(`comments: Error --> ${e}`) }
 	
 					if (req.decoded) {
 						// Set Liked Status //
@@ -114,7 +114,7 @@ router.get(
 		
 							returned.comments[i].liked = liked.existance
 						}
-						catch (e) { console.log(`comments: Caught Error --> ${e}`) }
+						catch (e) { console.log(`comments: Error --> ${e}`) }
 					}
 				}
 			}
@@ -148,7 +148,7 @@ router.get(
 
 					returned.comment.likeCount = count.count
 				}
-				catch (e) { console.log(`comment: Caught Error --> ${e}`) }
+				catch (e) { console.log(`comment: Error --> ${e}`) }
 
 				// Set Liked Status //
 				if (req.decoded) {
@@ -162,7 +162,7 @@ router.get(
 
 						returned.comment.liked = liked.existance
 					}
-					catch (e) { console.log(`comment: Caught Error --> ${e}`) }
+					catch (e) { console.log(`comment: Error --> ${e}`) }
 				}
 			}
 

@@ -34,7 +34,7 @@ const c_create = async (user_id, cat_id, title) => {
 		return {
 			executed: false,
 			status: false,
-			message: `postsCollection: Caught Error --> ${e}`,
+			message: `postsCollection: Error --> ${e}`,
 		}
 	}
 }
@@ -72,7 +72,7 @@ const c_readAll = async (cat_id, skip, limit, sort) => {
 		return {
 			executed: false,
 			status: false,
-			message: `postsCollection: Caught Error --> ${e}`,
+			message: `postsCollection: Error --> ${e}`,
 		}
 	}
 }
@@ -100,7 +100,7 @@ const c_read = async (post_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `postsCollection: Caught Error --> ${e}`
+				message: `postsCollection: Error --> ${e}`
 			}
 		}
 	}
@@ -132,7 +132,7 @@ const c_incrementLike = async (post_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `postsCollection: Caught Error --> ${e}`
+			message: `postsCollection: Error --> ${e}`
 		}
 	}
 }
@@ -155,7 +155,7 @@ const c_decrementLike = async (post_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `postsCollection: Caught Error --> ${e}`
+			message: `postsCollection: Error --> ${e}`
 		}
 	}
 }
@@ -188,7 +188,7 @@ const c_existance = async (post_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `postsCollection: Caught Error --> ${e}`,
+				message: `postsCollection: Error --> ${e}`,
 				existance: false,
 			}
 		}
@@ -236,7 +236,7 @@ const c_ownership = async (user_id, post_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `postsCollection: Caught Error --> ${e}`,
+				message: `postsCollection: Error --> ${e}`,
 			}
 		}
 	}
@@ -265,7 +265,7 @@ const c_countAll = async (cat_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `postsCollection: Caught Error --> ${e}`,
+			message: `postsCollection: Error --> ${e}`,
 		}
 	}
 }

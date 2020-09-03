@@ -39,7 +39,7 @@ const c_create = async (user_id, post_id, comment_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `commentLikesCollection: Caught Error --> ${e}`,
+				message: `commentLikesCollection: Error --> ${e}`,
 			}
 		}
 	}
@@ -67,7 +67,7 @@ const c_delete = async (user_id, comment_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `commentLikesCollection: Caught Error --> ${e}`,
+			message: `commentLikesCollection: Error --> ${e}`,
 		}
 	}
 }
@@ -90,7 +90,7 @@ const c_deleteAll = async (comment_id) => {
 		return {
 			executed: true,
 			status: false,
-			message: `commentLikesCollection: Caught Error --> ${e}`,
+			message: `commentLikesCollection: Error --> ${e}`,
 		}
 	}
 }
@@ -127,7 +127,7 @@ const c_existance = async (user_id, comment_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `commentLikesCollection: Caught Error --> ${e}`,
+				message: `commentLikesCollection: Error --> ${e}`,
 			}
 		}
 	}
@@ -156,7 +156,7 @@ const c_countAll = async (comment_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `commentLikesCollection: Caught Error --> ${e}`,
+			message: `commentLikesCollection: Error --> ${e}`,
 		}
 	}
 }

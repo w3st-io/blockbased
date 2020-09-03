@@ -31,7 +31,7 @@ const c_delete = async (comment_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `commentsCollection: Caught Error --> ${e}`,
+				message: `commentsCollection: Error --> ${e}`,
 			}
 		}
 	}

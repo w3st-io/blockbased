@@ -32,7 +32,7 @@ async function s_read(user_id) {
 			return {
 				executed: false,
 				status: false,
-				message: `UserService: Caught Error --> ${e}`
+				message: `UserService: Error --> ${e}`
 			}
 		}
 	}
@@ -46,7 +46,7 @@ async function s_read(user_id) {
 			return {
 				executed: false,
 				status: false,
-				message: `UserService: Caught Error --> ${e}`
+				message: `UserService: Error --> ${e}`
 			}
 		}
 	}
@@ -65,7 +65,7 @@ async function s_update(img_url) {
 		return {
 			executed: false,
 			status: false,
-			message: `UserService: Caught Error --> ${e}`
+			message: `UserService: Error --> ${e}`
 		}
 	}
 	
@@ -108,7 +108,7 @@ async function login(email, password) {
 		return {
 			executed: false,
 			status: false,
-			message: `UserService: Caught Error --> ${e}`
+			message: `UserService: Error --> ${e}`
 		}
 	}
 }
@@ -135,7 +135,7 @@ async function register(first_name, last_name, username, email, password) {
 		return {
 			executed: false,
 			status: false,
-			message: `UserService: Caught Error --> ${e}`
+			message: `UserService: Error --> ${e}`
 		}
 	}
 }
@@ -157,7 +157,7 @@ async function verify(user_id, verificationCode) {
 		return {
 			executed: false,
 			status: false,
-			message: `UserService: Caught Error --> ${e}`
+			message: `UserService: Error --> ${e}`
 		}
 	}
 }

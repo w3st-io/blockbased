@@ -154,7 +154,7 @@ router.get(
 	
 					returned.post.likeCount = count.count
 				}
-				catch (e) { console.log(`posts: Caught Error --> ${e}`) }
+				catch (e) { console.log(`posts: Error --> ${e}`) }
 	
 				// Follow Count //
 				try {
@@ -164,7 +164,7 @@ router.get(
 	
 					returned.post.followersCount = count.count
 				}
-				catch (e) { console.log(`posts: Caught Error --> ${e}`) }
+				catch (e) { console.log(`posts: Error --> ${e}`) }
 	
 				// If User Logged In.. //
 				if (req.decoded) {

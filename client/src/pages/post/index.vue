@@ -6,6 +6,7 @@
 		<article class="card card-body bg-dark">
 			<!-- Title Header -->
 			<title-header
+				v-if="!loading"
 				:post="post"
 				:leftBtnEmitName="'post-page-prev'"
 				:rightBtnEmitName="'post-page-next'"
@@ -16,7 +17,7 @@
 
 			<!-- Comments List -->
 			<comment-list
-			v-if="!loading"
+				v-if="!loading"
 				:comments="comments"
 				:post_id="post_id"
 				@refreshComments="commentReadAll()"
@@ -88,7 +89,8 @@
 
 		created: async function() {
 			// [UPDATE] //
-			await this.postRead()
+			try { await this.postRead() }
+			catch(err) { console.log('err:', err) }
 
 			// [INIT] Comments //
 			if (!this.error) await this.commentReadAll()
@@ -126,7 +128,7 @@
 						this.limit,
 						pageIndex
 					)
-					console.log(returned);
+
 					if (returned.status) { this.comments = returned.comments }
 					else { this.error = returned.message }
 				}

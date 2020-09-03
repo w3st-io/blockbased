@@ -64,12 +64,13 @@
 
 		data: function() {
 			return {
+				username: '',
 				disabled: false,
 				error: '',
 			}
 		},
 
-		created: function() {
+		created: async function() {
 			// [LOG] //
 			//this.log()
 		},

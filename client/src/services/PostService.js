@@ -30,7 +30,7 @@ async function s_create(cat_id, title, text) {
 		return {
 			executed: false,
 			status: false,
-			message: `PostService: Caught Error --> ${e}`
+			message: `PostService: Error --> ${e}`
 		}
 	}
 }
@@ -58,7 +58,7 @@ async function s_readAll(cat_id, limit, pageNumber, sort) {
 		return {
 			executed: false,
 			status: false,
-			error: `PostService: Caught Error --> ${e}`
+			error: `PostService: Error --> ${e}`
 		}
 	}
 }
@@ -81,7 +81,7 @@ async function s_read(post_id) {
 		return {
 			executed: false,
 			status: false,
-			message: `PostService: Caught Error --> ${e}`
+			message: `PostService: Error --> ${e}`
 		}
 	}
 }

@@ -58,7 +58,7 @@ async function s_readAll(post_id, limit, pageNumber) {
 		return {
 			executed: false,
 			status: false,
-			message: `CommentService: Caught Error --> ${e}`
+			message: `CommentService: Error --> ${e}`
 		}
 	}
 }
@@ -82,7 +82,7 @@ async function s_read(comment_id) {
 		return {
 			executed: false,
 			status: false,
-			message: `CommentService: Caught Error --> ${e}`
+			message: `CommentService: Error --> ${e}`
 		}
 	}
 }
@@ -103,7 +103,7 @@ async function s_update(comment_id, text) {
 		return {
 			executed: false,
 			status: false,
-			message: `CommentService: Caught Error --> ${e}`
+			message: `CommentService: Error --> ${e}`
 		}
 	}
 }
@@ -122,7 +122,7 @@ async function  s_delete(comment_id) {
 		return {
 			executed: false,
 			status: false,
-			message: `CommentService: Caught Error --> ${e}`
+			message: `CommentService: Error --> ${e}`
 		}
 	}
 }

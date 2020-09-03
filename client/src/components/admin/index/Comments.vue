@@ -68,7 +68,7 @@
 			async getComments() {
 				// Get Comments //
 				try { this.returned = await ACommentService.s_readAllAll(100, 0) }
-				catch (e) { this.error = `Caught Error --> ${e}` }
+				catch (e) { this.error = `Error --> ${e}` }
 
 				if (this.returned.status) {
 					this.comments = this.returned.comments

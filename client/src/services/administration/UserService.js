@@ -30,7 +30,7 @@ async function s_readAll() {
 		return {
 			executed: false,
 			status: false,
-			message: `UserService: Caught Error --> ${e}`
+			message: `UserService: Error --> ${e}`
 		}
 	}
 }
@@ -48,7 +48,7 @@ async function s_read(user_id) {
 		return {
 			executed: false,
 			status: false,
-			message: `UserService: Caught Error --> ${e}`
+			message: `UserService: Error --> ${e}`
 		}
 	}
 }
@@ -66,7 +66,7 @@ async function s_update(user_id, img_url) {
 		return {
 			executed: false,
 			status: false,
-			message: `UserService: Caught Error --> ${e}`
+			message: `UserService: Error --> ${e}`
 		}
 	}
 	
@@ -85,7 +85,7 @@ async function s_banUser(user_id, hours) {
 		return {
 			executed: false,
 			status: false,
-			message: `UserService: Caught Error --> ${e}`
+			message: `UserService: Error --> ${e}`
 		}
 	}
 }

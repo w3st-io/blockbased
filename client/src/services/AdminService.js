@@ -52,7 +52,7 @@ async function login(email, password) {
 		return {
 			executed: true,
 			status: false,
-			message: `AdminService: Caught Error --> ${e}`
+			message: `AdminService: Error --> ${e}`
 		}
 	}
 }
@@ -78,7 +78,7 @@ async function register(first_name, last_name, username, email, password) {
 		return {
 			executed: true,
 			status: false,
-			message: `AdminService: Caught Error --> ${e}`,
+			message: `AdminService: Error --> ${e}`,
 		}
 	}
 }

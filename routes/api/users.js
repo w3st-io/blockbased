@@ -88,7 +88,7 @@ router.post(
 			res.status(201).send({
 				executed: false,
 				status: false,
-				message: `users: Caught Error --> ${e}`
+				message: `users: Error --> ${e}`
 			})
 		}
 
@@ -101,7 +101,7 @@ router.post(
 				res.status(201).send({
 					executed: false,
 					status: false,
-					message: `users: Caught Error --> ${e}`
+					message: `users: Error --> ${e}`
 				})
 			}
 

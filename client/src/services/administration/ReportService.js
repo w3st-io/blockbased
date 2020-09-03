@@ -30,7 +30,7 @@ async function s_readAllAll() {
 		return {
 			executed: false,
 			status: false,
-			message: `Reports Service: Caught Error --> ${e}`
+			message: `Reports Service: Error --> ${e}`
 		}
 	}
 }

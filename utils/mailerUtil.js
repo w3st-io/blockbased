@@ -25,17 +25,17 @@ function sendMail(to, subject, html) {
 
 	// Step 3
 	transporter.sendMail(mailOptions, (err, data) => {
-		if (err) return `mailerUtils: Caught Error --> ${err}`
+		if (err) return `mailerUtils: Error --> ${err}`
 		return 'Email Sent'
 	})
 }
 
 
 function sendVerificationMail(to, user_id, VCode) {
+	const email = process.env.EMAIL
+	const password = process.env.EMAIL_PASSWORD
 	const service = process.env.EMAIL_SERVICE || 'gmail'
-	const email = process.env.EMAIL || ''
-	const password = process.env.EMAIL_PASSWORD || ''
-	const url = process.env.URL || 'http://localhost:8080/#'
+	const mailer_url = process.env.MAILER_URL || 'http://localhost:8080'
 
 
 	// Step 1
@@ -47,11 +47,11 @@ function sendVerificationMail(to, user_id, VCode) {
 	// Step 2
 	const mailOptions = {
 		from: email,
-		to: 'aleem.ahmed1997@gmail.com',//to,
+		to: to,
 		subject: 'Verify your BlockBased.io Account',
 		html: `
 			<h1>Thank you creating an account! Verify & Join us!<h1/>
-			<a href="${url}/verify/${user_id}/${VCode}">
+			<a href="${mailer_url}/verify/${user_id}/${VCode}">
 				<button>Click to Verify</button>
 			</a>
 		`
@@ -59,7 +59,7 @@ function sendVerificationMail(to, user_id, VCode) {
 
 	// Step 3
 	transporter.sendMail(mailOptions, (err, data) => {
-		if (err) return `Caught Error --> ${err}`
+		if (err) return `Error --> ${err}`
 		return 'Email Sent'
 	})
 }

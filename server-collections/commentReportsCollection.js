@@ -36,7 +36,7 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 		return {
 			executed: false,
 			status: false,
-			message: `commentReportsCollection: Caught Error --> ${e}`
+			message: `commentReportsCollection: Error --> ${e}`
 		}
 	}
 }
@@ -60,7 +60,7 @@ const c_readAll = async () => {
 		return {
 			executed: false,
 			status: false,
-			message: `commentReportsCollection: Caught Error --> ${e}`
+			message: `commentReportsCollection: Error --> ${e}`
 		}
 	}
 }
@@ -86,7 +86,7 @@ const c_delete = async (commentReport_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `commentReportsCollection: Caught Error --> ${e}`
+				message: `commentReportsCollection: Error --> ${e}`
 			}
 		}
 	}
@@ -133,7 +133,7 @@ const c_existance = async (user_id, comment_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `commentReportsCollection: Caught Error --> ${e}`
+				message: `commentReportsCollection: Error --> ${e}`
 			}
 		}
 	}

@@ -35,7 +35,7 @@ const c_create = async (user_id, post_id, text) => {
 			return {
 				executed: false,
 				status: false,
-				message: `commentsCollection: Caught Error --> ${e}`,
+				message: `commentsCollection: Error --> ${e}`,
 			}
 		}
 	}
@@ -69,7 +69,7 @@ const c_readAllAll = async (skip, limit) => {
 		return {
 			executed: false,
 			status: false,
-			message: `commentsCollection: Caught Error --> ${e}`,
+			message: `commentsCollection: Error --> ${e}`,
 		}
 	}
 }
@@ -94,7 +94,7 @@ const c_readAll = async (post_id, skip, limit) => {
 		return {
 			executed: false,
 			status: false,
-			message: `commentsCollection: Caught Error --> ${e}`,
+			message: `commentsCollection: Error --> ${e}`,
 		}
 	}
 }
@@ -119,7 +119,7 @@ const c_read = async (comment_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `commentsCollection: Caught Error --> ${e}`,
+				message: `commentsCollection: Error --> ${e}`,
 			}
 		}
 	}
@@ -155,7 +155,7 @@ const c_update = async (comment_id, text) => {
 				return {
 					executed: false,
 					status: false,
-					message: `commentsCollection: Caught Error --> ${e}`,
+					message: `commentsCollection: Error --> ${e}`,
 					updated: false,
 				}
 			}
@@ -201,7 +201,7 @@ const c_delete = async (user_id, comment_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `commentsCollection: Caught Error --> ${e}`,
+				message: `commentsCollection: Error --> ${e}`,
 			}
 		}
 	}
@@ -241,7 +241,7 @@ const c_existance = async (comment_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `commentsCollection: Caught Error --> ${e}`
+				message: `commentsCollection: Error --> ${e}`
 			}
 		}
 	}
@@ -288,7 +288,7 @@ const c_ownership = async (user_id, comment_id) => {
 			return {
 				executed: false,
 				status: false,
-				message: `commentsCollection: Caught Error --> ${e}`
+				message: `commentsCollection: Error --> ${e}`
 			}
 		}
 	}
@@ -317,7 +317,7 @@ const c_countAll = async (post_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `commentsCollection: Caught Error --> ${e}`
+			message: `commentsCollection: Error --> ${e}`
 		}
 	}
 }

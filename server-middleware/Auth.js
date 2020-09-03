@@ -41,13 +41,13 @@ class Auth {
 
 							//console.log('Auth verified:', verified)
 						}
-						catch (e) { console.log(`Auth: Caught Error --> ${e}`) }
+						catch (e) { console.log(`Auth: Error --> ${e}`) }
 
 						if (verified.status) {
 							
 							// Check Ban //
 							try { ban = await banCollection.c_existance(req.decoded._id) }
-							catch (e) { console.log(`Auth: Caught Error --> ${e}`) }
+							catch (e) { console.log(`Auth: Error --> ${e}`) }
 							//console.log('Auth ban:', ban)
 							
 							

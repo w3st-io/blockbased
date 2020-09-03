@@ -70,7 +70,7 @@ const c_login = async (email, password) => {
 		return {
 			executed: false,
 			status: false,
-			message: `adminsCollection: Caught Error --> ${e}`,
+			message: `adminsCollection: Error --> ${e}`,
 			validation: false,
 		}
 	}
@@ -115,7 +115,7 @@ const c_register = async (req) => {
 						return {
 							executed: false,
 							status: false,
-							message: `adminsCollection: Caught Error --> ${e}`,
+							message: `adminsCollection: Error --> ${e}`,
 							created: false,
 						}
 					}
@@ -151,7 +151,7 @@ const c_register = async (req) => {
 		return {
 			executed: false,
 			status: false,
-			message: `adminsCollection: Caught Error --> ${e}`,
+			message: `adminsCollection: Error --> ${e}`,
 			created: false,
 		}
 	}
