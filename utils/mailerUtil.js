@@ -25,7 +25,7 @@ function sendMail(to, subject, html) {
 
 	// Step 3
 	transporter.sendMail(mailOptions, (err, data) => {
-		if (err) return `Caught Error --> ${err}`
+		if (err) return `mailerUtils: Caught Error --> ${err}`
 		return 'Email Sent'
 	})
 }

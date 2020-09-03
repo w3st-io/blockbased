@@ -27,7 +27,9 @@ Vue.use(Router)
 
 // [EXPORT] //
 const router = new Router ({
-	//mode: 'history',
+	mode: 'history',
+
+	base: process.env.BASE_URL,
 
 	routes: [
 		{
@@ -171,9 +173,13 @@ const router = new Router ({
 			component: Verify,
 		},
 		{
-			path: '/z',
+			path: '/z/:test',
 			name: 'Z',
 			component: z,
+		},
+		{
+			path: '*',
+			component: NotFound,
 		},
 		{
 			path: '/**',

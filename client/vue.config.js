@@ -1,9 +1,18 @@
+// [REQUIRE] Personal //
+require('dotenv').config()
+
+
+// [INIT] //
+const port = process.env.PORT || 5000
+
+
+// [EXPORT] //
 module.exports = {
-	publicPath: '',
+	publicPath: './',
 	devServer: {
 		proxy: {
 			'^/api': {
-				target: 'http://localhost:5000',
+				target: `http://localhost:${port}`,
 				ws: true,
 				changeOrigin: true
 			}

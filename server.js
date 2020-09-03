@@ -134,7 +134,5 @@ server.listen(port, () => { console.log(`Server Running on Port: ${port}`) })
 
 // [MAIN ROUTE] //
 app.get('', async (req, res) => {
-	console.log('req:', req)
-
 	res.send('<h1 style="color: #f45d22;">BlockBased.io API</h1>')
 })
