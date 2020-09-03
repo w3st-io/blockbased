@@ -35,7 +35,7 @@ function sendVerificationMail(to, user_id, VCode) {
 	const email = process.env.EMAIL
 	const password = process.env.EMAIL_PASSWORD
 	const service = process.env.EMAIL_SERVICE || 'gmail'
-	const mailer_url = process.env.MAILER_URL || 'http://localhost:8080'
+	const base_url = process.env.BASE_URL || 'http://localhost:8080'
 
 
 	// Step 1
@@ -51,7 +51,7 @@ function sendVerificationMail(to, user_id, VCode) {
 		subject: 'Verify your BlockBased.io Account',
 		html: `
 			<h1>Thank you creating an account! Verify & Join us!<h1/>
-			<a href="${mailer_url}/verify/${user_id}/${VCode}">
+			<a href="${base_url}/verify/${user_id}/${VCode}">
 				<button>Click to Verify</button>
 			</a>
 		`

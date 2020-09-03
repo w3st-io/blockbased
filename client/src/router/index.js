@@ -29,8 +29,6 @@ Vue.use(Router)
 const router = new Router ({
 	mode: 'history',
 
-	base: process.env.BASE_URL,
-
 	routes: [
 		{
 			path: '/',
@@ -173,7 +171,7 @@ const router = new Router ({
 			component: Verify,
 		},
 		{
-			path: '/z/:test',
+			path: '/z',
 			name: 'Z',
 			component: z,
 		},

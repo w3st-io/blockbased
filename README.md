@@ -12,7 +12,7 @@ MAILER_URL = < Url for email >
 MONGO_URI = < Mongo uri goes here >
 PORT = < Chosen port here >
 SECRET_KEY = < Your secret goes here >
-URL = < Url of Site >
+BASE_URL = < Url of Site >
 
 
 ### Note to myself..

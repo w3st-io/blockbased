@@ -76,7 +76,7 @@
 			// Set Socket //
 			await this.setSocket()
 
-			// [CHECK IF LOGGEDIN] //
+			// [LOGGEDIN] //
 			if (localStorage.usertoken) {
 				this.loggedIn = true
 				
@@ -86,7 +86,7 @@
 				this.socket.emit('join', this.decoded._id)
 			}
 
-			// [CHECK IF ADMINLOGGEDIN] //
+			// [ADMIN LOGGEDIN] //
 			if (localStorage.admintoken) {
 				this.adminLoggedIn = true
 
@@ -141,12 +141,10 @@
 		methods: {
 			async setSocket() {
 				// [GET-PORT] //
-				try { this.data = await utils.getUrl() }
+				try { this.data = await utils.getBaseUrl() }
 				catch (err) { `App: Error --> ${err}` }
-				
-				console.log('socket data:', this.data)
 
-				if (this.data.data) { this.socket = io(this.data.data) }
+				if (this.data) { this.socket = io(this.data) }
 			},
 
 			forceRerender() {
@@ -157,7 +155,7 @@
 
 			log() {
 				console.log('%%% [APP] App %%%')
-				console.log('port:', this.port)
+				console.log('data:', this.data)
 				console.log('usertoken:', localStorage.usertoken)
 				console.log('admintoken:', localStorage.admintoken)
 			}

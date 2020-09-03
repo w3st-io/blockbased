@@ -32,8 +32,8 @@ const admininstrationUsers = require('./routes/api/administration/users')
 
 
 // [INIT] Const //
-const url = process.env.URL || 'http://localhost:5000'
 const port = process.env.PORT || 5000
+const base_url = process.env.BASE_URL || `http://localhost:${port}`
 
 
 // [MONGOOSE-CONNECTION] //
@@ -43,9 +43,9 @@ mongoose.connect(
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	},
-	(e, connected) => {
+	(err, connected) => {
 		if(connected) { console.log('Mongoose Connected to DB') }
-		else { console.log(`Mongoose Connection Error --> ${e}`) }
+		else { console.log(`Mongoose Connection Error --> ${err}`) }
 	}
 )
 mongoose.set('useFindAndModify', false)
@@ -134,11 +134,11 @@ io.on('connection', (socket) => {
 
 
 // [MAIN-ROUTE] //
-app.get('/api', async (req, res) => { res.send('API!') })
+app.get('/api', async (req, res) => { res.send('API') })
 
 
-// [URL-ROUTE] For the socket //
-app.get('/api/get-url', async (req, res) => { res.send(url) })
+// [BASE-URL-ROUTE] For the socket //
+app.get('/api/get-base-url', async (req, res) => { res.send(base_url) })
 
 
 // [HEROKU] Set Static Folder for Heroku //
