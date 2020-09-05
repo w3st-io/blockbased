@@ -30,7 +30,7 @@
 						</div>
 
 						<p class="m-0 mt-2 text-center text-light small">
-							<span class="mark bg-primary">{{ comment.user.email }}</span>
+							<span class="mark bg-primary">{{ comment.user.username }}</span>
 						</p>
 					</div>
 

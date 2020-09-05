@@ -33,9 +33,9 @@ router.post(
 	rateLimiter.commentLimiter,
 	async (req, res) => {
 		let returnFollowers = []
-		const existance = await postsCollection.c_existance(req.body.post_id)
+		const postExistance = await postsCollection.c_existance(req.body.post_id)
 
-		if (existance.existance) {
+		if (postExistance.existance) {
 			const returned = await commentsCollection.c_create(
 				req.decoded._id,
 				req.body.post_id,
@@ -73,7 +73,7 @@ router.post(
 			}
 			else { res.status(200).send(returned) }
 		}
-		else { res.status(200).send(existance) }
+		else { res.status(200).send(postExistance) }
 	},
 )
 
@@ -84,9 +84,9 @@ router.get(
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params.post_id)) {
-			const existance = await postsCollection.c_existance(req.params.post_id)
+			const postExistance = await postsCollection.c_existance(req.params.post_id)
 
-			if (existance.existance) {
+			if (postExistance.existance) {
 				const returned = await commentsCollection.c_readAll(
 					req.params.post_id,
 					req.params.skip,
@@ -107,9 +107,8 @@ router.get(
 						catch (err) { console.log(`comments: Error --> ${err}`) }
 		
 						if (req.decoded) {
-							// Set Liked Status //
 							try {
-								// check if the post like exist..
+								// Set Liked Status //
 								const liked = await commentLikesCollection.c_existance(
 									req.decoded._id,
 									returned.comments[i]._id
@@ -124,7 +123,7 @@ router.get(
 			
 				res.status(200).send(returned)
 			}
-			else { res.status(200).send(existance) }
+			else { res.status(200).send(postExistance) }
 		}
 		else {
 			res.status(200).send({
@@ -190,12 +189,12 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const ownership = await commentsCollection.c_ownership(
+			const ownershipStatus = await commentsCollection.c_ownership(
 				req.decoded._id,
 				req.params._id
 			)
 
-			if (ownership.ownership) {
+			if (ownershipStatus.ownership) {
 				const returned = await commentsCollection.c_update(
 					req.params._id,
 					req.body.text
@@ -203,7 +202,7 @@ router.post(
 				
 				res.status(201).send(returned)
 			}
-			else { res.status(200).send(ownership) }
+			else { res.status(200).send(ownershipStatus) }
 		}
 		else {
 			res.status(200).send({
@@ -222,31 +221,35 @@ router.delete(
 	Auth.userToken(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const ownership = await commentsCollection.c_ownership(
+			const ownershipStatus = await commentsCollection.c_ownership(
 				req.decoded._id,
 				req.params._id
 			)
 
-			if (ownership.status && ownership.ownership) {
-				// [DELETE] Comment // [DELETE] CommentLike // [DELETE] Notifications //
-				const returned = await commentsCollection.c_delete(
+			if (ownershipStatus.status && ownershipStatus.ownership) {
+				// [DELETE] Comment //
+				const comment = await commentsCollection.c_delete(
 					req.decoded._id,
 					req.params._id
 				)
-				const returned2 = await commentLikesCollection.c_deleteAll(
+
+				// [DELETE] CommentLike //
+				const commentLikes = await commentLikesCollection.c_deleteAll(
 					req.params._id
 				)
-				const returned3 = await notificationsCollection.c_deleteAll(
+
+				// [DELETE] Notifications //
+				const notifications = await notificationsCollection.c_deleteAll(
 					req.params._id
 				)
 
 				res.status(201).send({
 					executed: true,
 					status: true,
-					deleted: [returned, returned2, returned3],
+					deleted: [comment, commentLikes, notifications],
 				})
 			}
-			else { res.status(200).send(ownership) }
+			else { res.status(200).send(ownershipStatus) }
 		}
 		else {
 			res.status(200).send({
@@ -271,13 +274,13 @@ router.post(
 			mongoose.isValidObjectId(req.params.post_id)
 		) {
 			// [CREATE] CommentLike //
-			const returned = await commentLikesCollection.c_create(
+			const commentLike = await commentLikesCollection.c_create(
 				req.decoded._id,
 				req.params.post_id,
 				req.params._id,
 			)
 
-			res.status(200).send(returned)
+			res.status(200).send(commentLike)
 		}
 		else {
 			res.status(200).send({
@@ -300,12 +303,12 @@ router.post(
 			mongoose.isValidObjectId(req.params.post_id)
 		) {
 			// [DELETE] CommentLike //
-			const returned = await commentLikesCollection.c_delete(
+			const commentLike = await commentLikesCollection.c_delete(
 				req.decoded._id,
 				req.params._id
 			)
 			
-			res.status(200).send(returned)
+			res.status(200).send(commentLike)
 		}
 		else {
 			res.status(200).send({
@@ -348,30 +351,6 @@ router.post(
 				executed: true,
 				status: false,
 				message: 'Invalid comment _id',
-			})
-		}
-	},
-)
-
-
-/******************* [EXISTANCE] *******************/
-router.get(
-	'/existance/:_id',
-	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params._id)) {
-			const existance = await commentsCollection.c_existance(req.params._id)
-
-			if (existance.status) {
-				if (existance.existance) { res.status(200).send(true) }
-				else { res.status(200).send(false) }
-			}
-			else { res.status(200).send(existance) }
-		}
-		else {
-			res.status(200).send({
-				executed: true,
-				status: false,
-				message: 'Invalid comment _id'
 			})
 		}
 	},

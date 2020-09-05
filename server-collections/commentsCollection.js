@@ -109,10 +109,19 @@ const c_read = async (comment_id) => {
 				.populate({ path: 'likers', select: '_id user_id post_id text' })
 				.exec()
 
-			return {
-				executed: true,
-				status: true,
-				comment: comment
+			if (comment) {
+				return {
+					executed: true,
+					status: true,
+					comment: comment
+				}
+			}
+			else {
+				return {
+					executed: true,
+					status: false,
+					message: 'No comment found',
+				}
 			}
 		}
 		catch (err) {

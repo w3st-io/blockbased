@@ -72,6 +72,7 @@ const c_readAll = async (cat_id, skip, limit, sort) => {
 	}
 }
 
+
 // [READ] Single Post //
 const c_read = async (post_id) => {
 	if (mongoose.isValidObjectId(post_id)) {

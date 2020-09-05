@@ -30,6 +30,12 @@ export const cats = [
 		image: require('../assets/images/caticons/flag.svg'),
 	},
 	{
+		cat_id: 'learn',
+		title: 'Learn',
+		description: 'Learn about blockchain and learn what it can do for you..',
+		image: require('../assets/images/caticons/book-open.svg'),
+	},
+	{
 		cat_id: 'misc',
 		title: 'Misc.',
 		description: 'Anything uncategorized',
