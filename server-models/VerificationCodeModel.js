@@ -1,9 +1,10 @@
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const uuid = require('uuid')
 
 
 // [SCHEMA MODEL] //
-const VerificationCodeSchema = mongoose.Schema({
+const verificationCodeSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
 	user: {
@@ -15,9 +16,10 @@ const VerificationCodeSchema = mongoose.Schema({
 	verificationCode: {
 		type: String,
 		required: [true, "This is required"],
+		default: uuid.v4()
 	},
 })
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('VerificationCode', VerificationCodeSchema)
+module.exports = mongoose.model('VerificationCode', verificationCodeSchema)

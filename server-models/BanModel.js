@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 
 // [SCHEMA MODEL] //
-const BanSchema = mongoose.Schema({
+const banSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	
 	user: {
@@ -23,4 +23,4 @@ const BanSchema = mongoose.Schema({
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('Ban', BanSchema)
+module.exports = mongoose.model('Ban', banSchema)

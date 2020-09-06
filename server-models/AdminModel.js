@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 
 // [SCHEMA MODEL] //
-const AdminSchema = mongoose.Schema({
+const adminSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
 	role: {
@@ -51,4 +51,4 @@ const AdminSchema = mongoose.Schema({
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('Admin', AdminSchema)
+module.exports = mongoose.model('Admin', adminSchema)

@@ -6,6 +6,7 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
+const jwt = require('jsonwebtoken')
 
 
 // [REQUIRE] Personal //
@@ -79,8 +80,8 @@ router.post(
 	'/register',
 	rateLimiters.registrationLimiter,
 	async (req, res) => {
-		let user = ''
-		let vCode = ''
+		let user
+		let vCode
 
 		// [CREATE] Register Account //
 		try { user = await usersCollection.c_register(req) }
@@ -119,7 +120,6 @@ router.post(
 
 
 /******************* [VERIFICATION] *******************/
-// [LOGIN] //
 router.post(
 	'/verify',
 	async (req, res) => {
@@ -141,6 +141,34 @@ router.post(
 			else { res.status(200).send(valid) }
 		}
 		else { res.status(200).send(valid) }
+	}
+)
+
+
+/******************* [PASSWORD] *******************/
+// [LOGIN] //
+router.post(
+	'/send-password-reset/:email',
+	async (req, res) => {
+		// search if email exists
+
+		// generate a jwt token
+
+		// check if token was made
+			// send mail to the user's email
+	}
+)
+
+
+// [LOGIN] //
+router.post(
+	'/change-password',
+	async (req, res) => {
+		const newPassword = req.body.newPassword
+		
+		// decode the token and see whos password needs to be updated
+
+		// take password and sign it and change password for user
 	}
 )
 

@@ -46,9 +46,7 @@
 	export default {
 		components: { Editor },
 
-		props: {
-			post_id: { type: String, required: true, },
-		},
+		props: { post_id: { type: String, required: true, }, },
 
 		data: function() {
 			return {

@@ -14,14 +14,12 @@ const NotificationModel = require('../server-models/NotificationModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, comment_id, type) => {
-	const formData = new NotificationModel(
-		{
-			_id: mongoose.Types.ObjectId(),
-			user: user_id,
-			comment: comment_id,
-			type: type,
-		}
-	)
+	const formData = new NotificationModel({
+		_id: mongoose.Types.ObjectId(),
+		user: user_id,
+		comment: comment_id,
+		type: type,
+	})
 	
 	try {
 		const createdNotification = await formData.save()

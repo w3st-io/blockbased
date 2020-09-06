@@ -20,7 +20,7 @@
 		</button>
 
 		<div
-			v-show="showPopper"
+			v-show="showPopper && notifications.length > 0"
 			v-click-outside="outsideClicked"
 			class="position-absolute mt-1 p-1 bg-dark shadow rounded z-index-menu"
 			style="width: 100%; max-width: 300px;"

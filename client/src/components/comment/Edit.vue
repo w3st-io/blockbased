@@ -46,9 +46,7 @@
 	export default {
 		components: { Editor },
 
-		props: {
-			comment: { type: Object, required: true, }
-		},
+		props: { comment: { type: Object, required: true, } },
 
 		data: function() {
 			return {

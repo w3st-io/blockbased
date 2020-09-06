@@ -65,8 +65,14 @@ function sendVerificationMail(to, user_id, VCode) {
 }
 
 
+function sendPasswordResetEmail(to, user_id, token) {
+	// send an email with a link that contains the token
+}
+
+
 // [EXPORT] //
 module.exports = {
 	sendMail,
 	sendVerificationMail,
+	sendPasswordResetEmail,
 }

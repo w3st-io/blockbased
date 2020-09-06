@@ -17,14 +17,12 @@ const c_create = async (user_id, post_id, comment_id) => {
 	const existance = await c_existance(user_id, comment_id)
 
 	if (existance.status && !existance.existance) {
-		const formData = new CommentLikeModel(
-			{
-				_id: mongoose.Types.ObjectId(),
-				user: user_id,
-				post: post_id,
-				comment: comment_id,
-			}
-		)
+		const formData = new CommentLikeModel({
+			_id: mongoose.Types.ObjectId(),
+			user: user_id,
+			post: post_id,
+			comment: comment_id,
+		})
 		
 		try {
 			const createdCommentLike = await formData.save()

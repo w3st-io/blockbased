@@ -1,9 +1,10 @@
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const uuid = require('uuid')
 
 
 // [SCHEMA MODEL] //
-const postFollowerSchema = mongoose.Schema({
+const passwordRecoverySchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	
 	user: {
@@ -11,11 +12,11 @@ const postFollowerSchema = mongoose.Schema({
 		ref: 'User',
 		required: true,
 	},
-	
-	post: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Post',
+
+	verificationCode: {
+		type: String,
 		required: true,
+		default: uuid.v4()
 	},
 
 	createdAt: {
@@ -26,5 +27,5 @@ const postFollowerSchema = mongoose.Schema({
 })
 
 
-// [EXPORTS] //
-module.exports = mongoose.model('PostFollower', postFollowerSchema)
+// [EXPORT] //
+module.exports = mongoose.model('PasswordRecovery', passwordRecoverySchema)

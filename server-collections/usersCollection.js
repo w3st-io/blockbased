@@ -176,7 +176,7 @@ const c_register = async (req) => {
 		if (!usernameFound) {
 			if (!emailFound) {
 				try {
-					// Hash Data //
+					// Hash Password //
 					formData.password = await bcrypt.hash(formData.password, 10)
 					
 					const createdUser = await formData.save()
@@ -306,6 +306,17 @@ const c_verifiedStatus = async (user_id) => {
 }
 
 
+/******************* [VERIFY] *******************/
+const c_updatePassword = async (_id, password) => {
+	// Hash Password //
+	password = await bcrypt.hash(password, 10)
+
+	console.log('hashed password:', password)
+
+	// [UPDATE] Password for User //
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_readAll,
@@ -315,4 +326,5 @@ module.exports = {
 	c_register,
 	c_verify,
 	c_verifiedStatus,
+	c_updatePassword,
 }

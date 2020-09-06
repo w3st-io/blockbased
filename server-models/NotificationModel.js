@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 
 // [SCHEMA MODEL] //
-const NotificationSchema = mongoose.Schema({
+const notificationSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	
 	user: {
@@ -36,4 +36,4 @@ const NotificationSchema = mongoose.Schema({
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('Notification', NotificationSchema)
+module.exports = mongoose.model('Notification', notificationSchema)

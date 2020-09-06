@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 
 // [SCHEMA MODEL] //
-const PostSchema = mongoose.Schema({
+const postSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
 	user: {
@@ -43,4 +43,4 @@ const PostSchema = mongoose.Schema({
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('Post', PostSchema)
+module.exports = mongoose.model('Post', postSchema)
