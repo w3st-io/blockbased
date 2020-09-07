@@ -41,10 +41,10 @@ const c_readAll = async () => {
 
 
 // [READ] //
-const c_read = async (user_id) => {
-	if (mongoose.isValidObjectId(user_id)) {
+const c_read = async (_id) => {
+	if (mongoose.isValidObjectId(_id)) {
 		try {
-			const user = await UserModel.findOne({ _id: user_id })
+			const user = await UserModel.findOne({ _id: _id })
 
 			return {
 				executed: true,
@@ -71,11 +71,11 @@ const c_read = async (user_id) => {
 
 
 // [UPDATE] Profile Picture //
-const c_update = async (user_id, img_url) => {
-	if (mongoose.isValidObjectId(user_id)) {
+const c_update = async (_id, img_url) => {
+	if (mongoose.isValidObjectId(_id)) {
 		try {
 			const updatedUser = await UserModel.findOneAndUpdate(
-				{ _id: user_id },
+				{ _id: _id },
 				{ $set: { profileImg: img_url } }
 			)
 
@@ -228,11 +228,11 @@ const c_register = async (req) => {
 
 
 /******************* [VERIFY] *******************/
-const c_verify = async (user_id) => {
-	if (mongoose.isValidObjectId(user_id)) {
+const c_verify = async (_id) => {
+	if (mongoose.isValidObjectId(_id)) {
 		try {
 			const user = await UserModel.findOneAndUpdate(
-				{ _id: user_id },
+				{ _id: _id },
 				{ $set: { verified: true } }
 			)
 
@@ -261,12 +261,12 @@ const c_verify = async (user_id) => {
 }
 
 
-const c_verifiedStatus = async (user_id) => {
-	if (mongoose.isValidObjectId(user_id)) {
+const c_verifiedStatus = async (_id) => {
+	if (mongoose.isValidObjectId(_id)) {
 		try {
 			const user = await UserModel.findOne(
 				{
-					_id: user_id,
+					_id: _id,
 					verified: true,
 				}
 			)
@@ -308,12 +308,54 @@ const c_verifiedStatus = async (user_id) => {
 
 /******************* [VERIFY] *******************/
 const c_updatePassword = async (_id, password) => {
-	// Hash Password //
-	password = await bcrypt.hash(password, 10)
+	if (mongoose.isValidObjectId(_id)) {
+		// Hash Password //
+		password = await bcrypt.hash(password, 10)
+		console.log('Hashed Password:', password)
 
-	console.log('hashed password:', password)
+		
+		// [UPDATE] Password for User //
+		try {
+			const updatedUser = await UserModel.findOneAndUpdate(
+				{ _id: _id },
+				{ $set: { password: password } }
+			)
 
-	// [UPDATE] Password for User //
+			return {
+				executed: true,
+				status: true,
+				message: 'Updated profile',
+				updatedUser: updatedUser
+			}
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				message: `usersCollection: Error --> ${err}`
+			}
+		}
+	}
+	else {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid user _id'
+		}
+	}
+}
+
+
+/******************* [VERIFY] *******************/
+const c_generateToken = async (email) => {
+	if (user) {
+		const payload = { user }
+
+		// Set Token //
+		let token = jwt.sign(payload, secretKey, { expiresIn: '2h' })
+
+		return token
+	}
 }
 
 
@@ -327,4 +369,5 @@ module.exports = {
 	c_verify,
 	c_verifiedStatus,
 	c_updatePassword,
+	c_generateToken,
 }

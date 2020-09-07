@@ -146,29 +146,30 @@ router.post(
 
 
 /******************* [PASSWORD] *******************/
-// [LOGIN] //
 router.post(
 	'/send-password-reset/:email',
 	async (req, res) => {
-		// search if email exists
-
-		// generate a jwt token
+		// [TOKEN] Generate Token //
+		const token = usersCollection.c_generateToken(req.params.email)
 
 		// check if token was made
+		if (token.status) {
 			// send mail to the user's email
+		}
 	}
 )
 
 
-// [LOGIN] //
 router.post(
-	'/change-password',
+	'/reset-password',
 	async (req, res) => {
 		const newPassword = req.body.newPassword
 		
-		// decode the token and see whos password needs to be updated
+		// if there is a token
+			// decode the token
+				// if decoded
+					// update the passowrd of decoded user_id
 
-		// take password and sign it and change password for user
 	}
 )
 
