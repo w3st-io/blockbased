@@ -75,6 +75,7 @@ const c_existance = async (user_id) => {
 				return {
 					executed: true,
 					status: true,
+					message: 'Password recovery exists',
 					existance: true,
 				}
 			}
@@ -82,6 +83,7 @@ const c_existance = async (user_id) => {
 				return {
 					executed: true,
 					status: true,
+					message: 'Password recovery does NOT exists',
 					existance: false,
 				}
 			}

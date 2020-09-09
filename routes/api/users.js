@@ -155,9 +155,17 @@ router.post(
 		console.log('user', user)
 
 		if (user.status) {
-			const token = await passwordRecoveriesCollection.c_create(user.user._id)
+			const passwordRecovery = await passwordRecoveriesCollection.c_create(
+				user.user._id
+			)
 
-			res.status(200).send(token)
+			console.log('passwordRecovery',passwordRecovery)
+
+			if (passwordRecovery.status && !passwordRecovery.existance) {
+				console.log('email sent', passwordRecovery.passwordRecovery)
+			}
+
+			res.status(200).send(passwordRecovery)
 		}
 		else { res.status(200).send(user) }
 	}
