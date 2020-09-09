@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken')
 
 // [REQUIRE] Personal //
 const rateLimiters = require('../../rate-limiters')
+const passwordRecoveriesCollection = require('../../server-collections/passwordRecoveriesCollection')
 const usersCollection = require('../../server-collections/usersCollection')
 const verificationCodesCollection = require('../../server-collections/verificationCodesCollection')
 const Auth = require('../../server-middleware/Auth')
@@ -149,13 +150,16 @@ router.post(
 router.post(
 	'/send-password-reset/:email',
 	async (req, res) => {
-		// [TOKEN] Generate Token //
-		const token = usersCollection.c_generateToken(req.params.email)
+		// Get User By the Email //
+		const user = await usersCollection.c_getIdByEmail(req.params.email)
+		console.log('user', user)
 
-		// check if token was made
-		if (token.status) {
-			// send mail to the user's email
+		if (user.status) {
+			const token = await passwordRecoveriesCollection.c_create(user.user._id)
+
+			res.status(200).send(token)
 		}
+		else { res.status(200).send(user) }
 	}
 )
 
@@ -165,11 +169,12 @@ router.post(
 	async (req, res) => {
 		const newPassword = req.body.newPassword
 		
-		// if there is a token
+		// if token exist //
+		if (req.body.token) {
 			// decode the token
 				// if decoded
 					// update the passowrd of decoded user_id
-
+		}
 	}
 )
 

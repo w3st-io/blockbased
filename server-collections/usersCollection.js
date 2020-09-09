@@ -104,6 +104,36 @@ const c_update = async (_id, img_url) => {
 }
 
 
+/******************* [OTHER-CRUD] *******************/
+const c_getIdByEmail = async (email) => {
+	try {
+		const user = await UserModel.findOne({ email: email })
+
+		if (user) {
+			return {
+				executed: true,
+				status: true,
+				user: user
+			}
+		}
+		else {
+			return {
+				executed: true,
+				status: false,
+				message: 'No user found'
+			}
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserCollection: Error --> ${err}`
+		}
+	}
+}
+
+
 /******************* [LOGIN/REGISTER] *******************/
 const c_login = async (email, password) => {
 	try {
@@ -346,28 +376,15 @@ const c_updatePassword = async (_id, password) => {
 }
 
 
-/******************* [VERIFY] *******************/
-const c_generateToken = async (email) => {
-	if (user) {
-		const payload = { user }
-
-		// Set Token //
-		let token = jwt.sign(payload, secretKey, { expiresIn: '2h' })
-
-		return token
-	}
-}
-
-
 // [EXPORT] //
 module.exports = {
 	c_readAll,
 	c_read,
 	c_update,
+	c_getIdByEmail,
 	c_login,
 	c_register,
 	c_verify,
 	c_verifiedStatus,
 	c_updatePassword,
-	c_generateToken,
 }
