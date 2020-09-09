@@ -9,12 +9,11 @@ require('dotenv').config()
 
 
 // [DEFAULT] //
-function sendMail(to, subject, html) {
+async function sendMail(to, subject, html) {
 	const service = process.env.EMAIL_SERVICE || 'gmail'
 	const email = process.env.EMAIL || ''
 	const password = process.env.EMAIL_PASSWORD || ''
 
-	// Step 1
 	const transporter = nodemailer.createTransport({
 		service: service,
 		auth: {
@@ -23,7 +22,6 @@ function sendMail(to, subject, html) {
 		}
 	})
 
-	// Step 2
 	const mailOptions = {
 		from: email,
 		to: to,
@@ -31,16 +29,29 @@ function sendMail(to, subject, html) {
 		html: html
 	}
 
-	// Step 3
-	transporter.sendMail(mailOptions, (err, data) => {
-		if (err) return `mailerUtils: Error --> ${err}`
-		return 'Email Sent' + data
-	})
+	// [SEND-MAIL] //
+	try {
+		const email = await transporter.sendMail(mailOptions)
+
+		return {
+			executed: true,
+			status: true,
+			message: 'Email Sent',
+			email: email,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `mailerUtil: Error --> ${err}`,
+		}
+	}
 }
 
 
 // [VERIFICATION] //
-function sendVerificationMail(to, user_id, VCode) {
+async function sendVerificationMail(to, user_id, VCode) {
 	const email = process.env.EMAIL
 	const password = process.env.EMAIL_PASSWORD
 	const service = process.env.EMAIL_SERVICE || 'gmail'
@@ -57,7 +68,7 @@ function sendVerificationMail(to, user_id, VCode) {
 	const mailOptions = {
 		from: email,
 		to: to,
-		subject: 'Verify your BlockBased.io Account',
+		subject: 'Verify Your BlockBased.io Account',
 		html: `
 			<h1>Thank you creating an account! Verify & Join us!<h1/>
 			<a href="${base_url}/verify/${user_id}/${VCode}">
@@ -66,15 +77,29 @@ function sendVerificationMail(to, user_id, VCode) {
 		`
 	}
 
-	transporter.sendMail(mailOptions, (err, data) => {
-		if (err) return `Error --> ${err}`
-		return 'Email Sent' + data
-	})
+	// [SEND-MAIL] //
+	try {
+		const email = await transporter.sendMail(mailOptions)
+
+		return {
+			executed: true,
+			status: true,
+			message: 'Email Sent',
+			email: email,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `mailerUtil: Error --> ${err}`,
+		}
+	}
 }
 
 
 // [PASSWORD-RESET] //
-function sendPasswordResetEmail(to, user_id, token) {
+async function sendPasswordResetEmail(to, user_id, code) {
 	const email = process.env.EMAIL
 	const password = process.env.EMAIL_PASSWORD
 	const service = process.env.EMAIL_SERVICE || 'gmail'
@@ -94,16 +119,30 @@ function sendPasswordResetEmail(to, user_id, token) {
 		subject: 'Reset Password For Your BlockBased.io Account',
 		html: `
 			<h1>Thank you creating an account! Verify & Join us!<h1/>
-			<a href="${base_url}/set-new-password/${user_id}/${VCode}">
+			<a href="${base_url}/set-new-password/${user_id}/${code}">
 				<button>Click to Reset Password</button>
 			</a>
 		`
 	}
 
-	transporter.sendMail(mailOptions, (err, data) => {
-		if (err) return `Error --> ${err}`
-		return 'Email Sent' + data
-	})
+	// [SEND-MAIL] //
+	try {
+		const email = await transporter.sendMail(mailOptions)
+
+		return {
+			executed: true,
+			status: true,
+			message: 'Email Sent',
+			email: email,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `mailerUtil: Error --> ${err}`,
+		}
+	}
 }
 
 

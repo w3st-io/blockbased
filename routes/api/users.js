@@ -108,7 +108,7 @@ router.post(
 			}
 
 			// [MAIL] Verification Email //
-			mailerUtil.sendVerificationMail(
+			await mailerUtil.sendVerificationMail(
 				user.createdUser.email,
 				user.createdUser._id,
 				vCode.createdVerificationCode.verificationCode
@@ -150,22 +150,28 @@ router.post(
 router.post(
 	'/send-password-reset/:email',
 	async (req, res) => {
-		// Get User By the Email //
+		// [READ] User By the Email //
 		const user = await usersCollection.c_getIdByEmail(req.params.email)
 		console.log('user', user)
 
 		if (user.status) {
+			// [CREATE] Password Recovery //
 			const passwordRecovery = await passwordRecoveriesCollection.c_create(
 				user.user._id
 			)
 
-			console.log('passwordRecovery',passwordRecovery)
-
 			if (passwordRecovery.status && !passwordRecovery.existance) {
 				console.log('email sent', passwordRecovery.passwordRecovery)
-			}
 
-			res.status(200).send(passwordRecovery)
+				const email = await mailerUtil.sendPasswordResetEmail(
+					req.params.email,
+					user.user._id,
+					passwordRecovery.passwordRecovery.verificationCode
+				)
+				
+				res.status(200).send(email)
+			}
+			else { res.status(200).send(passwordRecovery) }
 		}
 		else { res.status(200).send(user) }
 	}
