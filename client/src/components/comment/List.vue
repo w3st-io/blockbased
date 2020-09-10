@@ -166,7 +166,6 @@
 
 		methods: {
 			async deleteComment(comment_id) {
-				console.log('sdf');
 				// [DELETE] Comment //
 				try { await CommentService.s_delete(comment_id) }
 				catch (err) { this.error = err }

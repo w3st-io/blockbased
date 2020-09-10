@@ -14,15 +14,13 @@ const PostModel = require('../server-models/PostModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, cat_id, title) => {
-	const formData = new PostModel({
-		_id: mongoose.Types.ObjectId(),
-		user: user_id,
-		cat_id: cat_id,
-		title: title,
-	})
-
 	try {
-		const createdPost = await formData.save()
+		const createdPost = await new PostModel({
+			_id: mongoose.Types.ObjectId(),
+			user: user_id,
+			cat_id: cat_id,
+			title: title,
+		}).save()
 
 		return {
 			executed: true,
@@ -48,9 +46,7 @@ const c_readAll = async (cat_id, skip, limit, sort) => {
 	else if (sort == 'popularity') { sort2 = { likeCount: -1 } }
 
 	try {
-		const posts = await PostModel.find(
-			{ cat_id: cat_id }
-		)
+		const posts = await PostModel.find({ cat_id: cat_id })
 			.sort(sort2)
 			.skip(parseInt(skip))
 			.limit(parseInt(limit))
@@ -60,7 +56,7 @@ const c_readAll = async (cat_id, skip, limit, sort) => {
 		return {
 			executed: true,
 			status: true,
-			posts: posts
+			posts: posts,
 		}
 	}
 	catch (err) {
@@ -75,36 +71,36 @@ const c_readAll = async (cat_id, skip, limit, sort) => {
 
 // [READ] Single Post //
 const c_read = async (post_id) => {
-	if (mongoose.isValidObjectId(post_id)) {
-		const existance = await c_existance(post_id)
-		
-		if (existance.existance) {
-			try {
-				const post = await PostModel.findById(post_id)
-					.populate({ path: 'user', select: 'username email profileImg', })
-					.exec()
-				
-				return {
-					executed: true,
-					status: true,
-					post: post
-				}
-			}
-			catch (err) {
-				return {
-					executed: false,
-					status: false,
-					message: `postsCollection: Error --> ${err}`
-				}
-			}
-		}
-		else { return existance }
-	}
-	else {
+	// [VALIDATE] //
+	if (!mongoose.isValidObjectId(post_id)) {
 		return {
 			executed: true,
 			status: false,
 			message: 'Invalid post_id',
+		}
+	}
+
+	// [EXISTANCE] //
+	const existance = await c_existance(post_id)
+	
+	if (!existance.existance) { return existance }
+
+	try {
+		const post = await PostModel.findById(post_id)
+			.populate({ path: 'user', select: 'username email profileImg', })
+			.exec()
+		
+		return {
+			executed: true,
+			status: true,
+			post: post
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postsCollection: Error --> ${err}`
 		}
 	}
 }
@@ -159,43 +155,41 @@ const c_decrementLike = async (post_id) => {
 
 /******************* [EXISTANCE] *******************/
 const c_existance = async (post_id) => {
-	if (mongoose.isValidObjectId(post_id)) {
-		try {	
-			const post = await PostModel.findOne({ _id: post_id })
-
-			if (post) {
-				return {
-					executed: true,
-					status: true,
-					message: `Post does exist`,
-					existance: true,
-					post: post,
-				}
-			}
-			else {
-				return {
-					executed: true,
-					status: false,
-					message: `Post does NOT exist`,
-					existance: false,
-					post: post,
-				}
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `postsCollection: Error --> ${err}`,
-				existance: false,
-			}
-		}
-	}
-	else {
+	if (!mongoose.isValidObjectId(post_id)) {
 		return {
 			executed: true,
 			status: false,
 			message: 'Invalid post _id',
+			existance: false,
+		}
+	}
+
+	try {	
+		const post = await PostModel.findOne({ _id: post_id })
+
+		if (!post) {
+			return {
+				executed: true,
+				status: false,
+				message: `Post does NOT exist`,
+				existance: false,
+				post: post,
+			}
+		}
+
+		return {
+			executed: true,
+			status: true,
+			message: `Post does exist`,
+			existance: true,
+			post: post,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postsCollection: Error --> ${err}`,
 			existance: false,
 		}
 	}
@@ -204,45 +198,41 @@ const c_existance = async (post_id) => {
 
 /******************* [OWNERSHIP] *******************/
 const c_ownership = async (user_id, post_id) => {
-	if (mongoose.isValidObjectId(post_id)) {
-		try {	
-			const post = await PostModel.findOne(
-				{
-					user: user_id,
-					_id: post_id,
-				}
-			)
-
-			if (returned) {
-				return {
-					executed: true,
-					status: true,
-					ownership: true,
-					post: post,
-				}
-			}
-			else {
-				return {
-					executed: true,
-					status: true,
-					ownership: false,
-					post: post,
-				}
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `postsCollection: Error --> ${err}`,
-			}
-		}
-	}
-	else {
+	if (!mongoose.isValidObjectId(post_id)) {
 		return {
 			executed: true,
 			status: false,
 			message: 'Invalid post _id',
+		}
+	}
+
+	try {	
+		const post = await PostModel.findOne({
+			user: user_id,
+			_id: post_id,
+		})
+
+		if (!post) {
+			return {
+				executed: true,
+				status: true,
+				ownership: false,
+				post: post,
+			}
+		}
+
+		return {
+			executed: true,
+			status: true,
+			ownership: true,
+			post: post,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postsCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -251,7 +241,7 @@ const c_ownership = async (user_id, post_id) => {
 /******************* [COUNT] *******************/
 const c_countAll = async (cat_id) => {
 	try {
-		const count = await PostModel.countDocuments({ cat_id: cat_id })
+		const count = await PostModel.countDocuments({ cat_id })
 
 		return {
 			executed: true,

@@ -23,14 +23,12 @@ const c_create = async (user_id, hours) => {
 	let banTime = new Date()
 	banTime.setHours(banTime.getHours() + hours)
 	
-	const formData = new BanModel({
-		_id: mongoose.Types.ObjectId(),
-		user: user_id,
-		bannedTill: banTime,
-	})
-
 	try {
-		const createdBan = await formData.save()
+		const createdBan = await new BanModel({
+			_id: mongoose.Types.ObjectId(),
+			user: user_id,
+			bannedTill: banTime,
+		}).save()
 
 		return {
 			executed: true,

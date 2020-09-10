@@ -14,21 +14,32 @@ const CommentReportModel = require('../server-models/CommentReportModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, comment_id, post_id, reportType) => {
+	// [VALIDATE] user_id, comment_id, & post_id //
+	if (
+		!mongoose.isValidObjectId(user_id) ||
+		!mongoose.isValidObjectId(post_id) ||
+		!mongoose.isValidObjectId(comment_id)
+	) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid id(s)',
+		}
+	}
+
 	// [EXISTANCE] //
 	const existance = await c_existance(user_id, comment_id)
 	
 	if (!existance.status || existance.existance) { return existance }
-
-	const formData = new CommentReportModel({
-		_id: mongoose.Types.ObjectId(),
-		user: user_id,
-		comment: comment_id,
-		post: post_id,
-		reportType: reportType,
-	})
 	
 	try {
-		const commentReport = await formData.save()
+		const commentReport = await new CommentReportModel({
+			_id: mongoose.Types.ObjectId(),
+			user: user_id,
+			comment: comment_id,
+			post: post_id,
+			reportType: reportType,
+		}).save()
 
 		return {
 			executed: true,
@@ -77,7 +88,7 @@ const c_delete = async (_id) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid commentReport _id'
+			message: 'Invalid commentReport_id'
 		}
 	}
 

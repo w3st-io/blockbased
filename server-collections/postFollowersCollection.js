@@ -17,14 +17,12 @@ const c_create = async (user_id, post_id) => {
 	const existance = await c_existance(user_id, post_id)
 
 	if (existance.status && !existance.existance) {
-		const formData = new PostFollowerModel({
-			_id: mongoose.Types.ObjectId(),
-			user: user_id,
-			post: post_id,
-		})
-
 		try {
-			const createdPostFollow = await formData.save()
+			const createdPostFollow = await new PostFollowerModel({
+				_id: mongoose.Types.ObjectId(),
+				user: user_id,
+				post: post_id,
+			}).save()
 
 			return {
 				executed: true,

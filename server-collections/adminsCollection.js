@@ -21,11 +21,10 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 /******************* [LOGIN/REGISTER] *******************/
 const c_login = async (email, password) => {
 	try {
-		// Find Account //
-		const accountFound = await AdminModel.findOne({ email: email })
+		// [VALIDATE-EMAIL] //
+		const userFound = await AdminModel.findOne({ email: email })
 		
-		// Account NOT Found //
-		if (!accountFound) {
+		if (!userFound) {
 			return {
 				executed: true,
 				status: false,
@@ -34,8 +33,8 @@ const c_login = async (email, password) => {
 			}
 		}
 
-		// Validate Password //
-		if (!bcrypt.compareSync(password, accountFound.password)) {
+		// [VALIDATE-PASSWORD] //
+		if (!bcrypt.compareSync(password, userFound.password)) {
 			return {
 				executed: true,
 				status: false,
@@ -46,12 +45,12 @@ const c_login = async (email, password) => {
 
 		// Set Payload //
 		const payload = {
-			_id: accountFound._id,
-			role: accountFound.role,
-			email: accountFound.email,
-			username: accountFound.username,
-			first_name: accountFound.first_name,
-			last_name: accountFound.last_name,
+			_id: userFound._id,
+			role: userFound.role,
+			email: userFound.email,
+			username: userFound.username,
+			first_name: userFound.first_name,
+			last_name: userFound.last_name,
 		}
 
 		// Set Token //
@@ -78,16 +77,6 @@ const c_login = async (email, password) => {
 
 // [REGISTER] //
 const c_register = async (req) => {
-	let formData = new AdminModel({
-		_id: mongoose.Types.ObjectId(),
-		role: 'not-admin',
-		first_name: req.body.first_name,
-		last_name: req.body.last_name,
-		username: req.body.username,
-		email: req.body.email,
-		password: req.body.password,
-	})
-
 	try {
 		// Username Check //
 		const usernameFound = await AdminModel.findOne({ username: req.body.username })
@@ -114,7 +103,7 @@ const c_register = async (req) => {
 		}
 
 		// Password Length //
-		if (formData.password.length < 8 || formData.password.length > 50) {
+		if (req.body.password.length < 8 || req.body.password.length > 50) {
 			return {
 				executed: true,
 				status: false,
@@ -122,11 +111,20 @@ const c_register = async (req) => {
 				created: false,
 			}
 		}
-	
-		// Hash Data //
-		formData.password = await bcrypt.hash(formData.password, 10)
 
-		const user = await formData.save()
+		// Hash Data //
+		const hashedPassword = await bcrypt.hash(req.body.password, 10)
+
+		// [SAVE] //
+		const user = await new AdminModel({
+			_id: mongoose.Types.ObjectId(),
+			role: 'not-admin',
+			first_name: req.body.first_name,
+			last_name: req.body.last_name,
+			username: req.body.username,
+			email: req.body.email,
+			password: hashedPassword,
+		}).save()
 		
 		return {
 			executed: true,

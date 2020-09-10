@@ -14,15 +14,13 @@ const NotificationModel = require('../server-models/NotificationModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, comment_id, type) => {
-	const formData = new NotificationModel({
-		_id: mongoose.Types.ObjectId(),
-		user: user_id,
-		comment: comment_id,
-		type: type,
-	})
-	
 	try {
-		const notification = await formData.save()
+		const notification = await new NotificationModel({
+			_id: mongoose.Types.ObjectId(),
+			user: user_id,
+			comment: comment_id,
+			type: type,
+		}).save()
 
 		return {
 			executed: true,
@@ -42,29 +40,27 @@ const c_create = async (user_id, comment_id, type) => {
 // [READ-ALL] //
 const c_readAll = async (user_id) => {
 	try {
-		const notifications = await NotificationModel.find(
-			{
-				user: user_id,
-				read: false
-			}
-		)
-		.populate(
-			{
-				path: 'comment',
-				populate: {
-					path: 'user',
-					select: 'username',
+		const notifications = await NotificationModel.find({
+			user: user_id,
+			read: false
+		})
+			.populate(
+				{
+					path: 'comment',
+					populate: {
+						path: 'user',
+						select: 'username',
+					}
 				}
-			}
-		)
-		.populate(
-			{
-				path: 'comment',
-				populate: {
-					path: 'post',
-					select: 'title',
+			)
+			.populate(
+				{
+					path: 'comment',
+					populate: {
+						path: 'post',
+						select: 'title',
+					}
 				}
-			}
 		)
 	
 		return {
@@ -85,9 +81,9 @@ const c_readAll = async (user_id) => {
 // [DELETE-ALL] //
 const c_deleteAll = async (comment_id) => {
 	try {
-		const deletedNotications = await NotificationModel.deleteMany(
-			{ comment: comment_id }
-		)
+		const deletedNotications = await NotificationModel.deleteMany({
+			comment: comment_id
+		})
 
 		return {
 			executed: true,

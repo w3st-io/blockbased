@@ -42,29 +42,29 @@ const c_readAll = async () => {
 
 // [READ] //
 const c_read = async (_id) => {
-	if (mongoose.isValidObjectId(_id)) {
-		try {
-			const user = await UserModel.findOne({ _id: _id })
-
-			return {
-				executed: true,
-				status: true,
-				user: user
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `UserCollection: Error --> ${err}`
-			}
-		}
-	}
-	else {
+	// [VALIDATE] //
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
 			message: 'Invalid user _id'
+		}
+	}
+
+	try {
+		const user = await UserModel.findOne({ _id: _id })
+
+		return {
+			executed: true,
+			status: true,
+			user: user
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserCollection: Error --> ${err}`
 		}
 	}
 }
@@ -72,33 +72,32 @@ const c_read = async (_id) => {
 
 // [UPDATE] Profile Picture //
 const c_update = async (_id, img_url) => {
-	if (mongoose.isValidObjectId(_id)) {
-		try {
-			const updatedUser = await UserModel.findOneAndUpdate(
-				{ _id: _id },
-				{ $set: { profileImg: img_url } }
-			)
-
-			return {
-				executed: true,
-				status: true,
-				message: 'Updated profile',
-				updatedUser: updatedUser
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `usersCollection: Error --> ${err}`
-			}
-		}
-	}
-	else {
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
 			message: 'Invalid user _id'
+		}
+	}
+
+	try {
+		const updatedUser = await UserModel.findOneAndUpdate(
+			{ _id: _id },
+			{ $set: { profileImg: img_url } }
+		)
+
+		return {
+			executed: true,
+			status: true,
+			message: 'Updated profile',
+			updatedUser: updatedUser
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `usersCollection: Error --> ${err}`
 		}
 	}
 }
@@ -137,46 +136,45 @@ const c_getIdByEmail = async (email) => {
 /******************* [LOGIN/REGISTER] *******************/
 const c_login = async (email, password) => {
 	try {
-		const accountFound = await UserModel.findOne({ email: email })
+		// [VALIDATE-EMAIL] //
+		const userFound = await UserModel.findOne({ email: email })
 		
-		// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
-		if (accountFound) {
-			if (bcrypt.compareSync(password, accountFound.password)) {
-				const payload = {
-					_id: accountFound._id,
-					email: accountFound.email,
-					username: accountFound.username,
-					first_name: accountFound.first_name,
-					last_name: accountFound.last_name,
-				}
-
-				// Set Token //
-				let token = jwt.sign(payload, secretKey, {/*  expiresIn: 7200  */})
-
-				return {
-					executed: true,
-					status: true,
-					message: 'success',
-					validation: true,
-					token: token,
-				}
-			}
-			else {
-				return {
-					executed: true,
-					status: true,
-					message: 'Invalid email or password',
-					validation: false,
-				}
-			}
-		}
-		else {
+		if (!userFound) {
 			return {
 				executed: true,
 				status: true,
 				message: 'Invalid email or password',
 				validation: false
 			}
+		}
+
+		// [VALIDATE PASSWORD] //
+		if (!bcrypt.compareSync(password, userFound.password)) {
+			return {
+				executed: true,
+				status: true,
+				message: 'Invalid email or password',
+				validation: false,
+			}
+		}
+
+		const payload = {
+			_id: userFound._id,
+			email: userFound.email,
+			username: userFound.username,
+			first_name: userFound.first_name,
+			last_name: userFound.last_name,
+		}
+
+		// Set Token //
+		let token = jwt.sign(payload, secretKey, {/*  expiresIn: 7200  */})
+
+		return {
+			executed: true,
+			status: true,
+			message: 'success',
+			validation: true,
+			token: token,
 		}
 	}
 	catch (err) {
@@ -190,58 +188,68 @@ const c_login = async (email, password) => {
 
 
 const c_register = async (req) => {
-	let formData = new UserModel({
-		_id: mongoose.Types.ObjectId(),
-		first_name: req.body.first_name,
-		last_name: req.body.last_name,
-		username: req.body.username,
-		email: req.body.email,
-		password: req.body.password,
-	})
-	
 	try {
-		const usernameFound = await UserModel.findOne({ username: formData.username })
-		const emailFound = await UserModel.findOne({ email: formData.email })
+		// Username Check //
+		const usernameFound = await UserModel.findOne({ username: req.body.username })
 
-		if (!usernameFound) {
-			if (!emailFound) {
-				try {
-					// Hash Password //
-					formData.password = await bcrypt.hash(formData.password, 10)
-					
-					const createdUser = await formData.save()
-					
-					return {
-						executed: true,
-						status: true,
-						message: 'Successfully created account',
-						created: true,
-						createdUser: createdUser,
-					}
-				}
-				catch (err) {
-					return {
-						executed: false,
-						status: false,
-						message: `usersCollection: Error --> ${err}`,
-						created: false,
-					}
-				}
-			}
-			else {
-				return {
-					executed: true,
-					status: true,
-					message: 'This email is already registered',
-					created: false,
-				}
-			}
-		}
-		else {
+		if (usernameFound) {
 			return {
 				executed: true,
 				status: true,
 				message: 'This username is taken',
+				created: false,
+			}
+		}
+
+		// Email Check //
+		const emailFound = await UserModel.findOne({ email: req.body.email })
+
+		if (emailFound) {
+			return {
+				executed: true,
+				status: true,
+				message: 'This email is already registered',
+				created: false,
+			}
+		}
+
+		// Password Length //
+		if (req.body.password.length < 8 || req.body.password.length > 50) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Password invalid (8 < password < 50)',
+				created: false,
+			}
+		}
+
+		try {
+			// Hash Password //
+			const hashedPassword = await bcrypt.hash(req.body.password, 10)
+
+			// [SAVE] //
+			const createdUser = await new UserModel({
+				_id: mongoose.Types.ObjectId(),
+				first_name: req.body.first_name,
+				last_name: req.body.last_name,
+				username: req.body.username,
+				email: req.body.email,
+				password: hashedPassword,
+			}).save()
+			
+			return {
+				executed: true,
+				status: true,
+				message: 'Successfully created account',
+				created: true,
+				createdUser: createdUser,
+			}
+		}
+		catch (err) {
+			return {
+				executed: false,
+				status: false,
+				message: `usersCollection: Error --> ${err}`,
 				created: false,
 			}
 		}

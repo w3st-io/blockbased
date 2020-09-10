@@ -18,13 +18,11 @@ const c_create = async (user_id) => {
 
 	if (!existance.status || existance.existance) { return existance }
 
-	const formData = new PasswordRecoveryModel({
-		_id: mongoose.Types.ObjectId(),
-		user: user_id,
-	})
-	
 	try {
-		const passwordRecovery = await formData.save()
+		const passwordRecovery = await new PasswordRecoveryModel({
+			_id: mongoose.Types.ObjectId(),
+			user: user_id,
+		}).save()
 
 		return {
 			executed: true,
