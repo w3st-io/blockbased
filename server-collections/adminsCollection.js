@@ -21,48 +21,48 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 /******************* [LOGIN/REGISTER] *******************/
 const c_login = async (email, password) => {
 	try {
+		// Find Account //
 		const accountFound = await AdminModel.findOne({ email: email })
 		
-		// [VALIDATE ACCOUNT] --> [VALIDATE PASSWORD] //
-		if (accountFound) {
-			if (bcrypt.compareSync(password, accountFound.password)) {
-				// Set Payload //
-				const payload = {
-					_id: accountFound._id,
-					role: accountFound.role,
-					email: accountFound.email,
-					username: accountFound.username,
-					first_name: accountFound.first_name,
-					last_name: accountFound.last_name,
-				}
-
-				// Set Token //
-				let token = jwt.sign(payload, secretKey, {/* expiresIn: 7200 */})
-
-				return {
-					executed: true,
-					status: true,
-					message: 'success',
-					validation: true,
-					token: token,
-				}
-			}
-			else {
-				return {
-					executed: true,
-					status: false,
-					message: 'Invalid password',
-					validation: false,
-				}
-			}
-		}
-		else {
+		// Account NOT Found //
+		if (!accountFound) {
 			return {
 				executed: true,
 				status: false,
 				message: 'Invalid email',
 				validation: false,
 			}
+		}
+
+		// Validate Password //
+		if (!bcrypt.compareSync(password, accountFound.password)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid password',
+				validation: false,
+			}
+		}
+
+		// Set Payload //
+		const payload = {
+			_id: accountFound._id,
+			role: accountFound.role,
+			email: accountFound.email,
+			username: accountFound.username,
+			first_name: accountFound.first_name,
+			last_name: accountFound.last_name,
+		}
+
+		// Set Token //
+		let token = jwt.sign(payload, secretKey, {/* expiresIn: 7200 */})
+
+		return {
+			executed: true,
+			status: true,
+			message: 'success',
+			validation: true,
+			token: token,
 		}
 	}
 	catch (err) {
@@ -74,6 +74,7 @@ const c_login = async (email, password) => {
 		}
 	}
 }
+
 
 // [REGISTER] //
 const c_register = async (req) => {
@@ -88,62 +89,51 @@ const c_register = async (req) => {
 	})
 
 	try {
-		const usernameFound = await AdminModel.findOne(
-			{ username: req.body.username }
-		)
-		const emailFound = await AdminModel.findOne({ email: req.body.email })
+		// Username Check //
+		const usernameFound = await AdminModel.findOne({ username: req.body.username })
 
-		if (!usernameFound) {
-			if (!emailFound) {
-				if (formData.password.length > 8 && formData.password.length < 50) {
-					try {
-						// Hash Data //
-						formData.password = await bcrypt.hash(formData.password, 10)
-
-						const user = await formData.save()
-						
-						return {
-							executed: true,
-							status: true,
-							message: 'Successfully created account',
-							created: true,
-							user: user,
-						}
-					}
-					catch (err) {
-						return {
-							executed: false,
-							status: false,
-							message: `adminsCollection: Error --> ${err}`,
-							created: false,
-						}
-					}
-				}
-				else {
-					return {
-						executed: true,
-						status: false,
-						message: 'Password too short',
-						created: false,
-					}
-				}
-			}
-			else {
-				return {
-					executed: true,
-					status: false,
-					message: 'This email is already registered',
-					created: false,
-				}
-			}
-		}
-		else {
+		if (usernameFound) {
 			return {
 				executed: true,
 				status: false,
 				message: 'This username is taken',
 				created: false,
 			}
+		}
+	
+		// Email Check //
+		const emailFound = await AdminModel.findOne({ email: req.body.email })
+
+		if (emailFound) {
+			return {
+				executed: true,
+				status: false,
+				message: 'This email is already registered',
+				created: false,
+			}
+		}
+
+		// Password Length //
+		if (formData.password.length < 8 || formData.password.length > 50) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Password invalid (8 < password < 50)',
+				created: false,
+			}
+		}
+	
+		// Hash Data //
+		formData.password = await bcrypt.hash(formData.password, 10)
+
+		const user = await formData.save()
+		
+		return {
+			executed: true,
+			status: true,
+			message: 'Successfully created account',
+			created: true,
+			user: user,
 		}
 	}
 	catch (err) {

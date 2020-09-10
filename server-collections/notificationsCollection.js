@@ -22,12 +22,12 @@ const c_create = async (user_id, comment_id, type) => {
 	})
 	
 	try {
-		const createdNotification = await formData.save()
+		const notification = await formData.save()
 
 		return {
 			executed: true,
 			status: true,
-			createdNotification: createdNotification,
+			createdNotification: notification,
 		}
 	}
 	catch (err) {

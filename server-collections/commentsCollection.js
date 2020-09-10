@@ -14,36 +14,35 @@ const CommentModel = require('../server-models/CommentModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, post_id, text) => {
-	if (text.length <= 6000) {
-		const formData = new CommentModel({
-			_id: mongoose.Types.ObjectId(),
-			user: user_id,
-			post: post_id,
-			text: text,
-		})
-
-		try {
-			const createdComment = await formData.save()
-			
-			return {
-				executed: true,
-				status: true,
-				createdComment: createdComment,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `commentsCollection: Error --> ${err}`,
-			}
-		}
-	}
-	else {
+	if (text.length >= 6000) {
 		return {
 			executed: true,
 			status: false,
-			message: `Comment too long`,
+			message: 'Comment too long',
+		}
+	}
+
+	const formData = new CommentModel({
+		_id: mongoose.Types.ObjectId(),
+		user: user_id,
+		post: post_id,
+		text: text,
+	})
+
+	try {
+		const createdComment = await formData.save()
+		
+		return {
+			executed: true,
+			status: true,
+			createdComment: createdComment,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -101,88 +100,83 @@ const c_readAll = async (post_id, skip, limit) => {
 
 
 // [READ] //
-const c_read = async (comment_id) => {
-	if (mongoose.isValidObjectId(comment_id)) {
-		try {
-			const comment = await CommentModel.findById(comment_id)
-				.populate({ path: 'user', select: 'username email profileImg' })
-				.populate({ path: 'likers', select: '_id user_id post_id text' })
-				.exec()
-
-			if (comment) {
-				return {
-					executed: true,
-					status: true,
-					comment: comment
-				}
-			}
-			else {
-				return {
-					executed: true,
-					status: false,
-					message: 'No comment found',
-				}
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `commentsCollection: Error --> ${err}`,
-			}
-		}
-	}
-	else {
+const c_read = async (_id) => {
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid comment_id',
+			message: 'Invalid comment _id',
+		}
+	}
+
+	try {
+		const comment = await CommentModel.findById(_id)
+			.populate({ path: 'user', select: 'username email profileImg' })
+			.populate({ path: 'likers', select: '_id user_id post_id text' })
+			.exec()
+
+		if (!comment) {
+			return {
+				executed: true,
+				status: false,
+				message: 'No comment found',
+			}
+		}
+
+		return {
+			executed: true,
+			status: true,
+			comment: comment
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`,
 		}
 	}
 }
 
 
 // [UPDATE] //
-const c_update = async (comment_id, text) => {
-	if (mongoose.isValidObjectId(comment_id)) {
-		if (text.length <= 6000) {
-			try {
-				const comment = await CommentModel.updateOne(
-					{ _id: comment_id },
-					{ $set: { text: text } },
-				)
-
-				return {
-					executed: true,
-					status: true,
-					updated: true,
-					comment: comment,
-
-				}
-			}
-			catch (err) {
-				return {
-					executed: false,
-					status: false,
-					message: `commentsCollection: Error --> ${err}`,
-					updated: false,
-				}
-			}
-		}
-		else {
-			return {
-				executed: true,
-				status: false,
-				message: `Comment too long`,
-				updated: false,
-			}
-		}
-	}
-	else {
+const c_update = async (_id, text) => {
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid comment_id',
+			message: 'Invalid comment _id',
+			updated: false,
+		}
+	}
+
+	if (text.length >= 6000) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Comment too long',
+			updated: false,
+		}
+	}
+
+	try {
+		const comment = await CommentModel.updateOne(
+			{ _id: _id },
+			{ $set: { text: text } },
+		)
+
+		return {
+			executed: true,
+			status: true,
+			updated: true,
+			comment: comment,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`,
 			updated: false,
 		}
 	}
@@ -190,122 +184,120 @@ const c_update = async (comment_id, text) => {
 
 
 // [DELETE] //
-const c_delete = async (user_id, comment_id) => {
-	if (mongoose.isValidObjectId(comment_id)) {
-		try {
-			const deletedComment = await CommentModel.findOneAndRemove(
-				{
-					_id: comment_id,
-					user: user_id,
-				}
-			)
-
-			return {
-				executed: true,
-				status: true,
-				deletedComment: deletedComment,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `commentsCollection: Error --> ${err}`,
-			}
-		}
-	}
-	else {
+const c_delete = async (_id, user_id) => {
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid comment_id',
+			message: 'Invalid comment _id',
+		}
+	}
+
+	try {
+		const deletedComment = await CommentModel.findOneAndRemove(
+			{
+				_id: _id,
+				user: user_id,
+			}
+		)
+
+		return {
+			executed: true,
+			status: true,
+			deletedComment: deletedComment,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`,
 		}
 	}
 }
 
 
 /******************* [EXISTANCE] *******************/
-const c_existance = async (comment_id) => {
-	if (mongoose.isValidObjectId(comment_id)) {
-		try {	
-			const comment = await CommentModel.findOne({ _id: comment_id })
-
-			if (comment) {
-				return {
-					executed: true,
-					status: true,
-					existance: true,
-					comment: comment,
-				}
-			}
-			else {
-				return {
-					executed: true,
-					status: true,
-					existance: false,
-				}
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `commentsCollection: Error --> ${err}`
-			}
-		}
-	}
-	else {
+const c_existance = async (_id) => {
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid comment_id'
+			message: 'Invalid comment _id'
+		}
+	}
+
+	try {	
+		const comment = await CommentModel.findOne({ _id: _id })
+
+		if (!comment) {
+			return {
+				executed: true,
+				status: true,
+				message: 'Comment does NOT exist',
+				existance: false,
+			}
+		}
+
+		return {
+			executed: true,
+			status: true,
+			message: 'Comment does exist',
+			existance: true,
+			comment: comment,
+		}
+		
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`
 		}
 	}
 }
 
 
 /******************* [OWNERSHIP] *******************/
-const c_ownership = async (user_id, comment_id) => {
-	if (mongoose.isValidObjectId(comment_id)) {
-		try {	
-			const comment = await CommentModel.findOne(
-				{
-					user: user_id,
-					_id: comment_id,
-				}
-			)
-
-			if (comment) {
-				return {
-					executed: true,
-					status: true,
-					message: 'You own this comment',
-					ownership: true,
-					comment: comment,
-				}
-			}
-			else {
-				return {
-					executed: true,
-					status: true,
-					message: 'You do NOT own this comment',
-					ownership: false,
-				}
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `commentsCollection: Error --> ${err}`
-			}
-		}
-	}
-	else {
+const c_ownership = async (_id, user_id) => {
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid comment_id'
+			message: 'Invalid comment _id'
+		}
+	}
+
+	try {	
+		const comment = await CommentModel.findOne(
+			{
+				user: user_id,
+				_id: _id,
+			}
+		)
+
+		if (!comment) {
+			return {
+				executed: true,
+				status: true,
+				message: 'You do NOT own this comment',
+				ownership: false,
+			}
+		}
+
+		return {
+			executed: true,
+			status: true,
+			message: 'You own this comment',
+			ownership: true,
+			comment: comment,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`
 		}
 	}
 }

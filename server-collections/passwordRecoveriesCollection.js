@@ -16,37 +16,39 @@ const PasswordRecoveryModel = require('../server-models/PasswordRecoveryModel')
 const c_create = async (user_id) => {
 	const existance = await c_existance(user_id)
 
-	if (existance.status && !existance.existance) {
-		const formData = new PasswordRecoveryModel({
-			_id: mongoose.Types.ObjectId(),
-			user: user_id,
-		})
-		
-		try {
-			const passwordRecovery = await formData.save()
+	if (!existance.status || existance.existance) { return existance }
 
-			return {
-				executed: true,
-				status: true,
-				passwordRecovery: passwordRecovery,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `passwordRecoveriesCollection: Error --> ${err}`,
-			}
+	const formData = new PasswordRecoveryModel({
+		_id: mongoose.Types.ObjectId(),
+		user: user_id,
+	})
+	
+	try {
+		const passwordRecovery = await formData.save()
+
+		return {
+			executed: true,
+			status: true,
+			passwordRecovery: passwordRecovery,
 		}
 	}
-	else { return existance }
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `passwordRecoveriesCollection: Error --> ${err}`,
+		}
+	}
+	
 }
 
 
 // [DELETE] //
 const c_delete = async (user_id) => {
 	try {
-		const passwordRecovery = await PasswordRecoveryModel.deleteMany({ user: user_id })
+		const passwordRecovery = await PasswordRecoveryModel.deleteMany(
+			{ user: user_id }
+		)
 
 		return {
 			executed: true,
@@ -67,40 +69,38 @@ const c_delete = async (user_id) => {
 /******************* [EXISTANCE] *******************/
 // [EXISTANCE] //
 const c_existance = async (user_id) => {
-	if (mongoose.isValidObjectId(user_id)) {
-		try {
-			const returned = await PasswordRecoveryModel.findOne({ user: user_id })
-
-			if (returned) {
-				return {
-					executed: true,
-					status: true,
-					message: 'Password recovery exists',
-					existance: true,
-				}
-			}
-			else {
-				return {
-					executed: true,
-					status: true,
-					message: 'Password recovery does NOT exists',
-					existance: false,
-				}
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `passwordRecoveriesCollection: Error --> ${err}`,
-			}
-		}
-	}
-	else {
+	if (!mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,
 			status: false,
 			message: 'Invalid user_id',
+		}
+	}
+
+	try {
+		const returned = await PasswordRecoveryModel.findOne({ user: user_id })
+
+		if (!returned) {
+			return {
+				executed: true,
+				status: true,
+				message: 'Password recovery does NOT exists',
+				existance: false,
+			}
+		}
+
+		return {
+			executed: true,
+			status: true,
+			message: 'Password recovery exists',
+			existance: true,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `passwordRecoveriesCollection: Error --> ${err}`,
 		}
 	}
 }

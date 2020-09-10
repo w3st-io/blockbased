@@ -14,41 +14,41 @@ const CommentLikeModel = require('../server-models/CommetLikeModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, post_id, comment_id) => {
+	// [EXISTANCE] //
 	const existance = await c_existance(user_id, comment_id)
 
-	if (existance.status && !existance.existance) {
-		const formData = new CommentLikeModel({
-			_id: mongoose.Types.ObjectId(),
-			user: user_id,
-			post: post_id,
-			comment: comment_id,
-		})
-		
-		try {
-			const createdCommentLike = await formData.save()
+	if (!existance.status || existance.existance) { return existance }
 
-			return {
-				executed: true,
-				status: true,
-				createdCommentLike: createdCommentLike,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `commentLikesCollection: Error --> ${err}`,
-			}
+	const formData = new CommentLikeModel({
+		_id: mongoose.Types.ObjectId(),
+		user: user_id,
+		post: post_id,
+		comment: comment_id,
+	})
+	
+	try {
+		const commentLike = await formData.save()
+
+		return {
+			executed: true,
+			status: true,
+			commentLike: commentLike,
 		}
 	}
-	else { return existance }
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentLikesCollection: Error --> ${err}`,
+		}
+	}
 }
 
 
 // [DELETE] //
 const c_delete = async (user_id, comment_id) => {
 	try {
-		const deletedCommentLike = await CommentLikeModel.deleteMany(
+		const commentLike = await CommentLikeModel.deleteMany(
 			{
 				user: user_id,
 				comment: comment_id,
@@ -58,7 +58,7 @@ const c_delete = async (user_id, comment_id) => {
 		return {
 			executed: true,
 			status: true,
-			deletedCommentLike: deletedCommentLike,
+			commentLike: commentLike,
 		}
 	}
 	catch (err) {
@@ -74,14 +74,12 @@ const c_delete = async (user_id, comment_id) => {
 // [DELETE-ALL] //
 const c_deleteAll = async (comment_id) => {
 	try {
-		const deletedCommentLikes = await CommentLikeModel.deleteMany(
-			{ comment: comment_id }
-		)
+		const commentLikes = await CommentLikeModel.deleteMany({ comment: comment_id })
 
 		return {
 			executed: true,
 			status: true,
-			deletedCommentLikes: deletedCommentLikes
+			commentLikes: commentLikes
 		}
 	}
 	catch (err) {
@@ -97,43 +95,43 @@ const c_deleteAll = async (comment_id) => {
 /******************* [EXISTANCE] *******************/
 // [EXISTANCE] //
 const c_existance = async (user_id, comment_id) => {
-	if (mongoose.isValidObjectId(comment_id)) {
-		try {
-			const returned = await CommentLikeModel.findOne(
-				{
-					user: user_id,
-					comment: comment_id,
-				}
-			)
-
-			if (returned) {
-				return {
-					executed: true,
-					status: true,
-					existance: true,
-				}
-			}
-			else {
-				return {
-					executed: true,
-					status: true,
-					existance: false,
-				}
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `commentLikesCollection: Error --> ${err}`,
-			}
-		}
-	}
-	else {
+	if (!mongoose.isValidObjectId(comment_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid post_id',
+			message: 'Invalid comment _id',
+		}
+	}
+
+	try {
+		const returned = await CommentLikeModel.findOne(
+			{
+				user: user_id,
+				comment: comment_id,
+			}
+		)
+
+		if (!returned) {
+			return {
+				executed: true,
+				status: true,
+				message: 'commentLike does NOT exist',
+				existance: false,
+			}
+		}
+
+		return {
+			executed: true,
+			status: true,
+			message: 'commentLike does exist',
+			existance: true,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentLikesCollection: Error --> ${err}`,
 		}
 	}
 }

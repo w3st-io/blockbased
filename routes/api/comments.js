@@ -230,7 +230,7 @@ router.delete(
 				// [DELETE] Comment //
 				const comment = await commentsCollection.c_delete(
 					req.decoded._id,
-					req.params._id
+					req.params._id,
 				)
 
 				// [DELETE] CommentLike //
@@ -298,14 +298,11 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
-		if (
-			mongoose.isValidObjectId(req.params._id) &&
-			mongoose.isValidObjectId(req.params.post_id)
-		) {
+		if (mongoose.isValidObjectId(req.params._id)) {
 			// [DELETE] CommentLike //
 			const commentLike = await commentLikesCollection.c_delete(
-				req.decoded._id,
-				req.params._id
+				req.params._id,
+				req.decoded._id
 			)
 			
 			res.status(200).send(commentLike)
@@ -314,7 +311,7 @@ router.post(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid params'
+				message: 'Invalid comment _id'
 			})
 		}
 	},
