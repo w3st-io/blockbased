@@ -189,20 +189,14 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const ownershipStatus = await commentsCollection.c_ownership(
+			// [UPDATE] //
+			const comment = await commentsCollection.c_update(
+				req.params._id,
 				req.decoded._id,
-				req.params._id
+				req.body.text
 			)
-
-			if (ownershipStatus.ownership) {
-				const returned = await commentsCollection.c_update(
-					req.params._id,
-					req.body.text
-				)
-				
-				res.status(201).send(returned)
-			}
-			else { res.status(200).send(ownershipStatus) }
+			
+			res.status(201).send(comment)
 		}
 		else {
 			res.status(200).send({
@@ -221,18 +215,13 @@ router.delete(
 	Auth.userToken(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const ownershipStatus = await commentsCollection.c_ownership(
+			// [DELETE] //
+			const comment = await commentsCollection.c_delete(
+				req.params._id,
 				req.decoded._id,
-				req.params._id
 			)
-
-			if (ownershipStatus.status && ownershipStatus.ownership) {
-				// [DELETE] Comment //
-				const comment = await commentsCollection.c_delete(
-					req.decoded._id,
-					req.params._id,
-				)
-
+				
+			if (comment.status) {
 				// [DELETE] CommentLike //
 				const commentLikes = await commentLikesCollection.c_deleteAll(
 					req.params._id
@@ -249,7 +238,7 @@ router.delete(
 					deleted: [comment, commentLikes, notifications],
 				})
 			}
-			else { res.status(200).send(ownershipStatus) }
+			else { res.status(200).send(comment) }
 		}
 		else {
 			res.status(200).send({
@@ -326,22 +315,14 @@ router.post(
 	rateLimiter.reportLimiter,
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const existance = await commentReportsCollection.c_existance(
+			const returned = await commentReportsCollection.c_create(
 				req.decoded._id,
-				req.params._id
+				req.params._id,
+				req.body.post_id,
+				req.body.reportType
 			)
 			
-			if (existance.status && !existance.existance) {
-				const returned = await commentReportsCollection.c_create(
-					req.decoded._id,
-					req.params._id,
-					req.body.post_id,
-					req.body.reportType
-				)
-				
-				res.status(201).send(returned)
-			}
-			else { res.status(200).send(existance) }
+			res.status(201).send(returned)
 		}
 		else {
 			res.status(200).send({

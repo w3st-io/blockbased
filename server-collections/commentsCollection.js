@@ -140,7 +140,7 @@ const c_read = async (_id) => {
 
 
 // [UPDATE] //
-const c_update = async (_id, text) => {
+const c_update = async (_id, user_id, text) => {
 	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
@@ -150,6 +150,18 @@ const c_update = async (_id, text) => {
 		}
 	}
 
+	// [OWNERSHIP] //
+	const ownership = await c_ownership(_id, user_id)
+
+	if (!ownership.status || !ownership.ownership) {
+		return {
+			executed: true,
+			status: false,
+			message: ownership.message
+		}
+	}
+
+	// Length //
 	if (text.length >= 6000) {
 		return {
 			executed: true,
@@ -161,7 +173,10 @@ const c_update = async (_id, text) => {
 
 	try {
 		const comment = await CommentModel.updateOne(
-			{ _id: _id },
+			{
+				_id: _id,
+				user: user_id
+			},
 			{ $set: { text: text } },
 		)
 
@@ -193,6 +208,17 @@ const c_delete = async (_id, user_id) => {
 		}
 	}
 
+	// [OWNERSHIP] //
+	const ownership = await c_ownership(_id, user_id)
+
+	if (!ownership.status || !ownership.ownership) {
+		return {
+			executed: true,
+			status: false,
+			message: ownership.message
+		}
+	}
+
 	try {
 		const deletedComment = await CommentModel.findOneAndRemove(
 			{
@@ -212,47 +238,6 @@ const c_delete = async (_id, user_id) => {
 			executed: false,
 			status: false,
 			message: `commentsCollection: Error --> ${err}`,
-		}
-	}
-}
-
-
-/******************* [EXISTANCE] *******************/
-const c_existance = async (_id) => {
-	if (!mongoose.isValidObjectId(_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid comment _id'
-		}
-	}
-
-	try {	
-		const comment = await CommentModel.findOne({ _id: _id })
-
-		if (!comment) {
-			return {
-				executed: true,
-				status: true,
-				message: 'Comment does NOT exist',
-				existance: false,
-			}
-		}
-
-		return {
-			executed: true,
-			status: true,
-			message: 'Comment does exist',
-			existance: true,
-			comment: comment,
-		}
-		
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `commentsCollection: Error --> ${err}`
 		}
 	}
 }
@@ -288,10 +273,51 @@ const c_ownership = async (_id, user_id) => {
 		return {
 			executed: true,
 			status: true,
-			message: 'You own this comment',
+			message: 'You do own this comment',
 			ownership: true,
 			comment: comment,
 		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`
+		}
+	}
+}
+
+
+/******************* [EXISTANCE] *******************/
+const c_existance = async (_id) => {
+	if (!mongoose.isValidObjectId(_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid comment _id'
+		}
+	}
+
+	try {	
+		const comment = await CommentModel.findOne({ _id: _id })
+
+		if (!comment) {
+			return {
+				executed: true,
+				status: true,
+				message: 'Comment does NOT exist',
+				existance: false,
+			}
+		}
+
+		return {
+			executed: true,
+			status: true,
+			message: 'Comment does exist',
+			existance: true,
+			comment: comment,
+		}
+		
 	}
 	catch (err) {
 		return {

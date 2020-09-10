@@ -67,6 +67,10 @@
 						<!-- Buttons -->
 						<div class="w-50 m-0 float-right small text-right text-secondary">
 							<button
+								@click="deleteComment(comment._id)"
+								class="py-0 btn btn-danger"
+							>delete</button>
+							<button
 								v-if="comment.user._id == decoded._id"
 								@click="redirectToEdit(comment._id)"
 								class="py-0 btn btn-sm text-secondary"
@@ -162,6 +166,7 @@
 
 		methods: {
 			async deleteComment(comment_id) {
+				console.log('sdf');
 				// [DELETE] Comment //
 				try { await CommentService.s_delete(comment_id) }
 				catch (err) { this.error = err }

@@ -14,6 +14,11 @@ const CommentReportModel = require('../server-models/CommentReportModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, comment_id, post_id, reportType) => {
+	// [EXISTANCE] //
+	const existance = await c_existance(user_id, comment_id)
+	
+	if (!existance.status || existance.existance) { return existance }
+
 	const formData = new CommentReportModel({
 		_id: mongoose.Types.ObjectId(),
 		user: user_id,
@@ -103,7 +108,6 @@ const c_existance = async (user_id, comment_id) => {
 			executed: true,
 			status: false,
 			message: 'Invalid comment_id',
-			checkedExistance: false,
 		}
 	}
 
@@ -117,16 +121,15 @@ const c_existance = async (user_id, comment_id) => {
 			return {
 				executed: true,
 				status: true,
-				checkedExistance: true,
+				message: 'Comment report exists',
 				existance: false,
-				commentReport: commentReport,
 			}
 		}
 
 		return {
 			executed: true,
 			status: true,
-			checkedExistance: true,
+			message: 'Comment report does NOT exists',
 			existance: true,
 			commentReport: commentReport,
 		}
