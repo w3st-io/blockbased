@@ -14,35 +14,60 @@ const PostFollowerModel = require('../server-models/PostFollowerModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, post_id) => {
-	const existance = await c_existance(user_id, post_id)
-
-	if (existance.status && !existance.existance) {
-		try {
-			const createdPostFollow = await new PostFollowerModel({
-				_id: mongoose.Types.ObjectId(),
-				user: user_id,
-				post: post_id,
-			}).save()
-
-			return {
-				executed: true,
-				status: true,
-				createdPostFollow: createdPostFollow,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `postFollowersCollection: Error --> ${err}`,
-			}
+	// [VALIDATE] user_id & post_id //
+	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(post_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid id(s)',
 		}
 	}
-	else { return existance }
+
+	// [EXISTANCE] //
+	const existance = await c_existance(user_id, post_id)
+
+	if (!existance.status || existance.existance) {
+		return {
+			executed: true,
+			status: false,
+			message: existance.message,
+		}
+	}
+
+	try {
+		// [SAVE] //
+		const createdPostFollow = await new PostFollowerModel({
+			_id: mongoose.Types.ObjectId(),
+			user: user_id,
+			post: post_id,
+		}).save()
+
+		return {
+			executed: true,
+			status: true,
+			createdPostFollow: createdPostFollow,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postFollowersCollection: Error --> ${err}`,
+		}
+	}
 }
 
 // [READ-ALL] //
 const c_readAll = async (post_id) => {
+	// [VALIDATE] post_id //
+	if (!mongoose.isValidObjectId(post_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid post_id',
+		}
+	}
+
 	try {
 		const postFollowers = await PostFollowerModel.find({ post: post_id })
 
@@ -64,13 +89,20 @@ const c_readAll = async (post_id) => {
 
 // [DELETE] //
 const c_delete = async (user_id, post_id) => {
+	// [VALIDATE] user_id & post_id //
+	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(post_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid id(s)',
+		}
+	}
+
 	try {
-		const deletedPostFollower = await PostFollowerModel.deleteMany(
-			{
-				user: user_id,
-				post: post_id,
-			}
-		)
+		const deletedPostFollower = await PostFollowerModel.deleteMany({
+			user: user_id,
+			post: post_id,
+		})
 
 		return {
 			executed: true,
@@ -90,14 +122,21 @@ const c_delete = async (user_id, post_id) => {
 
 /******************* [EXISTANCE] *******************/
 const c_existance = async (user_id, post_id) => {
+	// [VALIDATE] user_id & post_id //
+	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(post_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid id(s)',
+		}
+	}
+
 	if (mongoose.isValidObjectId(post_id)) {
 		try {
-			const postFollower = await PostFollowerModel.findOne(
-				{
-					user: user_id,
-					post: post_id,
-				}
-			)
+			const postFollower = await PostFollowerModel.findOne({
+				user: user_id,
+				post: post_id,
+			})
 
 			if (postFollower) {
 				return {
@@ -135,6 +174,15 @@ const c_existance = async (user_id, post_id) => {
 
 /******************* [COUNT] *******************/
 const c_countAll = async (post_id) => {
+	// [VALIDATE] post_id //
+	if (!mongoose.isValidObjectId(post_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid post_id',
+		}
+	}
+
 	try {
 		const count = await PostFollowerModel.countDocuments({ post: post_id })
 		

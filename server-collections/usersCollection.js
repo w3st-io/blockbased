@@ -105,6 +105,9 @@ const c_update = async (_id, img_url) => {
 
 /******************* [OTHER-CRUD] *******************/
 const c_getIdByEmail = async (email) => {
+	// [VALIDATE] Email //
+
+
 	try {
 		const user = await UserModel.findOne({ email: email })
 
@@ -135,6 +138,9 @@ const c_getIdByEmail = async (email) => {
 
 /******************* [LOGIN/REGISTER] *******************/
 const c_login = async (email, password) => {
+	// [VALIDATE] Email //
+
+
 	try {
 		// [VALIDATE-EMAIL] //
 		const userFound = await UserModel.findOne({ email: email })
@@ -148,7 +154,7 @@ const c_login = async (email, password) => {
 			}
 		}
 
-		// [VALIDATE PASSWORD] //
+		// [VALIDATE-PASSWORD] //
 		if (!bcrypt.compareSync(password, userFound.password)) {
 			return {
 				executed: true,
@@ -267,78 +273,74 @@ const c_register = async (req) => {
 
 /******************* [VERIFY] *******************/
 const c_verify = async (_id) => {
-	if (mongoose.isValidObjectId(_id)) {
-		try {
-			const user = await UserModel.findOneAndUpdate(
-				{ _id: _id },
-				{ $set: { verified: true } }
-			)
-
-			return {
-				executed: true,
-				status: true,
-				message: 'Verified profile',
-				user: user
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `usersCollection: Error --> ${err}`
-			}
-		}
-	}
-	else {
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
 			message: 'Invalid user _id'
 		}
 	}
+
+	try {
+		const user = await UserModel.findOneAndUpdate(
+			{ _id: _id },
+			{ $set: { verified: true } }
+		)
+
+		return {
+			executed: true,
+			status: true,
+			message: 'Verified profile',
+			user: user
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `usersCollection: Error --> ${err}`
+		}
+	}
 }
 
 
 const c_verifiedStatus = async (_id) => {
-	if (mongoose.isValidObjectId(_id)) {
-		try {
-			const user = await UserModel.findOne(
-				{
-					_id: _id,
-					verified: true,
-				}
-			)
-
-			if (user) {
-				return {
-					executed: true,
-					status: true,
-					message: 'User verified',
-					user: user,
-				}
-			}
-			else {
-				return {
-					executed: true,
-					status: false,
-					message: 'User NOT verified',
-					user: user,
-				}
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `usersCollection: Error --> ${err}`,
-			}
-		}
-	}
-	else {
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid user _id',
+			message: 'Invalid user _id'
+		}
+	}
+
+	try {
+		const user = await UserModel.findOne({
+			_id: _id,
+			verified: true,
+		})
+
+		if (user) {
+			return {
+				executed: true,
+				status: true,
+				message: 'User verified',
+				user: user,
+			}
+		}
+		else {
+			return {
+				executed: true,
+				status: false,
+				message: 'User NOT verified',
+				user: user,
+			}
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `usersCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -346,39 +348,37 @@ const c_verifiedStatus = async (_id) => {
 
 /******************* [VERIFY] *******************/
 const c_updatePassword = async (_id, password) => {
-	if (mongoose.isValidObjectId(_id)) {
-		// Hash Password //
-		password = await bcrypt.hash(password, 10)
-		console.log('Hashed Password:', password)
-
-		
-		// [UPDATE] Password for User //
-		try {
-			const updatedUser = await UserModel.findOneAndUpdate(
-				{ _id: _id },
-				{ $set: { password: password } }
-			)
-
-			return {
-				executed: true,
-				status: true,
-				message: 'Updated profile',
-				updatedUser: updatedUser
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `usersCollection: Error --> ${err}`
-			}
-		}
-	}
-	else {
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
 			message: 'Invalid user _id'
+		}
+	}
+
+	// Hash Password //
+	password = await bcrypt.hash(password, 10)
+
+	
+	// [UPDATE] Password for User //
+	try {
+		const updatedUser = await UserModel.findOneAndUpdate(
+			{ _id: _id },
+			{ $set: { password: password } }
+		)
+
+		return {
+			executed: true,
+			status: true,
+			message: 'Updated profile',
+			updatedUser: updatedUser
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `usersCollection: Error --> ${err}`
 		}
 	}
 }

@@ -14,6 +14,15 @@ const VerificationCodeModel = require('../server-models/VerificationCodeModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id) => {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid user _id',
+		}
+	}
+
 	try {
 		const createdVerificationCode = await new VerificationCodeModel({
 			_id: mongoose.Types.ObjectId(),
@@ -37,10 +46,19 @@ const c_create = async (user_id) => {
 
 // [DELETE] //
 const c_delete = async (user_id) => {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid user _id',
+		}
+	}
+
 	try {
-		const deletedVerificationCode = await VerificationCodeModel.deleteMany(
-			{ user: user_id }
-		)
+		const deletedVerificationCode = await VerificationCodeModel.deleteMany({
+			user: user_id
+		})
 
 		return {
 			executed: true,
@@ -61,44 +79,44 @@ const c_delete = async (user_id) => {
 /******************* [EXISTANCE] *******************/
 // [EXISTANCE] //
 const c_existance = async (user_id, verificationCode) => {
-	if (mongoose.isValidObjectId(user_id)) {
-		try {
-			const foundVerificationCode = await VerificationCodeModel.findOne({
-				user: user_id,
-				verificationCode: verificationCode
-			})
-
-			if (foundVerificationCode) {
-				return {
-					executed: true,
-					status: true,
-					message: 'Success! Verified Account',
-					existance: true,
-					foundVerificationCode: foundVerificationCode,
-				}
-			}
-			else {
-				return {
-					executed: true,
-					status: true,
-					message: 'Invalid verification code',
-					existance: false,
-				}
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `verificationCodesCollection: Error --> ${err}`,
-			}
-		}
-	}
-	else {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,
 			status: false,
 			message: 'Invalid user _id',
+		}
+	}	
+
+	try {
+		const foundVerificationCode = await VerificationCodeModel.findOne({
+			user: user_id,
+			verificationCode: verificationCode
+		})
+
+		if (foundVerificationCode) {
+			return {
+				executed: true,
+				status: true,
+				message: 'Success! Verified Account',
+				existance: true,
+				foundVerificationCode: foundVerificationCode,
+			}
+		}
+		else {
+			return {
+				executed: true,
+				status: true,
+				message: 'Invalid verification code',
+				existance: false,
+			}
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `verificationCodesCollection: Error --> ${err}`,
 		}
 	}
 }

@@ -33,6 +33,7 @@ const c_create = async (user_id, post_id, text) => {
 	}
 
 	try {
+		// [SAVE] //
 		const createdComment = await new CommentModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
@@ -160,11 +161,11 @@ const c_read = async (_id) => {
 // [UPDATE] //
 const c_update = async (_id, user_id, text) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(_id)) {
+	if (!mongoose.isValidObjectId(_id) || !mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid comment _id',
+			message: 'Invalid id(s)',
 			updated: false,
 		}
 	}
@@ -349,6 +350,15 @@ const c_existance = async (_id) => {
 
 /******************* [COUNT] *******************/
 const c_countAll = async (post_id) => {
+	// [VALIDATE] post_id //
+	if (!mongoose.isValidObjectId(post_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid post_id'
+		}
+	}
+
 	try {
 		const count = await CommentModel.countDocuments({ post: post_id })
 

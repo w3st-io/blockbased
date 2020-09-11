@@ -14,7 +14,17 @@ const PostModel = require('../server-models/PostModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, cat_id, title) => {
+	// [VALIDATE] //
+	if (!mongoose.isValidObjectId(user_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid cat_id',
+		}
+	}
+
 	try {
+		// [SAVE] //
 		const createdPost = await new PostModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
@@ -108,6 +118,15 @@ const c_read = async (post_id) => {
 
 /******************* [LIKE-SYSTEM] *******************/
 const c_incrementLike = async (post_id) => {
+	// [VALIDATE] post_id //
+	if (!mongoose.isValidObjectId(post_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid post_id',
+		}
+	}
+
 	try {
 		const post = await PostModel.findOneAndUpdate(
 			{ _id: post_id },
@@ -131,6 +150,15 @@ const c_incrementLike = async (post_id) => {
 
 
 const c_decrementLike = async (post_id) => {
+	// [VALIDATE] //
+	if (!mongoose.isValidObjectId(post_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid post_id',
+		}
+	}
+
 	try {
 		const post = await PostModel.findOneAndUpdate(
 			{ _id: post_id },
@@ -155,11 +183,12 @@ const c_decrementLike = async (post_id) => {
 
 /******************* [EXISTANCE] *******************/
 const c_existance = async (post_id) => {
+	// [VALIDATE] post_id //
 	if (!mongoose.isValidObjectId(post_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid post _id',
+			message: 'Invalid post_id',
 			existance: false,
 		}
 	}
@@ -198,11 +227,12 @@ const c_existance = async (post_id) => {
 
 /******************* [OWNERSHIP] *******************/
 const c_ownership = async (user_id, post_id) => {
-	if (!mongoose.isValidObjectId(post_id)) {
+	// [VALIDATE] post_id //
+	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(post_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid post _id',
+			message: 'Invalid id(s)',
 		}
 	}
 

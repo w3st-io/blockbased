@@ -33,6 +33,7 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 	if (!existance.status || existance.existance) { return existance }
 	
 	try {
+		// [SAVE] //
 		const commentReport = await new CommentReportModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
@@ -114,11 +115,12 @@ const c_delete = async (_id) => {
 /******************* [EXISTANCE] *******************/
 // Verify that User is not Double Reporting //
 const c_existance = async (user_id, comment_id) => {
-	if (!mongoose.isValidObjectId(comment_id)) {
+	// [VALIDATE] user_id & comment_id //
+	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(comment_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid comment_id',
+			message: 'Invalid id(s)',
 		}
 	}
 

@@ -14,11 +14,22 @@ const PasswordRecoveryModel = require('../server-models/PasswordRecoveryModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id) => {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid user_id',
+		}
+	}
+
+	// [EXISTANCE] //
 	const existance = await c_existance(user_id)
 
 	if (!existance.status || existance.existance) { return existance }
 
 	try {
+		// [SAVE] //
 		const passwordRecovery = await new PasswordRecoveryModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
@@ -43,6 +54,15 @@ const c_create = async (user_id) => {
 
 // [DELETE] //
 const c_delete = async (user_id) => {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid user_id',
+		}
+	}
+
 	try {
 		const passwordRecovery = await PasswordRecoveryModel.deleteMany(
 			{ user: user_id }

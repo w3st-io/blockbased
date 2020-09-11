@@ -14,6 +14,19 @@ const CommentLikeModel = require('../server-models/CommetLikeModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, post_id, comment_id) => {
+	// [VALIDATE] user_id, comment_id, & post_id //
+	if (
+		!mongoose.isValidObjectId(user_id) ||
+		!mongoose.isValidObjectId(post_id) ||
+		!mongoose.isValidObjectId(comment_id)
+	) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid id(s)',
+		}
+	}
+
 	// [EXISTANCE] //
 	const existance = await c_existance(user_id, comment_id)
 
@@ -45,13 +58,20 @@ const c_create = async (user_id, post_id, comment_id) => {
 
 // [DELETE] //
 const c_delete = async (user_id, comment_id) => {
+	// [VALIDATE] user_id & comment_id //
+	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(comment_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid id(s)',
+		}
+	}
+
 	try {
-		const commentLike = await CommentLikeModel.deleteMany(
-			{
-				user: user_id,
-				comment: comment_id,
-			}
-		)
+		const commentLike = await CommentLikeModel.deleteMany({
+			user: user_id,
+			comment: comment_id,
+		})
 
 		return {
 			executed: true,
@@ -71,6 +91,15 @@ const c_delete = async (user_id, comment_id) => {
 
 // [DELETE-ALL] //
 const c_deleteAll = async (comment_id) => {
+	// [VALIDATE] user_id & comment_id //
+	if (!mongoose.isValidObjectId(comment_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid comment_id',
+		}
+	}
+
 	try {
 		const commentLikes = await CommentLikeModel.deleteMany({ comment: comment_id })
 
@@ -93,21 +122,20 @@ const c_deleteAll = async (comment_id) => {
 /******************* [EXISTANCE] *******************/
 // [EXISTANCE] //
 const c_existance = async (user_id, comment_id) => {
-	if (!mongoose.isValidObjectId(comment_id)) {
+	// [VALIDATE] user_id & comment_id //
+	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(comment_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid comment _id',
+			message: 'Invalid id(s)',
 		}
 	}
 
 	try {
-		const returned = await CommentLikeModel.findOne(
-			{
-				user: user_id,
-				comment: comment_id,
-			}
-		)
+		const returned = await CommentLikeModel.findOne({
+			user: user_id,
+			comment: comment_id,
+		})
 
 		if (!returned) {
 			return {
@@ -137,6 +165,15 @@ const c_existance = async (user_id, comment_id) => {
 
 /******************* [COUNT] *******************/
 const c_countAll = async (comment_id) => {
+	// [VALIDATE] comment_id //
+	if (!mongoose.isValidObjectId(comment_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid id(s)',
+		}
+	}
+
 	try {
 		const count = await CommentLikeModel.countDocuments({ comment: comment_id })
 

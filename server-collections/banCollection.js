@@ -17,13 +17,18 @@ const c_create = async (user_id, hours) => {
 	// [EXISTANCE] //
 	const existance = await c_existance(user_id)
 
-	if (!existance.status || existance.existance) { return existance }
+	if (!existance.status || existance.existance) {
+		return {
+			executed: true,
+			status: false,
+			message: existance.message
+		}
+	}
 
-	// Calculate ban time by adding hours to current time //
-	let banTime = new Date()
-	banTime.setHours(banTime.getHours() + hours)
-	
 	try {
+		let banTime = new Date()
+		banTime = new Date().setHours(banTime.getHours() + hours)
+
 		const createdBan = await new BanModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,

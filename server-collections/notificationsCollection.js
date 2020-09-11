@@ -14,7 +14,17 @@ const NotificationModel = require('../server-models/NotificationModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, comment_id, type) => {
+	// [VALIDATE] user_id & comment_id //
+	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(comment_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid id(s)',
+		}
+	}
+
 	try {
+		// [SAVE] // 
 		const notification = await new NotificationModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
@@ -39,6 +49,15 @@ const c_create = async (user_id, comment_id, type) => {
 
 // [READ-ALL] //
 const c_readAll = async (user_id) => {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid id(s)',
+		}
+	}
+
 	try {
 		const notifications = await NotificationModel.find({
 			user: user_id,
@@ -80,6 +99,15 @@ const c_readAll = async (user_id) => {
 
 // [DELETE-ALL] //
 const c_deleteAll = async (comment_id) => {
+	// [VALIDATE] comment_id //
+	if (!mongoose.isValidObjectId(comment_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid id(s)',
+		}
+	}
+
 	try {
 		const deletedNotications = await NotificationModel.deleteMany({
 			comment: comment_id
@@ -106,6 +134,15 @@ const c_delete = async () => {}
 
 /******************* [MARK-READ-STATUS] *******************/
 const c_markRead = async (_id) => {
+	// [VALIDATE] _id //
+	if (!mongoose.isValidObjectId(_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid notification _id',
+		}
+	}
+
 	try {
 		const notification = await NotificationModel.updateOne(
 			{ _id: _id },
