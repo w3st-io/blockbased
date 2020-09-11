@@ -27,7 +27,7 @@ const c_create = async (user_id, hours) => {
 
 	try {
 		let banTime = new Date()
-		banTime = new Date().setHours(banTime.getHours() + hours)
+		banTime.setHours(banTime.getHours() + hours)
 
 		const createdBan = await new BanModel({
 			_id: mongoose.Types.ObjectId(),

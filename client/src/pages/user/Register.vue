@@ -8,13 +8,13 @@
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(register)">
 					<!-- First Name -->
+					<label for="first_name">First Name</label>
 					<ValidationProvider
 						tag="div"
 						class="form-group"
 						rules="required"
 						v-slot="{ errors }"
 					>
-						<label for="first_name">First Name</label>
 						<input
 							v-model="first_name"
 							name="first_name"
@@ -27,13 +27,13 @@
 					</ValidationProvider>
 
 					<!-- Last Name -->
+					<label for="last_name">Last Name</label>
 					<ValidationProvider
 						tag="div"
 						class="form-group"
 						rules="required"
 						v-slot="{ errors }"
 					>
-						<label for="last_name">Last Name</label>
 						<input
 							v-model="last_name"
 							name="last_name"
@@ -46,13 +46,13 @@
 					</ValidationProvider>
 
 					<!-- Username -->
+					<label for="username">Username</label>
 					<ValidationProvider
 						tag="div"
 						class="form-group"
 						rules="required"
 						v-slot="{ errors }"
 					>
-						<label for="username">Username</label>
 						<input
 							v-model="username"
 							name="username"
@@ -65,13 +65,13 @@
 					</ValidationProvider>
 
 					<!-- Email -->
+					<label for="email">Email Address</label>
 					<ValidationProvider
 						tag="div"
 						class="form-group"
 						rules="required|email"
 						v-slot="{ errors }"
 					>
-						<label for="email">Email Address</label>
 						<input
 							name="email"
 							type="email"
@@ -84,13 +84,13 @@
 					</ValidationProvider>
 
 					<!-- Password -->
+					<label for="password">Password</label>
 					<ValidationProvider
 						tag="div"
 						class="form-group"
 						rules="required|password:8, 50|confirmed:@confirmation"
 						v-slot="{ errors }"
 					>
-						<label for="password">Password</label>
 						<input
 							v-model="password"
 							name="password"
@@ -103,14 +103,14 @@
 					</ValidationProvider>
 
 					<!-- Confirmed Password -->
+					<label for="confirm">Confirm Password</label>
 					<ValidationProvider
 						tag="div"
-						class="form-group" 
 						name="confirmation"
 						rules="required"
+						class="form-group" 
 						v-slot="{ errors }"
 					>
-						<label for="confirm">Confirm Password</label>
 						<input
 							v-model="confirm"
 							name="confirm"
@@ -123,10 +123,9 @@
 					</ValidationProvider>
 
 					<!-- Submit -->
-					<button
-						type="submit"
-						class="w-100 mt-5 btn btn-lg btn-primary"
-					>Register</button>
+					<button type="submit" class="w-100 mt-5 btn btn-lg btn-primary">
+						Register
+					</button>
 				</form>
 			</ValidationObserver>
 		</div>

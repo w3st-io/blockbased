@@ -7,6 +7,7 @@
 const cors = require('cors')
 const express = require('express')
 const jwt = require('jsonwebtoken')
+const validator = require('validator')
 
 
 // [REQUIRE] Personal //
@@ -66,12 +67,21 @@ router.post(
 router.post(
 	'/login',
 	async (req, res) => {
-		const returned = await usersCollection.c_login(
-			req.body.email,
-			req.body.password
-		)
-
-		res.status(200).send(returned)
+		if (validator.isEmail(req.body.email)) {
+			const returned = await usersCollection.c_login(
+				req.body.email,
+				req.body.password
+			)
+	
+			res.status(200).send(returned)
+		}
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid Email'
+			})
+		}
 	}
 )
 
@@ -81,41 +91,45 @@ router.post(
 	'/register',
 	rateLimiters.registrationLimiter,
 	async (req, res) => {
-		let user
-		let vCode
+		if (
+			validator.isAlpha(req.body.first_name) &&
+			validator.isAlpha(req.body.last_name) &&
+			validator.isAscii(req.body.username) &&
+			validator.isEmail(req.body.email) &&
+			validator.isAscii(req.body.password)
+		) {
+			// [CREATE] Register Account //
+			const user = await usersCollection.c_register(
+				req.body.first_name,
+				req.body.last_name,
+				req.body.username,
+				req.body.email,
+				req.body.password,
+			)
 
-		// [CREATE] Register Account //
-		try { user = await usersCollection.c_register(req) }
-		catch (err) {
-			res.status(201).send({
-				executed: false,
+			if (user.status && user.created) {
+				// [CREATE] Verification Code //
+				const vCode = await verificationCodesCollection.c_create(
+					user.createdUser._id
+				)
+
+				// [MAIL] Verification Email //
+				await mailerUtil.sendVerificationMail(
+					user.createdUser.email,
+					user.createdUser._id,
+					vCode.createdVerificationCode.verificationCode
+				)
+			}
+
+			res.status(201).send(user)
+		}
+		else {
+			res.status(200).send({
+				executed: true,
 				status: false,
-				message: `users: Error --> ${err}`
+				message: 'Invalid Params'
 			})
 		}
-
-		if (user.status && user.created) {
-			// [CREATE] Verification Code //
-			try {
-				vCode = await verificationCodesCollection.c_create(user.createdUser._id)
-			}
-			catch (err) {
-				res.status(201).send({
-					executed: false,
-					status: false,
-					message: `users: Error --> ${err}`
-				})
-			}
-
-			// [MAIL] Verification Email //
-			await mailerUtil.sendVerificationMail(
-				user.createdUser.email,
-				user.createdUser._id,
-				vCode.createdVerificationCode.verificationCode
-			)
-		}
-
-		res.status(201).send(user)
 	}
 )
 

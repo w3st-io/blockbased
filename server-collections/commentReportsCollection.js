@@ -14,7 +14,7 @@ const CommentReportModel = require('../server-models/CommentReportModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, comment_id, post_id, reportType) => {
-	// [VALIDATE] user_id, comment_id, & post_id //
+	// [VALIDATE] //
 	if (
 		!mongoose.isValidObjectId(user_id) ||
 		!mongoose.isValidObjectId(post_id) ||
@@ -115,7 +115,7 @@ const c_delete = async (_id) => {
 /******************* [EXISTANCE] *******************/
 // Verify that User is not Double Reporting //
 const c_existance = async (user_id, comment_id) => {
-	// [VALIDATE] user_id & comment_id //
+	// [VALIDATE] //
 	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(comment_id)) {
 		return {
 			executed: true,

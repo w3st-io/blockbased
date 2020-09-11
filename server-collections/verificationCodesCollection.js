@@ -24,6 +24,7 @@ const c_create = async (user_id) => {
 	}
 
 	try {
+		// [SAVE] //
 		const createdVerificationCode = await new VerificationCodeModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,

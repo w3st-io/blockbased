@@ -21,7 +21,7 @@
 						<ValidationProvider
 							tag="div"
 							class="form-group"
-							rules="required|email"
+							rules="required"
 							v-slot="{ errors }"
 						>
 							<label for="email" class="text-light">Email</label>

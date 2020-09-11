@@ -18,12 +18,10 @@ const c_readAllAll = async (skip, limit) => {
 		const posts = await PostModel.find()
 			.skip(parseInt(skip))
 			.limit(parseInt(limit))
-			.populate(
-				{
-					path: 'user',
-					select: 'username email profileImg',
-				}
-			)
+			.populate({
+				path: 'user',
+				select: 'username email profileImg',
+			})
 			.exec()
 
 		return {
@@ -44,31 +42,30 @@ const c_readAllAll = async (skip, limit) => {
 
 // [DELETE] //
 const c_delete = async (post_id) => {
-	if (mongoose.isValidObjectId(post_id)) {
-		try {
-			const deletedPost = await PostModel.findByIdAndDelete(post_id)
-			
-			return {
-				executed: true,
-				status: true,
-				deleted: true,
-				deletedPost: deletedPost,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `postCollections: Error --> ${err}`,
-				deleted: false,
-			}
-		}
-	}
-	else {
+	if (!mongoose.isValidObjectId(post_id)) {
 		return {
 			executed: true,
 			status: false,
 			message: 'Invalid post _id',
+			deleted: false,
+		}
+	}
+
+	try {
+		const deletedPost = await PostModel.findByIdAndDelete(post_id)
+		
+		return {
+			executed: true,
+			status: true,
+			deleted: true,
+			deletedPost: deletedPost,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postCollections: Error --> ${err}`,
 			deleted: false,
 		}
 	}

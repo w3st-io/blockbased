@@ -14,7 +14,7 @@ const CommentLikeModel = require('../server-models/CommetLikeModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, post_id, comment_id) => {
-	// [VALIDATE] user_id, comment_id, & post_id //
+	// [VALIDATE] //
 	if (
 		!mongoose.isValidObjectId(user_id) ||
 		!mongoose.isValidObjectId(post_id) ||
@@ -33,6 +33,7 @@ const c_create = async (user_id, post_id, comment_id) => {
 	if (!existance.status || existance.existance) { return existance }
 	
 	try {
+		// [SAVE] //
 		const commentLike = await new CommentLikeModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
@@ -58,7 +59,7 @@ const c_create = async (user_id, post_id, comment_id) => {
 
 // [DELETE] //
 const c_delete = async (user_id, comment_id) => {
-	// [VALIDATE] user_id & comment_id //
+	// [VALIDATE] //
 	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(comment_id)) {
 		return {
 			executed: true,
@@ -91,7 +92,7 @@ const c_delete = async (user_id, comment_id) => {
 
 // [DELETE-ALL] //
 const c_deleteAll = async (comment_id) => {
-	// [VALIDATE] user_id & comment_id //
+	// [VALIDATE] //
 	if (!mongoose.isValidObjectId(comment_id)) {
 		return {
 			executed: true,
@@ -122,7 +123,7 @@ const c_deleteAll = async (comment_id) => {
 /******************* [EXISTANCE] *******************/
 // [EXISTANCE] //
 const c_existance = async (user_id, comment_id) => {
-	// [VALIDATE] user_id & comment_id //
+	// [VALIDATE] //
 	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(comment_id)) {
 		return {
 			executed: true,

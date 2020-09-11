@@ -7,6 +7,7 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
+const validator = require('validator')
 require('dotenv').config()
 
 
@@ -106,7 +107,13 @@ const c_update = async (_id, img_url) => {
 /******************* [OTHER-CRUD] *******************/
 const c_getIdByEmail = async (email) => {
 	// [VALIDATE] Email //
-
+	if (!validator.isEmail(email)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid email'
+		}
+	}
 
 	try {
 		const user = await UserModel.findOne({ email: email })
@@ -138,8 +145,14 @@ const c_getIdByEmail = async (email) => {
 
 /******************* [LOGIN/REGISTER] *******************/
 const c_login = async (email, password) => {
-	// [VALIDATE] Email //
-
+	// [VALIDATE] //
+	if (!validator.isEmail(email) || !validator.isAscii(password)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid params'
+		}
+	}
 
 	try {
 		// [VALIDATE-EMAIL] //
@@ -193,71 +206,96 @@ const c_login = async (email, password) => {
 }
 
 
-const c_register = async (req) => {
+const c_register = async (first_name, last_name, username, email, password) => {
+	// [VALIDATE] //
+	if (
+		!validator.isAlpha(first_name) ||
+		!validator.isAlpha(last_name) ||
+		!validator.isAscii(username) ||
+		!validator.isEmail(email) ||
+		!validator.isAscii(password)
+	) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid params'
+		}
+	}
+
 	try {
 		// Username Check //
-		const usernameFound = await UserModel.findOne({ username: req.body.username })
+		const usernameFound = await UserModel.findOne({ username: username })
 
 		if (usernameFound) {
 			return {
 				executed: true,
 				status: true,
-				message: 'This username is taken',
+				message: 'That username is taken',
 				created: false,
 			}
 		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `usersCollection: Error --> ${err}`,
+			created: false,
+		}
+	}
 
+	try {
 		// Email Check //
-		const emailFound = await UserModel.findOne({ email: req.body.email })
+		const emailFound = await UserModel.findOne({ email: email })
 
 		if (emailFound) {
 			return {
 				executed: true,
 				status: true,
-				message: 'This email is already registered',
+				message: 'That email is already registered',
 				created: false,
 			}
 		}
-
-		// Password Length //
-		if (req.body.password.length < 8 || req.body.password.length > 50) {
-			return {
-				executed: true,
-				status: false,
-				message: 'Password invalid (8 < password < 50)',
-				created: false,
-			}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `usersCollection: Error --> ${err}`,
+			created: false,
 		}
+	}
 
-		try {
-			// Hash Password //
-			const hashedPassword = await bcrypt.hash(req.body.password, 10)
-
-			// [SAVE] //
-			const createdUser = await new UserModel({
-				_id: mongoose.Types.ObjectId(),
-				first_name: req.body.first_name,
-				last_name: req.body.last_name,
-				username: req.body.username,
-				email: req.body.email,
-				password: hashedPassword,
-			}).save()
-			
-			return {
-				executed: true,
-				status: true,
-				message: 'Successfully created account',
-				created: true,
-				createdUser: createdUser,
-			}
+	// Password Length //
+	if (password.length < 8 || password.length > 50) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Password invalid (8 < password < 50)',
+			created: false,
 		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `usersCollection: Error --> ${err}`,
-				created: false,
-			}
+	}
+
+	try {
+		// Hash Password //
+		const hashedPassword = await bcrypt.hash(password, 10)
+
+		// [SAVE] //
+		const createdUser = await new UserModel({
+			_id: mongoose.Types.ObjectId(),
+			first_name: first_name,
+			last_name: last_name,
+			username: username,
+			email: email,
+			password: hashedPassword,
+		}).save()
+		
+		return {
+			executed: true,
+			status: true,
+			message: 'Successfully created account',
+			created: true,
+			createdUser: createdUser,
 		}
 	}
 	catch (err) {

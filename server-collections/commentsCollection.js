@@ -14,7 +14,7 @@ const CommentModel = require('../server-models/CommentModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, post_id, text) => {
-	// [VALIDATE] user_id & post_id //
+	// [VALIDATE] //
 	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(post_id)) {
 		return {
 			executed: true,
@@ -220,7 +220,7 @@ const c_update = async (_id, user_id, text) => {
 
 // [DELETE] //
 const c_delete = async (_id, user_id) => {
-	// [VALIDATE] _id & user_id //
+	// [VALIDATE] //
 	if (!mongoose.isValidObjectId(_id) || !mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,
@@ -264,7 +264,7 @@ const c_delete = async (_id, user_id) => {
 
 /******************* [OWNERSHIP] *******************/
 const c_ownership = async (_id, user_id) => {
-	// [VALIDATE] _id & user_id //
+	// [VALIDATE] //
 	if (!mongoose.isValidObjectId(_id) || !mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,

@@ -14,7 +14,7 @@ const NotificationModel = require('../server-models/NotificationModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, comment_id, type) => {
-	// [VALIDATE] user_id & comment_id //
+	// [VALIDATE] //
 	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(comment_id)) {
 		return {
 			executed: true,
@@ -63,24 +63,20 @@ const c_readAll = async (user_id) => {
 			user: user_id,
 			read: false
 		})
-			.populate(
-				{
-					path: 'comment',
-					populate: {
-						path: 'user',
-						select: 'username',
-					}
+			.populate({
+				path: 'comment',
+				populate: {
+					path: 'user',
+					select: 'username',
 				}
-			)
-			.populate(
-				{
-					path: 'comment',
-					populate: {
-						path: 'post',
-						select: 'title',
-					}
+			})
+			.populate({
+				path: 'comment',
+				populate: {
+					path: 'post',
+					select: 'title',
 				}
-		)
+			})
 	
 		return {
 			executed: true,
@@ -134,7 +130,7 @@ const c_delete = async () => {}
 
 /******************* [MARK-READ-STATUS] *******************/
 const c_markRead = async (_id) => {
-	// [VALIDATE] _id //
+	// [VALIDATE] //
 	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,

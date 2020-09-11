@@ -89,7 +89,17 @@ const c_register = async (req) => {
 				created: false,
 			}
 		}
-	
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `adminsCollection: Error --> ${err}`,
+			created: false,
+		}
+	}
+
+	try {
 		// Email Check //
 		const emailFound = await AdminModel.findOne({ email: req.body.email })
 
@@ -101,18 +111,28 @@ const c_register = async (req) => {
 				created: false,
 			}
 		}
-
-		// Password Length //
-		if (req.body.password.length < 8 || req.body.password.length > 50) {
-			return {
-				executed: true,
-				status: false,
-				message: 'Password invalid (8 < password < 50)',
-				created: false,
-			}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `adminsCollection: Error --> ${err}`,
+			created: false,
 		}
+	}
 
-		// Hash Data //
+	// Password Length //
+	if (req.body.password.length < 8 || req.body.password.length > 50) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Password invalid (8 < password < 50)',
+			created: false,
+		}
+	}
+
+	try {
+		// Hash Password //
 		const hashedPassword = await bcrypt.hash(req.body.password, 10)
 
 		// [SAVE] //
