@@ -67,7 +67,10 @@ router.post(
 router.post(
 	'/login',
 	async (req, res) => {
-		if (validator.isEmail(req.body.email)) {
+		if (
+			validator.isEmail(req.body.email) &&
+			validator.isAscii(req.body.password)
+		) {
 			const returned = await usersCollection.c_login(
 				req.body.email,
 				req.body.password
@@ -79,7 +82,7 @@ router.post(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid Email'
+				message: 'Invalid Params'
 			})
 		}
 	}
