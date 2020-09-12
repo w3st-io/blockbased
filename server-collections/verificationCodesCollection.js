@@ -102,7 +102,7 @@ const c_existance = async (user_id, verificationCode) => {
 	try {
 		const vCode = await VerificationCodeModel.findOne({
 			user: user_id,
-			verificationCode: verificationCode
+			verificationCode
 		})
 
 		if (vCode) {

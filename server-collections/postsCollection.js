@@ -5,6 +5,7 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 
 // [REQUIRE] //
@@ -15,11 +16,15 @@ const PostModel = require('../server-models/PostModel')
 // [CREATE] //
 const c_create = async (user_id, cat_id, title) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(user_id)) {
+	if (
+		!mongoose.isValidObjectId(user_id) &&
+		!validator.isAscii(cat_id) &&
+		!validator.isAscii(title)
+	) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid cat_id',
+			message: 'Invalid params',
 		}
 	}
 
@@ -50,7 +55,22 @@ const c_create = async (user_id, cat_id, title) => {
 
 // [READ-ALL] Within Cat //
 const c_readAll = async (cat_id, skip, limit, sort) => {
+	// [INIT] //
 	let sort2
+
+	// [VALIDATE] //
+	if (
+		!validator.isAscii(cat_id) &&
+		!validator.isAscii(skip) &&
+		!validator.isAscii(limit) &&
+		!validator.isAscii(sort)
+	) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid params',
+		}
+	}
 
 	if (sort == 'descending') { sort2 = { createdAt: -1 } }
 	else if (sort == 'popularity') { sort2 = { likeCount: -1 } }
@@ -80,23 +100,23 @@ const c_readAll = async (cat_id, skip, limit, sort) => {
 
 
 // [READ] Single Post //
-const c_read = async (post_id) => {
+const c_read = async (_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(post_id)) {
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid post_id',
+			message: 'postsCollection: Invalid post _id',
 		}
 	}
 
 	// [EXISTANCE] //
-	const existance = await c_existance(post_id)
+	const existance = await c_existance(_id)
 	
 	if (!existance.existance) { return existance }
 
 	try {
-		const post = await PostModel.findById(post_id)
+		const post = await PostModel.findById(_id)
 			.populate({ path: 'user', select: 'username email profileImg', })
 			.exec()
 		
@@ -117,19 +137,19 @@ const c_read = async (post_id) => {
 
 
 /******************* [LIKE-SYSTEM] *******************/
-const c_incrementLike = async (post_id) => {
-	// [VALIDATE] post_id //
-	if (!mongoose.isValidObjectId(post_id)) {
+const c_incrementLike = async (_id) => {
+	// [VALIDATE] //
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid post_id',
+			message: 'postCollection: Invalid post _id',
 		}
 	}
 
 	try {
 		const post = await PostModel.findOneAndUpdate(
-			{ _id: post_id },
+			{ _id },
 			{ $inc: { likeCount: 1 } },
 		)
 	
@@ -149,19 +169,19 @@ const c_incrementLike = async (post_id) => {
 }
 
 
-const c_decrementLike = async (post_id) => {
+const c_decrementLike = async (_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(post_id)) {
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid post_id',
+			message: 'Invalid post _id',
 		}
 	}
 
 	try {
 		const post = await PostModel.findOneAndUpdate(
-			{ _id: post_id },
+			{ _id },
 			{ $inc: { likeCount: -1 } },
 		)
 	
@@ -182,19 +202,19 @@ const c_decrementLike = async (post_id) => {
 
 
 /******************* [EXISTANCE] *******************/
-const c_existance = async (post_id) => {
-	// [VALIDATE] post_id //
-	if (!mongoose.isValidObjectId(post_id)) {
+const c_existance = async (_id) => {
+	// [VALIDATE] //
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid post_id',
+			message: 'Invalid post _id',
 			existance: false,
 		}
 	}
 
 	try {	
-		const post = await PostModel.findOne({ _id: post_id })
+		const post = await PostModel.findOne({ _id })
 
 		if (!post) {
 			return {
@@ -226,9 +246,12 @@ const c_existance = async (post_id) => {
 
 
 /******************* [OWNERSHIP] *******************/
-const c_ownership = async (user_id, post_id) => {
-	// [VALIDATE] post_id //
-	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(post_id)) {
+const c_ownership = async (user_id, _id) => {
+	// [VALIDATE] //
+	if (
+		!mongoose.isValidObjectId(user_id) ||
+		!mongoose.isValidObjectId(_id)
+	) {
 		return {
 			executed: true,
 			status: false,
@@ -237,10 +260,7 @@ const c_ownership = async (user_id, post_id) => {
 	}
 
 	try {	
-		const post = await PostModel.findOne({
-			user: user_id,
-			_id: post_id,
-		})
+		const post = await PostModel.findOne({ _id, user: user_id })
 
 		if (!post) {
 			return {
