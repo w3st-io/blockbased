@@ -19,10 +19,6 @@
 
 					<table class="w-100 table-sm table-dark">
 						<tr>
-							<td class="w-25">Name</td>
-							<td>{{ decoded.first_name }} {{ decoded.last_name }}</td>
-						</tr>
-						<tr>
 							<td>Username</td>
 							<td>{{ decoded.username }}</td>
 						</tr>

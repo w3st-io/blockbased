@@ -67,19 +67,15 @@
 						<!-- Buttons -->
 						<div class="w-50 m-0 float-right small text-right text-secondary">
 							<button
-								@click="deleteComment(comment._id)"
-								class="py-0 btn btn-danger"
-							>delete</button>
-							<button
 								v-if="comment.user._id == decoded._id"
 								@click="redirectToEdit(comment._id)"
 								class="py-0 btn btn-sm text-secondary"
-							>edit</button>
+							>Edit</button>
 							<button
 								v-if="comment.user._id == decoded._id"
 								@click="deleteComment(comment._id)"
 								class="py-0 btn btn-sm text-danger"
-							>delete</button>
+							>Delete</button>
 							<button
 								@click="likeBtn(comment)"
 								class="btn"
@@ -99,6 +95,10 @@
 					>
 						<button
 							@click="deleteComment(comment._id)"
+							class="py-0 btn btn-danger"
+						>Delete</button>
+						<button
+							@click="adminDelete(comment._id)"
 							class="btn btn-sm btn-outline-danger"
 						>Admin-Delete</button>
 					</div>

@@ -38,9 +38,7 @@ router.get(
 	Auth.userToken(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const returned = await notificationsCollection.c_markRead(
-				req.params._id
-			)
+			const returned = await notificationsCollection.c_markRead(req.params._id)
 
 			res.status(200).send(returned)
 		}

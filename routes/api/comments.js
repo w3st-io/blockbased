@@ -8,6 +8,7 @@
 const cors = require('cors')
 const express = require('express')
 const mongoose = require('mongoose')
+const validator = require('validator')
 require('dotenv').config()
 
 
@@ -34,47 +35,57 @@ router.post(
 	rateLimiter.commentLimiter,
 	async (req, res) => {
 		let returnFollowers = []
-		const postExistance = await postsCollection.c_existance(req.body.post_id)
+		
+		if (validator.isAscii(req.body.post_id) && validator.isAscii(req.body.text)) {
+			const postExistance = await postsCollection.c_existance(req.body.post_id)
 
-		if (postExistance.existance) {
-			const returned = await commentsCollection.c_create(
-				req.decoded._id,
-				req.body.post_id,
-				req.body.text
-			)
-
-			if (returned.status) {
-				// [READ-ALL] Followers //
-				const followers = await postFollowersCollection.c_readAll(
-					req.body.post_id
+			if (postExistance.existance) {
+				const returned = await commentsCollection.c_create(
+					req.decoded._id,
+					req.body.post_id,
+					req.body.text
 				)
-				
-				// [CREATE] Notification //
-				for (let i = 0; i < followers.postFollowers.length; i++) {
-					await notificationsCollection.c_create(
-						followers.postFollowers[i].user,
-						returned.createdComment._id,
-						'comment'
+
+				if (returned.status) {
+					// [READ-ALL] Followers //
+					const followers = await postFollowersCollection.c_readAll(
+						req.body.post_id
 					)
+					
+					// [CREATE] Notification //
+					for (let i = 0; i < followers.postFollowers.length; i++) {
+						await notificationsCollection.c_create(
+							followers.postFollowers[i].user,
+							returned.createdComment._id,
+							'comment'
+						)
 
-					returnFollowers.push(followers.postFollowers[i].user)
+						returnFollowers.push(followers.postFollowers[i].user)
+					}
+
+					/*
+					* Send follwors so they are notificed and the comment count to know
+					* what the last page is
+					*/
+					res.status(201).send({
+						executed: true,
+						status: true,
+						created: returned,
+						postFollowers: returnFollowers,
+						commentCount: await commentsCollection.c_countAll(req.body.post_id)
+					})
 				}
-
-				/*
-				 * Send follwors so they are notificed and the comment count to know
-				 * what the last page is
-				*/
-				res.status(201).send({
-					executed: true,
-					status: true,
-					created: returned,
-					postFollowers: returnFollowers,
-					commentCount: await commentsCollection.c_countAll(req.body.post_id)
-				})
+				else { res.status(200).send(returned) }
 			}
-			else { res.status(200).send(returned) }
+			else { res.status(200).send(postExistance) }
 		}
-		else { res.status(200).send(postExistance) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'comments: Invalid Params'
+			})
+		}
 	},
 )
 
@@ -84,7 +95,11 @@ router.get(
 	'/read-all/:post_id/:limit/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params.post_id)) {
+		if (
+			mongoose.isValidObjectId(req.params.post_id) &&
+			validator.isAscii(req.params.limit) &&
+			validator.isAscii(req.params.skip)
+		) {
 			const postExistance = await postsCollection.c_existance(req.params.post_id)
 
 			if (postExistance.existance) {
@@ -130,7 +145,7 @@ router.get(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'comments: Invalid params',
 			})
 		}
 	},
@@ -147,9 +162,7 @@ router.get(
 			if (returned.status) {
 				// Set Like Count //
 				try {
-					const count = await commentLikesCollection.c_countAll(
-						req.params._id
-					)
+					const count = await commentLikesCollection.c_countAll(req.params._id)
 
 					returned.comment.likeCount = count.count
 				}
@@ -189,7 +202,10 @@ router.post(
 	'/update/:_id',
 	Auth.userToken(),
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params._id)) {
+		if (
+			mongoose.isValidObjectId(req.params._id) &&
+			validator.isAscii(req.body.text)
+		) {
 			// [UPDATE] //
 			const comment = await commentsCollection.c_update(
 				req.params._id,
@@ -203,7 +219,7 @@ router.post(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid comment _id'
+				message: 'Invalid params'
 			})
 		}
 	},
@@ -276,7 +292,7 @@ router.post(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid params'
+				message: 'comments: Invalid params'
 			})
 		}
 	},
@@ -315,7 +331,11 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.reportLimiter,
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params._id)) {
+		if (
+			mongoose.isValidObjectId(req.params._id) &&
+			validator.isAscii(req.body.post_id) &&
+			mongoose.isAscii(req.body.reportType)
+		) {
 			const returned = await commentReportsCollection.c_create(
 				req.decoded._id,
 				req.params._id,
@@ -329,7 +349,7 @@ router.post(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid comment _id',
+				message: 'Invalid params',
 			})
 		}
 	},

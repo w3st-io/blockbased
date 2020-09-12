@@ -15,8 +15,6 @@
 				<tr v-for="user in users" :key="user._id">
 					<td>{{ user.email }}</td>
 					<td>{{ user.username }}</td>
-					<td>{{ user.first_name }}</td>
-					<td>{{ user.last_name }}</td>
 					<td>{{ user.createdAt }}</td>
 					
 					<td class="text-center">

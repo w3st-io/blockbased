@@ -53,7 +53,7 @@ const c_read = async (_id) => {
 	}
 
 	try {
-		const user = await UserModel.findOne({ _id: _id })
+		const user = await UserModel.findOne({ _id })
 
 		return {
 			executed: true,
@@ -93,7 +93,7 @@ const c_update = async (_id, img_url) => {
 
 	try {
 		const updatedUser = await UserModel.findOneAndUpdate(
-			{ _id: _id },
+			{ _id },
 			{ $set: { profileImg: img_url } }
 		)
 
@@ -121,12 +121,12 @@ const c_getIdByEmail = async (email) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid email'
+			message: 'usersCollection: Invalid email'
 		}
 	}
 
 	try {
-		const user = await UserModel.findOne({ email: email })
+		const user = await UserModel.findOne({ email })
 
 		if (user) {
 			return {
@@ -173,21 +173,21 @@ const c_updatePassword = async (_id, password) => {
 	}
 
 	// Hash Password //
-	password = await bcrypt.hash(password, 10)
+	const hashedPassword = await bcrypt.hash(password, 10)
 
 	
 	// [UPDATE] Password for User //
 	try {
-		const updatedUser = await UserModel.findOneAndUpdate(
-			{ _id: _id },
-			{ $set: { password: password } }
+		const user = await UserModel.findOneAndUpdate(
+			{ _id },
+			{ $set: { password: hashedPassword } }
 		)
 
 		return {
 			executed: true,
 			status: true,
 			message: 'Updated profile',
-			updatedUser: updatedUser
+			user: user
 		}
 	}
 	catch (err) {
@@ -207,7 +207,7 @@ const c_login = async (email, password) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid email'
+			message: 'usersCollection: Invalid email'
 		}
 	}
 	
@@ -216,19 +216,19 @@ const c_login = async (email, password) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid password'
+			message: 'usersCollection: Invalid password'
 		}
 	}
 
 	try {
 		// [VALIDATE-EMAIL] //
-		const userFound = await UserModel.findOne({ email: email })
+		const userFound = await UserModel.findOne({ email })
 		
 		if (!userFound) {
 			return {
 				executed: true,
 				status: true,
-				message: 'Invalid email or password',
+				message: 'Invalid emailor password',
 				validation: false
 			}
 		}
@@ -272,11 +272,9 @@ const c_login = async (email, password) => {
 }
 
 
-const c_register = async (first_name, last_name, username, email, password) => {
+const c_register = async (username, email, password) => {
 	// [VALIDATE] //
 	if (
-		!validator.isAlpha(first_name) ||
-		!validator.isAlpha(last_name) ||
 		!validator.isAscii(username) ||
 		!validator.isEmail(email) ||
 		!validator.isAscii(password)
@@ -284,13 +282,13 @@ const c_register = async (first_name, last_name, username, email, password) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid params'
+			message: 'usersCollection: Invalid params'
 		}
 	}
 
 	try {
 		// Username Check //
-		const usernameFound = await UserModel.findOne({ username: username })
+		const usernameFound = await UserModel.findOne({ username })
 
 		if (usernameFound) {
 			return {
@@ -312,7 +310,7 @@ const c_register = async (first_name, last_name, username, email, password) => {
 
 	try {
 		// Email Check //
-		const emailFound = await UserModel.findOne({ email: email })
+		const emailFound = await UserModel.findOne({ email })
 
 		if (emailFound) {
 			return {
@@ -349,10 +347,8 @@ const c_register = async (first_name, last_name, username, email, password) => {
 		// [SAVE] //
 		const user = await new UserModel({
 			_id: mongoose.Types.ObjectId(),
-			first_name: first_name,
-			last_name: last_name,
-			username: username,
-			email: email,
+			username,
+			email,
 			password: hashedPassword,
 		}).save()
 		
@@ -387,7 +383,7 @@ const c_verify = async (_id) => {
 
 	try {
 		const user = await UserModel.findOneAndUpdate(
-			{ _id: _id },
+			{ _id },
 			{ $set: { verified: true } }
 		)
 
@@ -419,7 +415,7 @@ const c_verifiedStatus = async (_id) => {
 
 	try {
 		const user = await UserModel.findOne({
-			_id: _id,
+			_id,
 			verified: true,
 		})
 

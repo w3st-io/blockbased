@@ -20,13 +20,15 @@ const userSchema = mongoose.Schema({
 	
 	first_name: {
 		type: String,
-		required: [true, "This is required"],
+		required: false,
+		default: '',
 		maxlength: 24,
 	},
 	
 	last_name: {
 		type: String,
-		required: [true, "This is required"],
+		required: false,
+		default: '',
 		maxlength: 24,
 	},
 	

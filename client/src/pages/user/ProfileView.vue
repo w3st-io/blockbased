@@ -10,13 +10,10 @@
 							alt="Profile Image Not Available"
 							class="w-100"
 						>
-						<h3 class="text-light">{{ user.username }}</h3>
 					</div>
 
 					<div class="col-8">
-						<h5 class="text-light">
-							Name: {{ user.first_name }} {{ user.last_name }}
-						</h5>
+						<h3 class="text-light">{{ user.username }}</h3>
 						<h5 class="text-light">Email: {{ user.email }}</h5>
 					</div>
 				</div>

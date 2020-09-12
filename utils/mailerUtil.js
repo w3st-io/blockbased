@@ -2,14 +2,25 @@
  * %%%%%%%%%%%%%%%%%%%
  * %%% MAILER UTIL %%%
  * %%%%%%%%%%%%%%%%%%%
-*/
+ */
 // [REQUIRE] //
+const mongoose = require('mongoose')
 const nodemailer = require('nodemailer')
+const validator = require('validator')
 require('dotenv').config()
 
 
 // [DEFAULT] //
 async function sendMail(to, subject, html) {
+	// [VALIDATE] //
+	if (!validator.isAscii(to) || !validator.isAscii(subject)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid password'
+		}
+	}
+
 	const service = process.env.EMAIL_SERVICE || 'gmail'
 	const email = process.env.EMAIL || ''
 	const password = process.env.EMAIL_PASSWORD || ''
@@ -52,6 +63,19 @@ async function sendMail(to, subject, html) {
 
 // [VERIFICATION] //
 async function sendVerificationMail(to, user_id, VCode) {
+	// [VALIDATE] //
+	if (
+		!validator.isAscii(to) ||
+		!mongoose.isValidObjectId(user_id) ||
+		!validator.isAscii(VCode)
+	) {
+		return {
+			executed: true,
+			status: false,
+			message: 'mailerUtil: Invalid params'
+		}
+	}
+
 	const email = process.env.EMAIL
 	const password = process.env.EMAIL_PASSWORD
 	const service = process.env.EMAIL_SERVICE || 'gmail'
@@ -99,7 +123,20 @@ async function sendVerificationMail(to, user_id, VCode) {
 
 
 // [PASSWORD-RESET] //
-async function sendPasswordResetEmail(to, user_id, code) {
+async function sendPasswordResetEmail(to, user_id, VCode) {
+	// [VALIDATE] //
+	if (
+		!validator.isAscii(to) ||
+		!mongoose.isValidObjectId(user_id) ||
+		!validator.isAscii(VCode)
+	) {
+		return {
+			executed: true,
+			status: false,
+			message: 'mailerUtil: Invalid params'
+		}
+	}
+
 	const email = process.env.EMAIL
 	const password = process.env.EMAIL_PASSWORD
 	const service = process.env.EMAIL_SERVICE || 'gmail'
@@ -119,7 +156,7 @@ async function sendPasswordResetEmail(to, user_id, code) {
 		subject: 'Reset Password For Your BlockBased.io Account',
 		html: `
 			<h1>Thank you creating an account! Verify & Join us!<h1/>
-			<a href="${base_url}/set-new-password/${user_id}/${code}">
+			<a href="${base_url}/set-new-password/${user_id}/${VCode}">
 				<button>Click to Reset Password</button>
 			</a>
 		`

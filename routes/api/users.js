@@ -102,7 +102,7 @@ router.post(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid Params'
+				message: 'users: Invalid Params'
 			})
 		}
 	}
@@ -115,16 +115,12 @@ router.post(
 	rateLimiters.registrationLimiter,
 	async (req, res) => {
 		if (
-			validator.isAscii(req.body.first_name) &&
-			validator.isAscii(req.body.last_name) &&
 			validator.isAscii(req.body.username) &&
 			validator.isAscii(req.body.email) &&
 			validator.isAscii(req.body.password)
 		) {
 			// [CREATE] Register Account //
 			const user = await usersCollection.c_register(
-				req.body.first_name,
-				req.body.last_name,
 				req.body.username,
 				req.body.email,
 				req.body.password,
@@ -150,7 +146,7 @@ router.post(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid Params'
+				message: 'users: Invalid Params'
 			})
 		}
 	}
@@ -182,7 +178,7 @@ router.post(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid params'
+				message: 'users: Invalid params'
 			})
 		}
 	}
@@ -220,7 +216,7 @@ router.post(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid params'
+				message: 'users: Invalid params'
 			})
 		}
 	}

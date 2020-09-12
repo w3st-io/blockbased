@@ -85,8 +85,6 @@ async function getUserTokenDecodeData() {
 			_id: '',
 			email: '',
 			username: '',
-			first_name: '',
-			last_name: '',
 		}
 	}
 
@@ -115,13 +113,11 @@ async function login(email, password) {
 
 
 // [REGISTER] //
-async function register(first_name, last_name, username, email, password) {
+async function register(username, email, password) {
 	const authAxios = await this.authAxios()
 	
 	try {
 		const { data } = await authAxios.post('/register', {
-			first_name,
-			last_name,
 			username,
 			email,
 			password,

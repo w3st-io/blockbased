@@ -38,11 +38,12 @@ router.post(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid Params'
+				message: 'admins: Invalid Params'
 			})
 		}
 	}
 )
+
 
 // [REGISTER] //
 router.post(
@@ -56,7 +57,13 @@ router.post(
 			validator.isAscii(req.body.email) &&
 			validator.isAscii(req.body.password)
 		) {
-			const returned = await adminsCollection.c_register(req)
+			const returned = await adminsCollection.c_register(
+				req.body.first_name,
+				req.body.last_name,
+				req.body.username,
+				req.body.email,
+				req.body.password,
+			)
 
 			res.status(201).send(returned)
 		}
@@ -64,7 +71,7 @@ router.post(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid Params'
+				message: 'admins: Invalid Params'
 			})
 		}
 	}

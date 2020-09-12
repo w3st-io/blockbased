@@ -7,44 +7,6 @@
 				<!-- FORM + VEE-VALIDATE -->
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(register)">
-					<!-- First Name -->
-					<label for="first_name">First Name</label>
-					<ValidationProvider
-						tag="div"
-						class="form-group"
-						rules="required"
-						v-slot="{ errors }"
-					>
-						<input
-							v-model="first_name"
-							name="first_name"
-							type="text"
-							class="form-control bg-dark text-light border-secondary"
-							:class="{ 'is-invalid border-danger': errors != '' }"
-							placeholder="John"
-						>
-						<span class="text-danger">{{ errors[0] }}</span>
-					</ValidationProvider>
-
-					<!-- Last Name -->
-					<label for="last_name">Last Name</label>
-					<ValidationProvider
-						tag="div"
-						class="form-group"
-						rules="required"
-						v-slot="{ errors }"
-					>
-						<input
-							v-model="last_name"
-							name="last_name"
-							type="text"
-							class="form-control bg-dark text-light border-secondary"
-							:class="{ 'is-invalid border-danger': errors != '' }"
-							placeholder="Doe"
-						>
-						<span class="text-danger">{{ errors[0] }}</span>
-					</ValidationProvider>
-
 					<!-- Username -->
 					<label for="username">Username</label>
 					<ValidationProvider
@@ -69,7 +31,7 @@
 					<ValidationProvider
 						tag="div"
 						class="form-group"
-						rules="required|email"
+						rules="required"
 						v-slot="{ errors }"
 					>
 						<input
@@ -77,7 +39,7 @@
 							type="email"
 							class="form-control bg-dark text-light border-secondary"
 							:class="{ 'is-invalid border-danger': errors != '' }"
-							placeholder="Example@example.com"
+							placeholder="example@example.com"
 							v-model="email"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -144,8 +106,6 @@
 	export default {
 		data: function() {
 			return {
-				first_name: '',
-				last_name: '',
 				username: '',
 				email: '',
 				password: '',
@@ -163,8 +123,6 @@
 			async register() {
 				try {
 					this.data = await UserService.register(
-						this.first_name,
-						this.last_name,
 						this.username,
 						this.email,
 						this.password,

@@ -37,7 +37,7 @@ const c_login = async (email, password) => {
 			message: 'Invalid password'
 		}
 	}
-	
+
 	try {
 		// [VALIDATE-EMAIL] //
 		const userFound = await AdminModel.findOne({ email: email })
@@ -94,10 +94,25 @@ const c_login = async (email, password) => {
 
 
 // [REGISTER] //
-const c_register = async (req) => {
+const c_register = async (first_name, last_name, username, email, password) => {
+	// [VALIDATE] //
+	if (
+		!validator.isAlpha(first_name) ||
+		!validator.isAlpha(last_name) ||
+		!validator.isAscii(username) ||
+		!validator.isEmail(email) ||
+		!validator.isAscii(password)
+	) {
+		return {
+			executed: true,
+			status: false,
+			message: 'adminsCollection: Invalid params'
+		}
+	}
+
 	try {
 		// Username Check //
-		const usernameFound = await AdminModel.findOne({ username: req.body.username })
+		const usernameFound = await AdminModel.findOne({ username: username })
 
 		if (usernameFound) {
 			return {
@@ -119,7 +134,7 @@ const c_register = async (req) => {
 
 	try {
 		// Email Check //
-		const emailFound = await AdminModel.findOne({ email: req.body.email })
+		const emailFound = await AdminModel.findOne({ email: email })
 
 		if (emailFound) {
 			return {
@@ -140,7 +155,7 @@ const c_register = async (req) => {
 	}
 
 	// Password Length //
-	if (req.body.password.length < 8 || req.body.password.length > 50) {
+	if (password.length < 8 || password.length > 50) {
 		return {
 			executed: true,
 			status: false,
@@ -151,16 +166,16 @@ const c_register = async (req) => {
 
 	try {
 		// Hash Password //
-		const hashedPassword = await bcrypt.hash(req.body.password, 10)
+		const hashedPassword = await bcrypt.hash(password, 10)
 
 		// [SAVE] //
 		const user = await new AdminModel({
 			_id: mongoose.Types.ObjectId(),
 			role: 'not-admin',
-			first_name: req.body.first_name,
-			last_name: req.body.last_name,
-			username: req.body.username,
-			email: req.body.email,
+			first_name: first_name,
+			last_name: last_name,
+			username: username,
+			email: email,
 			password: hashedPassword,
 		}).save()
 		

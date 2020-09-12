@@ -91,7 +91,7 @@ const c_existance = async (user_id, verificationCode) => {
 	}
 
 	// [VALIDATE] verificationCode //
-	if (!validator.isAscii(req.body.verificationCode)) {
+	if (!validator.isAscii(verificationCode)) {
 		return {
 			executed: true,
 			status: false,
