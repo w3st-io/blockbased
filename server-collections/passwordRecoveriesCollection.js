@@ -96,9 +96,7 @@ const c_existance = async (user_id) => {
 	}
 
 	try {
-		const returned = await PasswordRecoveryModel.findOne({ user: user_id })
-
-		if (!returned) {
+		if (!await PasswordRecoveryModel.findOne({ user: user_id })) {
 			return {
 				executed: true,
 				status: true,

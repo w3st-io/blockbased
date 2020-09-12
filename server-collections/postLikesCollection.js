@@ -15,7 +15,10 @@ const PostLikeModel = require('../server-models/PostLikeModel')
 // [CREATE] //
 const c_create = async (user_id, post_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(post_id)) {
+	if (
+		!mongoose.isValidObjectId(user_id) ||
+		!mongoose.isValidObjectId(post_id)
+	) {
 		return {
 			executed: true,
 			status: false,
@@ -62,7 +65,10 @@ const c_create = async (user_id, post_id) => {
 // [DELETE] //
 const c_delete = async (user_id, post_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(post_id)) {
+	if (
+		!mongoose.isValidObjectId(user_id) ||
+		!mongoose.isValidObjectId(post_id)
+	) {
 		return {
 			executed: true,
 			status: false,
@@ -71,7 +77,7 @@ const c_delete = async (user_id, post_id) => {
 	}
 
 	try {
-		const deletedPostLike = await PostLikeModel.deleteMany({
+		const postLike = await PostLikeModel.deleteMany({
 			user: user_id,
 			post: post_id,
 		})
@@ -79,7 +85,7 @@ const c_delete = async (user_id, post_id) => {
 		return {
 			executed: true,
 			status: true,
-			deletedPostLike: deletedPostLike,
+			deletedPostLike: postLike,
 		}
 	}
 	catch (err) {
@@ -104,12 +110,12 @@ const c_deleteAll = async (post_id) => {
 	}
 
 	try {
-		const deletedPostLike = await PostLikeModel.deleteMany({ post: post_id })
+		const postLike = await PostLikeModel.deleteMany({ post: post_id })
 
 		return {
 			executed: true,
 			status: true,
-			deletedPostLike: deletedPostLike,
+			deletedPostLike: postLike,
 		}
 	}
 	catch (err) {
@@ -135,24 +141,17 @@ const c_existance = async (user_id, post_id) => {
 	}
 
 	try {
-		const returned = await PostLikeModel.findOne({
-			user: user_id,
-			post: post_id,
-		})
-
-		if (returned) {
-			return {
-				executed: true,
-				status: true,
-				existance: true,
-			}
-		}
-		else {
+		if (!await PostLikeModel.findOne({ user: user_id, post: post_id })) {
 			return {
 				executed: true,
 				status: true,
 				existance: false,
 			}
+		}
+		return {
+			executed: true,
+			status: true,
+			existance: true,
 		}
 	}
 	catch (err) {

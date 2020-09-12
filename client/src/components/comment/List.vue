@@ -95,7 +95,7 @@
 					>
 						<button
 							@click="deleteComment(comment._id)"
-							class="py-0 btn btn-danger"
+							class="mr-1 btn btn-sm btn-outline-danger"
 						>Delete</button>
 						<button
 							@click="adminDelete(comment._id)"

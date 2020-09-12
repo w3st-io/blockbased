@@ -5,6 +5,7 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 
 // [REQUIRE] Personal //
@@ -17,13 +18,22 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 	// [VALIDATE] //
 	if (
 		!mongoose.isValidObjectId(user_id) ||
-		!mongoose.isValidObjectId(post_id) ||
-		!mongoose.isValidObjectId(comment_id)
+		!mongoose.isValidObjectId(comment_id) ||
+		!mongoose.isValidObjectId(post_id)
 	) {
 		return {
 			executed: true,
 			status: false,
 			message: 'Invalid id(s)',
+		}
+	}
+
+	// [VALIDATE] reportType //
+	if (!validator.isAscii(reportType)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid reportType',
 		}
 	}
 
@@ -39,7 +49,7 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 			user: user_id,
 			comment: comment_id,
 			post: post_id,
-			reportType: reportType,
+			reportType,
 		}).save()
 
 		return {
@@ -89,12 +99,12 @@ const c_delete = async (_id) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid commentReport_id'
+			message: 'Invalid commentReport _id'
 		}
 	}
 
 	try {
-		const deletedCommentReport = await CommentReportModel.deleteOne({ _id: _id })
+		const deletedCommentReport = await CommentReportModel.deleteOne({ _id })
 
 		return {
 			executed: true,
@@ -116,7 +126,10 @@ const c_delete = async (_id) => {
 // Verify that User is not Double Reporting //
 const c_existance = async (user_id, comment_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(comment_id)) {
+	if (
+		!mongoose.isValidObjectId(user_id) ||
+		!mongoose.isValidObjectId(comment_id)
+	) {
 		return {
 			executed: true,
 			status: false,

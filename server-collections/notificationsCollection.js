@@ -15,7 +15,10 @@ const NotificationModel = require('../server-models/NotificationModel')
 // [CREATE] //
 const c_create = async (user_id, comment_id, type) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(comment_id)) {
+	if (
+		!mongoose.isValidObjectId(user_id) ||
+		!mongoose.isValidObjectId(comment_id)
+	) {
 		return {
 			executed: true,
 			status: false,
@@ -29,7 +32,7 @@ const c_create = async (user_id, comment_id, type) => {
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
 			comment: comment_id,
-			type: type,
+			type,
 		}).save()
 
 		return {

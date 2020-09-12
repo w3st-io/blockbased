@@ -5,6 +5,7 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 
 // [REQUIRE] Personal //
@@ -15,11 +16,23 @@ const CommentModel = require('../server-models/CommentModel')
 // [CREATE] //
 const c_create = async (user_id, post_id, text) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(post_id)) {
+	if (
+		!mongoose.isValidObjectId(user_id) ||
+		!mongoose.isValidObjectId(post_id)
+	) {
 		return {
 			executed: true,
 			status: false,
 			message: 'Invalid id(s)',
+		}
+	}
+
+	// [VALIDATE] text //
+	if (!validator.isAscii(text)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid text',
 		}
 	}
 
@@ -38,7 +51,7 @@ const c_create = async (user_id, post_id, text) => {
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
 			post: post_id,
-			text: text,
+			text,
 		}).save()
 		
 		return {
@@ -161,11 +174,33 @@ const c_read = async (_id) => {
 // [UPDATE] //
 const c_update = async (_id, user_id, text) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(_id) || !mongoose.isValidObjectId(user_id)) {
+	if (
+		!mongoose.isValidObjectId(_id) ||
+		!mongoose.isValidObjectId(user_id)
+	) {
 		return {
 			executed: true,
 			status: false,
 			message: 'Invalid id(s)',
+			updated: false,
+		}
+	}
+
+	// [VALIDATE] text //
+	if (!validator.isAscii(text)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid text',
+		}
+	}
+
+	// Length //
+	if (text.length >= 6000) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Comment too long',
 			updated: false,
 		}
 	}
@@ -181,20 +216,10 @@ const c_update = async (_id, user_id, text) => {
 		}
 	}
 
-	// Length //
-	if (text.length >= 6000) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Comment too long',
-			updated: false,
-		}
-	}
-
 	try {
 		const comment = await CommentModel.updateOne(
 			{
-				_id: _id,
+				_id,
 				user: user_id
 			},
 			{ $set: { text: text } },
@@ -221,7 +246,10 @@ const c_update = async (_id, user_id, text) => {
 // [DELETE] //
 const c_delete = async (_id, user_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(_id) || !mongoose.isValidObjectId(user_id)) {
+	if (
+		!mongoose.isValidObjectId(_id) ||
+		!mongoose.isValidObjectId(user_id)
+	) {
 		return {
 			executed: true,
 			status: false,
@@ -242,7 +270,7 @@ const c_delete = async (_id, user_id) => {
 
 	try {
 		const deletedComment = await CommentModel.findOneAndRemove({
-			_id: _id,
+			_id,
 			user: user_id,
 		})
 
@@ -265,7 +293,10 @@ const c_delete = async (_id, user_id) => {
 /******************* [OWNERSHIP] *******************/
 const c_ownership = async (_id, user_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(_id) || !mongoose.isValidObjectId(user_id)) {
+	if (
+		!mongoose.isValidObjectId(_id) ||
+		!mongoose.isValidObjectId(user_id)
+	) {
 		return {
 			executed: true,
 			status: false,
@@ -274,10 +305,7 @@ const c_ownership = async (_id, user_id) => {
 	}
 
 	try {	
-		const comment = await CommentModel.findOne({
-			_id: _id,
-			user: user_id,
-		})
+		const comment = await CommentModel.findOne({ _id, user: user_id, })
 
 		if (!comment) {
 			return {

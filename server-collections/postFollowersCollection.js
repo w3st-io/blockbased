@@ -15,7 +15,10 @@ const PostFollowerModel = require('../server-models/PostFollowerModel')
 // [CREATE] //
 const c_create = async (user_id, post_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(post_id)) {
+	if (
+		!mongoose.isValidObjectId(user_id) ||
+		!mongoose.isValidObjectId(post_id)
+	) {
 		return {
 			executed: true,
 			status: false,
@@ -90,7 +93,10 @@ const c_readAll = async (post_id) => {
 // [DELETE] //
 const c_delete = async (user_id, post_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(post_id)) {
+	if (
+		!mongoose.isValidObjectId(user_id) ||
+		!mongoose.isValidObjectId(post_id)
+	) {
 		return {
 			executed: true,
 			status: false,
@@ -123,7 +129,10 @@ const c_delete = async (user_id, post_id) => {
 /******************* [EXISTANCE] *******************/
 const c_existance = async (user_id, post_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(post_id)) {
+	if (
+		!mongoose.isValidObjectId(user_id) ||
+		!mongoose.isValidObjectId(post_id)
+	) {
 		return {
 			executed: true,
 			status: false,
