@@ -5,6 +5,7 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 
 // [REQUIRE] Personal //
@@ -14,6 +15,24 @@ const BanModel = require('../server-models/BanModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, hours) => {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid user_id'
+		}
+	}
+
+	// [VALIDATE] hours //
+	if (!validator.isAscii(hours)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid hours'
+		}
+	}
+	
 	// [EXISTANCE] //
 	const existance = await c_existance(user_id)
 
@@ -53,13 +72,22 @@ const c_create = async (user_id, hours) => {
 
 // [DELETE] //
 const c_delete = async (user_id) => {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid user_id'
+		}
+	}
+
 	try {
-		const deletedBans = await BanModel.deleteMany({ user: user_id })
+		const ban = await BanModel.deleteMany({ user: user_id })
 
 		return {
 			executed: true,
 			status: true,
-			deletedBans: deletedBans,
+			ban: ban,
 		}
 	}
 	catch (err) {

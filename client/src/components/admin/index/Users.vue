@@ -5,8 +5,6 @@
 				<tr>
 					<th>Email</th>
 					<th>Username</th>
-					<th>First Name</th>
-					<th>Last Name</th>
 					<th>Created At</th>
 					<th></th>
 				</tr>

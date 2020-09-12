@@ -5,6 +5,7 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 
 // [REQUIRE] //
@@ -14,6 +15,24 @@ const PostModel = require('../../server-models/PostModel')
 /******************* [CRUD] *******************/
 // [READ-ALL-ALL] //
 const c_readAllAll = async (skip, limit) => {
+	// [VALIDATE] skip //
+	if (!validator.isAscii(skip)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid skip',
+		}
+	}
+
+	// [VALIDATE] limit //
+	if (!validator.isAscii(limit)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid limit',
+		}
+	}
+
 	try {
 		const posts = await PostModel.find()
 			.skip(parseInt(skip))

@@ -60,7 +60,10 @@ const c_create = async (user_id, post_id, comment_id) => {
 // [DELETE] //
 const c_delete = async (user_id, comment_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(comment_id)) {
+	if (
+		!mongoose.isValidObjectId(user_id) ||
+		!mongoose.isValidObjectId(comment_id)
+	) {
 		return {
 			executed: true,
 			status: false,
@@ -124,7 +127,10 @@ const c_deleteAll = async (comment_id) => {
 // [EXISTANCE] //
 const c_existance = async (user_id, comment_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(user_id) || !mongoose.isValidObjectId(comment_id)) {
+	if (
+		!mongoose.isValidObjectId(user_id) ||
+		!mongoose.isValidObjectId(comment_id)
+	) {
 		return {
 			executed: true,
 			status: false,

@@ -7,6 +7,7 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
+const validator = require('validator')
 require('dotenv').config()
 
 
@@ -28,6 +29,8 @@ const c_login = async (email, password) => {
 			message: 'Invalid email'
 		}
 	}
+	else { email = validator.normalizeEmail(email) }
+
 	
 	// [VALIDATE] password //
 	if (!validator.isAscii(password)) {
@@ -40,7 +43,7 @@ const c_login = async (email, password) => {
 
 	try {
 		// [VALIDATE-EMAIL] //
-		const userFound = await AdminModel.findOne({ email: email })
+		const userFound = await AdminModel.findOne({ email })
 		
 		if (!userFound) {
 			return {
@@ -100,7 +103,6 @@ const c_register = async (first_name, last_name, username, email, password) => {
 		!validator.isAlpha(first_name) ||
 		!validator.isAlpha(last_name) ||
 		!validator.isAscii(username) ||
-		!validator.isEmail(email) ||
 		!validator.isAscii(password)
 	) {
 		return {
@@ -110,11 +112,19 @@ const c_register = async (first_name, last_name, username, email, password) => {
 		}
 	}
 
+	// [VALIDATE] email //
+	if (!validator.isEmail(email)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid email'
+		}
+	}
+	else { email = validator.normalizeEmail(email) }
+
 	try {
 		// Username Check //
-		const usernameFound = await AdminModel.findOne({ username: username })
-
-		if (usernameFound) {
+		if (await AdminModel.findOne({ username })) {
 			return {
 				executed: true,
 				status: false,
@@ -134,9 +144,7 @@ const c_register = async (first_name, last_name, username, email, password) => {
 
 	try {
 		// Email Check //
-		const emailFound = await AdminModel.findOne({ email: email })
-
-		if (emailFound) {
+		if (await AdminModel.findOne({ email })) {
 			return {
 				executed: true,
 				status: false,

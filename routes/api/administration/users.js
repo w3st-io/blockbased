@@ -7,6 +7,7 @@
 const cors = require('cors')
 const express = require('express')
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 
 // [REQUIRE] Personal //
@@ -62,7 +63,10 @@ router.post(
 	'/ban/:_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params._id)) {
+		if (
+			mongoose.isValidObjectId(req.params._id) &&
+			validator.isAscii(req.body.hours)
+		) {
 			const returned = await banCollection.c_create(
 				req.params._id,
 				req.body.hours

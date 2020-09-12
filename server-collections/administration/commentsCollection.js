@@ -13,8 +13,8 @@ const CommentModel = require('../../server-models/CommentModel')
 
 /******************* [CRUD] *******************/
 // [DELETE] //
-const c_delete = async (comment_id) => {
-	if (!mongoose.isValidObjectId(comment_id)) {
+const c_delete = async (_id) => {
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
@@ -23,9 +23,7 @@ const c_delete = async (comment_id) => {
 	}
 
 	try {
-		const deletedComment = await CommentModel.findOneAndRemove({
-			_id: comment_id,
-		})
+		const deletedComment = await CommentModel.findOneAndRemove({ _id })
 
 		return {
 			executed: true,

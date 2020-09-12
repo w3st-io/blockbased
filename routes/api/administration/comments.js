@@ -7,6 +7,7 @@
 const cors = require('cors')
 const express = require('express')
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 
 // [REQUIRE] Personal //
@@ -27,12 +28,24 @@ router.get(
 	'/read-all-all/:limit/:skip',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returned = await commentsCollection.c_readAllAll(
-			req.params.skip,
-			req.params.limit
-		)
-
-		res.status(200).send(returned)
+		if (
+			validator.isAscii(req.params.limit) &&
+			validator.isAscii(req.params.skip)
+		) {
+			const returned = await commentsCollection.c_readAllAll(
+				req.params.skip,
+				req.params.limit
+			)
+				
+			res.status(200).send(returned)
+		}
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'admin comments: Invalid params'
+			})
+		}
 	}
 )
 

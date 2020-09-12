@@ -207,9 +207,10 @@ const c_login = async (email, password) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'usersCollection: Invalid email'
+			message: 'Invalid email'
 		}
 	}
+	else { email = validator.normalizeEmail(email) }
 	
 	// [VALIDATE] password //
 	if (!validator.isAscii(password)) {
@@ -274,11 +275,7 @@ const c_login = async (email, password) => {
 
 const c_register = async (username, email, password) => {
 	// [VALIDATE] //
-	if (
-		!validator.isAscii(username) ||
-		!validator.isEmail(email) ||
-		!validator.isAscii(password)
-	) {
+	if (!validator.isAscii(username) || !validator.isAscii(password)) {
 		return {
 			executed: true,
 			status: false,
@@ -286,11 +283,19 @@ const c_register = async (username, email, password) => {
 		}
 	}
 
+	// [VALIDATE] email //
+	if (!validator.isEmail(email)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid email'
+		}
+	}
+	else { email = validator.normalizeEmail(email) }
+
 	try {
 		// Username Check //
-		const usernameFound = await UserModel.findOne({ username })
-
-		if (usernameFound) {
+		if (await UserModel.findOne({ username })) {
 			return {
 				executed: true,
 				status: true,
@@ -310,9 +315,7 @@ const c_register = async (username, email, password) => {
 
 	try {
 		// Email Check //
-		const emailFound = await UserModel.findOne({ email })
-
-		if (emailFound) {
+		if (await UserModel.findOne({ email })) {
 			return {
 				executed: true,
 				status: true,
