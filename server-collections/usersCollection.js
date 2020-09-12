@@ -48,7 +48,7 @@ const c_read = async (_id) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid user _id'
+			message: 'Invalid _id'
 		}
 	}
 
@@ -73,11 +73,21 @@ const c_read = async (_id) => {
 
 // [UPDATE] Profile Picture //
 const c_update = async (_id, img_url) => {
+	// [VALIDATE] //
 	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
 			message: 'Invalid user _id'
+		}
+	}
+
+	// [VALIDATE] img_url //
+	if (!validator.isAscii(img_url)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid img_url'
 		}
 	}
 
@@ -143,14 +153,70 @@ const c_getIdByEmail = async (email) => {
 }
 
 
-/******************* [LOGIN/REGISTER] *******************/
-const c_login = async (email, password) => {
+const c_updatePassword = async (_id, password) => {
 	// [VALIDATE] //
-	if (!validator.isEmail(email) || !validator.isAscii(password)) {
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid params'
+			message: 'Invalid user _id'
+		}
+	}
+	
+	// [VALIDATE] password //
+	if (!validator.isAscii(password)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid password'
+		}
+	}
+
+	// Hash Password //
+	password = await bcrypt.hash(password, 10)
+
+	
+	// [UPDATE] Password for User //
+	try {
+		const updatedUser = await UserModel.findOneAndUpdate(
+			{ _id: _id },
+			{ $set: { password: password } }
+		)
+
+		return {
+			executed: true,
+			status: true,
+			message: 'Updated profile',
+			updatedUser: updatedUser
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `usersCollection: Error --> ${err}`
+		}
+	}
+}
+
+
+/******************* [LOGIN/REGISTER] *******************/
+const c_login = async (email, password) => {
+	// [VALIDATE] email //
+	if (!validator.isEmail(email)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid email'
+		}
+	}
+	
+	// [VALIDATE] password //
+	if (!validator.isAscii(password)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid password'
 		}
 	}
 
@@ -281,7 +347,7 @@ const c_register = async (first_name, last_name, username, email, password) => {
 		const hashedPassword = await bcrypt.hash(password, 10)
 
 		// [SAVE] //
-		const createdUser = await new UserModel({
+		const user = await new UserModel({
 			_id: mongoose.Types.ObjectId(),
 			first_name: first_name,
 			last_name: last_name,
@@ -295,7 +361,7 @@ const c_register = async (first_name, last_name, username, email, password) => {
 			status: true,
 			message: 'Successfully created account',
 			created: true,
-			createdUser: createdUser,
+			user: user,
 		}
 	}
 	catch (err) {
@@ -384,53 +450,15 @@ const c_verifiedStatus = async (_id) => {
 }
 
 
-/******************* [VERIFY] *******************/
-const c_updatePassword = async (_id, password) => {
-	if (!mongoose.isValidObjectId(_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user _id'
-		}
-	}
-
-	// Hash Password //
-	password = await bcrypt.hash(password, 10)
-
-	
-	// [UPDATE] Password for User //
-	try {
-		const updatedUser = await UserModel.findOneAndUpdate(
-			{ _id: _id },
-			{ $set: { password: password } }
-		)
-
-		return {
-			executed: true,
-			status: true,
-			message: 'Updated profile',
-			updatedUser: updatedUser
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `usersCollection: Error --> ${err}`
-		}
-	}
-}
-
-
 // [EXPORT] //
 module.exports = {
 	c_readAll,
 	c_read,
 	c_update,
 	c_getIdByEmail,
+	c_updatePassword,
 	c_login,
 	c_register,
 	c_verify,
 	c_verifiedStatus,
-	c_updatePassword,
 }

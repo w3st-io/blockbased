@@ -20,6 +20,24 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 
 /******************* [LOGIN/REGISTER] *******************/
 const c_login = async (email, password) => {
+	// [VALIDATE] email //
+	if (!validator.isEmail(email)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid email'
+		}
+	}
+	
+	// [VALIDATE] password //
+	if (!validator.isAscii(password)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid password'
+		}
+	}
+	
 	try {
 		// [VALIDATE-EMAIL] //
 		const userFound = await AdminModel.findOne({ email: email })

@@ -17,7 +17,7 @@
 					class="col-6"
 				>
 					<form @submit.prevent="handleSubmit(login)">
-						<!-- Email -->
+						<!-- Email type="email" -->
 						<ValidationProvider
 							tag="div"
 							class="form-group"
@@ -28,7 +28,7 @@
 							<input
 								v-model="email"
 								name="email"
-								type="email"
+								
 								class="form-control bg-dark border-secondary text-light"
 								:class="{ 'is-invalid border-danger': errors != '' }"
 								placeholder="Example@example.com"

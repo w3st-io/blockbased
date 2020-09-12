@@ -7,6 +7,7 @@
 const cors = require('cors')
 const express = require('express')
 const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose')
 const validator = require('validator')
 
 
@@ -40,9 +41,19 @@ router.get(
 router.get(
 	'/read/:_id',
 	async (req, res) => {
-		const returned = await usersCollection.c_read(req.params._id)
+		// [VALIDATE] //
+		if (mongoose.isValidObjectId(req.params._id)) {
+			const returned = await usersCollection.c_read(req.params._id)
 
-		res.status(200).send(returned)
+			res.status(200).send(returned)
+		}
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid user _id'
+			})
+		}
 	}
 )
 
@@ -52,12 +63,21 @@ router.post(
 	'/update',
 	Auth.userToken(),
 	async (req, res) => {
-		const returned = await usersCollection.c_update(
-			req.decoded._id,
-			req.body.img_url
-		)
-
-		res.status(201).send(returned)
+		if (validator.isAscii(req.body.img_url)) {
+			const returned = await usersCollection.c_update(
+				req.decoded._id,
+				req.body.img_url
+			)
+	
+			res.status(201).send(returned)
+		}
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid img_url'
+			})
+		}
 	}
 )
 
@@ -68,7 +88,7 @@ router.post(
 	'/login',
 	async (req, res) => {
 		if (
-			validator.isEmail(req.body.email) &&
+			validator.isAscii(req.body.email) &&
 			validator.isAscii(req.body.password)
 		) {
 			const returned = await usersCollection.c_login(
@@ -95,10 +115,10 @@ router.post(
 	rateLimiters.registrationLimiter,
 	async (req, res) => {
 		if (
-			validator.isAlpha(req.body.first_name) &&
-			validator.isAlpha(req.body.last_name) &&
+			validator.isAscii(req.body.first_name) &&
+			validator.isAscii(req.body.last_name) &&
 			validator.isAscii(req.body.username) &&
-			validator.isEmail(req.body.email) &&
+			validator.isAscii(req.body.email) &&
 			validator.isAscii(req.body.password)
 		) {
 			// [CREATE] Register Account //
@@ -113,14 +133,14 @@ router.post(
 			if (user.status && user.created) {
 				// [CREATE] Verification Code //
 				const vCode = await verificationCodesCollection.c_create(
-					user.createdUser._id
+					user.user._id
 				)
 
 				// [MAIL] Verification Email //
 				await mailerUtil.sendVerificationMail(
-					user.createdUser.email,
-					user.createdUser._id,
-					vCode.createdVerificationCode.verificationCode
+					user.user.email,
+					user.user._id,
+					vCode.verificationCode.verificationCode
 				)
 			}
 
@@ -141,24 +161,30 @@ router.post(
 router.post(
 	'/verify',
 	async (req, res) => {
-		// [EXISTANCE] //
-		const valid = await verificationCodesCollection.c_existance(
-			req.body.user_id,
-			req.body.verificationCode
-		)
+		if (
+			mongoose.isValidObjectId(req.body.user_id) &&
+			validator.isAscii(req.body.verificationCode)
+		) {
+			// [EXISTANCE] //
+			const valid = await verificationCodesCollection.c_existance(
+				req.body.user_id,
+				req.body.verificationCode
+			)
 
-		console.log('valid', valid)
-
-		if (valid.status) {
-			if (valid.existance) {
+			if (valid.status && valid.existance) {
 				// [UPDATE] Verify User //
 				usersCollection.c_verify(req.body.user_id)
-
-				res.status(200).send(valid)
 			}
-			else { res.status(200).send(valid) }
+
+			res.status(200).send(valid)
 		}
-		else { res.status(200).send(valid) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid params'
+			})
+		}
 	}
 )
 
@@ -167,30 +193,36 @@ router.post(
 router.post(
 	'/send-password-reset/:email',
 	async (req, res) => {
-		// [READ] User By the Email //
-		const user = await usersCollection.c_getIdByEmail(req.params.email)
-		console.log('user', user)
+		if (validator.isAscii(req.params.email)) {
+			// [READ] User By the Email //
+			const user = await usersCollection.c_getIdByEmail(req.params.email)
 
-		if (user.status) {
-			// [CREATE] Password Recovery //
-			const passwordRecovery = await passwordRecoveriesCollection.c_create(
-				user.user._id
-			)
-
-			if (passwordRecovery.status && !passwordRecovery.existance) {
-				console.log('email sent', passwordRecovery.passwordRecovery)
-
-				const email = await mailerUtil.sendPasswordResetEmail(
-					req.params.email,
-					user.user._id,
-					passwordRecovery.passwordRecovery.verificationCode
+			if (user.status) {
+				// [CREATE] Password Recovery //
+				const passwordRecovery = await passwordRecoveriesCollection.c_create(
+					user.user._id
 				)
 				
-				res.status(200).send(email)
+				if (passwordRecovery.status && !passwordRecovery.existance) {
+					const email = await mailerUtil.sendPasswordResetEmail(
+						req.params.email,
+						user.user._id,
+						passwordRecovery.passwordRecovery.verificationCode
+					)
+					
+					res.status(200).send(email)
+				}
+				else { res.status(200).send(passwordRecovery) }
 			}
-			else { res.status(200).send(passwordRecovery) }
+			else { res.status(200).send(user) }
 		}
-		else { res.status(200).send(user) }
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid params'
+			})
+		}
 	}
 )
 

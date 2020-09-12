@@ -5,6 +5,7 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 
 // [REQUIRE] Personal //
@@ -25,7 +26,7 @@ const c_create = async (user_id) => {
 
 	try {
 		// [SAVE] //
-		const createdVerificationCode = await new VerificationCodeModel({
+		const verificationCode = await new VerificationCodeModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
 		}).save()
@@ -33,7 +34,7 @@ const c_create = async (user_id) => {
 		return {
 			executed: true,
 			status: true,
-			createdVerificationCode: createdVerificationCode,
+			verificationCode: verificationCode,
 		}
 	}
 	catch (err) {
@@ -57,14 +58,14 @@ const c_delete = async (user_id) => {
 	}
 
 	try {
-		const deletedVerificationCode = await VerificationCodeModel.deleteMany({
+		const verificationCode = await VerificationCodeModel.deleteMany({
 			user: user_id
 		})
 
 		return {
 			executed: true,
 			status: true,
-			deletedVerificationCode: deletedVerificationCode,
+			verificationCode: verificationCode,
 		}
 	}
 	catch (err) {
@@ -87,21 +88,30 @@ const c_existance = async (user_id, verificationCode) => {
 			status: false,
 			message: 'Invalid user _id',
 		}
-	}	
+	}
+
+	// [VALIDATE] verificationCode //
+	if (!validator.isAscii(req.body.verificationCode)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid verificationCode',
+		}
+	}
 
 	try {
-		const foundVerificationCode = await VerificationCodeModel.findOne({
+		const vCode = await VerificationCodeModel.findOne({
 			user: user_id,
 			verificationCode: verificationCode
 		})
 
-		if (foundVerificationCode) {
+		if (vCode) {
 			return {
 				executed: true,
 				status: true,
 				message: 'Success! Verified Account',
 				existance: true,
-				foundVerificationCode: foundVerificationCode,
+				verificationCode: vCode,
 			}
 		}
 		else {

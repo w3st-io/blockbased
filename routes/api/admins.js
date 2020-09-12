@@ -6,6 +6,7 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
+const validator = require('validator')
 
 
 // [REQUIRE] Personal //
@@ -22,12 +23,24 @@ const router = express.Router().use(cors())
 router.post(
 	'/login',
 	async (req, res) => {
-		const returned = await adminsCollection.c_login(
-			req.body.email,
-			req.body.password
-		)
+		if (
+			validator.isAscii(req.body.email) &&
+			validator.isAscii(req.body.password)
+		) {
+			const returned = await adminsCollection.c_login(
+				req.body.email,
+				req.body.password
+			)
 
-		res.status(200).send(returned)
+			res.status(200).send(returned)
+		}
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid Params'
+			})
+		}
 	}
 )
 
@@ -36,9 +49,24 @@ router.post(
 	'/register',
 	rateLimiters.registrationLimiter,
 	async (req, res) => {
-		const returned = await adminsCollection.c_register(req)
+		if (
+			validator.isAscii(req.body.first_name) &&
+			validator.isAscii(req.body.last_name) &&
+			validator.isAscii(req.body.username) &&
+			validator.isAscii(req.body.email) &&
+			validator.isAscii(req.body.password)
+		) {
+			const returned = await adminsCollection.c_register(req)
 
-		res.status(201).send(returned)
+			res.status(201).send(returned)
+		}
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid Params'
+			})
+		}
 	}
 )
 
