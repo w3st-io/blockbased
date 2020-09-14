@@ -16,20 +16,20 @@ const PostModel = require('../../server-models/PostModel')
 // [READ-ALL-ALL] //
 const c_readAllAll = async (skip, limit) => {
 	// [VALIDATE] skip //
-	if (!validator.isAscii(skip)) {
+	if (!validator.isNumeric(skip)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid skip',
+			message: 'Invalid skip (must be numeric)',
 		}
 	}
 
 	// [VALIDATE] limit //
-	if (!validator.isAscii(limit)) {
+	if (!validator.isNumeric(limit)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid limit',
+			message: 'Invalid limit (must be numeric)',
 		}
 	}
 
@@ -60,8 +60,8 @@ const c_readAllAll = async (skip, limit) => {
 
 
 // [DELETE] //
-const c_delete = async (post_id) => {
-	if (!mongoose.isValidObjectId(post_id)) {
+const c_delete = async (t_id) => {
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
@@ -71,7 +71,7 @@ const c_delete = async (post_id) => {
 	}
 
 	try {
-		const deletedPost = await PostModel.findByIdAndDelete(post_id)
+		const deletedPost = await PostModel.findByIdAndDelete(_id)
 		
 		return {
 			executed: true,

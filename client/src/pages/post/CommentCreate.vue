@@ -11,7 +11,6 @@
 				v-if="!loading"
 				:post_id="post_id"
 				@submit="submit"
-
 			/>
 		</div>
 
@@ -72,12 +71,12 @@
 			async submit(editorText) {
 				if (localStorage.usertoken) {
 					try {
-						const comment = await CommentService.s_create(
+						this.data = await CommentService.s_create(
 							this.post_id,
 							editorText
 						)
 
-						if (comment.status) {
+						if (this.data.status) {
 							// [REDIRECT] Post Page //
 							router.push({
 								name: 'Post',

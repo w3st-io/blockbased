@@ -11,6 +11,7 @@ const http = require('http')
 const mongoose = require('mongoose')
 const path = require('path')
 const socketIO = require('socket.io')
+const validator = require('validator')
 require('dotenv').config()
 
 
@@ -151,6 +152,7 @@ if (process.env.NODE_ENV == 'production') {
 	})
 }
 
+console.log('sdfs', validator.isBase64('☺'))
 
 // [LISTEN] //
 server.listen(port, () => { console.log(`Server Running on Port: ${port}`) })

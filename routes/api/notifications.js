@@ -37,6 +37,7 @@ router.get(
 	'/mark-read/:_id',
 	Auth.userToken(),
 	async (req, res) => {
+		// [VALIDATE] //
 		if (mongoose.isValidObjectId(req.params._id)) {
 			const returned = await notificationsCollection.c_markRead(req.params._id)
 

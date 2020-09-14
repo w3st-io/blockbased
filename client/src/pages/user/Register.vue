@@ -26,7 +26,7 @@
 						<span class="text-danger">{{ errors[0] }}</span>
 					</ValidationProvider>
 
-					<!-- Email -->
+					<!-- Email type="email" -->
 					<label for="email">Email Address</label>
 					<ValidationProvider
 						tag="div"
@@ -36,7 +36,7 @@
 					>
 						<input
 							name="email"
-							type="email"
+							
 							class="form-control bg-dark text-light border-secondary"
 							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="example@example.com"

@@ -31,6 +31,7 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.postLimiter,
 	async (req, res) => {
+		// [VALIDATE] //
 		if (
 			validator.isAscii(req.body.cat_id) &&
 			validator.isAscii(req.body.title) &&
@@ -70,6 +71,7 @@ router.get(
 	'/read-all/:cat_id/:limit/:skip/:sort',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
+		// [VALIDATE] //
 		if (
 			validator.isAscii(req.params.cat_id) &&
 			validator.isAscii(req.params.skip) &&
@@ -174,6 +176,7 @@ router.get(
 	'/read/:_id',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
+		// [VALIDATE] //
 		if (mongoose.isValidObjectId(req.params._id)) {
 			let returned = await postsCollection.c_read(req.params._id)
 			
@@ -236,6 +239,7 @@ router.delete(
 	'/delete/:_id',
 	Auth.userToken(),
 	async (req, res) => {
+		// [VALIDATE] //
 		if (mongoose.isValidObjectId(req.params._id)) {
 			const ownership = await postsCollection.c_ownership(
 				req.decoded._id,
@@ -273,6 +277,7 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
+		// [VALIDATE] //
 		if (mongoose.isValidObjectId(req.params._id)) {
 			const existance = await postLikesCollection.c_existance(
 				req.decoded._id,

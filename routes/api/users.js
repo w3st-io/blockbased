@@ -63,6 +63,7 @@ router.post(
 	'/update',
 	Auth.userToken(),
 	async (req, res) => {
+		// [VALIDATE] //
 		if (validator.isAscii(req.body.img_url)) {
 			const returned = await usersCollection.c_update(
 				req.decoded._id,

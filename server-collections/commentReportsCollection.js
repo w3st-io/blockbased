@@ -15,21 +15,35 @@ const CommentReportModel = require('../server-models/CommentReportModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, comment_id, post_id, reportType) => {
-	// [VALIDATE] //
-	if (
-		!mongoose.isValidObjectId(user_id) ||
-		!mongoose.isValidObjectId(comment_id) ||
-		!mongoose.isValidObjectId(post_id)
-	) {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid id(s)',
+			message: 'Invalid user_id',
+		}
+	}
+
+	// [VALIDATE] comment_id //
+	if (!mongoose.isValidObjectId(comment_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid comment_id',
+		}
+	}
+
+	// [VALIDATE] post_id //
+	if (!mongoose.isValidObjectId(post_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid post_id',
 		}
 	}
 
 	// [VALIDATE] reportType //
-	if (!validator.isAscii(reportType)) {
+	if (!validator.isAlpha(reportType)) {
 		return {
 			executed: true,
 			status: false,
@@ -95,6 +109,7 @@ const c_readAll = async () => {
 
 // [DELETE] Single Report //
 const c_delete = async (_id) => {
+	// [VALIDATE] //
 	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,

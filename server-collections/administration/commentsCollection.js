@@ -14,11 +14,12 @@ const CommentModel = require('../../server-models/CommentModel')
 /******************* [CRUD] *******************/
 // [DELETE] //
 const c_delete = async (_id) => {
+	// [VALIDATE] //
 	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid comment_id',
+			message: 'Invalid comment _id',
 		}
 	}
 

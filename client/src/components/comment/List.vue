@@ -11,9 +11,7 @@
 					class="row m-0 boder border-bottom border-secondary"
 				>
 					<!-- Profile Section -->
-					<div class="
-						col-lg-2 col-md-2 col-sm-2 col-12 px-0 py-3 border-secondary
-					">
+					<div class="col-lg-2 col-md-2 col-sm-2 col-12 px-0 py-3 border-secondary">
 						<div
 							class="
 								m-auto
@@ -60,22 +58,25 @@
 								]"
 							/>
 
-							<!-- Time Stamp -->
-							<span class="ml-3">{{ comment.createdAt }}</span>
-						</div>
-
-						<!-- Buttons -->
-						<div class="w-50 m-0 float-right small text-right text-secondary">
 							<button
 								v-if="comment.user._id == decoded._id"
 								@click="redirectToEdit(comment._id)"
 								class="py-0 btn btn-sm text-secondary"
 							>Edit</button>
+
 							<button
 								v-if="comment.user._id == decoded._id"
 								@click="deleteComment(comment._id)"
 								class="py-0 btn btn-sm text-danger"
 							>Delete</button>
+						</div>
+
+						<!-- Buttons -->
+						<div class="w-50 m-0 float-right small text-right text-secondary">
+							<!-- Time Stamp -->
+							<span class="mr-2">{{ comment.createdAt }}</span>
+
+							<!-- Like Btn -->
 							<button
 								@click="likeBtn(comment)"
 								class="btn"
@@ -270,5 +271,4 @@
 		min-height: 100%;
 		min-width: 100%;
 	}
-	
 </style>

@@ -34,9 +34,14 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.commentLimiter,
 	async (req, res) => {
+		// [INIT] //
 		let returnFollowers = []
 		
-		if (validator.isAscii(req.body.post_id) && validator.isAscii(req.body.text)) {
+		// [VALIDATE] //
+		if (
+			validator.isAscii(req.body.post_id) &&
+			req.body.text
+		) {
 			const postExistance = await postsCollection.c_existance(req.body.post_id)
 
 			if (postExistance.existance) {
@@ -95,6 +100,7 @@ router.get(
 	'/read-all/:post_id/:limit/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
+		// [VALIDATE] //
 		if (
 			mongoose.isValidObjectId(req.params.post_id) &&
 			validator.isAscii(req.params.limit) &&
@@ -156,6 +162,7 @@ router.get(
 router.get(
 	'/read/:_id',
 	async (req, res) => {
+		// [VALIDATE] //
 		if (mongoose.isValidObjectId(req.params._id)) {
 			const returned = await commentsCollection.c_read(req.params._id)
 		
@@ -202,9 +209,10 @@ router.post(
 	'/update/:_id',
 	Auth.userToken(),
 	async (req, res) => {
+		// [VALIDATE] //
 		if (
 			mongoose.isValidObjectId(req.params._id) &&
-			validator.isAscii(req.body.text)
+			req.body.text
 		) {
 			// [UPDATE] //
 			const comment = await commentsCollection.c_update(
@@ -231,6 +239,7 @@ router.delete(
 	'/delete/:_id',
 	Auth.userToken(),
 	async (req, res) => {
+		// [VALIDATE] //
 		if (mongoose.isValidObjectId(req.params._id)) {
 			// [DELETE] //
 			const comment = await commentsCollection.c_delete(
@@ -275,6 +284,7 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
+		// [VALIDATE] //
 		if (
 			mongoose.isValidObjectId(req.params._id) &&
 			mongoose.isValidObjectId(req.params.post_id)
@@ -304,11 +314,12 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
+		// [VALIDATE] //
 		if (mongoose.isValidObjectId(req.params._id)) {
 			// [DELETE] CommentLike //
 			const commentLike = await commentLikesCollection.c_delete(
+				req.decoded._id,
 				req.params._id,
-				req.decoded._id
 			)
 			
 			res.status(200).send(commentLike)
@@ -331,6 +342,7 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.reportLimiter,
 	async (req, res) => {
+		// [VALIDATE] //
 		if (
 			mongoose.isValidObjectId(req.params._id) &&
 			validator.isAscii(req.body.post_id) &&

@@ -15,15 +15,29 @@ const CommentLikeModel = require('../server-models/CommetLikeModel')
 // [CREATE] //
 const c_create = async (user_id, post_id, comment_id) => {
 	// [VALIDATE] //
-	if (
-		!mongoose.isValidObjectId(user_id) ||
-		!mongoose.isValidObjectId(post_id) ||
-		!mongoose.isValidObjectId(comment_id)
-	) {
+	if (!mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid id(s)',
+			message: 'Invalid user_id',
+		}
+	}
+
+	// [VALIDATE] //
+	if (!mongoose.isValidObjectId(post_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid post_id',
+		}
+	}
+
+	// [VALIDATE] //
+	if (!mongoose.isValidObjectId(comment_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid comment_id',
 		}
 	}
 
@@ -60,18 +74,25 @@ const c_create = async (user_id, post_id, comment_id) => {
 // [DELETE] //
 const c_delete = async (user_id, comment_id) => {
 	// [VALIDATE] //
-	if (
-		!mongoose.isValidObjectId(user_id) ||
-		!mongoose.isValidObjectId(comment_id)
-	) {
+	if (!mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid id(s)',
+			message: 'Invalid user_id',
+		}
+	}
+
+	// [VALIDATE] //
+	if (!mongoose.isValidObjectId(comment_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid comment_id',
 		}
 	}
 
 	try {
+		console.log(user_id, comment_id)
 		const commentLike = await CommentLikeModel.deleteMany({
 			user: user_id,
 			comment: comment_id,
@@ -126,15 +147,21 @@ const c_deleteAll = async (comment_id) => {
 /******************* [EXISTANCE] *******************/
 // [EXISTANCE] //
 const c_existance = async (user_id, comment_id) => {
-	// [VALIDATE] //
-	if (
-		!mongoose.isValidObjectId(user_id) ||
-		!mongoose.isValidObjectId(comment_id)
-	) {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid id(s)',
+			message: 'Invalid user_id',
+		}
+	}
+
+	// [VALIDATE] comment_id //
+	if (!mongoose.isValidObjectId(comment_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid comment_id',
 		}
 	}
 
@@ -177,7 +204,7 @@ const c_countAll = async (comment_id) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid id(s)',
+			message: 'Invalid comment_id',
 		}
 	}
 

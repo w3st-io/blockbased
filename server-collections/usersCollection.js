@@ -207,7 +207,7 @@ const c_login = async (email, password) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid email'
+			message: 'usersCollection: Invalid email'
 		}
 	}
 	else { email = validator.normalizeEmail(email) }
@@ -288,7 +288,7 @@ const c_register = async (username, email, password) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid email'
+			message: 'usersCollection: Invalid email'
 		}
 	}
 	else { email = validator.normalizeEmail(email) }

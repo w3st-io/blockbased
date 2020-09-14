@@ -15,20 +15,26 @@ const CommentModel = require('../server-models/CommentModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, post_id, text) => {
-	// [VALIDATE] //
-	if (
-		!mongoose.isValidObjectId(user_id) ||
-		!mongoose.isValidObjectId(post_id)
-	) {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid id(s)',
+			message: 'Invalid user_id',
+		}
+	}
+
+	// [VALIDATE] post_id //
+	if (!mongoose.isValidObjectId(post_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid post_id',
 		}
 	}
 
 	// [VALIDATE] text //
-	if (!validator.isAscii(text)) {
+	if (!text) {
 		return {
 			executed: true,
 			status: false,
@@ -72,6 +78,24 @@ const c_create = async (user_id, post_id, text) => {
 
 // [READ-ALL-ALL] //
 const c_readAllAll = async (skip, limit) => {
+	// [VALIDATE] skip //
+	if (!validator.isNumeric(skip)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid skip',
+		}
+	}
+
+	// [VALDIATE] limit //
+	if (!validator.isNumeric(limit)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid limit',
+		}
+	}
+
 	try {
 		const comments = await CommentModel.find()
 			.skip(parseInt(skip))
@@ -104,6 +128,24 @@ const c_readAll = async (post_id, skip, limit) => {
 			executed: true,
 			status: false,
 			message: 'Invalid post_id',
+		}
+	}
+
+	// [VALIDATE] skip //
+	if (!validator.isNumeric(skip)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid skip',
+		}
+	}
+
+	// [VALDIATE] limit //
+	if (!validator.isNumeric(limit)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid limit',
 		}
 	}
 
@@ -174,20 +216,27 @@ const c_read = async (_id) => {
 // [UPDATE] //
 const c_update = async (_id, user_id, text) => {
 	// [VALIDATE] //
-	if (
-		!mongoose.isValidObjectId(_id) ||
-		!mongoose.isValidObjectId(user_id)
-	) {
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid id(s)',
+			message: 'Invalid _id',
+			updated: false,
+		}
+	}
+
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid user_id',
 			updated: false,
 		}
 	}
 
 	// [VALIDATE] text //
-	if (!validator.isAscii(text)) {
+	if (!text) {
 		return {
 			executed: true,
 			status: false,

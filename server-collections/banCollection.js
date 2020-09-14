@@ -25,11 +25,11 @@ const c_create = async (user_id, hours) => {
 	}
 
 	// [VALIDATE] hours //
-	if (!validator.isAscii(hours)) {
+	if (!validator.isNumeric(hours)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid hours'
+			message: 'Invalid hours (must be numeric)'
 		}
 	}
 	
@@ -103,6 +103,7 @@ const c_delete = async (user_id) => {
 /******************* [EXISTANCE] *******************/
 // [EXISTANCE] //
 const c_existance = async (user_id) => {
+	// [VALIDATE] user_id //
 	if (!mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,

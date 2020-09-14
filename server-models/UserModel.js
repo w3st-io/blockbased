@@ -34,7 +34,7 @@ const userSchema = mongoose.Schema({
 	
 	profileImg: {
 		type: String,
-		default: '',
+		default: 'https://icon-library.com/images/placeholder-icon/placeholder-icon-17.jpg',
 		maxlength: 600,
 	},
 	

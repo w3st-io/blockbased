@@ -37,7 +37,7 @@ const c_login = async (email, password) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid password'
+			message: 'Invalid password (must be ASCII)'
 		}
 	}
 
@@ -75,7 +75,7 @@ const c_login = async (email, password) => {
 		}
 
 		// Set Token //
-		let token = jwt.sign(payload, secretKey, {/* expiresIn: 7200 */})
+		const token = jwt.sign(payload, secretKey, {/* expiresIn: 7200 */})
 
 		return {
 			executed: true,
@@ -98,17 +98,30 @@ const c_login = async (email, password) => {
 
 // [REGISTER] //
 const c_register = async (first_name, last_name, username, email, password) => {
-	// [VALIDATE] //
-	if (
-		!validator.isAlpha(first_name) ||
-		!validator.isAlpha(last_name) ||
-		!validator.isAscii(username) ||
-		!validator.isAscii(password)
-	) {
+	// [VALIDATE] first_name //
+	if (!validator.isAlpha(first_name)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'adminsCollection: Invalid params'
+			message: 'Invalid first_name (must be alpha)'
+		}
+	}
+
+	// [VALIDATE] last_name //
+	if (!validator.isAlpha(last_name)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid last_name (must be alpha)'
+		}
+	}
+
+	// [VALIDATE] username //
+	if (!validator.isAscii(username)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid username (must be ASCII)'
 		}
 	}
 
@@ -121,6 +134,15 @@ const c_register = async (first_name, last_name, username, email, password) => {
 		}
 	}
 	else { email = validator.normalizeEmail(email) }
+
+	// [VALIDATE] password //
+	if (!validator.isAscii(password)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid password (must be ASCII)'
+		}
+	}
 
 	try {
 		// Username Check //

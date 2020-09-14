@@ -63,7 +63,9 @@ router.delete(
 			res.status(200).send({
 				executed: true,
 				status: true,
-				deleted: [returned, returned2, returned3]
+				comment: returned,
+				commentLikes: returned2,
+				notifications: returned3,
 			})
 		}
 		else {
