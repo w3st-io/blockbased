@@ -242,8 +242,8 @@ router.delete(
 		// [VALIDATE] //
 		if (mongoose.isValidObjectId(req.params._id)) {
 			const ownership = await postsCollection.c_ownership(
+				req.params._id,
 				req.decoded._id,
-				req.params._id
 			)
 			
 			if (ownership.status && ownership.ownership) {

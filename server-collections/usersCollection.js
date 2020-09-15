@@ -48,7 +48,7 @@ const c_read = async (_id) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid _id'
+			message: 'Invalid user _id'
 		}
 	}
 
@@ -83,7 +83,7 @@ const c_update = async (_id, img_url) => {
 	}
 
 	// [VALIDATE] img_url //
-	if (!validator.isAscii(img_url)) {
+	if (!validator.isURL(img_url)) {
 		return {
 			executed: true,
 			status: false,
@@ -275,11 +275,11 @@ const c_login = async (email, password) => {
 
 const c_register = async (username, email, password) => {
 	// [VALIDATE] //
-	if (!validator.isAscii(username) || !validator.isAscii(password)) {
+	if (!validator.isAscii(username)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'usersCollection: Invalid params'
+			message: 'Invalid username (must be ASCII)'
 		}
 	}
 
@@ -288,10 +288,19 @@ const c_register = async (username, email, password) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'usersCollection: Invalid email'
+			message: 'Invalid email'
 		}
 	}
 	else { email = validator.normalizeEmail(email) }
+
+	// [VALIDATE] //
+	if (!validator.isAscii(password)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid password (must be ASCII)'
+		}
+	}
 
 	try {
 		// Username Check //
@@ -338,7 +347,7 @@ const c_register = async (username, email, password) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Password invalid (8 < password < 50)',
+			message: 'Invalid password (8 < pwd < 50)',
 			created: false,
 		}
 	}

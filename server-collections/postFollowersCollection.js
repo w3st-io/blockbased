@@ -14,15 +14,23 @@ const PostFollowerModel = require('../server-models/PostFollowerModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, post_id) => {
-	// [VALIDATE] //
-	if (
-		!mongoose.isValidObjectId(user_id) ||
-		!mongoose.isValidObjectId(post_id)
-	) {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid id(s)',
+			message: 'Invalid user_id',
+			updated: false,
+		}
+	}
+
+	// [VALIDATE] post_id //
+	if (!mongoose.isValidObjectId(post_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid post_id',
+			updated: false,
 		}
 	}
 
@@ -92,15 +100,23 @@ const c_readAll = async (post_id) => {
 
 // [DELETE] //
 const c_delete = async (user_id, post_id) => {
-	// [VALIDATE] //
-	if (
-		!mongoose.isValidObjectId(user_id) ||
-		!mongoose.isValidObjectId(post_id)
-	) {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid id(s)',
+			message: 'Invalid user_id',
+			updated: false,
+		}
+	}
+
+	// [VALIDATE] post_id //
+	if (!mongoose.isValidObjectId(post_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid post_id',
+			updated: false,
 		}
 	}
 
@@ -128,54 +144,53 @@ const c_delete = async (user_id, post_id) => {
 
 /******************* [EXISTANCE] *******************/
 const c_existance = async (user_id, post_id) => {
-	// [VALIDATE] //
-	if (
-		!mongoose.isValidObjectId(user_id) ||
-		!mongoose.isValidObjectId(post_id)
-	) {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid id(s)',
+			message: 'Invalid user_id',
+			updated: false,
 		}
 	}
 
-	if (mongoose.isValidObjectId(post_id)) {
-		try {
-			const postFollower = await PostFollowerModel.findOne({
-				user: user_id,
-				post: post_id,
-			})
-
-			if (postFollower) {
-				return {
-					executed: true,
-					status: true,
-					existance: true,
-					postFollower: postFollower,
-				}
-			}
-			else {
-				return {
-					executed: true,
-					status: true,
-					existance: false,
-				}
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `postFollowersCollection: Error --> ${err}`,
-			}
-		}
-	}
-	else {
+	// [VALIDATE] post_id //
+	if (!mongoose.isValidObjectId(post_id)) {
 		return {
 			executed: true,
 			status: false,
 			message: 'Invalid post_id',
+			updated: false,
+		}
+	}
+
+	try {
+		const postFollower = await PostFollowerModel.findOne({
+			user: user_id,
+			post: post_id,
+		})
+
+		if (postFollower) {
+			return {
+				executed: true,
+				status: true,
+				existance: true,
+				postFollower: postFollower,
+			}
+		}
+		else {
+			return {
+				executed: true,
+				status: true,
+				existance: false,
+			}
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postFollowersCollection: Error --> ${err}`,
 		}
 	}
 }

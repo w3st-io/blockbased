@@ -152,7 +152,6 @@ if (process.env.NODE_ENV == 'production') {
 	})
 }
 
-console.log('sdfs', validator.isBase64('☺'))
 
 // [LISTEN] //
 server.listen(port, () => { console.log(`Server Running on Port: ${port}`) })

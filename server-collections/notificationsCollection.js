@@ -14,15 +14,23 @@ const NotificationModel = require('../server-models/NotificationModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, comment_id, type) => {
-	// [VALIDATE] //
-	if (
-		!mongoose.isValidObjectId(user_id) ||
-		!mongoose.isValidObjectId(comment_id)
-	) {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid id(s)',
+			message: 'Invalid user_id',
+			updated: false,
+		}
+	}
+
+	// [VALIDATE] //
+	if (!mongoose.isValidObjectId(comment_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid comment_id',
+			updated: false,
 		}
 	}
 
@@ -57,7 +65,8 @@ const c_readAll = async (user_id) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid id(s)',
+			message: 'Invalid user_id',
+			updated: false,
 		}
 	}
 
@@ -103,7 +112,7 @@ const c_deleteAll = async (comment_id) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid id(s)',
+			message: 'Invalid comment_id',
 		}
 	}
 

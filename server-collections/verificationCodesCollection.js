@@ -86,7 +86,7 @@ const c_existance = async (user_id, verificationCode) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid user _id',
+			message: 'Invalid user_id',
 		}
 	}
 

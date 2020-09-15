@@ -47,6 +47,7 @@
 			return {
 				loading: true,
 				userData: {},
+				data: {},
 				imgUrl: '',
 				error: '',
 			}
@@ -77,11 +78,14 @@
 
 		methods: {
 			async updateUserData() {
-				try { await UserService.s_update(this.imgUrl) }
+				try { this.data = await UserService.s_update(this.imgUrl) }
 				catch (err) { this.error = err }
 
-				// [REDIRECT] //
-				router.push({ path: '/profile' })
+				if (this.data.status) {
+					// [REDIRECT] //
+					router.push({ path: '/profile' })
+				}
+				else { this.error = this.data.message }
 			},
 
 			log() {

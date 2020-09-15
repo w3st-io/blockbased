@@ -246,16 +246,24 @@ const c_existance = async (_id) => {
 
 
 /******************* [OWNERSHIP] *******************/
-const c_ownership = async (user_id, _id) => {
-	// [VALIDATE] //
-	if (
-		!mongoose.isValidObjectId(user_id) ||
-		!mongoose.isValidObjectId(_id)
-	) {
+const c_ownership = async (_id, user_id) => {
+	// [VALIDATE] cat_id //
+	if (!mongoose.isValidObjectId(_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid id(s)',
+			message: 'Invalid post _id',
+			updated: false,
+		}
+	}
+
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid user_id',
+			updated: false,
 		}
 	}
 
@@ -290,6 +298,17 @@ const c_ownership = async (user_id, _id) => {
 
 /******************* [COUNT] *******************/
 const c_countAll = async (cat_id) => {
+	// [VALIDATE] cat_id //
+	if (!validator.isAscii(cat_id)) {
+		console.log(cat_id);
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid cat_id',
+			updated: false,
+		}
+	}
+
 	try {
 		const count = await PostModel.countDocuments({ cat_id })
 
