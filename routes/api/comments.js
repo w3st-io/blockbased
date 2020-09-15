@@ -27,7 +27,7 @@ const Auth = require('../../server-middleware/Auth')
 const router = express.Router().use(cors())
 
 
-/******************* [COMMENT] *******************/
+/******************* [CRUD] *******************/
 // [CREATE] Auth Required //
 router.post(
 	'/create',
