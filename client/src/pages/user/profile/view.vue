@@ -32,7 +32,7 @@
 			return {
 				user_id: this.$route.params.user_id,
 				user: {},
-				profileImg: require('../../assets/images/DefaultProfileImg.png'),
+				profileImg: require('../../../assets/images/DefaultProfileImg.png'),
 				error: '',
 			}
 		},

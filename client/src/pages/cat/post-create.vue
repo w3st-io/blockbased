@@ -14,7 +14,7 @@
 <script>
 	// [IMPORT] Personal //
 	import PostCreate from '@components/post/Create'
-	//import router from '@router'
+	import router from '@router'
 	import { cats } from '@defaults/cats'
 
 	// [EXPORT] //

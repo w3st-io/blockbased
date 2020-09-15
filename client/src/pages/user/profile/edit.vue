@@ -55,7 +55,7 @@
 
 		created: async function() {
 			// [REDIRECT] Not Log Required //
-			if (!localStorage.usertoken) { router.push({ name: 'forum' }) }
+			if (!localStorage.usertoken) { router.push({ name: '/' }) }
 
 			// Retrieve User Profile Data //
 			try {

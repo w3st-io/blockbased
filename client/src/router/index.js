@@ -19,12 +19,12 @@ import CommentCreate from '@pages/post/comment-create'
 import CommentEdit from '@pages/post/comment-edit'
 import Cat from '@pages/cat'
 import PostCreate from '@pages/cat/post-create'
-import Forum from '@pages/forum'
+import home from '@pages'
 import Login from '@pages/user/login'
 import Profile from '@pages/user/profile'
 import Edit from '@pages/user/profile/edit'
 import View from '@pages/user/profile/view'
-import Verify from '../pages/user/verify'
+import Verify from '@pages/user/verify'
 import Register from '@pages/user/register'
 import z from '@pages/z'
 import NotFound from '@pages/404'
@@ -40,9 +40,9 @@ const router = new Router ({
 
 	routes: [
 		{
-			name: 'forum',
-			name: 'forum',
-			component: Forum,
+			path: '/',
+			name: '/',
+			component: home,
 			meta: {
 				auth: true,
 				title: 'BlockBased.io'

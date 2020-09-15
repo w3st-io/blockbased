@@ -8,7 +8,7 @@ const port = process.env.PORT || 5000
 
 // [EXPORT] //
 module.exports = {
-	publicname: 'forum',
+	publicPath: '/',
 	devServer: {
 		proxy: {
 			'^/api': {
