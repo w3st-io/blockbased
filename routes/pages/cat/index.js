@@ -1,18 +1,16 @@
 /**
- * %%%%%%%%%%%%%%%%%%% *
- * %%% POST ROUTES %%% *
- * %%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% CAT PAGE ROUTES %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
-const mongoose = require('mongoose')
 const validator = require('validator')
 require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const rateLimiter = require('../../../rate-limiters')
 const postsCollection = require('../../../server-collections/postsCollection')
 const postFollowersCollection = require('../../../server-collections/postFollowersCollection')
 const postLikesCollection = require('../../../server-collections/postLikesCollection')

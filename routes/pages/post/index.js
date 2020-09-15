@@ -1,8 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%% *
- * %%% COMMENT ROUTES %%% *
- * %%%%%%%%%%%%%%%%%%%%%% *
- * this MUST have nested if's due to error if none
+ * %%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% POST PAGE ROUTES %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
 const cors = require('cors')
@@ -13,13 +12,9 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const rateLimiter = require('../../../rate-limiters')
 const postsCollection = require('../../../server-collections/postsCollection')
-const postFollowersCollection = require('../../../server-collections/postFollowersCollection')
 const commentsCollection = require('../../../server-collections/commentsCollection')
 const commentLikesCollection = require('../../../server-collections/commentLikesCollection')
-const commentReportsCollection = require('../../../server-collections/commentReportsCollection')
-const notificationsCollection = require('../../../server-collections/notificationsCollection')
 const Auth = require('../../../server-middleware/Auth')
 
 

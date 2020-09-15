@@ -15,6 +15,11 @@ module.exports = {
 				target: `http://localhost:${port}`,
 				ws: true,
 				changeOrigin: true
+			},
+			'^/pages': {
+				target: `http://localhost:${port}`,
+				ws: true,
+				changeOrigin: true
 			}
 		}
 	}

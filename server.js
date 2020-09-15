@@ -15,7 +15,7 @@ const validator = require('validator')
 require('dotenv').config()
 
 
-// [REQUIRE] Personal //
+// [REQUIRE] Personal // API // Pages // Utils //
 const admininstrationPosts = require('./routes/api/administration/posts')
 const admininstrationComments = require('./routes/api/administration/comments')
 const admininstrationReports = require('./routes/api/administration/reports')
@@ -26,6 +26,12 @@ const comments = require('./routes/api/comments')
 const rateLimiter = require('./rate-limiters')
 const notifications = require('./routes/api/notifications')
 const users = require('./routes/api/users')
+
+const p_admin = require('./routes/pages/admin')
+const p_cat = require('./routes/pages/cat')
+const p_post = require('./routes/pages/post')
+const p_user_profile = require('./routes/pages/user/profile')
+
 const userUtils = require('./utils/userUtils')
 
 
@@ -72,6 +78,11 @@ app.use('/api/posts', posts)
 app.use('/api/comments', comments)
 app.use('/api/notifications', notifications)
 app.use('/api/users', users)
+
+app.use('/pages/admin', p_admin)
+app.use('/pages/cat', p_cat)
+app.use('/pages/post', p_post)
+app.use('/pages/users/profile', p_user_profile)
 
 
 // [SOCKET + ON/EMIT] //

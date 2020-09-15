@@ -185,15 +185,6 @@ const router = new Router ({
 			component: z,
 		},
 		{
-			path: '*',
-			name: '404',
-			component: NotFound,
-			meta: {
-				auth: true,
-				title: '404 Not Found..'
-			},
-		},
-		{
 			path: '/**',
 			name: '404',
 			component: NotFound,
