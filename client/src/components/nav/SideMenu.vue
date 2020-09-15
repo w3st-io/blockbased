@@ -43,7 +43,7 @@
 
 			homeBtn() {
 				this.sideMenuOpen = !this.sideMenuOpen
-				router.push({ path: '/' })
+				router.push({ name: 'forum' })
 			},
 		}
 	}

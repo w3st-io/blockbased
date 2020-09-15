@@ -55,7 +55,7 @@
 
 		created: async function() {
 			// [REDIRECT] Log Needed //
-			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }			
+			if (!localStorage.usertoken) { router.push({ name: 'login' }) }			
 
 			// Get Post Details //
 			this.post = await PostService.s_read(this.post_id)
@@ -79,7 +79,7 @@
 						if (this.data.status) {
 							// [REDIRECT] Post Page //
 							router.push({
-								name: 'Post',
+								name: 'post',
 								params: { post_id: this.post_id, page: 1 }
 							})
 						}

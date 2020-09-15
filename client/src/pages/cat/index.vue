@@ -143,7 +143,7 @@
 					
 					// [REDIRECT] Cat Page //
 					router.push({
-						name: 'Cat',
+						name: 'cat',
 						params: {
 							cat_id: this.cat_id,
 							page: this.pageNumber
@@ -162,7 +162,7 @@
 					
 					// [REDIRECT] Cat Page //
 					router.push({
-						name: 'Cat',
+						name: 'cat',
 						params: {
 							cat_id: this.cat_id,
 							page: this.pageNumber

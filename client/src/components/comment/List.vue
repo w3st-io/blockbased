@@ -227,7 +227,7 @@
 				if (!this.disabled) {
 					// [REDIRECT] //
 					router.push({
-						name: 'CommentEdit',
+						name: 'comment-edit',
 						params: { comment_id: comment_id, }
 					})
 				}

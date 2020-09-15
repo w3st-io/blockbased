@@ -114,18 +114,18 @@
 		},
 
 		methods: {
-			logInRedirect() { router.push({ path: '/login' }) },
+			logInRedirect() { router.push({ name: 'login' }) },
 
-			registerRedirect() { router.push({ path: '/register' }) },
+			registerRedirect() { router.push({ name: 'register' }) },
 
-			profileRedirect() { router.push({ path: '/profile' }) },
+			profileRedirect() { router.push({ name: 'profile' }) },
 
 
 			logout() {
 				EventBus.$emit('logged-out')
 				this.loggedIn = false
 
-				router.push({ name: 'Login' })
+				router.push({ name: 'login' })
 			},
 			
 			sideMenuBtnClicked() { EventBus.$emit('navBarSideMenuBtnClicked') }

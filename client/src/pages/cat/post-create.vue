@@ -37,7 +37,7 @@
 			this.catTitle = this.cat.title
 
 			// [REDIRECT] Not Log Needed //
-			//if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
+			if (!localStorage.usertoken) { router.push({ name: 'login' }) }
 			
 			// [LOG] //
 			//this.log()

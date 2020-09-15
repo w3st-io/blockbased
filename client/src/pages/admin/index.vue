@@ -57,7 +57,7 @@
 
 		created: async function() {
 			// [REDIRECT] Not Admin Log Required //
-			if (!localStorage.admintoken) { router.push({ name: 'AdminLogin' }) }
+			if (!localStorage.admintoken) { router.push({ name: 'a-login' }) }
 		},
 
 		methods: { switchTab(tabClicked) { this.activeTab = tabClicked }, }

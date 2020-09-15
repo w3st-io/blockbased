@@ -54,9 +54,7 @@
 
 		created: async function() {
 			// [REDIRECT] Not Log Required //
-			if (!localStorage.usertoken) {
-				router.push({ name: 'Dashboard' })
-			}
+			if (!localStorage.usertoken) { router.push({ name: 'forum' }) }
 
 			// Retrieve User Token Decode Data //
 			try { this.decoded = await UserService.getUserTokenDecodeData() }
@@ -77,7 +75,7 @@
 
 		methods: {
 			redirectProfileEdit() {
-				router.push({ path: '/profile/edit' })
+				router.push({ name: 'edit' })
 			},
 
 			log() {

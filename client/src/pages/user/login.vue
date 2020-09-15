@@ -95,7 +95,7 @@
 
 		created: async function() {
 			// [REDIRECT] Not Logged Required //
-			if (localStorage.usertoken) { router.push({ path: '/' }) }
+			if (localStorage.usertoken) { router.push({ name: 'forum' }) }
 		},
 
 		methods: {
@@ -120,7 +120,7 @@
 				EventBus.$emit('logged-in')
 
 				// [REDIRECT] //
-				router.push({ path: '/' })
+				router.push({ name: 'forum' })
 			},
 		}
 	}

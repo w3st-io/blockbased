@@ -144,7 +144,7 @@
 					this.commentReadAll()
 
 					router.push({
-						name: 'Post',
+						name: 'post',
 						params: {
 							post_id: this.post_id,
 							page: this.pageNumber
@@ -162,7 +162,7 @@
 					this.commentReadAll()
 
 					router.push({
-						name: 'Post',
+						name: 'post',
 						params: {
 							post_id: this.post_id,
 							page: this.pageNumber

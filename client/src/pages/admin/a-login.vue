@@ -83,7 +83,7 @@
 
 		created: async function() {
 			// [REDIRECT] User Logged In Already //
-			if (localStorage.admintoken) { router.push({ name: 'AdminProfile' }) }
+			if (localStorage.admintoken) { router.push({ name: 'a-profile' }) }
 		},
 
 		methods: {
@@ -106,7 +106,7 @@
 				// [SET TOKEN] // Emit // [REDIRECT] //
 				localStorage.setItem('admintoken', this.data.token)
 				EventBus.$emit('admin-logged-in')
-				router.push({ name: 'AdminDashboard' })
+				router.push({ name: 'admin' })
 			}
 		}
 	}

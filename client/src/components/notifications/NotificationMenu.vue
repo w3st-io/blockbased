@@ -96,7 +96,7 @@
 
 				// [REDIRECT] //
 				router.push({
-					name: 'Post',
+					name: 'post',
 					params: { post_id: post_id, page: 1 }
 				})
 			},

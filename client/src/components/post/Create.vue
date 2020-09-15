@@ -126,7 +126,7 @@
 				if (this.returned.status) {
 					// [REDIRECT] Cat Page //
 					router.push({
-						name: 'Cat',
+						name: 'cat',
 						params: {
 							cat_id: this.cat_id,
 							page: 1

@@ -98,7 +98,7 @@
 
 			redirectToCatPosts(cat_id) {
 				router.push({
-					name: 'Cat',
+					name: 'cat',
 					params: {
 						cat_id: cat_id,
 						page: 1

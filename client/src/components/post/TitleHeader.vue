@@ -101,7 +101,10 @@
 
 			/******************* [ROUTER + LOG] *******************/
 			redirectToPostCommentCreate() {
-				router.push({ path: `/post-comment-create/${this.post._id}` })
+				router.push({
+					name: 'comment-create',
+					params: { post_id: this.post._id, }
+				})
 			},
 
 			log() {

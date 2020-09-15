@@ -4,7 +4,7 @@
 			<router-link to="/admin" class="mr-2 btn btn-secondary">
 				Admin Dashboard
 			</router-link>
-			<router-link to="/admin-profile" class="btn btn-secondary">
+			<router-link to="/admin/a-profile" class="btn btn-secondary">
 				Admin Profile
 			</router-link>
 		</div>

@@ -53,7 +53,7 @@
 		methods: {
 			redirectToCatPostCreate() {
 				router.push({
-					name: 'PostCreate',
+					name: 'post-create',
 					params: { cat_id: this.cat.cat_id }
 				})
 			},

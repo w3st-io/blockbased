@@ -47,7 +47,7 @@
 
 		created: async function() {
 			// [REDIRECT] Log Needed //
-			if (!localStorage.usertoken) { router.push({ name: 'Login' }) }
+			if (!localStorage.usertoken) { router.push({ name: 'login' }) }
 
 			// Get Comment Details //
 			await this.getCommentDetails()
@@ -81,7 +81,7 @@
 						if (comment.updated) {
 							// [REDIRECT] Post Page //
 							router.push({
-								name: 'Post',
+								name: 'post',
 								params: { post_id: this.comment.post, page: 1 }
 							})
 						}
