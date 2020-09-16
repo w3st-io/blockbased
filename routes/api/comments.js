@@ -103,8 +103,8 @@ router.get(
 		// [VALIDATE] //
 		if (
 			mongoose.isValidObjectId(req.params.post_id) &&
-			Number.isAscii(parseInt(req.params.limit)) &&
-			Number.isAscii(parseInt(req.params.skip))
+			Number.isInteger(parseInt(req.params.limit)) &&
+			Number.isInteger(parseInt(req.params.skip))
 		) {
 			const postExistance = await postsCollection.c_existance(req.params.post_id)
 

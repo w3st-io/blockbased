@@ -140,15 +140,21 @@ const c_delete = async (_id) => {
 /******************* [EXISTANCE] *******************/
 // Verify that User is not Double Reporting //
 const c_existance = async (user_id, comment_id) => {
-	// [VALIDATE] //
-	if (
-		!mongoose.isValidObjectId(user_id) ||
-		!mongoose.isValidObjectId(comment_id)
-	) {
+	// [VALIDATE] user_id //
+	if (!mongoose.isValidObjectId(user_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid id(s)',
+			message: 'Invalid user_id',
+		}
+	}
+
+	// [VALIDATE] comment_id //
+	if (!mongoose.isValidObjectId(comment_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid comment_id',
 		}
 	}
 

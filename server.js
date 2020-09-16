@@ -11,7 +11,6 @@ const http = require('http')
 const mongoose = require('mongoose')
 const path = require('path')
 const socketIO = require('socket.io')
-const validator = require('validator')
 require('dotenv').config()
 
 

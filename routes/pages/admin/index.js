@@ -23,7 +23,7 @@ const router = express.Router().use(cors())
 // [READ-ALL] Auth Required //
 router.get(
 	'/',
-	//Auth.adminToken(),
+	Auth.adminToken(),
 	async (req, res) => {
 		try {
 			const users = await usersCollection.c_readAll()

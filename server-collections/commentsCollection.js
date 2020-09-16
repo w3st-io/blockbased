@@ -5,7 +5,6 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
-const validator = require('validator')
 
 
 // [REQUIRE] Personal //
@@ -102,8 +101,8 @@ const c_readAllAll = async (skip, limit) => {
 
 	try {
 		const comments = await CommentModel.find()
-			.skip(skip)
-			.limit(limit)
+			.skip(parseInt(skip))
+			.limit(parseInt(limit))
 			.populate({ path: 'user', select: 'username email profileImg', })
 			.populate({ path: 'post' })
 			.exec()

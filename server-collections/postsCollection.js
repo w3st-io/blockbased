@@ -79,8 +79,8 @@ const c_readAllAll = async (skip, limit) => {
 
 	try {
 		const posts = await PostModel.find()
-			.skip(skip)
-			.limit(limit)
+			.skip(parseInt(skip))
+			.limit(parseInt(limit))
 			.populate({
 				path: 'user',
 				select: 'username email profileImg',
@@ -138,8 +138,8 @@ const c_readAll = async (cat_id, skip, limit) => {
 
 	try {
 		const posts = await PostModel.find({ cat_id })
-			.skip(skip)
-			.limit(limit)
+			.skip(parseInt(skip))
+			.limit(parseInt(limit))
 			.populate({ path: 'user', select: 'username email profileImg', })
 			.exec()
 
@@ -280,8 +280,8 @@ const c_readAllSort = async (cat_id, skip, limit, sort) => {
 	try {
 		const posts = await PostModel.find({ cat_id })
 			.sort(sort2)
-			.skip(skip)
-			.limit(limit)
+			.skip(parseInt(skip))
+			.limit(parseInt(limit))
 			.populate({ path: 'user', select: 'username email profileImg', })
 			.exec()
 
