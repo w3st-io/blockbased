@@ -31,6 +31,9 @@
 </template>
 
 <script>
+	// [IMPORT] //
+	import AUserService from '../../../services/administration/UserService'
+
 	// [EXPORT] //
 	export default {
 		props: {
@@ -45,10 +48,18 @@
 
 		created: async function() {
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {
+			async banUser(user_id) {
+				// Ban User //
+				try { await AUserService.s_banUser(user_id, 1) }
+				catch (err) { this.error = err }
+
+				this.$emit('refreshData')
+			},
+
 			log() {
 				console.log('%%% [COMPONENT] Admin UsersTable %%%')
 				console.log('users:', this.users)

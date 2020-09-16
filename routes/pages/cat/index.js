@@ -31,14 +31,14 @@ router.get(
 		// [VALIDATE] //
 		if (
 			validator.isAscii(req.params.cat_id) &&
-			validator.isAscii(req.params.skip) &&
-			validator.isAscii(req.params.limit) &&
+			Number.isInteger(parseInt(req.params.skip)) &&
+			Number.isInteger(parseInt(req.params.limit)) &&
 			validator.isAscii(req.params.sort)
 		) {
 			let returned = await postsCollection.c_readAllSort(
 				req.params.cat_id,
-				req.params.skip,
-				req.params.limit,
+				parseInt(req.params.skip),
+				parseInt(req.params.limit),
 				req.params.sort,
 			)
 			

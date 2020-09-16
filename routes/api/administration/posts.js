@@ -27,12 +27,12 @@ router.get(
 	Auth.adminToken(),
 	async (req, res) => {
 		if (
-			validator.isAscii(req.params.limit) &&
-			validator.isAscii(req.params.skip)
+			Number.isInteger(parseInt(req.params.limit)) &&
+			Number.isInteger(parseInt(req.params.skip))
 		) {
 			const returned = await postsCollection.c_readAllAll(
-				req.params.skip,
-				req.params.limit
+				parseInt(req.params.skip),
+				parseInt(req.params.limit)
 			)
 
 			res.status(200).send(returned)

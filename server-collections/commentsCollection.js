@@ -53,7 +53,7 @@ const c_create = async (user_id, post_id, text) => {
 
 	try {
 		// [SAVE] //
-		const createdComment = await new CommentModel({
+		const comment = await new CommentModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
 			post: post_id,
@@ -63,7 +63,7 @@ const c_create = async (user_id, post_id, text) => {
 		return {
 			executed: true,
 			status: true,
-			createdComment: createdComment,
+			comment: comment,
 		}
 	}
 	catch (err) {
@@ -78,8 +78,12 @@ const c_create = async (user_id, post_id, text) => {
 
 // [READ-ALL-ALL] //
 const c_readAllAll = async (skip, limit) => {
+	// [SANTIZE] //
+	skip = parseInt(skip)
+	limit = parseInt(limit)
+
 	// [VALIDATE] skip //
-	if (!validator.isNumeric(skip)) {
+	if (!Number.isInteger(skip)) {
 		return {
 			executed: true,
 			status: false,
@@ -88,7 +92,7 @@ const c_readAllAll = async (skip, limit) => {
 	}
 
 	// [VALDIATE] limit //
-	if (!validator.isNumeric(limit)) {
+	if (!Number.isInteger(limit)) {
 		return {
 			executed: true,
 			status: false,
@@ -98,8 +102,8 @@ const c_readAllAll = async (skip, limit) => {
 
 	try {
 		const comments = await CommentModel.find()
-			.skip(parseInt(skip))
-			.limit(parseInt(limit))
+			.skip(skip)
+			.limit(limit)
 			.populate({ path: 'user', select: 'username email profileImg', })
 			.populate({ path: 'post' })
 			.exec()
@@ -122,6 +126,10 @@ const c_readAllAll = async (skip, limit) => {
 
 // [READ-ALL] Within a Post //
 const c_readAll = async (post_id, skip, limit) => {
+	// [SANTIZE] //
+	skip = parseInt(skip)
+	limit = parseInt(limit)
+
 	// [VALIDATE] post_id //
 	if (!mongoose.isValidObjectId(post_id)) {
 		return {
@@ -132,7 +140,7 @@ const c_readAll = async (post_id, skip, limit) => {
 	}
 
 	// [VALIDATE] skip //
-	if (!validator.isNumeric(skip)) {
+	if (!Number.isInteger(skip)) {
 		return {
 			executed: true,
 			status: false,
@@ -141,7 +149,7 @@ const c_readAll = async (post_id, skip, limit) => {
 	}
 
 	// [VALDIATE] limit //
-	if (!validator.isNumeric(limit)) {
+	if (!Number.isInteger(limit)) {
 		return {
 			executed: true,
 			status: false,

@@ -55,8 +55,12 @@ const c_create = async (user_id, cat_id, title) => {
 
 // [READ-ALL-ALL] //
 const c_readAllAll = async (skip, limit) => {
+	// [SANITIZE] //
+	skip = parseInt(skip)
+	limit = parseInt(limit)
+
 	// [VALIDATE] skip //
-	if (!validator.isNumeric(skip)) {
+	if (!Number.isInteger(skip)) {
 		return {
 			executed: true,
 			status: false,
@@ -65,7 +69,7 @@ const c_readAllAll = async (skip, limit) => {
 	}
 
 	// [VALIDATE] limit //
-	if (!validator.isNumeric(limit)) {
+	if (!Number.isInteger(limit)) {
 		return {
 			executed: true,
 			status: false,
@@ -75,8 +79,8 @@ const c_readAllAll = async (skip, limit) => {
 
 	try {
 		const posts = await PostModel.find()
-			.skip(parseInt(skip))
-			.limit(parseInt(limit))
+			.skip(skip)
+			.limit(limit)
 			.populate({
 				path: 'user',
 				select: 'username email profileImg',
@@ -101,23 +105,41 @@ const c_readAllAll = async (skip, limit) => {
 
 // [READ-ALL] Within Cat //
 const c_readAll = async (cat_id, skip, limit) => {
-	// [VALIDATE] //
-	if (
-		!validator.isAscii(cat_id) &&
-		!validator.isAscii(skip) &&
-		!validator.isAscii(limit)
-	) {
+	// [SANITIZE] //
+	skip = parseInt(skip)
+	limit = parseInt(limit)
+
+	// [VALIDATE] cat_id //
+	if (!validator.isAscii(cat_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid params',
+			message: 'Invalid cat_id',
+		}
+	}
+
+	// [VALIDATE] skip //
+	if (!Number.isInteger(skip)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid skip',
+		}
+	}
+
+	// [VALIDATE] limit //
+	if (!Number.isIntegar(limit)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid limit',
 		}
 	}
 
 	try {
 		const posts = await PostModel.find({ cat_id })
-			.skip(parseInt(skip))
-			.limit(parseInt(limit))
+			.skip(skip)
+			.limit(limit)
 			.populate({ path: 'user', select: 'username email profileImg', })
 			.exec()
 
@@ -209,16 +231,12 @@ const c_delete = async (_id) => {
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] Within Cat //
 const c_readAllSort = async (cat_id, skip, limit, sort) => {
-	// [INIT] //
-	let sort2
+	// [SANITIZE] //
+	skip = parseInt(skip)
+	limit = parseInt(limit)
 
-	// [VALIDATE] //
-	if (
-		!validator.isAscii(cat_id) &&
-		!validator.isAscii(skip) &&
-		!validator.isAscii(limit) &&
-		!validator.isAscii(sort)
-	) {
+	// [VALIDATE] cat_id //
+	if (!validator.isAscii(cat_id)) {
 		return {
 			executed: true,
 			status: false,
@@ -226,14 +244,44 @@ const c_readAllSort = async (cat_id, skip, limit, sort) => {
 		}
 	}
 
+	// [VALIDATE] skip //
+	if (!Number.isInteger(skip)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid params',
+		}
+	}
+
+	// [VALIDATE] limit //
+	if (!Number.isInteger(limit)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid params',
+		}
+	}
+
+	// [VALIDATE] sort //
+	if (!validator.isAscii(sort)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid params',
+		}
+	}
+
+	// [INIT] //
+	let sort2
+
 	if (sort == 'descending') { sort2 = { createdAt: -1 } }
 	else if (sort == 'popularity') { sort2 = { likeCount: -1 } }
 
 	try {
 		const posts = await PostModel.find({ cat_id })
 			.sort(sort2)
-			.skip(parseInt(skip))
-			.limit(parseInt(limit))
+			.skip(skip)
+			.limit(limit)
 			.populate({ path: 'user', select: 'username email profileImg', })
 			.exec()
 

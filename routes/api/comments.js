@@ -61,7 +61,7 @@ router.post(
 					for (let i = 0; i < followers.postFollowers.length; i++) {
 						await notificationsCollection.c_create(
 							followers.postFollowers[i].user,
-							returned.createdComment._id,
+							returned.comment._id,
 							'comment'
 						)
 
@@ -103,16 +103,16 @@ router.get(
 		// [VALIDATE] //
 		if (
 			mongoose.isValidObjectId(req.params.post_id) &&
-			validator.isAscii(req.params.limit) &&
-			validator.isAscii(req.params.skip)
+			Number.isAscii(parseInt(req.params.limit)) &&
+			Number.isAscii(parseInt(req.params.skip))
 		) {
 			const postExistance = await postsCollection.c_existance(req.params.post_id)
 
 			if (postExistance.existance) {
 				const returned = await commentsCollection.c_readAll(
 					req.params.post_id,
-					req.params.skip,
-					req.params.limit
+					parseInt(req.params.skip),
+					parseInt(req.params.limit)
 				)
 				
 				if (returned.status) {
@@ -346,7 +346,7 @@ router.post(
 		if (
 			mongoose.isValidObjectId(req.params._id) &&
 			validator.isAscii(req.body.post_id) &&
-			mongoose.isAscii(req.body.reportType)
+			validator.isAscii(req.body.reportType)
 		) {
 			const returned = await commentReportsCollection.c_create(
 				req.decoded._id,

@@ -25,7 +25,7 @@ const c_create = async (user_id, hours) => {
 	}
 
 	// [VALIDATE] hours //
-	if (!validator.isNumeric(hours)) {
+	if (isNaN(hours)) {
 		return {
 			executed: true,
 			status: false,

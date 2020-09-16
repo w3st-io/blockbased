@@ -12,7 +12,7 @@
 			</thead>
 			<tbody>
 				<tr
-					v-for="report in reports"
+					v-for="report in commentReports"
 					:key="report._id"
 				>
 					<td>{{ report.reportType }}</td>
@@ -40,45 +40,33 @@
 
 	// [EXPORT] //
 	export default {
+		props: {
+			commentReports: { type: Array, required: true, },
+		},
+
 		data: function() {
 			return {
-				reports: {},
 				error: '',
 			}
 		},
 
 		created: async function() {
-			// Get Reports //
-			await this.getReports()
-
 			// [LOG] //
 			//this.log()
 		},
 
 		methods: {
-			async getReports() {
-				// Get Reports //
-				try {
-					let returned = await AReportService.s_readAllAll()
-
-					if (returned.status) { this.reports = returned.reports }
-					else { this.error = returned.message }
-				}
-				catch (err) { this.error = err }
-			},
-
 			async deleteReport(report_id) {
 				// Delete Report //
 				try { await AReportService.s_delete(report_id) }
 				catch (err) { this.error = err }
 				
-				// Refresh Table //
-				this.getReports()
+				this.$emit('refreshData')
 			},
 
 			log() {
 				console.log('%%% [COMPONENT] Admin ReportsTable %%%')
-				console.log('reports:', this.reports)
+				console.log('commentReports:', this.commentReports)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		},

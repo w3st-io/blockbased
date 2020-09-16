@@ -31,16 +31,16 @@ router.get(
 		// [VALIDATE] //
 		if (
 			mongoose.isValidObjectId(req.params.post_id) &&
-			validator.isAscii(req.params.limit) &&
-			validator.isAscii(req.params.skip)
+			Number.isInteger(parseInt(req.params.limit)) &&
+			Number.isInteger(parseInt(req.params.skip))
 		) {
 			const postExistance = await postsCollection.c_existance(req.params.post_id)
 
 			if (postExistance.existance) {
 				const returned = await commentsCollection.c_readAll(
 					req.params.post_id,
-					req.params.skip,
-					req.params.limit
+					parseInt(req.params.skip),
+					parseInt(req.params.limit)
 				)
 				
 				if (returned.status) {

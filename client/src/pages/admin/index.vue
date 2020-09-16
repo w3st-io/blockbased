@@ -11,16 +11,32 @@
 		
 		<div class="my-3">
 			<!-- Users -->
-			<users v-show="activeTab == 'users'" :users="users" />
+			<users
+				v-show="activeTab == 'users'"
+				:users="users"
+				@refreshData="getData()"
+			/>
 			
 			<!-- Posts -->
-			<posts v-show="activeTab == 'posts'" />
+			<posts
+				v-show="activeTab == 'posts'"
+				:posts="posts"
+				@refreshData="getData()"
+			/>
 
 			<!-- Comments -->
-			<comments v-show="activeTab == 'comments'" />
+			<comments
+				v-show="activeTab == 'comments'"
+				:comments="comments"
+				@refreshData="getData()"
+			/>
 
 			<!-- Reports -->
-			<reports v-show="activeTab == 'reports'" />
+			<comment-reports
+				v-show="activeTab == 'commentReports'"
+				:commentReports="commentReports"
+				@refreshData="getData()"
+			/>
 		</div>
 
 		<!-- [ALERTS] -->
@@ -31,30 +47,33 @@
 <script>
 	// [IMPORT] Personal //
 	import Posts from '@components/admin/index/Posts'
+	import CommentReports from '@components/admin/index/CommentReports'
 	import Comments from '@components/admin/index/Comments'
-	import Reports from '@components/admin/index/Reports'
 	import Users from '@components/admin/index/Users'
 	import ButtonTabs from '@components/controls/ButtonTabs'
 	import router from '@router'
-	import AUserService from '@services/administration/UserService'
+	import PageService from '../../services/PageService'
 
 	// [EXPORT] //
 	export default {
 		components: {
 			Posts,
 			ButtonTabs,
+			CommentReports,
 			Comments,
-			Reports,
 			Users,
 		},
 
 		data: function() {
 			return {
-				tabs: ['users', 'posts', 'comments', 'reports'],
+				tabs: ['users', 'posts', 'comments', 'commentReports'],
 				activeTab: '',
-				error: '',
 				returned: {},
-				users: {},
+				users: [],
+				posts: [],
+				comments: [],
+				commentReports: [],
+				error: '',
 			}
 		},
 
@@ -69,17 +88,19 @@
 			switchTab(tabClicked) { this.activeTab = tabClicked },
 			
 			async getData() {
-				// Get Users //
-				try { this.returned = await AUserService.s_readAll() }
+				try { this.returned = await PageService.s_admin() }
 				catch (err) { this.error = err }
 
-				if (this.returned.status) { this.users = this.returned.users }
+				if (this.returned.status) {
+					this.users = this.returned.users
+					this.posts = this.returned.posts
+					this.comments = this.returned.comments
+					this.commentReports = this.returned.commentReports
+				}
 				else { this.error = this.returned.message }
 
-				console.log('sdfsd', this.returned)
+				console.log('THE DATA:', this.returned)
 			},
-
-			async banUser(user_id) { await AUserService.s_banUser(user_id, 1) },
 		}
 	}
 </script>

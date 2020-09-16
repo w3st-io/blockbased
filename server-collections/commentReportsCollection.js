@@ -86,7 +86,7 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 // [READ-ALL] //
 const c_readAll = async () => {
 	try {
-		const returned = await CommentReportModel.find()
+		const commentReports = await CommentReportModel.find()
 			.populate('user')
 			.populate('comment')
 			.exec()
@@ -94,7 +94,7 @@ const c_readAll = async () => {
 		return {
 			executed: true,
 			status: true,
-			reports: returned
+			commentReports: commentReports
 		}
 	}
 	catch (err) {
@@ -119,12 +119,12 @@ const c_delete = async (_id) => {
 	}
 
 	try {
-		const deletedCommentReport = await CommentReportModel.deleteOne({ _id })
+		const commentReport = await CommentReportModel.deleteOne({ _id })
 
 		return {
 			executed: true,
 			status: true,
-			deletedCommentReport: deletedCommentReport,
+			commentReport: commentReport,
 		}
 	}
 	catch (err) {

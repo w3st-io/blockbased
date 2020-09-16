@@ -39,18 +39,17 @@
 
 	// [EXPORT] //
 	export default {
+		props: {
+			comments: { type: Array, required: true, },
+		},
+
 		data: function() {
 			return {
-				returned: {},
-				comments: {},
 				error: '',
 			}
 		},
 
 		created: async function() {
-			// Get Comments //
-			await this.getComments()
-
 			// [LOG] //
 			//this.log()
 		},
@@ -61,19 +60,7 @@
 				try { await ACommentService.s_delete(comment_id) }
 				catch (err) { this.error = err }
 				
-				// Refresh Table //
-				this.getComments()
-			},
-
-			async getComments() {
-				// Get Comments //
-				try { this.returned = await ACommentService.s_readAllAll(100, 0) }
-				catch (err) { this.error = `Error --> ${err}` }
-
-				if (this.returned.status) {
-					this.comments = this.returned.comments
-				}
-				else { this.error = this.returned.message }
+				this.$emit('refreshData')
 			},
 
 			log() {

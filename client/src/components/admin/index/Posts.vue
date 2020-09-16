@@ -39,38 +39,28 @@
 
 	// [EXPORT] //
 	export default {
+		props: {
+			posts: { type: Array, required: true, },
+		},
+
 		data: function() {
 			return {
-				posts: {},
 				error: '',
 			}
 		},
 
 		created: async function() {
-			await this.getPosts()
-
 			// [LOG] //
 			//this.log()
 		},
 
 		methods: {
-			async getPosts() {
-				// Get Posts //
-				try {
-					let returned = await APostService.s_readAllAll(100, 0)
-
-					if (returned.status) { this.posts = returned.posts }
-					else { this.error = returned.message }
-				}
-				catch (err) { this.error = err }
-			},
-
 			async deletePost(post_id) {
+				// Delete Post //
 				try { await APostService.s_delete(post_id) }
 				catch (err) { this.error = err }
 				
-				// Refresh Table //
-				this.getPosts()
+				this.$emit('refreshData')
 			},
 
 			log() {

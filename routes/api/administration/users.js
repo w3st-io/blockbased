@@ -65,7 +65,7 @@ router.post(
 	async (req, res) => {
 		if (
 			mongoose.isValidObjectId(req.params._id) &&
-			validator.isAscii(req.body.hours)
+			!isNaN(req.body.hours)
 		) {
 			const returned = await banCollection.c_create(
 				req.params._id,
