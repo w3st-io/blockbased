@@ -68,15 +68,14 @@ router.post(
 
 // [READ-ALL] Within Cat //
 router.get(
-	'/read-all/:cat_id/:limit/:skip/:sort',
+	'/read-all/:cat_id/:limit/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		// [VALIDATE] //
 		if (
 			validator.isAscii(req.params.cat_id) &&
 			validator.isAscii(req.params.skip) &&
-			validator.isAscii(req.params.limit) &&
-			validator.isAscii(req.params.sort)
+			validator.isAscii(req.params.limit)
 		) {
 			let returned = await postsCollection.c_readAll(
 				req.params.cat_id,

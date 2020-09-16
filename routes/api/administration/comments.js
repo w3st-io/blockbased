@@ -11,7 +11,6 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const aCommentsCollection = require('../../../server-collections/administration/commentsCollection')
 const commentsCollection = require('../../../server-collections/commentsCollection')
 const commentLikesCollection = require('../../../server-collections/commentLikesCollection')
 const notificationsCollection = require('../../../server-collections/notificationsCollection')
@@ -56,7 +55,7 @@ router.delete(
 	Auth.adminToken(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const returned = await aCommentsCollection.c_delete(req.params._id)
+			const returned = await commentsCollection.c_adminDelete(req.params._id)
 			const returned2 = await commentLikesCollection.c_deleteAll(req.params._id)
 			const returned3 = await notificationsCollection.c_deleteAll(req.params._id)
 

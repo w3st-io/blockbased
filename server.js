@@ -15,7 +15,7 @@ const validator = require('validator')
 require('dotenv').config()
 
 
-// [REQUIRE] Personal // API // Pages // Utils //
+// [REQUIRE] Personal - API - Pages - Utils //
 const admininstrationPosts = require('./routes/api/administration/posts')
 const admininstrationComments = require('./routes/api/administration/comments')
 const admininstrationReports = require('./routes/api/administration/reports')
@@ -30,7 +30,8 @@ const users = require('./routes/api/users')
 const p_admin = require('./routes/pages/admin')
 const p_cat = require('./routes/pages/cat')
 const p_post = require('./routes/pages/post')
-const p_user_profile = require('./routes/pages/user/profile')
+const p_profile = require('./routes/pages/profile')
+const p_profile_view = require('./routes/pages/profile/view')
 
 const userUtils = require('./utils/userUtils')
 
@@ -68,7 +69,7 @@ app.use(cors())
 app.use(rateLimiter.limiter)
 
 
-// [USE] Personal //
+// [USE] Personal - API - Pages //
 app.use('/api/administration/posts', admininstrationPosts)
 app.use('/api/administration/comments', admininstrationComments)
 app.use('/api/administration/reports', admininstrationReports)
@@ -82,7 +83,8 @@ app.use('/api/users', users)
 app.use('/pages/admin', p_admin)
 app.use('/pages/cat', p_cat)
 app.use('/pages/post', p_post)
-app.use('/pages/users/profile', p_user_profile)
+app.use('/pages/profile', p_profile)
+app.use('/pages/profile/view', p_profile_view)
 
 
 // [SOCKET + ON/EMIT] //
@@ -132,7 +134,7 @@ io.on('connection', (socket) => {
 	// [ON] Disconnect //
 	socket.on('disconnect', () => {
 		// [LOG] //
-		console.log('WS Closed')
+		//console.log('WS Closed')
 
 		// Leave variable
 		userUtils.leave(socket.id)

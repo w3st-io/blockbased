@@ -54,7 +54,6 @@
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import PageService from '@services/PageService'
-	import PostService from '@services/PostService'
 	import { EventBus } from '@main'
 	import { cats } from '@defaults/cats'
 
@@ -111,23 +110,12 @@
 			},
 
 			/******************* [INIT] Post *******************/
-			async postsReadAll() {	
-				console.log('SLDFASKDJFKLS');
+			async postsReadAll() {
 				let sort = ''
 				let pageIndex = this.pageNumber - 1
 
 				if (this.activeTab == 0) { sort = 'descending' }
 				else { sort = 'popularity' }
-
-				try {
-					this.data = await PostService.s_readAll(
-						this.cat_id,
-						this.limit,
-						pageIndex,
-						sort,
-					)
-				}
-				catch (err) { this.error = err }
 
 				try {
 					this.data = await PageService.s_cat(
@@ -136,10 +124,8 @@
 						pageIndex,
 						sort,
 					)
-
-					console.log('sdfsdf', this.data);
 				}
-				catch (err) { this.error = err; console.log('erro', err); }
+				catch (err) { this.error = err }
 
 				if (this.data.status) { this.posts = this.data.posts }
 				else { this.error = this.data.message }

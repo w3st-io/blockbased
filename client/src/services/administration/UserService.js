@@ -22,7 +22,7 @@ async function s_readAll() {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returned = await authAxios.get(`/read-all/profile-data`)
+		const returned = await authAxios.get(`/read-all`)
 
 		return returned.data
 	}

@@ -35,7 +35,7 @@ router.get(
 			validator.isAscii(req.params.limit) &&
 			validator.isAscii(req.params.sort)
 		) {
-			let returned = await postsCollection.c_readAll(
+			let returned = await postsCollection.c_readAllSort(
 				req.params.cat_id,
 				req.params.skip,
 				req.params.limit,

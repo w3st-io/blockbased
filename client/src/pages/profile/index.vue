@@ -5,7 +5,7 @@
 			<section class="col-12 col-md-3 hidden-768">
 				<div class="card card-body bg-dark">
 					<img
-						:src="userData.profileImg"
+						:src="user.profileImg"
 						alt="Profile Image Here"
 						class="w-100"
 					>
@@ -17,14 +17,14 @@
 				<div class="card card-body bg-dark">
 					<h4 class="text-light mb-2">Your Profile</h4>
 
-					<table class="w-100 table-sm table-dark">
+					<table class="w-100 table-sm table-dark text-light">
 						<tr>
 							<td>Username</td>
-							<td>{{ decoded.username }}</td>
+							<td>{{ user.username }}</td>
 						</tr>
 						<tr>
 							<td>Email</td>
-							<td>{{ decoded.email }}</td>
+							<td>{{ user.email }}</td>
 						</tr>
 					</table>
 
@@ -41,14 +41,14 @@
 <script>
 	// [IMPORT] Personal //
 	import router from '@router'
-	import UserService from '@services/UserService'
+	import PageService from '@services/PageService'
 
 	// [EXPORT] //
 	export default {
 		data: function() {
 			return {
-				decoded: {},
-				userData: {},
+				data: {},
+				user: {},
 			}
 		},
 
@@ -56,18 +56,12 @@
 			// [REDIRECT] Not Log Required //
 			if (!localStorage.usertoken) { router.push({ name: '/' }) }
 
-			// Retrieve User Token Decode Data //
-			try { this.decoded = await UserService.getUserTokenDecodeData() }
-			catch (err) { this.error = err }
-
 			// Retrieve User Profile Data //
-			try {
-				const returned = await UserService.s_read()
-
-				if (returned.status) { this.userData = returned.user }
-				else { this.error = returned.message }
-			}
+			try { this.data = await await PageService.s_profile() }
 			catch (err) { this.error = err }
+
+			if (this.data.status) { this.user = this.data.user }
+			else { this.error = this.data.message }
 
 			// [LOG] //
 			//this.log()
@@ -80,16 +74,13 @@
 
 			log() {
 				console.log('%%% [PAGE] User Profile %%%')
-				console.log('decoded:', this.decoded)
-				console.log('userData:', this.userData)
+				console.log('user:', this.user)
 			},
 		},
 	}
 </script>
 
 <style lang="scss" scoped>
-	td { color: white; }
-
 	@media screen and (max-width: 768px) {
 		.hidden-768 {
 			display: none !important;

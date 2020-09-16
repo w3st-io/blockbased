@@ -31,40 +31,24 @@
 </template>
 
 <script>
-	// [IMPORT] Personal //
-	import AUserService from '@services/administration/UserService'
-
 	// [EXPORT] //
 	export default {
+		props: {
+			users: { type: Array, required: true, },
+		},
+
 		data: function() {
 			return {
-				users: {},
 				error: '',
 			}
 		},
 
 		created: async function() {
-			// Get Users //
-			await this.getUsers()
-
 			// [LOG] //
-			//this.log()
+			this.log()
 		},
 
 		methods: {
-			async getUsers() {
-				// Get Users //
-				try {
-					const returned = await AUserService.s_readAll()
-
-					if (returned.status) { this.users = returned.users }
-					else { this.error = returned.message }
-				}
-				catch (err) { this.error = err }
-			},
-
-			async banUser(user_id) { await AUserService.s_banUser(user_id, 1) },
-
 			log() {
 				console.log('%%% [COMPONENT] Admin UsersTable %%%')
 				console.log('users:', this.users)

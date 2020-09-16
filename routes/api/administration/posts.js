@@ -11,7 +11,7 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const aPostsCollection = require('../../../server-collections/administration/postsCollection')
+const postsCollection = require('../../../server-collections/postsCollection')
 const postLikesCollection = require('../../../server-collections/postLikesCollection')
 const Auth = require('../../../server-middleware/Auth')
 
@@ -30,7 +30,7 @@ router.get(
 			validator.isAscii(req.params.limit) &&
 			validator.isAscii(req.params.skip)
 		) {
-			const returned = await aPostsCollection.c_readAllAll(
+			const returned = await postsCollection.c_readAllAll(
 				req.params.skip,
 				req.params.limit
 			)
@@ -54,7 +54,7 @@ router.delete(
 	Auth.adminToken(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			aPostsCollection.c_delete(req.params._id)
+			postsCollection.c_delete(req.params._id)
 			postLikesCollection.c_deleteAll(req.params._id)
 
 			res.sendStatus(200)

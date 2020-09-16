@@ -11,7 +11,7 @@
 		
 		<div class="my-3">
 			<!-- Users -->
-			<users v-show="activeTab == 'users'" />
+			<users v-show="activeTab == 'users'" :users="users" />
 			
 			<!-- Posts -->
 			<posts v-show="activeTab == 'posts'" />
@@ -29,13 +29,14 @@
 </template>
 
 <script>
-	// [IMPORT] //
+	// [IMPORT] Personal //
 	import Posts from '@components/admin/index/Posts'
 	import Comments from '@components/admin/index/Comments'
 	import Reports from '@components/admin/index/Reports'
 	import Users from '@components/admin/index/Users'
 	import ButtonTabs from '@components/controls/ButtonTabs'
 	import router from '@router'
+	import AUserService from '@services/administration/UserService'
 
 	// [EXPORT] //
 	export default {
@@ -52,14 +53,33 @@
 				tabs: ['users', 'posts', 'comments', 'reports'],
 				activeTab: '',
 				error: '',
+				returned: {},
+				users: {},
 			}
 		},
 
 		created: async function() {
 			// [REDIRECT] Not Admin Log Required //
 			if (!localStorage.admintoken) { router.push({ name: 'a-login' }) }
+
+			await this.getData()
 		},
 
-		methods: { switchTab(tabClicked) { this.activeTab = tabClicked }, }
+		methods: {
+			switchTab(tabClicked) { this.activeTab = tabClicked },
+			
+			async getData() {
+				// Get Users //
+				try { this.returned = await AUserService.s_readAll() }
+				catch (err) { this.error = err }
+
+				if (this.returned.status) { this.users = this.returned.users }
+				else { this.error = this.returned.message }
+
+				console.log('sdfsd', this.returned)
+			},
+
+			async banUser(user_id) { await AUserService.s_banUser(user_id, 1) },
+		}
 	}
 </script>

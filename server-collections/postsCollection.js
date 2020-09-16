@@ -1,4 +1,4 @@
-/**
+ /**
  * %%%%%%%%%%%%%%%%%%%%%%%% *
  * %%% POSTS COLLECTION %%% *
  * %%%%%%%%%%%%%%%%%%%%%%%% *
@@ -53,17 +53,59 @@ const c_create = async (user_id, cat_id, title) => {
 }
 
 
-// [READ-ALL] Within Cat //
-const c_readAll = async (cat_id, skip, limit, sort) => {
-	// [INIT] //
-	let sort2
+// [READ-ALL-ALL] //
+const c_readAllAll = async (skip, limit) => {
+	// [VALIDATE] skip //
+	if (!validator.isNumeric(skip)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid skip (must be numeric)',
+		}
+	}
 
+	// [VALIDATE] limit //
+	if (!validator.isNumeric(limit)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid limit (must be numeric)',
+		}
+	}
+
+	try {
+		const posts = await PostModel.find()
+			.skip(parseInt(skip))
+			.limit(parseInt(limit))
+			.populate({
+				path: 'user',
+				select: 'username email profileImg',
+			})
+			.exec()
+
+		return {
+			executed: true,
+			status: true,
+			posts: posts
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postCollections: Error --> ${err}`,
+		}
+	}
+}
+
+
+// [READ-ALL] Within Cat //
+const c_readAll = async (cat_id, skip, limit) => {
 	// [VALIDATE] //
 	if (
 		!validator.isAscii(cat_id) &&
 		!validator.isAscii(skip) &&
-		!validator.isAscii(limit) &&
-		!validator.isAscii(sort)
+		!validator.isAscii(limit)
 	) {
 		return {
 			executed: true,
@@ -72,12 +114,8 @@ const c_readAll = async (cat_id, skip, limit, sort) => {
 		}
 	}
 
-	if (sort == 'descending') { sort2 = { createdAt: -1 } }
-	else if (sort == 'popularity') { sort2 = { likeCount: -1 } }
-
 	try {
-		const posts = await PostModel.find({ cat_id: cat_id })
-			.sort(sort2)
+		const posts = await PostModel.find({ cat_id })
 			.skip(parseInt(skip))
 			.limit(parseInt(limit))
 			.populate({ path: 'user', select: 'username email profileImg', })
@@ -131,6 +169,85 @@ const c_read = async (_id) => {
 			executed: false,
 			status: false,
 			message: `postsCollection: Error --> ${err}`
+		}
+	}
+}
+
+
+// [DELETE] //
+const c_delete = async (_id) => {
+	if (!mongoose.isValidObjectId(_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid post _id',
+			deleted: false,
+		}
+	}
+
+	try {
+		const deletedPost = await PostModel.findByIdAndDelete(_id)
+		
+		return {
+			executed: true,
+			status: true,
+			deleted: true,
+			deletedPost: deletedPost,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postCollections: Error --> ${err}`,
+			deleted: false,
+		}
+	}
+}
+
+
+/******************* [OTHER-CRUD] *******************/
+// [READ-ALL] Within Cat //
+const c_readAllSort = async (cat_id, skip, limit, sort) => {
+	// [INIT] //
+	let sort2
+
+	// [VALIDATE] //
+	if (
+		!validator.isAscii(cat_id) &&
+		!validator.isAscii(skip) &&
+		!validator.isAscii(limit) &&
+		!validator.isAscii(sort)
+	) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid params',
+		}
+	}
+
+	if (sort == 'descending') { sort2 = { createdAt: -1 } }
+	else if (sort == 'popularity') { sort2 = { likeCount: -1 } }
+
+	try {
+		const posts = await PostModel.find({ cat_id })
+			.sort(sort2)
+			.skip(parseInt(skip))
+			.limit(parseInt(limit))
+			.populate({ path: 'user', select: 'username email profileImg', })
+			.exec()
+
+		return {
+			executed: true,
+			status: true,
+			posts: posts,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postsCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -331,8 +448,11 @@ const c_countAll = async (cat_id) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
+	c_readAllAll,
 	c_readAll,
 	c_read,
+	c_delete,
+	c_readAllSort,
 	c_incrementLike,
 	c_decrementLike,
 	c_existance,

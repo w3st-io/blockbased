@@ -114,20 +114,19 @@
 				}
 			},
 
-			/******************* [INIT] Comments *******************/
 			async commentReadAll() {
 				let pageIndex = this.pageNumber - 1
 
 				// [READ] Comments //
 				try {
-					const returned = await CommentService.s_readAll(
+					this.returned = await CommentService.s_readAll(
 						this.post_id,
 						this.limit,
 						pageIndex
 					)
 
-					if (returned.status) { this.comments = returned.comments }
-					else { this.error = returned.message }
+					if (this.returned.status) { this.comments = this.returned.comments }
+					else { this.error = this.returned.message }
 				}
 				catch (err) { this.error = err }
 

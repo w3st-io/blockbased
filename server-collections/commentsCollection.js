@@ -348,6 +348,38 @@ const c_delete = async (_id, user_id) => {
 }
 
 
+/******************* [ADMIN-CRUD] *******************/
+// [ADMIN-DELETE] //
+const c_adminDelete = async (_id) => {
+	// [VALIDATE] //
+	if (!mongoose.isValidObjectId(_id)) {
+		return {
+			executed: true,
+			status: false,
+			message: 'Invalid comment _id',
+		}
+	}
+
+	try {
+		const deletedComment = await CommentModel.findOneAndRemove({ _id })
+
+		return {
+			executed: true,
+			status: true,
+			deleted: true,
+			deletedComment: deletedComment,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
 /******************* [OWNERSHIP] *******************/
 const c_ownership = async (_id, user_id) => {
 	// [VALIDATE] //
@@ -480,6 +512,7 @@ module.exports = {
 	c_read,
 	c_update,
 	c_delete,
+	c_adminDelete,
 	c_existance,
 	c_ownership,
 	c_countAll,

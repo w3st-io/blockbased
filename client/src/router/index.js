@@ -18,12 +18,12 @@ import Post from '@pages/post'
 import CommentCreate from '@pages/post/comment-create'
 import CommentEdit from '@pages/post/comment-edit'
 import Cat from '@pages/cat'
+import Profile from '@pages/profile'
+import Edit from '@pages/profile/edit'
+import View from '@pages/profile/view'
 import PostCreate from '@pages/cat/post-create'
 import home from '@pages'
 import Login from '@pages/user/login'
-import Profile from '@pages/user/profile'
-import Edit from '@pages/user/profile/edit'
-import View from '@pages/user/profile/view'
 import Verify from '@pages/user/verify'
 import Register from '@pages/user/register'
 import z from '@pages/z'
@@ -39,6 +39,7 @@ const router = new Router ({
 	mode: 'history',
 
 	routes: [
+		// [/] //
 		{
 			path: '/',
 			name: '/',
@@ -48,6 +49,8 @@ const router = new Router ({
 				title: 'BlockBased.io'
 			}
 		},
+
+		// [ADMIN] //
 		{
 			path: '/admin',
 			name: 'admin',
@@ -84,6 +87,8 @@ const router = new Router ({
 				title: 'Admin Register'
 			}
 		},
+
+		// [CAT] //
 		{
 			path: '/cat/:cat_id/:page',
 			name: 'cat',
@@ -102,6 +107,37 @@ const router = new Router ({
 				title: 'Create a Post'
 			}
 		},
+
+		// [PROFILE] //
+		{
+			path: '/profile',
+			name: 'profile',
+			component: Profile,
+			meta: {
+				auth: true,
+				title: 'Your Profile'
+			}
+		},
+		{
+			path: '/profile/edit',
+			name: 'edit',
+			component: Edit,
+			meta: {
+				auth: true,
+				title: 'Edit Your Profile'
+			}
+		},
+		{
+			path: '/profile/view/:user_id',
+			name: 'view',
+			component: View,
+			meta: {
+				auth: true,
+				title: ''
+			}
+		},
+
+		// [POST] //
 		{
 			path: '/post/:post_id/:page',
 			name: 'post',
@@ -129,6 +165,8 @@ const router = new Router ({
 				title: 'Edit Comment'
 			}
 		},
+
+		// [USER] //
 		{
 			path: '/user/login',
 			name: 'login',
@@ -136,33 +174,6 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Login'
-			}
-		},
-		{
-			path: '/user/profile',
-			name: 'profile',
-			component: Profile,
-			meta: {
-				auth: true,
-				title: 'Your Profile'
-			}
-		},
-		{
-			path: '/user/profile/edit',
-			name: 'edit',
-			component: Edit,
-			meta: {
-				auth: true,
-				title: 'Edit Your Profile'
-			}
-		},
-		{
-			path: '/user/profile/view/:user_id',
-			name: 'view',
-			component: View,
-			meta: {
-				auth: true,
-				title: ''
 			}
 		},
 		{
@@ -179,11 +190,15 @@ const router = new Router ({
 			name: 'verify',
 			component: Verify,
 		},
+
+		// [MISC.] //
 		{
 			path: '/z',
 			name: 'z',
 			component: z,
 		},
+
+		// [404] //
 		{
 			path: '/**',
 			name: '404',
