@@ -13,10 +13,10 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const rateLimiters = require('../../rate-limiters')
-const passwordRecoveriesCollection = require('../../server-collections/passwordRecoveriesCollection')
-const usersCollection = require('../../server-collections/usersCollection')
-const verificationCodesCollection = require('../../server-collections/verificationCodesCollection')
-const Auth = require('../../server-middleware/Auth')
+const passwordRecoveriesCollection = require('../../s-collections/passwordRecoveriesCollection')
+const usersCollection = require('../../s-collections/usersCollection')
+const verificationCodesCollection = require('../../s-collections/verificationCodesCollection')
+const Auth = require('../../s-middleware/Auth')
 const mailerUtil = require('../../utils/mailerUtil')
 
 

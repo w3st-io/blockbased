@@ -10,8 +10,8 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const banCollection = require('../server-collections/banCollection')
-const usersCollection = require('../server-collections/usersCollection')
+const banCollection = require('../s-collections/banCollection')
+const usersCollection = require('../s-collections/usersCollection')
 require('dotenv').config()
 
 

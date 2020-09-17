@@ -10,7 +10,7 @@ const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
-const usersCollection = require('../../../server-collections/usersCollection')
+const usersCollection = require('../../../s-collections/usersCollection')
 
 
 // [EXPRESS + USE] //

@@ -37,8 +37,6 @@
 					this.user_id,
 					this.verificationCode
 				)
-
-				console.log('data', this.data)
 			}
 			catch (err) { this.error = err }
 

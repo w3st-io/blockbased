@@ -11,9 +11,9 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const postsCollection = require('../../../server-collections/postsCollection')
-const postLikesCollection = require('../../../server-collections/postLikesCollection')
-const Auth = require('../../../server-middleware/Auth')
+const postsCollection = require('../../../s-collections/postsCollection')
+const postLikesCollection = require('../../../s-collections/postLikesCollection')
+const Auth = require('../../../s-middleware/Auth')
 
 
 // [EXPRESS + USE] //

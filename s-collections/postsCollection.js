@@ -9,7 +9,7 @@ const validator = require('validator')
 
 
 // [REQUIRE] //
-const PostModel = require('../server-models/PostModel')
+const PostModel = require('../s-models/PostModel')
 
 
 /******************* [CRUD] *******************/
@@ -465,7 +465,6 @@ const c_ownership = async (_id, user_id) => {
 const c_countAll = async (cat_id) => {
 	// [VALIDATE] cat_id //
 	if (!validator.isAscii(cat_id)) {
-		console.log(cat_id);
 		return {
 			executed: true,
 			status: false,

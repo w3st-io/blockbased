@@ -95,7 +95,7 @@ async function sendVerificationMail(to, user_id, VCode) {
 		subject: 'Verify Your BlockBased.io Account',
 		html: `
 			<h1>Thank you creating an account! Verify & Join us!<h1/>
-			<a href="${base_url}/verify/${user_id}/${VCode}">
+			<a href="${base_url}/user/verify/${user_id}/${VCode}">
 				<button>Click to Verify</button>
 			</a>
 		`

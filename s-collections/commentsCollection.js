@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
-const CommentModel = require('../server-models/CommentModel')
+const CommentModel = require('../s-models/CommentModel')
 
 
 /******************* [CRUD] *******************/

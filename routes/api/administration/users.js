@@ -11,9 +11,9 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const usersCollection = require('../../../server-collections/usersCollection')
-const banCollection = require('../../../server-collections/banCollection')
-const Auth = require('../../../server-middleware/Auth')
+const usersCollection = require('../../../s-collections/usersCollection')
+const banCollection = require('../../../s-collections/banCollection')
+const Auth = require('../../../s-middleware/Auth')
 
 
 // [EXPRESS + USE] //

@@ -9,11 +9,11 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const commentsCollection = require('../../../server-collections/commentsCollection')
-const postsCollection = require('../../../server-collections/postsCollection')
-const usersCollection = require('../../../server-collections/usersCollection')
-const commentReportsCollection = require('../../../server-collections/commentReportsCollection')
-const Auth = require('../../../server-middleware/Auth')
+const commentsCollection = require('../../../s-collections/commentsCollection')
+const postsCollection = require('../../../s-collections/postsCollection')
+const usersCollection = require('../../../s-collections/usersCollection')
+const commentReportsCollection = require('../../../s-collections/commentReportsCollection')
+const Auth = require('../../../s-middleware/Auth')
 
 
 // [EXPRESS + USE] //
@@ -44,7 +44,7 @@ router.get(
 			res.status(201).send({
 				executed: false,
 				status: false,
-				message: `/page/admin/index: Error --> ${err}`
+				message: `/pages/admin: Error --> ${err}`
 			})
 		}
 	}

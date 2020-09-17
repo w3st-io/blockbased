@@ -11,11 +11,11 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const postsCollection = require('../../../server-collections/postsCollection')
-const postFollowersCollection = require('../../../server-collections/postFollowersCollection')
-const postLikesCollection = require('../../../server-collections/postLikesCollection')
-const commentsCollection = require('../../../server-collections/commentsCollection')
-const Auth = require('../../../server-middleware/Auth')
+const postsCollection = require('../../../s-collections/postsCollection')
+const postFollowersCollection = require('../../../s-collections/postFollowersCollection')
+const postLikesCollection = require('../../../s-collections/postLikesCollection')
+const commentsCollection = require('../../../s-collections/commentsCollection')
+const Auth = require('../../../s-middleware/Auth')
 
 
 // [EXPRESS + USE] //

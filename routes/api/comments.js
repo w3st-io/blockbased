@@ -14,13 +14,13 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const rateLimiter = require('../../rate-limiters')
-const postsCollection = require('../../server-collections/postsCollection')
-const postFollowersCollection = require('../../server-collections/postFollowersCollection')
-const commentsCollection = require('../../server-collections/commentsCollection')
-const commentLikesCollection = require('../../server-collections/commentLikesCollection')
-const commentReportsCollection = require('../../server-collections/commentReportsCollection')
-const notificationsCollection = require('../../server-collections/notificationsCollection')
-const Auth = require('../../server-middleware/Auth')
+const postsCollection = require('../../s-collections/postsCollection')
+const postFollowersCollection = require('../../s-collections/postFollowersCollection')
+const commentsCollection = require('../../s-collections/commentsCollection')
+const commentLikesCollection = require('../../s-collections/commentLikesCollection')
+const commentReportsCollection = require('../../s-collections/commentReportsCollection')
+const notificationsCollection = require('../../s-collections/notificationsCollection')
+const Auth = require('../../s-middleware/Auth')
 
 
 // [EXPRESS + USE] //

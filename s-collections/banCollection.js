@@ -9,7 +9,7 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const BanModel = require('../server-models/BanModel')
+const BanModel = require('../s-models/BanModel')
 
 
 /******************* [CRUD] *******************/

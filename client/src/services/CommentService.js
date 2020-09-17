@@ -75,7 +75,6 @@ async function s_read(comment_id) {
 			data.comment.createdAt = new Date(data.comment.createdAt).toLocaleString()
 		}
 
-		console.log('CommentService: data:', data)
 		return data
 	}
 	catch (err) {
@@ -93,9 +92,7 @@ async function s_update(comment_id, text) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const { data } = await authAxios.post(`/update/${comment_id}`,
-			{ text }
-		)
+		const { data } = await authAxios.post(`/update/${comment_id}`, { text })
 
 		return data
 	}

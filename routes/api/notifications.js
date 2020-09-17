@@ -11,8 +11,8 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const notificationsCollection = require('../../server-collections/notificationsCollection')
-const Auth = require('../../server-middleware/Auth')
+const notificationsCollection = require('../../s-collections/notificationsCollection')
+const Auth = require('../../s-middleware/Auth')
 
 
 // [EXPRESS + USE] //

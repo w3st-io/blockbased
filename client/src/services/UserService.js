@@ -123,8 +123,6 @@ async function register(username, email, password) {
 			password,
 		})
 
-		console.log('data', data)
-
 		return data
 	}
 	catch (err) {

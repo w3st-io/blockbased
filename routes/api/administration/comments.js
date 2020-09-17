@@ -11,10 +11,10 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const commentsCollection = require('../../../server-collections/commentsCollection')
-const commentLikesCollection = require('../../../server-collections/commentLikesCollection')
-const notificationsCollection = require('../../../server-collections/notificationsCollection')
-const Auth = require('../../../server-middleware/Auth')
+const commentsCollection = require('../../../s-collections/commentsCollection')
+const commentLikesCollection = require('../../../s-collections/commentLikesCollection')
+const notificationsCollection = require('../../../s-collections/notificationsCollection')
+const Auth = require('../../../s-middleware/Auth')
 
 
 // [EXPRESS + USE] //

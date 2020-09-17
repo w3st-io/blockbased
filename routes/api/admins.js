@@ -11,7 +11,7 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const rateLimiters = require('../../rate-limiters')
-const adminsCollection = require('../../server-collections/adminsCollection')
+const adminsCollection = require('../../s-collections/adminsCollection')
 
 
 // [EXPRESS + USE] //

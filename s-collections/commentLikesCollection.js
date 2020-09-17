@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
-const CommentLikeModel = require('../server-models/CommetLikeModel')
+const CommentLikeModel = require('../s-models/CommetLikeModel')
 
 
 /******************* [CRUD] *******************/
@@ -92,7 +92,6 @@ const c_delete = async (user_id, comment_id) => {
 	}
 
 	try {
-		console.log(user_id, comment_id)
 		const commentLike = await CommentLikeModel.deleteMany({
 			user: user_id,
 			comment: comment_id,

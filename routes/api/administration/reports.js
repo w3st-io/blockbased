@@ -10,8 +10,8 @@ const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
-const commentReportsCollection = require('../../../server-collections/commentReportsCollection')
-const Auth = require('../../../server-middleware/Auth')
+const commentReportsCollection = require('../../../s-collections/commentReportsCollection')
+const Auth = require('../../../s-middleware/Auth')
 
 
 // [EXPRESS + USE] //

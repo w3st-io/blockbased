@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
-const PostFollowerModel = require('../server-models/PostFollowerModel')
+const PostFollowerModel = require('../s-models/PostFollowerModel')
 
 
 /******************* [CRUD] *******************/

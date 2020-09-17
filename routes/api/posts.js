@@ -13,11 +13,11 @@ require('dotenv').config()
 
 // [REQUIRE] Personal //
 const rateLimiter = require('../../rate-limiters')
-const postsCollection = require('../../server-collections/postsCollection')
-const postFollowersCollection = require('../../server-collections/postFollowersCollection')
-const postLikesCollection = require('../../server-collections/postLikesCollection')
-const commentsCollection = require('../../server-collections/commentsCollection')
-const Auth = require('../../server-middleware/Auth')
+const postsCollection = require('../../s-collections/postsCollection')
+const postFollowersCollection = require('../../s-collections/postFollowersCollection')
+const postLikesCollection = require('../../s-collections/postLikesCollection')
+const commentsCollection = require('../../s-collections/commentsCollection')
+const Auth = require('../../s-middleware/Auth')
 
 
 // [EXPRESS + USE] //
@@ -77,87 +77,62 @@ router.get(
 			Number.isInteger(parseInt(req.params.skip)) &&
 			Number.isInteger(parseInt(req.params.limit))
 		) {
-			let returned = await postsCollection.c_readAll(
+			const postsObj = await postsCollection.c_readAll(
 				req.params.cat_id,
 				parseInt(req.params.skip),
 				parseInt(req.params.limit),
 				req.params.sort,
 			)
 			
-			if (returned.status) {
+			if (postsObj.status) {
 				// For Each Post in Posts //
-				for (let i = 0; i < returned.posts.length; i++) {
-					// Like Count //
-					const likeCount = await postLikesCollection.c_countAll(
-						returned.posts[i]._id
-					)
-		
-					if (likeCount.status) {
-						returned.posts[i].likeCount = likeCount.count
-					}	
-					else { returned.posts[i].likeCount = likeCount.message }
-		
+				for (let i = 0; i < postsObj.posts.length; i++) {
+					// [LIKE-COUNT] //
+					postsObj.posts[i].likeCount = (
+						await postLikesCollection.c_countAll(postsObj.posts[i]._id)
+					).count
 					
-					// Follow Count //
-					const followersCount = await postFollowersCollection.c_countAll(
-						returned.posts[i]._id
-					)
-					
-					if (followersCount.status) {
-						returned.posts[i].followersCount = followersCount.count
-					}
-					else { returned.posts[i].followersCount = followersCount.message }
+					// [FOLLOW-COUNT] //
+					postsObj.posts[i].followersCount = (
+						await postFollowersCollection.c_countAll(postsObj.posts[i]._id)
+					).count
 		
 					
-					// Comment Count //
-					const commentCount = await commentsCollection.c_countAll(
-						returned.posts[i]._id
-					)
-					
-					if (commentCount.status) {
-						returned.posts[i].commentCount = commentCount.count
-					}
-					else { returned.posts[i].commentCount = commentCount.message }
-		
-					
-					// Post Count //
-					const postsCount = await postsCollection.c_countAll(req.params.cat_id)
-		
-					if (postsCount.status) {
-						returned.postCount = postsCount.count
-						
-						// Page Count //
-						returned.pageCount = Math.ceil(postsCount.count / req.params.limit)
-					}
-					else { returned.posts[i].postsCount = postsCount.message }
-
+					// [COMMENT-COUNT] //
+					postsObj.posts[i].commentCount = (
+						await commentsCollection.c_countAll(postsObj.posts[i]._id)
+					).count
 
 					// If User Token Passed.. //
 					if (req.decoded) {
-						// Liked Status //
-						const liked = await postLikesCollection.c_existance(
-							req.decoded._id,
-							returned.posts[i]._id
-						)
+						// [LIKED-STATUS] //
+						postsObj.posts[i].liked = (
+							await postLikesCollection.c_existance(
+								req.decoded._id,
+								postsObj.posts[i]._id
+							)
+						).existance
 		
-						if (liked.status) { returned.posts[i].liked = liked.existance }
-						else { returned.posts[i].liked = liked.message }
-		
-						// Follwed Status //
-						const followed = await postFollowersCollection.c_existance(
-							req.decoded._id,
-							returned.posts[i]._id
-						)
-						
-						if (followed.status) {
-							returned.posts[i].followed = followed.existance
-						}
-						else { returned.posts[i].followed = followed.message }
+						// [FOLLOW-STATUS] //
+						postsObj.posts[i].followed = (
+							await postFollowersCollection.c_existance(
+								req.decoded._id,
+								postsObj.posts[i]._id
+							)
+						).existance
 					}
 				}
+
+				// Post Count //
+				postsObj.postCount = (
+					await postsCollection.c_countAll(req.params.cat_id)
+				).count
+				
+				// Page Count //
+				postsObj.pageCount = Math.ceil(postsCount.count / req.params.limit)
 			}
 
-			res.status.send(returned)
+			res.status.send(postsObj)
 		}
 		else {
 			res.status(200).send({
@@ -177,50 +152,52 @@ router.get(
 	async (req, res) => {
 		// [VALIDATE] //
 		if (mongoose.isValidObjectId(req.params._id)) {
-			let returned = await postsCollection.c_read(req.params._id)
-			
-			if (returned.status) {
-				// Set Like Count //
-				try {
-					const count = await postLikesCollection.c_countAll(
-						returned.post._id
-					)
-	
-					returned.post.likeCount = count.count
+			let postObj
+
+			try {
+				postObj = await postsCollection.c_read(req.params._id)
+				
+				if (postObj.status) {
+					// [LIKE-COUNT] //
+					postObj.post.likeCount = (
+						await postLikesCollection.c_countAll(postObj.post._id)
+					).count
+		
+					// [FOLLOW-COUNT] //
+					postObj.post.followersCount = (
+						await postFollowersCollection.c_countAll(postObj.post._id)
+					).count
+
+					// [USER-LOGGED] //
+					if (req.decoded) {
+						// [LIKED-STATUS] //
+						postObj.post.liked = (
+							await postLikesCollection.c_existance(
+								req.decoded._id,
+								postObj.post._id
+							)
+						).existance
+		
+						// [FOLLOWED-STATUS] //
+						postObj.post.followed = (
+							await postFollowersCollection.c_existance(
+								req.decoded._id,
+								postObj.post._id
+							)
+						).existance
+					}
 				}
-				catch (err) { console.log(`posts: Error --> ${err}`) }
-	
-				// Follow Count //
-				try {
-					const count = await postFollowersCollection.c_countAll(
-						returned.post._id
-					)
-	
-					returned.post.followersCount = count.count
-				}
-				catch (err) { console.log(`posts: Error --> ${err}`) }
-	
-				// If User Logged In.. //
-				if (req.decoded) {
-					// Liked Status //
-					const liked = await postLikesCollection.c_existance(
-						req.decoded._id,
-						returned.post._id
-					)
-	
-					returned.post.liked = liked.existance
-	
-					// Follwed Status //
-					const followed = await postFollowersCollection.c_existance(
-						req.decoded._id,
-						returned.post._id
-					)
-	
-					returned.post.followed = followed.existance
+
+			}
+			catch (err) {
+				postObj = {
+					executed: false,
+					status: false,
+					message: `posts: Error --> ${err}`
 				}
 			}
 
-			res.status(200).send(returned)
+			res.status(200).send(postObj)
 		}
 		else {
 			res.status(200).send({
@@ -252,7 +229,7 @@ router.delete(
 				res.status(200).send({
 					executed: true,
 					status: true,
-					delete: [returned, returned2]
+					deleted: [returned, returned2]
 				})
 				
 			}
@@ -280,87 +257,62 @@ router.get(
 			Number.isInteger(parseInt(req.params.skip)) &&
 			Number.isInteger(parseInt(req.params.limit))
 		) {
-			let returned = await postsCollection.c_readAll(
+			const postsObj = await postsCollection.c_readAll(
 				req.params.cat_id,
 				parseInt(req.params.skip),
 				parseInt(req.params.limit),
 				req.params.sort,
 			)
 			
-			if (returned.status) {
+			if (postsObj.status) {
 				// For Each Post in Posts //
-				for (let i = 0; i < returned.posts.length; i++) {
-					// Like Count //
-					const likeCount = await postLikesCollection.c_countAll(
-						returned.posts[i]._id
-					)
-		
-					if (likeCount.status) {
-						returned.posts[i].likeCount = likeCount.count
-					}	
-					else { returned.posts[i].likeCount = likeCount.message }
-		
+				for (let i = 0; i < postsObj.posts.length; i++) {
+					// [LIKE-COUNT] //
+					postsObj.posts[i].likeCount = (
+						await postLikesCollection.c_countAll(postsObj.posts[i]._id)
+					).count
 					
-					// Follow Count //
-					const followersCount = await postFollowersCollection.c_countAll(
-						returned.posts[i]._id
-					)
-					
-					if (followersCount.status) {
-						returned.posts[i].followersCount = followersCount.count
-					}
-					else { returned.posts[i].followersCount = followersCount.message }
+					// [FOLLOW-COUNT] //
+					postsObj.posts[i].followersCount = (
+						await postFollowersCollection.c_countAll(postsObj.posts[i]._id)
+					).count
 		
 					
-					// Comment Count //
-					const commentCount = await commentsCollection.c_countAll(
-						returned.posts[i]._id
-					)
-					
-					if (commentCount.status) {
-						returned.posts[i].commentCount = commentCount.count
-					}
-					else { returned.posts[i].commentCount = commentCount.message }
-		
-					
-					// Post Count //
-					const postsCount = await postsCollection.c_countAll(req.params.cat_id)
-		
-					if (postsCount.status) {
-						returned.postCount = postsCount.count
-						
-						// Page Count //
-						returned.pageCount = Math.ceil(postsCount.count / req.params.limit)
-					}
-					else { returned.posts[i].postsCount = postsCount.message }
-
+					// [COMMENT-COUNT] //
+					postsObj.posts[i].commentCount = (
+						await commentsCollection.c_countAll(postsObj.posts[i]._id)
+					).count
 
 					// If User Token Passed.. //
 					if (req.decoded) {
-						// Liked Status //
-						const liked = await postLikesCollection.c_existance(
-							req.decoded._id,
-							returned.posts[i]._id
-						)
+						// [LIKED-STATUS] //
+						postsObj.posts[i].liked = (
+							await postLikesCollection.c_existance(
+								req.decoded._id,
+								postsObj.posts[i]._id
+							)
+						).existance
 		
-						if (liked.status) { returned.posts[i].liked = liked.existance }
-						else { returned.posts[i].liked = liked.message }
-		
-						// Follwed Status //
-						const followed = await postFollowersCollection.c_existance(
-							req.decoded._id,
-							returned.posts[i]._id
-						)
-						
-						if (followed.status) {
-							returned.posts[i].followed = followed.existance
-						}
-						else { returned.posts[i].followed = followed.message }
+						// [FOLLOW-STATUS] //
+						postsObj.posts[i].followed = (
+							await postFollowersCollection.c_existance(
+								req.decoded._id,
+								postsObj.posts[i]._id
+							)
+						).existance
 					}
 				}
+
+				// Post Count //
+				postsObj.postCount = (
+					await postsCollection.c_countAll(req.params.cat_id)
+				).count
+				
+				// Page Count //
+				postsObj.pageCount = Math.ceil(postsCount.count / req.params.limit)
 			}
 
-			res.status.send(returned)
+			res.status.send(postsObj)
 		}
 		else {
 			res.status(200).send({

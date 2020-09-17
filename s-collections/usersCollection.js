@@ -12,7 +12,7 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const UserModel = require('../server-models/UserModel')
+const UserModel = require('../s-models/UserModel')
 
 
 // [INIT] //
