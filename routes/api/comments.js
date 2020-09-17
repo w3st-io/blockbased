@@ -95,7 +95,7 @@ router.post(
 )
 
 
-// [READ-ALL] //
+// [READ-ALL] Within Post //
 router.get(
 	'/read-all/:post_id/:limit/:skip',
 	Auth.userTokenNotRequired(),

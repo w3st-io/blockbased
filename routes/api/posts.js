@@ -157,7 +157,7 @@ router.get(
 				}
 			}
 
-			res.status(200).send(returned)
+			res.status.send(returned)
 		}
 		else {
 			res.status(200).send({
@@ -268,8 +268,111 @@ router.delete(
 	},
 )
 
+/******************* [OTHER-CURD] *******************/
+// [READ-ALL] Within Cat //
+router.get(
+	'/read-all-detailed/:cat_id/:limit/:skip',
+	Auth.userTokenNotRequired(),
+	async (req, res) => {
+		// [VALIDATE] //
+		if (
+			validator.isAscii(req.params.cat_id) &&
+			Number.isInteger(parseInt(req.params.skip)) &&
+			Number.isInteger(parseInt(req.params.limit))
+		) {
+			let returned = await postsCollection.c_readAll(
+				req.params.cat_id,
+				parseInt(req.params.skip),
+				parseInt(req.params.limit),
+				req.params.sort,
+			)
+			
+			if (returned.status) {
+				// For Each Post in Posts //
+				for (let i = 0; i < returned.posts.length; i++) {
+					// Like Count //
+					const likeCount = await postLikesCollection.c_countAll(
+						returned.posts[i]._id
+					)
+		
+					if (likeCount.status) {
+						returned.posts[i].likeCount = likeCount.count
+					}	
+					else { returned.posts[i].likeCount = likeCount.message }
+		
+					
+					// Follow Count //
+					const followersCount = await postFollowersCollection.c_countAll(
+						returned.posts[i]._id
+					)
+					
+					if (followersCount.status) {
+						returned.posts[i].followersCount = followersCount.count
+					}
+					else { returned.posts[i].followersCount = followersCount.message }
+		
+					
+					// Comment Count //
+					const commentCount = await commentsCollection.c_countAll(
+						returned.posts[i]._id
+					)
+					
+					if (commentCount.status) {
+						returned.posts[i].commentCount = commentCount.count
+					}
+					else { returned.posts[i].commentCount = commentCount.message }
+		
+					
+					// Post Count //
+					const postsCount = await postsCollection.c_countAll(req.params.cat_id)
+		
+					if (postsCount.status) {
+						returned.postCount = postsCount.count
+						
+						// Page Count //
+						returned.pageCount = Math.ceil(postsCount.count / req.params.limit)
+					}
+					else { returned.posts[i].postsCount = postsCount.message }
 
-/******************* [LIKE SYSTEM] *******************/
+
+					// If User Token Passed.. //
+					if (req.decoded) {
+						// Liked Status //
+						const liked = await postLikesCollection.c_existance(
+							req.decoded._id,
+							returned.posts[i]._id
+						)
+		
+						if (liked.status) { returned.posts[i].liked = liked.existance }
+						else { returned.posts[i].liked = liked.message }
+		
+						// Follwed Status //
+						const followed = await postFollowersCollection.c_existance(
+							req.decoded._id,
+							returned.posts[i]._id
+						)
+						
+						if (followed.status) {
+							returned.posts[i].followed = followed.existance
+						}
+						else { returned.posts[i].followed = followed.message }
+					}
+				}
+			}
+
+			res.status.send(returned)
+		}
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'posts: Invalid Params'
+			})
+		}
+	}
+)
+
+/******************* [LIKE-SYSTEM] *******************/
 // [LIKE] Auth Required //
 router.post(
 	'/like/:_id',

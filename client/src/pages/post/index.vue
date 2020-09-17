@@ -59,6 +59,7 @@
 	import TitleHeader from '@components/post/TitleHeader'
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
+	import PageService from '@services/PageService'
 	import PostService from '@services/PostService'
 	import CommentService from '@services/CommentService'
 	import { EventBus } from '@main'
@@ -103,6 +104,21 @@
 		},
 
 		methods: {
+			async getInitialData() {
+				try { this.returned = await PageService.s_read(this.post_id) }
+				catch (err) { this.error = err }
+
+				if (this.returned.status) {
+					console.log()
+					//this.post = this.returned.post
+				}
+				else {
+					console.log()
+					// this.error = this.returned.message
+					// this.loading = false
+				}
+			},
+
 			async postRead() {				
 				try { this.returned = await PostService.s_read(this.post_id) }
 				catch (err) { this.error = err }

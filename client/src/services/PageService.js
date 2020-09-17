@@ -74,12 +74,14 @@ async function s_post(post_id, limit, pageNumber) {
 	try {
 		let { data } = await authAxios.get(`/read-all/${post_id}/${limit}/${skip}`)
 
+		/*
 		if (data.status) {
-			data.comments.forEach(comment => {
+			data.comments.comments.forEach(comment => {
 				comment.createdAt = new Date(comment.createdAt).toLocaleString()
 			})
 		}
-
+		*/
+		
 		return data
 	}
 	catch (err) {
@@ -111,7 +113,6 @@ async function s_profile() {
 }
 
 
-// [POST] //
 async function s_profile_view(user_id) {
 	const authAxios = await this.authAxios()
 	
@@ -130,7 +131,6 @@ async function s_profile_view(user_id) {
 		}
 	}
 }
-
 
 
 // [EXPORT] //

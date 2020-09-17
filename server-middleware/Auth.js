@@ -1,3 +1,4 @@
+const e = require('express')
 /**
  * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
  * %%% AUTHORIZATION MIDDLEWARE %%% *
@@ -23,56 +24,66 @@ class Auth {
 	static userToken() {
 		return (req, res, next) => {
 			// [INIT] //
-			const token = req.headers.authorization
-			
-			// [SLICE] "Bearer " //
-			const tokenBody = token.slice(7)
+			const token = req.headers.authorization	
 
 			// If a token exists => Validate JWT //
-			if (token && validator.isJWT(tokenBody)) {
-				// [VERIFY] tokenBody //
-				jwt.verify(tokenBody, secretKey, async (err, decoded) => {
-					if (decoded) {
-						// [INIT] //
-						req.decoded = decoded
+			if (token) {
+				// [SLICE] "Bearer " //
+				const tokenBody = token.slice(7)
 
-						try {
-							// Check verified //
-							const verified = await usersCollection.c_verifiedStatus(
-								req.decoded._id
-							)
+				if (validator.isJWT(tokenBody)) {
+					// [VERIFY] tokenBody //
+					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
+						if (decoded) {
+							// [INIT] //
+							req.decoded = decoded
 
-							if (verified.status) {
-								// Check Ban //
-								const ban = await banCollection.c_existance(req.decoded._id)
+							try {
+								// Check verified //
+								const verified = await usersCollection.c_verifiedStatus(
+									req.decoded._id
+								)
 
-								next()
+								if (verified.status) {
+									// Check Ban //
+									const ban = await banCollection.c_existance(req.decoded._id)
+
+									next()
+								}
+								else { res.status(200).send(verified) }
 							}
-							else { res.status(200).send(verified) }
+							catch (err) {
+								res.status(200).send({
+									executed: false,
+									status: false,
+									message: `Auth: Error --> ${err}`
+								})
+							}
 						}
-						catch (err) {
+						else {
 							res.status(200).send({
-								executed: false,
+								executed: true,
 								status: false,
-								message: `Auth: Error --> ${err}`
+								message: `Access denied: JWT Error --> ${err}`,
+								auth: false,
 							})
 						}
-					}
-					else {
-						res.status(200).send({
-							executed: true,
-							status: false,
-							message: `Access denied: JWT Error --> ${err}`,
-							auth: false,
-						})
-					}
-				})
+					})
+				}
+				else {
+					res.status(200).send({
+						executed: true,
+						status: false,
+						message: 'Access denied: Not valid JWT',
+						auth: false,
+					})
+				}
 			}
 			else {
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'Access denied: No token passed OR not valid JWT',
+					message: 'Access denied: No token passed',
 					auth: false,
 				})
 			}
@@ -85,41 +96,51 @@ class Auth {
 		return (req, res, next) => {
 			// [INIT] //
 			const token = req.headers.authorization2
-			
-			// [SLICE] "Bearer " //
-			const tokenBody = token.slice(7)
 
 			// If a token exists =>  Validate JWT //
-			if (token && validator.isJWT(tokenBody)) {
-				// [VERIFY] tokenBody //
-				jwt.verify(tokenBody, secretKey, async (err, decoded) => {
-					if (decoded) {
-						// Check if the role is admin
-						if (decoded.role == 'admin') { next() }
+			if (token) {
+				// [SLICE] "Bearer " //
+				const tokenBody = token.slice(7)
+
+				if (validator.isJWT(tokenBody)) {
+					// [VERIFY] tokenBody //
+					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
+						if (decoded) {
+							// Check if the role is admin
+							if (decoded.role == 'admin') { next() }
+							else {
+								res.status(200).send({
+									executed: true,
+									status: false,
+									message: 'Access Denied: Invalid Token',
+									auth: false,
+								})
+							}
+						}
 						else {
 							res.status(200).send({
 								executed: true,
 								status: false,
-								message: 'Access Denied: Invalid Token',
+								message: `Access Denied: JWT Error --> ${err}`,
 								auth: false,
 							})
 						}
-					}
-					else {
-						res.status(200).send({
-							executed: true,
-							status: false,
-							message: `Access Denied: JWT Error --> ${err}`,
-							auth: false,
-						})
-					}
-				})
+					})
+				}
+				else {
+					res.status(200).send({
+						executed: true,
+						status: false,
+						message: 'Access denied: Not valid JWT',
+						auth: false,
+					})
+				}
 			}
 			else {
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'Access denied: No token passed OR not valid JWT',
+					message: 'Access denied: No token passed',
 					auth: false,
 				})
 			}
@@ -133,15 +154,17 @@ class Auth {
 			// [INIT] //
 			const token = req.headers.authorization
 
-			// [SLICE] "Bearer " //
-			const tokenBody = token.slice(7)
+			if (token) {
+				// [SLICE] "Bearer " //
+				const tokenBody = token.slice(7)
 
-			// If a token exists => Validate JWT //
-			if (tokenBody !== 'undefined') {
-				jwt.verify(tokenBody, secretKey, async (err, decoded) => {
-					if (decoded) { req.decoded = decoded }
-					else { console.log('JWT Verify:', err) }
-				})
+				// If a token exists => Validate JWT //
+				if (tokenBody !== 'undefined') {
+					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
+						if (decoded) { req.decoded = decoded }
+						else { console.log('JWT Verify:', err) }
+					})
+				}
 			}
 			
 			// Since token is not required move on anyways
