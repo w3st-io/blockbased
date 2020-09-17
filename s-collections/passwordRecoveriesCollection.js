@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
-const PasswordRecoveryModel = require('../server-models/PasswordRecoveryModel')
+const PasswordRecoveryModel = require('../s-models/PasswordRecoveryModel')
 
 
 /******************* [CRUD] *******************/

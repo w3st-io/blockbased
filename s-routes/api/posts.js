@@ -12,7 +12,7 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const rateLimiter = require('../../rate-limiters')
+const rateLimiter = require('../../s-rate-limiters')
 const postsCollection = require('../../s-collections/postsCollection')
 const postFollowersCollection = require('../../s-collections/postFollowersCollection')
 const postLikesCollection = require('../../s-collections/postLikesCollection')
@@ -303,12 +303,12 @@ router.get(
 					}
 				}
 
-				// Post Count //
+				// [POST-COUNT] //
 				postsObj.postCount = (
 					await postsCollection.c_countAll(req.params.cat_id)
 				).count
 				
-				// Page Count //
+				// [PAGE-COUNT] //
 				postsObj.pageCount = Math.ceil(postsCount.count / req.params.limit)
 			}
 

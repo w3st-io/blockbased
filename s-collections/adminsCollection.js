@@ -12,7 +12,7 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const AdminModel = require('../server-models/AdminModel')
+const AdminModel = require('../s-models/AdminModel')
 
 
 // [INIT] //

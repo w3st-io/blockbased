@@ -25,7 +25,7 @@
 			<post-list
 				v-if="!loading"
 				:posts="posts"
-				@refreshPosts="postsReadAll()"
+				@refreshPosts="getData()"
 			/>
 
 			<!-- [DEFAULT] If No content -->
@@ -106,11 +106,11 @@
 					this.$route.params.tab = 1
 				}
 
-				this.postsReadAll()
+				this.getData()
 			},
 
 			/******************* [INIT] Post *******************/
-			async postsReadAll() {
+			async getData() {
 				let sort = ''
 				let pageIndex = this.pageNumber - 1
 
@@ -139,7 +139,7 @@
 					this.loading = true
 					this.pageNumber--
 
-					this.postsReadAll()
+					this.getData()
 					
 					// [REDIRECT] Cat Page //
 					router.push({
@@ -158,7 +158,7 @@
 					this.loading = true
 					this.pageNumber++
 
-					this.postsReadAll()
+					this.getData()
 					
 					// [REDIRECT] Cat Page //
 					router.push({

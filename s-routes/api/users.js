@@ -12,12 +12,12 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const rateLimiters = require('../../rate-limiters')
+const rateLimiters = require('../../s-rate-limiters')
 const passwordRecoveriesCollection = require('../../s-collections/passwordRecoveriesCollection')
 const usersCollection = require('../../s-collections/usersCollection')
 const verificationCodesCollection = require('../../s-collections/verificationCodesCollection')
 const Auth = require('../../s-middleware/Auth')
-const mailerUtil = require('../../utils/mailerUtil')
+const mailerUtil = require('../../s-utils/mailerUtil')
 
 
 // [EXPRESS + USE] //

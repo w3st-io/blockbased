@@ -13,7 +13,7 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal //
-const rateLimiter = require('../../rate-limiters')
+const rateLimiter = require('../../s-rate-limiters')
 const postsCollection = require('../../s-collections/postsCollection')
 const postFollowersCollection = require('../../s-collections/postFollowersCollection')
 const commentsCollection = require('../../s-collections/commentsCollection')

@@ -15,24 +15,24 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal - API - Pages - Utils //
-const admininstrationPosts = require('./routes/api/administration/posts')
-const admininstrationComments = require('./routes/api/administration/comments')
-const admininstrationReports = require('./routes/api/administration/reports')
-const admininstrationUsers = require('./routes/api/administration/users')
-const admins = require('./routes/api/admins')
-const posts = require('./routes/api/posts')
-const comments = require('./routes/api/comments')
-const rateLimiter = require('./rate-limiters')
-const notifications = require('./routes/api/notifications')
-const users = require('./routes/api/users')
+const admininstrationPosts = require('./s-routes/api/administration/posts')
+const admininstrationComments = require('./s-routes/api/administration/comments')
+const admininstrationReports = require('./s-routes/api/administration/reports')
+const admininstrationUsers = require('./s-routes/api/administration/users')
+const admins = require('./s-routes/api/admins')
+const posts = require('./s-routes/api/posts')
+const comments = require('./s-routes/api/comments')
+const rateLimiter = require('./s-rate-limiters')
+const notifications = require('./s-routes/api/notifications')
+const users = require('./s-routes/api/users')
 
-const p_admin = require('./routes/pages/admin')
-const p_cat = require('./routes/pages/cat')
-const p_post = require('./routes/pages/post')
-const p_profile = require('./routes/pages/profile')
-const p_profile_view = require('./routes/pages/profile/view')
+const p_admin = require('./s-routes/pages/admin')
+const p_cat = require('./s-routes/pages/cat')
+const p_post = require('./s-routes/pages/post')
+const p_profile = require('./s-routes/pages/profile')
+const p_profile_view = require('./s-routes/pages/profile/view')
 
-const userUtils = require('./utils/userUtils')
+const userUtils = require('./s-utils/userUtils')
 
 
 // [INIT] Const //

@@ -9,7 +9,7 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const VerificationCodeModel = require('../server-models/VerificationCodeModel')
+const VerificationCodeModel = require('../s-models/VerificationCodeModel')
 
 
 /******************* [CRUD] *******************/

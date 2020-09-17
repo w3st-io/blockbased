@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
-const NotificationModel = require('../server-models/NotificationModel')
+const NotificationModel = require('../s-models/NotificationModel')
 
 
 /******************* [CRUD] *******************/

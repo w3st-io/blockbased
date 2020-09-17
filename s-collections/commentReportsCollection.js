@@ -9,7 +9,7 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const CommentReportModel = require('../server-models/CommentReportModel')
+const CommentReportModel = require('../s-models/CommentReportModel')
 
 
 /******************* [CRUD] *******************/

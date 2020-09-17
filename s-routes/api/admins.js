@@ -10,7 +10,7 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const rateLimiters = require('../../rate-limiters')
+const rateLimiters = require('../../s-rate-limiters')
 const adminsCollection = require('../../s-collections/adminsCollection')
 
 
