@@ -44,7 +44,7 @@ router.get(
 					parseInt(req.params.limit),
 					req.params.sort,
 				)
-				
+
 				if (postsObj.status) {
 					// [POST-COUNT] //
 					postsObj.postsCount = (
@@ -91,22 +91,22 @@ router.get(
 						}
 					}
 				}
+
+				res.status(200).send(postsObj)
 			}
 			catch (err) {
-				postObj = {
+				res.status(200).send({
 					executed: false,
 					status: false,
 					message: `/pages/cat: Error --> ${err}`
-				}
+				})
 			}
-
-			res.status(200).send(postsObj)
 		}
 		else {
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'posts: Invalid Params'
+				message: '/pages/cat: Invalid Params'
 			})
 		}
 	}
