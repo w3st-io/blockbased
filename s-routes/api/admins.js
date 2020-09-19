@@ -27,18 +27,27 @@ router.post(
 			validator.isAscii(req.body.email) &&
 			validator.isAscii(req.body.password)
 		) {
-			const returned = await adminsCollection.c_login(
-				req.body.email,
-				req.body.password
-			)
+			try {
+				const returned = await adminsCollection.c_login(
+					req.body.email,
+					req.body.password
+				)
 
-			res.status(200).send(returned)
+				res.status(200).send(returned)
+			}
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/admins: Error --> ${err}`
+				})
+			}
 		}
 		else {
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'admins: Invalid Params'
+				message: '/api/admins: Invalid Params'
 			})
 		}
 	}
@@ -57,21 +66,30 @@ router.post(
 			validator.isAscii(req.body.email) &&
 			validator.isAscii(req.body.password)
 		) {
-			const returned = await adminsCollection.c_register(
-				req.body.first_name,
-				req.body.last_name,
-				req.body.username,
-				req.body.email,
-				req.body.password,
-			)
+			try {
+				const returned = await adminsCollection.c_register(
+					req.body.first_name,
+					req.body.last_name,
+					req.body.username,
+					req.body.email,
+					req.body.password,
+				)
 
-			res.status(201).send(returned)
+				res.status(201).send(returned)
+			}
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/admins: Error --> ${err}`,
+				})
+			}
 		}
 		else {
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'admins: Invalid Params'
+				message: '/api/admins: Invalid Params'
 			})
 		}
 	}

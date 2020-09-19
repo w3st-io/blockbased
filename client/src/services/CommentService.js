@@ -125,7 +125,7 @@ async function  s_delete(comment_id) {
 }
 
 
-/******************* [LIKE SYSTEM] *******************/
+/******************* [LIKE-SYSTEM] *******************/
 // ADD/REMOVE LIKE //
 async function s_like(post_id, comment_id) {
 	const authAxios = await this.authAxios()

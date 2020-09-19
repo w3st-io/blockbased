@@ -31,18 +31,27 @@ router.get(
 			Number.isInteger(parseInt(req.params.limit)) &&
 			Number.isInteger(parseInt(req.params.skip))
 		) {
-			const returned = await commentsCollection.c_readAllAll(
-				parseInt(req.params.skip),
-				parseInt(req.params.limit)
-			)
-				
-			res.status(200).send(returned)
+			try {
+				const returned = await commentsCollection.c_readAllAll(
+					parseInt(req.params.skip),
+					parseInt(req.params.limit)
+				)
+					
+				res.status(200).send(returned)
+			}
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/administration/comments: Error --> ${err}`,
+				})
+			}
 		}
 		else {
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'admin comments: Invalid params'
+				message: '/api/administration/comments: Invalid params'
 			})
 		}
 	}
@@ -55,23 +64,33 @@ router.delete(
 	Auth.adminToken(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const returned = await commentsCollection.c_adminDelete(req.params._id)
-			const returned2 = await commentLikesCollection.c_deleteAll(req.params._id)
-			const returned3 = await notificationsCollection.c_deleteAll(req.params._id)
+			try {
+				const returned = await commentsCollection.c_adminDelete(req.params._id)
+				const returned2 = await commentLikesCollection.c_deleteAll(req.params._id)
+				const returned3 = await notificationsCollection.c_deleteAll(req.params._id)
 
-			res.status(200).send({
-				executed: true,
-				status: true,
-				comment: returned,
-				commentLikes: returned2,
-				notifications: returned3,
-			})
+				res.status(200).send({
+					executed: true,
+					status: true,
+					comment: returned,
+					commentLikes: returned2,
+					notifications: returned3,
+				})
+
+			}
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/administration/comments: Error --> ${err}`,
+				})
+			}
 		}
 		else {
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid comment _id'
+				message: '/api/administration/comments: Invalid comment _id'
 			})
 		}
 	}

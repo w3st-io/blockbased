@@ -25,9 +25,18 @@ router.get(
 	'/read-all',
 	Auth.userToken(),
 	async (req, res) => {
-		const returned = await notificationsCollection.c_readAll(req.decoded._id)
+		try {
+			const returned = await notificationsCollection.c_readAll(req.decoded._id)
 
-		res.status(200).send(returned)
+			res.status(200).send(returned)
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				message: `/api/notifications: Error --> ${err}`,
+			})
+		}
 	}
 )
 
@@ -39,9 +48,18 @@ router.get(
 	async (req, res) => {
 		// [VALIDATE] //
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const returned = await notificationsCollection.c_markRead(req.params._id)
+			try {
+				const returned = await notificationsCollection.c_markRead(req.params._id)
 
-			res.status(200).send(returned)
+				res.status(200).send(returned)
+			}
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/notifications: Error --> ${err}`,
+				})
+			}
 		}
 		else {
 			res.status(200).send({

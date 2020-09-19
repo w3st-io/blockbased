@@ -87,7 +87,7 @@ async function s_read(post_id) {
 }
 
 
-/******************* [LIKE SYSTEM] *******************/
+/******************* [LIKE-SYSTEM] *******************/
 // ADD/REMOVE LIKE //
 async function s_like(post_id) {
 	const authAxios = await this.authAxios()

@@ -24,9 +24,18 @@ router.get(
 	'/read-all',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returned = await commentReportsCollection.c_readAll()
+		try {
+			const returned = await commentReportsCollection.c_readAll()
 
-		res.status(200).send(returned)
+			res.status(200).send(returned)
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				message: `/api/administration/reports: Error --> ${err}`,
+			})
+		}
 	}
 )
 
@@ -37,15 +46,24 @@ router.delete(
 	Auth.adminToken(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const returned = await commentReportsCollection.c_delete(req.params._id)
-			
-			res.status(200).send(returned)
+			try {
+				const returned = await commentReportsCollection.c_delete(req.params._id)
+				
+				res.status(200).send(returned)
+			}
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/administration/reports: Error --> ${err}`,
+				})
+			}
 		}
 		else {
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid report _id'
+				message: '/api/administration/reports: Invalid report _id'
 			})
 		}
 	}

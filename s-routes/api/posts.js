@@ -213,7 +213,7 @@ router.get(
 				res.status(200).send({
 					executed: false,
 					status: false,
-					message: `posts: Error --> ${err}`
+					message: `/api/posts: Error --> ${err}`
 				})
 			}
 		}
@@ -467,7 +467,7 @@ router.post(
 				res.status(200).send({
 					executed: false,
 					status: false,
-					message: `/pages/posts: Error --> ${err}`
+					message: `/api/posts: Error --> ${err}`
 				})
 			}
 		}
@@ -502,7 +502,7 @@ router.post(
 				res.status(200).send({
 					executed: false,
 					status: false,
-					message: `/pages/posts: Error --> ${err}`
+					message: `/api/posts: Error --> ${err}`
 				})
 			}
 		}
@@ -536,7 +536,7 @@ router.post(
 				res.status(200).send({
 					executed: false,
 					status: false,
-					message: `/pages/posts: Error --> ${err}`
+					message: `/api/posts: Error --> ${err}`
 				})
 			}
 		}
@@ -566,7 +566,7 @@ router.get(
 				res.status(200).send({
 					executed: false,
 					status: false,
-					message: `/pages/posts: Error --> ${err}`
+					message: `/api/posts: Error --> ${err}`
 				})
 			}
 		}

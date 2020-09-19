@@ -26,9 +26,18 @@ router.get(
 	'/read-all',
 	Auth.adminToken(),
 	async (req, res) => {
-		const returned = await usersCollection.c_readAll()
+		try {
+			const returned = await usersCollection.c_readAll()
 
-		res.status(201).send(returned)
+			res.status(201).send(returned)
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				message: `/api/administration/users: Error --> ${err}`,
+			})
+		}
 	}
 )
 
@@ -39,18 +48,27 @@ router.post(
 	Auth.adminToken(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const returned = await usersCollection.c_update(
-				req.decoded._id,
-				req.body.img_url
-			)
+			try {
+				const returned = await usersCollection.c_update(
+					req.decoded._id,
+					req.body.img_url
+				)
 
-			res.status(201).send(returned)
+				res.status(201).send(returned)
+			}
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/administration/users: Error --> ${err}`,
+				})
+			}
 		}
 		else {
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid user _id'
+				message: '/api/administration/users: Invalid user _id'
 			})
 		}
 	}
@@ -65,20 +83,29 @@ router.post(
 	async (req, res) => {
 		if (
 			mongoose.isValidObjectId(req.params._id) &&
-			!isNaN(req.body.hours)
+			Number.isInteger(parseInt(req.body.hours))
 		) {
-			const returned = await banCollection.c_create(
-				req.params._id,
-				req.body.hours
-			)
+			try {
+				const returned = await banCollection.c_create(
+					req.params._id,
+					parseInt(req.body.hours)
+				)
 
-			res.status(201).send(returned)
+				res.status(201).send(returned)
+			}
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/administration/users: Error --> ${err}`,
+				})
+			}
 		}
 		else {
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid user _id'
+				message: '/api/administration/users: Invalid user _id'
 			})
 		}
 	}

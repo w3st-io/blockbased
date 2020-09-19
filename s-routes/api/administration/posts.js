@@ -30,18 +30,27 @@ router.get(
 			Number.isInteger(parseInt(req.params.limit)) &&
 			Number.isInteger(parseInt(req.params.skip))
 		) {
-			const returned = await postsCollection.c_readAllAll(
-				parseInt(req.params.skip),
-				parseInt(req.params.limit)
-			)
-
-			res.status(200).send(returned)
+			try {
+				const returned = await postsCollection.c_readAllAll(
+					parseInt(req.params.skip),
+					parseInt(req.params.limit)
+				)
+	
+				res.status(200).send(returned)
+			}
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/administration/posts: Error --> ${err}`,
+				})
+			}
 		}
 		else {
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'admin posts: Invalid params'
+				message: '/api/administration/posts: Invalid params'
 			})
 		}
 	}
@@ -54,16 +63,25 @@ router.delete(
 	Auth.adminToken(),
 	async (req, res) => {
 		if (mongoose.isValidObjectId(req.params._id)) {
-			postsCollection.c_delete(req.params._id)
-			postLikesCollection.c_deleteAll(req.params._id)
+			try {
+				await postsCollection.c_delete(req.params._id)
+				await postLikesCollection.c_deleteAll(req.params._id)
 
-			res.sendStatus(200)
+				res.sendStatus(200)
+			}
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/administration/posts: Error --> ${err}`,
+				})
+			}
 		}
 		else {
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid post _id'
+				message: '/api/administration/posts: Invalid post _id'
 			})
 		}
 	}

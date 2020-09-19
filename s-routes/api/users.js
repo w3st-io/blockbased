@@ -30,9 +30,18 @@ router.get(
 	'/read',
 	Auth.userToken(),
 	async (req, res) => {
-		const returned = await usersCollection.c_read(req.decoded._id)
+		try {
+			const returned = await usersCollection.c_read(req.decoded._id)
 
-		res.status(200).send(returned)
+			res.status(200).send(returned)
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				message: `/api/comments: Error --> ${err}`,
+			})
+		}
 	}
 )
 
@@ -43,9 +52,18 @@ router.get(
 	async (req, res) => {
 		// [VALIDATE] //
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const returned = await usersCollection.c_read(req.params._id)
+			try {
+				const returned = await usersCollection.c_read(req.params._id)
 
-			res.status(200).send(returned)
+				res.status(200).send(returned)
+			}
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/users: Error --> ${err}`,
+				})
+			}
 		}
 		else {
 			res.status(200).send({
@@ -65,12 +83,21 @@ router.post(
 	async (req, res) => {
 		// [VALIDATE] //
 		if (validator.isAscii(req.body.img_url)) {
-			const returned = await usersCollection.c_update(
-				req.decoded._id,
-				req.body.img_url
-			)
-	
-			res.status(201).send(returned)
+			try {
+				const returned = await usersCollection.c_update(
+					req.decoded._id,
+					req.body.img_url
+				)
+		
+				res.status(201).send(returned)
+			}
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/users: Error --> ${err}`,
+				})
+			}
 		}
 		else {
 			res.status(200).send({
@@ -92,12 +119,21 @@ router.post(
 			validator.isAscii(req.body.email) &&
 			validator.isAscii(req.body.password)
 		) {
-			const returned = await usersCollection.c_login(
-				req.body.email,
-				req.body.password
-			)
-	
-			res.status(200).send(returned)
+			try {
+				const returned = await usersCollection.c_login(
+					req.body.email,
+					req.body.password
+				)
+		
+				res.status(200).send(returned)
+			}
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/users: Error --> ${err}`,
+				})
+			}
 		}
 		else {
 			res.status(200).send({
@@ -120,28 +156,37 @@ router.post(
 			validator.isAscii(req.body.email) &&
 			validator.isAscii(req.body.password)
 		) {
-			// [CREATE] Register Account //
-			const user = await usersCollection.c_register(
-				req.body.username,
-				req.body.email,
-				req.body.password,
-			)
-
-			if (user.status && user.created) {
-				// [CREATE] Verification Code //
-				const vCode = await verificationCodesCollection.c_create(
-					user.user._id
+			try {
+				// [CREATE] Register Account //
+				const user = await usersCollection.c_register(
+					req.body.username,
+					req.body.email,
+					req.body.password,
 				)
 
-				// [MAIL] Verification Email //
-				await mailerUtil.sendVerificationMail(
-					user.user.email,
-					user.user._id,
-					vCode.verificationCode.verificationCode
-				)
+				if (user.status && user.created) {
+					// [CREATE] Verification Code //
+					const vCode = await verificationCodesCollection.c_create(
+						user.user._id
+					)
+
+					// [MAIL] Verification Email //
+					await mailerUtil.sendVerificationMail(
+						user.user.email,
+						user.user._id,
+						vCode.verificationCode.verificationCode
+					)
+				}
+
+				res.status(201).send(user)
 			}
-
-			res.status(201).send(user)
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/users: Error --> ${err}`,
+				})
+			}
 		}
 		else {
 			res.status(200).send({
@@ -162,18 +207,27 @@ router.post(
 			mongoose.isValidObjectId(req.body.user_id) &&
 			validator.isAscii(req.body.verificationCode)
 		) {
-			// [EXISTANCE] //
-			const valid = await verificationCodesCollection.c_existance(
-				req.body.user_id,
-				req.body.verificationCode
-			)
+			try {
+				// [EXISTANCE] //
+				const valid = await verificationCodesCollection.c_existance(
+					req.body.user_id,
+					req.body.verificationCode
+				)
 
-			if (valid.status && valid.existance) {
-				// [UPDATE] Verify User //
-				usersCollection.c_verify(req.body.user_id)
+				if (valid.status && valid.existance) {
+					// [UPDATE] Verify User //
+					usersCollection.c_verify(req.body.user_id)
+				}
+
+				res.status(200).send(valid)
 			}
-
-			res.status(200).send(valid)
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/users: Error --> ${err}`,
+				})
+			}
 		}
 		else {
 			res.status(200).send({
@@ -191,27 +245,36 @@ router.post(
 	'/send-password-reset/:email',
 	async (req, res) => {
 		if (validator.isAscii(req.params.email)) {
-			// [READ] User By the Email //
-			const user = await usersCollection.c_getIdByEmail(req.params.email)
+			try {
+				// [READ] User By the Email //
+				const user = await usersCollection.c_getIdByEmail(req.params.email)
 
-			if (user.status) {
-				// [CREATE] Password Recovery //
-				const passwordRecovery = await passwordRecoveriesCollection.c_create(
-					user.user._id
-				)
-				
-				if (passwordRecovery.status && !passwordRecovery.existance) {
-					const email = await mailerUtil.sendPasswordResetEmail(
-						req.params.email,
-						user.user._id,
-						passwordRecovery.passwordRecovery.verificationCode
+				if (user.status) {
+					// [CREATE] Password Recovery //
+					const passwordRecovery = await passwordRecoveriesCollection.c_create(
+						user.user._id
 					)
 					
-					res.status(200).send(email)
+					if (passwordRecovery.status && !passwordRecovery.existance) {
+						const email = await mailerUtil.sendPasswordResetEmail(
+							req.params.email,
+							user.user._id,
+							passwordRecovery.passwordRecovery.verificationCode
+						)
+						
+						res.status(200).send(email)
+					}
+					else { res.status(200).send(passwordRecovery) }
 				}
-				else { res.status(200).send(passwordRecovery) }
+				else { res.status(200).send(user) }
 			}
-			else { res.status(200).send(user) }
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/users: Error --> ${err}`,
+				})
+			}
 		}
 		else {
 			res.status(200).send({
