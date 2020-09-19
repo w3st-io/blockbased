@@ -41,12 +41,12 @@ const c_create = async (user_id, post_id, comment_id) => {
 		}
 	}
 
-	// [EXISTANCE] //
-	const existance = await c_existance(user_id, comment_id)
-
-	if (!existance.status || existance.existance) { return existance }
-	
 	try {
+		// [EXISTANCE] //
+		const existance = await c_existance(user_id, comment_id)
+
+		if (!existance.status || existance.existance) { return existance }
+	
 		// [SAVE] //
 		const commentLike = await new CommentLikeModel({
 			_id: mongoose.Types.ObjectId(),

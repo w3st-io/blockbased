@@ -261,18 +261,18 @@ const c_update = async (_id, user_id, text) => {
 		}
 	}
 
-	// [OWNERSHIP] //
-	const ownership = await c_ownership(_id, user_id)
-
-	if (!ownership.status || !ownership.ownership) {
-		return {
-			executed: true,
-			status: false,
-			message: ownership.message
-		}
-	}
-
 	try {
+		// [OWNERSHIP] //
+		const ownership = await c_ownership(_id, user_id)
+
+		if (!ownership.status || !ownership.ownership) {
+			return {
+				executed: true,
+				status: false,
+				message: ownership.message
+			}
+		}
+	
 		const comment = await CommentModel.updateOne(
 			{
 				_id,
@@ -321,19 +321,18 @@ const c_delete = async (_id, user_id) => {
 		}
 	}
 
-
-	// [OWNERSHIP] //
-	const ownership = await c_ownership(_id, user_id)
-
-	if (!ownership.status || !ownership.ownership) {
-		return {
-			executed: true,
-			status: false,
-			message: ownership.message
-		}
-	}
-
 	try {
+		// [OWNERSHIP] //
+		const ownership = await c_ownership(_id, user_id)
+
+		if (!ownership.status || !ownership.ownership) {
+			return {
+				executed: true,
+				status: false,
+				message: ownership.message
+			}
+		}
+
 		const deletedComment = await CommentModel.findOneAndRemove({
 			_id,
 			user: user_id,

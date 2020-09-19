@@ -172,12 +172,12 @@ const c_updatePassword = async (_id, password) => {
 		}
 	}
 
-	// Hash Password //
-	const hashedPassword = await bcrypt.hash(password, 10)
-
-	
-	// [UPDATE] Password for User //
 	try {
+		// Hash Password //
+		const hashedPassword = await bcrypt.hash(password, 10)
+
+		
+		// [UPDATE] Password for User //
 		const user = await UserModel.findOneAndUpdate(
 			{ _id },
 			{ $set: { password: hashedPassword } }
@@ -312,17 +312,7 @@ const c_register = async (username, email, password) => {
 				created: false,
 			}
 		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `usersCollection: Error --> ${err}`,
-			created: false,
-		}
-	}
 
-	try {
 		// Email Check //
 		if (await UserModel.findOne({ email })) {
 			return {
@@ -332,27 +322,17 @@ const c_register = async (username, email, password) => {
 				created: false,
 			}
 		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `usersCollection: Error --> ${err}`,
-			created: false,
-		}
-	}
 
-	// Password Length //
-	if (password.length < 8 || password.length > 50) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid password (8 < pwd < 50)',
-			created: false,
+		// Password Length //
+		if (password.length < 8 || password.length > 50) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid password (8 < pwd < 50)',
+				created: false,
+			}
 		}
-	}
 
-	try {
 		// Hash Password //
 		const hashedPassword = await bcrypt.hash(password, 10)
 

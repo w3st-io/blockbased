@@ -51,12 +51,12 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 		}
 	}
 
-	// [EXISTANCE] //
-	const existance = await c_existance(user_id, comment_id)
-	
-	if (!existance.status || existance.existance) { return existance }
-	
 	try {
+		// [EXISTANCE] //
+		const existance = await c_existance(user_id, comment_id)
+		
+		if (!existance.status || existance.existance) { return existance }
+	
 		// [SAVE] //
 		const commentReport = await new CommentReportModel({
 			_id: mongoose.Types.ObjectId(),

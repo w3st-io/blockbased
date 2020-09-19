@@ -23,12 +23,12 @@ const c_create = async (user_id) => {
 		}
 	}
 
-	// [EXISTANCE] //
-	const existance = await c_existance(user_id)
-
-	if (!existance.status || existance.existance) { return existance }
-
 	try {
+		// [EXISTANCE] //
+		const existance = await c_existance(user_id)
+
+		if (!existance.status || existance.existance) { return existance }
+
 		// [SAVE] //
 		const passwordRecovery = await new PasswordRecoveryModel({
 			_id: mongoose.Types.ObjectId(),

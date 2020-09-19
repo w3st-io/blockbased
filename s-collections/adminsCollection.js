@@ -154,17 +154,7 @@ const c_register = async (first_name, last_name, username, email, password) => {
 				created: false,
 			}
 		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `adminsCollection: Error --> ${err}`,
-			created: false,
-		}
-	}
-
-	try {
+	
 		// Email Check //
 		if (await AdminModel.findOne({ email })) {
 			return {
@@ -174,27 +164,17 @@ const c_register = async (first_name, last_name, username, email, password) => {
 				created: false,
 			}
 		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `adminsCollection: Error --> ${err}`,
-			created: false,
+	
+		// Password Length //
+		if (password.length < 8 || password.length > 50) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Password invalid (8 < password < 50)',
+				created: false,
+			}
 		}
-	}
 
-	// Password Length //
-	if (password.length < 8 || password.length > 50) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Password invalid (8 < password < 50)',
-			created: false,
-		}
-	}
-
-	try {
 		// Hash Password //
 		const hashedPassword = await bcrypt.hash(password, 10)
 

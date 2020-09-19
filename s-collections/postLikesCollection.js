@@ -26,18 +26,18 @@ const c_create = async (user_id, post_id) => {
 		}
 	}
 	
-	// [EXISTANCE] //
-	const existance = await c_existance(user_id, post_id)
-
-	if (!existance.status || existance.existance) {
-		return {
-			executed: true,
-			status: false,
-			message: existance.message,
-		}
-	}
-
 	try {
+		// [EXISTANCE] //
+		const existance = await c_existance(user_id, post_id)
+
+		if (!existance.status || existance.existance) {
+			return {
+				executed: true,
+				status: false,
+				message: existance.message,
+			}
+		}
+
 		// [SAVE] //
 		const createdPostLike = await new PostLikeModel({
 			_id: mongoose.Types.ObjectId(),

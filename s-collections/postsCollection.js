@@ -170,12 +170,12 @@ const c_read = async (_id) => {
 		}
 	}
 
-	// [EXISTANCE] //
-	const existance = await c_existance(_id)
-	
-	if (!existance.existance) { return existance }
-
 	try {
+		// [EXISTANCE] //
+		const existance = await c_existance(_id)
+		
+		if (!existance.existance) { return existance }
+
 		const post = await PostModel.findById(_id)
 			.populate({ path: 'user', select: 'username email profileImg', })
 			.exec()
