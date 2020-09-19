@@ -56,10 +56,24 @@
 		},
 		
 		props: {
-			post: { type: Object, required: true },
-			leftBtnEmitName: { type: String, required: true, },
-			rightBtnEmitName: { type: String, required: true, },
-			badgeValue: { required: true, },
+			post: {
+				type: Object,
+				required: true,
+			},
+
+			leftBtnEmitName: {
+				type: String,
+				required: true,
+			},
+
+			rightBtnEmitName: {
+				type: String,
+				required: true,
+			},
+
+			badgeValue: {
+				required: true,
+			},
 		},
 
 		data: function() {

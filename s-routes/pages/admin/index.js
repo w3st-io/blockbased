@@ -31,7 +31,7 @@ router.get(
 			const comments = await commentsCollection.c_readAllAll(0, 100000)
 			const commentReports = await commentReportsCollection.c_readAll()
 
-			res.status(201).send({
+			res.status(200).send({
 				executed: true,
 				status: true,
 				users: users.users,
@@ -41,7 +41,7 @@ router.get(
 			})
 		}
 		catch (err) {
-			res.status(201).send({
+			res.status(200).send({
 				executed: false,
 				status: false,
 				message: `/pages/admin: Error --> ${err}`

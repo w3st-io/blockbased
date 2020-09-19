@@ -6,12 +6,12 @@
 		<article class="card card-body bg-dark">
 			<!-- Title Header -->
 			<title-header
-				v-if="!loading"
+				v-if="post"
 				:post="post"
 				:leftBtnEmitName="'post-page-prev'"
 				:rightBtnEmitName="'post-page-next'"
 				:badgeValue="pageNumber"
-				@refreshPost="postRead()"
+				@refreshPost="getPageData()"
 				class="mb-3"
 			/>
 
@@ -20,7 +20,7 @@
 				v-if="!loading"
 				:comments="comments"
 				:post_id="post_id"
-				@refreshComments="commentReadAll()"
+				@refreshComments="getPageData()"
 			/>
 
 			<!-- [DEFAULT] If No content -->
@@ -60,8 +60,6 @@
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import PageService from '@services/PageService'
-	import PostService from '@services/PostService'
-	import CommentService from '@services/CommentService'
 	import { EventBus } from '@main'
 
 
@@ -89,12 +87,8 @@
 		},
 
 		created: async function() {
-			// [UPDATE] //
-			try { await this.postRead() }
-			catch(err) { console.log('err:', err) }
-
-			// [INIT] Comments //
-			if (!this.error) await this.commentReadAll()
+			// [INIT-DATA] //
+			await this.getPageData()
 
 			EventBus.$on('post-page-prev', () => { this.prevPage() })
 			EventBus.$on('post-page-next', () => { this.nextPage() })
@@ -104,49 +98,23 @@
 		},
 
 		methods: {
-			async getInitialData() {
-				try { this.returned = await PageService.s_read(this.post_id) }
+			async getPageData() {
+				try {
+					this.returned = await PageService.s_post(
+						this.post_id,
+						this.limit,
+						this.pageNumber - 1
+					)
+				}
 				catch (err) { this.error = err }
 
 				if (this.returned.status) {
-					console.log()
-					//this.post = this.returned.post
+					this.post = this.returned.postObj.post
+					this.comments = this.returned.commentsObj.comments
+				
 				}
-				else {
-					console.log()
-					// this.error = this.returned.message
-					// this.loading = false
-				}
-			},
+				else { this.error = this.returned.message }
 
-			async postRead() {				
-				try { this.returned = await PostService.s_read(this.post_id) }
-				catch (err) { this.error = err }
-
-				if (this.returned.status) { this.post = this.returned.post }
-				else {
-					this.error = this.returned.message
-					this.loading = false
-				}
-			},
-
-			async commentReadAll() {
-				let pageIndex = this.pageNumber - 1
-
-				// [READ] Comments //
-				try {
-					this.returned = await CommentService.s_readAll(
-						this.post_id,
-						this.limit,
-						pageIndex
-					)
-
-					if (this.returned.status) { this.comments = this.returned.comments }
-					else { this.error = this.returned.message }
-				}
-				catch (err) { this.error = err }
-
-				// Disable Loading //
 				this.loading = false
 			},
 
@@ -156,7 +124,7 @@
 					this.loading = true
 					this.pageNumber--
 
-					this.commentReadAll()
+					this.getPageData()
 
 					router.push({
 						name: 'post',
@@ -174,7 +142,7 @@
 					this.loading = true
 					this.pageNumber++
 
-					this.commentReadAll()
+					this.getPageData()
 
 					router.push({
 						name: 'post',

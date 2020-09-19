@@ -101,6 +101,7 @@
 			return {
 				loading: true,
 				disabled: false,
+				returned: '',
 				error: '',
 			}
 		},
@@ -119,21 +120,24 @@
 				// [LOG REQUIRED] //
 				if (localStorage.usertoken) {
 					this.disabled = true
-						
+					
 					if (post.liked) {
-						try { await PostService.s_unlike(post._id) }
+						try { this.returned = await PostService.s_unlike(post._id) }
 						catch (err) { this.error = err }
 					}
 					else {
-						try { await PostService.s_like(post._id) }
+						try { this.returned = await PostService.s_like(post._id) }
 						catch (err) { this.error = err }
 					}
 
-					this.disabled = false
-				}
+					if (this.returned.status == true)  {
+						// [UPDATE] Posts //
+						this.$emit('refreshPosts')
 
-				// [READ] Update Posts //
-				this.$emit('refreshPosts')
+						// Wait 2 seconds before enabling
+						setTimeout(() => { this.disabled = false }, 2000)							
+					}
+				}
 			},
 
 			/******************* [ROUTER + LOG] *******************/

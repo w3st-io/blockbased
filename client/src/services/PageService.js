@@ -72,15 +72,20 @@ async function s_post(post_id, limit, pageNumber) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let { data } = await authAxios.get(`/read-all/${post_id}/${limit}/${skip}`)
+		let { data } = await authAxios.get(`/post/${post_id}/${limit}/${skip}`)
 
-		/*
-		if (data.status) {
-			data.comments.comments.forEach(comment => {
-				comment.createdAt = new Date(comment.createdAt).toLocaleString()
-			})
-		}
-		*/
+			if (data.status) {
+				// Format Date //
+				data.postObj.post.createdAt = new Date(
+					data.postObj.post.createdAt
+				).toLocaleString()
+
+				data.commentsObj.comments.forEach(comment => {
+					comment.createdAt = new Date(comment.createdAt).toLocaleString()
+				})
+			}
+		
+		console.log('PAGESERVICE', data)
 		
 		return data
 	}

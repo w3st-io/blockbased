@@ -73,7 +73,7 @@ router.post(
 						* Send follwors so they are notificed and the comment count to know
 						* what the last page is
 						*/
-						res.status(201).send({
+						res.status(200).send({
 							executed: true,
 							status: true,
 							created: returned,
@@ -238,7 +238,7 @@ router.post(
 					req.body.text
 				)
 				
-				res.status(201).send(comment)
+				res.status(200).send(comment)
 
 			}
 			catch (err) {
@@ -285,7 +285,7 @@ router.delete(
 						req.params._id
 					)
 
-					res.status(201).send({
+					res.status(200).send({
 						executed: true,
 						status: true,
 						deleted: [comment, commentLikes, notifications],
@@ -409,7 +409,7 @@ router.post(
 					req.body.reportType
 				)
 				
-				res.status(201).send(returned)
+				res.status(200).send(returned)
 			}
 			catch (err) {
 				res.status(200).send({

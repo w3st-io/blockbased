@@ -75,7 +75,7 @@ router.post(
 					req.body.password,
 				)
 
-				res.status(201).send(returned)
+				res.status(200).send(returned)
 			}
 			catch (err) {
 				res.status(200).send({

@@ -49,7 +49,7 @@ router.post(
 					req.body.text
 				)
 	
-				res.status(201).send({
+				res.status(200).send({
 					executed: true,
 					status: true,
 					post: post,
@@ -394,7 +394,7 @@ router.post(
 							req.params._id
 						)
 
-						res.status(201).send({
+						res.status(200).send({
 							executed: true,
 							status: true,
 							postLike: returned,
@@ -451,7 +451,7 @@ router.post(
 							req.params._id
 						)
 						
-						res.status(201).send({
+						res.status(200).send({
 							executed: true,
 							status: true,
 							postLike: returned,
@@ -496,7 +496,7 @@ router.post(
 					req.params._id
 				)
 				
-				res.status(201).send(returned)
+				res.status(200).send(returned)
 			}
 			catch (err) {
 				res.status(200).send({
@@ -530,7 +530,7 @@ router.post(
 					req.params._id
 				)
 				
-				res.status(201).send(returned)
+				res.status(200).send(returned)
 			}
 			catch (err) {
 				res.status(200).send({

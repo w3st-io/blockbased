@@ -29,7 +29,7 @@ router.get(
 		try {
 			const returned = await usersCollection.c_readAll()
 
-			res.status(201).send(returned)
+			res.status(200).send(returned)
 		}
 		catch (err) {
 			res.status(200).send({
@@ -54,7 +54,7 @@ router.post(
 					req.body.img_url
 				)
 
-				res.status(201).send(returned)
+				res.status(200).send(returned)
 			}
 			catch (err) {
 				res.status(200).send({
@@ -91,7 +91,7 @@ router.post(
 					parseInt(req.body.hours)
 				)
 
-				res.status(201).send(returned)
+				res.status(200).send(returned)
 			}
 			catch (err) {
 				res.status(200).send({
