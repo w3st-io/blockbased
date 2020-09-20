@@ -7,6 +7,10 @@
 const rateLimit = require('express-rate-limit')
 
 
+// [INIT] Const //
+const defaultMessage = 'Too many requests, please try again later'
+
+
 // [RATE-LIMIT] Global //
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
@@ -14,7 +18,7 @@ const limiter = rateLimit({
 	message: {
 		executed: true,
 		status: false,
-		message: 'Too many requests, please try again later',
+		message: defaultMessage,
 	}
 })
 
@@ -26,7 +30,7 @@ const postLimiter = rateLimit({
 	message: {
 		executed: true,
 		status: false,
-		message: 'Too many requests, please try again later',
+		message: defaultMessage,
 	}
 })
 
@@ -38,7 +42,7 @@ const commentLimiter = rateLimit({
 	message: {
 		executed: true,
 		status: false,
-		message: 'Too many requests, please try again later',
+		message: defaultMessage,
 	}
 })
 
@@ -50,7 +54,7 @@ const followLimiter = rateLimit({
 	message: {
 		executed: true,
 		status: false,
-		message: 'Too many requests, please try again later',
+		message: defaultMessage,
 	}
 })
 
@@ -62,7 +66,7 @@ const likeLimiter = rateLimit({
 	message: {
 		executed: true,
 		status: false,
-		message: 'Too many requests, please try again later',
+		message: defaultMessage,
 	}
 })
 
@@ -74,7 +78,7 @@ const registrationLimiter = rateLimit({
 	message: {
 		executed: true,
 		status: false,
-		message: 'Too many requests, please try again later',
+		message: defaultMessage,
 	}
 })
 
@@ -86,7 +90,7 @@ const reportLimiter = rateLimit({
 	message: {
 		executed: true,
 		status: false,
-		message: 'Too many requests, please try again later',
+		message: defaultMessage,
 	}
 })
 

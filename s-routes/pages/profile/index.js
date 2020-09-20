@@ -24,9 +24,18 @@ router.get(
 	'/',
 	Auth.userToken(),
 	async (req, res) => {
-		const returned = await usersCollection.c_read(req.decoded._id)
+		try {
+			const returned = await usersCollection.c_read(req.decoded._id)
 
-		res.status(200).send(returned)
+			res.status(200).send(returned)
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				message: `/pages/profile: Error --> ${err}`
+			})
+		}
 	}
 )
 

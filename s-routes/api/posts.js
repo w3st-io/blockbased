@@ -86,9 +86,9 @@ router.get(
 			Number.isInteger(parseInt(req.params.skip)) &&
 			Number.isInteger(parseInt(req.params.limit))
 		) {
-			let postsObj
-
 			try {
+				let postsObj
+
 				postObj = await postsCollection.c_readAll(
 					req.params.cat_id,
 					parseInt(req.params.skip),
@@ -96,14 +96,6 @@ router.get(
 				)
 
 				if (postsObj.status) {
-					// [POST-COUNT] //
-					postsObj.postCount = (
-						await postsCollection.c_countAll(req.params.cat_id)
-					).count
-					
-					// [PAGE-COUNT] //
-					postsObj.pageCount = Math.ceil(postsObj.postCount / req.params.limit)
-	
 					// For Each Post in Posts //
 					for (let i = 0; i < postsObj.posts.length; i++) {
 						// [LIKE-COUNT] //
@@ -121,25 +113,6 @@ router.get(
 						postsObj.posts[i].commentCount = (
 							await commentsCollection.c_countAll(postsObj.posts[i]._id)
 						).count
-	
-						// [USER-LOGGED] //
-						if (req.decoded) {
-							// [LIKED-STATUS] //
-							postsObj.posts[i].liked = (
-								await postLikesCollection.c_existance(
-									req.decoded._id,
-									postsObj.posts[i]._id
-								)
-							).existance
-			
-							// [FOLLOWED-STATUS] //
-							postsObj.posts[i].followed = (
-								await postFollowersCollection.c_existance(
-									req.decoded._id,
-									postsObj.posts[i]._id
-								)
-							).existance
-						}
 					}
 				}
 
@@ -164,7 +137,7 @@ router.get(
 )
 
 
-// [READ] Single Post //
+// [READ] //
 router.get(
 	'/read/:_id',
 	Auth.userTokenNotRequired(),
@@ -186,25 +159,6 @@ router.get(
 					postObj.post.followersCount = (
 						await postFollowersCollection.c_countAll(postObj.post._id)
 					).count
-	
-					// [USER-LOGGED] //
-					if (req.decoded) {
-						// [LIKED-STATUS] //
-						postObj.post.liked = (
-							await postLikesCollection.c_existance(
-								req.decoded._id,
-								postObj.post._id
-							)
-						).existance
-		
-						// [FOLLOWED-STATUS] //
-						postObj.post.followed = (
-							await postFollowersCollection.c_existance(
-								req.decoded._id,
-								postObj.post._id
-							)
-						).existance
-					}
 				}
 
 				res.status(200).send(postObj)
@@ -276,7 +230,7 @@ router.delete(
 )
 
 /******************* [OTHER-CURD] *******************/
-// [READ-ALL] Within Cat //
+// [READ-ALL-DETAILED] Within Cat with User Details //
 router.get(
 	'/read-all-detailed/:cat_id/:limit/:skip',
 	Auth.userTokenNotRequired(),
@@ -298,6 +252,14 @@ router.get(
 				)
 				
 				if (postsObj.status) {
+					// [POST-COUNT] //
+					postsObj.postCount = (
+						await postsCollection.c_countAll(req.params.cat_id)
+					).count
+					
+					// [PAGE-COUNT] //
+					postsObj.pageCount = Math.ceil(postsCount.count / req.params.limit)
+
 					// For Each Post in Posts //
 					for (let i = 0; i < postsObj.posts.length; i++) {
 						// [LIKE-COUNT] //
@@ -316,7 +278,7 @@ router.get(
 							await commentsCollection.c_countAll(postsObj.posts[i]._id)
 						).count
 
-						// If User Token Passed.. //
+						// [USER-LOGGED] //
 						if (req.decoded) {
 							// [LIKED-STATUS] //
 							postsObj.posts[i].liked = (
@@ -335,14 +297,6 @@ router.get(
 							).existance
 						}
 					}
-
-					// [POST-COUNT] //
-					postsObj.postCount = (
-						await postsCollection.c_countAll(req.params.cat_id)
-					).count
-					
-					// [PAGE-COUNT] //
-					postsObj.pageCount = Math.ceil(postsCount.count / req.params.limit)
 				}
 
 				res.status.send(postsObj)
@@ -364,6 +318,69 @@ router.get(
 			})
 		}
 	}
+)
+
+// [READ-DETAILED] With User Details //
+router.get(
+	'/read-detailed/:_id',
+	Auth.userTokenNotRequired(),
+	async (req, res) => {
+		// [VALIDATE] //
+		if (mongoose.isValidObjectId(req.params._id)) {
+			let postObj
+
+			try {
+				postObj = await postsCollection.c_read(req.params._id)
+
+				if (postObj.status) {
+					// [LIKE-COUNT] //
+					postObj.post.likeCount = (
+						await postLikesCollection.c_countAll(postObj.post._id)
+					).count
+		
+					// [FOLLOW-COUNT] //
+					postObj.post.followersCount = (
+						await postFollowersCollection.c_countAll(postObj.post._id)
+					).count
+	
+					// [USER-LOGGED] //
+					if (req.decoded) {
+						// [LIKED-STATUS] //
+						postObj.post.liked = (
+							await postLikesCollection.c_existance(
+								req.decoded._id,
+								postObj.post._id
+							)
+						).existance
+		
+						// [FOLLOWED-STATUS] //
+						postObj.post.followed = (
+							await postFollowersCollection.c_existance(
+								req.decoded._id,
+								postObj.post._id
+							)
+						).existance
+					}
+				}
+
+				res.status(200).send(postObj)
+			}
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/api/posts: Error --> ${err}`
+				})
+			}
+		}
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'Invalid post _id',
+			})
+		}
+	},
 )
 
 /******************* [LIKE-SYSTEM] *******************/

@@ -24,9 +24,18 @@ router.get(
 	async (req, res) => {
 		// [VALIDATE] //
 		if (mongoose.isValidObjectId(req.params._id)) {
-			const returned = await usersCollection.c_read(req.params._id)
+			try {
+				const returned = await usersCollection.c_read(req.params._id)
 
-			res.status(200).send(returned)
+				res.status(200).send(returned)
+			}
+			catch (err) {
+				res.status(200).send({
+					executed: false,
+					status: false,
+					message: `/pages/profile/view: Error --> ${err}`
+				})
+			}
 		}
 		else {
 			res.status(200).send({
