@@ -4,9 +4,9 @@
 			<!-- Main Content -->
 			<section class="col-12 col-md-9 mb-3 p-0">
 				<div class="card card-body bg-dark">
-					<cat-list :cats="cats1" class="" />
-					<cat-list :cats="cats2" class="mt-3" />
-					<cat-list :cats="cats3" class="mt-3" />
+					<cat-list :cats="cats1" class="mb-3" />
+					<cat-list :cats="cats2" class="mb-3" />
+					<cat-list :cats="cats3" class="mb-3" />
 				</div>
 			</section>
 

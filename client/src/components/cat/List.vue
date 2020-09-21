@@ -14,7 +14,7 @@
 				"
 			>
 				<div class="w-100 overflow-auto rounded-circle">
-					<img v-bind:src="cat.image" class="w-100 bg-primary img-padding">
+					<img :src="cat.image" class="w-100 bg-primary img-padding">
 				</div>
 			</div>
 
