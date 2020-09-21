@@ -54,7 +54,7 @@
 
 		created: async function() {
 			// [REDIRECT] Not Log Required //
-			if (!localStorage.usertoken) { router.push({ name: '/' }) }
+			if (!localStorage.usertoken) { router.push({ name: 'login' }) }
 
 			// Retrieve User Profile Data //
 			try { this.data = await await PageService.s_profile() }
