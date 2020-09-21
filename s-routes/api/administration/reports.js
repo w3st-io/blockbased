@@ -42,12 +42,14 @@ router.get(
 
 // [DELETE] Auth Required //
 router.delete(
-	'/delete/:_id',
+	'/delete/:report_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params._id)) {
+		if (mongoose.isValidObjectId(req.params.report_id)) {
 			try {
-				const returned = await commentReportsCollection.c_delete(req.params._id)
+				const returned = await commentReportsCollection.c_delete(
+					req.params.report_id
+				)
 				
 				res.status(200).send(returned)
 			}

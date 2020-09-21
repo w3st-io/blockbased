@@ -20,12 +20,12 @@ const router = express.Router().use(cors())
 /******************* [USER PROFILE] *******************/
 // [READ] Params //
 router.get(
-	'/:_id',
+	'/:user_id',
 	async (req, res) => {
 		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params._id)) {
+		if (mongoose.isValidObjectId(req.params.user_id)) {
 			try {
-				const returned = await usersCollection.c_read(req.params._id)
+				const returned = await usersCollection.c_read(req.params.user_id)
 
 				res.status(200).send(returned)
 			}

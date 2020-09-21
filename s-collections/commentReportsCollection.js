@@ -108,18 +108,20 @@ const c_readAll = async () => {
 
 
 // [DELETE] Single Report //
-const c_delete = async (_id) => {
+const c_delete = async (commentReport_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(_id)) {
+	if (!mongoose.isValidObjectId(commentReport_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid commentReport _id'
+			message: 'Invalid commentReport_id'
 		}
 	}
 
 	try {
-		const commentReport = await CommentReportModel.deleteOne({ _id })
+		const commentReport = await CommentReportModel.deleteOne({
+			_id: commentReport_id
+		})
 
 		return {
 			executed: true,

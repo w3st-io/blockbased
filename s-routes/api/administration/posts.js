@@ -59,13 +59,13 @@ router.get(
 
 // [DELETE] Auth Required //
 router.delete(
-	'/delete/:_id',
+	'/delete/:post_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params._id)) {
+		if (mongoose.isValidObjectId(req.params.post_id)) {
 			try {
-				await postsCollection.c_delete(req.params._id)
-				await postLikesCollection.c_deleteAll(req.params._id)
+				await postsCollection.c_delete(req.params.post_id)
+				await postLikesCollection.c_deleteAll(req.params.post_id)
 
 				res.sendStatus(200)
 			}

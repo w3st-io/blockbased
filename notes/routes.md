@@ -12,14 +12,14 @@
 ##### /api/comments/create
 ##### /api/comments/read-all-all/:limit/:skip
 ##### /api/comments/read-all/:cat_id/:limit/:skip
-##### /api/comments/read/:_id
-##### /api/comments/update/:_id
-##### /api/comments/delete/:_id
-##### /api/comments/like/:_id
-##### /api/comments/unlike/:_id
-##### /api/comments/follow/:_id
-##### /api/comments/report/:_id
-##### /api/blocks/existance/:_id
+##### /api/comments/read/:comment_id
+##### /api/comments/update/:comment_id
+##### /api/comments/delete/:comment_id
+##### /api/comments/like/:comment_id
+##### /api/comments/unlike/:comment_id
+##### /api/comments/follow/:comment_id
+##### /api/comments/report/:comment_id
+##### /api/blocks/existance/:comment_id
 ##### /api/comments/count/:block_id
 ##### 
 ##### 
@@ -30,17 +30,17 @@
 ##### // [POSTS] //
 ##### /api/posts/create
 ##### /api/posts/read-all/:cat_id/:limit/:skip
-##### /api/posts/read/:_id
-##### /api/posts/delete/:_id
-##### /api/posts/like/:_id
-##### /api/posts/unlike/:_id
-##### /api/posts/existance/:_id
+##### /api/posts/read/:post_id
+##### /api/posts/delete/:post_id
+##### /api/posts/like/:post_id
+##### /api/posts/unlike/:post_id
+##### /api/posts/existance/:post_id
 ##### /api/posts/count/:cat_id
 ##### 
 ##### 
 ##### // [USERS] //
 ##### /api/users/read
-##### /api/users/read/:_id
+##### /api/users/read/:user_id
 ##### /api/users/update
 ##### /api/users/login
 ##### /api/users/register

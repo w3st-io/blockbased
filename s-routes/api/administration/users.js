@@ -44,10 +44,10 @@ router.get(
 
 // [UPDATE] Auth Required //
 router.post(
-	'/update/:_id',
+	'/update/:user_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params._id)) {
+		if (mongoose.isValidObjectId(req.params.user_id)) {
 			try {
 				const returned = await usersCollection.c_update(
 					req.decoded._id,
@@ -78,16 +78,16 @@ router.post(
 /******************* [BAN] *******************/
 // [UPDATE] Auth Required //
 router.post(
-	'/ban/:_id',
+	'/ban/:user_id',
 	Auth.adminToken(),
 	async (req, res) => {
 		if (
-			mongoose.isValidObjectId(req.params._id) &&
+			mongoose.isValidObjectId(req.params.user_id) &&
 			Number.isInteger(parseInt(req.body.hours))
 		) {
 			try {
 				const returned = await banCollection.c_create(
-					req.params._id,
+					req.params.user_id,
 					parseInt(req.body.hours)
 				)
 

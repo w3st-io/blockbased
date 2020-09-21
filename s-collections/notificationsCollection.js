@@ -141,19 +141,19 @@ const c_delete = async () => {}
 
 
 /******************* [MARK-READ-STATUS] *******************/
-const c_markRead = async (_id) => {
+const c_markRead = async (notification_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(_id)) {
+	if (!mongoose.isValidObjectId(notification_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid notification _id',
+			message: 'Invalid notification_id',
 		}
 	}
 
 	try {
 		const notification = await NotificationModel.updateOne(
-			{ _id: _id },
+			{ _id: notification_id },
 			{ read: true },
 		)
 			

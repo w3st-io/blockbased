@@ -174,28 +174,29 @@ router.get(
 
 // [READ] //
 router.get(
-	'/read/:_id',
+	'/read/:comment_id',
 	async (req, res) => {
 		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params._id)) {
+		if (mongoose.isValidObjectId(req.params.comment_id)) {
 			try {
-				const returned = await commentsCollection.c_read(req.params._id)
+				// [READ] Comment //
+				const returned = await commentsCollection.c_read(req.params.comment_id)
 			
 				if (returned.status) {
 					// [LIKE-COUNT] //
-					const count = await commentLikesCollection.c_countAll(req.params._id)
+					returned.comment.likeCount = (
+						await commentLikesCollection.c_countAll(req.params.comment_id)
+					).count
 	
-					returned.comment.likeCount = count.count
-	
-					// Set Liked Status //
+					// [USER-LOGGED] //
 					if (req.decoded) {
 						// [LIKED-STATUS] //
-						const liked = await commentLikesCollection.c_existance(
-							req.decoded._id,
-							returned.comment._id
-						)
-	
-						returned.comment.liked = liked.existance
+						returned.comment.liked = (
+							await commentLikesCollection.c_existance(
+								req.decoded._id,
+								req.params.comment_id
+							)
+						).existance
 					}
 				}
 	
@@ -222,24 +223,23 @@ router.get(
 
 // [UPDATE] Auth Required //
 router.post(
-	'/update/:_id',
+	'/update/:comment_id',
 	Auth.userToken(),
 	async (req, res) => {
 		// [VALIDATE] //
 		if (
-			mongoose.isValidObjectId(req.params._id) &&
+			mongoose.isValidObjectId(req.params.comment_id) &&
 			req.body.text
 		) {
 			try {
 				// [UPDATE] //
 				const comment = await commentsCollection.c_update(
-					req.params._id,
+					req.params.comment_id,
 					req.decoded._id,
 					req.body.text
 				)
 				
 				res.status(200).send(comment)
-
 			}
 			catch (err) {
 				res.status(200).send({
@@ -262,27 +262,27 @@ router.post(
 
 // [DELETE] Auth Required //
 router.delete(
-	'/delete/:_id',
+	'/delete/:comment_id',
 	Auth.userToken(),
 	async (req, res) => {
 		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params._id)) {
+		if (mongoose.isValidObjectId(req.params.comment_id)) {
 			try {
 				// [DELETE] //
 				const comment = await commentsCollection.c_delete(
-					req.params._id,
+					req.params.comment_id,
 					req.decoded._id,
 				)
 					
 				if (comment.status) {
 					// [DELETE] CommentLike //
 					const commentLikes = await commentLikesCollection.c_deleteAll(
-						req.params._id
+						req.params.comment_id
 					)
 
 					// [DELETE] Notifications //
 					const notifications = await notificationsCollection.c_deleteAll(
-						req.params._id
+						req.params.comment_id
 					)
 
 					res.status(200).send({
@@ -315,13 +315,13 @@ router.delete(
 /******************* [LIKE-SYSTEM] *******************/
 // [LIKE] Auth Required //
 router.post(
-	'/like/:_id/:post_id',
+	'/like/:comment_id/:post_id',
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
 		// [VALIDATE] //
 		if (
-			mongoose.isValidObjectId(req.params._id) &&
+			mongoose.isValidObjectId(req.params.comment_id) &&
 			mongoose.isValidObjectId(req.params.post_id)
 		) {
 			try {
@@ -329,7 +329,7 @@ router.post(
 				const commentLike = await commentLikesCollection.c_create(
 					req.decoded._id,
 					req.params.post_id,
-					req.params._id,
+					req.params.comment_id,
 				)
 
 				res.status(200).send(commentLike)
@@ -354,17 +354,17 @@ router.post(
 
 // [UNLIKE] Auth Required //
 router.post(
-	'/unlike/:_id',
+	'/unlike/:comment_id',
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
 		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params._id)) {
+		if (mongoose.isValidObjectId(req.params.comment_id)) {
 			try {
 				// [DELETE] CommentLike //
 				const commentLike = await commentLikesCollection.c_delete(
 					req.decoded._id,
-					req.params._id,
+					req.params.comment_id,
 				)
 				
 				res.status(200).send(commentLike)
@@ -391,20 +391,20 @@ router.post(
 /******************* [REPORTS] *******************/
 // [CREATE] //
 router.post(
-	'/report/:_id',
+	'/report/:comment_id',
 	Auth.userToken(),
 	rateLimiter.reportLimiter,
 	async (req, res) => {
 		// [VALIDATE] //
 		if (
-			mongoose.isValidObjectId(req.params._id) &&
+			mongoose.isValidObjectId(req.params.comment_id) &&
 			validator.isAscii(req.body.post_id) &&
 			validator.isAscii(req.body.reportType)
 		) {
 			try {
 				const returned = await commentReportsCollection.c_create(
 					req.decoded._id,
-					req.params._id,
+					req.params.comment_id,
 					req.body.post_id,
 					req.body.reportType
 				)

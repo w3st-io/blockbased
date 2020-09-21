@@ -180,18 +180,18 @@ const c_readAll = async (post_id, skip, limit) => {
 
 
 // [READ] //
-const c_read = async (_id) => {
+const c_read = async (comment_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(_id)) {
+	if (!mongoose.isValidObjectId(comment_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid comment _id',
+			message: 'Invalid comment_id',
 		}
 	}
 
 	try {
-		const comment = await CommentModel.findById(_id)
+		const comment = await CommentModel.findById(comment_id)
 			.populate({ path: 'user', select: 'username email profileImg' })
 			.populate({ path: 'likers', select: '_id user_id post_id text' })
 			.exec()
@@ -221,13 +221,13 @@ const c_read = async (_id) => {
 
 
 // [UPDATE] //
-const c_update = async (_id, user_id, text) => {
+const c_update = async (comment_id, user_id, text) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(_id)) {
+	if (!mongoose.isValidObjectId(comment_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid _id',
+			message: 'Invalid comment_id',
 			updated: false,
 		}
 	}
@@ -263,7 +263,7 @@ const c_update = async (_id, user_id, text) => {
 
 	try {
 		// [OWNERSHIP] //
-		const ownership = await c_ownership(_id, user_id)
+		const ownership = await c_ownership(comment_id, user_id)
 
 		if (!ownership.status || !ownership.ownership) {
 			return {
@@ -275,7 +275,7 @@ const c_update = async (_id, user_id, text) => {
 	
 		const comment = await CommentModel.updateOne(
 			{
-				_id,
+				_id: comment_id,
 				user: user_id
 			},
 			{ $set: { text: text } },
@@ -300,13 +300,13 @@ const c_update = async (_id, user_id, text) => {
 
 
 // [DELETE] //
-const c_delete = async (_id, user_id) => {
+const c_delete = async (comment_id, user_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(_id)) {
+	if (!mongoose.isValidObjectId(comment_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid _id',
+			message: 'Invalid comment_id',
 			updated: false,
 		}
 	}
@@ -323,7 +323,7 @@ const c_delete = async (_id, user_id) => {
 
 	try {
 		// [OWNERSHIP] //
-		const ownership = await c_ownership(_id, user_id)
+		const ownership = await c_ownership(comment_id, user_id)
 
 		if (!ownership.status || !ownership.ownership) {
 			return {
@@ -334,7 +334,7 @@ const c_delete = async (_id, user_id) => {
 		}
 
 		const deletedComment = await CommentModel.findOneAndRemove({
-			_id,
+			_id: comment_id,
 			user: user_id,
 		})
 
@@ -356,18 +356,18 @@ const c_delete = async (_id, user_id) => {
 
 /******************* [ADMIN-CRUD] *******************/
 // [ADMIN-DELETE] //
-const c_adminDelete = async (_id) => {
+const c_adminDelete = async (comment_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(_id)) {
+	if (!mongoose.isValidObjectId(comment_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid comment _id',
+			message: 'Invalid comment comment_id',
 		}
 	}
 
 	try {
-		const deletedComment = await CommentModel.findOneAndRemove({ _id })
+		const deletedComment = await CommentModel.findOneAndRemove({ _id: comment_id })
 
 		return {
 			executed: true,
@@ -387,13 +387,13 @@ const c_adminDelete = async (_id) => {
 
 
 /******************* [OWNERSHIP] *******************/
-const c_ownership = async (_id, user_id) => {
+const c_ownership = async (comment_id, user_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(_id)) {
+	if (!mongoose.isValidObjectId(comment_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid _id',
+			message: 'Invalid comment_id',
 			updated: false,
 		}
 	}
@@ -409,7 +409,7 @@ const c_ownership = async (_id, user_id) => {
 	}
 
 	try {	
-		const comment = await CommentModel.findOne({ _id, user: user_id, })
+		const comment = await CommentModel.findOne({ _id: comment_id, user: user_id, })
 
 		if (!comment) {
 			return {
@@ -439,18 +439,18 @@ const c_ownership = async (_id, user_id) => {
 
 
 /******************* [EXISTANCE] *******************/
-const c_existance = async (_id) => {
+const c_existance = async (comment_id) => {
 	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(_id)) {
+	if (!mongoose.isValidObjectId(comment_id)) {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid comment _id'
+			message: 'Invalid comment_id'
 		}
 	}
 
 	try {	
-		const comment = await CommentModel.findOne({ _id: _id })
+		const comment = await CommentModel.findOne({ _id: comment_id })
 
 		if (!comment) {
 			return {

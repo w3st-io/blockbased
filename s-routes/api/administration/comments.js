@@ -60,14 +60,20 @@ router.get(
 
 // [DELETE] Auth Required //
 router.delete(
-	'/delete/:_id',
+	'/delete/:comment_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params._id)) {
+		if (mongoose.isValidObjectId(req.params.comment_id)) {
 			try {
-				const returned = await commentsCollection.c_adminDelete(req.params._id)
-				const returned2 = await commentLikesCollection.c_deleteAll(req.params._id)
-				const returned3 = await notificationsCollection.c_deleteAll(req.params._id)
+				const returned = await commentsCollection.c_adminDelete(
+					req.params.comment_id
+				)
+				const returned2 = await commentLikesCollection.c_deleteAll(
+					req.params.comment_id
+				)
+				const returned3 = await notificationsCollection.c_deleteAll(
+					req.params.comment_id
+				)
 
 				res.status(200).send({
 					executed: true,

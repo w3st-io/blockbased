@@ -40,7 +40,7 @@
 		</div>
 
 		<!-- [ALERTS] -->
-		<div v-if="error != ''" class="my-3 alert alert-danger">{{ error }}</div>
+		<div v-if="error" class="my-3 alert alert-danger">{{ error }}</div>
 	</article>
 </template>
 

@@ -20,7 +20,7 @@ const c_create = async (user_id) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid user _id',
+			message: 'Invalid user_id',
 		}
 	}
 
@@ -53,7 +53,7 @@ const c_delete = async (user_id) => {
 		return {
 			executed: true,
 			status: false,
-			message: 'Invalid user _id',
+			message: 'Invalid user_id',
 		}
 	}
 

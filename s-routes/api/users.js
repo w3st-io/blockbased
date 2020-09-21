@@ -48,12 +48,12 @@ router.get(
 
 // [READ] Params //
 router.get(
-	'/read/:_id',
+	'/read/:user_id',
 	async (req, res) => {
 		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params._id)) {
+		if (mongoose.isValidObjectId(req.params.user_id)) {
 			try {
-				const returned = await usersCollection.c_read(req.params._id)
+				const returned = await usersCollection.c_read(req.params.user_id)
 
 				res.status(200).send(returned)
 			}
@@ -256,6 +256,7 @@ router.post(
 					)
 					
 					if (passwordRecovery.status && !passwordRecovery.existance) {
+						// [SEND-MAIL] //
 						const email = await mailerUtil.sendPasswordResetEmail(
 							req.params.email,
 							user.user._id,
@@ -290,13 +291,35 @@ router.post(
 router.post(
 	'/reset-password',
 	async (req, res) => {
-		const newPassword = req.body.newPassword
-		
 		// if token exist //
 		if (req.body.token) {
-			// decode the token
-				// if decoded
+			// [READ] Find password reset with given token //
+			const tokenFound = ''
+
+			if (tokenFound.existance) {
+				if (req.body.newPassword) {
 					// update the passowrd of decoded user_id
+				}
+				else {
+					res.status(200).send({
+						executed: true,
+						status: false,
+						message: 'users: No password'
+					})
+				}
+			}
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'users: Invalid token'
+			})
+		}
+		else {
+			res.status(200).send({
+				executed: true,
+				status: false,
+				message: 'users: No token passed'
+			})
 		}
 	}
 )

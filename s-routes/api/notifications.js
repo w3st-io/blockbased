@@ -43,13 +43,15 @@ router.get(
 
 /******************* [MARK-READ-STATUS] *******************/
 router.get(
-	'/mark-read/:_id',
+	'/mark-read/:notification_id',
 	Auth.userToken(),
 	async (req, res) => {
 		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params._id)) {
+		if (mongoose.isValidObjectId(req.params.notification_id)) {
 			try {
-				const returned = await notificationsCollection.c_markRead(req.params._id)
+				const returned = await notificationsCollection.c_markRead(
+					req.params.notification_id
+				)
 
 				res.status(200).send(returned)
 			}
@@ -65,7 +67,7 @@ router.get(
 			res.status(200).send({
 				executed: true,
 				status: false,
-				message: 'Invalid notification _id'
+				message: 'Invalid notification_id'
 			})
 		}
 	}
