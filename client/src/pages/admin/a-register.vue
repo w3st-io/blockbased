@@ -7,42 +7,6 @@
 			<!-- FORM + VEE-VALIDATE -->
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(register)">
-					<!-- First Name -->
-					<ValidationProvider
-						tag="div"
-						class="form-group"
-						rules="required"
-						v-slot="{ errors }"
-					>
-						<label for="first_name">First Name</label>
-						<input
-							v-model="first_name"
-							name="first_name"
-							type="text"
-							class="form-control bg-dark text-light border-secondary"
-							placeholder="John"
-						>
-						<span class="text-danger">{{ errors[0] }}</span>
-					</ValidationProvider>
-
-					<!-- Last Name -->
-					<ValidationProvider
-						tag="div"
-						class="form-group"
-						rules="required"
-						v-slot="{ errors }"
-					>
-						<label for="last_name">Last Name</label>
-						<input
-							v-model="last_name"
-							name="last_name"
-							type="text"
-							class="form-control bg-dark text-light border-secondary"
-							placeholder="Doe"
-						>
-						<span class="text-danger">{{ errors[0] }}</span>
-					</ValidationProvider>
-
 					<!-- Username -->
 					<ValidationProvider
 						tag="div"
@@ -140,13 +104,10 @@
 	export default {
 		data: function() {
 			return {
-				first_name: '',
-				last_name: '',
 				username: '',
 				email: '',
 				password: '',
 				confirm: '',
-				
 				data: '',
 				error: '',
 			}
@@ -162,8 +123,6 @@
 				// [REGISTER] //
 				try {
 					this.data = await AdminService.register(
-						this.first_name,
-						this.last_name,
 						this.username,
 						this.email,
 						this.password,

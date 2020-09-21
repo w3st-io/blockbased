@@ -60,16 +60,12 @@ router.post(
 	rateLimiters.registrationLimiter,
 	async (req, res) => {
 		if (
-			validator.isAscii(req.body.first_name) &&
-			validator.isAscii(req.body.last_name) &&
 			validator.isAscii(req.body.username) &&
 			validator.isAscii(req.body.email) &&
 			validator.isAscii(req.body.password)
 		) {
 			try {
 				const returned = await adminsCollection.c_register(
-					req.body.first_name,
-					req.body.last_name,
 					req.body.username,
 					req.body.email,
 					req.body.password,

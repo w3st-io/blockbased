@@ -97,25 +97,7 @@ const c_login = async (email, password) => {
 
 
 // [REGISTER] //
-const c_register = async (first_name, last_name, username, email, password) => {
-	// [VALIDATE] first_name //
-	if (!validator.isAlpha(first_name)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid first_name (must be alpha)'
-		}
-	}
-
-	// [VALIDATE] last_name //
-	if (!validator.isAlpha(last_name)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid last_name (must be alpha)'
-		}
-	}
-
+const c_register = async (username, email, password) => {
 	// [VALIDATE] username //
 	if (!validator.isAscii(username)) {
 		return {
@@ -182,8 +164,6 @@ const c_register = async (first_name, last_name, username, email, password) => {
 		const user = await new AdminModel({
 			_id: mongoose.Types.ObjectId(),
 			role: 'not-admin',
-			first_name: first_name,
-			last_name: last_name,
 			username: username,
 			email: email,
 			password: hashedPassword,

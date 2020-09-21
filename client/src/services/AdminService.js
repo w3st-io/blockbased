@@ -26,7 +26,7 @@ function getAdminTokenDecodeData() {
 	}
 	else {
 		decoded = {
-			_id: '',
+			admin_id: '',
 			role: '',
 			email: '',
 			username: '',
@@ -43,11 +43,7 @@ function getAdminTokenDecodeData() {
 async function login(email, password) {
 	const authAxios = await this.authAxios()
 	
-	try {
-		const returned = await authAxios.post('/login', { email, password })
-
-		return returned.data
-	}
+	try { return (await authAxios.post('/login', { email, password })).data }
 	catch (err) {
 		return {
 			executed: true,
@@ -59,20 +55,12 @@ async function login(email, password) {
 
 
 // [REGISTER] //
-async function register(first_name, last_name, username, email, password) {
+async function register(username, email, password) {
 	const authAxios = await this.authAxios()
-	let returned = ''
-
 	try {
-		returned = await authAxios.post('/register', {
-			first_name,
-			last_name,
-			username,
-			email,
-			password,
-		})
-
-		return returned.data
+		return (
+			await authAxios.post('/register', { username, email, password, })
+		).data
 	}
 	catch (err) {
 		return {
