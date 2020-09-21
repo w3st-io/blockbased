@@ -1,9 +1,7 @@
 <template>
 	<section class="container">
 		<div class="my-3 row card card-body bg-dark">
-			<h3 class="col-12 mb-3 text-light">
-				Create Post in "{{ catTitle }}"
-			</h3>
+			<h3 class="col-12 mb-3 text-light">Create Post in "{{ catTitle }}"</h3>
 
 			<!-- [COMPONENT] Create -->
 			<post-create :cat_id="cat_id" />
@@ -32,18 +30,25 @@
 		},
 
 		created: async function() {
+			// [REDIRECT] Not Log Needed //
+			if (!localStorage.usertoken) { router.push({ name: 'login' }) }
+
 			// Get Cat Details //
 			this.cat = cats.find(cat => cat.cat_id === this.cat_id)
 			this.catTitle = this.cat.title
-
-			// [REDIRECT] Not Log Needed //
-			if (!localStorage.usertoken) { router.push({ name: 'login' }) }
 			
 			// [LOG] //
 			//this.log()
 		},
 
-		methods: {	
+		methods: {
+			async submit() {
+				if (localStorage.usertoken) {
+					console.log('submit')
+				}
+				else { this.error = 'Error unable to update comment, no token passed' }
+			},
+
 			log() {
 				console.log('%%% [PAGE] CatPostCreate %%%')
 				console.log('cat_id:', this.cat_id)
