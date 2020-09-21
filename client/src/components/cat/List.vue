@@ -48,7 +48,9 @@
 			>
 				<p class="align-self-center badge badge-primary text-light">
 					<span class="m-0 custom-font-size">
-						<p v-if="!loading" class="m-0">{{ totals[cat.cat_id] }}</p>
+						<p class="m-0">
+							{{ postTotals[index].totalPosts }}
+						</p>
 						<span class="small">Posts</span>
 					</span>
 				</p>
@@ -60,42 +62,20 @@
 <script>
 	// [IMPORT] Personal //
 	import router from '@router'
-	import PostService from '@services/PostService'
 
 	// [EXPORT] //
 	export default {
 		props: {
 			cats: { type: Array, required: true, },
-		},
-
-		data: function() {
-			return {
-				loading: true,
-				totals: {},
-			}
+			postTotals: { type: Array, required: true, },
 		},
 
 		created: async function() {
-			// Set Totals //
-			await this.postCount()
-
-			// Disable Loading //
-			this.loading = false
-
 			// [LOG] //
-			//this.log()
+			this.log()
 		},
 
 		methods: {
-			async postCount() {
-				// For the Size of the # of Cats.. //
-				for (let i = 0; i < this.cats.length; i++) {
-					let cat_id = this.cats[i].cat_id
-
-					this.totals[cat_id] = await PostService.s_count(cat_id)
-				}
-			},
-
 			redirectToCatPosts(cat_id) {
 				router.push({
 					name: 'cat',
@@ -109,7 +89,7 @@
 			log() {
 				console.log('%%% [COMPONENT] Cat List %%%')
 				console.log('cats:', this.cats)
-				console.log('totals:', this.totals)
+				console.log('postTotals:', this.postTotals)
 			},
 		}
 	}

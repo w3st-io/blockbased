@@ -6,7 +6,6 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
-const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
@@ -25,10 +24,10 @@ router.get(
 	async (req, res) => {
 		try {
 			for (let i = 0; i < cats.length; i++) {
+				// [TOTAL-POSTS] //
 				cats[i].totalPosts = (
 					await postsCollection.c_countAll(cats[i].cat_id)
 				).count
-				console.log(cats[i])
 			}
 			
 			res.send({

@@ -19,6 +19,25 @@ const authAxios = async () => {
 }
 
 
+// [HOME] //
+async function s_home() {
+	const authAxios = await this.authAxios()
+
+	try {
+		const { data } = await authAxios.get('/')
+
+		return data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `PageService: Error --> ${err}`
+		}
+	}
+}
+
+
 // [ADMIN] //
 async function s_admin() {
 	const authAxios = await this.authAxios()
@@ -141,6 +160,7 @@ async function s_profile_view(user_id) {
 // [EXPORT] //
 export default {
 	authAxios,
+	s_home,
 	s_admin,
 	s_cat,
 	s_post,
