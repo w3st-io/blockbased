@@ -8,23 +8,23 @@
 				<table class="table table-border table-dark">
 					<tr>
 						<td>Admin Id</td>
-						<td>{{ adminDecoded._id }}</td>
+						<td>{{ decoded2.admin_id }}</td>
 					</tr>
 					<tr>
 						<td>Username</td>
-						<td>{{ adminDecoded.username }}</td>
+						<td>{{ decoded2.username }}</td>
 					</tr>
 					<tr>
 						<td>Email</td>
-						<td>{{ adminDecoded.email }}</td>
+						<td>{{ decoded2.email }}</td>
 					</tr>
 					<tr>
 						<td>First Name</td>
-						<td>{{ adminDecoded.first_name }}</td>
+						<td>{{ decoded2.first_name }}</td>
 					</tr>
 					<tr>
 						<td>Last Name</td>
-						<td>{{ adminDecoded.last_name }}</td>
+						<td>{{ decoded2.last_name }}</td>
 					</tr>
 				</table>
 			</div>
@@ -41,7 +41,7 @@
 	export default {
 		data: function() {
 			return {
-				adminDecoded: {},
+				decoded2: {},
 			}
 		},
 
@@ -58,13 +58,13 @@
 
 		methods: {
 			async getAdminData() {
-				try { this.adminDecoded = await AdminService.getAdminTokenDecodeData() }
+				try { this.decoded2 = await AdminService.getAdminTokenDecodeData() }
 				catch (err) { this.error = err }
 			},
 
 			log() {
 				console.log('%%% [PAGE] Admin Profile %%%')
-				console.log('adminDecoded:', this.adminDecoded)
+				console.log('adminDecoded:', this.decoded2)
 			},
 		},
 	}

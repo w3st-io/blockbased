@@ -25,7 +25,7 @@ router.get(
 	Auth.userToken(),
 	async (req, res) => {
 		try {
-			const returned = await usersCollection.c_read(req.decoded._id)
+			const returned = await usersCollection.c_read(req.decoded.user_id)
 
 			res.status(200).send(returned)
 		}

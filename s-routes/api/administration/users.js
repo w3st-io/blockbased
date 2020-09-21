@@ -50,7 +50,7 @@ router.post(
 		if (mongoose.isValidObjectId(req.params.user_id)) {
 			try {
 				const returned = await usersCollection.c_update(
-					req.decoded._id,
+					req.decoded.user_id,
 					req.body.img_url
 				)
 

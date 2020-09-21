@@ -59,13 +59,13 @@
 							/>
 
 							<button
-								v-if="comment.user._id == decoded._id"
+								v-if="comment.user._id == decoded.user_id"
 								@click="redirectToEdit(comment._id)"
 								class="py-0 btn btn-sm text-secondary"
 							>Edit</button>
 
 							<button
-								v-if="comment.user._id == decoded._id"
+								v-if="comment.user._id == decoded.user_id"
 								@click="deleteComment(comment._id)"
 								class="py-0 btn btn-sm text-danger"
 							>Delete</button>

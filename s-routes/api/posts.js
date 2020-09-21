@@ -39,14 +39,14 @@ router.post(
 		) {
 			try {
 				const post = await postsCollection.c_create(
-					req.decoded._id,
+					req.decoded.user_id,
 					req.body.cat_id,
 					req.body.title
 				)
 
 				if (post.status) {
 					const comment = await commentsCollection.c_create(
-						req.decoded._id,
+						req.decoded.user_id,
 						post.createdPost._id,
 						req.body.text
 					)
@@ -198,7 +198,7 @@ router.delete(
 			try {
 				const ownership = await postsCollection.c_ownership(
 					req.params.post_id,
-					req.decoded._id,
+					req.decoded.user_id,
 				)
 				
 				if (ownership.status && ownership.ownership) {
@@ -289,7 +289,7 @@ router.get(
 							// [LIKED-STATUS] //
 							postsObj.posts[i].liked = (
 								await postLikesCollection.c_existance(
-									req.decoded._id,
+									req.decoded.user_id,
 									postsObj.posts[i]._id
 								)
 							).existance
@@ -297,7 +297,7 @@ router.get(
 							// [FOLLOW-STATUS] //
 							postsObj.posts[i].followed = (
 								await postFollowersCollection.c_existance(
-									req.decoded._id,
+									req.decoded.user_id,
 									postsObj.posts[i]._id
 								)
 							).existance
@@ -354,7 +354,7 @@ router.get(
 						// [LIKED-STATUS] //
 						postObj.post.liked = (
 							await postLikesCollection.c_existance(
-								req.decoded._id,
+								req.decoded.user_id,
 								postObj.post._id
 							)
 						).existance
@@ -362,7 +362,7 @@ router.get(
 						// [FOLLOWED-STATUS] //
 						postObj.post.followed = (
 							await postFollowersCollection.c_existance(
-								req.decoded._id,
+								req.decoded.user_id,
 								postObj.post._id
 							)
 						).existance
@@ -400,14 +400,14 @@ router.post(
 		if (mongoose.isValidObjectId(req.params.post_id)) {
 			try {
 				const existance = await postLikesCollection.c_existance(
-					req.decoded._id,
+					req.decoded.user_id,
 					req.params.post_id
 				)
 
 				if (!existance.existance) {
 					// [CREATE] postLike //
 					const returned = await postLikesCollection.c_create(
-						req.decoded._id,
+						req.decoded.user_id,
 						req.params.post_id
 					)
 		
@@ -457,14 +457,14 @@ router.post(
 		if (mongoose.isValidObjectId(req.params.post_id)) {
 			try {
 				const existance = await postLikesCollection.c_existance(
-					req.decoded._id,
+					req.decoded.user_id,
 					req.params.post_id
 				)
 
 				if (existance.existance) {
 					// [CREATE] postLike //
 					const returned = await postLikesCollection.c_delete(
-						req.decoded._id,
+						req.decoded.user_id,
 						req.params.post_id
 					)
 					
@@ -515,7 +515,7 @@ router.post(
 		if (mongoose.isValidObjectId(req.params.post_id)) {
 			try {
 				const returned = await postFollowersCollection.c_create(
-					req.decoded._id,
+					req.decoded.user_id,
 					req.params.post_id
 				)
 				
@@ -549,7 +549,7 @@ router.post(
 		if (mongoose.isValidObjectId(req.params.post_id)) {
 			try {
 				const returned = await postFollowersCollection.c_delete(
-					req.decoded._id,
+					req.decoded.user_id,
 					req.params.post_id
 				)
 				

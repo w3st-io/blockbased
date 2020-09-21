@@ -47,7 +47,7 @@ router.post(
 
 				if (postExistance.existance) {
 					const returned = await commentsCollection.c_create(
-						req.decoded._id,
+						req.decoded.user_id,
 						req.body.post_id,
 						req.body.text
 					)
@@ -140,7 +140,7 @@ router.get(
 							if (req.decoded) {
 								// Set Liked Status //
 								const liked = await commentLikesCollection.c_existance(
-									req.decoded._id,
+									req.decoded.user_id,
 									returned.comments[i]._id
 								)
 			
@@ -193,7 +193,7 @@ router.get(
 						// [LIKED-STATUS] //
 						returned.comment.liked = (
 							await commentLikesCollection.c_existance(
-								req.decoded._id,
+								req.decoded.user_id,
 								req.params.comment_id
 							)
 						).existance
@@ -235,7 +235,7 @@ router.post(
 				// [UPDATE] //
 				const comment = await commentsCollection.c_update(
 					req.params.comment_id,
-					req.decoded._id,
+					req.decoded.user_id,
 					req.body.text
 				)
 				
@@ -271,7 +271,7 @@ router.delete(
 				// [DELETE] //
 				const comment = await commentsCollection.c_delete(
 					req.params.comment_id,
-					req.decoded._id,
+					req.decoded.user_id,
 				)
 					
 				if (comment.status) {
@@ -327,7 +327,7 @@ router.post(
 			try {
 				// [CREATE] CommentLike //
 				const commentLike = await commentLikesCollection.c_create(
-					req.decoded._id,
+					req.decoded.user_id,
 					req.params.post_id,
 					req.params.comment_id,
 				)
@@ -363,7 +363,7 @@ router.post(
 			try {
 				// [DELETE] CommentLike //
 				const commentLike = await commentLikesCollection.c_delete(
-					req.decoded._id,
+					req.decoded.user_id,
 					req.params.comment_id,
 				)
 				
@@ -403,7 +403,7 @@ router.post(
 		) {
 			try {
 				const returned = await commentReportsCollection.c_create(
-					req.decoded._id,
+					req.decoded.user_id,
 					req.params.comment_id,
 					req.body.post_id,
 					req.body.reportType

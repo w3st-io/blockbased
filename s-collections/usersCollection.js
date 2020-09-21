@@ -245,7 +245,7 @@ const c_login = async (email, password) => {
 		}
 
 		const payload = {
-			_id: userFound._id,
+			user_id: userFound._id,
 			email: userFound.email,
 			username: userFound.username,
 			first_name: userFound.first_name,

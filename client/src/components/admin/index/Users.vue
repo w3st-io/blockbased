@@ -10,14 +10,14 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="user in users" :key="user._id">
+				<tr v-for="user in users" :key="user.user_id">
 					<td>{{ user.email }}</td>
 					<td>{{ user.username }}</td>
 					<td>{{ user.createdAt }}</td>
 					
 					<td class="text-center">
 						<button
-							@click="banUser(user._id)"
+							@click="banUser(user.user_id)"
 							class="btn btn-outline-danger"
 						>Ban</button>
 					</td>

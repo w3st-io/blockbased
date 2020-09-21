@@ -26,7 +26,9 @@ router.get(
 	Auth.userToken(),
 	async (req, res) => {
 		try {
-			const returned = await notificationsCollection.c_readAll(req.decoded._id)
+			const returned = await notificationsCollection.c_readAll(
+				req.decoded.user_id
+			)
 
 			res.status(200).send(returned)
 		}

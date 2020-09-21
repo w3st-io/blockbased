@@ -35,18 +35,20 @@ class Auth {
 					// [VERIFY] tokenBody //
 					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
 						if (decoded) {
-							// [INIT] //
+							// [INIT] Put decoded in req //
 							req.decoded = decoded
 
 							try {
 								// Check verified //
 								const verified = await usersCollection.c_verifiedStatus(
-									req.decoded._id
+									req.decoded.user_id
 								)
 
 								if (verified.status) {
 									// Check Ban //
-									const ban = await banCollection.c_existance(req.decoded._id)
+									const ban = await banCollection.c_existance(
+										req.decoded.user_id
+									)
 
 									next()
 								}
@@ -106,6 +108,9 @@ class Auth {
 					// [VERIFY] tokenBody //
 					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
 						if (decoded) {
+							// [INIT] Put decoded in req //
+							req.decoded2 = decoded
+
 							// Check if the role is admin
 							if (decoded.role == 'admin') { next() }
 							else {
@@ -161,7 +166,10 @@ class Auth {
 				// If a token exists => Validate JWT //
 				if (tokenBody !== 'undefined') {
 					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
-						if (decoded) { req.decoded = decoded }
+						if (decoded) {
+							// [INIT] Put decoded in req //
+							req.decoded = decoded
+						}
 						else { console.log('JWT Verify:', err) }
 					})
 				}

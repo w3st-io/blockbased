@@ -57,7 +57,7 @@ router.get(
 						// [LIKED-STATUS] //
 						postObj.post.liked = (
 							await postLikesCollection.c_existance(
-								req.decoded._id,
+								req.decoded.user_id,
 								postObj.post._id
 							)
 						).existance
@@ -65,7 +65,7 @@ router.get(
 						// [FOLLOWED-STATUS] //
 						postObj.post.followed = (
 							await postFollowersCollection.c_existance(
-								req.decoded._id,
+								req.decoded.user_id,
 								postObj.post._id
 							)
 						).existance
@@ -94,7 +94,7 @@ router.get(
 							// [LIKED-STATUS] //
 							commentsObj.comments[i].liked = (
 								await commentLikesCollection.c_existance(
-									req.decoded._id,
+									req.decoded.user_id,
 									commentsObj.comments[i]._id
 								)
 							).existance

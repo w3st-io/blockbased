@@ -31,7 +31,7 @@ router.get(
 	Auth.userToken(),
 	async (req, res) => {
 		try {
-			const returned = await usersCollection.c_read(req.decoded._id)
+			const returned = await usersCollection.c_read(req.decoded.user_id)
 
 			res.status(200).send(returned)
 		}
@@ -85,7 +85,7 @@ router.post(
 		if (validator.isAscii(req.body.img_url)) {
 			try {
 				const returned = await usersCollection.c_update(
-					req.decoded._id,
+					req.decoded.user_id,
 					req.body.img_url
 				)
 		

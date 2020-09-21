@@ -83,7 +83,7 @@
 				try { this.decoded = await UserService.getUserTokenDecodeData() }
 				catch (err) { `App: Error --> ${err}` }
 
-				this.socket.emit('join', this.decoded._id)
+				this.socket.emit('join', this.decoded.user_id)
 			}
 
 			// [ADMIN LOGGEDIN] //
@@ -106,7 +106,7 @@
 			})
 
 			EventBus.$on('logged-in', () => {
-				this.socket.emit('join', this.decoded._id)
+				this.socket.emit('join', this.decoded.user_id)
 				this.loggedIn = true
 				
 				this.forceRerender()
