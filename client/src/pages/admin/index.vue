@@ -98,8 +98,6 @@
 					this.commentReports = this.returned.commentReports
 				}
 				else { this.error = this.returned.message }
-
-				console.log('THE DATA:', this.returned)
 			},
 		}
 	}

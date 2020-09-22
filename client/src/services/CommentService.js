@@ -6,9 +6,6 @@
 // [IMPORT] //
 import axios from 'axios'
 
-// [IMPORT] Personal //
-import { EventBus } from '@main'
-
 
 // [AUTH-TOKEN-SETUP] //
 async function authAxios() {
@@ -24,17 +21,7 @@ async function authAxios() {
 async function s_create(post_id, text) {
 	const authAxios = await this.authAxios()
 
-	const { data } = await authAxios.post(`/create`, {
-		post_id,
-		text,
-	})
-
-	if (data.status) {
-		// [EMIT] Notify sockets that comment is created //
-		EventBus.$emit('comment-created', data.postFollowers)
-	}
-
-	return data
+	return (await authAxios.post(`/create`, { post_id, text })).data
 }
 
 
@@ -45,7 +32,7 @@ async function s_readAll(post_id, limit, pageNumber) {
 
 	try {
 		let { data } = await authAxios.get(`/read-all/${post_id}/${limit}/${skip}`)
-
+		
 		if (data.status) {
 			data.comments.forEach(comment => {
 				comment.createdAt = new Date(comment.createdAt).toLocaleString()
@@ -70,7 +57,6 @@ async function s_read(comment_id) {
 
 	try {
 		let { data } = await authAxios.get(`/read/${comment_id}`)
-		
 		if (data.status) {
 			data.comment.createdAt = new Date(data.comment.createdAt).toLocaleString()
 		}

@@ -46,27 +46,27 @@ router.get(
 				)
 
 				if (postsObj.status) {
-					// [POST-COUNT] //
+					// [COUNT] Posts //
 					postsObj.postsCount = (
 						await postsCollection.c_countAll(req.params.cat_id)
 					).count
 					
-					// [PAGE-COUNT] //
+					// [COUNT] Calculate Pages //
 					postsObj.pageCount = Math.ceil(postsObj.postsCount / req.params.limit)
 	
 					// For Each Post in Posts //
 					for (let i = 0; i < postsObj.posts.length; i++) {
-						// [LIKE-COUNT] //
+						// [COUNT] Likes //
 						postsObj.posts[i].likeCount = (
 							await postLikesCollection.c_countAll(postsObj.posts[i]._id)
 						).count
 						
-						// [FOLLOW-COUNT] //
+						// [COUNT] Follows //
 						postsObj.posts[i].followersCount = (
 							await postFollowersCollection.c_countAll(postsObj.posts[i]._id)
 						).count
 						
-						// [COMMENT-COUNT] //
+						// [COUNT] Comments //
 						postsObj.posts[i].commentCount = (
 							await commentsCollection.c_countAll(postsObj.posts[i]._id)
 						).count

@@ -14,7 +14,7 @@ function join(socket_id, user_id) {
 	const userSocket = { socket_id, user_id }
 	userSockets.push(userSocket)
 
-	//console.log('[JOIN] userSockets:', userSockets)
+	console.log('[JOIN] userSockets:', userSockets)
 
 	return userSocket
 }
@@ -39,7 +39,7 @@ function joinRoom(socket_id, user_id, room) {
 	const userSocket = { socket_id, user_id, room }
 	userSocketsInRooms.push(userSocket)
 
-	//console.log('[JOINROOM] userSocketsInRooms:',userSocketsInRooms)
+	//console.log('[JOINROOM] userSocketsInRooms:', userSocketsInRooms)
 
 	return userSocket
 }

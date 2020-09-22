@@ -95,15 +95,12 @@
 
 			// [ON-SOCKET] //
 			this.socket.on('update-notification', () => {
+				console.log('LOGG');
 				setTimeout(() => { EventBus.$emit('update-notification') }, 1500)
 			})
 
-			// [EMIT-EVENTBUS] //
+			// [EMIT-EVENTBUS] Initial get notifications //
 			EventBus.$emit('update-notification')
-
-			EventBus.$on('comment-created', (followers) => {
-				this.socket.emit('comment-created', followers)
-			})
 
 			EventBus.$on('logged-in', () => {
 				this.socket.emit('join', this.decoded.user_id)

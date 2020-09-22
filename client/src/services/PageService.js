@@ -92,19 +92,17 @@ async function s_post(post_id, limit, pageNumber) {
 
 	try {
 		let { data } = await authAxios.get(`/post/${post_id}/${limit}/${skip}`)
+			
+		if (data.status) {
+			// Format Date //
+			data.postObj.post.createdAt = new Date(
+				data.postObj.post.createdAt
+			).toLocaleString()
 
-			if (data.status) {
-				// Format Date //
-				data.postObj.post.createdAt = new Date(
-					data.postObj.post.createdAt
-				).toLocaleString()
-
-				data.commentsObj.comments.forEach(comment => {
-					comment.createdAt = new Date(comment.createdAt).toLocaleString()
-				})
-			}
-		
-		console.log('PAGESERVICE', data)
+			data.commentsObj.comments.forEach(comment => {
+				comment.createdAt = new Date(comment.createdAt).toLocaleString()
+			})
+		}
 		
 		return data
 	}
@@ -112,7 +110,7 @@ async function s_post(post_id, limit, pageNumber) {
 		return {
 			executed: false,
 			status: false,
-			message: `CommentService: Error --> ${err}`
+			message: `PageService: Error --> ${err}`
 		}
 	}
 }

@@ -21,6 +21,7 @@ const commentLikesCollection = require('../../s-collections/commentLikesCollecti
 const commentReportsCollection = require('../../s-collections/commentReportsCollection')
 const notificationsCollection = require('../../s-collections/notificationsCollection')
 const Auth = require('../../s-middleware/Auth')
+const userUtils = require('../../s-utils/userUtils')
 
 
 // [EXPRESS + USE] //
@@ -35,7 +36,7 @@ router.post(
 	rateLimiter.commentLimiter,
 	async (req, res) => {
 		// [INIT] //
-		let returnFollowers = []
+		let postFollowers = []
 		
 		// [VALIDATE] //
 		if (
@@ -46,15 +47,20 @@ router.post(
 				const postExistance = await postsCollection.c_existance(req.body.post_id)
 
 				if (postExistance.existance) {
-					const returned = await commentsCollection.c_create(
+					const comment = await commentsCollection.c_create(
 						req.decoded.user_id,
 						req.body.post_id,
 						req.body.text
 					)
 
-					if (returned.status) {
+					if (comment.status) {
 						// [READ-ALL] Followers //
 						const followers = await postFollowersCollection.c_readAll(
+							req.body.post_id
+						)
+
+						// [COUNT] Comments //
+						const commentCount = await commentsCollection.c_countAll(
 							req.body.post_id
 						)
 						
@@ -62,11 +68,25 @@ router.post(
 						for (let i = 0; i < followers.postFollowers.length; i++) {
 							await notificationsCollection.c_create(
 								followers.postFollowers[i].user,
-								returned.comment._id,
+								comment.comment._id,
 								'comment'
 							)
 
-							returnFollowers.push(followers.postFollowers[i].user)
+							// Get userSocket by user_id //
+							const userSocket = userUtils.getUserSocketByUserId(
+								followers.postFollowers[i].user
+							)
+
+							console.log('ss', userSocket, followers.postFollowers[i].user);
+							
+							// [EMIT] //
+							if (userSocket) {
+								req.app.io.to(userSocket.socket_id).emit(
+									'update-notification'
+								)
+							}
+
+							postFollowers.push(followers.postFollowers[i].user)
 						}
 
 						/*
@@ -76,12 +96,11 @@ router.post(
 						res.status(200).send({
 							executed: true,
 							status: true,
-							created: returned,
-							postFollowers: returnFollowers,
-							commentCount: await commentsCollection.c_countAll(req.body.post_id)
+							comment: comment,
+							commentCount: commentCount
 						})
 					}
-					else { res.status(200).send(returned) }
+					else { res.status(200).send(comment) }
 				}
 				else { res.status(200).send(postExistance) }
 			}
@@ -109,6 +128,7 @@ router.get(
 	'/read-all/:post_id/:limit/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
+		console.log(io)
 		// [VALIDATE] //
 		if (
 			mongoose.isValidObjectId(req.params.post_id) &&
@@ -183,7 +203,7 @@ router.get(
 				const returned = await commentsCollection.c_read(req.params.comment_id)
 			
 				if (returned.status) {
-					// [LIKE-COUNT] //
+					// [COUNT] Likes //
 					returned.comment.likeCount = (
 						await commentLikesCollection.c_countAll(req.params.comment_id)
 					).count

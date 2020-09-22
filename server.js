@@ -14,7 +14,7 @@ const socketIO = require('socket.io')
 require('dotenv').config()
 
 
-// [REQUIRE] Personal - API - Pages - Utils //
+// [REQUIRE] Personal - API - Pages - Socket //
 const admininstrationPosts = require('./s-routes/api/administration/posts')
 const admininstrationComments = require('./s-routes/api/administration/comments')
 const admininstrationReports = require('./s-routes/api/administration/reports')
@@ -26,6 +26,7 @@ const rateLimiter = require('./s-rate-limiters')
 const notifications = require('./s-routes/api/notifications')
 const users = require('./s-routes/api/users')
 
+
 const p_ = require ('./s-routes/pages')
 const p_admin = require('./s-routes/pages/admin')
 const p_cat = require('./s-routes/pages/cat')
@@ -33,7 +34,7 @@ const p_post = require('./s-routes/pages/post')
 const p_profile = require('./s-routes/pages/profile')
 const p_profile_view = require('./s-routes/pages/profile/view')
 
-const userUtils = require('./s-utils/userUtils')
+const s_socket = require('./s-socket')
 
 
 // [INIT] Const //
@@ -50,7 +51,7 @@ mongoose.connect(
 		useUnifiedTopology: true
 	},
 	(err, connected) => {
-		if(connected) { console.log('Mongoose Connected to DB') }
+		if (connected) { console.log('Mongoose Connected to DB') }
 		else { console.log(`Mongoose Connection Error --> ${err}`) }
 	}
 )
@@ -61,6 +62,10 @@ mongoose.set('useFindAndModify', false)
 const app = express()
 const server = http.createServer(app)
 
+// [SOCKET] //
+const io = socketIO.listen(server)
+s_socket.start(io)
+app.io = io
 
 // [USE] //
 app.use(bodyParser.json())
@@ -88,69 +93,6 @@ app.use('/pages/profile', p_profile)
 app.use('/pages/profile/view', p_profile_view)
 
 
-// [SOCKET + ON/EMIT] //
-const io = new socketIO(server)
-io.on('connection', (socket) => {
-	// [LOG] //
-	//console.log('New WS connected')
-
-
-	// [EMIT] usersOnline //
-	socket.emit('user', userUtils.getUserSocket(socket.id))
-
-
-	// [ON] join //
-	socket.on('join', (user_id) => {
-		// Check if user_id is not null & user_id isnt already in room
-		if (user_id && !userUtils.getUserSocketByUserId(user_id)) {
-			userUtils.join(socket.id, user_id)
-
-			// [EMIT-SOCKET] usersOnline //
-			socket.emit('user', userUtils.getUserSocket(socket.id))
-
-			// [EMIT-SOCKET-BROADCAST] usersOnline //
-			socket.broadcast.emit('user', userUtils.getUserSocket(socket.id))
-		}
-	})
-
-	
-	// [ON] leave //
-	socket.on('leave', () => { userUtils.leave(socket.id) })
-
-
-	// [ON] comment-created //
-	socket.on('comment-created', (followers) => {
-		if (followers) {
-			followers.forEach(follower => {
-				// Get userSicket by user_id
-				const userSocket = userUtils.getUserSocketByUserId(follower)
-
-				// [EMIT] //
-				if (userSocket) io.to(userSocket.socket_id).emit('update-notification')
-			})
-		}
-	})
-
-	
-	// [ON] Disconnect //
-	socket.on('disconnect', () => {
-		// [LOG] //
-		//console.log('WS Closed')
-
-		// Leave variable
-		userUtils.leave(socket.id)
-	})
-})
-
-
-// [MAIN-ROUTE] //
-app.get('/api', async (req, res) => { res.send('API') })
-
-
-// [BASE-URL-ROUTE] For the socket //
-app.get('/api/get-base-url', async (req, res) => { res.send(base_url) })
-
-
 // [HEROKU] Set Static Folder for Heroku //
 if (process.env.NODE_ENV == 'production') {
 	app.use(express.static('client/dist'))
@@ -159,6 +101,14 @@ if (process.env.NODE_ENV == 'production') {
 		res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
 	})
 }
+
+
+// [MAIN-ROUTE] //
+app.get('/api', async (req, res) => { res.send('API') })
+
+	
+// [BASE-URL-ROUTE] For the socket //
+app.get('/api/get-base-url', async (req, res) => { res.send(base_url) })
 
 
 // [LISTEN] //
