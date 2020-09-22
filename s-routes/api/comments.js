@@ -35,9 +35,6 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.commentLimiter,
 	async (req, res) => {
-		// [INIT] //
-		let postFollowers = []
-		
 		// [VALIDATE] //
 		if (
 			validator.isAscii(req.body.post_id) &&
@@ -76,23 +73,16 @@ router.post(
 							const userSocket = userUtils.getUserSocketByUserId(
 								followers.postFollowers[i].user
 							)
-
-							console.log('ss', userSocket, followers.postFollowers[i].user);
 							
-							// [EMIT] //
 							if (userSocket) {
+								// [EMIT] //
 								req.app.io.to(userSocket.socket_id).emit(
 									'update-notification'
 								)
 							}
-
-							postFollowers.push(followers.postFollowers[i].user)
 						}
 
-						/*
-						* Send follwors so they are notificed and the comment count to know
-						* what the last page is
-						*/
+						/* Send the comment count to know what the last page is */
 						res.status(200).send({
 							executed: true,
 							status: true,

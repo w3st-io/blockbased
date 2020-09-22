@@ -62,10 +62,12 @@ mongoose.set('useFindAndModify', false)
 const app = express()
 const server = http.createServer(app)
 
+
 // [SOCKET] //
 const io = socketIO.listen(server)
 s_socket.start(io)
 app.io = io
+
 
 // [USE] //
 app.use(bodyParser.json())

@@ -93,14 +93,13 @@
 				this.socket.emit('admin-join')
 			}
 
-			// [ON-SOCKET] //
-			this.socket.on('update-notification', () => {
-				console.log('LOGG');
-				setTimeout(() => { EventBus.$emit('update-notification') }, 1500)
-			})
-
 			// [EMIT-EVENTBUS] Initial get notifications //
 			EventBus.$emit('update-notification')
+
+			// [ON-SOCKET] //
+			this.socket.on('update-notification', () => {
+				setTimeout(() => { EventBus.$emit('update-notification') }, 1500)
+			})
 
 			EventBus.$on('logged-in', () => {
 				this.socket.emit('join', this.decoded.user_id)
