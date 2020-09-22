@@ -63,22 +63,24 @@ router.post(
 						
 						// [CREATE] Notification //
 						for (let i = 0; i < followers.postFollowers.length; i++) {
-							await notificationsCollection.c_create(
-								followers.postFollowers[i].user,
-								comment.comment._id,
-								'comment'
-							)
-
-							// Get userSocket by user_id //
-							const userSocket = userUtils.getUserSocketByUserId(
-								followers.postFollowers[i].user
-							)
-							
-							if (userSocket) {
-								// [EMIT] //
-								req.app.io.to(userSocket.socket_id).emit(
-									'update-notification'
+							if (followers.postFollowers[i].user != req.decoded.user_id) {
+								await notificationsCollection.c_create(
+									followers.postFollowers[i].user,
+									comment.comment._id,
+									'comment'
 								)
+
+								// Get userSocket by user_id //
+								const userSocket = userUtils.getUserSocketByUserId(
+									followers.postFollowers[i].user
+								)
+								
+								if (userSocket) {
+									// [EMIT] //
+									req.app.io.to(userSocket.socket_id).emit(
+										'update-notification'
+									)
+								}
 							}
 						}
 
