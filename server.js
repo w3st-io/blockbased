@@ -32,8 +32,8 @@ const p_ = require ('./s-routes/pages')
 const p_admin = require('./s-routes/pages/admin')
 const p_cat = require('./s-routes/pages/cat')
 const p_post = require('./s-routes/pages/post')
-const p_profile = require('./s-routes/pages/profile')
-const p_profile_view = require('./s-routes/pages/profile/view')
+const p_profile = require('./s-routes/pages/user/profile')
+const p_profile_view = require('./s-routes/pages/user/profile/view')
 
 const s_socket = require('./s-socket')
 
@@ -85,8 +85,8 @@ app.use('/pages', p_)
 app.use('/pages/admin', p_admin)
 app.use('/pages/cat', p_cat)
 app.use('/pages/post', p_post)
-app.use('/pages/profile', p_profile)
-app.use('/pages/profile/view', p_profile_view)
+app.use('/pages/user/profile', p_profile)
+app.use('/pages/user/profile/view', p_profile_view)
 
 
 // [HEROKU] Set Static Folder for Heroku //

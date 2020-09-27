@@ -116,12 +116,12 @@ async function s_post(post_id, limit, pageNumber) {
 }
 
 
-// [USER/PROFILE] //
-async function s_profile() {
+// [USER] //
+async function s_user_profile() {
 	const authAxios = await this.authAxios()
 	
 	try {
-		const { data } = await authAxios.get('/profile')
+		const { data } = await authAxios.get('/user/profile')
 
 		return data
 	}
@@ -129,18 +129,18 @@ async function s_profile() {
 		return {
 			executed: false,
 			status: false,
-			message: `UserService: Error --> ${err}`
+			message: `PageService: Error --> ${err}`
 		}
 	}
 }
 
 
-async function s_profile_view(user_id) {
+async function s_user_profile_view(user_id) {
 	const authAxios = await this.authAxios()
 	
 	if (user_id) {
 		try {
-			const { data } = await authAxios.get(`/profile/view/${user_id}`)
+			const { data } = await authAxios.get(`/user/profile/view/${user_id}`)
 
 			return data
 		}
@@ -148,7 +148,7 @@ async function s_profile_view(user_id) {
 			return {
 				executed: false,
 				status: false,
-				message: `UserService: Error --> ${err}`
+				message: `PageService: Error --> ${err}`
 			}
 		}
 	}
@@ -162,6 +162,6 @@ export default {
 	s_admin,
 	s_cat,
 	s_post,
-	s_profile,
-	s_profile_view,
+	s_user_profile,
+	s_user_profile_view,
 }

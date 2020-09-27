@@ -32,13 +32,13 @@
 			return {
 				user_id: this.$route.params.user_id,
 				user: {},
-				profileImg: require('../../assets/images/DefaultProfileImg.png'),
+				profileImg: require('../../../assets/images/DefaultProfileImg.png'),
 				error: '',
 			}
 		},
 
 		created: async function() {
-			const returned = await PageService.s_profile_view(this.user_id)
+			const returned = await PageService.s_user_profile_view(this.user_id)
 
 			if (returned.status) { this.user = returned.user }
 			else { this.error = returned.message }

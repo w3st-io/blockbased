@@ -10,24 +10,33 @@ import Router from 'vue-router'
 
 
 // [IMPORT] Personal //
+// [*]
+import home from '@pages'
+import NotFound from '@pages/404'
+// [ADMIN]
 import Admin from '@pages/admin'
 import ALogin from '@pages/admin/a-login'
 import AProfile from '@pages/admin/a-profile'
 import ARegister from '@pages/admin/a-register'
+// [CAT]
+import Cat from '@pages/cat'
+import PostCreate from '@pages/cat/post-create'
+// [POST]
 import Post from '@pages/post'
 import CommentCreate from '@pages/post/comment-create'
 import CommentEdit from '@pages/post/comment-edit'
-import Cat from '@pages/cat'
-import Profile from '@pages/profile'
-import Edit from '@pages/profile/edit'
-import View from '@pages/profile/view'
-import PostCreate from '@pages/cat/post-create'
-import home from '@pages'
+
+// [USER]
+import PasswordRequest from '../pages/user/password/request'
+import PasswordReset from '../pages/user/password/reset'
+import Profile from '@pages/user/profile'
+import ProfileEdit from '@pages/user/profile/edit'
+import ProfileView from '@pages/user/profile/view'
 import Login from '@pages/user/login'
 import Verify from '@pages/user/verify'
 import Register from '@pages/user/register'
+// [Z]
 import z from '@pages/z'
-import NotFound from '@pages/404'
 
 
 // [USE] //
@@ -108,35 +117,6 @@ const router = new Router ({
 			}
 		},
 
-		// [PROFILE] //
-		{
-			path: '/profile',
-			name: 'profile',
-			component: Profile,
-			meta: {
-				auth: true,
-				title: 'Your Profile'
-			}
-		},
-		{
-			path: '/profile/edit',
-			name: 'edit',
-			component: Edit,
-			meta: {
-				auth: true,
-				title: 'Edit Your Profile'
-			}
-		},
-		{
-			path: '/profile/view/:user_id',
-			name: 'view',
-			component: View,
-			meta: {
-				auth: true,
-				title: ''
-			}
-		},
-
 		// [POST] //
 		{
 			path: '/post/:post_id/:page',
@@ -177,6 +157,33 @@ const router = new Router ({
 			}
 		},
 		{
+			path: '/user/profile',
+			name: 'profile',
+			component: Profile,
+			meta: {
+				auth: true,
+				title: 'Your Profile'
+			}
+		},
+		{
+			path: '/user/profile/edit',
+			name: 'edit',
+			component: ProfileEdit,
+			meta: {
+				auth: true,
+				title: 'Edit Your Profile'
+			}
+		},
+		{
+			path: '/user/profile/view/:user_id',
+			name: 'profile-view',
+			component: ProfileView,
+			meta: {
+				auth: true,
+				title: ''
+			}
+		},
+		{
 			path: '/user/register',
 			name: 'register',
 			component: Register,
@@ -186,9 +193,31 @@ const router = new Router ({
 			}
 		},
 		{
+			path: '/user/password/request',
+			name: 'register',
+			component: PasswordRequest,
+			meta: {
+				auth: true,
+				title: 'Register'
+			}
+		},
+		{
+			path: '/user/password/reset/:user_id/:verification_code',
+			name: 'register',
+			component: PasswordReset,
+			meta: {
+				auth: true,
+				title: 'Register'
+			}
+		},
+		{
 			path: '/user/verify/:user_id/:verification_code',
 			name: 'verify',
 			component: Verify,
+			meta: {
+				auth: true,
+				title: 'Verfiying your account..'
+			}
 		},
 
 		// [MISC.] //

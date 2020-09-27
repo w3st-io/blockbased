@@ -10,7 +10,7 @@ const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
-const usersCollection = require('../../../s-collections/usersCollection')
+const usersCollection = require('../../../../s-collections/usersCollection')
 
 
 // [EXPRESS + USE] //
@@ -41,7 +41,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/pages/profile/view: Error --> ${err}`
+				message: `/pages/user/profile/view: Error --> ${err}`
 			})
 		}
 	}

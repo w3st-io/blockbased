@@ -9,8 +9,8 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const usersCollection = require('../../../s-collections/usersCollection')
-const Auth = require('../../../s-middleware/Auth')
+const usersCollection = require('../../../../s-collections/usersCollection')
+const Auth = require('../../../../s-middleware/Auth')
 
 
 // [EXPRESS + USE] //
@@ -33,7 +33,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/pages/profile: Error --> ${err}`
+				message: `/pages/user/profile: Error --> ${err}`
 			})
 		}
 	}

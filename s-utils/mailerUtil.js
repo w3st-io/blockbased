@@ -149,8 +149,9 @@ async function sendPasswordResetEmail(to, user_id, VCode) {
 			to: to,
 			subject: 'Reset Password For Your BlockBased.io Account',
 			html: `
-				<h1>Click the Link to Reset Your Password<h1/>
-				<a href="${base_url}/user/set-new-password/${user_id}/${VCode}">
+				<h1>Click the Link Below to Reset Your Password<h1/>
+				<h4>If you did not request to change your password ignore this email</h4>
+				<a href="${base_url}/user/reset-password/${user_id}/${VCode}">
 					<button>Click to Reset Password</button>
 				</a>
 			`

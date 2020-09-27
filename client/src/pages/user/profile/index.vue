@@ -57,7 +57,7 @@
 			if (!localStorage.usertoken) { router.push({ name: 'login' }) }
 
 			// Retrieve User Profile Data //
-			try { this.data = await await PageService.s_profile() }
+			try { this.data = await await PageService.s_user_profile() }
 			catch (err) { this.error = err }
 
 			if (this.data.status) { this.user = this.data.user }
