@@ -1,20 +1,18 @@
 <template>
 	<article class="mx-auto my-3 text-light register-terminal">
-		<!-- Title -->
 		<h3 class="mb-3 text-center">Join Something Awesome!</h3>
 
 		<div class="card card-body bg-dark border-secondary">
-				<!-- FORM + VEE-VALIDATE -->
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(register)">
 					<!-- Username -->
-					<label for="username">Username</label>
 					<ValidationProvider
 						tag="div"
 						class="form-group"
 						rules="required"
 						v-slot="{ errors }"
 					>
+						<label>Username</label>
 						<input
 							v-model="username"
 							name="username"
@@ -26,46 +24,45 @@
 						<span class="text-danger">{{ errors[0] }}</span>
 					</ValidationProvider>
 
-					<!-- Email type="email" -->
-					<label for="email">Email Address</label>
+					<!-- Email -->
 					<ValidationProvider
 						tag="div"
+						type="email"
 						class="form-group"
 						rules="required"
 						v-slot="{ errors }"
 					>
+						<label>Email</label>
 						<input
+							v-model="email"
 							name="email"
-							
+							type="email"
 							class="form-control bg-dark text-light border-secondary"
 							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="example@example.com"
-							v-model="email"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
 					</ValidationProvider>
 
 					<!-- Password -->
-					<label for="password">Password</label>
 					<ValidationProvider
 						tag="div"
 						class="form-group"
 						rules="required|password:8, 50|confirmed:@confirmation"
 						v-slot="{ errors }"
 					>
+						<label>Password</label>
 						<input
 							v-model="password"
-							name="password"
 							type="password"
 							class="form-control bg-dark text-light border-secondary"
 							:class="{ 'is-invalid border-danger': errors != '' }"
-							placeholder="******"
+							placeholder="Password"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
 					</ValidationProvider>
 
 					<!-- Confirmed Password -->
-					<label for="confirm">Confirm Password</label>
 					<ValidationProvider
 						tag="div"
 						name="confirmation"
@@ -73,13 +70,13 @@
 						class="form-group" 
 						v-slot="{ errors }"
 					>
+						<label>Confirm Password</label>
 						<input
 							v-model="confirm"
-							name="confirm"
 							type="password"
 							class="form-control bg-dark text-light border-secondary"
 							:class="{ 'is-invalid border-danger': errors != '' }"
-							placeholder="******"
+							placeholder="Repeat Password"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
 					</ValidationProvider>

@@ -10,7 +10,7 @@
 					</div>
 				</section>
 
-				<!-- lOG IN FORM -->
+				<!-- LOG IN FORM -->
 				<ValidationObserver
 					v-slot="{ handleSubmit }"
 					tag="section"
@@ -56,7 +56,7 @@
 						</ValidationProvider>
 						<br>
 
-						<!-- FORM SUBMIT -->
+						<!-- Submit -->
 						<button
 							class="w-100 btn btn-lg btn-primary"
 							type="submit"

@@ -151,7 +151,7 @@ async function sendPasswordResetEmail(to, user_id, VCode) {
 			html: `
 				<h1>Click the Link Below to Reset Your Password<h1/>
 				<h4>If you did not request to change your password ignore this email</h4>
-				<a href="${base_url}/user/reset-password/${user_id}/${VCode}">
+				<a href="${base_url}/user/password/reset/${user_id}/${VCode}">
 					<button>Click to Reset Password</button>
 				</a>
 			`
