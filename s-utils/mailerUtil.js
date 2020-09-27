@@ -10,45 +10,48 @@ const validator = require('validator')
 require('dotenv').config()
 
 
+// [INIT] //
+const service = process.env.EMAIL_SERVICE || 'gmail'
+const email = process.env.EMAIL
+const password = process.env.EMAIL_PASSWORD
+const base_url = process.env.BASE_URL || 'http://localhost:8080'
+
+
 // [DEFAULT] //
 async function sendMail(to, subject, html) {
-	// [VALIDATE] //
-	if (!validator.isAscii(to) || !validator.isAscii(subject)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid password'
-		}
-	}
-
-	const service = process.env.EMAIL_SERVICE || 'gmail'
-	const email = process.env.EMAIL || ''
-	const password = process.env.EMAIL_PASSWORD || ''
-
-	const transporter = nodemailer.createTransport({
-		service: service,
-		auth: {
-			user: email,
-			pass: password
-		}
-	})
-
-	const mailOptions = {
-		from: email,
-		to: to,
-		subject: subject,
-		html: html
-	}
-
 	try {
+		// [VALIDATE] //
+		if (!validator.isAscii(to) || !validator.isAscii(subject)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid password'
+			}
+		}
+
+		const transporter = nodemailer.createTransport({
+			service: service,
+			auth: {
+				user: email,
+				pass: password
+			}
+		})
+
+		const mailOptions = {
+			from: email,
+			to: to,
+			subject: subject,
+			html: html
+		}
+
 		// [SEND-MAIL] //
-		const email = await transporter.sendMail(mailOptions)
+		const sentEmail = await transporter.sendMail(mailOptions)
 
 		return {
 			executed: true,
 			status: true,
 			message: 'Email Sent',
-			email: email,
+			sentEmail: sentEmail,
 		}
 	}
 	catch (err) {
@@ -63,53 +66,48 @@ async function sendMail(to, subject, html) {
 
 // [VERIFICATION] //
 async function sendVerificationMail(to, user_id, VCode) {
-	// [VALIDATE] //
-	if (
-		!validator.isAscii(to) ||
-		!mongoose.isValidObjectId(user_id) ||
-		!validator.isAscii(VCode)
-	) {
-		return {
-			executed: true,
-			status: false,
-			message: 'mailerUtil: Invalid params'
-		}
-	}
-
-	const email = process.env.EMAIL
-	const password = process.env.EMAIL_PASSWORD
-	const service = process.env.EMAIL_SERVICE || 'gmail'
-	const base_url = process.env.BASE_URL || 'http://localhost:8080'
-
-	const transporter = nodemailer.createTransport({
-		service: service,
-		auth: {
-			user: email,
-			pass: password
-		}
-	})
-
-	const mailOptions = {
-		from: email,
-		to: to,
-		subject: 'Verify Your BlockBased.io Account',
-		html: `
-			<h1>Thank you creating an account! Verify & Join us!<h1/>
-			<a href="${base_url}/user/verify/${user_id}/${VCode}">
-				<button>Click to Verify</button>
-			</a>
-		`
-	}
-
 	try {
+		// [VALIDATE] //
+		if (
+			!validator.isAscii(to) ||
+			!mongoose.isValidObjectId(user_id) ||
+			!validator.isAscii(VCode)
+		) {
+			return {
+				executed: true,
+				status: false,
+				message: 'mailerUtil: Invalid params'
+			}
+		}
+
+		const transporter = nodemailer.createTransport({
+			service: service,
+			auth: {
+				user: email,
+				pass: password
+			}
+		})
+
+		const mailOptions = {
+			from: email,
+			to: to,
+			subject: 'Verify Your BlockBased.io Account',
+			html: `
+				<h1>Thank you creating an account! Verify & Join us!<h1/>
+				<a href="${base_url}/user/verify/${user_id}/${VCode}">
+					<button>Click to Verify</button>
+				</a>
+			`
+		}
+
 		// [SEND-MAIL] //
-		const email = await transporter.sendMail(mailOptions)
+		const sentEmail = await transporter.sendMail(mailOptions)
 
 		return {
 			executed: true,
 			status: true,
 			message: 'Email Sent',
-			email: email,
+			sentEmail: sentEmail,
 		}
 	}
 	catch (err) {
@@ -124,53 +122,48 @@ async function sendVerificationMail(to, user_id, VCode) {
 
 // [PASSWORD-RESET] //
 async function sendPasswordResetEmail(to, user_id, VCode) {
-	// [VALIDATE] //
-	if (
-		!validator.isAscii(to) ||
-		!mongoose.isValidObjectId(user_id) ||
-		!validator.isAscii(VCode)
-	) {
-		return {
-			executed: true,
-			status: false,
-			message: 'mailerUtil: Invalid params'
-		}
-	}
-
-	const email = process.env.EMAIL
-	const password = process.env.EMAIL_PASSWORD
-	const service = process.env.EMAIL_SERVICE || 'gmail'
-	const base_url = process.env.BASE_URL || 'http://localhost:8080'
-
-	const transporter = nodemailer.createTransport({
-		service: service,
-		auth: {
-			user: email,
-			pass: password
-		}
-	})
-
-	const mailOptions = {
-		from: email,
-		to: to,
-		subject: 'Reset Password For Your BlockBased.io Account',
-		html: `
-			<h1>Thank you creating an account! Verify & Join us!<h1/>
-			<a href="${base_url}/set-new-password/${user_id}/${VCode}">
-				<button>Click to Reset Password</button>
-			</a>
-		`
-	}
-
 	try {
+		// [VALIDATE] //
+		if (
+			!validator.isAscii(to) ||
+			!mongoose.isValidObjectId(user_id) ||
+			!validator.isAscii(VCode)
+		) {
+			return {
+				executed: true,
+				status: false,
+				message: 'mailerUtil: Invalid params'
+			}
+		}
+
+		const transporter = nodemailer.createTransport({
+			service: service,
+			auth: {
+				user: email,
+				pass: password
+			}
+		})
+
+		const mailOptions = {
+			from: email,
+			to: to,
+			subject: 'Reset Password For Your BlockBased.io Account',
+			html: `
+				<h1>Click the Link to Reset Your Password<h1/>
+				<a href="${base_url}/user/set-new-password/${user_id}/${VCode}">
+					<button>Click to Reset Password</button>
+				</a>
+			`
+		}
+
 		// [SEND-MAIL] //
-		const email = await transporter.sendMail(mailOptions)
+		const sentEmail = await transporter.sendMail(mailOptions)
 
 		return {
 			executed: true,
 			status: true,
 			message: 'Email Sent',
-			email: email,
+			sentEmail: sentEmail,
 		}
 	}
 	catch (err) {
