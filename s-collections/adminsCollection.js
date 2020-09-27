@@ -21,27 +21,27 @@ const secretKey = process.env.SECRET_KEY || 'secret'
 
 /******************* [LOGIN/REGISTER] *******************/
 const c_login = async (email, password) => {
-	// [VALIDATE] email //
-	if (!validator.isEmail(email)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid email'
-		}
-	}
-	else { email = validator.normalizeEmail(email) }
-
-	
-	// [VALIDATE] password //
-	if (!validator.isAscii(password)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid password (must be ASCII)'
-		}
-	}
-
 	try {
+		// [VALIDATE] email //
+		if (!validator.isEmail(email)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid email'
+			}
+		}
+		else { email = validator.normalizeEmail(email) }
+
+		
+		// [VALIDATE] password //
+		if (!validator.isAscii(password)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid password (must be ASCII)'
+			}
+		}
+
 		// [VALIDATE-EMAIL] //
 		const userFound = await AdminModel.findOne({ email })
 		
@@ -98,35 +98,35 @@ const c_login = async (email, password) => {
 
 // [REGISTER] //
 const c_register = async (username, email, password) => {
-	// [VALIDATE] username //
-	if (!validator.isAscii(username)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid username (must be ASCII)'
-		}
-	}
-
-	// [VALIDATE] email //
-	if (!validator.isEmail(email)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid email'
-		}
-	}
-	else { email = validator.normalizeEmail(email) }
-
-	// [VALIDATE] password //
-	if (!validator.isAscii(password)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid password (must be ASCII)'
-		}
-	}
-
 	try {
+		// [VALIDATE] username //
+		if (!validator.isAscii(username)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid username (must be ASCII)'
+			}
+		}
+
+		// [VALIDATE] email //
+		if (!validator.isEmail(email)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid email'
+			}
+		}
+		else { email = validator.normalizeEmail(email) }
+
+		// [VALIDATE] password //
+		if (!validator.isAscii(password)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid password (must be ASCII)'
+			}
+		}
+
 		// Username Check //
 		if (await AdminModel.findOne({ username })) {
 			return {

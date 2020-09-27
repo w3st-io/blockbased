@@ -14,18 +14,19 @@ const socketIO = require('socket.io')
 require('dotenv').config()
 
 
-// [REQUIRE] Personal - API - Pages - Socket //
-const admininstrationPosts = require('./s-routes/api/administration/posts')
-const admininstrationComments = require('./s-routes/api/administration/comments')
-const admininstrationReports = require('./s-routes/api/administration/reports')
-const admininstrationUsers = require('./s-routes/api/administration/users')
-const admins = require('./s-routes/api/admins')
-const posts = require('./s-routes/api/posts')
-const comments = require('./s-routes/api/comments')
+// [REQUIRE] Personal - Rate-limiter / API / Pages / Socket //
 const rateLimiter = require('./s-rate-limiters')
-const notifications = require('./s-routes/api/notifications')
-const users = require('./s-routes/api/users')
 
+const a_ = require('./s-routes/api')
+const a_admininstrationPosts = require('./s-routes/api/administration/posts')
+const a_admininstrationComments = require('./s-routes/api/administration/comments')
+const a_admininstrationReports = require('./s-routes/api/administration/reports')
+const a_admininstrationUsers = require('./s-routes/api/administration/users')
+const a_admins = require('./s-routes/api/admins')
+const a_posts = require('./s-routes/api/posts')
+const a_comments = require('./s-routes/api/comments')
+const a_notifications = require('./s-routes/api/notifications')
+const a_users = require('./s-routes/api/users')
 
 const p_ = require ('./s-routes/pages')
 const p_admin = require('./s-routes/pages/admin')
@@ -37,19 +38,21 @@ const p_profile_view = require('./s-routes/pages/profile/view')
 const s_socket = require('./s-socket')
 
 
-// [INIT] Const //
-const port = process.env.PORT || 5000
-const base_url = process.env.BASE_URL || `http://localhost:${port}`
-const mongo_uri = process.env.MONGO_URI || 'mongodb://localhost:27017'
+// [EXPRESS + SERVER] //
+const app = express()
+const server = http.createServer(app)
+
+
+// [SOCKET.IO] //
+const io = socketIO.listen(server)
+s_socket.start(io)
+app.io = io
 
 
 // [MONGOOSE-CONNECTION] //
 mongoose.connect(
-	mongo_uri,
-	{
-		useNewUrlParser: true,
-		useUnifiedTopology: true
-	},
+	process.env.MONGO_URI || 'mongodb://localhost:27017/blockbased',
+	{ useNewUrlParser: true, useUnifiedTopology: true },
 	(err, connected) => {
 		if (connected) { console.log('Mongoose Connected to DB') }
 		else { console.log(`Mongoose Connection Error --> ${err}`) }
@@ -58,34 +61,25 @@ mongoose.connect(
 mongoose.set('useFindAndModify', false)
 
 
-// [EXPRESS + SERVER] //
-const app = express()
-const server = http.createServer(app)
-
-
-// [SOCKET] //
-const io = socketIO.listen(server)
-s_socket.start(io)
-app.io = io
-
-
 // [USE] //
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
+
+
+// [USE] Personal - Rate-Limiter / API / Pages //
 app.use(rateLimiter.limiter)
 
-
-// [USE] Personal - API - Pages //
-app.use('/api/administration/posts', admininstrationPosts)
-app.use('/api/administration/comments', admininstrationComments)
-app.use('/api/administration/reports', admininstrationReports)
-app.use('/api/administration/users', admininstrationUsers)
-app.use('/api/admins', admins)
-app.use('/api/posts', posts)
-app.use('/api/comments', comments)
-app.use('/api/notifications', notifications)
-app.use('/api/users', users)
+app.use('/api', a_)
+app.use('/api/administration/posts', a_admininstrationPosts)
+app.use('/api/administration/comments', a_admininstrationComments)
+app.use('/api/administration/reports', a_admininstrationReports)
+app.use('/api/administration/users', a_admininstrationUsers)
+app.use('/api/admins', a_admins)
+app.use('/api/posts', a_posts)
+app.use('/api/comments', a_comments)
+app.use('/api/notifications', a_notifications)
+app.use('/api/users', a_users)
 
 app.use('/pages', p_)
 app.use('/pages/admin', p_admin)
@@ -105,13 +99,6 @@ if (process.env.NODE_ENV == 'production') {
 }
 
 
-// [MAIN-ROUTE] //
-app.get('/api', async (req, res) => { res.send('API') })
-
-	
-// [BASE-URL-ROUTE] For the socket //
-app.get('/api/get-base-url', async (req, res) => { res.send(base_url) })
-
-
-// [LISTEN] //
+// [PORT + LISTEN] //
+const port = process.env.PORT || 5000
 server.listen(port, () => { console.log(`Server Running on Port: ${port}`) })

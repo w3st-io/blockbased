@@ -14,19 +14,19 @@ const PostLikeModel = require('../s-models/PostLikeModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, post_id) => {
-	// [VALIDATE] //
-	if (
-		!mongoose.isValidObjectId(user_id) ||
-		!mongoose.isValidObjectId(post_id)
-	) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid id(s)',
-		}
-	}
-	
 	try {
+		// [VALIDATE] //
+		if (
+			!mongoose.isValidObjectId(user_id) ||
+			!mongoose.isValidObjectId(post_id)
+		) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid id(s)',
+			}
+		}
+	
 		// [EXISTANCE] //
 		const existance = await c_existance(user_id, post_id)
 
@@ -64,19 +64,19 @@ const c_create = async (user_id, post_id) => {
 
 // [DELETE] //
 const c_delete = async (user_id, post_id) => {
-	// [VALIDATE] //
-	if (
-		!mongoose.isValidObjectId(user_id) ||
-		!mongoose.isValidObjectId(post_id)
-	) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid id(s)',
-		}
-	}
-
 	try {
+		// [VALIDATE] //
+		if (
+			!mongoose.isValidObjectId(user_id) ||
+			!mongoose.isValidObjectId(post_id)
+		) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid id(s)',
+			}
+		}
+
 		const postLike = await PostLikeModel.deleteMany({
 			user: user_id,
 			post: post_id,
@@ -100,16 +100,16 @@ const c_delete = async (user_id, post_id) => {
 
 // [DELETE-ALL] //
 const c_deleteAll = async (post_id) => {
-	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(post_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid post_id',
-		}
-	}
-
 	try {
+		// [VALIDATE] //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid post_id',
+			}
+		}
+
 		const postLike = await PostLikeModel.deleteMany({ post: post_id })
 
 		return {
@@ -131,16 +131,16 @@ const c_deleteAll = async (post_id) => {
 /******************* [EXISTANCE] *******************/
 // [EXISTANCE] //
 const c_existance = async (user_id, post_id) => {
-	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(post_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid post_id',
-		}
-	}
-
 	try {
+		// [VALIDATE] //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid post_id',
+			}
+		}
+
 		if (!await PostLikeModel.findOne({ user: user_id, post: post_id })) {
 			return {
 				executed: true,
@@ -166,16 +166,16 @@ const c_existance = async (user_id, post_id) => {
 
 /******************* [COUNT] *******************/
 const c_countAll = async (post_id) => {
-	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(post_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid post_id',
-		}
-	}
-	
 	try {
+		// [VALIDATE] //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid post_id',
+			}
+		}
+	
 		const count = await PostLikeModel.countDocuments({ post: post_id })
 
 		return {

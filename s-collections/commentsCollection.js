@@ -14,43 +14,43 @@ const CommentModel = require('../s-models/CommentModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, post_id, text) => {
-	// [VALIDATE] user_id //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id',
-		}
-	}
-
-	// [VALIDATE] post_id //
-	if (!mongoose.isValidObjectId(post_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid post_id',
-		}
-	}
-
-	// [VALIDATE] text //
-	if (!text) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid text',
-		}
-	}
-
-	// Text Length //
-	if (text.length >= 6000) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Comment too long',
-		}
-	}
-
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+			}
+		}
+
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid post_id',
+			}
+		}
+
+		// [VALIDATE] text //
+		if (!text) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid text',
+			}
+		}
+
+		// Text Length //
+		if (text.length >= 6000) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Comment too long',
+			}
+		}
+
 		// [SAVE] //
 		const comment = await new CommentModel({
 			_id: mongoose.Types.ObjectId(),
@@ -77,29 +77,29 @@ const c_create = async (user_id, post_id, text) => {
 
 // [READ-ALL-ALL] //
 const c_readAllAll = async (skip, limit) => {
-	// [SANTIZE] //
-	skip = parseInt(skip)
-	limit = parseInt(limit)
-
-	// [VALIDATE] skip //
-	if (!Number.isInteger(skip)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid skip',
-		}
-	}
-
-	// [VALDIATE] limit //
-	if (!Number.isInteger(limit)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid limit',
-		}
-	}
-
 	try {
+		// [SANTIZE] //
+		skip = parseInt(skip)
+		limit = parseInt(limit)
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid skip',
+			}
+		}
+
+		// [VALDIATE] limit //
+		if (!Number.isInteger(limit)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid limit',
+			}
+		}
+
 		const comments = await CommentModel.find()
 			.skip(parseInt(skip))
 			.limit(parseInt(limit))
@@ -125,38 +125,38 @@ const c_readAllAll = async (skip, limit) => {
 
 // [READ-ALL] Within a Post //
 const c_readAll = async (post_id, skip, limit) => {
-	// [SANTIZE] //
-	skip = parseInt(skip)
-	limit = parseInt(limit)
-
-	// [VALIDATE] post_id //
-	if (!mongoose.isValidObjectId(post_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid post_id',
-		}
-	}
-
-	// [VALIDATE] skip //
-	if (!Number.isInteger(skip)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid skip',
-		}
-	}
-
-	// [VALDIATE] limit //
-	if (!Number.isInteger(limit)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid limit',
-		}
-	}
-
 	try {
+		// [SANTIZE] //
+		skip = parseInt(skip)
+		limit = parseInt(limit)
+
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid post_id',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid skip',
+			}
+		}
+
+		// [VALDIATE] limit //
+		if (!Number.isInteger(limit)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid limit',
+			}
+		}
+
 		const comments = await CommentModel.find({ post: post_id })
 			.skip(parseInt(skip))
 			.limit(parseInt(limit))
@@ -181,16 +181,16 @@ const c_readAll = async (post_id, skip, limit) => {
 
 // [READ] //
 const c_read = async (comment_id) => {
-	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(comment_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid comment_id',
-		}
-	}
-
 	try {
+		// [VALIDATE] //
+		if (!mongoose.isValidObjectId(comment_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid comment_id',
+			}
+		}
+
 		const comment = await CommentModel.findById(comment_id)
 			.populate({ path: 'user', select: 'username email profileImg' })
 			.populate({ path: 'likers', select: '_id user_id post_id text' })
@@ -222,46 +222,46 @@ const c_read = async (comment_id) => {
 
 // [UPDATE] //
 const c_update = async (comment_id, user_id, text) => {
-	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(comment_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid comment_id',
-			updated: false,
-		}
-	}
-
-	// [VALIDATE] user_id //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id',
-			updated: false,
-		}
-	}
-
-	// [VALIDATE] text //
-	if (!text) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid text',
-		}
-	}
-
-	// Length //
-	if (text.length >= 6000) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Comment too long',
-			updated: false,
-		}
-	}
-
 	try {
+		// [VALIDATE] //
+		if (!mongoose.isValidObjectId(comment_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid comment_id',
+				updated: false,
+			}
+		}
+
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+				updated: false,
+			}
+		}
+
+		// [VALIDATE] text //
+		if (!text) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid text',
+			}
+		}
+
+		// Length //
+		if (text.length >= 6000) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Comment too long',
+				updated: false,
+			}
+		}
+
 		// [OWNERSHIP] //
 		const ownership = await c_ownership(comment_id, user_id)
 
@@ -301,27 +301,27 @@ const c_update = async (comment_id, user_id, text) => {
 
 // [DELETE] //
 const c_delete = async (comment_id, user_id) => {
-	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(comment_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid comment_id',
-			updated: false,
-		}
-	}
-
-	// [VALIDATE] user_id //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id',
-			updated: false,
-		}
-	}
-
 	try {
+		// [VALIDATE] //
+		if (!mongoose.isValidObjectId(comment_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid comment_id',
+				updated: false,
+			}
+		}
+
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+				updated: false,
+			}
+		}
+
 		// [OWNERSHIP] //
 		const ownership = await c_ownership(comment_id, user_id)
 
@@ -357,16 +357,16 @@ const c_delete = async (comment_id, user_id) => {
 /******************* [ADMIN-CRUD] *******************/
 // [ADMIN-DELETE] //
 const c_adminDelete = async (comment_id) => {
-	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(comment_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid comment comment_id',
-		}
-	}
-
 	try {
+		// [VALIDATE] //
+		if (!mongoose.isValidObjectId(comment_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid comment comment_id',
+			}
+		}
+
 		const deletedComment = await CommentModel.findOneAndRemove({ _id: comment_id })
 
 		return {
@@ -388,27 +388,27 @@ const c_adminDelete = async (comment_id) => {
 
 /******************* [OWNERSHIP] *******************/
 const c_ownership = async (comment_id, user_id) => {
-	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(comment_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid comment_id',
-			updated: false,
+	try {
+		// [VALIDATE] //
+		if (!mongoose.isValidObjectId(comment_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid comment_id',
+				updated: false,
+			}
 		}
-	}
 
-	// [VALIDATE] user_id //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id',
-			updated: false,
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+				updated: false,
+			}
 		}
-	}
 
-	try {	
 		const comment = await CommentModel.findOne({ _id: comment_id, user: user_id, })
 
 		if (!comment) {
@@ -440,16 +440,16 @@ const c_ownership = async (comment_id, user_id) => {
 
 /******************* [EXISTANCE] *******************/
 const c_existance = async (comment_id) => {
-	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(comment_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid comment_id'
+	try {
+		// [VALIDATE] //
+		if (!mongoose.isValidObjectId(comment_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid comment_id'
+			}
 		}
-	}
 
-	try {	
 		const comment = await CommentModel.findOne({ _id: comment_id })
 
 		if (!comment) {
@@ -482,16 +482,16 @@ const c_existance = async (comment_id) => {
 
 /******************* [COUNT] *******************/
 const c_countAll = async (post_id) => {
-	// [VALIDATE] post_id //
-	if (!mongoose.isValidObjectId(post_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid post_id'
-		}
-	}
-
 	try {
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid post_id'
+			}
+		}
+
 		const count = await CommentModel.countDocuments({ post: post_id })
 
 		return {

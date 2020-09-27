@@ -289,16 +289,15 @@ router.post(
 
 
 router.post(
-	'/reset-password',
+	'/reset-password/:verificationCode',
 	async (req, res) => {
-		// if token exist //
-		if (req.body.token) {
+		if (req.params.verificationCode) {
 			// [READ] Find password reset with given token //
 			const tokenFound = ''
 
 			if (tokenFound.existance) {
 				if (req.body.newPassword) {
-					// update the passowrd of decoded user_id
+					// [UPDATE] The password of decoded user_id //
 				}
 				else {
 					res.status(200).send({

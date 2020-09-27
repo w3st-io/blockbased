@@ -14,27 +14,27 @@ const PostFollowerModel = require('../s-models/PostFollowerModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, post_id) => {
-	// [VALIDATE] user_id //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id',
-			updated: false,
-		}
-	}
-
-	// [VALIDATE] post_id //
-	if (!mongoose.isValidObjectId(post_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid post_id',
-			updated: false,
-		}
-	}
-
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+				updated: false,
+			}
+		}
+
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid post_id',
+				updated: false,
+			}
+		}
+
 		// [EXISTANCE] //
 		const existance = await c_existance(user_id, post_id)
 
@@ -70,16 +70,16 @@ const c_create = async (user_id, post_id) => {
 
 // [READ-ALL] //
 const c_readAll = async (post_id) => {
-	// [VALIDATE] post_id //
-	if (!mongoose.isValidObjectId(post_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid post_id',
-		}
-	}
-
 	try {
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid post_id',
+			}
+		}
+
 		const postFollowers = await PostFollowerModel.find({ post: post_id })
 
 		return {
@@ -100,27 +100,27 @@ const c_readAll = async (post_id) => {
 
 // [DELETE] //
 const c_delete = async (user_id, post_id) => {
-	// [VALIDATE] user_id //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id',
-			updated: false,
-		}
-	}
-
-	// [VALIDATE] post_id //
-	if (!mongoose.isValidObjectId(post_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid post_id',
-			updated: false,
-		}
-	}
-
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+				updated: false,
+			}
+		}
+
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid post_id',
+				updated: false,
+			}
+		}
+
 		const deletedPostFollower = await PostFollowerModel.deleteMany({
 			user: user_id,
 			post: post_id,
@@ -144,27 +144,27 @@ const c_delete = async (user_id, post_id) => {
 
 /******************* [EXISTANCE] *******************/
 const c_existance = async (user_id, post_id) => {
-	// [VALIDATE] user_id //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id',
-			updated: false,
-		}
-	}
-
-	// [VALIDATE] post_id //
-	if (!mongoose.isValidObjectId(post_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid post_id',
-			updated: false,
-		}
-	}
-
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+				updated: false,
+			}
+		}
+
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid post_id',
+				updated: false,
+			}
+		}
+
 		const postFollower = await PostFollowerModel.findOne({
 			user: user_id,
 			post: post_id,
@@ -198,16 +198,16 @@ const c_existance = async (user_id, post_id) => {
 
 /******************* [COUNT] *******************/
 const c_countAll = async (post_id) => {
-	// [VALIDATE] post_id //
-	if (!mongoose.isValidObjectId(post_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid post_id',
-		}
-	}
-
 	try {
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid post_id',
+			}
+		}
+
 		const count = await PostFollowerModel.countDocuments({ post: post_id })
 		
 		return {

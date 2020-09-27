@@ -1,8 +1,8 @@
 <template>
 	<div class="container">
-		<div class="mt-4 row">
+		<div v-if="error" class="mt-4 row">
 			<!-- [ALERTS] -->
-			<div v-if="error" class="w-100 alert alert-danger">{{ error }}</div>
+			<div class="w-100 alert alert-danger">{{ error }}</div>
 		</div>
 
 		<div class="row mt-4">

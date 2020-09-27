@@ -14,27 +14,27 @@ const NotificationModel = require('../s-models/NotificationModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id, comment_id, type) => {
-	// [VALIDATE] user_id //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id',
-			updated: false,
-		}
-	}
-
-	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(comment_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid comment_id',
-			updated: false,
-		}
-	}
-
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+				updated: false,
+			}
+		}
+
+		// [VALIDATE] //
+		if (!mongoose.isValidObjectId(comment_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid comment_id',
+				updated: false,
+			}
+		}
+
 		// [SAVE] // 
 		const notification = await new NotificationModel({
 			_id: mongoose.Types.ObjectId(),
@@ -60,17 +60,17 @@ const c_create = async (user_id, comment_id, type) => {
 
 // [READ-ALL] //
 const c_readAll = async (user_id) => {
-	// [VALIDATE] user_id //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id',
-			updated: false,
-		}
-	}
-
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+				updated: false,
+			}
+		}
+
 		const notifications = await NotificationModel.find({
 			user: user_id,
 			read: false
@@ -107,16 +107,16 @@ const c_readAll = async (user_id) => {
 
 // [DELETE-ALL] //
 const c_deleteAll = async (comment_id) => {
-	// [VALIDATE] comment_id //
-	if (!mongoose.isValidObjectId(comment_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid comment_id',
-		}
-	}
-
 	try {
+		// [VALIDATE] comment_id //
+		if (!mongoose.isValidObjectId(comment_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid comment_id',
+			}
+		}
+
 		const deletedNotications = await NotificationModel.deleteMany({
 			comment: comment_id
 		})
@@ -142,16 +142,16 @@ const c_delete = async () => {}
 
 /******************* [MARK-READ-STATUS] *******************/
 const c_markRead = async (notification_id) => {
-	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(notification_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid notification_id',
-		}
-	}
-
 	try {
+		// [VALIDATE] //
+		if (!mongoose.isValidObjectId(notification_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid notification_id',
+			}
+		}
+
 		const notification = await NotificationModel.updateOne(
 			{ _id: notification_id },
 			{ read: true },

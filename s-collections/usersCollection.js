@@ -43,16 +43,16 @@ const c_readAll = async () => {
 
 // [READ] //
 const c_read = async (user_id) => {
-	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id'
-		}
-	}
-
 	try {
+		// [VALIDATE] //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id'
+			}
+		}
+	
 		const user = await UserModel.findOne({ _id: user_id })
 
 		return {
@@ -73,25 +73,25 @@ const c_read = async (user_id) => {
 
 // [UPDATE] Profile Picture //
 const c_update = async (user_id, img_url) => {
-	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id'
-		}
-	}
-
-	// [VALIDATE] img_url //
-	if (!validator.isURL(img_url)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid img_url'
-		}
-	}
-
 	try {
+		// [VALIDATE] //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id'
+			}
+		}
+
+		// [VALIDATE] img_url //
+		if (!validator.isURL(img_url)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid img_url'
+			}
+		}
+
 		const updatedUser = await UserModel.findOneAndUpdate(
 			{ _id: user_id },
 			{ $set: { profileImg: img_url } }
@@ -116,31 +116,30 @@ const c_update = async (user_id, img_url) => {
 
 /******************* [OTHER-CRUD] *******************/
 const c_getIdByEmail = async (email) => {
-	// [VALIDATE] Email //
-	if (!validator.isEmail(email)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'usersCollection: Invalid email'
-		}
-	}
-
 	try {
-		const user = await UserModel.findOne({ email })
-
-		if (user) {
+		// [VALIDATE] Email //
+		if (!validator.isEmail(email)) {
 			return {
 				executed: true,
-				status: true,
-				user: user
+				status: false,
+				message: 'usersCollection: Invalid email'
 			}
 		}
-		else {
+
+		const user = await UserModel.findOne({ email })
+
+		if (!user) {
 			return {
 				executed: true,
 				status: false,
 				message: 'No user found'
 			}
+		}
+
+		return {
+			executed: true,
+			status: true,
+			user: user
 		}
 	}
 	catch (err) {
@@ -154,25 +153,25 @@ const c_getIdByEmail = async (email) => {
 
 
 const c_updatePassword = async (user_id, password) => {
-	// [VALIDATE] //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id'
-		}
-	}
-	
-	// [VALIDATE] password //
-	if (!validator.isAscii(password)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid password'
-		}
-	}
-
 	try {
+		// [VALIDATE] //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id'
+			}
+		}
+		
+		// [VALIDATE] password //
+		if (!validator.isAscii(password)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid password'
+			}
+		}
+	
 		// Hash Password //
 		const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -202,26 +201,26 @@ const c_updatePassword = async (user_id, password) => {
 
 /******************* [LOGIN/REGISTER] *******************/
 const c_login = async (email, password) => {
-	// [VALIDATE] email //
-	if (!validator.isEmail(email)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'usersCollection: Invalid email'
-		}
-	}
-	else { email = validator.normalizeEmail(email) }
-	
-	// [VALIDATE] password //
-	if (!validator.isAscii(password)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'usersCollection: Invalid password'
-		}
-	}
-
 	try {
+		// [VALIDATE] email //
+		if (!validator.isEmail(email)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'usersCollection: Invalid email'
+			}
+		}
+		else { email = validator.normalizeEmail(email) }
+		
+		// [VALIDATE] password //
+		if (!validator.isAscii(password)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'usersCollection: Invalid password'
+			}
+		}
+
 		// [VALIDATE-EMAIL] //
 		const userFound = await UserModel.findOne({ email })
 		
@@ -274,35 +273,35 @@ const c_login = async (email, password) => {
 
 
 const c_register = async (username, email, password) => {
-	// [VALIDATE] //
-	if (!validator.isAscii(username)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid username (must be ASCII)'
-		}
-	}
-
-	// [VALIDATE] email //
-	if (!validator.isEmail(email)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid email'
-		}
-	}
-	else { email = validator.normalizeEmail(email) }
-
-	// [VALIDATE] //
-	if (!validator.isAscii(password)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid password (must be ASCII)'
-		}
-	}
-
 	try {
+		// [VALIDATE] //
+		if (!validator.isAscii(username)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid username (must be ASCII)'
+			}
+		}
+
+		// [VALIDATE] email //
+		if (!validator.isEmail(email)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid email'
+			}
+		}
+		else { email = validator.normalizeEmail(email) }
+
+		// [VALIDATE] //
+		if (!validator.isAscii(password)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid password (must be ASCII)'
+			}
+		}
+
 		// Username Check //
 		if (await UserModel.findOne({ username })) {
 			return {
@@ -365,15 +364,15 @@ const c_register = async (username, email, password) => {
 
 /******************* [VERIFY] *******************/
 const c_verify = async (user_id) => {
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id'
-		}
-	}
-
 	try {
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id'
+			}
+		}
+
 		const user = await UserModel.findOneAndUpdate(
 			{ _id: user_id },
 			{ $set: { verified: true } }
@@ -397,15 +396,15 @@ const c_verify = async (user_id) => {
 
 
 const c_verifiedStatus = async (user_id) => {
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id'
-		}
-	}
-
 	try {
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id'
+			}
+		}
+
 		const user = await UserModel.findOne({
 			_id: user_id,
 			verified: true,

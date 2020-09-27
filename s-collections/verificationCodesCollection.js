@@ -15,16 +15,16 @@ const VerificationCodeModel = require('../s-models/VerificationCodeModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id) => {
-	// [VALIDATE] user_id //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id',
-		}
-	}
-
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+			}
+		}
+	
 		// [SAVE] //
 		const verificationCode = await new VerificationCodeModel({
 			_id: mongoose.Types.ObjectId(),
@@ -48,16 +48,16 @@ const c_create = async (user_id) => {
 
 // [DELETE] //
 const c_delete = async (user_id) => {
-	// [VALIDATE] user_id //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id',
-		}
-	}
-
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+			}
+		}
+	
 		const verificationCode = await VerificationCodeModel.deleteMany({
 			user: user_id
 		})
@@ -81,25 +81,25 @@ const c_delete = async (user_id) => {
 /******************* [EXISTANCE] *******************/
 // [EXISTANCE] //
 const c_existance = async (user_id, verificationCode) => {
-	// [VALIDATE] user_id //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id',
-		}
-	}
-
-	// [VALIDATE] verificationCode //
-	if (!validator.isAscii(verificationCode)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid verificationCode',
-		}
-	}
-
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+			}
+		}
+
+		// [VALIDATE] verificationCode //
+		if (!validator.isAscii(verificationCode)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid verificationCode',
+			}
+		}
+
 		const vCode = await VerificationCodeModel.findOne({
 			user: user_id,
 			verificationCode

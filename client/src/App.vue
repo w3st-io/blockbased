@@ -102,7 +102,6 @@
 			})
 
 			EventBus.$on('logged-in', () => {
-				console.log('SKLDFJKLSDJ');
 				this.socket.emit('join', this.decoded.user_id)
 				this.loggedIn = true
 				

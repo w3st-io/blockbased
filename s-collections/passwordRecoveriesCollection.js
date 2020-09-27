@@ -14,16 +14,16 @@ const PasswordRecoveryModel = require('../s-models/PasswordRecoveryModel')
 /******************* [CRUD] *******************/
 // [CREATE] //
 const c_create = async (user_id) => {
-	// [VALIDATE] user_id //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id',
-		}
-	}
-
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+			}
+		}
+
 		// [EXISTANCE] //
 		const existance = await c_existance(user_id)
 
@@ -48,22 +48,21 @@ const c_create = async (user_id) => {
 			message: `passwordRecoveriesCollection: Error --> ${err}`,
 		}
 	}
-	
 }
 
 
 // [DELETE] //
 const c_delete = async (user_id) => {
-	// [VALIDATE] user_id //
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id',
-		}
-	}
-
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+			}
+		}
+
 		const passwordRecovery = await PasswordRecoveryModel.deleteMany(
 			{ user: user_id }
 		)
@@ -87,15 +86,15 @@ const c_delete = async (user_id) => {
 /******************* [EXISTANCE] *******************/
 // [EXISTANCE] //
 const c_existance = async (user_id) => {
-	if (!mongoose.isValidObjectId(user_id)) {
-		return {
-			executed: true,
-			status: false,
-			message: 'Invalid user_id',
-		}
-	}
-
 	try {
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+			}
+		}
+
 		if (!await PasswordRecoveryModel.findOne({ user: user_id })) {
 			return {
 				executed: true,
