@@ -23,31 +23,32 @@ const router = express.Router().use(cors())
 router.post(
 	'/login',
 	async (req, res) => {
-		if (
-			validator.isAscii(req.body.email) &&
-			validator.isAscii(req.body.password)
-		) {
-			try {
+		try {
+			if (
+				validator.isAscii(req.body.email) &&
+				validator.isAscii(req.body.password)
+			) {
+			
 				const returned = await adminsCollection.c_login(
 					req.body.email,
 					req.body.password
 				)
-
+				
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/admins: Error --> ${err}`
+					message: '/api/admins: Invalid Params'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/admins: Invalid Params'
+				message: `/api/admins: Error --> ${err}`
 			})
 		}
 	}
@@ -59,12 +60,12 @@ router.post(
 	'/register',
 	rateLimiters.registrationLimiter,
 	async (req, res) => {
-		if (
-			validator.isAscii(req.body.username) &&
-			validator.isAscii(req.body.email) &&
-			validator.isAscii(req.body.password)
-		) {
-			try {
+		try {
+			if (
+				validator.isAscii(req.body.username) &&
+				validator.isAscii(req.body.email) &&
+				validator.isAscii(req.body.password)
+			) {
 				const returned = await adminsCollection.c_register(
 					req.body.username,
 					req.body.email,
@@ -73,19 +74,19 @@ router.post(
 
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/admins: Error --> ${err}`,
+					message: '/api/admins: Invalid Params'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/admins: Invalid Params'
+				message: `/api/admins: Error --> ${err}`,
 			})
 		}
 	}

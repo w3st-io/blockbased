@@ -48,28 +48,28 @@ router.get(
 	'/mark-read/:notification_id',
 	Auth.userToken(),
 	async (req, res) => {
-		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params.notification_id)) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (mongoose.isValidObjectId(req.params.notification_id)) {
 				const returned = await notificationsCollection.c_markRead(
 					req.params.notification_id
 				)
 
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/notifications: Error --> ${err}`,
+					message: 'Invalid notification_id'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'Invalid notification_id'
+				message: `/api/notifications: Error --> ${err}`,
 			})
 		}
 	}

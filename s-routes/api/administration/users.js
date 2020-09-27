@@ -47,8 +47,9 @@ router.post(
 	'/update/:user_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params.user_id)) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (mongoose.isValidObjectId(req.params.user_id)) {
 				const returned = await usersCollection.c_update(
 					req.decoded.user_id,
 					req.body.img_url
@@ -56,19 +57,19 @@ router.post(
 
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/administration/users: Error --> ${err}`,
+					message: '/api/administration/users: Invalid user _id'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/administration/users: Invalid user _id'
+				message: `/api/administration/users: Error --> ${err}`,
 			})
 		}
 	}
@@ -81,11 +82,12 @@ router.post(
 	'/ban/:user_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		if (
-			mongoose.isValidObjectId(req.params.user_id) &&
-			Number.isInteger(parseInt(req.body.hours))
-		) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (
+				mongoose.isValidObjectId(req.params.user_id) &&
+				Number.isInteger(parseInt(req.body.hours))
+			) {
 				const returned = await banCollection.c_create(
 					req.params.user_id,
 					parseInt(req.body.hours)
@@ -93,19 +95,19 @@ router.post(
 
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/administration/users: Error --> ${err}`,
+					message: '/api/administration/users: Invalid user _id'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/administration/users: Invalid user _id'
+				message: `/api/administration/users: Error --> ${err}`,
 			})
 		}
 	}

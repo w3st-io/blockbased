@@ -31,13 +31,13 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.postLimiter,
 	async (req, res) => {
-		// [VALIDATE] //
-		if (
-			validator.isAscii(req.body.cat_id) &&
-			validator.isAscii(req.body.title) &&
-			validator.isAscii(req.body.text)
-		) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (
+				validator.isAscii(req.body.cat_id) &&
+				validator.isAscii(req.body.title) &&
+				validator.isAscii(req.body.text)
+			) {
 				const post = await postsCollection.c_create(
 					req.decoded.user_id,
 					req.body.cat_id,
@@ -60,19 +60,19 @@ router.post(
 				}
 				else { res.status(200).send(post) }
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/posts: Error --> ${err}`,
+					message: '/api/posts: Invalid Params'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/posts: Invalid Params'
+				message: `/api/posts: Error --> ${err}`,
 			})
 		}
 	}
@@ -84,17 +84,15 @@ router.get(
 	'/read-all/:cat_id/:limit/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		// [VALIDATE] //
-		if (
-			validator.isAscii(req.params.cat_id) &&
-			Number.isInteger(parseInt(req.params.skip)) &&
-			Number.isInteger(parseInt(req.params.limit))
-		) {
-			try {
-				let postsObj
-
+		try {
+			// [VALIDATE] //
+			if (
+				validator.isAscii(req.params.cat_id) &&
+				Number.isInteger(parseInt(req.params.skip)) &&
+				Number.isInteger(parseInt(req.params.limit))
+			) {
 				// [READ-ALL] Posts with cat_id //
-				postObj = await postsCollection.c_readAll(
+				let postsObj = await postsCollection.c_readAll(
 					req.params.cat_id,
 					parseInt(req.params.skip),
 					parseInt(req.params.limit),
@@ -123,19 +121,19 @@ router.get(
 
 				res.status.send(postsObj)
 			}
-			catch (err) {
-				res.status.send({
-					executed: false,
+			else {
+				res.status(200).send({
+					executed: true,
 					status: false,
-					message: `/api/posts: Error --> ${err}`
+					message: '/api/posts: Invalid Params'
 				})
 			}
 		}
-		else {
-			res.status(200).send({
-				executed: true,
+		catch (err) {
+			res.status.send({
+				executed: false,
 				status: false,
-				message: '/api/posts: Invalid Params'
+				message: `/api/posts: Error --> ${err}`
 			})
 		}
 	}
@@ -147,13 +145,11 @@ router.get(
 	'/read/:post_id',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params.post_id)) {
-			let postObj
-
-			try {
+		try {
+			// [VALIDATE] //
+			if (mongoose.isValidObjectId(req.params.post_id)) {
 				// [READ] Post //
-				postObj = await postsCollection.c_read(req.params.post_id)
+				let postObj = await postsCollection.c_read(req.params.post_id)
 
 				if (postObj.status) {
 					// [COUNT] Likes //
@@ -169,19 +165,19 @@ router.get(
 
 				res.status(200).send(postObj)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/posts: Error --> ${err}`
+					message: 'Invalid post _id',
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'Invalid post _id',
+				message: `/api/posts: Error --> ${err}`
 			})
 		}
 	},
@@ -193,9 +189,9 @@ router.delete(
 	'/delete/:post_id',
 	Auth.userToken(),
 	async (req, res) => {
-		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params.post_id)) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (mongoose.isValidObjectId(req.params.post_id)) {
 				const ownership = await postsCollection.c_ownership(
 					req.params.post_id,
 					req.decoded.user_id,
@@ -217,19 +213,19 @@ router.delete(
 				}
 				else { res.status(200).send(ownership) }
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/posts: Error --> ${err}`
+					message: 'Invalid post _id',
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'Invalid post _id',
+				message: `/api/posts: Error --> ${err}`
 			})
 		}
 	},
@@ -241,16 +237,14 @@ router.get(
 	'/read-all-detailed/:cat_id/:limit/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		// [VALIDATE] //
-		if (
-			validator.isAscii(req.params.cat_id) &&
-			Number.isInteger(parseInt(req.params.skip)) &&
-			Number.isInteger(parseInt(req.params.limit))
-		) {
-			try {
-				let postsObj
-
-				postsObj = await postsCollection.c_readAll(
+		try {
+			// [VALIDATE] //
+			if (
+				validator.isAscii(req.params.cat_id) &&
+				Number.isInteger(parseInt(req.params.skip)) &&
+				Number.isInteger(parseInt(req.params.limit))
+			) {
+				let postsObj = await postsCollection.c_readAll(
 					req.params.cat_id,
 					parseInt(req.params.skip),
 					parseInt(req.params.limit),
@@ -293,7 +287,7 @@ router.get(
 									postsObj.posts[i]._id
 								)
 							).existance
-			
+
 							// [FOLLOW-STATUS] //
 							postsObj.posts[i].followed = (
 								await postFollowersCollection.c_existance(
@@ -307,20 +301,19 @@ router.get(
 
 				res.status.send(postsObj)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/posts: Error --> ${err}`
+					message: '/api/posts: Invalid Params'
 				})
 			}
-			
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/posts: Invalid Params'
+				message: `/api/posts: Error --> ${err}`
 			})
 		}
 	}
@@ -331,12 +324,10 @@ router.get(
 	'/read-detailed/:post_id',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params.post_id)) {
-			let postObj
-
-			try {
-				postObj = await postsCollection.c_read(req.params.post_id)
+		try {
+			// [VALIDATE] //
+			if (mongoose.isValidObjectId(req.params.post_id)) {
+				let postObj = await postsCollection.c_read(req.params.post_id)
 
 				if (postObj.status) {
 					// [COUNT] Likes //
@@ -371,19 +362,19 @@ router.get(
 
 				res.status(200).send(postObj)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/posts: Error --> ${err}`
+					message: 'Invalid post _id',
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'Invalid post _id',
+				message: `/api/posts: Error --> ${err}`
 			})
 		}
 	},
@@ -396,9 +387,9 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
-		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params.post_id)) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (mongoose.isValidObjectId(req.params.post_id)) {
 				const existance = await postLikesCollection.c_existance(
 					req.decoded.user_id,
 					req.params.post_id
@@ -427,23 +418,22 @@ router.post(
 					else { res.send(200).send(returned) }
 				}
 				else { res.status(200).send(existance) }
-			} 
-			catch (err) {
+			}
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/posts: Error --> ${err}`
+					message: 'Invalid post _id'
 				})
 			}
-		}
-		else {
+		} 
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'Invalid post _id'
+				message: `/api/posts: Error --> ${err}`
 			})
 		}
-
 	},
 )
 
@@ -454,8 +444,8 @@ router.post(
 	rateLimiter.likeLimiter,
 	Auth.userToken(),
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params.post_id)) {
-			try {
+		try {
+			if (mongoose.isValidObjectId(req.params.post_id)) {
 				const existance = await postLikesCollection.c_existance(
 					req.decoded.user_id,
 					req.params.post_id
@@ -486,19 +476,19 @@ router.post(
 				}
 				else { res.status(200).send(existance) }
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/posts: Error --> ${err}`
+					message: 'Invalid post_id'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'Invalid post_id'
+				message: `/api/posts: Error --> ${err}`
 			})
 		}
 	},
@@ -512,8 +502,8 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.followLimiter,
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params.post_id)) {
-			try {
+		try {
+			if (mongoose.isValidObjectId(req.params.post_id)) {
 				const returned = await postFollowersCollection.c_create(
 					req.decoded.user_id,
 					req.params.post_id
@@ -521,19 +511,19 @@ router.post(
 				
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/posts: Error --> ${err}`
+					message: 'Invalid post _id',
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'Invalid post _id',
+				message: `/api/posts: Error --> ${err}`
 			})
 		}
 	},
@@ -546,8 +536,8 @@ router.post(
 	rateLimiter.followLimiter,
 	Auth.userToken(),
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params.post_id)) {
-			try {
+		try {
+			if (mongoose.isValidObjectId(req.params.post_id)) {
 				const returned = await postFollowersCollection.c_delete(
 					req.decoded.user_id,
 					req.params.post_id
@@ -555,19 +545,19 @@ router.post(
 				
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/posts: Error --> ${err}`
+					message: 'Invalid post _id'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'Invalid post _id'
+				message: `/api/posts: Error --> ${err}`
 			})
 		}
 	},
@@ -578,26 +568,26 @@ router.post(
 router.get(
 	'/count/:cat_id',
 	async (req, res) => {
-		if (validator.isAscii(req.params.cat_id)) {
-			try {
+		try {
+			if (validator.isAscii(req.params.cat_id)) {
 				const returned = await postsCollection.c_countAll(req.params.cat_id)
 
 				if (returned.status) { res.status(200).send(returned.count.toString()) }
 				else { res.status(200).send(returned.message.toString()) }
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/posts: Error --> ${err}`
+					message: 'Invalid Params'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'Invalid Params'
+				message: `/api/posts: Error --> ${err}`
 			})
 		}
 	},

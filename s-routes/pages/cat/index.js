@@ -28,17 +28,15 @@ router.get(
 	'/:cat_id/:limit/:skip/:sort',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		// [VALIDATE] //
-		if (
-			validator.isAscii(req.params.cat_id) &&
-			Number.isInteger(parseInt(req.params.skip)) &&
-			Number.isInteger(parseInt(req.params.limit)) &&
-			validator.isAscii(req.params.sort)
-		) {
-			let postsObj
-
-			try {
-				postsObj = await postsCollection.c_readAllSort(
+		try {
+			// [VALIDATE] //
+			if (
+				validator.isAscii(req.params.cat_id) &&
+				Number.isInteger(parseInt(req.params.skip)) &&
+				Number.isInteger(parseInt(req.params.limit)) &&
+				validator.isAscii(req.params.sort)
+			) {
+				let postsObj = await postsCollection.c_readAllSort(
 					req.params.cat_id,
 					parseInt(req.params.skip),
 					parseInt(req.params.limit),
@@ -94,19 +92,19 @@ router.get(
 
 				res.status(200).send(postsObj)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/pages/cat: Error --> ${err}`
+					message: '/pages/cat: Invalid Params'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/pages/cat: Invalid Params'
+				message: `/pages/cat: Error --> ${err}`
 			})
 		}
 	}

@@ -26,11 +26,12 @@ router.get(
 	'/read-all-all/:limit/:skip',
 	Auth.adminToken(),
 	async (req, res) => {
-		if (
-			Number.isInteger(parseInt(req.params.limit)) &&
-			Number.isInteger(parseInt(req.params.skip))
-		) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.skip))
+			) {
 				const returned = await postsCollection.c_readAllAll(
 					parseInt(req.params.skip),
 					parseInt(req.params.limit)
@@ -38,19 +39,19 @@ router.get(
 	
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/administration/posts: Error --> ${err}`,
+					message: '/api/administration/posts: Invalid params'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/administration/posts: Invalid params'
+				message: `/api/administration/posts: Error --> ${err}`,
 			})
 		}
 	}
@@ -62,26 +63,27 @@ router.delete(
 	'/delete/:post_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params.post_id)) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (mongoose.isValidObjectId(req.params.post_id)) {
 				await postsCollection.c_delete(req.params.post_id)
 				await postLikesCollection.c_deleteAll(req.params.post_id)
 
 				res.sendStatus(200)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/administration/posts: Error --> ${err}`,
+					message: '/api/administration/posts: Invalid post _id'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/administration/posts: Invalid post _id'
+				message: `/api/administration/posts: Error --> ${err}`,
 			})
 		}
 	}

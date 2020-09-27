@@ -22,26 +22,26 @@ const router = express.Router().use(cors())
 router.get(
 	'/:user_id',
 	async (req, res) => {
-		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params.user_id)) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (mongoose.isValidObjectId(req.params.user_id)) {
 				const returned = await usersCollection.c_read(req.params.user_id)
 
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/pages/profile/view: Error --> ${err}`
+					message: 'Invalid user _id'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'Invalid user _id'
+				message: `/pages/profile/view: Error --> ${err}`
 			})
 		}
 	}

@@ -45,27 +45,28 @@ router.delete(
 	'/delete/:report_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params.report_id)) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (mongoose.isValidObjectId(req.params.report_id)) {
 				const returned = await commentReportsCollection.c_delete(
 					req.params.report_id
 				)
 				
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/administration/reports: Error --> ${err}`,
+					message: '/api/administration/reports: Invalid report _id'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/administration/reports: Invalid report _id'
+				message: `/api/administration/reports: Error --> ${err}`,
 			})
 		}
 	}

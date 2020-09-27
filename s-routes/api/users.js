@@ -50,26 +50,26 @@ router.get(
 router.get(
 	'/read/:user_id',
 	async (req, res) => {
-		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params.user_id)) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (mongoose.isValidObjectId(req.params.user_id)) {
 				const returned = await usersCollection.c_read(req.params.user_id)
 
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/users: Error --> ${err}`,
+					message: 'Invalid user _id'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'Invalid user _id'
+				message: `/api/users: Error --> ${err}`,
 			})
 		}
 	}
@@ -82,8 +82,8 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		// [VALIDATE] //
-		if (validator.isAscii(req.body.img_url)) {
-			try {
+		try {
+			if (validator.isAscii(req.body.img_url)) {
 				const returned = await usersCollection.c_update(
 					req.decoded.user_id,
 					req.body.img_url
@@ -91,19 +91,19 @@ router.post(
 		
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/users: Error --> ${err}`,
+					message: 'Invalid img_url'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'Invalid img_url'
+				message: `/api/users: Error --> ${err}`,
 			})
 		}
 	}
@@ -115,11 +115,12 @@ router.post(
 router.post(
 	'/login',
 	async (req, res) => {
-		if (
-			validator.isAscii(req.body.email) &&
-			validator.isAscii(req.body.password)
-		) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (
+				validator.isAscii(req.body.email) &&
+				validator.isAscii(req.body.password)
+			) {
 				const returned = await usersCollection.c_login(
 					req.body.email,
 					req.body.password
@@ -127,19 +128,19 @@ router.post(
 		
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/users: Error --> ${err}`,
+					message: 'users: Invalid Params'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'users: Invalid Params'
+				message: `/api/users: Error --> ${err}`,
 			})
 		}
 	}
@@ -151,12 +152,14 @@ router.post(
 	'/register',
 	rateLimiters.registrationLimiter,
 	async (req, res) => {
-		if (
-			validator.isAscii(req.body.username) &&
-			validator.isAscii(req.body.email) &&
-			validator.isAscii(req.body.password)
-		) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (
+				validator.isAscii(req.body.username) &&
+				validator.isAscii(req.body.email) &&
+				validator.isAscii(req.body.password)
+			) {
+			
 				// [CREATE] Register Account //
 				const user = await usersCollection.c_register(
 					req.body.username,
@@ -180,19 +183,19 @@ router.post(
 
 				res.status(200).send(user)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/users: Error --> ${err}`,
+					message: 'users: Invalid Params'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'users: Invalid Params'
+				message: `/api/users: Error --> ${err}`,
 			})
 		}
 	}
@@ -203,11 +206,12 @@ router.post(
 router.post(
 	'/verify',
 	async (req, res) => {
-		if (
-			mongoose.isValidObjectId(req.body.user_id) &&
-			validator.isAscii(req.body.verificationCode)
-		) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (
+				mongoose.isValidObjectId(req.body.user_id) &&
+				validator.isAscii(req.body.verificationCode)
+			) {
 				// [EXISTANCE] //
 				const valid = await verificationCodesCollection.c_existance(
 					req.body.user_id,
@@ -221,19 +225,19 @@ router.post(
 
 				res.status(200).send(valid)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/users: Error --> ${err}`,
+					message: 'users: Invalid params'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'users: Invalid params'
+				message: `/api/users: Error --> ${err}`,
 			})
 		}
 	}
@@ -244,8 +248,9 @@ router.post(
 router.post(
 	'/send-password-reset/:email',
 	async (req, res) => {
-		if (validator.isAscii(req.params.email)) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (validator.isAscii(req.params.email)) {
 				// [READ] User By the Email //
 				const user = await usersCollection.c_getIdByEmail(req.params.email)
 
@@ -269,19 +274,19 @@ router.post(
 				}
 				else { res.status(200).send(user) }
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/users: Error --> ${err}`,
+					message: 'users: Invalid params'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'users: Invalid params'
+				message: `/api/users: Error --> ${err}`,
 			})
 		}
 	}

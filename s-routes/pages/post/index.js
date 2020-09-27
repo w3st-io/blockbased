@@ -27,19 +27,15 @@ router.get(
 	'/:post_id/:limit/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		// [VALIDATE] //
-		if (
-			mongoose.isValidObjectId(req.params.post_id) &&
-			Number.isInteger(parseInt(req.params.limit)) &&
-			Number.isInteger(parseInt(req.params.skip))
-		) {
-			// [INIT] //
-			let postObj
-			let commentsObj
-
-			try {
+		try {
+			// [VALIDATE] //
+			if (
+				mongoose.isValidObjectId(req.params.post_id) &&
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.skip))
+			) {
 				///// [POSTS] /////
-				postObj = await postsCollection.c_read(req.params.post_id)
+				let postObj = await postsCollection.c_read(req.params.post_id)
 
 				if (postObj.status) {
 					// [COUNT] Likes //
@@ -73,7 +69,7 @@ router.get(
 				}
 
 				//// [COMMENTS] ////
-				commentsObj = await commentsCollection.c_readAll(
+				let commentsObj = await commentsCollection.c_readAll(
 					req.params.post_id,
 					parseInt(req.params.skip),
 					parseInt(req.params.limit)
@@ -109,19 +105,19 @@ router.get(
 					commentsObj: commentsObj
 				})
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/pages/post: Error --> ${err}`
+					message: '/pages/post: Invalid params',
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/pages/post: Invalid params',
+				message: `/pages/post: Error --> ${err}`
 			})
 		}
 	},

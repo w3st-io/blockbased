@@ -35,12 +35,12 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.commentLimiter,
 	async (req, res) => {
-		// [VALIDATE] //
-		if (
-			validator.isAscii(req.body.post_id) &&
-			req.body.text
-		) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (
+				validator.isAscii(req.body.post_id) &&
+				req.body.text
+			) {
 				const postExistance = await postsCollection.c_existance(req.body.post_id)
 
 				if (postExistance.existance) {
@@ -96,19 +96,19 @@ router.post(
 				}
 				else { res.status(200).send(postExistance) }
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/comments: Error --> ${err}`,
+					message: '/api/comments: Invalid Params'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/comments: Invalid Params'
+				message: `/api/comments: Error --> ${err}`,
 			})
 		}
 	}
@@ -120,14 +120,13 @@ router.get(
 	'/read-all/:post_id/:limit/:skip',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		console.log(io)
-		// [VALIDATE] //
-		if (
-			mongoose.isValidObjectId(req.params.post_id) &&
-			Number.isInteger(parseInt(req.params.limit)) &&
-			Number.isInteger(parseInt(req.params.skip))
-		) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (
+				mongoose.isValidObjectId(req.params.post_id) &&
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.skip))
+			) {
 				const postExistance = await postsCollection.c_existance(
 					req.params.post_id
 				)
@@ -165,19 +164,19 @@ router.get(
 				}
 				else { res.status(200).send(postExistance) }
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/comments: Error --> ${err}`,
+					message: '/api/comments: Invalid params',
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/comments: Invalid params',
+				message: `/api/comments: Error --> ${err}`,
 			})
 		}
 	}
@@ -188,9 +187,9 @@ router.get(
 router.get(
 	'/read/:comment_id',
 	async (req, res) => {
-		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params.comment_id)) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (mongoose.isValidObjectId(req.params.comment_id)) {
 				// [READ] Comment //
 				const returned = await commentsCollection.c_read(req.params.comment_id)
 			
@@ -214,19 +213,19 @@ router.get(
 	
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/comments: Error --> ${err}`,
+					message: '/api/comments: Invalid comment _id'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/comments: Invalid comment _id'
+				message: `/api/comments: Error --> ${err}`,
 			})
 		}
 	},
@@ -238,12 +237,12 @@ router.post(
 	'/update/:comment_id',
 	Auth.userToken(),
 	async (req, res) => {
-		// [VALIDATE] //
-		if (
-			mongoose.isValidObjectId(req.params.comment_id) &&
-			req.body.text
-		) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (
+				mongoose.isValidObjectId(req.params.comment_id) &&
+				req.body.text
+			) {
 				// [UPDATE] //
 				const comment = await commentsCollection.c_update(
 					req.params.comment_id,
@@ -253,19 +252,19 @@ router.post(
 				
 				res.status(200).send(comment)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/comments: Error --> ${err}`,
+					message: '/api/comments: Invalid params'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/comments: Invalid params'
+				message: `/api/comments: Error --> ${err}`,
 			})
 		}
 	},
@@ -277,9 +276,9 @@ router.delete(
 	'/delete/:comment_id',
 	Auth.userToken(),
 	async (req, res) => {
-		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params.comment_id)) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (mongoose.isValidObjectId(req.params.comment_id)) {
 				// [DELETE] //
 				const comment = await commentsCollection.c_delete(
 					req.params.comment_id,
@@ -305,19 +304,19 @@ router.delete(
 				}
 				else { res.status(200).send(comment) }
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/comments: Error --> ${err}`,
+					message: '/api/comments: Invalid comment _id'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/comments: Invalid comment _id'
+				message: `/api/comments: Error --> ${err}`,
 			})
 		}
 	},
@@ -331,13 +330,13 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
-		// [VALIDATE] //
-		if (
-			mongoose.isValidObjectId(req.params.comment_id) &&
-			mongoose.isValidObjectId(req.params.post_id)
-		) {
-			try {
-				// [CREATE] CommentLike //
+		try {
+			// [VALIDATE] //
+			if (
+				mongoose.isValidObjectId(req.params.comment_id) &&
+				mongoose.isValidObjectId(req.params.post_id)
+			) {
+					// [CREATE] CommentLike //
 				const commentLike = await commentLikesCollection.c_create(
 					req.decoded.user_id,
 					req.params.post_id,
@@ -346,19 +345,19 @@ router.post(
 
 				res.status(200).send(commentLike)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/comments: Error --> ${err}`,
+					message: '/api/comments: Invalid params'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/comments: Invalid params'
+				message: `/api/comments: Error --> ${err}`,
 			})
 		}
 	},
@@ -370,9 +369,9 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
-		// [VALIDATE] //
-		if (mongoose.isValidObjectId(req.params.comment_id)) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (mongoose.isValidObjectId(req.params.comment_id)) {
 				// [DELETE] CommentLike //
 				const commentLike = await commentLikesCollection.c_delete(
 					req.decoded.user_id,
@@ -381,19 +380,19 @@ router.post(
 				
 				res.status(200).send(commentLike)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/comments: Error --> ${err}`,
+					message: '/api/comments: Invalid comment _id'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/comments: Invalid comment _id'
+				message: `/api/comments: Error --> ${err}`,
 			})
 		}
 	},
@@ -407,13 +406,13 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.reportLimiter,
 	async (req, res) => {
-		// [VALIDATE] //
-		if (
-			mongoose.isValidObjectId(req.params.comment_id) &&
-			validator.isAscii(req.body.post_id) &&
-			validator.isAscii(req.body.reportType)
-		) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (
+				mongoose.isValidObjectId(req.params.comment_id) &&
+				validator.isAscii(req.body.post_id) &&
+				validator.isAscii(req.body.reportType)
+			) {
 				const returned = await commentReportsCollection.c_create(
 					req.decoded.user_id,
 					req.params.comment_id,
@@ -423,19 +422,19 @@ router.post(
 				
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/comments: Error --> ${err}`,
+					message: '/api/comments: Invalid params',
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/comments: Invalid params',
+				message: `/api/comments: Error --> ${err}`,
 			})
 		}
 	},

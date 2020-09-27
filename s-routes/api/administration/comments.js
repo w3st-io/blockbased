@@ -27,11 +27,12 @@ router.get(
 	'/read-all-all/:limit/:skip',
 	Auth.adminToken(),
 	async (req, res) => {
-		if (
-			Number.isInteger(parseInt(req.params.limit)) &&
-			Number.isInteger(parseInt(req.params.skip))
-		) {
-			try {
+		try {
+			// [VALIDATE] //
+			if (
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.skip))
+			) {
 				const returned = await commentsCollection.c_readAllAll(
 					parseInt(req.params.skip),
 					parseInt(req.params.limit)
@@ -39,19 +40,19 @@ router.get(
 					
 				res.status(200).send(returned)
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/administration/comments: Error --> ${err}`,
+					message: '/api/administration/comments: Invalid params'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/administration/comments: Invalid params'
+				message: `/api/administration/comments: Error --> ${err}`,
 			})
 		}
 	}
@@ -63,8 +64,9 @@ router.delete(
 	'/delete/:comment_id',
 	Auth.adminToken(),
 	async (req, res) => {
-		if (mongoose.isValidObjectId(req.params.comment_id)) {
-			try {
+		try {
+			// [VALDIATE] //
+			if (mongoose.isValidObjectId(req.params.comment_id)) {
 				const returned = await commentsCollection.c_adminDelete(
 					req.params.comment_id
 				)
@@ -82,21 +84,20 @@ router.delete(
 					commentLikes: returned2,
 					notifications: returned3,
 				})
-
 			}
-			catch (err) {
+			else {
 				res.status(200).send({
-					executed: false,
+					executed: true,
 					status: false,
-					message: `/api/administration/comments: Error --> ${err}`,
+					message: '/api/administration/comments: Invalid comment _id'
 				})
 			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: '/api/administration/comments: Invalid comment _id'
+				message: `/api/administration/comments: Error --> ${err}`,
 			})
 		}
 	}
