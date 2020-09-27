@@ -110,7 +110,7 @@ const c_readAll = async () => {
 // [DELETE] Single Report //
 const c_delete = async (commentReport_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] commentReport_id //
 		if (!mongoose.isValidObjectId(commentReport_id)) {
 			return {
 				executed: true,

@@ -40,8 +40,8 @@ async function sendMail(to, subject, html) {
 		html: html
 	}
 
-	// [SEND-MAIL] //
 	try {
+		// [SEND-MAIL] //
 		const email = await transporter.sendMail(mailOptions)
 
 		return {
@@ -101,8 +101,8 @@ async function sendVerificationMail(to, user_id, VCode) {
 		`
 	}
 
-	// [SEND-MAIL] //
 	try {
+		// [SEND-MAIL] //
 		const email = await transporter.sendMail(mailOptions)
 
 		return {
@@ -162,8 +162,8 @@ async function sendPasswordResetEmail(to, user_id, VCode) {
 		`
 	}
 
-	// [SEND-MAIL] //
 	try {
+		// [SEND-MAIL] //
 		const email = await transporter.sendMail(mailOptions)
 
 		return {

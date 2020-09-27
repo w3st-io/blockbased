@@ -15,7 +15,7 @@ const CommentLikeModel = require('../s-models/CommetLikeModel')
 // [CREATE] //
 const c_create = async (user_id, post_id, comment_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
 				executed: true,
@@ -24,7 +24,7 @@ const c_create = async (user_id, post_id, comment_id) => {
 			}
 		}
 
-		// [VALIDATE] //
+		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
 			return {
 				executed: true,
@@ -33,7 +33,7 @@ const c_create = async (user_id, post_id, comment_id) => {
 			}
 		}
 
-		// [VALIDATE] //
+		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
 			return {
 				executed: true,
@@ -74,7 +74,7 @@ const c_create = async (user_id, post_id, comment_id) => {
 // [DELETE] //
 const c_delete = async (user_id, comment_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
 				executed: true,
@@ -83,7 +83,7 @@ const c_delete = async (user_id, comment_id) => {
 			}
 		}
 
-		// [VALIDATE] //
+		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
 			return {
 				executed: true,
@@ -116,7 +116,7 @@ const c_delete = async (user_id, comment_id) => {
 // [DELETE-ALL] //
 const c_deleteAll = async (comment_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
 			return {
 				executed: true,

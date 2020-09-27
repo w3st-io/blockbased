@@ -15,11 +15,17 @@ const PostLikeModel = require('../s-models/PostLikeModel')
 // [CREATE] //
 const c_create = async (user_id, post_id) => {
 	try {
-		// [VALIDATE] //
-		if (
-			!mongoose.isValidObjectId(user_id) ||
-			!mongoose.isValidObjectId(post_id)
-		) {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid id(s)',
+			}
+		}
+
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
 			return {
 				executed: true,
 				status: false,
@@ -65,17 +71,24 @@ const c_create = async (user_id, post_id) => {
 // [DELETE] //
 const c_delete = async (user_id, post_id) => {
 	try {
-		// [VALIDATE] //
-		if (
-			!mongoose.isValidObjectId(user_id) ||
-			!mongoose.isValidObjectId(post_id)
-		) {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
 			return {
 				executed: true,
 				status: false,
 				message: 'Invalid id(s)',
 			}
 		}
+
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid id(s)',
+			}
+		}
+	
 
 		const postLike = await PostLikeModel.deleteMany({
 			user: user_id,
@@ -101,7 +114,7 @@ const c_delete = async (user_id, post_id) => {
 // [DELETE-ALL] //
 const c_deleteAll = async (post_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
 			return {
 				executed: true,
@@ -132,12 +145,21 @@ const c_deleteAll = async (post_id) => {
 // [EXISTANCE] //
 const c_existance = async (user_id, post_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid id(s)',
+			}
+		}
+
+		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'Invalid id(s)',
 			}
 		}
 
@@ -167,7 +189,7 @@ const c_existance = async (user_id, post_id) => {
 /******************* [COUNT] *******************/
 const c_countAll = async (post_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
 			return {
 				executed: true,

@@ -25,7 +25,7 @@ const c_create = async (user_id, comment_id, type) => {
 			}
 		}
 
-		// [VALIDATE] //
+		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
 			return {
 				executed: true,
@@ -143,7 +143,7 @@ const c_delete = async () => {}
 /******************* [MARK-READ-STATUS] *******************/
 const c_markRead = async (notification_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] notification_id //
 		if (!mongoose.isValidObjectId(notification_id)) {
 			return {
 				executed: true,

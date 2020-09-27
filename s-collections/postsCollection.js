@@ -16,16 +16,30 @@ const PostModel = require('../s-models/PostModel')
 // [CREATE] //
 const c_create = async (user_id, cat_id, title) => {
 	try {
-		// [VALIDATE] //
-		if (
-			!mongoose.isValidObjectId(user_id) &&
-			!validator.isAscii(cat_id) &&
-			!validator.isAscii(title)
-		) {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid params',
+				message: 'Invalid user_id',
+			}
+		}
+
+		// [VALIDATE] cat_id //
+		if (!validator.isAscii(cat_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid cat_id',
+			}
+		}
+
+		// [VALIDATE] title //
+		if (!validator.isAscii(title)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid title',
 			}
 		}
 
@@ -162,12 +176,12 @@ const c_readAll = async (cat_id, skip, limit) => {
 // [READ] Single Post //
 const c_read = async (post_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'postsCollection: Invalid post_id',
+				message: 'Invalid post_id',
 			}
 		}
 
@@ -199,6 +213,7 @@ const c_read = async (post_id) => {
 // [DELETE] //
 const c_delete = async (post_id) => {
 	try {
+		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
 			return {
 				executed: true,
@@ -241,7 +256,7 @@ const c_readAllSort = async (cat_id, skip, limit, sort) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid params',
+				message: 'Invalid cat_id',
 			}
 		}
 
@@ -250,7 +265,7 @@ const c_readAllSort = async (cat_id, skip, limit, sort) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid params',
+				message: 'Invalid skip',
 			}
 		}
 
@@ -259,7 +274,7 @@ const c_readAllSort = async (cat_id, skip, limit, sort) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid params',
+				message: 'Invalid limit',
 			}
 		}
 
@@ -268,7 +283,7 @@ const c_readAllSort = async (cat_id, skip, limit, sort) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid params',
+				message: 'Invalid sort',
 			}
 		}
 
@@ -304,12 +319,12 @@ const c_readAllSort = async (cat_id, skip, limit, sort) => {
 /******************* [LIKE-SYSTEM] *******************/
 const c_incrementLike = async (post_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'postCollection: Invalid post_id',
+				message: 'Invalid post_id',
 			}
 		}
 
@@ -336,7 +351,7 @@ const c_incrementLike = async (post_id) => {
 
 const c_decrementLike = async (post_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
 			return {
 				executed: true,
@@ -369,7 +384,7 @@ const c_decrementLike = async (post_id) => {
 /******************* [EXISTANCE] *******************/
 const c_existance = async (post_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
 			return {
 				executed: true,
@@ -413,7 +428,7 @@ const c_existance = async (post_id) => {
 /******************* [OWNERSHIP] *******************/
 const c_ownership = async (post_id, user_id) => {
 	try {
-		// [VALIDATE] cat_id //
+		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
 			return {
 				executed: true,

@@ -44,7 +44,7 @@ const c_readAll = async () => {
 // [READ] //
 const c_read = async (user_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
 				executed: true,
@@ -74,7 +74,7 @@ const c_read = async (user_id) => {
 // [UPDATE] Profile Picture //
 const c_update = async (user_id, img_url) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
 				executed: true,
@@ -122,7 +122,7 @@ const c_getIdByEmail = async (email) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'usersCollection: Invalid email'
+				message: 'Invalid email'
 			}
 		}
 
@@ -154,7 +154,7 @@ const c_getIdByEmail = async (email) => {
 
 const c_updatePassword = async (user_id, password) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
 				executed: true,
@@ -174,7 +174,6 @@ const c_updatePassword = async (user_id, password) => {
 	
 		// Hash Password //
 		const hashedPassword = await bcrypt.hash(password, 10)
-
 		
 		// [UPDATE] Password for User //
 		const user = await UserModel.findOneAndUpdate(
@@ -207,7 +206,7 @@ const c_login = async (email, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'usersCollection: Invalid email'
+				message: 'Invalid email'
 			}
 		}
 		else { email = validator.normalizeEmail(email) }
@@ -217,7 +216,7 @@ const c_login = async (email, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'usersCollection: Invalid password'
+				message: 'Invalid password'
 			}
 		}
 

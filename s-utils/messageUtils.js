@@ -4,7 +4,7 @@
  * %%%%%%%%%%%%%%%%%%%%%% *
 */
 // [F] Format Message //
-function formatMessage(user_idFrom, user_idTo, text) {
+const formatMessage = (user_idFrom, user_idTo, text) => {
 	return {
 		from: user_idFrom,
 		to: user_idTo,
@@ -15,7 +15,7 @@ function formatMessage(user_idFrom, user_idTo, text) {
 
 
 // [F] Format Group Message //
-function formatGroupMessage(user_idFrom, text) {
+const formatGroupMessage = (user_idFrom, text) => {
 	return {
 		from: user_idFrom,
 		text: text,

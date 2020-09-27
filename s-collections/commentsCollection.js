@@ -182,7 +182,7 @@ const c_readAll = async (post_id, skip, limit) => {
 // [READ] //
 const c_read = async (comment_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
 			return {
 				executed: true,
@@ -223,7 +223,7 @@ const c_read = async (comment_id) => {
 // [UPDATE] //
 const c_update = async (comment_id, user_id, text) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
 			return {
 				executed: true,
@@ -302,7 +302,7 @@ const c_update = async (comment_id, user_id, text) => {
 // [DELETE] //
 const c_delete = async (comment_id, user_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
 			return {
 				executed: true,
@@ -358,7 +358,7 @@ const c_delete = async (comment_id, user_id) => {
 // [ADMIN-DELETE] //
 const c_adminDelete = async (comment_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
 			return {
 				executed: true,
@@ -389,7 +389,7 @@ const c_adminDelete = async (comment_id) => {
 /******************* [OWNERSHIP] *******************/
 const c_ownership = async (comment_id, user_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
 			return {
 				executed: true,
@@ -441,7 +441,7 @@ const c_ownership = async (comment_id, user_id) => {
 /******************* [EXISTANCE] *******************/
 const c_existance = async (comment_id) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
 			return {
 				executed: true,
