@@ -194,20 +194,20 @@ const router = new Router ({
 		},
 		{
 			path: '/user/password/request',
-			name: 'register',
+			name: 'request',
 			component: PasswordRequest,
 			meta: {
 				auth: true,
-				title: 'Register'
+				title: 'Request for Password Reset'
 			}
 		},
 		{
 			path: '/user/password/reset/:user_id/:verification_code',
-			name: 'register',
+			name: 'reset-password',
 			component: PasswordReset,
 			meta: {
 				auth: true,
-				title: 'Register'
+				title: 'Reset Password'
 			}
 		},
 		{

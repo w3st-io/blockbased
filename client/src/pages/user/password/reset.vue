@@ -6,7 +6,6 @@
 					<h5 class="text-center">Create New Password</h5>
 					<p>Please enter your new password</p>
 
-					<!-- LOG IN FORM -->
 					<ValidationObserver v-slot="{ handleSubmit }">
 						<form @submit.prevent="handleSubmit(submit)">
 							<!-- Password -->
