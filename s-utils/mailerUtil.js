@@ -51,7 +51,6 @@ async function sendMail(to, subject, html) {
 			executed: true,
 			status: true,
 			message: 'Email Sent',
-			sentEmail: sentEmail,
 		}
 	}
 	catch (err) {
@@ -107,7 +106,6 @@ async function sendVerificationMail(to, user_id, VCode) {
 			executed: true,
 			status: true,
 			message: 'Email Sent',
-			sentEmail: sentEmail,
 		}
 	}
 	catch (err) {
@@ -164,7 +162,6 @@ async function sendPasswordResetEmail(to, user_id, VCode) {
 			executed: true,
 			status: true,
 			message: 'Email Sent',
-			sentEmail: sentEmail,
 		}
 	}
 	catch (err) {

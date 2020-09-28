@@ -246,14 +246,13 @@ router.post(
 
 /******************* [PASSWORD] *******************/
 router.post(
-	'/send-password-reset/:email',
+	'/request-password-reset',
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
-			if (validator.isAscii(req.params.email)) {
-				// [READ] User By the Email //
-				const user = await usersCollection.c_getIdByEmail(req.params.email)
-
+			if (validator.isAscii(req.body.email)) {
+				const user = await usersCollection.c_getIdByEmail(req.body.email)
+				
 				if (user.status) {
 					// [CREATE] Password Recovery //
 					const passwordRecovery = await passwordRecoveriesCollection.c_create(
@@ -263,7 +262,7 @@ router.post(
 					if (passwordRecovery.status && !passwordRecovery.existance) {
 						// [SEND-MAIL] //
 						const email = await mailerUtil.sendPasswordResetEmail(
-							req.params.email,
+							req.body.email,
 							user.user._id,
 							passwordRecovery.passwordRecovery.verificationCode
 						)
@@ -278,7 +277,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'users: Invalid params'
+					message: '/api/users: Invalid params'
 				})
 			}
 		}
@@ -294,35 +293,58 @@ router.post(
 
 
 router.post(
-	'/reset-password/:verificationCode',
+	'/reset-password',
 	async (req, res) => {
-		if (req.params.verificationCode) {
-			// [READ] Find password reset with given token //
-			const tokenFound = ''
+		try {
+			if (
+				mongoose.isValidObjectId(req.body.user_id) &&
+				validator.isAscii(req.body.verificationCode) &&
+				validator.isAscii(req.body.password)
+			) {
+				// [VALIDATE] passwordRecovery //
+				const passwordRecovery = await passwordRecoveriesCollection.c_validateToken(
+					req.body.user_id,
+					req.body.verificationCode
+				)
 
-			if (tokenFound.existance) {
-				if (req.body.newPassword) {
-					// [UPDATE] The password of decoded user_id //
+				if (passwordRecovery.status && passwordRecovery.valid) {
+					// [UPDATE] Password //
+					const updated = await usersCollection.c_updatePassword(
+						req.body.user_id,
+						req.body.password
+					)
+
+					if (updated.status) {
+						// [DELETE] passwordrecovery //
+						const deletedPasswordRecovery = await passwordRecoveriesCollection.c_delete(
+							req.body.user_id
+						)
+
+						if (deletedPasswordRecovery.status) {
+							res.status(200).send({
+								executed: true,
+								status: true,
+								message: 'Password reset!'
+							})
+						}
+					}
+					else { res.status(200).send(updated) }
 				}
-				else {
-					res.status(200).send({
-						executed: true,
-						status: false,
-						message: 'users: No password'
-					})
-				}
+				else { res.status(200).send(passwordRecovery) }
 			}
-			res.status(200).send({
-				executed: true,
-				status: false,
-				message: 'users: Invalid token'
-			})
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
+					message: '/api/users: Invalid params'
+				})
+			}
 		}
-		else {
+		catch (err) {
 			res.status(200).send({
-				executed: true,
+				executed: false,
 				status: false,
-				message: 'users: No token passed'
+				message: `/api/users: Error --> ${err}`,
 			})
 		}
 	}

@@ -45,21 +45,49 @@
 							</ValidationProvider>
 					
 							<!-- Submit -->
-							<button
-								class="btn btn-primary"
-							>Send Password Reset Email</button>
+							<button class="w-100 btn btn-primary">Reset Password</button>
 						</form>
 					</ValidationObserver>
 				</div>
+
+				<!-- [ALERT] -->
+				<div
+					v-if="alert"
+					class="mx-auto my-3 alert alert-warning"
+					style="max-width: 500px;"
+				>{{ alert }}</div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+	// [IMPORT] Personal //
+	import UserService from '@services/UserService'
+
+	// [EXPORT] //
 	export default {
+		data: function() {
+			return {
+				password: '',
+				confirm: '',
+				data: '',
+				alert: '',
+			} 
+		},
+
 		methods: {
-			submit() {},
+			async submit() {
+				this.data = await UserService.resetPassword(
+					this.$route.params.user_id,
+					this.$route.params.verification_code,
+					this.password
+				)
+
+				console.log(this.data)
+
+				this.alert = this.data.message
+			},
 		},
 	}
 </script>

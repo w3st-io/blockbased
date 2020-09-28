@@ -5,6 +5,7 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 
 // [REQUIRE] Personal //
@@ -63,9 +64,9 @@ const c_delete = async (user_id) => {
 			}
 		}
 
-		const passwordRecovery = await PasswordRecoveryModel.deleteMany(
-			{ user: user_id }
-		)
+		const passwordRecovery = await PasswordRecoveryModel.deleteMany({
+			user: user_id
+		})
 
 		return {
 			executed: true,
@@ -84,7 +85,6 @@ const c_delete = async (user_id) => {
 
 
 /******************* [EXISTANCE] *******************/
-// [EXISTANCE] //
 const c_existance = async (user_id) => {
 	try {
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -121,9 +121,62 @@ const c_existance = async (user_id) => {
 }
 
 
+/******************* [VALIDATION] *******************/
+const c_validateToken = async (user_id, verificationCode) => {
+	try {
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid user_id',
+			}
+		}
+
+		// [VALIDATE] user_id //
+		if (!verificationCode) {
+			return {
+				executed: true,
+				status: false,
+				message: 'No verificationCode',
+			}
+		}
+
+		const passwordRecovery = await PasswordRecoveryModel.findOne({
+			user: user_id,
+			verificationCode: verificationCode
+		})
+
+		if (!passwordRecovery) {
+			return {
+				executed: true,
+				status: true,
+				message: 'Password Recovery Token Invalid',
+				valid: false,
+			}
+		}
+
+		return {
+			executed: true,
+			status: true,
+			message: 'Password Recovery Token Valid',
+			passwordRecovery: passwordRecovery,
+			valid: true,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `passwordRecoveriesCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_create,
 	c_delete,
 	c_existance,
+	c_validateToken,
 }

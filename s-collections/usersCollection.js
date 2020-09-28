@@ -171,6 +171,15 @@ const c_updatePassword = async (user_id, password) => {
 				message: 'Invalid password'
 			}
 		}
+
+		// Password Length //
+		if (password.length < 8 || password.length > 50) {
+			return {
+				executed: true,
+				status: false,
+				message: 'Invalid password (8 < password < 50)',
+			}
+		}
 	
 		// Hash Password //
 		const hashedPassword = await bcrypt.hash(password, 10)
@@ -209,7 +218,6 @@ const c_login = async (email, password) => {
 				message: 'Invalid email'
 			}
 		}
-		else { email = validator.normalizeEmail(email) }
 		
 		// [VALIDATE] password //
 		if (!validator.isAscii(password)) {
@@ -222,7 +230,7 @@ const c_login = async (email, password) => {
 
 		// [VALIDATE-EMAIL] //
 		const userFound = await UserModel.findOne({ email })
-		
+
 		if (!userFound) {
 			return {
 				executed: true,

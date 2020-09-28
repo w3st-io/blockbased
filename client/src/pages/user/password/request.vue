@@ -7,7 +7,7 @@
 					<p>Enter your email</p>
 
 					<ValidationObserver v-slot="{ handleSubmit }">
-						<form @submit.prevent="handleSubmit(register)">
+						<form @submit.prevent="handleSubmit(submit)">
 							<!-- Email -->
 							<ValidationProvider
 								tag="div"
@@ -28,12 +28,26 @@
 							</ValidationProvider>
 
 							<!-- Submit -->
-							<button type="submit" class="w-100 btn btn-lg btn-primary">
-								Register
+							<button type="submit" class="w-100 btn btn-primary">
+								Send Email
 							</button>
 						</form>
 					</ValidationObserver>
 				</div>
+
+				<!-- [ERROR] -->
+				<div
+					v-if="error"
+					class="mx-auto my-3 alert alert-danger"
+					style="max-width: 500px;"
+				>{{ error }}</div>
+
+				<!-- [ALERT] -->
+				<div
+					v-if="success"
+					class="mx-auto my-3 alert alert-success"
+					style="max-width: 500px;"
+				>{{ success }}</div>
 			</div>
 		</div>
 	</div>
@@ -42,6 +56,7 @@
 <script>
 	// [IMPORT] Personal //
 	import router from '@router'
+	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {
@@ -49,6 +64,7 @@
 			return {
 				email: '',
 				data: '',
+				success: '',
 				error: '',
 			}
 		},
@@ -60,7 +76,15 @@
 
 		methods: {
 			async submit() {
-				
+				try {
+					this.data = await UserService.requestPasswordReset(this.email)
+
+					if (!this.data.status || this.data.existance) {
+						this.error = this.data.message
+					}
+					else { this.success = this.data.message }
+				}
+				catch (err) { this.error = err }
 			},
 		}
 	}

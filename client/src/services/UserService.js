@@ -72,26 +72,6 @@ async function s_update(img_url) {
 }
 
 
-/******************* [USER-PROFILE] *******************/
-// [TOKEN DECODE] //
-async function getUserTokenDecodeData() {
-	let decoded
-
-	if (localStorage.usertoken) {
-		decoded = jwtDecode(localStorage.usertoken)
-	}
-	else {
-		decoded = {
-			_id: '',
-			email: '',
-			username: '',
-		}
-	}
-
-	return decoded
-}
-
-
 /******************* [USER LOGIN/REGISTER] *******************/
 // [LOGIN] //
 async function login(email, password) {
@@ -157,13 +137,73 @@ async function verify(user_id, verificationCode) {
 }
 
 
+/******************* [PASSWORD] *******************/
+async function requestPasswordReset(email) {
+	const authAxios = await this.authAxios()
+
+	try {
+		const { data } = await authAxios.post('/request-password-reset', { email })
+
+		return data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserService: Error --> ${err}`
+		}	
+	}
+}
+
+
+async function resetPassword(user_id, verificationCode, password) {
+	const authAxios = await this.authAxios()
+
+	try {
+		const { data } = await authAxios.post('/reset-password', {
+			user_id,
+			verificationCode,
+			password
+		})
+
+		return data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserService: Error --> ${err}`
+		}	
+	}
+}
+
+
+/******************* [USER-PROFILE] *******************/
+// [TOKEN DECODE] //
+async function getUserTokenDecodeData() {
+	let decoded = {
+		_id: '',
+		email: '',
+		username: '',
+	}
+
+	if (localStorage.usertoken) {
+		decoded = jwtDecode(localStorage.usertoken)
+	}
+
+	return decoded
+}
+
+
 // [EXPORT] //
 export default {
 	authAxios,
 	s_read,
 	s_update,
-	getUserTokenDecodeData,
 	login,
 	register,
 	verify,
+	requestPasswordReset,
+	resetPassword,
+	getUserTokenDecodeData,
 }
