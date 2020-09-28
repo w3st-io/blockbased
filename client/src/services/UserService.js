@@ -144,6 +144,8 @@ async function requestPasswordReset(email) {
 	try {
 		const { data } = await authAxios.post('/request-password-reset', { email })
 
+		console.log('requestPasswordReset', data)
+
 		return data
 	}
 	catch (err) {
@@ -165,6 +167,8 @@ async function resetPassword(user_id, verificationCode, password) {
 			verificationCode,
 			password
 		})
+
+		console.log('resetPassword', data)
 
 		return data
 	}

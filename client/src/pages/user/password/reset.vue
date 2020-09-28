@@ -84,8 +84,6 @@
 					this.password
 				)
 
-				console.log(this.data)
-
 				this.alert = this.data.message
 			},
 		},

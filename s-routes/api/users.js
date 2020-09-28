@@ -301,42 +301,56 @@ router.post(
 				validator.isAscii(req.body.verificationCode) &&
 				validator.isAscii(req.body.password)
 			) {
-				// [VALIDATE] passwordRecovery //
-				const passwordRecovery = await passwordRecoveriesCollection.c_validateToken(
-					req.body.user_id,
-					req.body.verificationCode
+				// [EXISTANCE] PasswordRecovery //
+				const existance = await passwordRecoveriesCollection.c_existance(
+					req.body.user_id
 				)
 
-				if (passwordRecovery.status && passwordRecovery.valid) {
-					// [UPDATE] Password //
-					const updated = await usersCollection.c_updatePassword(
+				if (existance.existance) {
+					// [VALIDATE] passwordRecovery //
+					const pwdRecovery = await passwordRecoveriesCollection.c_validateToken(
 						req.body.user_id,
-						req.body.password
+						req.body.verificationCode
 					)
 
-					if (updated.status) {
-						// [DELETE] passwordrecovery //
-						const deletedPasswordRecovery = await passwordRecoveriesCollection.c_delete(
-							req.body.user_id
+					if (pwdRecovery.status && pwdRecovery.valid) {
+						// [UPDATE] Password //
+						const updated = await usersCollection.c_updatePassword(
+							req.body.user_id,
+							req.body.password
 						)
 
-						if (deletedPasswordRecovery.status) {
-							res.status(200).send({
-								executed: true,
-								status: true,
-								message: 'Password reset!'
-							})
+						if (updated.status) {
+							// [DELETE] passwordrecovery //
+							const deletedPR = await passwordRecoveriesCollection.c_delete(
+								req.body.user_id
+							)
+
+							if (deletedPR.status) {
+								res.status(200).send({
+									executed: true,
+									status: true,
+									message: 'Password reset'
+								})
+							}
 						}
+						else { res.status(200).send(updated) }
 					}
-					else { res.status(200).send(updated) }
+					else { res.status(200).send(pwdRecovery) }
 				}
-				else { res.status(200).send(passwordRecovery) }
+				else {
+					res.status(200).send({
+						executed: true,
+						status: false,
+						message: '/api/users: Invalid params'
+					})
+				}
 			}
 			else {
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/users: Invalid params'
+					message: 'You have not made a request to reset your password!'
 				})
 			}
 		}

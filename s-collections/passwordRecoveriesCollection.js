@@ -27,7 +27,7 @@ const c_create = async (user_id) => {
 
 		// [EXISTANCE] //
 		const existance = await c_existance(user_id)
-
+		
 		if (!existance.status || existance.existance) { return existance }
 
 		// [SAVE] //
@@ -141,6 +141,12 @@ const c_validateToken = async (user_id, verificationCode) => {
 			}
 		}
 
+		// [VALIDATE][EXISTANCE] //
+		const existance = await c_existance(user_id)
+
+		if (!existance.status || !existance.existance) { return existance }
+
+		// [VALIDATE] //
 		const passwordRecovery = await PasswordRecoveryModel.findOne({
 			user: user_id,
 			verificationCode: verificationCode
