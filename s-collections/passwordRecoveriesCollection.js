@@ -5,7 +5,6 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
-const validator = require('validator')
 
 
 // [REQUIRE] Personal //
@@ -27,7 +26,7 @@ const c_create = async (user_id) => {
 
 		// [EXISTANCE] //
 		const existance = await c_existance(user_id)
-		
+
 		if (!existance.status || existance.existance) { return existance }
 
 		// [SAVE] //
@@ -39,7 +38,7 @@ const c_create = async (user_id) => {
 		return {
 			executed: true,
 			status: true,
-			passwordRecovery: passwordRecovery,
+			message: 'Created passwordRecovery',
 		}
 	}
 	catch (err) {
@@ -71,7 +70,6 @@ const c_delete = async (user_id) => {
 		return {
 			executed: true,
 			status: true,
-			passwordRecovery: passwordRecovery,
 		}
 	}
 	catch (err) {
@@ -137,7 +135,7 @@ const c_validateToken = async (user_id, verificationCode) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'No verificationCode',
+				message: 'No verificationCode passed',
 			}
 		}
 
@@ -156,7 +154,7 @@ const c_validateToken = async (user_id, verificationCode) => {
 			return {
 				executed: true,
 				status: true,
-				message: 'Password Recovery Token Invalid',
+				message: 'Password Recovery verificationCode invalid',
 				valid: false,
 			}
 		}
@@ -164,7 +162,7 @@ const c_validateToken = async (user_id, verificationCode) => {
 		return {
 			executed: true,
 			status: true,
-			message: 'Password Recovery Token Valid',
+			message: 'Password Recovery verificationCode valid',
 			passwordRecovery: passwordRecovery,
 			valid: true,
 		}

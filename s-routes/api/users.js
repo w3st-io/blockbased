@@ -39,7 +39,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/comments: Error --> ${err}`,
+				message: `/api/users: Error --> ${err}`,
 			})
 		}
 	}
@@ -61,7 +61,7 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'Invalid user _id'
+					message: '/api/users: Invalid user_id'
 				})
 			}
 		}
@@ -95,7 +95,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'Invalid img_url'
+					message: '/api/users: Invalid img_url'
 				})
 			}
 		}
@@ -132,7 +132,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'users: Invalid Params'
+					message: '/api/users: Invalid Params'
 				})
 			}
 		}
@@ -187,7 +187,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'users: Invalid Params'
+					message: '/api/users: Invalid Params'
 				})
 			}
 		}
@@ -229,7 +229,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'users: Invalid params'
+					message: '/api/users: Invalid params'
 				})
 			}
 		}
@@ -350,7 +350,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'You have not made a request to reset your password!'
+					message: 'You have not made a request to reset your password'
 				})
 			}
 		}
