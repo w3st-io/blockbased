@@ -20,7 +20,7 @@ const c_create = async (user_id, post_id, text) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'commentsCollection: Invalid user_id',
 			}
 		}
 
@@ -29,7 +29,7 @@ const c_create = async (user_id, post_id, text) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'commentsCollection: Invalid post_id',
 			}
 		}
 
@@ -38,7 +38,7 @@ const c_create = async (user_id, post_id, text) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid text',
+				message: 'commentsCollection: Invalid text',
 			}
 		}
 
@@ -87,7 +87,7 @@ const c_readAllAll = async (skip, limit) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid skip',
+				message: 'commentsCollection: Invalid skip',
 			}
 		}
 
@@ -96,7 +96,7 @@ const c_readAllAll = async (skip, limit) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid limit',
+				message: 'commentsCollection: Invalid limit',
 			}
 		}
 
@@ -135,7 +135,7 @@ const c_readAll = async (post_id, skip, limit) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'commentsCollection: Invalid post_id',
 			}
 		}
 
@@ -144,7 +144,7 @@ const c_readAll = async (post_id, skip, limit) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid skip',
+				message: 'commentsCollection: Invalid skip',
 			}
 		}
 
@@ -153,7 +153,7 @@ const c_readAll = async (post_id, skip, limit) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid limit',
+				message: 'commentsCollection: Invalid limit',
 			}
 		}
 
@@ -187,7 +187,7 @@ const c_read = async (comment_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid comment_id',
+				message: 'commentsCollection: Invalid comment_id',
 			}
 		}
 
@@ -228,7 +228,7 @@ const c_update = async (comment_id, user_id, text) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid comment_id',
+				message: 'commentsCollection: Invalid comment_id',
 				updated: false,
 			}
 		}
@@ -238,7 +238,7 @@ const c_update = async (comment_id, user_id, text) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'commentsCollection: Invalid user_id',
 				updated: false,
 			}
 		}
@@ -248,7 +248,7 @@ const c_update = async (comment_id, user_id, text) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid text',
+				message: 'commentsCollection: Invalid text',
 			}
 		}
 
@@ -307,7 +307,7 @@ const c_delete = async (comment_id, user_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid comment_id',
+				message: 'commentsCollection: Invalid comment_id',
 				updated: false,
 			}
 		}
@@ -317,7 +317,7 @@ const c_delete = async (comment_id, user_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'commentsCollection: Invalid user_id',
 				updated: false,
 			}
 		}
@@ -363,7 +363,7 @@ const c_adminDelete = async (comment_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid comment comment_id',
+				message: 'commentsCollection: Invalid comment_id',
 			}
 		}
 
@@ -394,7 +394,7 @@ const c_ownership = async (comment_id, user_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid comment_id',
+				message: 'commentsCollection: Invalid comment_id',
 				updated: false,
 			}
 		}
@@ -404,7 +404,7 @@ const c_ownership = async (comment_id, user_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'commentsCollection: Invalid user_id',
 				updated: false,
 			}
 		}
@@ -446,7 +446,7 @@ const c_existance = async (comment_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid comment_id'
+				message: 'commentsCollection: Invalid comment_id'
 			}
 		}
 
@@ -488,7 +488,7 @@ const c_countAll = async (post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id'
+				message: 'commentsCollection: Invalid post_id'
 			}
 		}
 

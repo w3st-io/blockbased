@@ -21,7 +21,7 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'commentReportsCollection: Invalid user_id',
 			}
 		}
 
@@ -30,7 +30,7 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid comment_id',
+				message: 'commentReportsCollection: Invalid comment_id',
 			}
 		}
 
@@ -39,7 +39,7 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'commentReportsCollection: Invalid post_id',
 			}
 		}
 
@@ -48,7 +48,7 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid reportType',
+				message: 'commentReportsCollection: Invalid reportType',
 			}
 		}
 
@@ -115,7 +115,7 @@ const c_delete = async (commentReport_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid commentReport_id'
+				message: 'commentReportsCollection: Invalid commentReport_id'
 			}
 		}
 
@@ -148,7 +148,7 @@ const c_existance = async (user_id, comment_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'commentReportsCollection: Invalid user_id',
 			}
 		}
 
@@ -157,7 +157,7 @@ const c_existance = async (user_id, comment_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid comment_id',
+				message: 'commentReportsCollection: Invalid comment_id',
 			}
 		}
 

@@ -10,7 +10,7 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const banCollection = require('../s-collections/banCollection')
+const bansCollection = require('../s-collections/bansCollection')
 const usersCollection = require('../s-collections/usersCollection')
 require('dotenv').config()
 
@@ -46,7 +46,7 @@ class Auth {
 
 								if (verified.status) {
 									// Check Ban //
-									const ban = await banCollection.c_existance(
+									const ban = await bansCollection.c_existance(
 										req.decoded.user_id
 									)
 

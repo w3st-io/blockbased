@@ -20,7 +20,7 @@ const c_create = async (user_id, comment_id, type) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'notificationsCollection: Invalid user_id',
 				updated: false,
 			}
 		}
@@ -30,7 +30,7 @@ const c_create = async (user_id, comment_id, type) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid comment_id',
+				message: 'notificationsCollection: Invalid comment_id',
 				updated: false,
 			}
 		}
@@ -66,7 +66,7 @@ const c_readAll = async (user_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'notificationsCollection: Invalid user_id',
 				updated: false,
 			}
 		}
@@ -113,7 +113,7 @@ const c_deleteAll = async (comment_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid comment_id',
+				message: 'notificationsCollection: Invalid comment_id',
 			}
 		}
 
@@ -148,7 +148,7 @@ const c_markRead = async (notification_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid notification_id',
+				message: 'notificationsCollection: Invalid notification_id',
 			}
 		}
 

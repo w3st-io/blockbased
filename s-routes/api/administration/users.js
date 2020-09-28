@@ -12,7 +12,7 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const usersCollection = require('../../../s-collections/usersCollection')
-const banCollection = require('../../../s-collections/banCollection')
+const bansCollection = require('../../../s-collections/bansCollection')
 const Auth = require('../../../s-middleware/Auth')
 
 
@@ -88,7 +88,7 @@ router.post(
 				mongoose.isValidObjectId(req.params.user_id) &&
 				Number.isInteger(parseInt(req.body.hours))
 			) {
-				const returned = await banCollection.c_create(
+				const returned = await bansCollection.c_create(
 					req.params.user_id,
 					parseInt(req.body.hours)
 				)

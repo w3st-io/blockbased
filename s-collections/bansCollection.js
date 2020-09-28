@@ -21,7 +21,7 @@ const c_create = async (user_id, hours) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id'
+				message: 'bansCollection: Invalid user_id'
 			}
 		}
 
@@ -30,7 +30,7 @@ const c_create = async (user_id, hours) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid hours (must be numeric)'
+				message: 'bansCollection: Invalid hours (must be numeric)'
 			}
 		}
 	
@@ -64,7 +64,7 @@ const c_create = async (user_id, hours) => {
 		return {
 			executed: false,
 			status: false,
-			message: `banCollection: Error --> ${err}`,
+			message: `bansCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -78,7 +78,7 @@ const c_delete = async (user_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id'
+				message: 'bansCollection: Invalid user_id'
 			}
 		}
 
@@ -94,7 +94,7 @@ const c_delete = async (user_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `banCollection: Error --> ${err}`,
+			message: `bansCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -109,7 +109,7 @@ const c_existance = async (user_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'bansCollection: Invalid user_id',
 			}
 		}
 

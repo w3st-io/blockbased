@@ -27,7 +27,7 @@ const c_login = async (email, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid email'
+				message: 'adminsCollection: Invalid email'
 			}
 		}
 		else { email = validator.normalizeEmail(email) }
@@ -38,7 +38,7 @@ const c_login = async (email, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid password (must be ASCII)'
+				message: 'adminsCollection: Invalid password (must be ASCII)'
 			}
 		}
 
@@ -49,7 +49,7 @@ const c_login = async (email, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid email',
+				message: 'Account does not exist',
 				validation: false,
 			}
 		}
@@ -104,7 +104,7 @@ const c_register = async (username, email, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid username (must be ASCII)'
+				message: 'adminsCollection: Invalid username (must be ASCII)'
 			}
 		}
 
@@ -113,7 +113,7 @@ const c_register = async (username, email, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid email'
+				message: 'adminsCollection: Invalid email'
 			}
 		}
 		else { email = validator.normalizeEmail(email) }
@@ -123,7 +123,7 @@ const c_register = async (username, email, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid password (must be ASCII)'
+				message: 'adminsCollection: Invalid password (must be ASCII)'
 			}
 		}
 
