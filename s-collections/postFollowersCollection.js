@@ -20,7 +20,7 @@ const c_create = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'postFollowersCollection: Invalid user_id',
 				updated: false,
 			}
 		}
@@ -30,7 +30,7 @@ const c_create = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'postFollowersCollection: Invalid post_id',
 				updated: false,
 			}
 		}
@@ -76,7 +76,7 @@ const c_readAll = async (post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'postFollowersCollection: Invalid post_id',
 			}
 		}
 
@@ -85,7 +85,6 @@ const c_readAll = async (post_id) => {
 		return {
 			executed: true,
 			status: true,
-			message: 'Found',
 			postFollowers: postFollowers,
 		}
 	}
@@ -106,7 +105,7 @@ const c_delete = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'postFollowersCollection: Invalid user_id',
 				updated: false,
 			}
 		}
@@ -116,7 +115,7 @@ const c_delete = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'postFollowersCollection: Invalid post_id',
 				updated: false,
 			}
 		}
@@ -150,7 +149,7 @@ const c_existance = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'postFollowersCollection: Invalid user_id',
 				updated: false,
 			}
 		}
@@ -160,7 +159,7 @@ const c_existance = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'postFollowersCollection: Invalid post_id',
 				updated: false,
 			}
 		}
@@ -204,7 +203,7 @@ const c_countAll = async (post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'postFollowersCollection: Invalid post_id',
 			}
 		}
 

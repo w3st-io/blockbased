@@ -20,7 +20,7 @@ const c_create = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid id(s)',
+				message: 'postLikesCollection: Invalid user_id',
 			}
 		}
 
@@ -29,7 +29,7 @@ const c_create = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid id(s)',
+				message: 'postLikesCollection: Invalid post_id',
 			}
 		}
 	
@@ -76,7 +76,7 @@ const c_delete = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid id(s)',
+				message: 'postLikesCollection: Invalid user_id',
 			}
 		}
 
@@ -85,7 +85,7 @@ const c_delete = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid id(s)',
+				message: 'postLikesCollection: Invalid post_id',
 			}
 		}
 	
@@ -119,7 +119,7 @@ const c_deleteAll = async (post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'postLikesCollection: Invalid post_id',
 			}
 		}
 
@@ -150,7 +150,7 @@ const c_existance = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid id(s)',
+				message: 'postLikesCollection: Invalid user_id',
 			}
 		}
 
@@ -159,7 +159,7 @@ const c_existance = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid id(s)',
+				message: 'postLikesCollection: Invalid post_id',
 			}
 		}
 
@@ -194,7 +194,7 @@ const c_countAll = async (post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'postLikesCollection: Invalid post_id',
 			}
 		}
 	

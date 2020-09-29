@@ -21,7 +21,7 @@ const c_create = async (user_id, cat_id, title) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'postsCollection: Invalid user_id',
 			}
 		}
 
@@ -30,7 +30,7 @@ const c_create = async (user_id, cat_id, title) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid cat_id',
+				message: 'postsCollection: Invalid cat_id',
 			}
 		}
 
@@ -39,7 +39,16 @@ const c_create = async (user_id, cat_id, title) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid title',
+				message: 'postsCollection: Invalid title',
+			}
+		}
+
+		// [VALIDATE] title //
+		if (!title) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: No title passed',
 			}
 		}
 
@@ -79,7 +88,7 @@ const c_readAllAll = async (skip, limit) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid skip (must be numeric)',
+				message: 'postsCollection: Invalid skip (must be numeric)',
 			}
 		}
 
@@ -88,7 +97,7 @@ const c_readAllAll = async (skip, limit) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid limit (must be numeric)',
+				message: 'postsCollection: Invalid limit (must be numeric)',
 			}
 		}
 
@@ -129,7 +138,7 @@ const c_readAll = async (cat_id, skip, limit) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid cat_id',
+				message: 'postsCollection: Invalid cat_id',
 			}
 		}
 
@@ -138,7 +147,7 @@ const c_readAll = async (cat_id, skip, limit) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid skip',
+				message: 'postsCollection: Invalid skip',
 			}
 		}
 
@@ -147,7 +156,7 @@ const c_readAll = async (cat_id, skip, limit) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid limit',
+				message: 'postsCollection: Invalid limit',
 			}
 		}
 
@@ -181,7 +190,7 @@ const c_read = async (post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'postsCollection: Invalid post_id',
 			}
 		}
 
@@ -218,7 +227,7 @@ const c_delete = async (post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'postsCollection: Invalid post_id',
 				deleted: false,
 			}
 		}
@@ -256,7 +265,7 @@ const c_readAllSort = async (cat_id, skip, limit, sort) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid cat_id',
+				message: 'postsCollection: Invalid cat_id',
 			}
 		}
 
@@ -265,7 +274,7 @@ const c_readAllSort = async (cat_id, skip, limit, sort) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid skip',
+				message: 'postsCollection: Invalid skip',
 			}
 		}
 
@@ -274,7 +283,7 @@ const c_readAllSort = async (cat_id, skip, limit, sort) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid limit',
+				message: 'postsCollection: Invalid limit',
 			}
 		}
 
@@ -283,7 +292,7 @@ const c_readAllSort = async (cat_id, skip, limit, sort) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid sort',
+				message: 'postsCollection: Invalid sort',
 			}
 		}
 
@@ -324,7 +333,7 @@ const c_incrementLike = async (post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'postsCollection: Invalid post_id',
 			}
 		}
 
@@ -356,7 +365,7 @@ const c_decrementLike = async (post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'postsCollection: Invalid post_id',
 			}
 		}
 
@@ -389,7 +398,7 @@ const c_existance = async (post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'postsCollection: Invalid post_id',
 				existance: false,
 			}
 		}
@@ -433,7 +442,7 @@ const c_ownership = async (post_id, user_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid post_id',
+				message: 'postsCollection: Invalid post_id',
 				updated: false,
 			}
 		}
@@ -443,7 +452,7 @@ const c_ownership = async (post_id, user_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'postsCollection: Invalid user_id',
 				updated: false,
 			}
 		}
@@ -484,7 +493,7 @@ const c_countAll = async (cat_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid cat_id',
+				message: 'postsCollection: Invalid cat_id',
 				updated: false,
 			}
 		}

@@ -21,7 +21,7 @@ const c_create = async (user_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'VerificationCodesCollection: Invalid user_id',
 			}
 		}
 	
@@ -54,7 +54,7 @@ const c_delete = async (user_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'VerificationCodesCollection: Invalid user_id',
 			}
 		}
 	
@@ -87,7 +87,7 @@ const c_existance = async (user_id, verificationCode) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id',
+				message: 'VerificationCodesCollection: Invalid user_id',
 			}
 		}
 
@@ -96,7 +96,7 @@ const c_existance = async (user_id, verificationCode) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid verificationCode',
+				message: 'VerificationCodesCollection: Invalid verificationCode',
 			}
 		}
 

@@ -49,7 +49,7 @@ const c_read = async (user_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id'
+				message: 'UserCollection: Invalid user_id'
 			}
 		}
 	
@@ -79,7 +79,7 @@ const c_update = async (user_id, img_url) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id'
+				message: 'UserCollection: Invalid user_id'
 			}
 		}
 
@@ -88,7 +88,7 @@ const c_update = async (user_id, img_url) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid img_url'
+				message: 'UserCollection: Invalid img_url'
 			}
 		}
 
@@ -122,7 +122,7 @@ const c_getIdByEmail = async (email) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid email'
+				message: 'UserCollection: Invalid email'
 			}
 		}
 
@@ -132,7 +132,7 @@ const c_getIdByEmail = async (email) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'No user found'
+				message: 'UserCollection: No user found'
 			}
 		}
 
@@ -159,7 +159,7 @@ const c_updatePassword = async (user_id, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id'
+				message: 'UserCollection: Invalid user_id'
 			}
 		}
 		
@@ -168,7 +168,7 @@ const c_updatePassword = async (user_id, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid password'
+				message: 'UserCollection: Invalid password'
 			}
 		}
 
@@ -193,7 +193,7 @@ const c_updatePassword = async (user_id, password) => {
 		return {
 			executed: true,
 			status: true,
-			message: 'Updated profile',
+			message: 'UserCollection: Updated profile',
 			user: user
 		}
 	}
@@ -215,7 +215,7 @@ const c_login = async (email, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid email'
+				message: 'UserCollection: Invalid email'
 			}
 		}
 		
@@ -224,7 +224,7 @@ const c_login = async (email, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid password'
+				message: 'UserCollection: Invalid password'
 			}
 		}
 
@@ -235,7 +235,7 @@ const c_login = async (email, password) => {
 			return {
 				executed: true,
 				status: true,
-				message: 'Invalid emailor password',
+				message: 'Invalid email or password',
 				validation: false
 			}
 		}
@@ -286,7 +286,7 @@ const c_register = async (username, email, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid username (must be ASCII)'
+				message: 'UserCollection: Invalid username'
 			}
 		}
 
@@ -295,7 +295,7 @@ const c_register = async (username, email, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid email'
+				message: 'UserCollection: Invalid email'
 			}
 		}
 		else { email = validator.normalizeEmail(email) }
@@ -305,7 +305,7 @@ const c_register = async (username, email, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid password (must be ASCII)'
+				message: 'UserCollection: Invalid password'
 			}
 		}
 
@@ -334,7 +334,7 @@ const c_register = async (username, email, password) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid password (8 < pwd < 50)',
+				message: 'UserCollection: Invalid password',
 				created: false,
 			}
 		}
@@ -376,7 +376,7 @@ const c_verify = async (user_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id'
+				message: 'UserCollection: Invalid user_id'
 			}
 		}
 
@@ -388,7 +388,7 @@ const c_verify = async (user_id) => {
 		return {
 			executed: true,
 			status: true,
-			message: 'Verified profile',
+			message: 'UserCollection: Verified profile',
 			user: user
 		}
 	}
@@ -408,7 +408,7 @@ const c_verifiedStatus = async (user_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid user_id'
+				message: 'UserCollection: Invalid user_id'
 			}
 		}
 
