@@ -298,7 +298,6 @@ const c_register = async (username, email, password) => {
 				message: 'UserCollection: Invalid email'
 			}
 		}
-		else { email = validator.normalizeEmail(email) }
 
 		// [VALIDATE] //
 		if (!validator.isAscii(password)) {

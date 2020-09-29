@@ -2,15 +2,15 @@
 	<section class="container">
 		<div class="mt-5 mx-auto card card-body bg-dark" style="max-width: 500px;">
 			<div v-if="success">
-				<h1 class="text-success text-center" style="font-size: 6em;">✓</h1>
 				<h3 class="text-success text-center">{{ success }}</h3>
+				<h1 class="text-success text-center" style="font-size: 6em;">✓</h1>
 			</div>
 
 			<div v-if="error">
-				<h1 class="text-danger text-center" style="font-size: 6em;">𝘹</h1>
 				<h3 class="text-danger text-center">Could not verify account</h3>
+				<h1 class="text-danger text-center" style="font-size: 6em;">𝘹</h1>
 
-				<p class="mt-5 text-light">{{ error }}</p>
+				<p class="mt-3 text-light">{{ error }}</p>
 			</div>
 		</div>
 	</section>

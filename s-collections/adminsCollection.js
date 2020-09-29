@@ -30,7 +30,6 @@ const c_login = async (email, password) => {
 				message: 'adminsCollection: Invalid email'
 			}
 		}
-		else { email = validator.normalizeEmail(email) }
 
 		
 		// [VALIDATE] password //
@@ -116,7 +115,6 @@ const c_register = async (username, email, password) => {
 				message: 'adminsCollection: Invalid email'
 			}
 		}
-		else { email = validator.normalizeEmail(email) }
 
 		// [VALIDATE] password //
 		if (!validator.isAscii(password)) {

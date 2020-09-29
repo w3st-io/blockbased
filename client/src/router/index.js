@@ -27,12 +27,13 @@ import CommentCreate from '@pages/post/comment-create'
 import CommentEdit from '@pages/post/comment-edit'
 
 // [USER]
-import PasswordRequest from '../pages/user/password/request'
-import PasswordReset from '../pages/user/password/reset'
+import AccountCreated from '../pages/user/account-created'
+import Login from '@pages/user/login'
+import PasswordRequest from '@pages/user/password/request'
+import PasswordReset from '@pages/user/password/reset'
 import Profile from '@pages/user/profile'
 import ProfileEdit from '@pages/user/profile/edit'
 import ProfileView from '@pages/user/profile/view'
-import Login from '@pages/user/login'
 import Verify from '@pages/user/verify'
 import Register from '@pages/user/register'
 // [Z]
@@ -148,12 +149,39 @@ const router = new Router ({
 
 		// [USER] //
 		{
+			path: '/user/account-created',
+			name: 'account-created',
+			component: AccountCreated,
+			meta: {
+				auth: true,
+				title: 'Successfully Created Account'
+			}
+		},
+		{
 			path: '/user/login',
 			name: 'login',
 			component: Login,
 			meta: {
 				auth: true,
 				title: 'Login'
+			}
+		},
+		{
+			path: '/user/password/request',
+			name: 'request',
+			component: PasswordRequest,
+			meta: {
+				auth: true,
+				title: 'Request for Password Reset'
+			}
+		},
+		{
+			path: '/user/password/reset/:user_id/:verification_code',
+			name: 'reset-password',
+			component: PasswordReset,
+			meta: {
+				auth: true,
+				title: 'Reset Password'
 			}
 		},
 		{
@@ -190,24 +218,6 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Register'
-			}
-		},
-		{
-			path: '/user/password/request',
-			name: 'request',
-			component: PasswordRequest,
-			meta: {
-				auth: true,
-				title: 'Request for Password Reset'
-			}
-		},
-		{
-			path: '/user/password/reset/:user_id/:verification_code',
-			name: 'reset-password',
-			component: PasswordReset,
-			meta: {
-				auth: true,
-				title: 'Reset Password'
 			}
 		},
 		{
