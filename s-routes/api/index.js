@@ -6,8 +6,6 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
-const mongoose = require('mongoose')
-require('dotenv').config()
 
 // [REQUIRE] Personal //
 const config = require('../../s-config')

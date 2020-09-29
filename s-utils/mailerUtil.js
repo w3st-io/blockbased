@@ -7,7 +7,6 @@
 const mongoose = require('mongoose')
 const nodemailer = require('nodemailer')
 const validator = require('validator')
-require('dotenv').config()
 
 
 // [REQUIRE] Personal //
@@ -17,8 +16,8 @@ const config = require('../s-config')
 // [INIT] //
 const service = config.EMAIL_SERVICE
 const email = config.EMAIL
-const password = config.EMAIL_PASSWORD
-const base_url = config.BASE_URL
+const emailPassword = config.EMAIL_PASSWORD
+const baseURL = config.BASE_URL
 
 
 // [DEFAULT] //
@@ -37,7 +36,7 @@ async function sendMail(to, subject, html) {
 			service: service,
 			auth: {
 				user: email,
-				pass: password
+				pass: emailPassword
 			}
 		})
 
@@ -87,7 +86,7 @@ async function sendVerificationMail(to, user_id, VCode) {
 			service: service,
 			auth: {
 				user: email,
-				pass: password
+				pass: emailPassword
 			}
 		})
 
@@ -97,7 +96,7 @@ async function sendVerificationMail(to, user_id, VCode) {
 			subject: 'Verify Your BlockBased.io Account',
 			html: `
 				<h1>Thank you creating an account! Verify & Join us!<h1/>
-				<a href="${base_url}/user/verify/${user_id}/${VCode}">
+				<a href="${baseURL}/user/verify/${user_id}/${VCode}">
 					<button>Click to Verify</button>
 				</a>
 			`
@@ -142,7 +141,7 @@ async function sendPasswordResetEmail(to, user_id, VCode) {
 			service: service,
 			auth: {
 				user: email,
-				pass: password
+				pass: emailPassword
 			}
 		})
 
@@ -153,7 +152,7 @@ async function sendPasswordResetEmail(to, user_id, VCode) {
 			html: `
 				<h1>Click the Link Below to Reset Your Password<h1/>
 				<h4>If you did not request to change your password ignore this email</h4>
-				<a href="${base_url}/user/password/reset/${user_id}/${VCode}">
+				<a href="${baseURL}/user/password/reset/${user_id}/${VCode}">
 					<button>Click to Reset Password</button>
 				</a>
 			`
