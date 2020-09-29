@@ -96,13 +96,25 @@ router.get(
 							).existance
 						}
 					}
+
+					// [COUNT] Comments //
+					commentsObj.commentsCount = (
+						await commentsCollection.c_countAll(req.params.post_id)
+					).count
+
+					console.log(commentsObj.commentsCount);
+
+					// [COUNT] Calculate Total Pages //
+					commentsObj.pageCount = Math.ceil(
+						commentsObj.commentsCount / req.params.limit
+					)
 				}
 
 				res.status(200).send({
 					executed: true,
 					status: true,
 					postObj: postObj,
-					commentsObj: commentsObj
+					commentsObj: commentsObj,
 				})
 			}
 			else {

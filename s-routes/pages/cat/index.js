@@ -44,14 +44,6 @@ router.get(
 				)
 
 				if (postsObj.status) {
-					// [COUNT] Posts //
-					postsObj.postsCount = (
-						await postsCollection.c_countAll(req.params.cat_id)
-					).count
-					
-					// [COUNT] Calculate Pages //
-					postsObj.pageCount = Math.ceil(postsObj.postsCount / req.params.limit)
-	
 					// For Each Post in Posts //
 					for (let i = 0; i < postsObj.posts.length; i++) {
 						// [COUNT] Likes //
@@ -88,8 +80,16 @@ router.get(
 							).existance
 						}
 					}
-				}
 
+					// [COUNT] Posts //
+					postsObj.postsCount = (
+						await postsCollection.c_countAll(req.params.cat_id)
+					).count
+					
+					// [COUNT] Calculate Pages //
+					postsObj.pageCount = Math.ceil(postsObj.postsCount / req.params.limit)
+				}
+				
 				res.status(200).send(postsObj)
 			}
 			else {
