@@ -7,7 +7,7 @@
 
 					<ValidationObserver v-slot="{ handleSubmit }">
 						<form @submit.prevent="handleSubmit(submit)">
-							<!-- Email -->
+							<!-- Email type="email"-->
 							<ValidationProvider
 								tag="div"
 								type="email"
@@ -18,7 +18,7 @@
 								<input
 									v-model="email"
 									name="email"
-									type="email"
+									
 									class="form-control bg-dark text-light border-secondary"
 									:class="{ 'is-invalid border-danger': errors != '' }"
 									placeholder="example@example.com"

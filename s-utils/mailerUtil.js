@@ -21,11 +21,11 @@ const base_url = process.env.BASE_URL || 'http://localhost:8080'
 async function sendMail(to, subject, html) {
 	try {
 		// [VALIDATE] //
-		if (!validator.isAscii(to) || !validator.isAscii(subject)) {
+		if (!validator.isEmail(to) || !validator.isAscii(subject)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'Invalid password'
+				message: 'mailerUtil: Invalid params'
 			}
 		}
 
@@ -68,7 +68,7 @@ async function sendVerificationMail(to, user_id, VCode) {
 	try {
 		// [VALIDATE] //
 		if (
-			!validator.isAscii(to) ||
+			!validator.isEmail(to) ||
 			!mongoose.isValidObjectId(user_id) ||
 			!validator.isAscii(VCode)
 		) {
@@ -123,7 +123,7 @@ async function sendPasswordResetEmail(to, user_id, VCode) {
 	try {
 		// [VALIDATE] //
 		if (
-			!validator.isAscii(to) ||
+			!validator.isEmail(to) ||
 			!mongoose.isValidObjectId(user_id) ||
 			!validator.isAscii(VCode)
 		) {
