@@ -17,7 +17,12 @@
 
 			<!-- Side Content -->
 			<section class="col-12 col-md-3">
-				<side-card />
+				<adsense
+					ad-client="ca-pub-5696881492897672"
+					ad-slot="XXXXXXXX"
+					ad-style="display: block"
+					ad-format="auto"
+				></adsense>
 			</section>
 		</div>
 	</div>
@@ -26,7 +31,6 @@
 <script>
 	// [IMPORT] //
 	import CatList from '@components/cat/List'
-	import SideCard from '@components/forum/SideCard'
 	import PageService from '../services/PageService'
 	import { cats } from '@defaults/cats'
 
@@ -34,7 +38,6 @@
 	export default {
 		components: {
 			CatList,
-			SideCard
 		},
 
 		data: function() {

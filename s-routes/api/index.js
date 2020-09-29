@@ -9,9 +9,12 @@ const express = require('express')
 const mongoose = require('mongoose')
 require('dotenv').config()
 
+// [REQUIRE] Personal //
+const config = require('../../s-config')
+
 // [INIT] //
-const port = process.env.PORT || 5000
-const base_url = process.env.BASE_URL || `http://localhost:${port}`
+const baseUrl = config.BASE_URL
+const socketBaseUrl = config.SOCKET_BASE_URL
 
 
 // [EXPRESS + USE] //
@@ -21,18 +24,19 @@ const router = express.Router().use(cors())
 // [MAIN-ROUTE] //
 router.get(
 	'/',
-	async (req, res) => {
-		res.send('API')
-	}
+	async (req, res) => { res.send('API') }
 )
 
-	
-// [BASE-URL-ROUTE] For the socket //
+// [BASE-URL] //
 router.get(
 	'/get-base-url',
-	async (req, res) => {
-		res.send(base_url)
-	}
+	async (req, res) => { res.send(baseUrl) }
+)
+	
+// [SOCKET-BASE-URL] //
+router.get(
+	'/get-socket-base-url',
+	async (req, res) => { res.send(socketBaseUrl) }
 )
 
 

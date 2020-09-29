@@ -17,10 +17,10 @@ async function authAxios() {
 
 
 /******************* [URL + PORT] *******************/
-async function getBaseUrl() {
+async function getSocketBaseUrl() {
 	const authAxios = await this.authAxios()
 
-	const { data } = await authAxios.get('/get-base-url')
+	const { data } = await authAxios.get('/get-socket-base-url')
 
 	return data
 }
@@ -29,5 +29,5 @@ async function getBaseUrl() {
 // [EXPORT] //
 export default {
 	authAxios,
-	getBaseUrl
+	getSocketBaseUrl
 }

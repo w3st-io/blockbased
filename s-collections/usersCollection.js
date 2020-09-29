@@ -8,15 +8,15 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const validator = require('validator')
-require('dotenv').config()
 
 
 // [REQUIRE] Personal //
+const config = require('../s-config')
 const UserModel = require('../s-models/UserModel')
 
 
 // [INIT] //
-const secretKey = process.env.SECRET_KEY || 'secret'
+const secretKey = config.SECRET_KEY
 
 
 /******************* [CRUD] *******************/

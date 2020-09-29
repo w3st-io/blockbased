@@ -5,6 +5,7 @@
 */
 // [IMPORT] //
 import Vue from 'vue'
+//import VueAdsense from 'vue-adsense'
 import vueHeadful from 'vue-headful'
 import { BootstrapVue } from 'bootstrap-vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
@@ -24,9 +25,10 @@ Vue.use(BootstrapVue)
 
 
 // [GLOBAL COMPONENTS] //
+//Vue.component('adsense', VueAdsense)
+Vue.component('vue-headful', vueHeadful)
 Vue.component('ValidationObserver', ValidationObserver)
 Vue.component('ValidationProvider', ValidationProvider)
-Vue.component('vue-headful', vueHeadful)
 
 
 // [EXPORT] Event Bus //

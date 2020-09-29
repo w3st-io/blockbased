@@ -15,6 +15,7 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal - Rate-limiter / API / Pages / Socket //
+const config = require('./s-config')
 const rateLimiter = require('./s-rate-limiters')
 
 const a_ = require('./s-routes/api')
@@ -51,7 +52,7 @@ app.io = io
 
 // [MONGOOSE-CONNECTION] //
 mongoose.connect(
-	process.env.MONGO_URI || 'mongodb://localhost:27017/blockbased',
+	config.MONG_URI,
 	{ useNewUrlParser: true, useUnifiedTopology: true },
 	(err, connected) => {
 		if (connected) { console.log('Mongoose Connected to DB') }
@@ -100,5 +101,5 @@ if (process.env.NODE_ENV == 'production') {
 
 
 // [PORT + LISTEN] //
-const port = process.env.PORT || 5000
+const port = config.PORT
 server.listen(port, () => { console.log(`Server Running on Port: ${port}`) })

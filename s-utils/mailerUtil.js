@@ -10,11 +10,15 @@ const validator = require('validator')
 require('dotenv').config()
 
 
+// [REQUIRE] Personal //
+const config = require('../s-config') 
+
+
 // [INIT] //
-const service = process.env.EMAIL_SERVICE || 'gmail'
-const email = process.env.EMAIL
-const password = process.env.EMAIL_PASSWORD
-const base_url = process.env.BASE_URL || 'http://localhost:8080'
+const service = config.EMAIL_SERVICE
+const email = config.EMAIL
+const password = config.EMAIL_PASSWORD
+const base_url = config.BASE_URL
 
 
 // [DEFAULT] //

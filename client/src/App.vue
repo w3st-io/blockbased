@@ -137,7 +137,7 @@
 		methods: {
 			async setSocket() {
 				// [GET-PORT] //
-				try { this.data = await utils.getBaseUrl() }
+				try { this.data = await utils.getSocketBaseUrl() }
 				catch (err) { `App: Error --> ${err}` }
 
 				if (this.data) { this.socket = io(this.data) }

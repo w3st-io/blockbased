@@ -5,22 +5,27 @@ Manually clone the repo and then run `npm install` in both the server and the cl
 
 ## .env should look like this:
 
-#### DB = < DB name here >
+### // [URL + PORT] //
+#### BASE_URL = < (PRODUCTION ONLY) Url of Site >
+#### PORT = < Chosen port here >
+
+### // [MONGODB] //
+#### MONGO_URI = < Mongo uri goes here >
+
+### // [EMAIL] //
 #### EMAIL_PASSWORD = < Email password >
 #### EMAIL = < Email to send verification >
 #### MAILER_URL = < Url for email >
-#### MONGO_URI = < Mongo uri goes here >
-#### PORT = < Chosen port here >
+
+### // [SECRET] //
 #### SECRET_KEY = < Your secret goes here >
-#### BASE_URL = < Url of Site >
 
 
 ## Note to myself..
 
-##### when developing this appliction..
-##### anytime you are creating code that will modify the database
-##### think from the servers perspective first. sure the cat page
-##### contains blocks but read-all blocks should not fall under cat services.
+##### When developing this appliction..
+#####
+Anytime you are creating code that will modify the database think from the servers perspective first. sure the cat page contains blocks but read-all blocks should not fall under cat services.
 #####
 ##### "executed: false" --> Unexpected Error
 ##### "status: false" --> Expected Error

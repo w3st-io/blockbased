@@ -10,13 +10,13 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
+const config = require('../s-config')
 const bansCollection = require('../s-collections/bansCollection')
 const usersCollection = require('../s-collections/usersCollection')
-require('dotenv').config()
 
 
 // [INIT] //
-const secretKey = process.env.SECRET_KEY || 'secret'
+const secretKey = config.SECRET_KEY
 
 
 class Auth {
