@@ -24,11 +24,6 @@ const c_create = async (user_id) => {
 			}
 		}
 
-		// [EXISTANCE] //
-		const existance = await c_existance(user_id)
-
-		if (!existance.status || existance.existance) { return existance }
-
 		// [SAVE] //
 		const passwordRecovery = await new PasswordRecoveryModel({
 			_id: mongoose.Types.ObjectId(),
@@ -39,6 +34,7 @@ const c_create = async (user_id) => {
 			executed: true,
 			status: true,
 			message: 'Created passwordRecovery',
+			passwordRecovery: passwordRecovery
 		}
 	}
 	catch (err) {

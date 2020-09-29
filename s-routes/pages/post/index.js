@@ -102,8 +102,6 @@ router.get(
 						await commentsCollection.c_countAll(req.params.post_id)
 					).count
 
-					console.log(commentsObj.commentsCount);
-
 					// [COUNT] Calculate Total Pages //
 					commentsObj.pageCount = Math.ceil(
 						commentsObj.commentsCount / req.params.limit

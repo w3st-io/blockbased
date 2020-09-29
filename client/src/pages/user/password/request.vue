@@ -3,8 +3,7 @@
 		<div class="row mt-3">
 			<div class="col">
 				<div class="m-auto w-100 card card-body bg-dark" style="max-width: 500px;">
-					<h5 class="text-center">Reset Password</h5>
-					<p>Enter your email</p>
+					<h4 class="text-center">Enter Your Email to Reset Password</h4>
 
 					<ValidationObserver v-slot="{ handleSubmit }">
 						<form @submit.prevent="handleSubmit(submit)">
@@ -12,7 +11,7 @@
 							<ValidationProvider
 								tag="div"
 								type="email"
-								class="mb-3 form-group"
+								class="my-3 form-group"
 								rules="required"
 								v-slot="{ errors }"
 							>
@@ -28,7 +27,7 @@
 							</ValidationProvider>
 
 							<!-- Submit -->
-							<button type="submit" class="w-100 btn btn-primary">
+							<button type="submit" class="my-3 w-100 btn btn-primary">
 								Send Email
 							</button>
 						</form>

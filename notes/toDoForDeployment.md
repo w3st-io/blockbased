@@ -11,3 +11,4 @@
 ## Stop user from deleting a comment
 ## Save unedited version of comment as well.
 ## Increase comment count on pages
+## Increase Post Counts on Page

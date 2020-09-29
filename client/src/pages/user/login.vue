@@ -58,11 +58,14 @@
 
 						<!-- Submit -->
 						<button
-							class="w-100 btn btn-lg btn-primary"
+							class="w-100 mb-1 btn btn-lg btn-primary"
 							type="submit"
 							:disabled="submitted"
 						>Login</button>
 					</form>
+					<router-link to="/user/password/request" class="text-primary">
+						Forgot password?
+					</router-link>
 				</ValidationObserver>
 			</section>
 		</section>
