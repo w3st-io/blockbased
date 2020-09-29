@@ -81,7 +81,11 @@
 					if (!this.data.status || this.data.existance) {
 						this.error = this.data.message
 					}
-					else { this.success = this.data.message }
+					else {
+						this.success = this.data.message
+
+						setTimeout(() => { router.push({ name: 'login' }) }, 1500)
+					}
 				}
 				catch (err) { this.error = err }
 			},

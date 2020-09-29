@@ -63,6 +63,7 @@
 
 <script>
 	// [IMPORT] Personal //
+	import router from '@router'
 	import UserService from '@services/UserService'
 
 	// [EXPORT] //
@@ -85,6 +86,8 @@
 				)
 
 				this.alert = this.data.message
+
+				setTimeout(() => { router.push({ name: 'login' }) }, 1500)
 			},
 		},
 	}
