@@ -2,19 +2,19 @@
 Manually clone the repo and then run `npm install` in both the server and the client.
 
 ## .env should look like this:
-###### // [URL + PORT] //
+##### [URL + PORT]
 * BASE_URL = < (PRODUCTION ONLY) Url of Site >
 * PORT = < Chosen port here >
 
-###### // [MONGODB] //
+##### [MONGODB]
 * MONGO_URI = < Mongo uri goes here >
 
-###### // [EMAIL] //
+##### [EMAIL]
 * EMAIL_PASSWORD = < Email password >
 * EMAIL = < Email to send verification >
 * MAILER_URL = < Url for email >
 
-### // [SECRET] //
+##### [SECRET]
 * SECRET_KEY = < Your secret goes here >
 
 ## Note to Self..
