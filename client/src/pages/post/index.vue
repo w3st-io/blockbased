@@ -26,7 +26,7 @@
 			<!-- [DEFAULT] If No content -->
 			<no-content v-if="!loading && comments == ''" class="my-3" />
 			
-			<!-- [LOADING + ERROR] -->
+			<!-- [LOADING] -->
 			<section class="col-12">
 				<div v-if="loading" class="my-3 alert alert-primary">
 					<div class="d-flex justify-content-center">
@@ -62,7 +62,6 @@
 	import PageService from '@services/PageService'
 	import { EventBus } from '@main'
 
-
 	// [EXPORT] //
 	export default {
 		components: {
@@ -77,6 +76,7 @@
 				post_id: this.$route.params.post_id,
 				pageNumber: parseInt(this.$route.params.page),
 				limit: 5,
+				totalPages: 10000,
 				existance: false,
 				loading: true,
 				returned: {},
@@ -111,20 +111,19 @@
 				if (this.returned.status) {
 					this.post = this.returned.postObj.post
 					this.comments = this.returned.commentsObj.comments
-				
+					this.totalPages = this.returned.commentsObj.pageCount
 				}
 				else { this.error = this.returned.message }
 
 				this.loading = false
 			},
 
-			prevPage() {
-				// As long as the page is not going into 0 or negative
+			async prevPage() {
 				if (this.pageNumber != 1) {
 					this.loading = true
 					this.pageNumber--
 
-					this.getPageData()
+					await this.getPageData()
 
 					router.push({
 						name: 'post',
@@ -136,13 +135,12 @@
 				}
 			},
 
-			nextPage() {
-				// As long as page does not exceed max Number of Pages
-				if (this.pageNumber == this.pageNumber) {
+			async nextPage() {
+				if (this.pageNumber < this.totalPages) {
 					this.loading = true
 					this.pageNumber++
 
-					this.getPageData()
+					await this.getPageData()
 
 					router.push({
 						name: 'post',

@@ -64,14 +64,15 @@
 								class="py-0 btn btn-sm text-secondary"
 							>Edit</button>
 
+							<!--
 							<button
 								v-if="comment.user._id == decoded.user_id"
 								@click="deleteComment(comment._id)"
 								class="py-0 btn btn-sm text-danger"
 							>Delete</button>
+							-->
 						</div>
 
-						<!-- Buttons -->
 						<div class="w-50 m-0 float-right small text-right text-secondary">
 							<!-- Time Stamp -->
 							<span class="mr-2">{{ comment.createdAt }}</span>
@@ -95,9 +96,15 @@
 						class="col-12 p-2 border border-warning text-light"
 					>
 						<button
+							@click="redirectToEdit(comment._id)"
+							class="mr-1 btn btn-sm btn-outline-secondary"
+						>Edit</button>
+
+						<button
 							@click="deleteComment(comment._id)"
 							class="mr-1 btn btn-sm btn-outline-danger"
 						>Delete</button>
+						
 						<button
 							@click="adminDelete(comment._id)"
 							class="btn btn-sm btn-outline-danger"

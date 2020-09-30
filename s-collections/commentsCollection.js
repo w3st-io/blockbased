@@ -333,15 +333,18 @@ const c_delete = async (comment_id, user_id) => {
 			}
 		}
 
+		/*
 		const deletedComment = await CommentModel.findOneAndRemove({
 			_id: comment_id,
 			user: user_id,
 		})
+		*/
+		const comment = ''
 
 		return {
 			executed: true,
 			status: true,
-			deletedComment: deletedComment,
+			comment: comment,
 		}
 	}
 	catch (err) {
