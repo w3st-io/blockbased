@@ -38,7 +38,7 @@ async function s_readAllAll(limit, pageNumber) {
 		return {
 			executed: false,
 			status: false,
-			message: `CommentService: Error --> ${err}` }
+			message: `ACommentService: Error --> ${err}` }
 	}
 }
 
@@ -47,13 +47,18 @@ async function s_readAllAll(limit, pageNumber) {
 async function s_delete(comment_id) {
 	const authAxios = await this.authAxios()
 
-	const result = new Promise ((resolve, reject) => {
-		authAxios.delete(`/delete/${comment_id}`)
-			.then((res) => { resolve(res) })
-			.catch((err) => { reject(err) })
-	})
+	try {
+		const { data } = await authAxios.delete(`/delete/${comment_id}`)
 
-	return result	
+		return data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `ACommentService: Error --> ${err}`
+		}
+	}
 }
 
 

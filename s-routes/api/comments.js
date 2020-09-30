@@ -307,7 +307,7 @@ router.delete(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/comments: Invalid comment _id'
+					message: '/api/comments: Invalid comment_id'
 				})
 			}
 		}

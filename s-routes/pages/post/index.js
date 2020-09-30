@@ -107,7 +107,7 @@ router.get(
 						commentsObj.commentsCount / req.params.limit
 					)
 				}
-
+				console.log(postObj);
 				res.status(200).send({
 					executed: true,
 					status: true,

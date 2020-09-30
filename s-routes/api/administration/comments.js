@@ -67,29 +67,35 @@ router.delete(
 		try {
 			// [VALDIATE] //
 			if (mongoose.isValidObjectId(req.params.comment_id)) {
-				const returned = await commentsCollection.c_adminDelete(
-					req.params.comment_id
-				)
-				const returned2 = await commentLikesCollection.c_deleteAll(
-					req.params.comment_id
-				)
-				const returned3 = await notificationsCollection.c_deleteAll(
+				// [DELETE] //
+				const comment = await commentsCollection.c_adminDelete(
 					req.params.comment_id
 				)
 
-				res.status(200).send({
-					executed: true,
-					status: true,
-					comment: returned,
-					commentLikes: returned2,
-					notifications: returned3,
-				})
+				if (comment.status) {
+					// [DELETE] CommentLike //
+					const commentLikes = await commentLikesCollection.c_deleteAll(
+						req.params.comment_id
+					)
+
+					// [DELETE] Notifications //
+					const notifications = await notificationsCollection.c_deleteAll(
+						req.params.comment_id
+					)
+	
+					res.status(200).send({
+						executed: true,
+						status: true,
+						deleted: [comment, commentLikes, notifications],
+					})
+				}
+				else { res.status(200).send(comment) }
 			}
 			else {
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/administration/comments: Invalid comment _id'
+					message: '/api/administration/comments: Invalid comment_id'
 				})
 			}
 		}

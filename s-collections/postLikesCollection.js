@@ -45,7 +45,7 @@ const c_create = async (user_id, post_id) => {
 		}
 
 		// [SAVE] //
-		const createdPostLike = await new PostLikeModel({
+		const postLike = await new PostLikeModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
 			post: post_id,
@@ -54,8 +54,7 @@ const c_create = async (user_id, post_id) => {
 		return {
 			executed: true,
 			status: true,
-			createdPostLike: createdPostLike,
-			existance: existance,
+			postLike:postLike,
 		}
 	}
 	catch (err) {

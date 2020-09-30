@@ -114,6 +114,7 @@
 	import dropDownMenuBtn from '@components/controls/dropDownMenuBtn'
 	import router from '@router'
 	import CommentService from '@services/CommentService'
+	import ACommentService from '@services/administration/CommentService'
 	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
 	
@@ -166,9 +167,19 @@
 		},
 
 		methods: {
+			/******************* [DELETE] *******************/
 			async deleteComment(comment_id) {
 				// [DELETE] Comment //
 				try { await CommentService.s_delete(comment_id) }
+				catch (err) { this.error = err }
+
+				// [EMIT] Refresh Comments //
+				this.$emit('refreshComments') 
+			},
+
+			async adminDelete(comment_id) {
+				// [DELETE] Comment //
+				try { await ACommentService.s_delete(comment_id) }
 				catch (err) { this.error = err }
 
 				// [EMIT] Refresh Comments //
@@ -238,11 +249,6 @@
 				console.log('decoded:', this.decoded)
 				console.log('Comments:', this.comments)
 				if (this.error) { console.error('error:', this.error) }
-			},
-
-			/******************* [ADMINISTRATION] *******************/
-			adminDelete(comment_id) {
-				comment_id
 			},
 		}
 	}

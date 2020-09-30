@@ -14,7 +14,7 @@ const socketIO = require('socket.io')
 require('dotenv').config()
 
 
-// [REQUIRE] Personal - Rate-limiter / API / Pages / Socket //
+// [REQUIRE] Personal - OTHER / API / Pages / Socket //
 const config = require('./s-config')
 const rateLimiter = require('./s-rate-limiters')
 

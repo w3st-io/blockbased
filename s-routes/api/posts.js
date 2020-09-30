@@ -396,25 +396,12 @@ router.post(
 
 				if (!existance.existance) {
 					// [CREATE] postLike //
-					const returned = await postLikesCollection.c_create(
+					const postLikeObj = await postLikesCollection.c_create(
 						req.decoded.user_id,
 						req.params.post_id
 					)
 		
-					if (returned.status) {
-						// [UPDATE] likeCount //
-						const returned2 = await postsCollection.c_incrementLike(
-							req.params.post_id
-						)
-
-						res.status(200).send({
-							executed: true,
-							status: true,
-							postLike: returned,
-							post: returned2
-						})
-					}
-					else { res.send(200).send(returned) }
+					res.status(200).send(postLikeObj)
 				}
 				else { res.status(200).send(existance) }
 			}
@@ -452,26 +439,12 @@ router.post(
 
 				if (existance.existance) {
 					// [CREATE] postLike //
-					const returned = await postLikesCollection.c_delete(
+					const postLikeObj = await postLikesCollection.c_delete(
 						req.decoded.user_id,
 						req.params.post_id
 					)
 					
-					if (returned.status) {
-						// [UPDATE] likeCount //
-						const returned2 = await postsCollection.c_decrementLike(
-							req.params.post_id
-						)
-						
-						res.status(200).send({
-							executed: true,
-							status: true,
-							postLike: returned,
-							post: returned2
-						})
-					}
-					else { res.send(200).send(returned) }
-
+					res.status(200).send(postLikeObj)
 				}
 				else { res.status(200).send(existance) }
 			}
