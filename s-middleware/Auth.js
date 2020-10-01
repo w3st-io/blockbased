@@ -25,7 +25,7 @@ class Auth {
 		return (req, res, next) => {
 			// [INIT] //
 			const token = req.headers.authorization	
-
+			
 			// If a token exists => Validate JWT //
 			if (token) {
 				// [SLICE] "Bearer " //

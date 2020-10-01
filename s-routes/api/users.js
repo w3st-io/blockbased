@@ -31,9 +31,12 @@ router.get(
 	Auth.userToken(),
 	async (req, res) => {
 		try {
-			const returned = await usersCollection.c_read(req.decoded.user_id)
+			const userObj = await usersCollection.c_read(req.decoded.user_id)
 
-			res.status(200).send(returned)
+			// Remove things that should not be shown
+			userObj.user.password = null
+			
+			res.status(200).send(userObj)
 		}
 		catch (err) {
 			res.status(200).send({
@@ -53,9 +56,12 @@ router.get(
 		try {
 			// [VALIDATE] //
 			if (mongoose.isValidObjectId(req.params.user_id)) {
-				const returned = await usersCollection.c_read(req.params.user_id)
+				const userObj = await usersCollection.c_read(req.params.user_id)
 
-				res.status(200).send(returned)
+				// Remove things that should not be shown
+				userObj.user.password = null
+
+				res.status(200).send(userObj)
 			}
 			else {
 				res.status(200).send({
@@ -213,7 +219,7 @@ router.post(
 				validator.isAscii(req.body.verificationCode)
 			) {
 				// [EXISTANCE] //
-				const valid = await verificationCodesCollection.c_existance(
+				const valid = await verificationCodesCollection.c_validate(
 					req.body.user_id,
 					req.body.verificationCode
 				)
@@ -224,6 +230,51 @@ router.post(
 				}
 
 				res.status(200).send(valid)
+			}
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
+					message: '/api/users: Invalid params'
+				})
+			}
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				message: `/api/users: Error --> ${err}`,
+			})
+		}
+	}
+)
+
+router.post(
+	'/resend-verification-email',
+	async (req, res) => {
+		try {
+			// [VALIDATE] //
+			if (validator.isAscii(req.body.email)) {
+				// [READ] Get User by Email //
+				const user = await usersCollection.c_getIdByEmail(req.body.email)
+
+				// [READ] verificationCode by user_id //
+				const vCode = await verificationCodesCollection.c_read(
+					user.user._id
+				)
+				
+				// [SEND-MAIL] //
+				mailerUtil.sendVerificationMail(
+					req.body.email,
+					user.user._id,
+					vCode.verificationCode.verificationCode
+				)
+
+				res.status(200).send({
+					executed: true,
+					status: true,
+					message: 'Verification email sent'
+				})
 			}
 			else {
 				res.status(200).send({

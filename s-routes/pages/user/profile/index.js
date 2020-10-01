@@ -25,9 +25,14 @@ router.get(
 	Auth.userToken(),
 	async (req, res) => {
 		try {
-			const returned = await usersCollection.c_read(req.decoded.user_id)
+			const userObj = await usersCollection.c_read(req.decoded.user_id)
+		
+			// Remove things that should not be shown
+			userObj.user.password = null
 
-			res.status(200).send(returned)
+			console.log(userObj)
+			
+			res.status(200).send(userObj)
 		}
 		catch (err) {
 			res.status(200).send({

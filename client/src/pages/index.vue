@@ -31,7 +31,7 @@
 <script>
 	// [IMPORT] //
 	import CatList from '@components/cat/List'
-	import PageService from '../services/PageService'
+	import PageService from '@services/PageService'
 	import { cats } from '@defaults/cats'
 
 	// [EXPORT] //

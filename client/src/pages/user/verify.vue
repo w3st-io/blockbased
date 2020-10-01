@@ -25,7 +25,7 @@
 			return {
 				user_id: this.$route.params.user_id,
 				verificationCode: this.$route.params.verification_code,
-				data: {},
+				returned: {},
 				success: '',
 				error: '',
 			}
@@ -33,17 +33,17 @@
 
 		created: async function() {
 			try {
-				this.data = await UserService.verify(
+				this.returned = await UserService.verify(
 					this.user_id,
 					this.verificationCode
 				)
 			}
 			catch (err) { this.error = err }
 
-			if (this.data.status && this.data.existance) {
-				this.success = this.data.message
+			if (this.returned.status && this.returned.existance) {
+				this.success = 'Verified!'
 			}
-			else { this.error = this.data.message }
+			else { this.error = this.returned.message }
 		},
 	}
 </script>

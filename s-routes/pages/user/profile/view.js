@@ -25,9 +25,12 @@ router.get(
 		try {
 			// [VALIDATE] //
 			if (mongoose.isValidObjectId(req.params.user_id)) {
-				const returned = await usersCollection.c_read(req.params.user_id)
+				const userObj = await usersCollection.c_read(req.params.user_id)
+				
+				// Remove things that should not be shown //
+				userObj.user.password = null
 
-				res.status(200).send(returned)
+				res.status(200).send(userObj)
 			}
 			else {
 				res.status(200).send({

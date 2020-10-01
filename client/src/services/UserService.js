@@ -137,6 +137,24 @@ async function verify(user_id, verificationCode) {
 }
 
 
+async function resendVerificationEmail(email) {
+	const authAxios = await this.authAxios()
+
+	try {
+		const { data } = await authAxios.post('/resend-verification-email', { email })
+		
+		return data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserService: Error --> ${err}`
+		}
+	}
+}
+
+
 /******************* [PASSWORD] *******************/
 async function requestPasswordReset(email) {
 	const authAxios = await this.authAxios()
@@ -207,6 +225,7 @@ export default {
 	login,
 	register,
 	verify,
+	resendVerificationEmail,
 	requestPasswordReset,
 	resetPassword,
 	getUserTokenDecodeData,

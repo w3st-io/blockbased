@@ -13,13 +13,29 @@
 			</section>
 
 			<!-- Main Content -->
-			<section class="col-12 col-md-9">
+			<section class="col-12 col-md-9 text-light">
+				<!-- User Not Verifed -->
+				<div v-if="isVerified" class="mb-3 card card-body bg-danger">
+					<h5 class="text-center">Account Not Verified</h5>
+
+					<button
+						@click="resendvCodeEmail"
+						class="btn btn-outline-light"
+					>Resend Email</button>
+
+				</div>
+
+				<div v-if="!vCodeSent" class="mt-3 alert alert-warning">
+					Email Sent, Please check your email
+				</div>
+
+				<!-- Profile Details -->
 				<div class="card card-body bg-dark">
 					<h4 class="text-light mb-2">Your Profile</h4>
 
-					<table class="w-100 table-sm table-dark text-light">
+					<table class="w-100 table-sm table-dark">
 						<tr>
-							<td>Username</td>
+							<td>Username {{ isVerified }}</td>
 							<td>{{ user.username }}</td>
 						</tr>
 						<tr>
@@ -42,13 +58,16 @@
 	// [IMPORT] Personal //
 	import router from '@router'
 	import PageService from '@services/PageService'
+	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {
 		data: function() {
 			return {
-				data: {},
+				returned: {},
 				user: {},
+				isVerified: true,
+				vCodeSent: false,
 			}
 		},
 
@@ -57,11 +76,14 @@
 			if (!localStorage.usertoken) { router.push({ name: 'login' }) }
 
 			// Retrieve User Profile Data //
-			try { this.data = await await PageService.s_user_profile() }
+			try { this.returned = await await PageService.s_user_profile() }
 			catch (err) { this.error = err }
 
-			if (this.data.status) { this.user = this.data.user }
-			else { this.error = this.data.message }
+			if (this.returned.status) {
+				this.user = this.returned.user
+				this.isVerified = this.returned.user.verified
+			}
+			else { this.error = this.returned.message }
 
 			// [LOG] //
 			//this.log()
@@ -70,6 +92,18 @@
 		methods: {
 			redirectProfileEdit() {
 				router.push({ name: 'edit' })
+			},
+
+			async resendvCodeEmail() {
+				if (this.user) {
+					this.returned = await UserService.resendVerificationEmail(
+						this.user.email
+					)
+
+					if (this.returned.status) {
+						this.vCodeSent = true
+					}
+				}
 			},
 
 			log() {

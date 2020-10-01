@@ -1,7 +1,7 @@
 <template>
 	<section class="my-4 container">
 		<!-- Set Page Title -->
-		<vue-headful :title="`Post - ${post.title}`"/>
+		<vue-headful :title="`Post - ${postTitle}`" />
 		
 		<article class="card card-body bg-dark">
 			<!-- Title Header -->
@@ -75,9 +75,9 @@
 			return {
 				post_id: this.$route.params.post_id,
 				pageNumber: parseInt(this.$route.params.page),
+				postTitle: 'unset',
 				limit: 5,
 				totalPages: 10000,
-				existance: false,
 				loading: true,
 				returned: {},
 				post: {},
@@ -112,6 +112,7 @@
 					this.post = this.returned.postObj.post
 					this.comments = this.returned.commentsObj.comments
 					this.totalPages = this.returned.commentsObj.pageCount
+					this.postTitle = this.post.title
 				}
 				else { this.error = this.returned.message }
 
@@ -157,7 +158,6 @@
 				console.log('post_id:', this.post_id)
 				console.log('post:', this.post)
 				console.log('comments:', this.comments)
-				console.log('existance:', this.existance)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		},
