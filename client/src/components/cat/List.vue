@@ -49,7 +49,7 @@
 				<p class="align-self-center badge badge-primary text-light">
 					<span class="m-0 custom-font-size">
 						<p class="m-0">
-							{{ postTotals[index].totalPosts }}
+							{{ totalPosts[index].totalPosts }}
 						</p>
 						<span class="small">Posts</span>
 					</span>
@@ -67,7 +67,7 @@
 	export default {
 		props: {
 			cats: { type: Array, required: true, },
-			postTotals: { type: Array, required: true, },
+			totalPosts: { type: Array, required: true, },
 		},
 
 		created: async function() {
@@ -89,7 +89,7 @@
 			log() {
 				console.log('%%% [COMPONENT] Cat List %%%')
 				console.log('cats:', this.cats)
-				console.log('postTotals:', this.postTotals)
+				console.log('totalPosts:', this.totalPosts)
 			},
 		}
 	}

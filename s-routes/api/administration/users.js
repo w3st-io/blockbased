@@ -61,7 +61,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/administration/users: Invalid user _id'
+					message: '/api/administration/users: Invalid user_id'
 				})
 			}
 		}
@@ -99,7 +99,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/administration/users: Invalid user _id'
+					message: '/api/administration/users: Invalid user_id'
 				})
 			}
 		}

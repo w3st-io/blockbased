@@ -18,7 +18,7 @@
 					<!-- Top Menu -->
 					<div class="collapse navbar-collapse">
 						<div class="navbar-nav mr-auto"></div>
-						<!-- Search and Button -->
+						<!-- Search and Button
 						<div class="input-group" style="width: 300px;">
 							<input
 								type="text"
@@ -29,6 +29,7 @@
 								<button class="btn btn-outline-secondary">Search</button>
 							</div>
 						</div>
+						-->
 					</div>
 				</nav>
 			</b-container>

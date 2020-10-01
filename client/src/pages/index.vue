@@ -8,10 +8,10 @@
 		<div class="row mt-4">
 			<!-- Main Content -->
 			<section class="col-12 col-md-9 mb-3 p-0">
-				<div class="card card-body bg-dark">
-					<cat-list :cats="cats1" :postTotals="postTotals1" class="mb-3" />
-					<cat-list :cats="cats2" :postTotals="postTotals2" class="mb-3" />
-					<cat-list :cats="cats3" :postTotals="postTotals3" class="mb-3" />
+				<div v-if="dbCats" class="card card-body bg-dark">
+					<cat-list :cats="cats1" :totalPosts="totalPosts1" class="mb-3" />
+					<cat-list :cats="cats2" :totalPosts="totalPosts2" class="mb-3" />
+					<cat-list :cats="cats3" :totalPosts="totalPosts3" class="mb-3" />
 				</div>
 			</section>
 
@@ -46,9 +46,9 @@
 				cats2: cats.slice(2, 5),
 				cats3: cats.slice(5),
 				dbCats: [],
-				postTotals1: [],
-				postTotals2: [],
-				postTotals3: [],
+				totalPosts1: [],
+				totalPosts2: [],
+				totalPosts3: [],
 				error: '',
 			}
 		},
@@ -58,12 +58,11 @@
 			catch (err) { this.error = err }
 
 			if (this.dbCats.status) {
-				this.postTotals1 = this.dbCats.cats.slice(0, 2)
-				this.postTotals2 = this.dbCats.cats.slice(2, 5)
-				this.postTotals3 = this.dbCats.cats.slice(5)
+				this.totalPosts1 = this.dbCats.cats.slice(0, 2)
+				this.totalPosts2 = this.dbCats.cats.slice(2, 5)
+				this.totalPosts3 = this.dbCats.cats.slice(5)
 			}
 			else { this.error = this.dbCats.message }
-			
 		},
 	}
 </script>
