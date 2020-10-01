@@ -29,8 +29,6 @@ router.get(
 		
 			// Remove things that should not be shown
 			userObj.user.password = null
-
-			console.log(userObj)
 			
 			res.status(200).send(userObj)
 		}

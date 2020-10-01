@@ -1,5 +1,6 @@
 <template>
 	<transition-group
+		
 		name="fade"
 		tag="div"
 		class="d-flex flex-wrap fixed-bottom my-3 mr-4 ml-auto"
