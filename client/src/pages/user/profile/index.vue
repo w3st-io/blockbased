@@ -15,7 +15,7 @@
 			<!-- Main Content -->
 			<section class="col-12 col-md-9 text-light">
 				<!-- User Not Verifed -->
-				<div v-if="isVerified" class="mb-3 card card-body bg-danger">
+				<div v-if="!isVerified" class="mb-3 card card-body bg-danger">
 					<h5 class="text-center">Account Not Verified</h5>
 
 					<button
@@ -25,7 +25,7 @@
 
 				</div>
 
-				<div v-if="!vCodeSent" class="mt-3 alert alert-warning">
+				<div v-if="vCodeSent" class="mt-3 alert alert-warning">
 					Email Sent, Please check your email
 				</div>
 
@@ -35,7 +35,7 @@
 
 					<table class="w-100 table-sm table-dark">
 						<tr>
-							<td>Username {{ isVerified }}</td>
+							<td>Username</td>
 							<td>{{ user.username }}</td>
 						</tr>
 						<tr>

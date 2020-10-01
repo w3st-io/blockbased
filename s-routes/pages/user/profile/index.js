@@ -22,7 +22,7 @@ const router = express.Router().use(cors())
 // [READ] Auth Required - Decoded //
 router.get(
 	'/',
-	Auth.userToken(),
+	Auth.userTokenByPassVerification(),
 	async (req, res) => {
 		try {
 			const userObj = await usersCollection.c_read(req.decoded.user_id)
