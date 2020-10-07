@@ -52,7 +52,7 @@
 	import Users from '@components/admin/index/Users'
 	import ButtonTabs from '@components/controls/ButtonTabs'
 	import router from '@router'
-	import PageService from '../../services/PageService'
+	import PageService from '@services/PageService'
 
 	// [EXPORT] //
 	export default {

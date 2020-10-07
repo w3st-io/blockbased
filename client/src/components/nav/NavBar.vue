@@ -41,6 +41,11 @@
 				<b-navbar class="px-0 py-1">
 					<div class="mr-auto">
 						<NotificationMenuBtn v-if="loggedIn" />
+
+						<router-link
+							to="/post/followed"
+							class="ml-2 btn btn-sm btn-outline-light"
+						>Followed Posts</router-link>
 					</div>
 
 					<section>

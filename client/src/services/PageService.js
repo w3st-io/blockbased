@@ -117,6 +117,26 @@ async function s_post(post_id, limit, pageNumber) {
 
 
 // [USER] //
+async function s_user_favorited() {
+	const authAxios = await this.authAxios()
+
+	try {
+		let { data } = await authAxios.get(`/user/followed`)
+			
+		
+		
+		return data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `PageService: Error --> ${err}`
+		}
+	}
+}
+
+
 async function s_user_profile() {
 	const authAxios = await this.authAxios()
 	
@@ -162,6 +182,7 @@ export default {
 	s_admin,
 	s_cat,
 	s_post,
+	s_user_favorited,
 	s_user_profile,
 	s_user_profile_view,
 }

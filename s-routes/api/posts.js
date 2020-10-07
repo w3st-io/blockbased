@@ -168,7 +168,7 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'Invalid post _id',
+					message: 'Invalid post_id',
 				})
 			}
 		}
@@ -400,8 +400,21 @@ router.post(
 						req.decoded.user_id,
 						req.params.post_id
 					)
-		
-					res.status(200).send(postLikeObj)
+
+					if (postLikeObj.status) {
+						// [UPDATE] likeCount //
+						const post = await postsCollection.c_incrementLike(
+							req.params.post_id
+						)
+
+						res.status(200).send({
+							executed: true,
+							status: true,
+							postLike: postLikeObj,
+							post: post
+						})
+					}
+					else { res.send(200).send(postLikeObj) }
 				}
 				else { res.status(200).send(existance) }
 			}
@@ -444,7 +457,20 @@ router.post(
 						req.params.post_id
 					)
 					
-					res.status(200).send(postLikeObj)
+					if (postLikeObj.status) {
+						// [UPDATE] likeCount //
+						const post = await postsCollection.c_decrementLike(
+							req.params.post_id
+						)
+
+						res.status(200).send({
+							executed: true,
+							status: true,
+							postLike: postLikeObj,
+							post: post
+						})
+					}
+					else { res.send(200).send(postLikeObj) }
 				}
 				else { res.status(200).send(existance) }
 			}

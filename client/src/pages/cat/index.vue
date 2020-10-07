@@ -5,7 +5,7 @@
 
 		<article class="card card-body bg-dark">
 			<!-- Title With Create Button -->
-			<title-header
+			<TitleHeader
 				:cat="cat"
 				:postCount="data.postCount"
 				:badgeValue="pageNumber"
@@ -13,7 +13,7 @@
 				:rightBtnEmitName="'cat-page-next'"
 			/>
 
-			<button-tabs
+			<ButtonTabs
 				:tabs="['recent', 'popular']"
 				:initialTab="activeTab"
 				@tabClicked="tab"
@@ -22,14 +22,14 @@
 			/>
 
 			<!-- Display All the Posts -->
-			<post-list
+			<PostList
 				v-if="!loading"
 				:posts="posts"
 				@refreshPosts="getData()"
 			/>
 
 			<!-- [DEFAULT] If No content -->
-			<no-content v-if="!loading && posts == ''" class="mt-3" />
+			<NoContent v-if="!loading && posts == ''" class="mt-3" />
 
 			<!-- [LOADING] -->
 			<div v-show="loading" class="m-0 mt-3 alert alert-primary">
@@ -48,7 +48,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import buttonTabs from '@components/controls/ButtonTabs'
+	import ButtonTabs from '@components/controls/ButtonTabs'
 	import PostList from '@components/post/List'
 	import TitleHeader from '@components/cat/TitleHeader'
 	import NoContent from '@components/placeholders/NoContent'
@@ -61,7 +61,7 @@
 	export default {
 		components: {
 			PostList,
-			buttonTabs,
+			ButtonTabs,
 			NoContent,
 			TitleHeader,
 		},
@@ -88,7 +88,7 @@
 			EventBus.$on('cat-page-next', () => { this.nextPage() })
 
 			// [LOG] //
-			//this.log()
+		//this.log()
 		},
 
 		methods: {

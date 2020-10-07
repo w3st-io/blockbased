@@ -25,7 +25,7 @@ import PostCreate from '@pages/cat/post-create'
 import Post from '@pages/post'
 import CommentCreate from '@pages/post/comment-create'
 import CommentEdit from '@pages/post/comment-edit'
-
+import followed from '../pages/post/followed'
 // [USER]
 import AccountCreated from '../pages/user/account-created'
 import Login from '@pages/user/login'
@@ -146,6 +146,16 @@ const router = new Router ({
 				title: 'Edit Comment'
 			}
 		},
+		{
+			path: '/post/followed',
+			name: 'post-followed',
+			component: followed,
+			meta: {
+				auth: true,
+				title: 'Posts You Are Following'
+			}
+		},
+
 
 		// [USER] //
 		{

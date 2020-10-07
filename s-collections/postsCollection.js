@@ -325,6 +325,73 @@ const c_readAllSort = async (cat_id, skip, limit, sort) => {
 }
 
 
+/******************* [LIKE-SYSTEM] *******************/
+const c_incrementLike = async (post_id) => {
+	try {
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid post_id',
+			}
+		}
+
+		const post = await PostModel.findOneAndUpdate(
+			{ _id: post_id },
+			{ $inc: { likeCount: 1 } },
+		)
+
+		return {
+			executed: true,
+			status: true,
+			post: post
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postsCollection: Error --> ${err}`
+		}
+	}
+}
+
+
+const c_decrementLike = async (post_id) => {
+	try {
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid post_id',
+			}
+		}
+
+		const post = await PostModel.findOneAndUpdate(
+			{ _id: post_id },
+			{ $inc: { likeCount: -1 } },
+		)
+
+		return {
+			executed: true,
+			status: true,
+			post: post
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postsCollection: Error --> ${err}`
+		}
+	}
+}
+
+
+
+
 /******************* [EXISTANCE] *******************/
 const c_existance = async (post_id) => {
 	try {
@@ -459,6 +526,8 @@ module.exports = {
 	c_read,
 	c_delete,
 	c_readAllSort,
+	c_incrementLike,
+	c_decrementLike,
 	c_existance,
 	c_ownership,
 	c_countAll,
