@@ -117,13 +117,11 @@ async function s_post(post_id, limit, pageNumber) {
 
 
 // [USER] //
-async function s_user_favorited(limit, pageNumber) {
-	const skip = pageNumber * limit
-
+async function s_user_favorited(limit, page) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let { data } = await authAxios.get(`/user/followed/${limit}/${skip}`)
+		let { data } = await authAxios.get(`/user/followed/${limit}/${page}`)
 			
 		if (data.status) {
 			// Format Date //

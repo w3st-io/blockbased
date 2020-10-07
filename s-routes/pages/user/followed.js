@@ -22,20 +22,30 @@ const router = express.Router().use(cors())
 
 // [READ-ALL] //
 router.get(
-	'/:limit/:skip',
+	'/:limit/:page',
 	Auth.userToken(),
 	async (req, res) => {
 		try {
 			if (
-				Number.isInteger(parseInt(req.params.skip)) &&
+				Number.isInteger(parseInt(req.params.page)) &&
 				Number.isInteger(parseInt(req.params.limit))
 			) {
+				// [INIT] //
+				const limit = parseInt(req.params.limit)
+				const pageIndex = parseInt(req.params.page) - 1
+				const skip = pageIndex * limit
 				let posts = []
 
+				// [COUNT] postFollowers //
+				const totalFollows = (
+					await postFollowersCollection.c_countAllUser(req.decoded.user_id)
+				).count
+				
+				// [READ-ALL] postFollowers for user //
 				const pfObj = await postFollowersCollection.c_readAllUser(
 					req.decoded.user_id,
-					parseInt(req.params.skip),
-					parseInt(req.params.limit),
+					skip,
+					limit
 				)
 
 				for (let i = 0; i < pfObj.postFollowers.length; i++) {
@@ -86,7 +96,8 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: true,
-					posts: posts
+					posts: posts,
+					totalFollows,
 				})
 			}
 			else {

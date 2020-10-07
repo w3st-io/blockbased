@@ -293,7 +293,35 @@ const c_countAll = async (post_id) => {
 			message: `postFollowersCollection: Error --> ${err}`
 		}
 	}
+}
 
+
+const c_countAllUser = async (user_id) => {
+	try {
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postFollowersCollection: Invalid post_id',
+			}
+		}
+
+		const count = await PostFollowerModel.countDocuments({ user: user_id })
+		
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postFollowersCollection: Error --> ${err}`
+		}
+	}
 }
 
 
@@ -305,4 +333,5 @@ module.exports = {
 	c_readAllUser,
 	c_existance,
 	c_countAll,
+	c_countAllUser,
 }

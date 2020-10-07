@@ -3,6 +3,9 @@
 		<article class="card card-body bg-dark text-light">
 			<!-- Title -->
 			<h3 class="mb-4">Posts You Are Following</h3>
+			<p class="badge badge-light" style="width: 100px;">
+				Total: {{ totalFollows }}
+			</p>
 
 			<!-- Page Nav Buttons -->
 			<PageNavButtons
@@ -55,6 +58,7 @@
 				loading: true,
 				data: {},
 				posts: [],
+				totalFollows: 0,
 				error: '',
 			}
 		},
@@ -70,12 +74,15 @@
 				try {
 					this.data = await pageService.s_user_favorited(
 						this.limit,
-						this.pageNumber - 1
+						this.pageNumber
 					)
 				}
 				catch (err) { this.error = err }
 				
-				if (this.data.status) { this.posts = this.data.posts }
+				if (this.data.status) {
+					this.posts = this.data.posts
+					this.totalFollows = this.data.totalFollows
+				}
 				else { this.error = this.data.message }
 				
 				this.loading = false
@@ -98,7 +105,6 @@
 			},
 
 			nextPage() {
-				console.log('sdfsdf')
 				// As long as page does not exceed max Number of Pages //
 				//if (this.pageNumber < this.data.pageCount) {
 					this.loading = true
