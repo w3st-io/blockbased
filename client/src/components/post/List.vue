@@ -142,13 +142,11 @@
 
 			/******************* [ROUTER + LOG] *******************/
 			redirectToPost(post_id) {
-				if (!this.disabled) {
-					// [REDIRECT] //
-					router.push({
-						name: 'post',
-						params: { post_id: post_id, page: 1 }
-					})
-				}
+				// [REDIRECT] //
+				router.push({
+					name: 'post',
+					params: { post_id: post_id, page: 1 }
+				})
 			},
 
 			log() {
