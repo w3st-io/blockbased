@@ -5,6 +5,7 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 
 // [REQUIRE] Personal //
@@ -145,7 +146,7 @@ const c_delete = async (user_id, post_id) => {
 
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] //
-const c_readAllUser = async (user_id, sort = 'descending') => {
+const c_readAllUser = async (user_id, skip, limit, sort = 'descending') => {
 	try {
 		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -153,6 +154,33 @@ const c_readAllUser = async (user_id, sort = 'descending') => {
 				executed: true,
 				status: false,
 				message: 'postFollowersCollection: Invalid post_id',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid skip',
+			}
+		}
+
+		// [VALIDATE] limit //
+		if (!Number.isInteger(limit)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid limit',
+			}
+		}
+
+		// [VALIDATE] sort //
+		if (!validator.isAscii(sort)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid sort',
 			}
 		}
 
@@ -164,6 +192,9 @@ const c_readAllUser = async (user_id, sort = 'descending') => {
 
 		const postFollowers = await PostFollowerModel.find({ user: user_id })
 			.sort(sort2)
+			.skip(parseInt(skip))
+			.limit(parseInt(limit))
+			.exec()
 
 		return {
 			executed: true,

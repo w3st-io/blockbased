@@ -53,7 +53,7 @@
 
 		methods: {
 			async getData() {
-				try { this.data = await pageService.s_user_favorited() }
+				try { this.data = await pageService.s_user_favorited(334, 0) }
 				catch (err) { this.error = err }
 				
 				if (this.data.status) { this.posts = this.data.posts }
