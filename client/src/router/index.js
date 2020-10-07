@@ -25,9 +25,10 @@ import PostCreate from '@pages/cat/post-create'
 import Post from '@pages/post'
 import CommentCreate from '@pages/post/comment-create'
 import CommentEdit from '@pages/post/comment-edit'
-import followed from '../pages/post/followed'
+
 // [USER]
-import AccountCreated from '../pages/user/account-created'
+import AccountCreated from '@pages/user/account-created'
+import followed from '@pages/user/followed'
 import Login from '@pages/user/login'
 import PasswordRequest from '@pages/user/password/request'
 import PasswordReset from '@pages/user/password/reset'
@@ -146,17 +147,6 @@ const router = new Router ({
 				title: 'Edit Comment'
 			}
 		},
-		{
-			path: '/post/followed',
-			name: 'post-followed',
-			component: followed,
-			meta: {
-				auth: true,
-				title: 'Posts You Are Following'
-			}
-		},
-
-
 		// [USER] //
 		{
 			path: '/user/account-created',
@@ -165,6 +155,15 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Successfully Created Account'
+			}
+		},
+		{
+			path: '/user/followed',
+			name: 'user-followed',
+			component: followed,
+			meta: {
+				auth: true,
+				title: 'Posts You Are Following'
 			}
 		},
 		{
