@@ -42,10 +42,10 @@
 					<div class="mr-auto">
 						<NotificationMenuBtn v-if="loggedIn" />
 
-						<router-link
-							to="/user/followed"
+						<button
+							@click="followedRedirect()"
 							class="ml-2 btn btn-sm btn-outline-light"
-						>Followed Posts</router-link>
+						>Followed Posts</button>
 					</div>
 
 					<section>
@@ -126,6 +126,12 @@
 
 			profileRedirect() { router.push({ name: 'profile' }) },
 
+			followedRedirect() {
+				router.push({
+					name: 'user-followed',
+					params: { page: 1 } 
+				})
+			},
 
 			logout() {
 				EventBus.$emit('logged-out')

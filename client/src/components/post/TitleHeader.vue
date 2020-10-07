@@ -34,9 +34,9 @@
 			</div>
 
 			<!-- Page Control -->
-			<page-nav-buttons
-				:leftBtnEmitName="leftBtnEmitName"
-				:rightBtnEmitName="rightBtnEmitName"
+			<PageNavButtons
+				@prev-btn="prev()"
+				@next-btn="next()"
 				:badgeValue="badgeValue"
 			/>
 		</div>
@@ -58,16 +58,6 @@
 		props: {
 			post: {
 				type: Object,
-				required: true,
-			},
-
-			leftBtnEmitName: {
-				type: String,
-				required: true,
-			},
-
-			rightBtnEmitName: {
-				type: String,
 				required: true,
 			},
 
@@ -112,6 +102,11 @@
 					this.disabled = false
 				}
 			},
+
+			/******************* [BTN] Prev-Next *******************/
+			prev() { this.$emit('prev-btn') },
+
+			next() { this.$emit('next-btn') },
 
 			/******************* [ROUTER + LOG] *******************/
 			redirectToPostCommentCreate() {

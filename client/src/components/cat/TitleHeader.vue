@@ -6,9 +6,9 @@
 			<h3 class="text-light">{{ cat.title }}</h3>
 
 			<!-- Page Nav Buttons -->
-			<page-nav-buttons
-				:leftBtnEmitName="leftBtnEmitName"
-				:rightBtnEmitName="rightBtnEmitName"
+			<PageNavButtons
+				@prev-btn="prev()"
+				@next-btn="next()"
 				:badgeValue="badgeValue"
 				style="max-width: 300px;"
 			/>
@@ -41,8 +41,6 @@
 		props: {
 			cat: { type: Object, required: true, },
 			postCount: { type: Number, default: 0},
-			leftBtnEmitName: { type: String, required: true, },
-			rightBtnEmitName: { type: String, required: true, },
 			badgeValue: { required: true, },
 		},
 
@@ -51,6 +49,10 @@
 		},
 
 		methods: {
+			prev() { this.$emit('prev-btn') },
+
+			next() { this.$emit('next-btn') },
+			
 			redirectToCatPostCreate() {
 				router.push({
 					name: 'post-create',

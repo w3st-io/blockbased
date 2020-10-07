@@ -9,8 +9,8 @@
 				:cat="cat"
 				:postCount="data.postCount"
 				:badgeValue="pageNumber"
-				:leftBtnEmitName="'cat-page-prev'"
-				:rightBtnEmitName="'cat-page-next'"
+				@prev-btn="prevPage()"
+				@next-btn="nextPage()"
 			/>
 
 			<ButtonTabs
@@ -54,7 +54,6 @@
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import PageService from '@services/PageService'
-	import { EventBus } from '@main'
 	import { cats } from '@defaults/cats'
 
 	// [EXPORT] //
@@ -84,11 +83,8 @@
 			// Get Cat Details //
 			this.cat = cats.find(cat => cat.cat_id === this.cat_id)
 
-			EventBus.$on('cat-page-prev', () => { this.prevPage() })
-			EventBus.$on('cat-page-next', () => { this.nextPage() })
-
 			// [LOG] //
-		//this.log()
+			//this.log()
 		},
 
 		methods: {

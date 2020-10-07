@@ -72,7 +72,7 @@
 
 		created: async function() {
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {

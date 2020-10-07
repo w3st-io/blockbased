@@ -5,18 +5,18 @@
 		
 		<article class="card card-body bg-dark">
 			<!-- Title Header -->
-			<title-header
+			<TitleHeader
 				v-if="post"
 				:post="post"
-				:leftBtnEmitName="'post-page-prev'"
-				:rightBtnEmitName="'post-page-next'"
 				:badgeValue="pageNumber"
 				@refreshPost="getPageData()"
+				@prev-btn="prevPage()"
+				@next-btn="nextPage()"
 				class="mb-3"
 			/>
 
 			<!-- Comments List -->
-			<comment-list
+			<CommentList
 				v-if="!loading"
 				:comments="comments"
 				:post_id="post_id"
@@ -24,7 +24,7 @@
 			/>
 
 			<!-- [DEFAULT] If No content -->
-			<no-content v-if="!loading && comments == ''" class="my-3" />
+			<NoContent v-if="!loading && comments == ''" class="my-3" />
 			
 			<!-- [LOADING] -->
 			<section class="col-12">
@@ -37,9 +37,9 @@
 
 			<!-- Botton Page Control -->
 			<section class="mt-3">
-				<page-nav-buttons
-					:leftBtnEmitName="'post-page-prev'"
-					:rightBtnEmitName="'post-page-next'"
+				<PageNavButtons
+					@prev-btn="PrevPage()"
+					@next-btn="NextPage()"
 					:badgeValue="pageNumber"
 					class="m-auto w-100"
 					style="max-width: 300px;"
@@ -60,7 +60,6 @@
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import PageService from '@services/PageService'
-	import { EventBus } from '@main'
 
 	// [EXPORT] //
 	export default {
@@ -75,8 +74,8 @@
 			return {
 				post_id: this.$route.params.post_id,
 				pageNumber: parseInt(this.$route.params.page),
-				postTitle: 'unset',
 				limit: 5,
+				postTitle: 'unset',
 				totalPages: 10000,
 				loading: true,
 				returned: {},
@@ -89,9 +88,6 @@
 		created: async function() {
 			// [INIT-DATA] //
 			await this.getPageData()
-
-			EventBus.$on('post-page-prev', () => { this.prevPage() })
-			EventBus.$on('post-page-next', () => { this.nextPage() })
 
 			// [LOG] //
 			//this.log()

@@ -158,7 +158,7 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/user/followed',
+			path: '/user/:page',
 			name: 'user-followed',
 			component: followed,
 			meta: {
