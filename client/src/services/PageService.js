@@ -58,13 +58,12 @@ async function s_admin() {
 
 
 // [CAT] //
-async function s_cat(cat_id, limit, pageNumber, sort) {
-	const skip = pageNumber * limit
+async function s_cat(cat_id, limit, page, sort) {
 	const authAxios = await this.authAxios()
 
 	try {
 		let { data } = await authAxios.get(
-			`/cat/${cat_id}/${limit}/${skip}/${sort}`
+			`/cat/${cat_id}/${limit}/${page}/${sort}`
 		)
 
 		if (data.status) {
@@ -86,12 +85,11 @@ async function s_cat(cat_id, limit, pageNumber, sort) {
 
 
 // [POST] //
-async function s_post(post_id, limit, pageNumber) {
-	const skip = pageNumber * limit
+async function s_post(post_id, limit, page) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let { data } = await authAxios.get(`/post/${post_id}/${limit}/${skip}`)
+		let { data } = await authAxios.get(`/post/${post_id}/${limit}/${page}`)
 			
 		if (data.status) {
 			// Format Date //

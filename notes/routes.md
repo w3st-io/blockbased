@@ -10,8 +10,8 @@
 ##### 
 ##### // [COMMENTS] //
 ##### /api/comments/create
-##### /api/comments/read-all-all/:limit/:skip
-##### /api/comments/read-all/:cat_id/:limit/:skip
+##### /api/comments/read-all-all/:limit/:page
+##### /api/comments/read-all/:cat_id/:limit/:page
 ##### /api/comments/read/:comment_id
 ##### /api/comments/update/:comment_id
 ##### /api/comments/delete/:comment_id
@@ -24,12 +24,12 @@
 ##### 
 ##### 
 ##### // [NOTIFICATIONS] //
-##### /api/notifications/read-all/:limit/:skip
+##### /api/notifications/read-all/:limit/:page
 ##### 
 ##### 
 ##### // [POSTS] //
 ##### /api/posts/create
-##### /api/posts/read-all/:cat_id/:limit/:skip
+##### /api/posts/read-all/:cat_id/:limit/:page
 ##### /api/posts/read/:post_id
 ##### /api/posts/delete/:post_id
 ##### /api/posts/like/:post_id

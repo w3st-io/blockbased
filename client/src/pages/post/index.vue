@@ -99,7 +99,7 @@
 					this.returned = await PageService.s_post(
 						this.post_id,
 						this.limit,
-						this.pageNumber - 1
+						this.pageNumber
 					)
 				}
 				catch (err) { this.error = err }

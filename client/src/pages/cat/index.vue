@@ -89,8 +89,6 @@
 
 		methods: {
 			tab(tab) {
-				console.log('tab', tab)
-				
 				this.loading = true
 
 				if (tab == 'recent') {
@@ -108,7 +106,6 @@
 			/******************* [INIT] Post *******************/
 			async getData() {
 				let sort = ''
-				let pageIndex = this.pageNumber - 1
 
 				if (this.activeTab == 0) { sort = 'descending' }
 				else { sort = 'popularity' }
@@ -117,7 +114,7 @@
 					this.data = await PageService.s_cat(
 						this.cat_id,
 						this.limit,
-						pageIndex,
+						this.pageNumber,
 						sort,
 					)
 				}

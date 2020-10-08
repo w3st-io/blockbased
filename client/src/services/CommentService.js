@@ -26,12 +26,11 @@ async function s_create(post_id, text) {
 
 
 // [READ-ALL] //
-async function s_readAll(post_id, limit, pageNumber) {
-	const skip = pageNumber * limit
+async function s_readAll(post_id, limit, page) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let { data } = await authAxios.get(`/read-all/${post_id}/${limit}/${skip}`)
+		let { data } = await authAxios.get(`/read-all/${post_id}/${limit}/${page}`)
 		
 		if (data.status) {
 			data.comments.forEach(comment => {

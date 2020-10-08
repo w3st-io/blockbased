@@ -1,6 +1,6 @@
 /**
  * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% ADMINISTRATION BLOCK ROUTES %%% *
+ * %%% ADMINISTRATION POSTS ROUTES %%% *
  * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
@@ -22,19 +22,22 @@ const router = express.Router().use(cors())
 /******************* [CRUD] *******************/
 // [READ-ALL-ALL] Auth Required //
 router.get(
-	'/read-all-all/:limit/:skip',
+	'/read-all-all/:limit/:page',
 	Auth.adminToken(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
 				Number.isInteger(parseInt(req.params.limit)) &&
-				Number.isInteger(parseInt(req.params.skip))
+				Number.isInteger(parseInt(req.params.page))
 			) {
-				const returned = await postsCollection.c_readAllAll(
-					parseInt(req.params.skip),
-					parseInt(req.params.limit)
-				)
+				// [INIT] //
+				const limit = parseInt(req.params.limit)
+				const pageIndex = parseInt(req.params.page) - 1
+				const skip = pageIndex * limit
+
+
+				const returned = await postsCollection.c_readAllAll(skip, limit)
 	
 				res.status(200).send(returned)
 			}

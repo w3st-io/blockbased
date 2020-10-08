@@ -116,7 +116,7 @@ router.post(
 
 // [READ-ALL] Within Post //
 router.get(
-	'/read-all/:post_id/:limit/:skip',
+	'/read-all/:post_id/:limit/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
@@ -126,6 +126,11 @@ router.get(
 				Number.isInteger(parseInt(req.params.limit)) &&
 				Number.isInteger(parseInt(req.params.skip))
 			) {
+				// [INIT] //
+				const limit = parseInt(req.params.limit)
+				const pageIndex = parseInt(req.params.page) - 1
+				const skip = pageIndex * limit
+
 				const postExistance = await postsCollection.c_existance(
 					req.params.post_id
 				)
@@ -133,8 +138,8 @@ router.get(
 				if (postExistance.existance) {
 					const returned = await commentsCollection.c_readAll(
 						req.params.post_id,
-						parseInt(req.params.skip),
-						parseInt(req.params.limit)
+						skip,
+						limit
 					)
 					
 					if (returned.status) {

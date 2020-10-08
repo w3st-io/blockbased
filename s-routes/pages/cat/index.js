@@ -24,21 +24,25 @@ const router = express.Router().use(cors())
 /******************* [CRUD] *******************/
 // [READ-ALL] Within Cat //
 router.get(
-	'/:cat_id/:limit/:skip/:sort',
+	'/:cat_id/:limit/:page/:sort',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
 				validator.isAscii(req.params.cat_id) &&
-				Number.isInteger(parseInt(req.params.skip)) &&
 				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.page)) &&
 				validator.isAscii(req.params.sort)
 			) {
+				const limit = parseInt(req.params.limit)
+				const pageIndex = parseInt(req.params.page) - 1
+				const skip = pageIndex * limit
+
 				let postsObj = await postsCollection.c_readAllSort(
 					req.params.cat_id,
-					parseInt(req.params.skip),
-					parseInt(req.params.limit),
+					skip,
+					limit,
 					req.params.sort,
 				)
 

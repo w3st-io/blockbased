@@ -80,21 +80,25 @@ router.post(
 
 // [READ-ALL] Within Cat //
 router.get(
-	'/read-all/:cat_id/:limit/:skip',
+	'/read-all/:cat_id/:limit/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
 				validator.isAscii(req.params.cat_id) &&
-				Number.isInteger(parseInt(req.params.skip)) &&
+				Number.isInteger(parseInt(req.params.page)) &&
 				Number.isInteger(parseInt(req.params.limit))
 			) {
+				const limit = parseInt(req.params.limit)
+				const pageIndex = parseInt(req.params.page) - 1
+				const skip = pageIndex * limit
+
 				// [READ-ALL] Posts with cat_id //
 				let postsObj = await postsCollection.c_readAll(
 					req.params.cat_id,
-					parseInt(req.params.skip),
-					parseInt(req.params.limit),
+					skip,
+					limit,
 				)
 
 				if (postsObj.status) {
@@ -233,20 +237,25 @@ router.delete(
 /******************* [OTHER-CURD] *******************/
 // [READ-ALL-DETAILED] Within Cat with User Details //
 router.get(
-	'/read-all-detailed/:cat_id/:limit/:skip',
+	'/read-all-detailed/:cat_id/:limit/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
 				validator.isAscii(req.params.cat_id) &&
-				Number.isInteger(parseInt(req.params.skip)) &&
-				Number.isInteger(parseInt(req.params.limit))
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.page))
 			) {
+				// [INIT] //
+				const limit = parseInt(req.params.limit)
+				const pageIndex = parseInt(req.params.page) - 1
+				const skip = pageIndex * limit
+
 				let postsObj = await postsCollection.c_readAll(
 					req.params.cat_id,
-					parseInt(req.params.skip),
-					parseInt(req.params.limit),
+					skip,
+					limit,
 					req.params.sort,
 				)
 				

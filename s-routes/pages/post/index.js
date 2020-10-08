@@ -24,7 +24,7 @@ const router = express.Router().use(cors())
 
 // [READ-ALL] //
 router.get(
-	'/:post_id/:limit/:skip',
+	'/:post_id/:limit/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
@@ -32,8 +32,12 @@ router.get(
 			if (
 				mongoose.isValidObjectId(req.params.post_id) &&
 				Number.isInteger(parseInt(req.params.limit)) &&
-				Number.isInteger(parseInt(req.params.skip))
+				Number.isInteger(parseInt(req.params.page))
 			) {
+				const limit = parseInt(req.params.limit)
+				const pageIndex = parseInt(req.params.page) - 1
+				const skip = pageIndex * limit
+
 				///// [POSTS] /////
 				let postObj = await postsCollection.c_read(req.params.post_id)
 
@@ -71,8 +75,8 @@ router.get(
 				//// [COMMENTS] ////
 				let commentsObj = await commentsCollection.c_readAll(
 					req.params.post_id,
-					parseInt(req.params.skip),
-					parseInt(req.params.limit)
+					skip,
+					limit
 				)
 
 				if (commentsObj.status) {

@@ -21,12 +21,11 @@ async function authAxios() {
 
 /******************* [CRUD] *******************/
 // [READ-ALL] Auth Required //
-async function s_readAllAll(limit, pageNumber) {
+async function s_readAllAll(limit, page) {
 	const authAxios = await this.authAxios()
-	const skip = pageNumber * limit
 
 	try {
-		let { data } = await authAxios.get(`/read-all-all/${limit}/${skip}`)
+		let { data } = await authAxios.get(`/read-all-all/${limit}/${page}`)
 
 		data.comments.forEach(comment => {
 			comment.createdAt = new Date(comment.createdAt).toLocaleString()
