@@ -69,6 +69,7 @@
 			return {
 				cat_id: this.$route.params.cat_id,
 				pageNumber: parseInt(this.$route.params.page),
+				sort: '',
 				activeTab: 0,
 				limit: 5,
 				loading: true,
@@ -105,17 +106,15 @@
 
 			/******************* [INIT] Post *******************/
 			async getData() {
-				let sort = ''
-
-				if (this.activeTab == 0) { sort = 'descending' }
-				else { sort = 'popularity' }
+				if (this.activeTab == 0) { this.sort = 'descending' }
+				else { this.sort = 'popularity' }
 
 				try {
 					this.data = await PageService.s_cat(
 						this.cat_id,
 						this.limit,
 						this.pageNumber,
-						sort,
+						this.sort,
 					)
 				}
 				catch (err) { this.error = err }

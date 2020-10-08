@@ -40,6 +40,9 @@ router.get(
 				const totalFollows = (
 					await postFollowersCollection.c_countAllUser(req.decoded.user_id)
 				).count
+
+				// [COUNT] totalPages //
+				const totalPages = Math.ceil(totalFollows / limit)
 				
 				// [READ-ALL] postFollowers for user //
 				const pfObj = await postFollowersCollection.c_readAllUser(
@@ -98,6 +101,7 @@ router.get(
 					status: true,
 					posts: posts,
 					totalFollows,
+					totalPages,
 				})
 			}
 			else {

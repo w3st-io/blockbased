@@ -106,7 +106,7 @@
 
 			nextPage() {
 				// As long as page does not exceed max Number of Pages //
-				//if (this.pageNumber < this.data.pageCount) {
+				if (this.pageNumber < this.data.totalPages) {
 					this.loading = true
 					this.pageNumber++
 
@@ -117,7 +117,7 @@
 						name: 'user-followed',
 						params: { page: this.pageNumber }
 					})
-				//}
+				}
 			},
 		}
 	}
