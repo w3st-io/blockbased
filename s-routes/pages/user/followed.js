@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% POST PAGE ROUTES %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%% FOLLOWED POST PAGE ROUTES %%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
 */
 // [REQUIRE] //
 const cors = require('cors')
@@ -27,8 +27,8 @@ router.get(
 	async (req, res) => {
 		try {
 			if (
-				Number.isInteger(parseInt(req.params.page)) &&
-				Number.isInteger(parseInt(req.params.limit))
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.page))
 			) {
 				// [INIT] //
 				const limit = parseInt(req.params.limit)

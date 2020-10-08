@@ -87,8 +87,8 @@ router.get(
 			// [VALIDATE] //
 			if (
 				validator.isAscii(req.params.cat_id) &&
-				Number.isInteger(parseInt(req.params.page)) &&
-				Number.isInteger(parseInt(req.params.limit))
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.page))
 			) {
 				const limit = parseInt(req.params.limit)
 				const pageIndex = parseInt(req.params.page) - 1
