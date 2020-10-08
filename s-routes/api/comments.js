@@ -124,7 +124,7 @@ router.get(
 			if (
 				mongoose.isValidObjectId(req.params.post_id) &&
 				Number.isInteger(parseInt(req.params.limit)) &&
-				Number.isInteger(parseInt(req.params.skip))
+				Number.isInteger(parseInt(req.params.page))
 			) {
 				// [INIT] //
 				const limit = parseInt(req.params.limit)
@@ -138,8 +138,8 @@ router.get(
 				if (postExistance.existance) {
 					const returned = await commentsCollection.c_readAll(
 						req.params.post_id,
-						skip,
-						limit
+						limit,
+						skip
 					)
 					
 					if (returned.status) {

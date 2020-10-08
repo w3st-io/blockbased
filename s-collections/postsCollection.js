@@ -77,20 +77,11 @@ const c_create = async (user_id, cat_id, title) => {
 
 
 // [READ-ALL-ALL] //
-const c_readAllAll = async (skip, limit) => {
+const c_readAllAll = async (limit, skip) => {
 	try {
 		// [SANITIZE] //
-		skip = parseInt(skip)
 		limit = parseInt(limit)
-
-		// [VALIDATE] skip //
-		if (!Number.isInteger(skip)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postsCollection: Invalid skip (must be numeric)',
-			}
-		}
+		skip = parseInt(skip)
 
 		// [VALIDATE] limit //
 		if (!Number.isInteger(limit)) {
@@ -98,6 +89,15 @@ const c_readAllAll = async (skip, limit) => {
 				executed: true,
 				status: false,
 				message: 'postsCollection: Invalid limit (must be numeric)',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid skip (must be numeric)',
 			}
 		}
 
@@ -127,11 +127,11 @@ const c_readAllAll = async (skip, limit) => {
 
 
 // [READ-ALL] Within Cat //
-const c_readAll = async (cat_id, skip, limit) => {
+const c_readAll = async (cat_id, limit, skip) => {
 	try {
 		// [SANITIZE] //
-		skip = parseInt(skip)
 		limit = parseInt(limit)
+		skip = parseInt(skip)
 
 		// [VALIDATE] cat_id //
 		if (!validator.isAscii(cat_id)) {
@@ -142,21 +142,21 @@ const c_readAll = async (cat_id, skip, limit) => {
 			}
 		}
 
-		// [VALIDATE] skip //
-		if (!Number.isInteger(skip)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postsCollection: Invalid skip',
-			}
-		}
-
 		// [VALIDATE] limit //
 		if (!Number.isIntegar(limit)) {
 			return {
 				executed: true,
 				status: false,
 				message: 'postsCollection: Invalid limit',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid skip',
 			}
 		}
 
@@ -254,11 +254,11 @@ const c_delete = async (post_id) => {
 
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] Within Cat //
-const c_readAllSort = async (cat_id, skip, limit, sort) => {
+const c_readAllSort = async (cat_id, limit, skip, sort) => {
 	try {
 		// [SANITIZE] //
-		skip = parseInt(skip)
 		limit = parseInt(limit)
+		skip = parseInt(skip)
 
 		// [VALIDATE] cat_id //
 		if (!validator.isAscii(cat_id)) {
@@ -269,21 +269,21 @@ const c_readAllSort = async (cat_id, skip, limit, sort) => {
 			}
 		}
 
-		// [VALIDATE] skip //
-		if (!Number.isInteger(skip)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postsCollection: Invalid skip',
-			}
-		}
-
 		// [VALIDATE] limit //
 		if (!Number.isInteger(limit)) {
 			return {
 				executed: true,
 				status: false,
 				message: 'postsCollection: Invalid limit',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid skip',
 			}
 		}
 

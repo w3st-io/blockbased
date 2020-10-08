@@ -38,7 +38,7 @@ router.get(
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
 
-				const returned = await commentsCollection.c_readAllAll(skip, limit)
+				const returned = await commentsCollection.c_readAllAll(limit, skip)
 					
 				res.status(200).send(returned)
 			}

@@ -75,8 +75,8 @@ router.get(
 				//// [COMMENTS] ////
 				let commentsObj = await commentsCollection.c_readAll(
 					req.params.post_id,
-					skip,
-					limit
+					limit,
+					skip
 				)
 
 				if (commentsObj.status) {

@@ -41,8 +41,8 @@ router.get(
 
 				let postsObj = await postsCollection.c_readAllSort(
 					req.params.cat_id,
-					skip,
 					limit,
+					skip,
 					req.params.sort,
 				)
 

@@ -37,7 +37,7 @@ router.get(
 				const skip = pageIndex * limit
 
 
-				const returned = await postsCollection.c_readAllAll(skip, limit)
+				const returned = await postsCollection.c_readAllAll(limit, skip)
 	
 				res.status(200).send(returned)
 			}

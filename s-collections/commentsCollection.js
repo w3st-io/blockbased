@@ -76,20 +76,11 @@ const c_create = async (user_id, post_id, text) => {
 
 
 // [READ-ALL-ALL] //
-const c_readAllAll = async (skip, limit) => {
+const c_readAllAll = async (limit, skip) => {
 	try {
 		// [SANTIZE] //
-		skip = parseInt(skip)
 		limit = parseInt(limit)
-
-		// [VALIDATE] skip //
-		if (!Number.isInteger(skip)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentsCollection: Invalid skip',
-			}
-		}
+		skip = parseInt(skip)
 
 		// [VALDIATE] limit //
 		if (!Number.isInteger(limit)) {
@@ -97,6 +88,15 @@ const c_readAllAll = async (skip, limit) => {
 				executed: true,
 				status: false,
 				message: 'commentsCollection: Invalid limit',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid skip',
 			}
 		}
 
@@ -124,11 +124,11 @@ const c_readAllAll = async (skip, limit) => {
 
 
 // [READ-ALL] Within a Post //
-const c_readAll = async (post_id, skip, limit) => {
+const c_readAll = async (post_id, limit, skip) => {
 	try {
 		// [SANTIZE] //
-		skip = parseInt(skip)
 		limit = parseInt(limit)
+		skip = parseInt(skip)
 
 		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
@@ -139,21 +139,21 @@ const c_readAll = async (post_id, skip, limit) => {
 			}
 		}
 
-		// [VALIDATE] skip //
-		if (!Number.isInteger(skip)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentsCollection: Invalid skip',
-			}
-		}
-
 		// [VALDIATE] limit //
 		if (!Number.isInteger(limit)) {
 			return {
 				executed: true,
 				status: false,
 				message: 'commentsCollection: Invalid limit',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid skip',
 			}
 		}
 

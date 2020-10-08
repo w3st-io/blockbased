@@ -97,8 +97,8 @@ router.get(
 				// [READ-ALL] Posts with cat_id //
 				let postsObj = await postsCollection.c_readAll(
 					req.params.cat_id,
-					skip,
 					limit,
+					skip,
 				)
 
 				if (postsObj.status) {
@@ -254,8 +254,8 @@ router.get(
 
 				let postsObj = await postsCollection.c_readAll(
 					req.params.cat_id,
-					skip,
 					limit,
+					skip,
 					req.params.sort,
 				)
 				

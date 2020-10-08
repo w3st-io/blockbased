@@ -146,7 +146,7 @@ const c_delete = async (user_id, post_id) => {
 
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] //
-const c_readAllUser = async (user_id, skip, limit, sort = 'descending') => {
+const c_readAllUser = async (user_id, limit, skip, sort = 'descending') => {
 	try {
 		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -157,21 +157,21 @@ const c_readAllUser = async (user_id, skip, limit, sort = 'descending') => {
 			}
 		}
 
-		// [VALIDATE] skip //
-		if (!Number.isInteger(skip)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postsCollection: Invalid skip',
-			}
-		}
-
 		// [VALIDATE] limit //
 		if (!Number.isInteger(limit)) {
 			return {
 				executed: true,
 				status: false,
 				message: 'postsCollection: Invalid limit',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid skip',
 			}
 		}
 

@@ -47,8 +47,8 @@ router.get(
 				// [READ-ALL] postFollowers for user //
 				const pfObj = await postFollowersCollection.c_readAllUser(
 					req.decoded.user_id,
-					skip,
-					limit
+					limit,
+					skip
 				)
 
 				for (let i = 0; i < pfObj.postFollowers.length; i++) {
