@@ -7,7 +7,7 @@
 			<div class="alert alert-info" role="alert">{{ message }}</div>
 
 			<!-- Comment Create Component -->
-			<comment-create
+			<CommentCreate
 				v-if="!loading"
 				:post_id="post_id"
 				@submit="submit"

@@ -6,7 +6,7 @@
 			</h3>
 
 			<!-- Comment Edit Component -->
-			<comment-edit
+			<CommentEdit
 				v-if="!loading && comment != {}"
 				:comment="comment"
 				@submit="submit"

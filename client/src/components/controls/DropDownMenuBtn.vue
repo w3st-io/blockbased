@@ -4,7 +4,10 @@
 			@click="showPopper = !showPopper"
 			:class="'btn-'+ BSColor"
 			class="position-relative btn btn-sm dropdown-toggle z-index-button"
-		>{{ btnName }}</button>
+		>
+			<img v-if="btnImage" :src="btnImage" alt="No Img">
+			<span v-if="btnName">{{ btnName }}</span>
+		</button>
 
 		<div
 			v-show="showPopper"
@@ -24,8 +27,8 @@
 				v-for="(listItem, index) in list"
 				:key="index"
 				@click="
-					emit(listItem, _id);
-					showPopper = !showPopper;
+					emit(listItem)
+					showPopper = !showPopper
 				"
 				class="dropdown-item bg-dark text-light"
 			>{{ listItem }}</a>
@@ -36,17 +39,14 @@
 <script>
 	// [IMPORT] //
 	import ClickOutside from 'vue-click-outside'
-
-	// [IMPORT] Personal //
-	import { EventBus } from '@main'
  
 	// [EXPORT] //
 	export default {
-
 		props: {
 			_id: {type: String, required: true, },
 			list: { type: Array, required: true },
-			btnName: { type: String, default: 'DDMB' },
+			btnName: { type: String, },
+			btnImage: { type: String, },
 			BSColor: { type: String, default: 'light' },
 		},
 
@@ -67,7 +67,7 @@
 		},
 
 		methods: {
-			emit(listItem, _id) { EventBus.$emit(listItem, _id) },
+			emit(listItem) { this.$emit('ddmb-clicked', listItem, this._id) },
 
 			outsideClicked() { this.showPopper = false },
 

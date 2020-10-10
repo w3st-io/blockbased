@@ -8,9 +8,9 @@
 			<!-- Main Content -->
 			<section class="col-12 col-md-9 mb-3 p-0">
 				<div class="card card-body bg-dark">
-					<cat-list :cats="cats1" :totalPosts="totalPosts1" class="mb-3" />
-					<cat-list :cats="cats2" :totalPosts="totalPosts2" class="mb-3" />
-					<cat-list :cats="cats3" :totalPosts="totalPosts3" class="mb-3" />
+					<CatList :cats="cats1" :totalPosts="totalPosts1" class="mb-3" />
+					<CatList :cats="cats2" :totalPosts="totalPosts2" class="mb-3" />
+					<CatList :cats="cats3" :totalPosts="totalPosts3" class="mb-3" />
 				</div>
 			</section>
 

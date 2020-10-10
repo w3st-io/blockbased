@@ -8,8 +8,13 @@
 				<li
 					v-for="comment in comments"
 					:key="comment._id"
-					class="row m-0 boder border-bottom border-secondary"
+					class="row m-0 border-bottom border-secondary text-light"
 				>
+					<!-- Profile/Timestamp Bar -->
+					<div class="col-12 p-1 border-bottom border-secondary">
+						<span class="small text-secondary">{{ comment.createdAt }}</span>
+					</div>
+
 					<!-- Profile Section -->
 					<div class="col-lg-2 col-md-2 col-sm-2 col-12 px-0 py-3 border-secondary">
 						<div
@@ -27,7 +32,7 @@
 							>
 						</div>
 
-						<p class="m-0 mt-2 text-center text-light small">
+						<p class="m-0 mt-2 text-center small">
 							<span class="mark bg-primary">{{ comment.user.username }}</span>
 						</p>
 					</div>
@@ -36,64 +41,68 @@
 					<div class="col-lg-10 col-md-10 col-sm-10 col-12 px-2 pt-3">
 						<p
 							v-html="comment.text"
-							class="m-0 text-light multiline comment-list"
+							class="m-0 multiline comment-list"
 						></p>
 					</div>
 				
 					<!-- Bottom Bar -->
-					<div class="col-12 p-2 border-top border-secondary text-light">
-						<div class="w-50 m-0 float-left small text-light">
-							<!-- Drop Down Menu Button Component -->
-							<dropDownMenuBtn
-								:disabled="disabled"
-								:_id="comment._id"
-								:btnName="'Report'"
-								:BSColor="'outline-danger'"
-								:list="[
-									'Innapropiate',
-									'Offensive',
-									'Scam',
-									'Bot',
-									'Other'
-								]"
-							/>
+					<div class="col-12 p-2 border-top border-secondary">
+						<div class="row">
+							<!-- Left -->
+							<div class="col-4 m-0 small">
+								<!-- [COMPONENT] Drop Down Menu Button -->
+								<DropDownMenuBtn
+									:disabled="disabled"
+									:_id="comment._id"
+									:btnName="'Report'"
+									:BSColor="'outline-secondary'"
+									:list="[
+										'Innapropiate',
+										'Offensive',
+										'Scam',
+										'Bot',
+										'Other'
+									]"
+									@ddmb-clicked="report"
+								/>
 
-							<button
-								v-if="comment.user._id == decoded.user_id"
-								@click="redirectToEdit(comment._id)"
-								class="py-0 btn btn-sm text-secondary"
-							>Edit</button>
+								<!-- Edit -->
+								<button
+									v-if="comment.user._id == decoded.user_id"
+									@click="redirectToEdit(comment._id)"
+									class="py-0 btn btn-sm text-secondary"
+								>Edit</button>
+							</div>
 
-							<!--
-							<button
-								v-if="comment.user._id == decoded.user_id"
-								@click="deleteComment(comment._id)"
-								class="py-0 btn btn-sm text-danger"
-							>Delete</button>
-							-->
-						</div>
+							<!-- Middle -->
+							<div class="col-4 text-center">
+								<!-- 	Quote -->
+								<button
+									@click="redirectToEdit(comment._id)"
+									class="btn btn-sm btn-outline-secondary text-secondary"
+								>Quote</button>
+							</div>
 
-						<div class="w-50 m-0 float-right small text-right text-secondary">
-							<!-- Time Stamp -->
-							<span class="mr-2">{{ comment.createdAt }}</span>
-
-							<!-- Like Btn -->
-							<button
-								@click="likeBtn(comment)"
-								class="btn"
-								:class="{
-									'btn-outline-success': comment.liked,
-									'btn-outline-light': !comment.liked
-								}"
-								style="font-size: 1em;"
-							>{{ comment.likeCount }} ▲</button>
+							<!-- Right -->
+							<div class="col-4 m-0 text-right small text-secondary">
+								<!-- Like Btn -->
+								<button
+									@click="likeBtn(comment)"
+									class="btn"
+									:class="{
+										'btn-outline-success': comment.liked,
+										'btn-outline-light': !comment.liked
+									}"
+									style="font-size: 1em;"
+								>{{ comment.likeCount }} ▲</button>
+							</div>
 						</div>
 					</div>
 
 					<!-- Admin Bar -->
 					<div
 						v-if="adminLoggedIn"
-						class="col-12 p-2 border border-warning text-light"
+						class="col-12 p-2 border border-warning"
 					>
 						<button
 							@click="redirectToEdit(comment._id)"
@@ -109,6 +118,8 @@
 							@click="adminDelete(comment._id)"
 							class="btn btn-sm btn-outline-danger"
 						>Admin-Delete</button>
+
+						<span class="ml-1 small text-secondary">{{ comment._id }}</span>
 					</div>
 				</li>
 			</ul>
@@ -118,17 +129,16 @@
 
 <script>
 	// [IMPORT] Personal //
-	import dropDownMenuBtn from '@components/controls/dropDownMenuBtn'
+	import DropDownMenuBtn from '@components/controls/DropDownMenuBtn'
 	import router from '@router'
 	import CommentService from '@services/CommentService'
 	import ACommentService from '@services/administration/CommentService'
 	import UserService from '@services/UserService'
-	import { EventBus } from '@main'
 	
 	// [EXPORT] //
 	export default {
 		components: {
-			dropDownMenuBtn,
+			DropDownMenuBtn,
 		},
 		
 		props: {
@@ -152,28 +162,11 @@
 				this.decoded = await UserService.getUserTokenDecodeData()
 			}
 
-			// [--> EMMIT] //
-			EventBus.$on('Innapropiate', (comment_id) => {
-				this.reportInnapropiate(comment_id)
-			})
-			EventBus.$on('Offensive', (comment_id) => {
-				this.reportOffensive(comment_id)
-			})
-			EventBus.$on('Scam', (comment_id) => {
-				this.reportScam(comment_id)
-			})
-			EventBus.$on('Bot', (comment_id) => {
-				this.reportBot(comment_id)
-			})
-			EventBus.$on('Other', (comment_id) => {
-				this.reportOther(comment_id)
-			})
-
 			// [LOG] //
 			//this.log()
 		},
 
-		methods: {
+		methods: {	
 			/******************* [DELETE] *******************/
 			async deleteComment(comment_id) {
 				// [DELETE] Comment //
@@ -220,24 +213,8 @@
 			},
 
 			/******************* [REPORT] *******************/
-			reportInnapropiate(comment_id) {
-				CommentService.s_report(this.post_id, comment_id, 'Innapropiate')
-			},
-
-			reportOffensive(comment_id) {
-				CommentService.s_report(this.post_id, comment_id, 'Offensive')
-			},
-
-			reportScam(comment_id) {
-				CommentService.s_report(this.post_id, comment_id, 'Scam')
-			},
-
-			reportBot(comment_id) {
-				CommentService.s_report(this.post_id, comment_id, 'Bot')
-			},
-
-			reportOther(comment_id) {
-				CommentService.s_report(this.post_id, comment_id, 'Other')
+			report(type, comment_id) {
+				CommentService.s_report(this.post_id, comment_id, type)
 			},
 
 			/******************* [ROUTER + LOG] *******************/
