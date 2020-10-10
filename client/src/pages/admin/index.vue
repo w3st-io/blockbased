@@ -11,28 +11,28 @@
 		
 		<div class="my-3">
 			<!-- Users -->
-			<users
+			<Users
 				v-show="activeTab == 'users'"
 				:users="users"
 				@refreshData="getData()"
 			/>
 			
 			<!-- Posts -->
-			<posts
+			<Posts
 				v-show="activeTab == 'posts'"
 				:posts="posts"
 				@refreshData="getData()"
 			/>
 
 			<!-- Comments -->
-			<comments
+			<Comments
 				v-show="activeTab == 'comments'"
 				:comments="comments"
 				@refreshData="getData()"
 			/>
 
 			<!-- Reports -->
-			<comment-reports
+			<CommentReports
 				v-show="activeTab == 'commentReports'"
 				:commentReports="commentReports"
 				@refreshData="getData()"

@@ -11,7 +11,7 @@
 					</a>
 
 					<!-- Hidden Menu Button -->
-					<button class="navbar-toggler" @click="sideMenuBtnClicked">
+					<button class="navbar-toggler" @click="menuBtnClicked">
 						<span class="navbar-toggler-icon"></span>
 					</button>
 
@@ -43,6 +43,7 @@
 						<NotificationMenuBtn v-if="loggedIn" />
 
 						<button
+							v-if="loggedIn"
 							@click="followedRedirect()"
 							class="ml-2 btn btn-sm btn-outline-light"
 						>Followed Posts</button>
@@ -140,7 +141,7 @@
 				router.push({ name: 'login' })
 			},
 			
-			sideMenuBtnClicked() { EventBus.$emit('navBarSideMenuBtnClicked') }
+			menuBtnClicked() { this.$emit('menu-btn-clicked') }
 		},
 	}
 </script>

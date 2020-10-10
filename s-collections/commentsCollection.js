@@ -333,6 +333,7 @@ const c_delete = async (comment_id, user_id) => {
 			}
 		}
 
+		console.log('Delete attempt made but comment delete is disabled.')
 		/*
 		const deletedComment = await CommentModel.findOneAndRemove({
 			_id: comment_id,

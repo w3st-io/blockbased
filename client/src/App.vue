@@ -1,10 +1,10 @@
 <template>
 	<div id="app" :key="appKey">
 		<!-- Hidden Side Menu -->
-		<side-menu />
+		<SideMenu :sideMenuOpen="sideMenuOpen" @closeMenu="toggle()" />
 
 		<!-- Top Bar -->
-		<nav-bar />
+		<NavBar @menu-btn-clicked="toggle()" />
 
 		<!-- Display the router Stuff -->
 		<router-view :key="$route.name + ($route.params.id || '')" />
@@ -13,10 +13,14 @@
 		<Footer />
 
 		<!-- Admin Bottom Bar -->
-		<admin-nav-bar v-if="adminLoggedIn" />
+		<AdminNavBar v-if="adminLoggedIn" />
 
-		<!-- Floating Pop Up Notifications -->
-		<PopUpNotifications v-if="loggedIn" class="ml-auto" style="width: 30%;" />
+		<!-- Pop Up Notifications -->
+		<PopUpNotifications
+			v-if="loggedIn"
+			class="w-100 ml-auto"
+			style="max-width: 300px;"
+		/>
 
 		<!-- Floating Pop Up Banner -->
 		<PopUpBanner
@@ -57,6 +61,10 @@
 
 		data: function() {
 			return {
+				// [APP] //
+				appKey: 0,
+				message: '',
+				
 				// [SOCKET] //
 				socket: '',
 				data: {},
@@ -66,9 +74,8 @@
 				loggedIn: false,
 				decoded: {},
 
-				// [APP] //
-				appKey: 0,
-				message: '',
+				// [MENU] //
+				sideMenuOpen: false
 			}
 		},
 
@@ -135,6 +142,7 @@
 		},
 
 		methods: {
+			// [SOCKET] //
 			async setSocket() {
 				// [GET-PORT] //
 				try { this.data = await utils.getSocketBaseUrl() }
@@ -142,6 +150,9 @@
 
 				if (this.data) { this.socket = io(this.data) }
 			},
+
+			// [SIDE-MENU] //
+			toggle() { this.sideMenuOpen = !this.sideMenuOpen },
 
 			forceRerender() {
 				this.appKey++

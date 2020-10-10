@@ -2,36 +2,60 @@
 	<div class="container mt-3">
 		<article class="card card-body bg-dark text-light">
 			<!-- Title -->
-			<h3 class="mb-4">Posts You Are Following</h3>
-			<p class="badge badge-light" style="width: 100px;">
-				Total: {{ totalFollows }}
-			</p>
+			<section class="row">
+				<div class="col-sm-10">
+					<h3 class="mb-3">Posts You Are Following</h3>
 
-			<!-- Page Nav Buttons -->
-			<PageNavButtons
-				@prev-btn="prevPage()"
-				@next-btn="nextPage()"
-				:badgeValue="pageNumber"
-				class="mb-3"
-				style="max-width: 300px;"
-			/>
+					<!-- Page Nav Buttons -->
+					<PageNavButtons
+						@prev-btn="prevPage()"
+						@next-btn="nextPage()"
+						:badgeValue="pageNumber"
+						class="w-100 mb-3"
+						style="max-width: 300px;"
+					/>
+				</div>
 
-			<!-- Display All the Posts -->
-			<PostList
-				v-if="!loading"
-				:posts="posts"
-				@refreshPosts="getData()"
-			/>
+				<div class="col-sm-2">
+					<p class="w-100 badge badge-light">
+						Total: {{ totalFollows }}
+					</p>
+				</div>
+			</section>
+
+			<section class="row">
+				<div class="col-12">
+					<!-- Display All the Posts -->
+					<PostList
+						v-if="!loading"
+						:posts="posts"
+						@refreshPosts="getData()"
+					/>
+				</div>
+			</section>
 
 			<!-- [DEFAULT] If No content -->
 			<NoContent v-if="!loading && posts == ''" class="mt-3" />
 
 			<!-- [LOADING] -->
-			<div v-show="loading" class="m-0 mt-3 alert alert-primary">
-				<div class="d-flex justify-content-center">
-					<div class="spinner-grow"></div>
+			<section v-show="loading" class="row">
+				<div class="col-12">
+					<div class="m-0 mt-3 alert alert-primary">
+						<div class="d-flex justify-content-center">
+							<div class="spinner-grow"></div>
+						</div>
+					</div>
 				</div>
-			</div>
+			</section>
+
+			<!-- [ERROR] -->
+			<section v-show="error" class="row">
+				<div class="col-12">
+					<div class="m-0 mt-3 alert alert-primary">
+						{{ error }}
+					</div>
+				</div>
+			</section>
 		</article>
 	</div>
 </template>
@@ -72,7 +96,7 @@
 		methods: {
 			async getData() {
 				try {
-					this.data = await pageService.s_user_favorited(
+					this.data = await pageService.s_user_followed(
 						this.limit,
 						this.pageNumber
 					)

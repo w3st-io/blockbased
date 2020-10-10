@@ -115,7 +115,7 @@ async function s_post(post_id, limit, page) {
 
 
 // [USER] //
-async function s_user_favorited(limit, page) {
+async function s_user_followed(limit, page) {
 	const authAxios = await this.authAxios()
 
 	try {
@@ -183,7 +183,7 @@ export default {
 	s_admin,
 	s_cat,
 	s_post,
-	s_user_favorited,
+	s_user_followed,
 	s_user_profile,
 	s_user_profile_view,
 }

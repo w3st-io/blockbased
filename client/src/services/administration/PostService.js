@@ -54,7 +54,7 @@ async function s_delete(post_id) {
 			.catch((err) => { reject(err) })
 	})
 
-	return result	
+	return result
 }
 
 

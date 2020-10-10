@@ -15,22 +15,28 @@
 				class="mb-3"
 			/>
 
-			<!-- Comments List -->
-			<CommentList
-				v-if="!loading"
-				:comments="comments"
-				:post_id="post_id"
-				@refreshComments="getPageData()"
-			/>
+			<section class="row">
+				<div class="col-12">
+					<!-- Comments List -->
+					<CommentList
+						v-if="!loading"
+						:comments="comments"
+						:post_id="post_id"
+						@refreshComments="getPageData()"
+					/>
+				</div>
+			</section>
 
 			<!-- [DEFAULT] If No content -->
 			<NoContent v-if="!loading && comments == ''" class="my-3" />
 			
 			<!-- [LOADING] -->
-			<section class="col-12">
-				<div v-if="loading" class="my-3 alert alert-primary">
-					<div class="d-flex justify-content-center">
-						<div class="spinner-grow"></div>
+			<section v-show="loading" class="row">
+				<div class="col-12">
+					<div class="my-3 alert alert-primary">
+						<div class="d-flex justify-content-center">
+							<div class="spinner-grow"></div>
+						</div>
 					</div>
 				</div>
 			</section>

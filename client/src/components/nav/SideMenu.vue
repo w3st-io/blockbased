@@ -24,9 +24,15 @@
 
 	// [EXPORT] //
 	export default {
+		props: {
+			sideMenuOpen: {
+				type: Boolean,
+				required: true,
+			}
+		},
+
 		data: function() {
 			return {
-				sideMenuOpen: false,
 				query: ''
 			}
 		},
@@ -39,7 +45,10 @@
 		},
 
 		methods: {
-			closeMenu() { this.sideMenuOpen = !this.sideMenuOpen },
+			closeMenu() {
+				this.sideMenuOpen = !this.sideMenuOpen
+				this.$emit('closeMenu')
+			},
 
 			homeBtn() {
 				this.sideMenuOpen = !this.sideMenuOpen

@@ -144,6 +144,39 @@ const c_delete = async (user_id, post_id) => {
 }
 
 
+// [DELETE] //
+const c_deleteAll = async (post_id) => {
+	try {
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postFollowersCollection: Invalid post_id',
+				updated: false,
+			}
+		}
+
+		const deletedPostFollower = await PostFollowerModel.deleteMany({
+			post: post_id
+		})
+
+		return {
+			executed: true,
+			status: true,
+			deletedPostFollower: deletedPostFollower
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postFollowersCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] //
 const c_readAllUser = async (user_id, limit, skip, sort = 'descending') => {
@@ -330,6 +363,7 @@ module.exports = {
 	c_create,
 	c_readAll,
 	c_delete,
+	c_deleteAll,
 	c_readAllUser,
 	c_existance,
 	c_countAll,

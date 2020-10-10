@@ -13,36 +13,44 @@
 				@next-btn="nextPage()"
 			/>
 
-			<ButtonTabs
-				:tabs="['recent', 'popular']"
-				:initialTab="activeTab"
-				@tabClicked="tab"
-				class="mx-auto mb-2"
-				style="max-width: 300px;"
-			/>
+			<section class="row">
+				<ButtonTabs
+					:tabs="['recent', 'popular']"
+					:initialTab="activeTab"
+					@tabClicked="tab"
+					class="w-100 mx-auto mb-2"
+					style="max-width: 300px;"
+				/>
+			</section>
 
 			<!-- Display All the Posts -->
-			<PostList
-				v-if="!loading"
-				:posts="posts"
-				@refreshPosts="getData()"
-			/>
+			<section class="row">
+				<div class="col-12">
+					<PostList
+						v-if="!loading"
+						:posts="posts"
+						@refreshPosts="getData()"
+					/>
+				</div>
+			</section>
 
 			<!-- [DEFAULT] If No content -->
 			<NoContent v-if="!loading && posts == ''" class="mt-3" />
 
 			<!-- [LOADING] -->
-			<div v-show="loading" class="m-0 mt-3 alert alert-primary">
-				<div class="d-flex justify-content-center">
-					<div class="spinner-grow"></div>
+			<section v-show="loading" class="row">
+				<div class="col-12">
+					<div class="m-0 mt-3 alert alert-primary">
+						<div class="d-flex justify-content-center">
+							<div class="spinner-grow"></div>
+						</div>
+					</div>
 				</div>
-			</div>
+			</section>
 		</article>
 
 		<!-- [ALERTS] -->
-		<div v-show="error" class="mt-3 alert alert-danger">
-			Cat Page: {{ error }}
-		</div>
+		<div v-show="error" class="mt-3 alert alert-danger">Cat Page: {{ error }}</div>
 	</section>
 </template>
 
