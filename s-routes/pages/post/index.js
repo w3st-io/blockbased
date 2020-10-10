@@ -12,7 +12,7 @@ const mongoose = require('mongoose')
 // [REQUIRE] Personal //
 const postsCollection = require('../../../s-collections/postsCollection')
 const postLikesCollection = require('../../../s-collections/postLikesCollection')
-const postFollowersCollection = require('../../../s-collections/postFollowersCollection')
+const postFollowsCollection = require('../../../s-collections/postFollowsCollection')
 const commentsCollection = require('../../../s-collections/commentsCollection')
 const commentLikesCollection = require('../../../s-collections/commentLikesCollection')
 const Auth = require('../../../s-middleware/Auth')
@@ -48,8 +48,8 @@ router.get(
 					).count
 		
 					// [COUNT] Follows //
-					postObj.post.followersCount = (
-						await postFollowersCollection.c_countAll(postObj.post._id)
+					postObj.post.followsCount = (
+						await postFollowsCollection.c_countAll(postObj.post._id)
 					).count
 	
 					// [USER-LOGGED] //
@@ -64,7 +64,7 @@ router.get(
 		
 						// [FOLLOWED-STATUS] //
 						postObj.post.followed = (
-							await postFollowersCollection.c_existance(
+							await postFollowsCollection.c_existance(
 								req.decoded.user_id,
 								postObj.post._id
 							)

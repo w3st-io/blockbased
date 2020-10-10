@@ -13,7 +13,7 @@ const validator = require('validator')
 // [REQUIRE] Personal //
 const rateLimiter = require('../../s-rate-limiters')
 const postsCollection = require('../../s-collections/postsCollection')
-const postFollowersCollection = require('../../s-collections/postFollowersCollection')
+const postFollowsCollection = require('../../s-collections/postFollowsCollection')
 const postLikesCollection = require('../../s-collections/postLikesCollection')
 const commentsCollection = require('../../s-collections/commentsCollection')
 const Auth = require('../../s-middleware/Auth')
@@ -110,8 +110,8 @@ router.get(
 						).count
 						
 						// [COUNT] Follows //
-						postsObj.posts[i].followersCount = (
-							await postFollowersCollection.c_countAll(postsObj.posts[i]._id)
+						postsObj.posts[i].followsCount = (
+							await postFollowsCollection.c_countAll(postsObj.posts[i]._id)
 						).count
 			
 						
@@ -161,8 +161,8 @@ router.get(
 					).count
 		
 					// [COUNT] Follows //
-					postObj.post.followersCount = (
-						await postFollowersCollection.c_countAll(postObj.post._id)
+					postObj.post.followsCount = (
+						await postFollowsCollection.c_countAll(postObj.post._id)
 					).count
 				}
 
@@ -276,8 +276,8 @@ router.get(
 						).count
 						
 						// [COUNT] Follows //
-						postsObj.posts[i].followersCount = (
-							await postFollowersCollection.c_countAll(postsObj.posts[i]._id)
+						postsObj.posts[i].followsCount = (
+							await postFollowsCollection.c_countAll(postsObj.posts[i]._id)
 						).count
 			
 						
@@ -298,7 +298,7 @@ router.get(
 
 							// [FOLLOW-STATUS] //
 							postsObj.posts[i].followed = (
-								await postFollowersCollection.c_existance(
+								await postFollowsCollection.c_existance(
 									req.decoded.user_id,
 									postsObj.posts[i]._id
 								)
@@ -344,8 +344,8 @@ router.get(
 					).count
 		
 					// [COUNT] Follows //
-					postObj.post.followersCount = (
-						await postFollowersCollection.c_countAll(postObj.post._id)
+					postObj.post.followsCount = (
+						await postFollowsCollection.c_countAll(postObj.post._id)
 					).count
 	
 					// [USER-LOGGED] //
@@ -360,7 +360,7 @@ router.get(
 		
 						// [FOLLOWED-STATUS] //
 						postObj.post.followed = (
-							await postFollowersCollection.c_existance(
+							await postFollowsCollection.c_existance(
 								req.decoded.user_id,
 								postObj.post._id
 							)
@@ -511,7 +511,7 @@ router.post(
 	async (req, res) => {
 		try {
 			if (mongoose.isValidObjectId(req.params.post_id)) {
-				const returned = await postFollowersCollection.c_create(
+				const returned = await postFollowsCollection.c_create(
 					req.decoded.user_id,
 					req.params.post_id
 				)
@@ -545,7 +545,7 @@ router.post(
 	async (req, res) => {
 		try {
 			if (mongoose.isValidObjectId(req.params.post_id)) {
-				const returned = await postFollowersCollection.c_delete(
+				const returned = await postFollowsCollection.c_delete(
 					req.decoded.user_id,
 					req.params.post_id
 				)
@@ -556,7 +556,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'Invalid post _id'
+					message: 'Invalid post _id',
 				})
 			}
 		}

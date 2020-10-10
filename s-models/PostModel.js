@@ -28,7 +28,7 @@ const postSchema = mongoose.Schema({
 
 	liked: { type: Boolean, default: null, },
 
-	followersCount: { type: Number, default: 0, },
+	followsCount: { type: Number, default: 0, },
 
 	followed: { type: Boolean, default: null, },
 

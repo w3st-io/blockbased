@@ -12,7 +12,7 @@ const express = require('express')
 const commentsCollection = require('../../../s-collections/commentsCollection')
 const postsCollection = require('../../../s-collections/postsCollection')
 const postLikesCollection = require('../../../s-collections/postLikesCollection')
-const postFollowersCollection = require('../../../s-collections/postFollowersCollection')
+const postFollowsCollection = require('../../../s-collections/postFollowsCollection')
 const Auth = require('../../../s-middleware/Auth')
 
 
@@ -36,24 +36,24 @@ router.get(
 				const skip = pageIndex * limit
 				let posts = []
 
-				// [COUNT] postFollowers //
+				// [COUNT] postFollows //
 				const totalFollows = (
-					await postFollowersCollection.c_countAllUser(req.decoded.user_id)
+					await postFollowsCollection.c_countAllUser(req.decoded.user_id)
 				).count
 
 				// [COUNT] totalPages //
 				const totalPages = Math.ceil(totalFollows / limit)
 				
-				// [READ-ALL] postFollowers for user //
-				const pfObj = await postFollowersCollection.c_readAllUser(
+				// [READ-ALL] postFollows for user //
+				const pFObj = await postFollowsCollection.c_readAllUser(
 					req.decoded.user_id,
 					limit,
 					skip
 				)
 
-				for (let i = 0; i < pfObj.postFollowers.length; i++) {
+				for (let i = 0; i < pFObj.postFollows.length; i++) {
 					const postObj = await postsCollection.c_read(
-						pfObj.postFollowers[i].post
+						pFObj.postFollows[i].post
 					)
 					
 					if (postObj.status) {
@@ -63,8 +63,8 @@ router.get(
 						).count
 			
 						// [COUNT] Follows //
-						postObj.post.followersCount = (
-							await postFollowersCollection.c_countAll(postObj.post._id)
+						postObj.post.followsCount = (
+							await postFollowsCollection.c_countAll(postObj.post._id)
 						).count
 
 						// [COUNT] Comments //
@@ -84,7 +84,7 @@ router.get(
 			
 							// [FOLLOWED-STATUS] //
 							postObj.post.followed = (
-								await postFollowersCollection.c_existance(
+								await postFollowsCollection.c_existance(
 									req.decoded.user_id,
 									postObj.post._id
 								)

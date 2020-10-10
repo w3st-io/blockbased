@@ -22,7 +22,7 @@
 			<div class="mb-3">
 				<span>
 					<span class="ml-2 badge badge-light">
-						{{ post.followersCount }}
+						{{ post.followsCount }}
 					</span>
 					<button
 						:disabled="disabled"

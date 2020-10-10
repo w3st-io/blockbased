@@ -11,7 +11,7 @@ const mongoose = require('mongoose')
 
 // [REQUIRE] Personal //
 const postsCollection = require('../../../s-collections/postsCollection')
-const postFollowersCollection = require('../../../s-collections/postFollowersCollection')
+const postFollowsCollection = require('../../../s-collections/postFollowsCollection')
 const postLikesCollection = require('../../../s-collections/postLikesCollection')
 const Auth = require('../../../s-middleware/Auth')
 
@@ -70,7 +70,7 @@ router.delete(
 			// [VALIDATE] //
 			if (mongoose.isValidObjectId(req.params.post_id)) {
 				await postsCollection.c_delete(req.params.post_id)
-				await postFollowersCollection.c_deleteAll(req.params.post_id)
+				await postFollowsCollection.c_deleteAll(req.params.post_id)
 				await postLikesCollection.c_deleteAll(req.params.post_id)
 
 				res.sendStatus(200)

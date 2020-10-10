@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 
 
 // [SCHEMA MODEL] //
-const postFollowerSchema = mongoose.Schema({
+const postFollowSchema = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	
 	user: {
@@ -27,4 +27,4 @@ const postFollowerSchema = mongoose.Schema({
 
 
 // [EXPORTS] //
-module.exports = mongoose.model('PostFollower', postFollowerSchema)
+module.exports = mongoose.model('PostFollow', postFollowSchema)

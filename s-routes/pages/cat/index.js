@@ -11,7 +11,7 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const postsCollection = require('../../../s-collections/postsCollection')
-const postFollowersCollection = require('../../../s-collections/postFollowersCollection')
+const postFollowsCollection = require('../../../s-collections/postFollowsCollection')
 const postLikesCollection = require('../../../s-collections/postLikesCollection')
 const commentsCollection = require('../../../s-collections/commentsCollection')
 const Auth = require('../../../s-middleware/Auth')
@@ -55,8 +55,8 @@ router.get(
 						).count
 						
 						// [COUNT] Follows //
-						postsObj.posts[i].followersCount = (
-							await postFollowersCollection.c_countAll(postsObj.posts[i]._id)
+						postsObj.posts[i].followsCount = (
+							await postFollowsCollection.c_countAll(postsObj.posts[i]._id)
 						).count
 						
 						// [COUNT] Comments //
@@ -76,7 +76,7 @@ router.get(
 			
 							// [FOLLOWED-STATUS] //
 							postsObj.posts[i].followed = (
-								await postFollowersCollection.c_existance(
+								await postFollowsCollection.c_existance(
 									req.decoded.user_id,
 									postsObj.posts[i]._id
 								)

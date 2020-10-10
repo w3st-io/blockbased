@@ -14,7 +14,7 @@ const validator = require('validator')
 // [REQUIRE] Personal //
 const rateLimiter = require('../../s-rate-limiters')
 const postsCollection = require('../../s-collections/postsCollection')
-const postFollowersCollection = require('../../s-collections/postFollowersCollection')
+const postFollowsCollection = require('../../s-collections/postFollowsCollection')
 const commentsCollection = require('../../s-collections/commentsCollection')
 const commentLikesCollection = require('../../s-collections/commentLikesCollection')
 const commentReportsCollection = require('../../s-collections/commentReportsCollection')
@@ -50,28 +50,28 @@ router.post(
 					)
 
 					if (comment.status) {
-						// [READ-ALL] Followers //
-						const followers = await postFollowersCollection.c_readAll(
-							req.body.post_id
-						)
-
 						// [COUNT] Comments //
 						const commentCount = await commentsCollection.c_countAll(
 							req.body.post_id
 						)
+
+						// [READ-ALL] Follows //
+						const pFObj = await postFollowsCollection.c_readAll(
+							req.body.post_id
+						)
 						
 						// [CREATE] Notification //
-						for (let i = 0; i < followers.postFollowers.length; i++) {
-							if (followers.postFollowers[i].user != req.decoded.user_id) {
+						for (let i = 0; i < pFObj.postFollows.length; i++) {
+							if (pFObj.postFollows[i].user != req.decoded.user_id) {
 								await notificationsCollection.c_create(
-									followers.postFollowers[i].user,
+									pFObj.postFollows[i].user,
 									comment.comment._id,
 									'comment'
 								)
 
 								// Get userSocket by user_id //
 								const userSocket = userUtils.getUserSocketByUserId(
-									followers.postFollowers[i].user
+									pFObj.postFollows[i].user
 								)
 								
 								if (userSocket) {

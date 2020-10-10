@@ -9,7 +9,7 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const PostFollowerModel = require('../s-models/PostFollowerModel')
+const PostFollowModel = require('../s-models/PostFollowModel')
 
 
 /******************* [CRUD] *******************/
@@ -21,7 +21,7 @@ const c_create = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'postFollowersCollection: Invalid user_id',
+				message: 'postFollowsCollection: Invalid user_id',
 				updated: false,
 			}
 		}
@@ -31,7 +31,7 @@ const c_create = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'postFollowersCollection: Invalid post_id',
+				message: 'postFollowsCollection: Invalid post_id',
 				updated: false,
 			}
 		}
@@ -48,7 +48,7 @@ const c_create = async (user_id, post_id) => {
 		}
 
 		// [SAVE] //
-		const createdPostFollow = await new PostFollowerModel({
+		const createdPostFollow = await new PostFollowModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
 			post: post_id,
@@ -64,7 +64,7 @@ const c_create = async (user_id, post_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `postFollowersCollection: Error --> ${err}`,
+			message: `postFollowsCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -78,23 +78,23 @@ const c_readAll = async (post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'postFollowersCollection: Invalid post_id',
+				message: 'postFollowsCollection: Invalid post_id',
 			}
 		}
 
-		const postFollowers = await PostFollowerModel.find({ post: post_id })
+		const postFollows = await PostFollowModel.find({ post: post_id })
 
 		return {
 			executed: true,
 			status: true,
-			postFollowers: postFollowers,
+			postFollows: postFollows,
 		}
 	}
 	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `postFollowersCollection: Error --> ${err}`,
+			message: `postFollowsCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -108,7 +108,7 @@ const c_delete = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'postFollowersCollection: Invalid user_id',
+				message: 'postFollowsCollection: Invalid user_id',
 				updated: false,
 			}
 		}
@@ -118,12 +118,12 @@ const c_delete = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'postFollowersCollection: Invalid post_id',
+				message: 'postFollowsCollection: Invalid post_id',
 				updated: false,
 			}
 		}
 
-		const deletedPostFollower = await PostFollowerModel.deleteMany({
+		const deletedPostFollow = await PostFollowModel.deleteMany({
 			user: user_id,
 			post: post_id,
 		})
@@ -131,14 +131,14 @@ const c_delete = async (user_id, post_id) => {
 		return {
 			executed: true,
 			status: true,
-			deletedPostFollower: deletedPostFollower
+			deletedPostFollow: deletedPostFollow
 		}
 	}
 	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `postFollowersCollection: Error --> ${err}`,
+			message: `postFollowsCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -152,26 +152,26 @@ const c_deleteAll = async (post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'postFollowersCollection: Invalid post_id',
+				message: 'postFollowsCollection: Invalid post_id',
 				updated: false,
 			}
 		}
 
-		const deletedPostFollower = await PostFollowerModel.deleteMany({
+		const deletedPostFollow = await PostFollowModel.deleteMany({
 			post: post_id
 		})
 
 		return {
 			executed: true,
 			status: true,
-			deletedPostFollower: deletedPostFollower
+			deletedPostFollow: deletedPostFollow
 		}
 	}
 	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `postFollowersCollection: Error --> ${err}`,
+			message: `postFollowsCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -186,7 +186,7 @@ const c_readAllUser = async (user_id, limit, skip, sort = 'descending') => {
 			return {
 				executed: true,
 				status: false,
-				message: 'postFollowersCollection: Invalid post_id',
+				message: 'postFollowsCollection: Invalid post_id',
 			}
 		}
 
@@ -223,7 +223,7 @@ const c_readAllUser = async (user_id, limit, skip, sort = 'descending') => {
 		if (sort == 'descending') { sort2 = { createdAt: -1 } }
 		else if (sort == 'popularity') { sort2 = { likeCount: -1 } }
 
-		const postFollowers = await PostFollowerModel.find({ user: user_id })
+		const postFollows = await PostFollowModel.find({ user: user_id })
 			.sort(sort2)
 			.skip(parseInt(skip))
 			.limit(parseInt(limit))
@@ -232,14 +232,14 @@ const c_readAllUser = async (user_id, limit, skip, sort = 'descending') => {
 		return {
 			executed: true,
 			status: true,
-			postFollowers: postFollowers,
+			postFollows: postFollows,
 		}
 	}
 	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `postFollowersCollection: Error --> ${err}`,
+			message: `postFollowsCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -253,7 +253,7 @@ const c_existance = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'postFollowersCollection: Invalid user_id',
+				message: 'postFollowsCollection: Invalid user_id',
 				updated: false,
 			}
 		}
@@ -263,22 +263,22 @@ const c_existance = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'postFollowersCollection: Invalid post_id',
+				message: 'postFollowsCollection: Invalid post_id',
 				updated: false,
 			}
 		}
 
-		const postFollower = await PostFollowerModel.findOne({
+		const postFollow = await PostFollowModel.findOne({
 			user: user_id,
 			post: post_id,
 		})
 
-		if (postFollower) {
+		if (postFollow) {
 			return {
 				executed: true,
 				status: true,
 				existance: true,
-				postFollower: postFollower,
+				postFollow: postFollow,
 			}
 		}
 		else {
@@ -293,7 +293,7 @@ const c_existance = async (user_id, post_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `postFollowersCollection: Error --> ${err}`,
+			message: `postFollowsCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -307,11 +307,11 @@ const c_countAll = async (post_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'postFollowersCollection: Invalid post_id',
+				message: 'postFollowsCollection: Invalid post_id',
 			}
 		}
 
-		const count = await PostFollowerModel.countDocuments({ post: post_id })
+		const count = await PostFollowModel.countDocuments({ post: post_id })
 		
 		return {
 			executed: true,
@@ -323,7 +323,7 @@ const c_countAll = async (post_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `postFollowersCollection: Error --> ${err}`
+			message: `postFollowsCollection: Error --> ${err}`
 		}
 	}
 }
@@ -336,11 +336,11 @@ const c_countAllUser = async (user_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'postFollowersCollection: Invalid post_id',
+				message: 'postFollowsCollection: Invalid post_id',
 			}
 		}
 
-		const count = await PostFollowerModel.countDocuments({ user: user_id })
+		const count = await PostFollowModel.countDocuments({ user: user_id })
 		
 		return {
 			executed: true,
@@ -352,7 +352,7 @@ const c_countAllUser = async (user_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `postFollowersCollection: Error --> ${err}`
+			message: `postFollowsCollection: Error --> ${err}`
 		}
 	}
 }
