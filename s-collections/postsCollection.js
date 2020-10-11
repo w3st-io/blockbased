@@ -254,7 +254,7 @@ const c_delete = async (post_id) => {
 
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] Within Cat //
-const c_readAllSort = async (cat_id, limit, skip, sort) => {
+const c_readAllSort = async (cat_id, limit, skip, sort = 'descending') => {
 	try {
 		// [SANITIZE] //
 		limit = parseInt(limit)
@@ -296,17 +296,64 @@ const c_readAllSort = async (cat_id, limit, skip, sort) => {
 			}
 		}
 
-		// [INIT] //
-		let sort2
+		// Set Sort //
+		if (sort == 'descending') { sort = { createdAt: -1 } }
+		else if (sort == 'popularity') { sort = { likeCount: -1 } }
 
-		if (sort == 'descending') { sort2 = { createdAt: -1 } }
-		else if (sort == 'popularity') { sort2 = { likeCount: -1 } }
-	
 		const posts = await PostModel.find({ cat_id })
-			.sort(sort2)
+			.sort(sort)
 			.skip(parseInt(skip))
 			.limit(parseInt(limit))
 			.populate({ path: 'user', select: 'username email profileImg', })
+			.exec()
+
+		return {
+			executed: true,
+			status: true,
+			posts: posts,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postsCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
+// [READ-ALL] Pinned Posts //
+const c_readAllPinned = async (cat_id, sort = 'descending') => {
+	try { 
+		// [VALIDATE] cat_id //
+		if (!validator.isAscii(cat_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid cat_id',
+			}
+		}
+
+		// [VALIDATE] sort //
+		if (!validator.isAscii(sort)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid sort',
+			}
+		}
+
+		// Set Sort //
+		if (sort == 'descending') { sort = { createdAt: -1 } }
+		else if (sort == 'popularity') { sort = { likeCount: -1 } }
+
+		const posts = await PostModel.find({
+			cat_id,
+			pinned: true,
+		})
+			.populate({ path: 'user', select: 'username email profileImg', })
+			.sort(sort)
 			.exec()
 
 		return {
@@ -526,6 +573,7 @@ module.exports = {
 	c_read,
 	c_delete,
 	c_readAllSort,
+	c_readAllPinned,
 	c_incrementLike,
 	c_decrementLike,
 	c_existance,

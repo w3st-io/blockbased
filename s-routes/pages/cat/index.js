@@ -39,7 +39,7 @@ router.get(
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
 
-				let postsObj = await postsCollection.c_readAllSort(
+				const postsObj = await postsCollection.c_readAllSort(
 					req.params.cat_id,
 					limit,
 					skip,
@@ -47,6 +47,14 @@ router.get(
 				)
 
 				if (postsObj.status) {
+					// [PINNED] Insert Posts //
+					const { posts: pinnedPosts } = await postsCollection.c_readAllPinned(
+						req.params.cat_id
+					)
+					
+					// For Each Pinned Post Insert It At the Beginning of Array //
+					pinnedPosts.forEach(pp => { postsObj.posts.unshift(pp) })
+
 					// For Each Post in Posts //
 					for (let i = 0; i < postsObj.posts.length; i++) {
 						// [COUNT] Likes //
