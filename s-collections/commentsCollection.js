@@ -269,7 +269,7 @@ const c_update = async (comment_id, user_id, text) => {
 			return {
 				executed: true,
 				status: false,
-				message: ownership.message
+				message: ownership.message,
 			}
 		}
 	

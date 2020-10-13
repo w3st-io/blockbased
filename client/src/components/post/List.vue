@@ -22,7 +22,15 @@
 						"
 						@click="redirectToPost(post._id)"
 					>
-						<h5 class="text-light">{{ post.title }}</h5>
+						<h5 class="text-light">
+							<img
+								v-if="post.pinned"
+								:src="require('../../assets/images/symbol-icons/pin.svg')"
+								class="small text-secondary"
+								style="width: 18px;"
+							>
+							{{ post.title }}
+						</h5>
 						<p class="m-0 small text-secondary">
 							<span v-if="post.user.username" class="text-light">
 								{{ post.user.username }}
@@ -72,7 +80,7 @@
 								class="w-100 btn"
 								:class="{
 									'btn-outline-success': post.liked,
-									'btn-outline-secondary': !post.liked,
+									'btn-outline-light': !post.liked,
 								}"
 							>{{ post.likeCount }} ▲</button>
 						</h4>

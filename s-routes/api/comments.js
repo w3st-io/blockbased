@@ -14,10 +14,11 @@ const validator = require('validator')
 // [REQUIRE] Personal //
 const rateLimiter = require('../../s-rate-limiters')
 const postsCollection = require('../../s-collections/postsCollection')
-const postFollowsCollection = require('../../s-collections/postFollowsCollection')
 const commentsCollection = require('../../s-collections/commentsCollection')
 const commentLikesCollection = require('../../s-collections/commentLikesCollection')
 const commentReportsCollection = require('../../s-collections/commentReportsCollection')
+const postFollowsCollection = require('../../s-collections/postFollowsCollection')
+const PreeditedCommentsCollection = require('../../s-collections/preeditedCommentsCollection')
 const notificationsCollection = require('../../s-collections/notificationsCollection')
 const Auth = require('../../s-middleware/Auth')
 const userUtils = require('../../s-utils/userUtils')
@@ -247,14 +248,39 @@ router.post(
 				mongoose.isValidObjectId(req.params.comment_id) &&
 				req.body.text
 			) {
-				// [UPDATE] //
-				const comment = await commentsCollection.c_update(
+				// [OWNERSHIP] //
+				const ownership = await commentsCollection.c_ownership(
 					req.params.comment_id,
-					req.decoded.user_id,
-					req.body.text
+					req.decoded.user_id
 				)
-				
-				res.status(200).send(comment)
+
+				if (ownership.status && ownership.ownership) {
+					// [CREATE] PreeditedComment //
+					const preeditedComment = await PreeditedCommentsCollection.c_create(
+						req.params.comment_id
+					)
+
+					if (preeditedComment.status) {
+						// [UPDATE] //
+						const updatedComment = await commentsCollection.c_update(
+							req.params.comment_id,
+							req.decoded.user_id,
+							req.body.text
+						)
+						
+						res.status(200).send(updatedComment)
+					}
+					else {
+						res.status(200).send(preeditedComment)
+					}
+				}
+				else {
+					res.status(200).send({
+						executed: true,
+						status: false,
+						message: ownership.message,
+					})
+				}
 			}
 			else {
 				res.status(200).send({

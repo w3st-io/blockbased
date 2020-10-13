@@ -30,6 +30,7 @@ import CommentEdit from '@pages/post/comment-edit'
 import AccountCreated from '@pages/user/account-created'
 import followed from '@pages/user/followed'
 import Login from '@pages/user/login'
+import notifications from '@pages/user/notifications'
 import PasswordRequest from '@pages/user/password/request'
 import PasswordReset from '@pages/user/password/reset'
 import Profile from '@pages/user/profile'
@@ -173,6 +174,15 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Login'
+			}
+		},
+		{
+			path: '/user/notifications',
+			name: 'notifications',
+			component: notifications,
+			meta: {
+				auth: true,
+				title: 'notifications'
 			}
 		},
 		{
