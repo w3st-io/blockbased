@@ -26,8 +26,8 @@
 			style="width: 100%; max-width: 300px;"
 		>
 			<a
-				v-for="(notification, index) in notifications"
-				:key="index"
+				v-for="notification in notifications"
+				:key="notification._id"
 				@click="
 					clicked(notification._id, notification.comment.post._id)
 					showPopper = !showPopper

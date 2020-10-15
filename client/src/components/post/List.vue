@@ -5,11 +5,7 @@
 				v-if="!loading && posts != ''"
 				class="m-0 px-0 border border-secondary"
 			>
-				<li
-					v-for="(post, index) in posts"
-					:key="index"
-					class="row m-0 bg-dark"
-				>
+				<li v-for="post in posts" :key="post._id" class="row m-0 bg-dark">
 					<!-- Title --> 
 					<div
 						class="

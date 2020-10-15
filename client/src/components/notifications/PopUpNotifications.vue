@@ -1,6 +1,13 @@
 <template>
 	<section class="d-flex flex-column-reverse fixed-bottom my-3 mr-4 ml-auto">
+		<!-- Show Button -->
+		<button
+			@click="userShowClicked()"
+			class="w-25 ml-auto btn btn-primary"
+		>Show</button>
+		
 		<div
+			v-show="show || userShow"
 			v-for="notification in notifications"
 			:key="notification._id"
 			class="
@@ -49,6 +56,8 @@
 	export default {
 		data: function() {
 			return {
+				show: true,
+				userShow: false,
 				notifications: [],
 			}
 		},
@@ -68,8 +77,12 @@
 
 		methods: {
 			async readAllUnreadNotifications() {
+				this.show = true
+
 				this.notifications = await NotificationService.s_readAllUnread()
-				this.notifications.slice().reverse()
+
+				// Wait 3 seconds
+				setTimeout(() => { this.show = false }, 5000)
 			},
 
 			closeClicked(notification_id) {
@@ -78,6 +91,8 @@
 				// [UPDATE] //
 				EventBus.$emit('update-notification')
 			},
+
+			userShowClicked() { this.userShow = !this.userShow },
 		
 			log() {
 				console.log('%%% [COMPONENT] PopUpNotifications %%%')
@@ -93,7 +108,7 @@
 		animation-name: fadeInOpacity;
 		animation-iteration-count: 1;
 		animation-timing-function: ease-in;
-		animation-duration: 1s;
+		animation-duration: .5s;
 	}
 
 	@keyframes fadeInOpacity {
