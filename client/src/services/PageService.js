@@ -21,9 +21,9 @@ const authAxios = async () => {
 
 // [HOME] //
 async function s_home() {
-	const authAxios = await this.authAxios()
-
 	try {
+		const authAxios = await this.authAxios()
+
 		const { data } = await authAxios.get('/')
 
 		return data
@@ -40,9 +40,9 @@ async function s_home() {
 
 // [ADMIN] //
 async function s_admin() {
-	const authAxios = await this.authAxios()
-
 	try {
+		const authAxios = await this.authAxios()
+
 		const { data } = await authAxios.get('/admin')
 
 		return data
@@ -59,9 +59,9 @@ async function s_admin() {
 
 // [CAT] //
 async function s_cat(cat_id, limit, page, sort) {
-	const authAxios = await this.authAxios()
-
 	try {
+		const authAxios = await this.authAxios()
+
 		let { data } = await authAxios.get(
 			`/cat/${cat_id}/${limit}/${page}/${sort}`
 		)
@@ -86,9 +86,9 @@ async function s_cat(cat_id, limit, page, sort) {
 
 // [POST] //
 async function s_post(post_id, limit, page) {
-	const authAxios = await this.authAxios()
-
 	try {
+		const authAxios = await this.authAxios()
+
 		let { data } = await authAxios.get(`/post/${post_id}/${limit}/${page}`)
 			
 		if (data.status) {
@@ -116,9 +116,9 @@ async function s_post(post_id, limit, page) {
 
 // [USER] //
 async function s_user_followed(limit, page) {
-	const authAxios = await this.authAxios()
-
 	try {
+		const authAxios = await this.authAxios()
+
 		let { data } = await authAxios.get(`/user/followed/${limit}/${page}`)
 			
 		if (data.status) {
@@ -138,10 +138,28 @@ async function s_user_followed(limit, page) {
 }
 
 
-async function s_user_profile() {
-	const authAxios = await this.authAxios()
-	
+async function s_user_notifications(limit, page) {
 	try {
+		const authAxios = await this.authAxios()
+
+		let { data } = await authAxios.get(`/user/notifications/${limit}/${page}`)
+		
+		return data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `PageService: Error --> ${err}`
+		}
+	}
+}
+
+
+async function s_user_profile() {
+	try {
+		const authAxios = await this.authAxios()
+	
 		const { data } = await authAxios.get('/user/profile')
 
 		return data
@@ -157,22 +175,21 @@ async function s_user_profile() {
 
 
 async function s_user_profile_view(user_id) {
-	const authAxios = await this.authAxios()
+	try {
+		const authAxios = await this.authAxios()
 	
-	if (user_id) {
-		try {
-			const { data } = await authAxios.get(`/user/profile/view/${user_id}`)
+		const { data } = await authAxios.get(`/user/profile/view/${user_id}`)
 
-			return data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `PageService: Error --> ${err}`
-			}
+		return data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `PageService: Error --> ${err}`
 		}
 	}
+	
 }
 
 
@@ -184,6 +201,7 @@ export default {
 	s_cat,
 	s_post,
 	s_user_followed,
+	s_user_notifications,
 	s_user_profile,
 	s_user_profile_view,
 }

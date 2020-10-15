@@ -21,11 +21,11 @@ const router = express.Router().use(cors())
 /******************* [CRUD] *******************/
 // [READ-ALL] //
 router.get(
-	'/read-all',
+	'/read-all-unread',
 	Auth.userToken(),
 	async (req, res) => {
 		try {
-			const returned = await notificationsCollection.c_readAll(
+			const returned = await notificationsCollection.c_readAllUnread(
 				req.decoded.user_id
 			)
 

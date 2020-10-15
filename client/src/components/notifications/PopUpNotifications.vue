@@ -1,12 +1,8 @@
 <template>
-	<transition-group
-		name="fade"
-		tag="div"
-		class="d-flex flex-wrap fixed-bottom my-3 mr-4 ml-auto"
-	>
+	<section class="d-flex flex-column-reverse fixed-bottom my-3 mr-4 ml-auto">
 		<div
-			v-for="(notification, index) in notifications"
-			:key="index"
+			v-for="notification in notifications"
+			:key="notification._id"
 			class="
 				card
 				card-sm
@@ -37,10 +33,11 @@
 					{{ notification.comment.user.username }}
 					posted a
 					{{ notification.type }}
+					{{ notification.comment.text }}
 				</p>
 			</div>
 		</div>
-	</transition-group>
+	</section>
 </template>
 
 <script>
@@ -58,18 +55,21 @@
 
 		created: async function() {
 			// [UPDATE] //
-			await this.readAllNotifications()
+			await this.readAllUnreadNotifications()
 
 			// [ON-EVENTBUS] //
-			EventBus.$on('update-notification', () => { this.readAllNotifications() })
+			EventBus.$on('update-notification', () => {
+				this.readAllUnreadNotifications()
+			})
 
 			// [LOG] //
 			//this.log()
 		},
 
 		methods: {
-			async readAllNotifications() {
-				this.notifications = await NotificationService.s_readAll()
+			async readAllUnreadNotifications() {
+				this.notifications = await NotificationService.s_readAllUnread()
+				this.notifications.slice().reverse()
 			},
 
 			closeClicked(notification_id) {

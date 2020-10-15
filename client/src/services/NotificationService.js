@@ -15,12 +15,12 @@ async function authAxios() {
 	})
 }
 
-/******************* [CRUD] *******************/
-async function s_readAll() {
+/******************* [OTHER-CRUD] *******************/
+async function s_readAllUnread() {
 	const authAxios = await this.authAxios()
 
 	try {
-		let { data } = await authAxios.get(`/read-all`)
+		let { data } = await authAxios.get(`/read-all-unread`)
 
 		data.notifications.forEach(notification => {
 			notification.createdAt = new Date(notification.createdAt).toLocaleString()
@@ -44,6 +44,6 @@ async function markRead(notification_id) {
 // [EXPORT] //
 export default {
 	authAxios,
-	s_readAll,
+	s_readAllUnread,
 	markRead,
 }

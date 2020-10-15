@@ -29,8 +29,8 @@
 				v-for="(notification, index) in notifications"
 				:key="index"
 				@click="
-					clicked(notification._id, notification.comment.post._id);
-					showPopper = !showPopper;
+					clicked(notification._id, notification.comment.post._id)
+					showPopper = !showPopper
 				"
 				class="dropdown-item bg-primary text-light"
 			>
@@ -38,6 +38,7 @@
 				<p class="m-0">
 					{{ notification.comment.user.username }} made a {{ notification.type }}
 				</p>
+				<p class="m-0">{{ notification.comment.text }}</p>
 				
 			</a>
 		</div>
@@ -80,7 +81,7 @@
 
 		methods: {
 			async readAllNotifications() {
-				this.notifications = await NotificationService.s_readAll()
+				this.notifications = await NotificationService.s_readAllUnread()
 			},
 
 			async clicked(notification_id, post_id) {

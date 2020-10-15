@@ -58,6 +58,7 @@ const c_create = async (user_id, comment_id, type) => {
 	}
 }
 
+
 // [READ-ALL] //
 const c_readAll = async (user_id) => {
 	try {
@@ -71,10 +72,8 @@ const c_readAll = async (user_id) => {
 			}
 		}
 
-		const notifications = await NotificationModel.find({
-			user: user_id,
-			read: false
-		})
+		const notifications = await NotificationModel.find({ user: user_id })
+			.sort({ createdAt: -1 })
 			.populate({
 				path: 'comment',
 				populate: {
@@ -104,6 +103,7 @@ const c_readAll = async (user_id) => {
 		}
 	}
 }
+
 
 // [DELETE-ALL] //
 const c_deleteAll = async (comment_id) => {
@@ -138,6 +138,56 @@ const c_deleteAll = async (comment_id) => {
 
 // [DELETE] //
 const c_delete = async () => {}
+
+
+/******************* [OTHER-CRUD] *******************/
+// [READ-ALLUnread] //
+const c_readAllUnread = async (user_id) => {
+	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'notificationsCollection: Invalid user_id',
+				updated: false,
+			}
+		}
+
+		const notifications = await NotificationModel.find({
+			user: user_id,
+			read: false
+		})
+			.sort({ createdAt: -1 })
+			.populate({
+				path: 'comment',
+				populate: {
+					path: 'user',
+					select: 'username',
+				}
+			})
+			.populate({
+				path: 'comment',
+				populate: {
+					path: 'post',
+					select: 'title',
+				}
+			})
+	
+		return {
+			executed: true,
+			status: true,
+			notifications: notifications
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `nofiticationsCollection: Error --> ${err}`
+		}
+	}
+}
 
 
 /******************* [MARK-READ-STATUS] *******************/
@@ -175,11 +225,42 @@ const c_markRead = async (notification_id) => {
 }
 
 
+const c_count = async (user_id) => {
+	try {
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'NotificationsCollection: Invalid user_id'
+			}
+		}
+
+		const count = await NotificationModel.countDocuments({ user: user_id })
+
+		return {
+			executed: true,
+			status: true,
+			count: count
+		} 
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`
+		}
+	}
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_create,
 	c_readAll,
 	c_deleteAll,
 	c_delete,
+	c_readAllUnread,
 	c_markRead,
+	c_count,
 }
