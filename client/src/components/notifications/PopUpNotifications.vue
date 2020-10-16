@@ -3,8 +3,9 @@
 		<!-- Show Button -->
 		<button
 			@click="userShowClicked()"
-			class="w-25 ml-auto btn btn-primary"
-		>Show</button>
+			class="ml-auto p-0 btn btn-primary rounded-circle h3 shadow"
+			style="width: 48px; height: 48px; font-family: roboto;"
+		>{{ !userShow ? '+' : '-' }}</button>
 		
 		<div
 			v-show="show || userShow"
@@ -16,11 +17,11 @@
 				flex-card
 				w-100
 				mb-3
-				text-light
 				bg-primary
 				border-primary
-				shadow
 				fade-in
+				shadow
+				text-light
 			"
 		>
 			<div class="card-header p-2">
