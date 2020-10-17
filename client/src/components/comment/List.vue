@@ -11,9 +11,26 @@
 					class="row m-0 border-bottom border-secondary text-light"
 				>
 					<!-- Profile/Timestamp Bar -->
-					<div class="col-12 p-1 border-bottom border-secondary">
+					<div class="col-6 p-1 border-bottom border-secondary">
 						<span class="small text-secondary">{{ comment.createdAt }}</span>
 					</div>
+
+					<!-- Profile/Timestamp Bar -->
+					<div class="col-6 p-1 border-bottom border-secondary text-right">
+						<button
+							@click="toggleOpenRepliedTo(comment._id)"
+							class="btn btn-sm dropdown-toggle"
+							:class="{
+								'btn-outline-secondary': openedRepliedTo != comment._id,
+								'btn-secondary': openedRepliedTo == comment._id,
+							}"
+						>replying to comment</button>
+					</div>
+
+					<div
+						v-show="openedRepliedTo == comment._id"
+						class="col-12 p-1 border-bottom border-secondary"
+					>comment:</div>
 
 					<!-- Profile Section -->
 					<div class="col-lg-2 col-md-2 col-sm-2 col-12 px-0 py-3 border-secondary">
@@ -38,10 +55,10 @@
 					</div>
 
 					<!-- Comment Section -->
-					<div class="col-lg-10 col-md-10 col-sm-10 col-12 px-2 pt-3">
+					<div class="comment col-lg-10 col-md-10 col-sm-10 col-12 px-2 pt-3">
 						<p
 							v-html="comment.text"
-							class="m-0 multiline comment-list"
+							class="m-0 multiline"
 						></p>
 					</div>
 				
@@ -80,7 +97,7 @@
 								<button
 									@click="redirectToEdit(comment._id)"
 									class="btn btn-sm btn-outline-secondary text-secondary"
-								>Quote</button>
+								>Reply</button>
 							</div>
 
 							<!-- Right -->
@@ -151,6 +168,7 @@
 				decoded: {},
 				adminLoggedIn: false,
 				disabled: false,
+				openedRepliedTo: null,
 				error: '',
 			}
 		},
@@ -212,6 +230,12 @@
 				this.$emit('refreshComments') 
 			},
 
+			/******************* [BTN] openRepliedTo *******************/
+			toggleOpenRepliedTo(comment_id) {
+				if (this.openedRepliedTo == comment_id) { this.openedRepliedTo = null }
+				else { this.openedRepliedTo = comment_id }
+			},
+
 			/******************* [REPORT] *******************/
 			report(type, comment_id) {
 				CommentService.s_report(this.post_id, comment_id, type)
@@ -260,5 +284,18 @@
 	.pro-img {
 		min-height: 100%;
 		min-width: 100%;
+	}
+
+	// Comment List Image Fix //
+	.comment img { max-width: 100%; }
+
+	// Distinct blockquotes //
+	.comment blockquote {
+		margin: 0;
+		padding: 0px 10px;
+		background-color: rgba(0, 0, 0, 0.171);
+		border-color: #535353;
+		border-style: solid;
+		border-width: 1px;
 	}
 </style>

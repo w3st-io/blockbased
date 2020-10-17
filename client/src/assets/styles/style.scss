@@ -1,7 +1,6 @@
 // [IMPORT] Personal //
 @import './sass-variables.scss';
 
-
 body {
 	opacity: 1;
 	background: #a8a8a8;
@@ -19,6 +18,15 @@ body {
 	;
 }
 
-
 // Comment List Image Fix //
-.comment-list img { max-width: 100%; }
+.comment img { max-width: 100%; }
+
+// Distinct blockquotes //
+.comment blockquote {
+	margin: 0;
+	background-color: rgba(0, 0, 0, 0.171);
+	border-color: #535353;
+	border-style: solid;
+	border-width: 1px;
+	padding: 0px 10px;
+}

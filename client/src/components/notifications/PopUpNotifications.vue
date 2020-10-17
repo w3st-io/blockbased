@@ -3,9 +3,19 @@
 		<!-- Show Button -->
 		<button
 			@click="userShowClicked()"
-			class="ml-auto p-0 btn btn-primary rounded-circle h3 shadow"
-			style="width: 48px; height: 48px; font-family: roboto;"
-		>{{ !userShow ? '+' : '-' }}</button>
+			class="ml-auto p-0 btn btn-primary btn-lg rounded-circle shadow"
+			style="width: 50px; height: 50px; font-family: monospace;"
+		>
+			<span v-if="!show" class="" style="font-size: 2em;">
+				{{ !userShow ? '+' : '-' }}
+			</span>
+			<span
+				v-if="show"
+				class="spinner-grow spinner-grow-sm"
+				role="status"
+				aria-hidden="true"
+			></span>
+		</button>
 		
 		<div
 			v-show="show || userShow"
@@ -41,7 +51,6 @@
 					{{ notification.comment.user.username }}
 					posted a
 					{{ notification.type }}
-					{{ notification.comment.text }}
 				</p>
 			</div>
 		</div>
@@ -93,7 +102,9 @@
 				EventBus.$emit('update-notification')
 			},
 
-			userShowClicked() { this.userShow = !this.userShow },
+			userShowClicked() {
+				this.userShow = !this.userShow
+			},
 		
 			log() {
 				console.log('%%% [COMPONENT] PopUpNotifications %%%')

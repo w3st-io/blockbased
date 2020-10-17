@@ -4,11 +4,11 @@
 		<article class="py-2 bg-dark bg-secondary border-bottom border-primary">
 			<b-container>
 				<nav class=" px-0 navbar navbar-expand-lg navbar-dark">
-					<a class="navbar-brand" href="/">
+					<router-link to="/" class="navbar-brand">
 						<mark class="h4 bg-primary border border-secondary text-light">
 							BlockBased.io
 						</mark>
-					</a>
+					</router-link>
 
 					<!-- Hidden Menu Button -->
 					<button class="navbar-toggler" @click="menuBtnClicked">
