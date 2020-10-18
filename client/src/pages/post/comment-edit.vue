@@ -22,6 +22,7 @@
 	// [IMPORT] Personal //
 	import CommentEdit from '@components/comment/Edit'
 	import CommentService from '@services/CommentService'
+	import PageService from '@services/PageService'
 	import router from '@router'
 
 	// [EXPORT] //
@@ -50,7 +51,7 @@
 			if (!localStorage.usertoken) { router.push({ name: 'login' }) }
 
 			// Get Comment Details //
-			await this.getCommentDetails()
+			await this.getPage()
 
 			// Set Loaded //
 			this.loading = false
@@ -60,8 +61,8 @@
 		},
 
 		methods: {
-			async getCommentDetails() {
-				try { this.data = await CommentService.s_read(this.comment_id) }
+			async getPage() {
+				try { this.data = await PageService.s_post_commentEdit(this.comment_id) }
 				catch (err) { this.error = err }
 
 				if (this.data.status) { this.comment = this.data.comment }

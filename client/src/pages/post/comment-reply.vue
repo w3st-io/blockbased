@@ -50,7 +50,7 @@
 			if (!localStorage.usertoken) { router.push({ name: 'login' }) }
 
 			// Get Comment Details //
-			await this.getCommentDetails()
+			await this.getPage()
 
 			// Set Loaded //
 			this.loading = false
@@ -60,7 +60,7 @@
 		},
 
 		methods: {
-			async getCommentDetails() {
+			async getPage() {
 				try { this.data = await CommentService.s_read(this.comment_id) }
 				catch (err) { this.error = err }
 
