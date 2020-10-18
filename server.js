@@ -14,10 +14,7 @@ const socketIO = require('socket.io')
 require('dotenv').config()
 
 
-// [REQUIRE] Personal - OTHER / API / Pages / Socket //
-const config = require('./s-config')
-const rateLimiter = require('./s-rate-limiters')
-
+// [REQUIRE] Personal - Routes: API / Routes: Pages / Other //
 const a_ = require('./s-routes/api')
 const a_admininstrationPosts = require('./s-routes/api/administration/posts')
 const a_admininstrationComments = require('./s-routes/api/administration/comments')
@@ -34,12 +31,15 @@ const p_admin = require('./s-routes/pages/admin')
 const p_cat = require('./s-routes/pages/cat')
 const p_post = require('./s-routes/pages/post')
 const p_post_commentEdit = require('./s-routes/pages/post/comment-edit')
+const p_post_commentReply = require('./s-routes/pages/post/comment-reply')
 const p_postFollowed = require('./s-routes/pages/user/followed')
 const p_postNotifications = require('./s-routes/pages/user/notifications')
 const p_profile = require('./s-routes/pages/user/profile')
 const p_profile_view = require('./s-routes/pages/user/profile/view')
 
 const s_socket = require('./s-socket')
+const config = require('./s-config')
+const rateLimiter = require('./s-rate-limiters')
 
 
 // [EXPRESS + SERVER] //
@@ -90,6 +90,7 @@ app.use('/pages/admin', p_admin)
 app.use('/pages/cat', p_cat)
 app.use('/pages/post', p_post)
 app.use('/pages/post/comment-edit', p_post_commentEdit)
+app.use('/pages/post/comment-reply', p_post_commentReply)
 app.use('/pages/user/followed', p_postFollowed)
 app.use('/pages/user/notifications', p_postNotifications)
 app.use('/pages/user/profile', p_profile)

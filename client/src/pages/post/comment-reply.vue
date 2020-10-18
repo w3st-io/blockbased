@@ -22,6 +22,7 @@
 	// [IMPORT] Personal //
 	import CommentCreate from '@components/comment/Create'
 	import CommentService from '@services/CommentService'
+	import PageService from '../../services/PageService'
 	import router from '@router'
 
 	// [EXPORT] //
@@ -61,7 +62,9 @@
 
 		methods: {
 			async getPage() {
-				try { this.data = await CommentService.s_read(this.comment_id) }
+				try {
+					this.data = await PageService.s_post_commentReply(this.comment_id)
+				}
 				catch (err) { this.error = err }
 
 				if (this.data.status) { this.comment = this.data.comment }
