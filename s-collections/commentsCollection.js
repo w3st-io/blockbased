@@ -171,6 +171,13 @@ const c_readAll = async (post_id, limit, skip) => {
 			.skip(parseInt(skip))
 			.limit(parseInt(limit))
 			.populate({ path: 'user', select: 'username email profileImg', })
+			.populate({
+				path: 'replyToComment',
+				populate: {
+					path: 'user',
+					select: 'username',
+				}
+			})
 			.exec()
 
 		return {

@@ -8,29 +8,41 @@
 				<li
 					v-for="comment in comments"
 					:key="comment._id"
-					class="row m-0 border-bottom border-secondary text-light"
+					class="comment row m-0 border-bottom border-secondary text-light"
 				>
 					<!-- Profile/Timestamp Bar -->
 					<div class="col-6 p-1 border-bottom border-secondary">
 						<span class="small text-secondary">{{ comment.createdAt }}</span>
 					</div>
 
-					<!-- Profile/Timestamp Bar -->
 					<div class="col-6 p-1 border-bottom border-secondary text-right">
+						<!-- Reply to Comment Btn -->
 						<button
+							v-if="comment.replyToComment != null"
 							@click="toggleOpenRepliedTo(comment._id)"
 							class="btn btn-sm dropdown-toggle"
 							:class="{
 								'btn-outline-secondary': openedRepliedTo != comment._id,
-								'btn-secondary': openedRepliedTo == comment._id,
+								'btn-outline-primary': openedRepliedTo == comment._id,
 							}"
-						>replying to comment</button>
+						>Reply to Comment</button>
 					</div>
 
 					<div
+						v-if="comment.replyToComment != null"
 						v-show="openedRepliedTo == comment._id"
 						class="col-12 p-1 border-bottom border-secondary"
-					>Comment: {{ comment.replyToComment }}</div>
+					>
+						<p class="small text-secondary">
+							{{ comment.replyToComment.user.username }} -
+							{{ comment.replyToComment.createdAt }}
+							:
+						</p>
+						<p
+							v-html="comment.replyToComment.text"
+							class="m-0 multiline small"
+						></p>
+					</div>
 
 					<!-- Profile Section -->
 					<div class="col-lg-2 col-md-2 col-sm-2 col-12 px-0 py-3 border-secondary">
@@ -55,7 +67,7 @@
 					</div>
 
 					<!-- Comment Section -->
-					<div class="comment col-lg-10 col-md-10 col-sm-10 col-12 px-2 pt-3">
+					<div class="col-lg-10 col-md-10 col-sm-10 col-12 px-2 pt-3">
 						<p
 							v-html="comment.text"
 							class="m-0 multiline"
@@ -308,4 +320,7 @@
 		border-style: solid;
 		border-width: 1px;
 	}
+
+	// Distinct p //
+	.comment p { margin: 0; }
 </style>
