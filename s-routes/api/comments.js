@@ -39,7 +39,8 @@ router.post(
 			// [VALIDATE] //
 			if (
 				validator.isAscii(req.body.post_id) &&
-				req.body.text
+				req.body.text &&
+				(req.body.replyToComment || req.body.replyToComment === null)
 			) {
 				const postExistance = await postsCollection.c_existance(req.body.post_id)
 
@@ -47,7 +48,8 @@ router.post(
 					const comment = await commentsCollection.c_create(
 						req.decoded.user_id,
 						req.body.post_id,
-						req.body.text
+						req.body.text,
+						req.body.replyToComment,
 					)
 
 					if (comment.status) {

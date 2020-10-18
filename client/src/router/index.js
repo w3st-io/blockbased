@@ -25,6 +25,7 @@ import PostCreate from '@pages/cat/post-create'
 import Post from '@pages/post'
 import CommentCreate from '@pages/post/comment-create'
 import CommentEdit from '@pages/post/comment-edit'
+import CommentReply from '@pages/post/comment-reply'
 
 // [USER]
 import AccountCreated from '@pages/user/account-created'
@@ -148,6 +149,16 @@ const router = new Router ({
 				title: 'Edit Comment'
 			}
 		},
+		{
+			path: '/post/comment-reply/:comment_id',
+			name: 'comment-reply',
+			component: CommentReply,
+			meta: {
+				auth: true,
+				title: 'Reply to Comment'
+			}
+		},
+
 		// [USER] //
 		{
 			path: '/user/account-created',

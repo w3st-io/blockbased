@@ -18,6 +18,12 @@ const commentSchema = mongoose.Schema({
 		required: true,
 	},
 
+	replyToComment: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Comment',
+		required: false,
+	},
+
 	text: {
 		type: String,
 		required: true,

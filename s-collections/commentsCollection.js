@@ -13,7 +13,7 @@ const CommentModel = require('../s-models/CommentModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (user_id, post_id, text) => {
+const c_create = async (user_id, post_id, text, replyToComment) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -42,6 +42,15 @@ const c_create = async (user_id, post_id, text) => {
 			}
 		}
 
+		// replyToComment //
+		if (!mongoose.isValidObjectId(replyToComment) && replyToComment !== null) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid replyToComment',
+			}
+		}
+
 		// Text Length //
 		if (text.length >= 6000) {
 			return {
@@ -56,6 +65,7 @@ const c_create = async (user_id, post_id, text) => {
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
 			post: post_id,
+			replyToComment,
 			text,
 		}).save()
 		

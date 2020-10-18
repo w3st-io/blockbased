@@ -68,13 +68,18 @@
 
 		data: function() {
 			return {
-				username: '',
 				disabled: false,
+				username: '',
+				createdAt: '',
 				error: '',
 			}
 		},
 
 		created: async function() {
+			if (this.post) {
+				this.username = this.post.user.username
+				this.createdAt = this.post.createdAt
+			}
 			// [LOG] //
 			//this.log()
 		},

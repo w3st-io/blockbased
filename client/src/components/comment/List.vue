@@ -30,7 +30,7 @@
 					<div
 						v-show="openedRepliedTo == comment._id"
 						class="col-12 p-1 border-bottom border-secondary"
-					>comment:</div>
+					>Comment: {{ comment.replyToComment }}</div>
 
 					<!-- Profile Section -->
 					<div class="col-lg-2 col-md-2 col-sm-2 col-12 px-0 py-3 border-secondary">
@@ -90,12 +90,12 @@
 									class="py-0 btn btn-sm text-secondary"
 								>Edit</button>
 							</div>
-
+							
 							<!-- Middle -->
 							<div class="col-4 text-center">
-								<!-- 	Quote -->
+								<!-- Reply -->
 								<button
-									@click="redirectToEdit(comment._id)"
+									@click="redirectToReply(comment._id)"
 									class="btn btn-sm btn-outline-secondary text-secondary"
 								>Reply</button>
 							</div>
@@ -247,7 +247,17 @@
 					// [REDIRECT] //
 					router.push({
 						name: 'comment-edit',
-						params: { comment_id: comment_id, }
+						params: { comment_id, }
+					})
+				}
+			},
+
+			redirectToReply(comment_id) {
+				if (!this.disabled) {
+					// [REDIRECT] //
+					router.push({
+						name: 'comment-reply',
+						params: { comment_id, }
 					})
 				}
 			},

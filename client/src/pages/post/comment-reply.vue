@@ -2,13 +2,13 @@
 	<section class="container">
 		<div class="my-3 card card-body bg-dark">
 			<h3 class="mb-3 text-light">
-				Edit Comment "{{ comment_id }}"
+				Reply to Comment "{{ comment_id }}"
 			</h3>
 
 			<!-- Comment Edit Component -->
-			<CommentEdit
+			<CommentCreate
 				v-if="!loading && comment != {}"
-				:comment="comment"
+				:post_id="comment.post"
 				@submit="submit"
 			/>
 		</div>
@@ -20,14 +20,14 @@
 
 <script>
 	// [IMPORT] Personal //
-	import CommentEdit from '@components/comment/Edit'
+	import CommentCreate from '@components/comment/Create'
 	import CommentService from '@services/CommentService'
 	import router from '@router'
 
 	// [EXPORT] //
 	export default {
 		components: {
-			CommentEdit
+			CommentCreate
 		},
 
 		data: function() {
@@ -71,12 +71,13 @@
 			async submit(editorText) {
 				if (localStorage.usertoken) {
 					try {
-						const comment = await CommentService.s_update(
-							this.comment_id,
-							editorText
+						const comment = await CommentService.s_create(
+							this.comment.post,
+							editorText,
+							this.comment._id,
 						)
 
-						if (comment.updated) {
+						if (comment.status) {
 							// [REDIRECT] Post Page //
 							router.push({
 								name: 'post',
@@ -91,7 +92,7 @@
 			},
 
 			log() {
-				console.log('%%% [PAGE] CommentEdit %%%')
+				console.log('%%% [PAGE] CommentReply %%%')
 				console.log('comment:', this.comment)
 				console.log('comment_id:', this.comment_id)
 			},
