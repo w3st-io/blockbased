@@ -22,7 +22,7 @@
 		<div
 			v-show="showPopper && notifications.length > 0"
 			v-click-outside="outsideClicked"
-			class="position-absolute mt-1 p-1 bg-dark shadow rounded z-index-menu"
+			class="position-absolute mt-1 p-1 border border-light bg-dark rounded shadow z-index-menu"
 			style="width: 100%; max-width: 300px;"
 		>
 			<a
@@ -32,15 +32,18 @@
 					clicked(notification._id, notification.comment.post._id)
 					showPopper = !showPopper
 				"
-				class="dropdown-item bg-primary text-light"
+				class="dropdown-item text-light"
 			>
-				<h6 class="text-light">{{ notification.comment.post.title }}</h6>
+				<h6>{{ notification.comment.post.title }}</h6>
 				<p class="m-0">
 					{{ notification.comment.user.username }} made a {{ notification.type }}
 				</p>
-				<p class="m-0">{{ notification.comment.text }}</p>
-				
 			</a>
+
+			<!-- See All Notifications Page -->
+			<div class="w-100 text-center text-light">
+				<a href="" @click="redirectNotifications()">See All Notifications</a>
+			</div>
 		</div>
 	</span>
 </template>
@@ -103,6 +106,13 @@
 			},
 
 			outsideClicked() { this.showPopper = false },
+
+			redirectNotifications() {
+				// [REDIRECT] //
+				router.push({
+					name: 'notifications',
+				})
+			},
 
 			log() {
 				console.log('%%% [COMPONENT] NotificationMenu %%%')

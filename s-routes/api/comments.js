@@ -445,6 +445,9 @@ router.post(
 				validator.isAscii(req.body.post_id) &&
 				validator.isAscii(req.body.reportType)
 			) {
+				// [FORMAT] //
+				req.body.reportType = req.body.reportType.toLowerCase()
+
 				const returned = await commentReportsCollection.c_create(
 					req.decoded.user_id,
 					req.params.comment_id,

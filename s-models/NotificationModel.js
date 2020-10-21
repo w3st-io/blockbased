@@ -2,38 +2,40 @@
 const mongoose = require('mongoose')
 
 
-// [SCHEMA MODEL] //
-const notificationSchema = mongoose.Schema({
-	_id: mongoose.Schema.Types.ObjectId,
+// [EXPORT] //
+module.exports = mongoose.model(
+	'Notification',
+	mongoose.Schema({
+		_id: mongoose.Schema.Types.ObjectId,
+		
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: true,
+		},
+		
+		type: {
+			type: String,
+			required: true,
+			enum: ['comment', 'reply'],
+			maxlength: 15,
+		},
+
+		comment: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Comment',
+			required: true,
+		},
 	
-	user: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
-		required: true,
-	},
+		read: {
+			type: Boolean,
+			default: false,
+		},
 	
-	comment: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Comment',
-		required: true,
-	},
-
-	type: {
-		type: String,
-	},
-
-	read: {
-		type: Boolean,
-		default: false,
-	},
-
-	createdAt: {
-		type: Date,
-		default: Date.now,
-		maxlength: 50
-	},
-})
-
-
-// [EXPORTS] //
-module.exports = mongoose.model('Notification', notificationSchema)
+		createdAt: {
+			type: Date,
+			default: Date.now,
+			maxlength: 50
+		},
+	})
+)

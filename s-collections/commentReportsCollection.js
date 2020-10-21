@@ -52,6 +52,9 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 			}
 		}
 
+		// [FORMAT] //
+		reportType = reportType.toLowerCase()
+
 		// [EXISTANCE] //
 		const existance = await c_existance(user_id, comment_id)
 		

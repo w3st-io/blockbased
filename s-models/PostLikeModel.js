@@ -2,29 +2,28 @@
 const mongoose = require('mongoose')
 
 
-// [SCHEMA MODEL] //
-const postLikeSchema = mongoose.Schema({
-	_id: mongoose.Schema.Types.ObjectId,
-	
-	user: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
-		required: true,
-	},
-	
-	post: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Post',
-		required: true,
-	},
+// [EXPORT] //
+module.exports = mongoose.model(
+	'PostLike',
+	mongoose.Schema({
+		_id: mongoose.Schema.Types.ObjectId,
 
-	createdAt: {
-		type: Date,
-		default: Date.now,
-		maxlength: 50
-	},
-})
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: true,
+		},
+		
+		post: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'Post',
+			required: true,
+		},
 
-
-// [EXPORTS] //
-module.exports = mongoose.model('PostLike', postLikeSchema)
+		createdAt: {
+			type: Date,
+			default: Date.now,
+			maxlength: 50
+		},
+	})
+)

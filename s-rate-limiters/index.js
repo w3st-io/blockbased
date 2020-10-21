@@ -95,7 +95,7 @@ const reportLimiter = rateLimit({
 })
 
 
-// [EXPORTS] //
+// [EXPORT] //
 module.exports = {
 	limiter,
 	postLimiter,

@@ -4,20 +4,19 @@ const mongoose = require('mongoose')
 
 // [EXPORT] //
 module.exports = mongoose.model(
-	'PreeditedComment',
+	'Activity',
 	mongoose.Schema({
 		_id: mongoose.Schema.Types.ObjectId,
-
-		user: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
+		
+		type: {
+			type: String,
 			required: true,
+			enum: ['account', 'comment', 'post', 'reply',],
 		},
 
 		post: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Post',
-			required: true,
 		},
 
 		comment: {
@@ -26,20 +25,9 @@ module.exports = mongoose.model(
 			required: true,
 		},
 
-		text: {
-			type: String,
-			required: true,
-			maxlength: 6000,
-		},
-
-		likeCount: {
-			type: Number,
-			default: 0
-		},
-		
-		liked: {
-			type: Boolean,
-			default: null
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
 		},
 
 		createdAt: {
