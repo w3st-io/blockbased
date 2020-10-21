@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%% *
- * %%% COMMENT ROUTES %%% *
- * %%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%
+ * %%% COMMENT ROUTES %%%
+ * %%%%%%%%%%%%%%%%%%%%%%
  * this MUST have nested if's due to error if none
 */
 // [REQUIRE] //
@@ -13,6 +13,7 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const rateLimiter = require('../../s-rate-limiters')
+const activitiesCollection = require('../../s-collections/activitiesCollection')
 const postsCollection = require('../../s-collections/postsCollection')
 const commentsCollection = require('../../s-collections/commentsCollection')
 const commentLikesCollection = require('../../s-collections/commentLikesCollection')
@@ -85,6 +86,14 @@ router.post(
 								}
 							}
 						}
+
+						// [CREATE] Activity //
+						activitiesCollection.c_create(
+							'comment',
+							undefined,
+							undefined,
+							comment.comment._id
+						)
 
 						/* Send the comment count to know what the last page is */
 						res.status(200).send({

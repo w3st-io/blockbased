@@ -2,7 +2,7 @@
 	<section class="container">
 		<div class="my-3 card card-body bg-dark">
 			<h3 class="mb-3 text-light">
-				Reply to Comment "{{ comment_id }}"
+				In Reply to Comment "{{ comment_id }}"
 			</h3>
 
 			<!-- Comment Edit Component -->

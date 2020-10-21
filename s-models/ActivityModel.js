@@ -11,7 +11,12 @@ module.exports = mongoose.model(
 		type: {
 			type: String,
 			required: true,
-			enum: ['account', 'comment', 'post', 'reply',],
+			enum: ['user', 'comment', 'post', 'reply'],
+		},
+
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
 		},
 
 		post: {
@@ -22,12 +27,6 @@ module.exports = mongoose.model(
 		comment: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Comment',
-			required: true,
-		},
-
-		user: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
 		},
 
 		createdAt: {

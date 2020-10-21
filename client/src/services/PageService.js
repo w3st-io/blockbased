@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%% *
- * %%% BLOCK SERVICES %%% *
- * %%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%
+ * %%% BLOCK SERVICES %%%
+ * %%%%%%%%%%%%%%%%%%%%%%
 */
 // [IMPORT] //
 import axios from 'axios'
@@ -99,6 +99,12 @@ async function s_post(post_id, limit, page) {
 
 			data.commentsObj.comments.forEach(comment => {
 				comment.createdAt = new Date(comment.createdAt).toLocaleString()
+
+				if (comment.replyToComment != null) {
+					comment.replyToComment.createdAt = new Date(
+						comment.replyToComment.createdAt
+					).toLocaleString()
+				}
 			})
 		}
 		
@@ -120,8 +126,11 @@ async function s_post_commentEdit(comment_id) {
 
 		try {
 			let { data } = await authAxios.get(`/post/comment-edit/${comment_id}`)
+			
 			if (data.status) {
-				data.comment.createdAt = new Date(data.comment.createdAt).toLocaleString()
+				data.comment.createdAt = new Date(
+					data.comment.createdAt
+				).toLocaleString()
 			}
 	
 			return data
@@ -150,8 +159,11 @@ async function s_post_commentReply(comment_id) {
 
 		try {
 			let { data } = await authAxios.get(`/post/comment-reply/${comment_id}`)
+			
 			if (data.status) {
-				data.comment.createdAt = new Date(data.comment.createdAt).toLocaleString()
+				data.comment.createdAt = new Date(
+					data.comment.createdAt
+				).toLocaleString()
 			}
 	
 			return data

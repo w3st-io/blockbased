@@ -1,8 +1,8 @@
 const e = require('express')
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% AUTHORIZATION MIDDLEWARE %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%% AUTHORIZATION MIDDLEWARE %%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 */
 // [REQUIRE] //
 const jwt = require('jsonwebtoken')

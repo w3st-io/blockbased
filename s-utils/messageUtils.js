@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%% *
- * %%% MESSAGES UTILS %%% *
- * %%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%
+ * %%% MESSAGES UTILS %%%
+ * %%%%%%%%%%%%%%%%%%%%%%
 */
 // [F] Format Message //
 const formatMessage = (user_idFrom, user_idTo, text) => {

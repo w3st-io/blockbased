@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% FOLLOWS COLLECTION %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%% FOLLOWS COLLECTION %%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')

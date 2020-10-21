@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% VERIFICATION CODES COLLECTION %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%% VERIFICATION CODES COLLECTION %%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')

@@ -16,7 +16,7 @@
 					</div>
 
 					<div class="col-6 p-1 border-bottom border-secondary text-right">
-						<!-- Reply to Comment Btn -->
+						<!-- In Reply to Comment Btn -->
 						<button
 							v-if="comment.replyToComment != null"
 							@click="toggleOpenRepliedTo(comment._id)"
@@ -25,7 +25,7 @@
 								'btn-outline-secondary': openedRepliedTo != comment._id,
 								'btn-outline-primary': openedRepliedTo == comment._id,
 							}"
-						>Reply to Comment</button>
+						>In Reply to Comment</button>
 					</div>
 
 					<div

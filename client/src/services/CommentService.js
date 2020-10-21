@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% COMMENT SERVICES %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%
+ * %%% COMMENT SERVICES %%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%
 */
 // [IMPORT] //
 import axios from 'axios'
@@ -36,6 +36,12 @@ async function s_readAll(post_id, limit, page) {
 		if (data.status) {
 			data.comments.forEach(comment => {
 				comment.createdAt = new Date(comment.createdAt).toLocaleString()
+				
+				if (comment.replyToComment != null) {
+					comment.replyToComment.createdAt = new Date(
+						comment.replyToComment.createdAt
+					).toLocaleString()
+				}
 			})
 		}
 

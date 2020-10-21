@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% COMMENTS COLLECTION %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%% COMMENTS COLLECTION %%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')

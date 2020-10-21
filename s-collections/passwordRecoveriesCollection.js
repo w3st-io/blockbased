@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
- * %%% PASSWORD RECOVERIES COLLECTION %%% *
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%% PASSWORD RECOVERIES COLLECTION %%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')

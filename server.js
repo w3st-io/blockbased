@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%% *
- * %%% SERVER %%% *
- * %%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%
+ * %%% SERVER %%%
+ * %%%%%%%%%%%%%%
 */
 // [REQUIRE] //
 const bodyParser = require('body-parser')

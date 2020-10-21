@@ -14,7 +14,7 @@ module.exports = mongoose.model(
 			enum: ['innapropiate', 'offensive', 'scam', 'bot', 'other'],
 			maxlength: 24,
 		},
-
+		
 		post: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Post',
@@ -26,7 +26,7 @@ module.exports = mongoose.model(
 			ref: 'Comment',
 			required: true,
 		},
-
+		
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',

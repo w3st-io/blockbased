@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%% *
- * %%% VEE RULES %%% *
- * %%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%
+ * %%% VEE RULES %%%
+ * %%%%%%%%%%%%%%%%%
  * This contains rules for vee-validatation
  * which lets you make forms be verfied for
  * validity before being summited. 

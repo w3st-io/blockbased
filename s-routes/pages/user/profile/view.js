@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%% *
- * %%% USER ROUTES %%% *
- * %%%%%%%%%%%%%%%%%%% *
+ * %%%%%%%%%%%%%%%%%%%
+ * %%% USER ROUTES %%%
+ * %%%%%%%%%%%%%%%%%%%
 */
 // [REQUIRE] //
 const cors = require('cors')
@@ -28,7 +28,7 @@ router.get(
 				const userObj = await usersCollection.c_read(req.params.user_id)
 				
 				// Remove things that should not be shown //
-				userObj.user.password = null
+				userObj.user.password = undefined
 
 				res.status(200).send(userObj)
 			}
