@@ -5,6 +5,7 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const { stringify } = require('uuid')
 
 
 // [REQUIRE] Personal //
@@ -57,6 +58,15 @@ const c_create = async (user_id, post_id, text, replyToComment) => {
 				executed: true,
 				status: false,
 				message: 'Comment too long',
+			}
+		}
+
+		// Text XSS //
+		if (text.includes('<script') || text.includes('</script>')) {
+			return {
+				executed: true,
+				status: false,
+				message: 'XSS not aloud',
 			}
 		}
 
