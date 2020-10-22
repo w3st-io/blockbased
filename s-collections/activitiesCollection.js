@@ -76,7 +76,42 @@ const c_create = async (type, user_id, post_id, comment_id) => {
 }
 
 
+// [CREATE] //
+const c_deleteCommentActivity = async (comment_id) => {
+	console.log('sdfsdfsdfS');
+	try {
+		// [VALIDATE] comment_id //
+		if (!mongoose.isValidObjectId(comment_id)) {
+			console.log('s', comment_id)
+
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid comment_id',
+			}
+		}
+
+		console.log('ss', comment_id)
+		const activity = await ActivityModel.deleteMany({ comment: comment_id })
+
+		return {
+			executed: true,
+			status: true,
+			activity: activity,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `activitiesCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_create,
+	c_deleteCommentActivity
 }

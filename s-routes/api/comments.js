@@ -340,11 +340,16 @@ router.delete(
 					const notifications = await notificationsCollection.c_deleteAll(
 						req.params.comment_id
 					)
+					
+					// [DELETE] Activity //
+					const activity = await activitiesCollection.c_deleteCommentActivity(
+						req.params.comment_id
+					)
 
 					res.status(200).send({
 						executed: true,
 						status: true,
-						deleted: [comment, commentLikes, notifications],
+						deleted: [comment, commentLikes, notifications, activity],
 					})
 				}
 				else { res.status(200).send(comment) }

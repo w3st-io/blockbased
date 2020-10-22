@@ -10,6 +10,7 @@ const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
+const activitiesCollection = require('../../../s-collections/activitiesCollection')
 const commentsCollection = require('../../../s-collections/commentsCollection')
 const commentLikesCollection = require('../../../s-collections/commentLikesCollection')
 const notificationsCollection = require('../../../s-collections/notificationsCollection')
@@ -81,6 +82,11 @@ router.delete(
 
 					// [DELETE] Notifications //
 					const notifications = await notificationsCollection.c_deleteAll(
+						req.params.comment_id
+					)
+
+					// [DELETE] Activity //
+					const activity = await activitiesCollection.c_deleteCommentActivity(
 						req.params.comment_id
 					)
 	
