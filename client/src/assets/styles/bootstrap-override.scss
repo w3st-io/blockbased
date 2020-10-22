@@ -14,3 +14,7 @@ $theme-colors: (
 
 // CUSTOM //
 .bg-darkish { background-color: $darkish !important; }
+
+@media (min-width: 1600px) {
+	.container { max-width: 1560px; }
+}

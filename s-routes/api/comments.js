@@ -88,20 +88,24 @@ router.post(
 						}
 
 						// [CREATE] Activity //
-						activitiesCollection.c_create(
+						const activity = await activitiesCollection.c_create(
 							'comment',
 							undefined,
 							undefined,
 							comment.comment._id
 						)
 
-						/* Send the comment count to know what the last page is */
-						res.status(200).send({
-							executed: true,
-							status: true,
-							comment: comment,
-							commentCount: commentCount
-						})
+						if (activity.status) {
+							/* Send the comment count to know what the last page is */
+							res.status(200).send({
+								executed: true,
+								status: true,
+								comment: comment,
+								commentCount: commentCount,
+							})
+						}
+						else { res.status(200).send(activity) }
+
 					}
 					else { res.status(200).send(comment) }
 				}

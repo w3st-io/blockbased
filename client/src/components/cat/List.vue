@@ -9,7 +9,7 @@
 					col-md-2
 					col-sm-2
 					col-2
-					p-2
+					p-3
 					align-self-center
 				"
 			>
