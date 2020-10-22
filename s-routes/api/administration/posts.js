@@ -22,19 +22,19 @@ const router = express.Router().use(cors())
 
 /******************* [CRUD] *******************/
 // [READ-ALL-ALL] Auth Required //
-router.get(
-	'/read-all-all/:limit/:page',
+router.post(
+	'/read-all-all/:page',
 	Auth.adminToken(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
-				Number.isInteger(parseInt(req.params.limit)) &&
-				Number.isInteger(parseInt(req.params.page))
+				Number.isInteger(parseInt(req.params.page)) &&
+				Number.isInteger(parseInt(req.body.limit))
 			) {
 				// [INIT] //
-				const limit = parseInt(req.params.limit)
 				const pageIndex = parseInt(req.params.page) - 1
+				const limit = parseInt(req.body.limit)
 				const skip = pageIndex * limit
 
 

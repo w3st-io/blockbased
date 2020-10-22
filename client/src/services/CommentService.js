@@ -31,7 +31,7 @@ async function s_readAll(post_id, limit, page) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const { data } = await authAxios.get(`/read-all/${post_id}/${limit}/${page}`)
+		const { data } = await authAxios.post(`/read-all/${post_id}/${page}`, { limit })
 
 		return data
 	}

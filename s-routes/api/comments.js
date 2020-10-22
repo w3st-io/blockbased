@@ -131,20 +131,20 @@ router.post(
 
 
 // [READ-ALL] Within Post //
-router.get(
-	'/read-all/:post_id/:limit/:page',
+router.post(
+	'/read-all/:post_id/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
 				mongoose.isValidObjectId(req.params.post_id) &&
-				Number.isInteger(parseInt(req.params.limit)) &&
-				Number.isInteger(parseInt(req.params.page))
+				Number.isInteger(parseInt(req.params.page)) &&
+				Number.isInteger(parseInt(req.body.limit))
 			) {
 				// [INIT] //
-				const limit = parseInt(req.params.limit)
 				const pageIndex = parseInt(req.params.page) - 1
+				const limit = parseInt(req.body.limit)
 				const skip = pageIndex * limit
 
 				const postExistance = await postsCollection.c_existance(
