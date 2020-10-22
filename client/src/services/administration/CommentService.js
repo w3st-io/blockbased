@@ -24,11 +24,7 @@ async function authAxios() {
 async function s_readAllAll(limit, page) {
 	const authAxios = await this.authAxios()
 
-	try {
-		const { data } = await authAxios.post(`/read-all-all/${page}`, { limit })
-
-		return data
-	}
+	try { return (await authAxios.post(`/read-all-all/${page}`, { limit })).data }
 	catch (err) {
 		return {
 			executed: false,
@@ -42,11 +38,7 @@ async function s_readAllAll(limit, page) {
 async function s_delete(comment_id) {
 	const authAxios = await this.authAxios()
 
-	try {
-		const { data } = await authAxios.delete(`/delete/${comment_id}`)
-
-		return data
-	}
+	try { return (await authAxios.delete(`/delete/${comment_id}`)).data }
 	catch (err) {
 		return {
 			executed: false,

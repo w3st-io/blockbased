@@ -19,21 +19,29 @@ async function authAxios() {
 /******************* [CRUD] *******************/
 // [CREATE] Auth Required //
 async function s_create(post_id, text, replyToComment = null) {
-	const authAxios = await this.authAxios()
-	return (
-		await authAxios.post(`/create`, { post_id, text, replyToComment })
-	).data
+	try {
+		const authAxios = await this.authAxios()
+		
+		return (
+			await authAxios.post(`/create`, { post_id, text, replyToComment })
+		).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `CommentService: Error --> ${err}`
+		}
+	}
 }
 
 
 // [READ-ALL] //
 async function s_readAll(post_id, limit, page) {
-	const authAxios = await this.authAxios()
-
 	try {
-		const { data } = await authAxios.post(`/read-all/${post_id}/${page}`, { limit })
-
-		return data
+		const authAxios = await this.authAxios()
+		
+		return (await authAxios.post(`/read-all/${post_id}/${page}`, { limit })).data
 	}
 	catch (err) {
 		return {
@@ -47,12 +55,10 @@ async function s_readAll(post_id, limit, page) {
 
 // [READ] //
 async function s_read(comment_id) {
-	const authAxios = await this.authAxios()
-
 	try {
-		const { data } = await authAxios.get(`/read/${comment_id}`)
+		const authAxios = await this.authAxios()
 
-		return data
+		return (await authAxios.get(`/read/${comment_id}`)).data
 	}
 	catch (err) {
 		return {
@@ -66,12 +72,10 @@ async function s_read(comment_id) {
 
 // [UPDATE] Auth Required //
 async function s_update(comment_id, text) {
-	const authAxios = await this.authAxios()
-
 	try {
-		const { data } = await authAxios.post(`/update/${comment_id}`, { text })
+		const authAxios = await this.authAxios()
 
-		return data
+		return (await authAxios.post(`/update/${comment_id}`, { text })).data
 	}
 	catch (err) {
 		return {
@@ -85,12 +89,10 @@ async function s_update(comment_id, text) {
 
 // [DELETE] Auth Required //
 async function  s_delete(comment_id) {
-	const authAxios = await this.authAxios()	
-
 	try {
-		const { data } = await authAxios.delete(`/delete/${comment_id}`)
+		const authAxios = await this.authAxios()	
 
-		return data
+		return (await authAxios.delete(`/delete/${comment_id}`)).data
 	}
 	catch (err) {
 		return {
@@ -105,26 +107,53 @@ async function  s_delete(comment_id) {
 /******************* [LIKE-SYSTEM] *******************/
 // ADD/REMOVE LIKE //
 async function s_like(post_id, comment_id) {
-	const authAxios = await this.authAxios()
+	try {
+		const authAxios = await this.authAxios()
 
-	// Add the liker from the Post Object
-	return await authAxios.post(`/like/${comment_id}/${post_id}`)
+		// Add the liker from the Post Object
+		return await authAxios.post(`/like/${comment_id}/${post_id}`)
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `CommentService: Error --> ${err}`
+		}
+	}
 }
 
 
 async function  s_unlike(comment_id) {
-	const authAxios = await this.authAxios()
+	try {
+		const authAxios = await this.authAxios()
 
-	// Remove the liker from the Post Object
-	return await authAxios.post(`/unlike/${comment_id}`)
+		// Remove the liker from the Post Object
+		return await authAxios.post(`/unlike/${comment_id}`)
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `CommentService: Error --> ${err}`
+		}
+	}
 }
 
 
 /******************* [REPORT] *******************/
 async function s_report(post_id, comment_id, reportType) {
-	const authAxios = await this.authAxios()
+	try {
+		const authAxios = await this.authAxios()
 
-	return await authAxios.post(`/report/${comment_id}`, { post_id, reportType })
+		return await authAxios.post(`/report/${comment_id}`, { post_id, reportType })
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `CommentService: Error --> ${err}`
+		}
+	}
 }
 
 

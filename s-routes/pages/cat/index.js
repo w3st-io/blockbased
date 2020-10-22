@@ -22,7 +22,7 @@ const router = express.Router().use(cors())
 
 
 /******************* [CRUD] *******************/
-// [READ-ALL] Within Cat //
+// [READ-ALL] SORTED Within Cat //
 router.post(
 	'/:cat_id/:page',
 	Auth.userTokenNotRequired(),

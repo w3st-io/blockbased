@@ -281,7 +281,7 @@ router.delete(
 )
 
 /******************* [OTHER-CURD] *******************/
-// [READ-ALL] Within Cat //
+// [READ-ALL] SORTED Within Cat //
 router.post(
 	'/read-all-sort/:cat_id/:page',
 	Auth.userTokenNotRequired(),

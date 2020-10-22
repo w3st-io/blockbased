@@ -22,20 +22,19 @@ const Auth = require('../../../s-middleware/Auth')
 const router = express.Router().use(cors())
 
 
-// [READ-ALL] //
-router.get(
-	'/:post_id/:limit/:page',
+router.post(
+	'/:post_id/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
 				mongoose.isValidObjectId(req.params.post_id) &&
-				Number.isInteger(parseInt(req.params.limit)) &&
-				Number.isInteger(parseInt(req.params.page))
+				Number.isInteger(parseInt(req.params.page)) &&
+				Number.isInteger(parseInt(req.body.limit))
 			) {
-				const limit = parseInt(req.params.limit)
 				const pageIndex = parseInt(req.params.page) - 1
+				const limit = parseInt(req.body.limit)
 				const skip = pageIndex * limit
 
 				///// [POSTS] /////
@@ -108,7 +107,7 @@ router.get(
 
 					// [COUNT] Calculate Total Pages //
 					commentsObj.pageCount = Math.ceil(
-						commentsObj.commentsCount / req.params.limit
+						commentsObj.commentsCount / req.body.limit
 					)
 				}
 				

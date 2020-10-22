@@ -24,9 +24,7 @@ async function s_home() {
 	try {
 		const authAxios = await this.authAxios()
 
-		const { data } = await authAxios.get('/')
-
-		return data
+		(await authAxios.get('/')).data
 	}
 	catch (err) {
 		return {
@@ -43,9 +41,7 @@ async function s_admin() {
 	try {
 		const authAxios = await this.authAxios()
 
-		const { data } = await authAxios.get('/admin')
-
-		return data
+		return (await authAxios.get('/admin')).data
 	}
 	catch (err) {
 		return {
@@ -62,9 +58,7 @@ async function s_cat(cat_id, limit, page, sort) {
 	try {
 		const authAxios = await this.authAxios()
 
-		const { data } = await authAxios.post(`/cat/${cat_id}/${page}`, { limit, sort })
-
-		return data
+		return (await authAxios.post(`/cat/${cat_id}/${page}`, { limit, sort })).data
 	}
 	catch (err) {
 		return {
@@ -81,9 +75,7 @@ async function s_post(post_id, limit, page) {
 	try {
 		const authAxios = await this.authAxios()
 
-		const { data } = await authAxios.get(`/post/${post_id}/${limit}/${page}`)
-		
-		return data
+		return (await authAxios.post(`/post/${post_id}/${page}`, { limit })).data
 	}
 	catch (err) {
 		return {
@@ -99,18 +91,7 @@ async function s_post_commentEdit(comment_id) {
 	try {
 		const authAxios = await this.authAxios()
 
-		try {
-			const { data } = await authAxios.get(`/post/comment-edit/${comment_id}`)
-	
-			return data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `CommentService: Error --> ${err}`
-			}
-		}
+		return (await authAxios.get(`/post/comment-edit/${comment_id}`)).data
 	}
 	catch (err) {
 		return {
@@ -126,18 +107,7 @@ async function s_post_commentReply(comment_id) {
 	try {
 		const authAxios = await this.authAxios()
 
-		try {
-			const { data } = await authAxios.get(`/post/comment-reply/${comment_id}`)
-	
-			return data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `CommentService: Error --> ${err}`
-			}
-		}
+		return (await authAxios.get(`/post/comment-reply/${comment_id}`)).data
 	}
 	catch (err) {
 		return {
@@ -154,9 +124,7 @@ async function s_user_followed(limit, page) {
 	try {
 		const authAxios = await this.authAxios()
 
-		const { data } = await authAxios.get(`/user/followed/${limit}/${page}`)
-		
-		return data
+		return (await authAxios.get(`/user/followed/${limit}/${page}`)).data
 	}
 	catch (err) {
 		return {
@@ -172,9 +140,7 @@ async function s_user_notifications(limit, page) {
 	try {
 		const authAxios = await this.authAxios()
 
-		const { data } = await authAxios.get(`/user/notifications/${limit}/${page}`)
-		
-		return data
+		return (await authAxios.get(`/user/notifications/${limit}/${page}`)).data
 	}
 	catch (err) {
 		return {
@@ -190,9 +156,7 @@ async function s_user_profile() {
 	try {
 		const authAxios = await this.authAxios()
 	
-		const { data } = await authAxios.get('/user/profile')
-
-		return data
+		return (await authAxios.get('/user/profile')).data
 	}
 	catch (err) {
 		return {
@@ -208,9 +172,7 @@ async function s_user_profile_view(user_id) {
 	try {
 		const authAxios = await this.authAxios()
 	
-		const { data } = await authAxios.get(`/user/profile/view/${user_id}`)
-
-		return data
+		return (await authAxios.get(`/user/profile/view/${user_id}`)).data
 	}
 	catch (err) {
 		return {
