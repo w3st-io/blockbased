@@ -41,7 +41,7 @@
 					style="max-width: 500px;"
 				>{{ error }}</div>
 
-				<!-- [ALERT] -->
+				<!-- [SUCCESS] -->
 				<div
 					v-if="success"
 					class="mx-auto my-3 alert alert-success"

@@ -39,25 +39,26 @@
 			<NoContent v-if="!loading && posts == ''" class="mt-3" />
 
 			<!-- [LOADING] -->
-			<section v-show="loading" class="row">
+			<section v-show="loading" class="row mt-3">
 				<div class="col-12">
-					<div class="m-0 mt-3 alert alert-primary">
-						<div class="d-flex justify-content-center">
-							<div class="spinner-grow"></div>
-						</div>
-					</div>
+					<Alert />
 				</div>
 			</section>
 		</article>
 
 		<!-- [ALERTS] -->
-		<div v-show="error" class="mt-3 alert alert-danger">Cat Page: {{ error }}</div>
+		<section v-show="error" class="row mt-3">
+			<div class="col-12">
+				<Alert :BSColor="'danger'" :message="'Cat Page: ' + error" />
+			</div>
+		</section>
 	</section>
 </template>
 
 <script>
 	// [IMPORT] Personal //
 	import ButtonTabs from '@components/controls/ButtonTabs'
+	import Alert from '@components/misc/Alert'
 	import PostList from '@components/post/List'
 	import TitleHeader from '@components/cat/TitleHeader'
 	import NoContent from '@components/placeholders/NoContent'
@@ -68,6 +69,7 @@
 	// [EXPORT] //
 	export default {
 		components: {
+			Alert,
 			PostList,
 			ButtonTabs,
 			NoContent,

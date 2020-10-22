@@ -38,22 +38,16 @@
 			<NoContent v-if="!loading && posts == ''" class="mt-3" />
 
 			<!-- [LOADING] -->
-			<section v-show="loading" class="row">
+			<section v-show="loading" class="row mt-3">
 				<div class="col-12">
-					<div class="m-0 mt-3 alert alert-primary">
-						<div class="d-flex justify-content-center">
-							<div class="spinner-grow"></div>
-						</div>
-					</div>
+					<Alert />
 				</div>
 			</section>
 
 			<!-- [ERROR] -->
-			<section v-show="error" class="row">
+			<section v-show="error" class="row mt-3">
 				<div class="col-12">
-					<div class="m-0 mt-3 alert alert-primary">
-						{{ error }}
-					</div>
+					<Alert :BSColor="'danger'" :message="'Follow Page: ' + error" />
 				</div>
 			</section>
 		</article>
@@ -63,6 +57,7 @@
 <script>
 	// [IMPORT] //
 	import PageNavButtons from '@components/controls/PageNavButtons'
+	import Alert from '@components/misc/Alert'
 	import NoContent from '@components/placeholders/NoContent'
 	import PostList from '@components/post/List'
 	import pageService from '@services/PageService'
@@ -70,6 +65,7 @@
 
 	export default {
 		components: {
+			Alert,
 			PageNavButtons,
 			PostList,
 			NoContent

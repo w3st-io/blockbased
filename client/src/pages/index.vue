@@ -1,10 +1,7 @@
 <template>
 	<div class="container">
-		<div v-if="error" class="mt-4 row">
-			<!-- [ALERTS] -->
-			<div class="w-100 alert alert-danger">{{ error }}</div>
-		</div>
-		<div v-if="!loading" class="mt-4 row">
+		<!-- [CONTENT] -->
+		<div v-if="!loading" class="row mt-3">
 			<!-- Main Content -->
 			<section class="col-12 col-md-9 mb-3 p-0">
 				<div class="card card-body bg-dark">
@@ -24,18 +21,36 @@
 				></adsense>
 			</section>
 		</div>
+
+		<!-- [ALERTS] -->
+		<div v-if="error" class="row mt-3">
+			<div class="col-12">
+				<div class="alert alert-danger">{{ error }}</div>
+			</div>
+		</div>
+
+		<!-- [LOADING] -->
+		<section v-show="loading" class="row mt-3">
+			<div class="col-12">
+				<Alert />
+			</div>
+		</section>
+
+		
 	</div>
 </template>
 
 <script>
 	// [IMPORT] //
 	import CatList from '@components/cat/List'
+	import Alert from '../components/misc/Alert'
 	import PageService from '@services/PageService'
 	import { cats } from '@defaults/cats'
 
 	// [EXPORT] //
 	export default {
 		components: {
+			Alert,
 			CatList,
 		},
 

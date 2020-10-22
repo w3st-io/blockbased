@@ -31,13 +31,9 @@
 			<NoContent v-if="!loading && comments == ''" class="my-3" />
 			
 			<!-- [LOADING] -->
-			<section v-show="loading" class="row">
+			<section v-show="loading" class="row mt-3">
 				<div class="col-12">
-					<div class="my-3 alert alert-primary">
-						<div class="d-flex justify-content-center">
-							<div class="spinner-grow"></div>
-						</div>
-					</div>
+					<Alert />
 				</div>
 			</section>
 
@@ -62,6 +58,7 @@
 	// [IMPORT] Personal //
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import CommentList from '@components/comment/List'
+	import Alert from '@components/misc/Alert'
 	import TitleHeader from '@components/post/TitleHeader'
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
@@ -70,6 +67,7 @@
 	// [EXPORT] //
 	export default {
 		components: {
+			Alert,
 			CommentList,
 			TitleHeader,
 			NoContent,

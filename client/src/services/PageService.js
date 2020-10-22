@@ -24,7 +24,7 @@ async function s_home() {
 	try {
 		const authAxios = await this.authAxios()
 
-		(await authAxios.get('/')).data
+		return (await authAxios.get('/')).data
 	}
 	catch (err) {
 		return {
