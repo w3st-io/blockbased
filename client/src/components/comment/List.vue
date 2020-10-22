@@ -12,7 +12,9 @@
 				>
 					<!-- Profile/Timestamp Bar -->
 					<div class="col-6 p-1 border-bottom border-secondary">
-						<span class="small text-secondary">{{ comment.createdAt }}</span>
+						<span class="small text-secondary">
+							{{ new Date(comment.createdAt).toLocaleString() }}
+						</span>
 					</div>
 
 					<div class="col-6 p-1 border-bottom border-secondary text-right">
@@ -35,7 +37,9 @@
 					>
 						<p class="small text-secondary">
 							{{ comment.replyToComment.user.username }} -
-							{{ comment.replyToComment.createdAt }}
+							{{
+								new Date(comment.replyToComment.createdAt).toLocaleString()
+							}}
 							:
 						</p>
 						<p

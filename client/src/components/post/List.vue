@@ -31,7 +31,7 @@
 							<span v-if="post.user.username" class="text-light">
 								{{ post.user.username }}
 							</span>
-							- {{ post.createdAt }}
+							- {{ new Date(post.createdAt).toLocaleString() }}
 						</p>
 					</div>
 

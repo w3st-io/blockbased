@@ -13,7 +13,7 @@
 				<tr v-for="user in users" :key="user._id">
 					<td>{{ user.email }}</td>
 					<td>{{ user.username }}</td>
-					<td>{{ user.createdAt }}</td>
+					<td>{{ new Date(user.createdAt).toLocaleString() }}</td>
 					
 					<td class="text-center">
 						<button

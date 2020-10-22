@@ -62,15 +62,7 @@ async function s_cat(cat_id, limit, page, sort) {
 	try {
 		const authAxios = await this.authAxios()
 
-		let { data } = await authAxios.get(
-			`/cat/${cat_id}/${limit}/${page}/${sort}`
-		)
-
-		if (data.status) {
-			data.posts.forEach(post => {
-				post.createdAt = new Date(post.createdAt).toLocaleString()
-			})
-		}
+		const { data } = await authAxios.post(`/cat/${cat_id}/${page}`, { limit, sort })
 
 		return data
 	}
@@ -89,24 +81,7 @@ async function s_post(post_id, limit, page) {
 	try {
 		const authAxios = await this.authAxios()
 
-		let { data } = await authAxios.get(`/post/${post_id}/${limit}/${page}`)
-			
-		if (data.status) {
-			// Format Date //
-			data.postObj.post.createdAt = new Date(
-				data.postObj.post.createdAt
-			).toLocaleString()
-
-			data.commentsObj.comments.forEach(comment => {
-				comment.createdAt = new Date(comment.createdAt).toLocaleString()
-
-				if (comment.replyToComment != null) {
-					comment.replyToComment.createdAt = new Date(
-						comment.replyToComment.createdAt
-					).toLocaleString()
-				}
-			})
-		}
+		const { data } = await authAxios.get(`/post/${post_id}/${limit}/${page}`)
 		
 		return data
 	}
@@ -125,13 +100,7 @@ async function s_post_commentEdit(comment_id) {
 		const authAxios = await this.authAxios()
 
 		try {
-			let { data } = await authAxios.get(`/post/comment-edit/${comment_id}`)
-			
-			if (data.status) {
-				data.comment.createdAt = new Date(
-					data.comment.createdAt
-				).toLocaleString()
-			}
+			const { data } = await authAxios.get(`/post/comment-edit/${comment_id}`)
 	
 			return data
 		}
@@ -158,13 +127,7 @@ async function s_post_commentReply(comment_id) {
 		const authAxios = await this.authAxios()
 
 		try {
-			let { data } = await authAxios.get(`/post/comment-reply/${comment_id}`)
-			
-			if (data.status) {
-				data.comment.createdAt = new Date(
-					data.comment.createdAt
-				).toLocaleString()
-			}
+			const { data } = await authAxios.get(`/post/comment-reply/${comment_id}`)
 	
 			return data
 		}
@@ -191,12 +154,7 @@ async function s_user_followed(limit, page) {
 	try {
 		const authAxios = await this.authAxios()
 
-		let { data } = await authAxios.get(`/user/followed/${limit}/${page}`)
-			
-		if (data.status) {
-			// Format Date //
-			console.log('format here')
-		}
+		const { data } = await authAxios.get(`/user/followed/${limit}/${page}`)
 		
 		return data
 	}
@@ -214,7 +172,7 @@ async function s_user_notifications(limit, page) {
 	try {
 		const authAxios = await this.authAxios()
 
-		let { data } = await authAxios.get(`/user/notifications/${limit}/${page}`)
+		const { data } = await authAxios.get(`/user/notifications/${limit}/${page}`)
 		
 		return data
 	}

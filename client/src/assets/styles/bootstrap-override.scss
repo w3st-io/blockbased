@@ -12,9 +12,5 @@ $theme-colors: (
 @import 'bootstrap/scss/bootstrap.scss';
 
 
-// CUSTOM //
-.bg-darkish { background-color: $darkish !important; }
-
-@media (min-width: 1600px) {
-	.container { max-width: 1560px; }
-}
+// [CONTAINER] //
+@media (min-width: 1600px) { .container { max-width: 1500px; } }

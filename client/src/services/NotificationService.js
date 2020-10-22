@@ -20,11 +20,7 @@ async function s_readAllUnread() {
 	const authAxios = await this.authAxios()
 
 	try {
-		let { data } = await authAxios.get(`/read-all-unread`)
-
-		data.notifications.forEach(notification => {
-			notification.createdAt = new Date(notification.createdAt).toLocaleString()
-		})
+		const { data } = await authAxios.get(`/read-all-unread`)
 
 		return data.notifications
 	}

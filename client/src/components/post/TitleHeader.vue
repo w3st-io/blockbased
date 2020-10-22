@@ -6,7 +6,8 @@
 			<h3 class="mb-2 text-light">
 				{{ post.title }}
 				<span class="text-secondary hide-the-ugly" style="font-size: .5em;">
-					Posted by: {{ post.user.username }} - {{ post.createdAt }}
+					Posted by: {{ post.user.username }} -
+					{{ new Date(post.createdAt).toLocaleString() }}
 				</span>
 			</h3>
 

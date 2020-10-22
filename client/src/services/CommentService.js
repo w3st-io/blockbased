@@ -31,19 +31,7 @@ async function s_readAll(post_id, limit, page) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let { data } = await authAxios.get(`/read-all/${post_id}/${limit}/${page}`)
-		
-		if (data.status) {
-			data.comments.forEach(comment => {
-				comment.createdAt = new Date(comment.createdAt).toLocaleString()
-				
-				if (comment.replyToComment != null) {
-					comment.replyToComment.createdAt = new Date(
-						comment.replyToComment.createdAt
-					).toLocaleString()
-				}
-			})
-		}
+		const { data } = await authAxios.get(`/read-all/${post_id}/${limit}/${page}`)
 
 		return data
 	}
@@ -62,10 +50,7 @@ async function s_read(comment_id) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let { data } = await authAxios.get(`/read/${comment_id}`)
-		if (data.status) {
-			data.comment.createdAt = new Date(data.comment.createdAt).toLocaleString()
-		}
+		const { data } = await authAxios.get(`/read/${comment_id}`)
 
 		return data
 	}
@@ -125,6 +110,8 @@ async function s_like(post_id, comment_id) {
 	// Add the liker from the Post Object
 	return await authAxios.post(`/like/${comment_id}/${post_id}`)
 }
+
+
 async function  s_unlike(comment_id) {
 	const authAxios = await this.authAxios()
 
@@ -137,11 +124,7 @@ async function  s_unlike(comment_id) {
 async function s_report(post_id, comment_id, reportType) {
 	const authAxios = await this.authAxios()
 
-	const returned = await authAxios.post(`/report/${comment_id}`,
-		{ post_id, reportType }
-	)
-
-	return returned
+	return await authAxios.post(`/report/${comment_id}`, { post_id, reportType })
 }
 
 

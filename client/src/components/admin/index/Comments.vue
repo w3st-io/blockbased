@@ -17,7 +17,7 @@
 					<td>{{ comment.text }}</td>
 					<td>{{ comment.user.email }}</td>
 					<td>{{ comment.user.username }}</td>
-					<td>{{ comment.createdAt }}</td>
+					<td>{{ new Date(comment.createdAt).toLocaleString() }}</td>
 					<td class="text-center">
 						<button
 							@click="deleteComment(comment._id)"

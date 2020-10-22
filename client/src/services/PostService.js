@@ -36,43 +36,12 @@ async function s_create(cat_id, title, text) {
 }
 
 
-// [READ-ALL] Within Cat //
-async function s_readAll(cat_id, limit, page, sort) {
-	const authAxios = await this.authAxios()
-
-	try {
-		let { data } = await authAxios.get(
-			`/read-all/${cat_id}/${limit}/${page}/${sort}`
-		)
-
-		if (data.status) {
-			data.posts.forEach(post => {
-				post.createdAt = new Date(post.createdAt).toLocaleString()
-			})
-		}
-
-		return data
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			error: `PostService: Error --> ${err}`
-		}
-	}
-}
-
-
-// [READ] This for Single Post Details //
+// [READ] Single Post //
 async function s_read(post_id) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let { data } = await authAxios.get(`/read/${post_id}`)
-
-		if (data.status) {
-			data.post.createdAt = new Date(data.post.createdAt).toLocaleString()
-		}
+		const { data } = await authAxios.get(`/read/${post_id}`)
 
 		return data
 	}
@@ -81,6 +50,29 @@ async function s_read(post_id) {
 			executed: false,
 			status: false,
 			message: `PostService: Error --> ${err}`
+		}
+	}
+}
+
+
+/******************* [OTHER-CRUD] *******************/
+// [READ-ALL] Within Cat //
+async function s_readAllSort(cat_id, limit, page, sort) {
+	const authAxios = await this.authAxios()
+
+	try {
+		const { data } = await authAxios.post(
+			`/read-all-sort/${cat_id}/${page}`,
+			{ limit, sort }
+		)
+
+		return data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `PostService: Error --> ${err}`
 		}
 	}
 }
@@ -137,8 +129,8 @@ async function s_count(cat_id) {
 export default {
 	authAxios,
 	s_create,
-	s_readAll,
 	s_read,
+	s_readAllSort,
 	s_like,
 	s_unlike,
 	s_follow,

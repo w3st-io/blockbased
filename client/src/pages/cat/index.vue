@@ -13,12 +13,13 @@
 				@next-btn="nextPage()"
 			/>
 
-			<section class="row">
+			<!-- Tabs -->
+			<section class="row text-center">
 				<ButtonTabs
 					:tabs="['recent', 'popular']"
 					:initialTab="activeTab"
 					@tabClicked="tab"
-					class="w-100 mx-auto mb-2"
+					class="col-12 mx-auto mb-2"
 					style="max-width: 300px;"
 				/>
 			</section>
@@ -77,9 +78,9 @@
 			return {
 				cat_id: this.$route.params.cat_id,
 				pageNumber: parseInt(this.$route.params.page),
+				limit: 5,
 				sort: '',
 				activeTab: 0,
-				limit: 5,
 				loading: true,
 				data: {},
 				cat: {},

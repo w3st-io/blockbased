@@ -18,7 +18,7 @@
 					<td>{{ report.reportType }}</td>
 					<td>{{ report.comment.text }}</td>
 					<td>{{ report.user.username }}</td>
-					<td>{{ report.createdAt }}</td>
+					<td>{{ new Date(report.createdAt).toLocaleString() }}</td>
 					<td class="text-center">
 						<button
 							@click="deleteReport(report._id)"

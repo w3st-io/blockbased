@@ -79,18 +79,18 @@ router.post(
 
 
 // [READ-ALL] Within Cat //
-router.get(
-	'/read-all/:cat_id/:limit/:page',
+router.post(
+	'/read-all/:cat_id/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
 				validator.isAscii(req.params.cat_id) &&
-				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.body.limit)) &&
 				Number.isInteger(parseInt(req.params.page))
 			) {
-				const limit = parseInt(req.params.limit)
+				const limit = parseInt(req.body.limit)
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
 
@@ -102,6 +102,14 @@ router.get(
 				)
 
 				if (postsObj.status) {
+					// [COUNT] Posts //
+					postsObj.postCount = (
+						await postsCollection.c_countAll(req.params.cat_id)
+					).count
+
+					// [COUNT] Calculate Pages //
+					postsObj.pageCount = Math.ceil(postsCount.count / req.body.limit)
+
 					// For Each Post in Posts //
 					for (let i = 0; i < postsObj.posts.length; i++) {
 						// [COUNT] Likes //
@@ -119,6 +127,25 @@ router.get(
 						postsObj.posts[i].commentCount = (
 							await commentsCollection.c_countAll(postsObj.posts[i]._id)
 						).count
+
+						// [USER-LOGGED] //
+						if (req.decoded) {
+							// [LIKED-STATUS] //
+							postsObj.posts[i].liked = (
+								await postLikesCollection.c_existance(
+									req.decoded.user_id,
+									postsObj.posts[i]._id
+								)
+							).existance
+
+							// [FOLLOW-STATUS] //
+							postsObj.posts[i].followed = (
+								await postFollowsCollection.c_existance(
+									req.decoded.user_id,
+									postsObj.posts[i]._id
+								)
+							).existance
+						}
 					}
 				}
 
@@ -164,6 +191,25 @@ router.get(
 					postObj.post.followsCount = (
 						await postFollowsCollection.c_countAll(postObj.post._id)
 					).count
+
+					// [USER-LOGGED] //
+					if (req.decoded) {
+						// [LIKED-STATUS] //
+						postObj.post.liked = (
+							await postLikesCollection.c_existance(
+								req.decoded.user_id,
+								postObj.post._id
+							)
+						).existance
+		
+						// [FOLLOWED-STATUS] //
+						postObj.post.followed = (
+							await postFollowsCollection.c_existance(
+								req.decoded.user_id,
+								postObj.post._id
+							)
+						).existance
+					}
 				}
 
 				res.status(200).send(postObj)
@@ -235,38 +281,39 @@ router.delete(
 )
 
 /******************* [OTHER-CURD] *******************/
-// [READ-ALL-DETAILED] Within Cat with User Details //
-router.get(
-	'/read-all-detailed/:cat_id/:limit/:page',
+// [READ-ALL] Within Cat //
+router.post(
+	'/read-all-sort/:cat_id/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
 				validator.isAscii(req.params.cat_id) &&
-				Number.isInteger(parseInt(req.params.limit)) &&
-				Number.isInteger(parseInt(req.params.page))
+				Number.isInteger(parseInt(req.params.page)) &&
+				Number.isInteger(parseInt(req.body.limit)) &&
+				validator.isAscii(req.body.sort)
 			) {
-				// [INIT] //
-				const limit = parseInt(req.params.limit)
 				const pageIndex = parseInt(req.params.page) - 1
+				const limit = parseInt(req.body.limit)
 				const skip = pageIndex * limit
 
-				let postsObj = await postsCollection.c_readAll(
+				// [READ-ALL] Sort //
+				const postsObj = await postsCollection.c_readAllSort(
 					req.params.cat_id,
 					limit,
 					skip,
-					req.params.sort,
+					req.body.sort,
 				)
-				
+
 				if (postsObj.status) {
-					// [COUNT] Posts //
-					postsObj.postCount = (
-						await postsCollection.c_countAll(req.params.cat_id)
-					).count
+					// [PINNED] Insert Posts //
+					const { posts: pinnedPosts } = await postsCollection.c_readAllPinned(
+						req.params.cat_id
+					)
 					
-					// [COUNT] Calculate Pages //
-					postsObj.pageCount = Math.ceil(postsCount.count / req.params.limit)
+					// For Each Pinned Post Insert It At the Beginning of Array //
+					pinnedPosts.forEach(p => { postsObj.posts.unshift(p) })
 
 					// For Each Post in Posts //
 					for (let i = 0; i < postsObj.posts.length; i++) {
@@ -279,9 +326,8 @@ router.get(
 						postsObj.posts[i].followsCount = (
 							await postFollowsCollection.c_countAll(postsObj.posts[i]._id)
 						).count
-			
 						
-						// [COUNT] Comments //
+						// [COUNT] Comment //
 						postsObj.posts[i].commentCount = (
 							await commentsCollection.c_countAll(postsObj.posts[i]._id)
 						).count
@@ -295,8 +341,8 @@ router.get(
 									postsObj.posts[i]._id
 								)
 							).existance
-
-							// [FOLLOW-STATUS] //
+			
+							// [FOLLOWED-STATUS] //
 							postsObj.posts[i].followed = (
 								await postFollowsCollection.c_existance(
 									req.decoded.user_id,
@@ -305,6 +351,13 @@ router.get(
 							).existance
 						}
 					}
+					// [COUNT] Posts //
+					postsObj.postsCount = (
+						await postsCollection.c_countAll(req.params.cat_id)
+					).count
+					
+					// [COUNT] Calculate Pages //
+					postsObj.pageCount = Math.ceil(postsObj.postsCount / req.body.limit)
 				}
 
 				res.status.send(postsObj)
@@ -318,7 +371,7 @@ router.get(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.status.send({
 				executed: false,
 				status: false,
 				message: `/api/posts: Error --> ${err}`
@@ -327,66 +380,6 @@ router.get(
 	}
 )
 
-// [READ-DETAILED] With User Details //
-router.get(
-	'/read-detailed/:post_id',
-	Auth.userTokenNotRequired(),
-	async (req, res) => {
-		try {
-			// [VALIDATE] //
-			if (mongoose.isValidObjectId(req.params.post_id)) {
-				let postObj = await postsCollection.c_read(req.params.post_id)
-
-				if (postObj.status) {
-					// [COUNT] Likes //
-					postObj.post.likeCount = (
-						await postLikesCollection.c_countAll(postObj.post._id)
-					).count
-		
-					// [COUNT] Follows //
-					postObj.post.followsCount = (
-						await postFollowsCollection.c_countAll(postObj.post._id)
-					).count
-	
-					// [USER-LOGGED] //
-					if (req.decoded) {
-						// [LIKED-STATUS] //
-						postObj.post.liked = (
-							await postLikesCollection.c_existance(
-								req.decoded.user_id,
-								postObj.post._id
-							)
-						).existance
-		
-						// [FOLLOWED-STATUS] //
-						postObj.post.followed = (
-							await postFollowsCollection.c_existance(
-								req.decoded.user_id,
-								postObj.post._id
-							)
-						).existance
-					}
-				}
-
-				res.status(200).send(postObj)
-			}
-			else {
-				res.status(200).send({
-					executed: true,
-					status: false,
-					message: 'Invalid post _id',
-				})
-			}
-		}
-		catch (err) {
-			res.status(200).send({
-				executed: false,
-				status: false,
-				message: `/api/posts: Error --> ${err}`
-			})
-		}
-	},
-)
 
 /******************* [LIKE-SYSTEM] *******************/
 // [LIKE] Auth Required //

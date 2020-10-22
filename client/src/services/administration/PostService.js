@@ -25,13 +25,7 @@ async function s_readAllAll(limit, page) {
 	const authAxios = await this.authAxios()
 
 	try {
-		let { data } = await authAxios.get(`/read-all-all/${limit}/${page}`)
-		
-		if (data.status) {
-			data.posts.forEach(post => {
-				post.createdAt = new Date(post.createdAt).toLocaleString()
-			})
-		}
+		const { data } = await authAxios.get(`/read-all-all/${limit}/${page}`)
 
 		return data
 	}

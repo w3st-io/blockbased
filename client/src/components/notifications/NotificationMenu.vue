@@ -38,6 +38,9 @@
 				<p class="m-0">
 					{{ notification.comment.user.username }} made a {{ notification.type }}
 				</p>
+				<small class="text-secondary">
+					{{ new Date(notification.createdAt).toLocaleString() }}
+				</small>
 			</a>
 
 			<!-- See All Notifications Page -->
