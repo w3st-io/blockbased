@@ -10,6 +10,7 @@ const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
+const activitiesCollection = require('../../../s-collections/activitiesCollection')
 const postsCollection = require('../../../s-collections/postsCollection')
 const postFollowsCollection = require('../../../s-collections/postFollowsCollection')
 const postLikesCollection = require('../../../s-collections/postLikesCollection')
@@ -69,17 +70,35 @@ router.delete(
 		try {
 			// [VALIDATE] //
 			if (mongoose.isValidObjectId(req.params.post_id)) {
-				await postsCollection.c_delete(req.params.post_id)
-				await postFollowsCollection.c_deleteAll(req.params.post_id)
-				await postLikesCollection.c_deleteAll(req.params.post_id)
+				// [DELETE] posts //
+				const posts = await postsCollection.c_delete(req.params.post_id)
 
-				res.sendStatus(200)
+				// [DELETE] postFollows //
+				const postFollows = await postFollowsCollection.c_deleteAll(
+					req.params.post_id
+				)
+
+				// [DELETE] postLikes //
+				const postLikes = await postLikesCollection.c_deleteAll(
+					req.params.post_id
+				)
+
+				// [DELETE] Activity //
+				const activty = await activitiesCollection.c_deletePostActivity(
+					req.params.post_id
+				)
+
+				res.sendStatus(200).send({
+					executed: true,
+					status: true,
+					deleted: [posts, postFollows, postLikes, activty]
+				})
 			}
 			else {
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/administration/posts: Invalid post _id'
+					message: '/api/administration/posts: Invalid post_id'
 				})
 			}
 		}

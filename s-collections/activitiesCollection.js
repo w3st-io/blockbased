@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- * %%% COMMENT LIKES COLLECTION %%%
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%% ACTIVITIES COLLECTION %%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
@@ -30,7 +30,7 @@ const c_create = async (type, user_id, post_id, comment_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentsCollection: Invalid user_id',
+				message: 'activitiesCollection: Invalid user_id',
 			}
 		}
 
@@ -39,7 +39,7 @@ const c_create = async (type, user_id, post_id, comment_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentsCollection: Invalid post_id',
+				message: 'activitiesCollection: Invalid post_id',
 			}
 		}
 
@@ -48,7 +48,7 @@ const c_create = async (type, user_id, post_id, comment_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentsCollection: Invalid comment_id',
+				message: 'activitiesCollection: Invalid comment_id',
 			}
 		}
 
@@ -70,28 +70,85 @@ const c_create = async (type, user_id, post_id, comment_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `commentsCollection: Error --> ${err}`,
+			message: `activitiesCollection: Error --> ${err}`,
 		}
 	}
 }
 
 
-// [CREATE] //
+// [DELETE] User Activity //
+const c_deleteUserActivity = async (user_id) => {
+	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid user_id',
+			}
+		}
+
+		const activity = await ActivityModel.deleteMany({ user: user_id })
+
+		return {
+			executed: true,
+			status: true,
+			activity: activity,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `activitiesCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
+// [DELETE] Post Activity //
+const c_deletePostActivity = async (post_id) => {
+	try {
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid post_id',
+			}
+		}
+
+		const activity = await ActivityModel.deleteMany({ post: post_id })
+
+		return {
+			executed: true,
+			status: true,
+			activity: activity,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `activitiesCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
+// [DELETE] Comment Activity //
 const c_deleteCommentActivity = async (comment_id) => {
-	console.log('sdfsdfsdfS');
 	try {
 		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
-			console.log('s', comment_id)
 
 			return {
 				executed: true,
 				status: false,
-				message: 'commentsCollection: Invalid comment_id',
+				message: 'activitiesCollection: Invalid comment_id',
 			}
 		}
 
-		console.log('ss', comment_id)
 		const activity = await ActivityModel.deleteMany({ comment: comment_id })
 
 		return {
@@ -113,5 +170,7 @@ const c_deleteCommentActivity = async (comment_id) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
-	c_deleteCommentActivity
+	c_deleteUserActivity,
+	c_deletePostActivity,
+	c_deleteCommentActivity,
 }

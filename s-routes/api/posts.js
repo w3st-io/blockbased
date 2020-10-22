@@ -12,6 +12,7 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const rateLimiter = require('../../s-rate-limiters')
+const activitiesCollection = require('../../s-collections/activitiesCollection')
 const postsCollection = require('../../s-collections/postsCollection')
 const postFollowsCollection = require('../../s-collections/postFollowsCollection')
 const postLikesCollection = require('../../s-collections/postLikesCollection')
@@ -37,6 +38,7 @@ router.post(
 				validator.isAscii(req.body.title) &&
 				validator.isAscii(req.body.text)
 			) {
+				// [CREATE] Post //
 				const post = await postsCollection.c_create(
 					req.decoded.user_id,
 					req.body.cat_id,
@@ -44,18 +46,35 @@ router.post(
 				)
 
 				if (post.status) {
+					// [CREATE] Comment //
 					const comment = await commentsCollection.c_create(
 						req.decoded.user_id,
 						post.createdPost._id,
 						req.body.text
 					)
+
+					if (comment.status) {
+						// [CREATE] Activity //
+						const activty = await activitiesCollection.c_create(
+							'post',
+							undefined,
+							post.createdPost._id,
+							undefined,
+						)
+
+						if (activty.status) {
+							res.status(200).send({
+								executed: true,
+								status: true,
+								post: post,
+								comment: comment,
+								activty: activty,
+							})
+						}
+						else { res.status(200).send(activty) }						
+					}
+					else { res.status(200).send(comment) }
 		
-					res.status(200).send({
-						executed: true,
-						status: true,
-						post: post,
-						comment: comment
-					})
 				}
 				else { res.status(200).send(post) }
 			}
@@ -95,7 +114,7 @@ router.post(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Posts with cat_id //
-				let postsObj = await postsCollection.c_readAll(
+				const postsObj = await postsCollection.c_readAll(
 					req.params.cat_id,
 					limit,
 					skip,
@@ -121,7 +140,6 @@ router.post(
 						postsObj.posts[i].followsCount = (
 							await postFollowsCollection.c_countAll(postsObj.posts[i]._id)
 						).count
-			
 						
 						// [COUNT] Comment //
 						postsObj.posts[i].commentCount = (
@@ -238,8 +256,10 @@ router.delete(
 	'/delete/:post_id',
 	Auth.userToken(),
 	async (req, res) => {
+		res.send(200)
+		/*
 		try {
-			// [VALIDATE] //
+			// [VALIDATE][OWNERSHIP] //
 			if (mongoose.isValidObjectId(req.params.post_id)) {
 				const ownership = await postsCollection.c_ownership(
 					req.params.post_id,
@@ -247,16 +267,31 @@ router.delete(
 				)
 				
 				if (ownership.status && ownership.ownership) {
-					// [DELETE] //
-					const posts = await postsCollection.c_delete(req.params.post_id)
+					// [DELETE] posts //
+					const posts = await postsCollection.c_deleteOwned(
+						req.params.post_id,
+						req.decoded.user_id
+					)
+
+					// [DELETE] postFollows //
+					const postFollows = await postFollowsCollection.c_deleteAll(
+						req.params.post_id
+					)
+
+					// [DELETE] postLikes //
 					const postLikes = await postLikesCollection.c_deleteAll(
 						req.params.post_id
 					)
-	
+
+					// [DELETE] Activity //
+					const activty = await activitiesCollection.c_deletePostActivity(
+						req.params.post_id
+					)
+					
 					res.status(200).send({
 						executed: true,
 						status: true,
-						deleted: [posts, postLikes]
+						deleted: [posts, postFollows, postLikes, activty]
 					})
 					
 				}
@@ -266,7 +301,7 @@ router.delete(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'Invalid post _id',
+					message: 'Invalid post_id',
 				})
 			}
 		}
@@ -277,11 +312,12 @@ router.delete(
 				message: `/api/posts: Error --> ${err}`
 			})
 		}
+		*/
 	},
 )
 
 /******************* [OTHER-CURD] *******************/
-// [READ-ALL] SORTED Within Cat //
+// [READ-ALL-SORT] Within Cat //
 router.post(
 	'/read-all-sort/:cat_id/:page',
 	Auth.userTokenNotRequired(),

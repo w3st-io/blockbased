@@ -253,7 +253,7 @@ const c_delete = async (post_id) => {
 
 
 /******************* [OTHER-CRUD] *******************/
-// [READ-ALL] Within Cat //
+// [READ-ALL-SORT] Within Cat //
 const c_readAllSort = async (cat_id, limit, skip, sort = 'descending') => {
 	try {
 		// [SANITIZE] //
@@ -372,6 +372,42 @@ const c_readAllPinned = async (cat_id, sort = 'descending') => {
 }
 
 
+// [DELETE] Owned //
+const c_deleteOwned = async (post_id, user_id) => {
+	try {
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid post_id',
+				deleted: false,
+			}
+		}
+
+		const deletedPost = await PostModel.deleteOne({
+			_id: post_id,
+			user: user_id
+		})
+		
+		return {
+			executed: true,
+			status: true,
+			deleted: true,
+			deletedPost: deletedPost,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postCollections: Error --> ${err}`,
+			deleted: false,
+		}
+	}
+}
+
+
 /******************* [LIKE-SYSTEM] *******************/
 const c_incrementLike = async (post_id) => {
 	try {
@@ -435,8 +471,6 @@ const c_decrementLike = async (post_id) => {
 		}
 	}
 }
-
-
 
 
 /******************* [EXISTANCE] *******************/
@@ -574,6 +608,7 @@ module.exports = {
 	c_delete,
 	c_readAllSort,
 	c_readAllPinned,
+	c_deleteOwned,
 	c_incrementLike,
 	c_decrementLike,
 	c_existance,
