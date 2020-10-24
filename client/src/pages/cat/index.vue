@@ -46,6 +46,19 @@
 					<Alert />
 				</div>
 			</section>
+
+			<!-- Botton Page Control -->
+			<section class="mt-3">
+				<PageNavButtons
+					@start-btn="startPage()"
+					@prev-btn="prevPage()"
+					@next-btn="nextPage()"
+					@end-btn="endPage()"
+					:badgeValue="pageNumber"
+					class="m-auto w-100"
+					style="max-width: 300px;"
+				/>
+			</section>
 		</article>
 
 		<!-- [ALERTS] -->
@@ -60,6 +73,7 @@
 <script>
 	// [IMPORT] Personal //
 	import ButtonTabs from '@components/controls/ButtonTabs'
+	import PageNavButtons from '@components/controls/PageNavButtons'
 	import Alert from '@components/misc/Alert'
 	import PostList from '@components/post/List'
 	import CatTitleHeader from '@components/cat/TitleHeader'
@@ -76,6 +90,7 @@
 			ButtonTabs,
 			NoContent,
 			CatTitleHeader,
+			PageNavButtons,
 		},
 
 		data: function() {
