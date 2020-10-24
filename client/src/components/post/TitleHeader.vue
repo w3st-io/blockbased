@@ -17,7 +17,6 @@
 				class="btn btn-sm btn-primary"
 			>Add Comment</button>
 		</div>
-
 		<!-- Right Side -->
 		<div class="col-lg-3 col-md-4 col-sm-4 text-right">
 			<div class="mb-3">
@@ -36,9 +35,11 @@
 
 			<!-- Page Control -->
 			<PageNavButtons
+				:badgeValue="badgeValue"
+				@start-btn="start()"
 				@prev-btn="prev()"
 				@next-btn="next()"
-				:badgeValue="badgeValue"
+				@end-btn="end()"
 			/>
 		</div>
 	</section>
@@ -109,10 +110,14 @@
 				}
 			},
 
-			/******************* [BTN] Prev-Next *******************/
+			/******************* [BTN] Page Controls *******************/
+			start() { this.$emit('start-btn') },
+
 			prev() { this.$emit('prev-btn') },
 
 			next() { this.$emit('next-btn') },
+
+			end() { this.$emit('end-btn') },
 
 			/******************* [ROUTER + LOG] *******************/
 			redirectToPostCommentCreate() {

@@ -26,6 +26,7 @@ router.post(
 	'/:post_id/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
+		console.log('SDFSDF');
 		try {
 			// [VALIDATE] //
 			if (
@@ -33,12 +34,13 @@ router.post(
 				Number.isInteger(parseInt(req.params.page)) &&
 				Number.isInteger(parseInt(req.body.limit))
 			) {
+				// [INIT] //
 				const pageIndex = parseInt(req.params.page) - 1
 				const limit = parseInt(req.body.limit)
 				const skip = pageIndex * limit
 
-				///// [POSTS] /////
-				let postObj = await postsCollection.c_read(req.params.post_id)
+				///// [POSTS][READ] ////
+				const postObj = await postsCollection.c_read(req.params.post_id)
 
 				if (postObj.status) {
 					// [COUNT] Likes //
@@ -70,9 +72,10 @@ router.post(
 						).existance
 					}
 				}
+				else { res.status(200).send(postObj) }
 
-				//// [COMMENTS] ////
-				let commentsObj = await commentsCollection.c_readAll(
+				//// [COMMENTS][READ-ALL] ////
+				const commentsObj = await commentsCollection.c_readAll(
 					req.params.post_id,
 					limit,
 					skip
@@ -87,7 +90,6 @@ router.post(
 							)
 						).count
 	
-					
 						// [USER-LOGGED] //
 						if (req.decoded) {
 							// [LIKED-STATUS] //

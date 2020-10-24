@@ -197,7 +197,7 @@ router.get(
 			// [VALIDATE] //
 			if (mongoose.isValidObjectId(req.params.post_id)) {
 				// [READ] Post //
-				let postObj = await postsCollection.c_read(req.params.post_id)
+				const postObj = await postsCollection.c_read(req.params.post_id)
 
 				if (postObj.status) {
 					// [COUNT] Likes //

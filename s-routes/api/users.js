@@ -191,8 +191,8 @@ router.post(
 					const activity = await activitiesCollection.c_create(
 						'user',
 						undefined,
-						user.user._id,
 						undefined,
+						user.user._id,
 					)
 
 					if (activity.status) {

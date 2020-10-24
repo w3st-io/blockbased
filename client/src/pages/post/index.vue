@@ -4,16 +4,25 @@
 		<vue-headful :title="`Post - ${postTitle}`" />
 		
 		<article class="card card-body bg-dark">
-			<!-- Title Header -->
-			<TitleHeader
-				v-if="post"
-				:post="post"
-				:badgeValue="pageNumber"
-				@refreshPost="getPageData()"
-				@prev-btn="prevPage()"
-				@next-btn="nextPage()"
-				class="mb-3"
-			/>
+			
+			<div class="row">
+				<div class="col-12">
+					<!-- Title Header -->
+					<TitleHeader
+						v-if="post"
+						:post="post"
+						:badgeValue="pageNumber"
+						@refreshPost="getPageData()"
+						@start-btn="startPage()"
+						@prev-btn="prevPage()"
+						@next-btn="nextPage()"
+						@end-btn="endPage()"
+						class="mb-3"
+					/>
+					<h1>{{ returned.pageCount }}</h1>
+				</div>
+			</div>
+			
 
 			<section class="row">
 				<div class="col-12">
@@ -40,8 +49,10 @@
 			<!-- Botton Page Control -->
 			<section class="mt-3">
 				<PageNavButtons
-					@prev-btn="PrevPage()"
-					@next-btn="NextPage()"
+					@start-btn="startPage()"
+					@prev-btn="prevPage()"
+					@next-btn="nextPage()"
+					@end-btn="endPage()"
 					:badgeValue="pageNumber"
 					class="m-auto w-100"
 					style="max-width: 300px;"
@@ -94,7 +105,7 @@
 			await this.getPageData()
 
 			// [LOG] //
-			//this.log()
+			this.log()
 		},
 
 		methods: {
@@ -117,6 +128,23 @@
 				else { this.error = this.returned.message }
 
 				this.loading = false
+			},
+
+			async startPage() {
+				if (this.pageNumber != 1) {
+					this.loading = true
+					this.pageNumber = 1
+
+					await this.getPageData()
+
+					router.push({
+						name: 'post',
+						params: {
+							post_id: this.post_id,
+							page: 1
+						}
+					})
+				}
 			},
 
 			async prevPage() {
@@ -153,8 +181,26 @@
 				}
 			},
 
+			async endPage() {
+				if (this.pageNumber != this.returned.commentsObj.pageCount) {
+					this.loading = true
+					this.pageNumber = this.returned.commentsObj.pageCount
+
+					await this.getPageData()
+
+					router.push({
+						name: 'post',
+						params: {
+							post_id: this.post_id,
+							page: this.returned.commentsObj.pageCount
+						}
+					})
+				}
+			},
+
 			log() {
 				console.log('%%% [PAGE] Post %%%')
+				console.log('returned:', this.returned)
 				console.log('post_id:', this.post_id)
 				console.log('post:', this.post)
 				console.log('comments:', this.comments)

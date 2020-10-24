@@ -147,40 +147,52 @@ router.post(
 				const limit = parseInt(req.body.limit)
 				const skip = pageIndex * limit
 
+				// [EXISTANCE] //
 				const postExistance = await postsCollection.c_existance(
 					req.params.post_id
 				)
 
 				if (postExistance.existance) {
-					const returned = await commentsCollection.c_readAll(
+					const commentsObj = await commentsCollection.c_readAll(
 						req.params.post_id,
 						limit,
 						skip
 					)
 					
-					if (returned.status) {
+					if (commentsObj.status) {
 						// For Each Post in Posts //
-						for (let i = 0; i < returned.comments.length; i++) {
-							// Set Like Count //
-							const count = await commentLikesCollection.c_countAll(
-								returned.comments[i]._id
-							)
-		
-							returned.comments[i].likeCount = count.count
-			
-							if (req.decoded) {
-								// Set Liked Status //
-								const liked = await commentLikesCollection.c_existance(
-									req.decoded.user_id,
-									returned.comments[i]._id
+						for (let i = 0; i < commentsObj.comments.length; i++) {
+							// [COUNT] Likes //
+							commentsObj.comments[i].likeCount = (
+								await commentLikesCollection.c_countAll(
+									commentsObj.comments[i]._id
 								)
-			
-								returned.comments[i].liked = liked.existance
+							).count
+							
+							// [USER-LOGGED] //
+							if (req.decoded) {
+								// [LIKED-STATUS] //
+								commentsObj.comments[i].liked = (
+									await commentLikesCollection.c_existance(
+										req.decoded.user_id,
+										commentsObj.comments[i]._id
+									)
+								).existance
 							}
 						}
 					}
+
+					// [COUNT] Comments //
+					commentsObj.commentsCount = (
+						await commentsCollection.c_countAll(req.params.post_id)
+					).count
+
+					// [COUNT] Calculate Total Pages //
+					commentsObj.pageCount = Math.ceil(
+						commentsObj.commentsCount / req.body.limit
+					)
 				
-					res.status(200).send(returned)
+					res.status(200).send(commentsObj)
 				}
 				else { res.status(200).send(postExistance) }
 			}
@@ -211,18 +223,18 @@ router.get(
 			// [VALIDATE] //
 			if (mongoose.isValidObjectId(req.params.comment_id)) {
 				// [READ] Comment //
-				const returned = await commentsCollection.c_read(req.params.comment_id)
+				const commentObj = await commentsCollection.c_read(req.params.comment_id)
 			
-				if (returned.status) {
+				if (commentObj.status) {
 					// [COUNT] Likes //
-					returned.comment.likeCount = (
+					commentObj.comment.likeCount = (
 						await commentLikesCollection.c_countAll(req.params.comment_id)
 					).count
 	
 					// [USER-LOGGED] //
 					if (req.decoded) {
 						// [LIKED-STATUS] //
-						returned.comment.liked = (
+						commentObj.comment.liked = (
 							await commentLikesCollection.c_existance(
 								req.decoded.user_id,
 								req.params.comment_id
@@ -231,7 +243,7 @@ router.get(
 					}
 				}
 	
-				res.status(200).send(returned)
+				res.status(200).send(commentObj)
 			}
 			else {
 				res.status(200).send({
@@ -466,14 +478,14 @@ router.post(
 				// [FORMAT] //
 				req.body.reportType = req.body.reportType.toLowerCase()
 
-				const returned = await commentReportsCollection.c_create(
+				const commentReport = await commentReportsCollection.c_create(
 					req.decoded.user_id,
 					req.params.comment_id,
 					req.body.post_id,
 					req.body.reportType
 				)
 				
-				res.status(200).send(returned)
+				res.status(200).send(commentReport)
 			}
 			else {
 				res.status(200).send({
