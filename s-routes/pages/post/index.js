@@ -26,7 +26,6 @@ router.post(
 	'/:post_id/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		console.log('SDFSDF');
 		try {
 			// [VALIDATE] //
 			if (

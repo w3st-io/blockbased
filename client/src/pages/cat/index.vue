@@ -4,10 +4,10 @@
 		<vue-headful :title="`Cat - ${cat.title}`"/>
 
 		<article class="card card-body bg-dark">
-			<!-- Title With Create Button -->
-			<TitleHeader
+			<!-- Cat Title Header -->
+			<CatTitleHeader
 				:cat="cat"
-				:postCount="data.postCount"
+				:postCount="data.postsCount"
 				:badgeValue="pageNumber"
 				@prev-btn="prevPage()"
 				@next-btn="nextPage()"
@@ -60,7 +60,7 @@
 	import ButtonTabs from '@components/controls/ButtonTabs'
 	import Alert from '@components/misc/Alert'
 	import PostList from '@components/post/List'
-	import TitleHeader from '@components/cat/TitleHeader'
+	import CatTitleHeader from '@components/cat/TitleHeader'
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import PageService from '@services/PageService'
@@ -73,7 +73,7 @@
 			PostList,
 			ButtonTabs,
 			NoContent,
-			TitleHeader,
+			CatTitleHeader,
 		},
 
 		data: function() {

@@ -40,7 +40,7 @@
 	export default {
 		props: {
 			cat: { type: Object, required: true, },
-			postCount: { type: Number, default: 0},
+			postCount: { type: Number, default: 0 },
 			badgeValue: { required: true, },
 		},
 

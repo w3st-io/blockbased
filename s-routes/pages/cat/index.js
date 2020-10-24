@@ -48,13 +48,15 @@ router.post(
 				)
 
 				if (postsObj.status) {
-					// [PINNED] Insert Posts //
-					const { posts: pinnedPosts } = await postsCollection.c_readAllPinned(
-						req.params.cat_id
-					)
-					
-					// For Each Pinned Post Insert It At the Beginning of Array //
-					pinnedPosts.forEach(p => { postsObj.posts.unshift(p) })
+					// [PINNED] Insert Posts (Only on 1st page) //
+					if (pageIndex == 0) {
+						const { posts: pinnedPosts } = await postsCollection.c_readAllPinned(
+							req.params.cat_id
+						)
+
+						// For Each Pinned Post Insert It At the Beginning of Array //
+						pinnedPosts.forEach(p => { postsObj.posts.unshift(p) })
+					}
 
 					// For Each Post in Posts //
 					for (let i = 0; i < postsObj.posts.length; i++) {

@@ -1,7 +1,7 @@
 <template>
 	<ul class="pagination w-100 m-0">
 		<li class="page-item text-center" style="width: 15%;">
-			<a @click="start()" class="p-1 page-link text-light bg-dark">&lt;&lt;</a>
+			<a @click="start()" class="p-1 page-link text-light bg-dark">«</a>
 		</li>
 
 		<!-- Left -->
@@ -22,7 +22,7 @@
 		</li>
 
 		<li class="page-item text-center" style="width: 15%;">
-			<a @click="end()" class="p-1 page-link text-light bg-dark">&gt;&gt;</a>
+			<a @click="end()" class="p-1 page-link text-light bg-dark">»</a>
 		</li>
 	</ul>
 </template>

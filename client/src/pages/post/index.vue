@@ -7,8 +7,8 @@
 			
 			<div class="row">
 				<div class="col-12">
-					<!-- Title Header -->
-					<TitleHeader
+					<!-- Post Title Header -->
+					<PostTitleHeader
 						v-if="post"
 						:post="post"
 						:badgeValue="pageNumber"
@@ -70,7 +70,7 @@
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import CommentList from '@components/comment/List'
 	import Alert from '@components/misc/Alert'
-	import TitleHeader from '@components/post/TitleHeader'
+	import PostTitleHeader from '@components/post/TitleHeader'
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import PageService from '@services/PageService'
@@ -80,7 +80,7 @@
 		components: {
 			Alert,
 			CommentList,
-			TitleHeader,
+			PostTitleHeader,
 			NoContent,
 			PageNavButtons,
 		},
