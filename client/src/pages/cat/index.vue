@@ -9,8 +9,10 @@
 				:cat="cat"
 				:postCount="data.postsCount"
 				:badgeValue="pageNumber"
+				@start-btn="startPage()"
 				@prev-btn="prevPage()"
 				@next-btn="nextPage()"
+				@end-btn="endPage()"
 			/>
 
 			<!-- Tabs -->
@@ -30,7 +32,7 @@
 					<PostList
 						v-if="!loading"
 						:posts="posts"
-						@refreshPosts="getData()"
+						@refreshPosts="getPageData()"
 					/>
 				</div>
 			</section>
@@ -96,7 +98,7 @@
 			this.cat = cats.find(cat => cat.cat_id === this.cat_id)
 
 			// [LOG] //
-			//this.log()
+			this.log()
 		},
 
 		methods: {
@@ -112,11 +114,11 @@
 					this.$route.params.tab = 1
 				}
 
-				this.getData()
+				this.getPageData()
 			},
 
 			/******************* [INIT] Post *******************/
-			async getData() {
+			async getPageData() {
 				if (this.activeTab == 0) { this.sort = 'descending' }
 				else { this.sort = 'popularity' }
 
@@ -136,13 +138,32 @@
 				this.loading = false
 			},
 
+			startPage() {
+				// As long as the page is not going into 0 or negative //
+				if (this.pageNumber != 1) {
+					this.loading = true
+					this.pageNumber = 1
+
+					this.getPageData()
+					
+					// [REDIRECT] Cat Page //
+					router.push({
+						name: 'cat',
+						params: {
+							cat_id: this.cat_id,
+							page: 1
+						}
+					})
+				}
+			},
+
 			prevPage() {
 				// As long as the page is not going into 0 or negative //
 				if (this.pageNumber != 1) {
 					this.loading = true
 					this.pageNumber--
 
-					this.getData()
+					this.getPageData()
 					
 					// [REDIRECT] Cat Page //
 					router.push({
@@ -155,13 +176,13 @@
 				}
 			},
 
-			nextPage() {
+			async nextPage() {
 				// As long as page does not exceed max Number of Pages //
 				if (this.pageNumber < this.data.pageCount) {
 					this.loading = true
 					this.pageNumber++
 
-					this.getData()
+					this.getPageData()
 					
 					// [REDIRECT] Cat Page //
 					router.push({
@@ -169,6 +190,23 @@
 						params: {
 							cat_id: this.cat_id,
 							page: this.pageNumber
+						}
+					})
+				}
+			},
+
+			async endPage() {
+				if (this.pageNumber != this.data.pageCount) {
+					this.loading = true
+					this.pageNumber = this.data.pageCount
+
+					await this.getPageData()
+
+					router.push({
+						name: 'cat',
+						params: {
+							cat_id: this.cat_id,
+							page: this.data.pageCount
 						}
 					})
 				}

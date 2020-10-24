@@ -7,8 +7,10 @@
 
 			<!-- Page Nav Buttons -->
 			<PageNavButtons
+				@start-btn="start()"
 				@prev-btn="prev()"
 				@next-btn="next()"
+				@end-btn="end()"
 				:badgeValue="badgeValue"
 				style="max-width: 300px;"
 			/>
@@ -49,9 +51,13 @@
 		},
 
 		methods: {
+			start() { this.$emit('start-btn') },
+
 			prev() { this.$emit('prev-btn') },
 
 			next() { this.$emit('next-btn') },
+
+			end() { this.$emit('end-btn') },
 			
 			redirectToCatPostCreate() {
 				router.push({
