@@ -87,8 +87,8 @@
 								<DropDownMenuBtn
 									:disabled="disabled"
 									:_id="comment._id"
-									:btnName="'Report'"
-									:BSColor="'outline-secondary'"
+									btnName="Report"
+									BSColor="outline-secondary"
 									:list="[
 										'Innapropiate',
 										'Offensive',

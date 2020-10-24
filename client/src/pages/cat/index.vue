@@ -49,7 +49,7 @@
 		<!-- [ALERTS] -->
 		<section v-show="error" class="row mt-3">
 			<div class="col-12">
-				<Alert :BSColor="'danger'" :message="'Cat Page: ' + error" />
+				<Alert BSColor="danger" :message="'Cat Page: ' + error" />
 			</div>
 		</section>
 	</section>

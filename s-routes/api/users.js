@@ -13,6 +13,7 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const rateLimiters = require('../../s-rate-limiters')
+const activitiesCollection = require('../../s-collections/activitiesCollection')
 const passwordRecoveriesCollection = require('../../s-collections/passwordRecoveriesCollection')
 const usersCollection = require('../../s-collections/usersCollection')
 const verificationCodesCollection = require('../../s-collections/verificationCodesCollection')
@@ -185,9 +186,27 @@ router.post(
 						user.user._id,
 						vCode.verificationCode.verificationCode
 					)
-				}
 
-				res.status(200).send(user)
+					// [CREATE] Activity //
+					const activity = await activitiesCollection.c_create(
+						'user',
+						undefined,
+						user.user._id,
+						undefined,
+					)
+
+					if (activity.status) {
+						res.status(200).send({
+							executed: true,
+							status: true,
+							user: user.user,
+							created: true,
+							activity: activity,
+						})
+					}
+					else { res.status(200).send(activity) }
+				}
+				else { res.status(200).send(user) }
 			}
 			else {
 				res.status(200).send({

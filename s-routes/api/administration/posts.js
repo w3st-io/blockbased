@@ -84,14 +84,14 @@ router.delete(
 				)
 
 				// [DELETE] Activity //
-				const activty = await activitiesCollection.c_deletePostActivity(
+				const activity = await activitiesCollection.c_deletePostActivity(
 					req.params.post_id
 				)
 
 				res.sendStatus(200).send({
 					executed: true,
 					status: true,
-					deleted: [posts, postFollows, postLikes, activty]
+					deleted: [posts, postFollows, postLikes, activity]
 				})
 			}
 			else {

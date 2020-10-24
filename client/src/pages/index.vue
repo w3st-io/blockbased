@@ -32,7 +32,7 @@
 		<!-- [LOADING] -->
 		<section v-show="loading" class="row mt-3">
 			<div class="col-12">
-				<Alert />
+				<Alert BSColor="dark" />
 			</div>
 		</section>
 

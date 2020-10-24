@@ -26,7 +26,7 @@
 		<PopUpBanner
 			v-if="message"
 			:message="message"
-			:BGColor="'info'"
+			BGColor="info"
 			style="width: 65%;"
 		/>
 	</div>

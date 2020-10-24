@@ -13,7 +13,7 @@
 				>
 					<!-- ToastUI Editor -->
 					<Editor
-						:initialEditType="'wysiwyg'"
+						initialEditType="wysiwyg"
 						:initialValue="initialEditorText"
 						ref="toastuiEditor"
 					/>

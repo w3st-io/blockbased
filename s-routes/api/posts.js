@@ -55,23 +55,23 @@ router.post(
 
 					if (comment.status) {
 						// [CREATE] Activity //
-						const activty = await activitiesCollection.c_create(
+						const activity = await activitiesCollection.c_create(
 							'post',
 							undefined,
 							post.createdPost._id,
 							undefined,
 						)
 
-						if (activty.status) {
+						if (activity.status) {
 							res.status(200).send({
 								executed: true,
 								status: true,
 								post: post,
 								comment: comment,
-								activty: activty,
+								activity: activity,
 							})
 						}
-						else { res.status(200).send(activty) }						
+						else { res.status(200).send(activity) }						
 					}
 					else { res.status(200).send(comment) }
 		
@@ -284,14 +284,14 @@ router.delete(
 					)
 
 					// [DELETE] Activity //
-					const activty = await activitiesCollection.c_deletePostActivity(
+					const activity = await activitiesCollection.c_deletePostActivity(
 						req.params.post_id
 					)
 					
 					res.status(200).send({
 						executed: true,
 						status: true,
-						deleted: [posts, postFollows, postLikes, activty]
+						deleted: [posts, postFollows, postLikes, activity]
 					})
 					
 				}

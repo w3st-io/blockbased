@@ -47,7 +47,7 @@
 			<!-- [ERROR] -->
 			<section v-show="error" class="row mt-3">
 				<div class="col-12">
-					<Alert :BSColor="'danger'" :message="'Follow Page: ' + error" />
+					<Alert BSColor="danger" :message="'Follow Page: ' + error" />
 				</div>
 			</section>
 		</article>
