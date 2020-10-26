@@ -8,7 +8,7 @@
 			<CatTitleHeader
 				:cat="cat"
 				:postCount="data.postsCount"
-				:badgeValue="pageNumber"
+				:badgeValue="page"
 				@start-btn="startPage()"
 				@prev-btn="prevPage()"
 				@next-btn="nextPage()"
@@ -19,7 +19,6 @@
 			<section class="row text-center">
 				<ButtonTabs
 					:tabs="['recent', 'popular']"
-					:initialTab="activeTab"
 					@tabClicked="tab"
 					class="col-12 mx-auto mb-2"
 					style="max-width: 300px;"
@@ -54,7 +53,7 @@
 					@prev-btn="prevPage()"
 					@next-btn="nextPage()"
 					@end-btn="endPage()"
-					:badgeValue="pageNumber"
+					:badgeValue="page"
 					class="m-auto w-100"
 					style="max-width: 300px;"
 				/>
@@ -96,10 +95,9 @@
 		data: function() {
 			return {
 				cat_id: this.$route.params.cat_id,
-				pageNumber: parseInt(this.$route.params.page),
+				sort: parseInt(this.$route.params.sort),
 				limit: parseInt(this.$route.params.limit),
-				sort: '',
-				activeTab: 0,
+				page: parseInt(this.$route.params.page),
 				loading: true,
 				data: {},
 				cat: {},
@@ -120,8 +118,8 @@
 			async tab(tab) {
 				this.loading = true
 
-				if (tab == 'recent') { this.activeTab = 0	 }
-				else { this.activeTab = 1 }
+				if (tab == 'recent') { this.sort = 0	 }
+				else { this.sort = 1 }
 
 				this.refreshRoute()
 
@@ -130,9 +128,9 @@
 
 			async startPage() {
 				// As long as the page is not going into 0 or negative //
-				if (this.pageNumber != 1) {
+				if (this.page != 1) {
 					this.loading = true
-					this.pageNumber = 1
+					this.page = 1
 					
 					this.refreshRoute()
 
@@ -142,9 +140,9 @@
 
 			async prevPage() {
 				// As long as the page is not going into 0 or negative //
-				if (this.pageNumber != 1) {
+				if (this.page != 1) {
 					this.loading = true
-					this.pageNumber--
+					this.page--
 					
 					this.refreshRoute()
 					
@@ -154,20 +152,9 @@
 
 			async nextPage() {
 				// As long as page does not exceed max Number of Pages //
-				if (this.pageNumber < this.data.pageCount) {
+				if (this.page < this.data.pageCount) {
 					this.loading = true
-					this.pageNumber++
-
-					// [REDIRECT] Cat Page //
-					router.push({
-						name: 'cat',
-						params: {
-							cat_id: this.cat_id,
-							sort: this.activeTab,
-							limit: this.limit,
-							page: this.pageNumber,
-						}
-					})
+					this.page++
 
 					this.refreshRoute()
 
@@ -176,9 +163,9 @@
 			},
 
 			async endPage() {
-				if (this.pageNumber != this.data.pageCount) {
+				if (this.page != this.data.pageCount) {
 					this.loading = true
-					this.pageNumber = this.data.pageCount
+					this.page = this.data.pageCount
 
 					this.refreshRoute()
 
@@ -192,9 +179,9 @@
 					name: 'cat',
 					params: {
 						cat_id: this.cat_id,
-						sort: this.activeTab,
+						sort: this.sort,
 						limit: this.limit,
-						page: this.pageNumber,
+						page: this.page,
 					}
 				})
 			},
@@ -205,11 +192,11 @@
 					this.data = await PageService.s_cat(
 						this.cat_id,
 						this.limit,
-						this.pageNumber,
-						this.activeTab,
+						this.page,
+						this.sort,
 					)
 				}
-				catch (err) { this.error = err }
+				catch (err) { this.error = `This: --> ${err}` }
 
 				if (this.data.status) { this.posts = this.data.posts }
 				else { this.error = this.data.message }
@@ -221,7 +208,7 @@
 				console.log('%%% [PAGE] Cat %%%')
 				console.log('limit:', this.limit)
 				console.log('cat_id:', this.cat_id)
-				console.log('pageNumber:', this.pageNumber)
+				console.log('page:', this.page)
 				console.log('data:', this.data)
 				console.log('posts:', this.posts)
 				console.log('cat:', this.cat)
