@@ -97,7 +97,7 @@
 			return {
 				cat_id: this.$route.params.cat_id,
 				pageNumber: parseInt(this.$route.params.page),
-				limit: 5,
+				limit: parseInt(this.$route.params.limit),
 				sort: '',
 				activeTab: 0,
 				loading: true,
@@ -117,77 +117,38 @@
 		},
 
 		methods: {
-			tab(tab) {
+			async tab(tab) {
 				this.loading = true
 
-				if (tab == 'recent') {
-					this.activeTab = 0
-					this.$route.params.tab = 0
-				}
-				else {
-					this.activeTab = 1
-					this.$route.params.tab = 1
-				}
+				if (tab == 'recent') { this.activeTab = 0	 }
+				else { this.activeTab = 1 }
 
-				this.getPageData()
+				this.refreshRoute()
+
+				await this.getPageData()
 			},
 
-			/******************* [INIT] Post *******************/
-			async getPageData() {
-				if (this.activeTab == 0) { this.sort = 'descending' }
-				else { this.sort = 'popularity' }
-
-				try {
-					this.data = await PageService.s_cat(
-						this.cat_id,
-						this.limit,
-						this.pageNumber,
-						this.sort,
-					)
-				}
-				catch (err) { this.error = err }
-
-				if (this.data.status) { this.posts = this.data.posts }
-				else { this.error = this.data.message }
-
-				this.loading = false
-			},
-
-			startPage() {
+			async startPage() {
 				// As long as the page is not going into 0 or negative //
 				if (this.pageNumber != 1) {
 					this.loading = true
 					this.pageNumber = 1
-
-					this.getPageData()
 					
-					// [REDIRECT] Cat Page //
-					router.push({
-						name: 'cat',
-						params: {
-							cat_id: this.cat_id,
-							page: 1
-						}
-					})
+					this.refreshRoute()
+
+					await this.getPageData()
 				}
 			},
 
-			prevPage() {
+			async prevPage() {
 				// As long as the page is not going into 0 or negative //
 				if (this.pageNumber != 1) {
 					this.loading = true
 					this.pageNumber--
-
-					this.getPageData()
 					
-					// [REDIRECT] Cat Page //
-					router.push({
-						name: 'cat',
-						params: {
-							cat_id: this.cat_id,
-							page: this.pageNumber
-						}
-					})
+					this.refreshRoute()
+					
+					await this.getPageData()
 				}
 			},
 
@@ -197,16 +158,20 @@
 					this.loading = true
 					this.pageNumber++
 
-					this.getPageData()
-					
 					// [REDIRECT] Cat Page //
 					router.push({
 						name: 'cat',
 						params: {
 							cat_id: this.cat_id,
-							page: this.pageNumber
+							sort: this.activeTab,
+							limit: this.limit,
+							page: this.pageNumber,
 						}
 					})
+
+					this.refreshRoute()
+
+					await this.getPageData()
 				}
 			},
 
@@ -215,16 +180,41 @@
 					this.loading = true
 					this.pageNumber = this.data.pageCount
 
-					await this.getPageData()
+					this.refreshRoute()
 
-					router.push({
-						name: 'cat',
-						params: {
-							cat_id: this.cat_id,
-							page: this.data.pageCount
-						}
-					})
+					await this.getPageData()
 				}
+			},
+
+			refreshRoute() {
+				// [REDIRECT] Cat Page //
+				router.push({
+					name: 'cat',
+					params: {
+						cat_id: this.cat_id,
+						sort: this.activeTab,
+						limit: this.limit,
+						page: this.pageNumber,
+					}
+				})
+			},
+
+			/******************* [INIT] Post *******************/
+			async getPageData() {
+				try {
+					this.data = await PageService.s_cat(
+						this.cat_id,
+						this.limit,
+						this.pageNumber,
+						this.activeTab,
+					)
+				}
+				catch (err) { this.error = err }
+
+				if (this.data.status) { this.posts = this.data.posts }
+				else { this.error = this.data.message }
+
+				this.loading = false
 			},
 
 			log() {

@@ -20,25 +20,13 @@ async function authAxios() {
 
 
 /******************* [CRUD] *******************/
-// [READ-ALL] Auth Required //
-async function s_readAllAll(limit, page) {
-	const authAxios = await this.authAxios()
-
-	try { return (await authAxios.post(`/read-all-all/${page}`, { limit })).data }
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `ACommentService: Error --> ${err}` }
-	}
-}
-
-
 // [DELETE] //
 async function s_delete(comment_id) {
-	const authAxios = await this.authAxios()
+	try {
+		const authAxios = await this.authAxios()
 
-	try { return (await authAxios.delete(`/delete/${comment_id}`)).data }
+		return (await authAxios.delete(`/delete/${comment_id}`)).data
+	}
 	catch (err) {
 		return {
 			executed: false,
@@ -52,6 +40,5 @@ async function s_delete(comment_id) {
 // [EXPORT] //
 export default {
 	authAxios,
-	s_readAllAll,
 	s_delete,
 }

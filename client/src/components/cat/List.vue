@@ -81,7 +81,9 @@
 					name: 'cat',
 					params: {
 						cat_id: cat_id,
-						page: 1
+						sort: 0,
+						limit: 5,
+						page: 1,
 					}
 				})
 			},

@@ -58,7 +58,7 @@ async function s_cat(cat_id, limit, page, sort) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.post(`/cat/${cat_id}/${page}`, { limit, sort })).data
+		return (await authAxios.get(`/cat/${cat_id}/${sort}/${limit}/${page}`)).data
 	}
 	catch (err) {
 		return {
@@ -75,7 +75,7 @@ async function s_post(post_id, limit, page) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.post(`/post/${post_id}/${page}`, { limit })).data
+		return (await authAxios.get(`/post/${post_id}/${limit}/${page}`)).data
 	}
 	catch (err) {
 		return {

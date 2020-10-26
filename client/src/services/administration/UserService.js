@@ -19,43 +19,7 @@ async function authAxios() {
 }
 
 
-/******************* [USER PROFILE] *******************/
-// [READ-ALL] Auth Required //
-async function s_readAll() {
-	const authAxios = await this.authAxios()
-
-	try {
-		const returned = await authAxios.get(`/read-all`)
-
-		return returned.data
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `UserService: Error --> ${err}`
-		}
-	}
-}
-
-// [READ] Auth Required //
-async function s_read(user_id) {
-	const authAxios = await this.authAxios()
-
-	try {
-		const returned = await authAxios.get(`/read/${user_id}`)
-
-		return returned.data
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `UserService: Error --> ${err}`
-		}
-	}
-}
-
+/******************* [CRUD] *******************/
 // [UPDATE] Auth Required //
 async function s_update(user_id, img_url) {
 	const authAxios = await this.authAxios()
@@ -97,8 +61,6 @@ async function s_banUser(user_id, hours) {
 // [EXPORT] //
 export default {
 	authAxios,
-	s_readAll,
-	s_read,
 	s_update,
 	s_banUser,
 }

@@ -181,6 +181,10 @@ const c_deleteAll = async (post_id) => {
 // [READ-ALL] //
 const c_readAllUser = async (user_id, limit, skip, sort = 'descending') => {
 	try {
+		// [SANTIZE] //
+		limit = parseInt(limit)
+		skip = parseInt(skip)
+
 		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
@@ -225,8 +229,8 @@ const c_readAllUser = async (user_id, limit, skip, sort = 'descending') => {
 
 		const postFollows = await PostFollowModel.find({ user: user_id })
 			.sort(sort2)
-			.skip(parseInt(skip))
-			.limit(parseInt(limit))
+			.skip(skip)
+			.limit(limit)
 			.exec()
 
 		return {

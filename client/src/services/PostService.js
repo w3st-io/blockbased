@@ -19,12 +19,27 @@ async function authAxios() {
 /******************* [CRUD] *******************/
 // [CREATE] Auth Required //
 async function s_create(cat_id, title, text) {
-	const authAxios = await this.authAxios()
-
 	try {
-		const { data } = await authAxios.post('/create', { cat_id, title, text })
+		const authAxios = await this.authAxios()
 		
-		return data
+		return (await authAxios.post('/create', { cat_id, title, text })).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `PostService: Error --> ${err}`
+		}
+	}
+}
+
+
+// [READ-ALL-ALL] Auth Required //
+async function s_readAllAll(limit, page) {
+	try {
+		const authAxios = await this.authAxios()
+		
+		return (await authAxios.post(`/read-all-all/${limit}/${page}`)).data
 	}
 	catch (err) {
 		return {
@@ -38,12 +53,10 @@ async function s_create(cat_id, title, text) {
 
 // [READ] Single Post //
 async function s_read(post_id) {
-	const authAxios = await this.authAxios()
-
 	try {
-		const { data } = await authAxios.get(`/read/${post_id}`)
-
-		return data
+		const authAxios = await this.authAxios()
+		
+		return (await authAxios.get(`/read/${post_id}`)).data
 	}
 	catch (err) {
 		return {
@@ -58,15 +71,13 @@ async function s_read(post_id) {
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] Within Cat //
 async function s_readAllSort(cat_id, limit, page, sort) {
-	const authAxios = await this.authAxios()
-
 	try {
-		const { data } = await authAxios.post(
+		const authAxios = await this.authAxios()
+		
+		return (await authAxios.post(
 			`/read-all-sort/${cat_id}/${page}`,
 			{ limit, sort }
-		)
-
-		return data
+		)).data
 	}
 	catch (err) {
 		return {
@@ -81,47 +92,84 @@ async function s_readAllSort(cat_id, limit, page, sort) {
 /******************* [LIKE-SYSTEM] *******************/
 // ADD/REMOVE LIKE //
 async function s_like(post_id) {
-	const authAxios = await this.authAxios()
+	try {
+		const authAxios = await this.authAxios()
 
-	const { data } = await authAxios.post(`/like/${post_id}`)
-
-	return data
+		return (await authAxios.post(`/like/${post_id}`)).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `PostService: Error --> ${err}`
+		}
+	}
 }
 
+
 async function s_unlike(post_id) {
-	const authAxios = await this.authAxios()
+	try {
+		const authAxios = await this.authAxios()
 
-	// Remove the liker from the Post Object //
-	const { data } = await authAxios.post(`/unlike/${post_id}`)
-
-	return data
+		return (await authAxios.post(`/unlike/${post_id}`)).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `PostService: Error --> ${err}`
+		}
+	}
 }
 
 
 /******************* [FOLLOW SYSTEM] *******************/
 // ADD/REMOVE LIKE //
 async function s_follow(post_id) {
-	const authAxios = await this.authAxios()
+	try {
+		const authAxios = await this.authAxios()
 
-	// Add the liker from the Post Object
-	return await authAxios.post(`/follow/${post_id}`)
+		return (await authAxios.post(`/follow/${post_id}`)).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `PostService: Error --> ${err}`
+		}
+	}
 }
 
 async function s_unfollow(post_id) {
-	const authAxios = await this.authAxios()
+	try {
+		const authAxios = await this.authAxios()
 
-	// Remove the liker from the Post Object
-	return await authAxios.post(`/unfollow/${post_id}`)
+		return (await authAxios.post(`/unfollow/${post_id}`)).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `PostService: Error --> ${err}`
+		}
+	}
 }
 
 
 /******************* [COUNT] *******************/
 async function s_count(cat_id) {
-	const authAxios = await this.authAxios()
+	try {
+		const authAxios = await this.authAxios()
 
-	const { data } = await authAxios.get(`/count/${cat_id}`)
-
-	return data
+		return (await authAxios.get(`/count/${cat_id}`)).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `PostService: Error --> ${err}`
+		}
+	}
 }
 
 
@@ -129,6 +177,7 @@ async function s_count(cat_id) {
 export default {
 	authAxios,
 	s_create,
+	s_readAllAll,
 	s_read,
 	s_readAllSort,
 	s_like,

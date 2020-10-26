@@ -5,7 +5,6 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
-const { stringify } = require('uuid')
 
 
 // [REQUIRE] Personal //
@@ -121,8 +120,8 @@ const c_readAllAll = async (limit, skip) => {
 		}
 
 		const comments = await CommentModel.find()
-			.skip(parseInt(skip))
-			.limit(parseInt(limit))
+			.skip(skip)
+			.limit(limit)
 			.populate({ path: 'user', select: 'username email profileImg', })
 			.populate({ path: 'post' })
 			.exec()
@@ -178,8 +177,8 @@ const c_readAll = async (post_id, limit, skip) => {
 		}
 
 		const comments = await CommentModel.find({ post: post_id })
-			.skip(parseInt(skip))
-			.limit(parseInt(limit))
+			.skip(skip)
+			.limit(limit)
 			.populate({ path: 'user', select: 'username email profileImg', })
 			.populate({
 				path: 'replyToComment',
@@ -362,12 +361,33 @@ const c_delete = async (comment_id, user_id) => {
 
 		console.log('Delete attempt made but comment delete is disabled.')
 		/*
-		const deletedComment = await CommentModel.findOneAndRemove({
+		const comment = await CommentModel.findOneAndRemove({
 			_id: comment_id,
 			user: user_id,
 		})
 		*/
 		const comment = ''
+
+		return {
+			executed: true,
+			status: true,
+			comment: comment,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
+/******************* [OTHER-CRUD] *******************/
+const c_deleteCustom = async (params) => {
+	try {
+		const comment = await CommentModel.deleteMany(params)
 
 		return {
 			executed: true,
@@ -549,6 +569,7 @@ module.exports = {
 	c_read,
 	c_update,
 	c_delete,
+	c_deleteCustom,
 	c_adminDelete,
 	c_existance,
 	c_ownership,

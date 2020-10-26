@@ -20,24 +20,6 @@ async function authAxios() {
 
 
 /******************* [CRUD] *******************/
-// [READ-ALL-ALL] Auth Required //
-async function s_readAllAll(limit, page) {
-	const authAxios = await this.authAxios()
-
-	try {
-		const { data } = await authAxios.post(`/read-all-all/${page}`, { limit })
-
-		return data
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `PostService: Error --> ${err}`
-		}
-	}
-}
-
 // [DELETE] Auth Required //
 async function s_delete(post_id) {
 	const authAxios = await this.authAxios()
@@ -55,6 +37,5 @@ async function s_delete(post_id) {
 // [EXPORT] //
 export default {
 	authAxios,
-	s_readAllAll,
 	s_delete,
 }

@@ -1,5 +1,8 @@
 <template>
-	<section class="d-flex flex-column-reverse fixed-bottom my-3 mr-4 ml-auto">
+	<section
+		class="w-100 d-flex flex-column-reverse fixed-bottom my-3 mr-4 ml-auto"
+		style="max-width: 300px;"
+	>
 		<!-- Show Button -->
 		<button
 			@click="userShowClicked()"

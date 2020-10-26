@@ -102,8 +102,8 @@ const c_readAllAll = async (limit, skip) => {
 		}
 
 		const posts = await PostModel.find()
-			.skip(parseInt(skip))
-			.limit(parseInt(limit))
+			.skip(skip)
+			.limit(limit)
 			.populate({
 				path: 'user',
 				select: 'username email profileImg',
@@ -161,8 +161,8 @@ const c_readAll = async (cat_id, limit, skip) => {
 		}
 
 		const posts = await PostModel.find({ cat_id })
-			.skip(parseInt(skip))
-			.limit(parseInt(limit))
+			.skip(skip)
+			.limit(limit)
 			.populate({ path: 'user', select: 'username email profileImg', })
 			.exec()
 
@@ -254,11 +254,12 @@ const c_delete = async (post_id) => {
 
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL-SORT] Within Cat //
-const c_readAllSort = async (cat_id, limit, skip, sort = 'descending') => {
+const c_readAllSort = async (cat_id, limit, skip, sort = 0) => {
 	try {
 		// [SANITIZE] //
 		limit = parseInt(limit)
 		skip = parseInt(skip)
+		sort = parseInt(sort)
 
 		// [VALIDATE] cat_id //
 		if (!validator.isAscii(cat_id)) {
@@ -288,7 +289,7 @@ const c_readAllSort = async (cat_id, limit, skip, sort = 'descending') => {
 		}
 
 		// [VALIDATE] sort //
-		if (!validator.isAscii(sort)) {
+		if (!Number.isInteger(sort)) {
 			return {
 				executed: true,
 				status: false,
@@ -297,13 +298,14 @@ const c_readAllSort = async (cat_id, limit, skip, sort = 'descending') => {
 		}
 
 		// Set Sort //
-		if (sort == 'descending') { sort = { createdAt: -1 } }
-		else if (sort == 'popularity') { sort = { likeCount: -1 } }
+		if (sort == 0) { sort = { createdAt: -1 } }
+		else if (sort == 1) { sort = { likeCount: -1 } }
+		else { console.log('THIS') }
 
 		const posts = await PostModel.find({ cat_id })
 			.sort(sort)
-			.skip(parseInt(skip))
-			.limit(parseInt(limit))
+			.skip(skip)
+			.limit(limit)
 			.populate({ path: 'user', select: 'username email profileImg', })
 			.exec()
 
@@ -324,7 +326,7 @@ const c_readAllSort = async (cat_id, limit, skip, sort = 'descending') => {
 
 
 // [READ-ALL] Pinned Posts //
-const c_readAllPinned = async (cat_id, sort = 'descending') => {
+const c_readAllPinned = async (cat_id, sort = 0) => {
 	try { 
 		// [VALIDATE] cat_id //
 		if (!validator.isAscii(cat_id)) {
@@ -336,7 +338,7 @@ const c_readAllPinned = async (cat_id, sort = 'descending') => {
 		}
 
 		// [VALIDATE] sort //
-		if (!validator.isAscii(sort)) {
+		if (!Number.isInteger(sort)) {
 			return {
 				executed: true,
 				status: false,
@@ -345,8 +347,8 @@ const c_readAllPinned = async (cat_id, sort = 'descending') => {
 		}
 
 		// Set Sort //
-		if (sort == 'descending') { sort = { createdAt: -1 } }
-		else if (sort == 'popularity') { sort = { likeCount: -1 } }
+		if (sort == 0) { sort = { createdAt: -1 } }
+		else if (sort == 0) { sort = { likeCount: -1 } }
 
 		const posts = await PostModel.find({
 			cat_id,

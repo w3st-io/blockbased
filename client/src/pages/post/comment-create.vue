@@ -80,7 +80,11 @@
 							// [REDIRECT] Post Page //
 							router.push({
 								name: 'post',
-								params: { post_id: this.post_id, page: 1 }
+								params: {
+									post_id: this.post_id,
+									limit: 5,
+									page: 1,
+								}
 							})
 						}
 						else { this.error = this.data.message }

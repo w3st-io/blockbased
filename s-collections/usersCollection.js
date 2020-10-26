@@ -21,9 +21,34 @@ const secretKey = config.SECRET_KEY
 
 /******************* [CRUD] *******************/
 // [READ-ALL] //
-const c_readAll = async () => {
+const c_readAll = async (limit, skip) => {
 	try {
+		// [SANTIZE] //
+		limit = parseInt(limit)
+		skip = parseInt(skip)
+
+		// [VALDIATE] limit //
+		if (!Number.isInteger(limit)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'usersCollection: Invalid limit',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'usersCollection: Invalid skip',
+			}
+		}
+
 		const users = await UserModel.find()
+			.skip(skip)
+			.limit(limit)
+			.exec()
 
 		return {
 			executed: true,

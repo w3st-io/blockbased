@@ -149,7 +149,11 @@
 				// [REDIRECT] //
 				router.push({
 					name: 'post',
-					params: { post_id: post_id, page: 1 }
+					params: {
+						post_id: post_id,
+						limit: 5,
+						page: 1,
+					}
 				})
 			},
 

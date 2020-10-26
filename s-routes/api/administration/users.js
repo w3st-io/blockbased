@@ -21,27 +21,6 @@ const router = express.Router().use(cors())
 
 
 /******************* [CRUD] *******************/
-// [READ-ALL] Auth Required //
-router.get(
-	'/read-all',
-	Auth.adminToken(),
-	async (req, res) => {
-		try {
-			const returned = await usersCollection.c_readAll()
-
-			res.status(200).send(returned)
-		}
-		catch (err) {
-			res.status(200).send({
-				executed: false,
-				status: false,
-				message: `/api/administration/users: Error --> ${err}`,
-			})
-		}
-	}
-)
-
-
 // [UPDATE] Auth Required //
 router.post(
 	'/update/:user_id',

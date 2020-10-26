@@ -16,17 +16,14 @@
 		<AdminNavBar v-if="adminLoggedIn" />
 
 		<!-- Pop Up Notifications -->
-		<PopUpNotifications
-			v-if="loggedIn"
-			class="w-100 ml-auto"
-			style="max-width: 300px;"
-		/>
+		<PopUpNotifications v-if="loggedIn" />
 
 		<!-- Floating Pop Up Banner -->
 		<PopUpBanner
 			v-if="message"
 			:message="message"
 			BGColor="info"
+			class="bg-danger"
 			style="width: 65%;"
 		/>
 	</div>

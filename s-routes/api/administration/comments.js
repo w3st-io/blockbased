@@ -22,45 +22,6 @@ const router = express.Router().use(cors())
 
 
 /******************* [CRUD] *******************/
-// [READ-ALL-ALL] //
-router.post(
-	'/read-all-all/:page',
-	Auth.adminToken(),
-	async (req, res) => {
-		try {
-			// [VALIDATE] //
-			if (
-				Number.isInteger(parseInt(req.params.page)) &&
-				Number.isInteger(parseInt(req.body.limit))
-			) {
-				// [INIT] //
-				const pageIndex = parseInt(req.params.page) - 1
-				const limit = parseInt(req.body.limit)
-				const skip = pageIndex * limit
-
-				const returned = await commentsCollection.c_readAllAll(limit, skip)
-					
-				res.status(200).send(returned)
-			}
-			else {
-				res.status(200).send({
-					executed: true,
-					status: false,
-					message: '/api/administration/comments: Invalid params'
-				})
-			}
-		}
-		catch (err) {
-			res.status(200).send({
-				executed: false,
-				status: false,
-				message: `/api/administration/comments: Error --> ${err}`,
-			})
-		}
-	}
-)
-
-
 // [DELETE] Auth Required //
 router.delete(
 	'/delete/:comment_id',

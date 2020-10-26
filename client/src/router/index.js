@@ -103,7 +103,7 @@ const router = new Router ({
 
 		// [CAT] //
 		{
-			path: '/cat/:cat_id/:page',
+			path: '/cat/:cat_id/:sort/:limit/:page',
 			name: 'cat',
 			component: Cat,
 			meta: {
@@ -123,7 +123,7 @@ const router = new Router ({
 
 		// [POST] //
 		{
-			path: '/post/:post_id/:page',
+			path: '/post/:post_id/:limit/:page',
 			name: 'post',
 			component: Post,
 			meta: {

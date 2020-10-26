@@ -18,6 +18,25 @@ async function authAxios() {
 
 
 /******************* [CRUD] *******************/
+// [READ-ALL] Auth Required //
+async function s_readAll() {
+	const authAxios = await this.authAxios()
+
+	try {
+		const returned = await authAxios.get(`/read-all`)
+
+		return returned.data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserService: Error --> ${err}`
+		}
+	}
+}
+
+
 // [READ] //
 async function s_read(user_id) {
 	const authAxios = await this.authAxios()
@@ -220,6 +239,7 @@ async function getUserTokenDecodeData() {
 // [EXPORT] //
 export default {
 	authAxios,
+	s_readAll,
 	s_read,
 	s_update,
 	login,

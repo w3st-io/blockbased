@@ -141,7 +141,8 @@
 						name: 'post',
 						params: {
 							post_id: this.post_id,
-							page: 1
+							limit: 5,
+							page: 1,
 						}
 					})
 				}
@@ -158,7 +159,8 @@
 						name: 'post',
 						params: {
 							post_id: this.post_id,
-							page: this.pageNumber
+							limit: 5,
+							page: this.pageNumber,
 						}
 					})
 				}
@@ -175,7 +177,8 @@
 						name: 'post',
 						params: {
 							post_id: this.post_id,
-							page: this.pageNumber
+							limit: 5,
+							page: this.pageNumber,
 						}
 					})
 				}
@@ -192,7 +195,8 @@
 						name: 'post',
 						params: {
 							post_id: this.post_id,
-							page: this.returned.commentsObj.pageCount
+							limit: 5,
+							page: this.returned.commentsObj.pageCount,
 						}
 					})
 				}

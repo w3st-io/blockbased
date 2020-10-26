@@ -53,6 +53,7 @@
 	import ButtonTabs from '@components/controls/ButtonTabs'
 	import router from '@router'
 	import PageService from '@services/PageService'
+	import UserService from '../../services/UserService'
 
 	// [EXPORT] //
 	export default {
@@ -82,6 +83,8 @@
 			if (!localStorage.admintoken) { router.push({ name: 'a-login' }) }
 
 			await this.getData()
+
+			console.log(await UserService.s_readAll())
 		},
 
 		methods: {

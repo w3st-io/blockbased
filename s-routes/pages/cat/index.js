@@ -23,20 +23,22 @@ const router = express.Router().use(cors())
 
 /******************* [CRUD] *******************/
 // [READ-ALL-SORT] Within Cat //
-router.post(
-	'/:cat_id/:page',
+router.get(
+	'/:cat_id/:sort/:limit/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
 				validator.isAscii(req.params.cat_id) &&
-				Number.isInteger(parseInt(req.params.page)) &&
-				Number.isInteger(parseInt(req.body.limit)) &&
-				validator.isAscii(req.body.sort)
+				Number.isInteger(parseInt(req.params.sort)) &&
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.page))
 			) {
+				// [INIT] //
+				const sort = parseInt(req.params.sort)
+				const limit = parseInt(req.params.limit)
 				const pageIndex = parseInt(req.params.page) - 1
-				const limit = parseInt(req.body.limit)
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Sort //
@@ -44,11 +46,11 @@ router.post(
 					req.params.cat_id,
 					limit,
 					skip,
-					req.body.sort,
+					sort,
 				)
 
 				if (postsObj.status) {
-					// [PINNED] Insert Posts (Only on 1st page) //
+					// [PINNED] (1st Page Only) //
 					if (pageIndex == 0) {
 						const { posts: pinnedPosts } = await postsCollection.c_readAllPinned(
 							req.params.cat_id
@@ -101,7 +103,7 @@ router.post(
 					).count
 					
 					// [COUNT] Calculate Pages //
-					postsObj.pageCount = Math.ceil(postsObj.postsCount / req.body.limit)
+					postsObj.pageCount = Math.ceil(postsObj.postsCount / limit)
 				}
 				
 				res.status(200).send(postsObj)

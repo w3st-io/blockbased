@@ -130,21 +130,59 @@ router.post(
 )
 
 
+// [READ-ALL-ALL] //
+router.get(
+	'/read-all-all/:limit/:page',
+	async (req, res) => {
+		try {
+			// [VALIDATE] //
+			if (
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.page))
+			) {
+				// [INIT] //
+				const limit = parseInt(req.params.limit)
+				const pageIndex = parseInt(req.params.page) - 1
+				const skip = pageIndex * limit
+
+				const commentsObj = await commentsCollection.c_readAllAll(limit, skip)
+					
+				res.status(200).send(commentsObj)
+			}
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
+					message: '/api/administration/comments: Invalid params'
+				})
+			}
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				message: `/api/administration/comments: Error --> ${err}`,
+			})
+		}
+	}
+)
+
+
 // [READ-ALL] Within Post //
-router.post(
-	'/read-all/:post_id/:page',
+router.get(
+	'/read-all/:post_id/:limit/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
 				mongoose.isValidObjectId(req.params.post_id) &&
-				Number.isInteger(parseInt(req.params.page)) &&
-				Number.isInteger(parseInt(req.body.limit))
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.page))
 			) {
 				// [INIT] //
+				const limit = parseInt(req.params.limit)
 				const pageIndex = parseInt(req.params.page) - 1
-				const limit = parseInt(req.body.limit)
 				const skip = pageIndex * limit
 
 				// [EXISTANCE] //
@@ -189,7 +227,7 @@ router.post(
 
 					// [COUNT] Calculate Total Pages //
 					commentsObj.pageCount = Math.ceil(
-						commentsObj.commentsCount / req.body.limit
+						commentsObj.commentsCount / limit
 					)
 				
 					res.status(200).send(commentsObj)
@@ -424,6 +462,7 @@ router.post(
 		}
 	},
 )
+
 
 // [UNLIKE] Auth Required //
 router.post(

@@ -81,7 +81,11 @@
 							// [REDIRECT] Post Page //
 							router.push({
 								name: 'post',
-								params: { post_id: this.comment.post, page: 1 }
+								params: {
+									post_id: this.comment.post,
+									limit: 5,
+									page: 1,
+								}
 							})
 						}
 						else { this.error = comment.message }

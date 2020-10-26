@@ -1,14 +1,17 @@
 <template>
-	<nav class="navbar fixed-bottom navbar-dark bg-warning border border-warning">
+	<nav
+		class="navbar fixed-bottom navbar-dark bg-warning border border-warning"
+		style=""
+	>
 		<div>
-			<router-link to="/admin" class="mr-2 btn btn-secondary">
+			<router-link to="/admin" class="mr-2 btn btn-sm btn-secondary">
 				Admin Dashboard
 			</router-link>
-			<router-link to="/admin/a-profile" class="btn btn-secondary">
+			<router-link to="/admin/a-profile" class="mr-2 btn btn-sm btn-secondary">
 				Admin Profile
 			</router-link>
+			<button @click="logout" class="mr-2 btn btn-sm btn-warning">logout</button>
 		</div>
-		<button @click="logout" class="btn btn-warning">Logout</button>
 	</nav>
 </template>
 

@@ -26,6 +26,50 @@ const router = express.Router().use(cors())
 
 
 /******************* [USER PROFILE] *******************/
+// [READ-ALL] Auth Required //
+router.get(
+	'/read-all/:page/:limit',
+	async (req, res) => {
+		try {
+			// [VALIDATE] //
+			if (
+				Number.isInteger(parseInt(req.params.page)) &&
+				Number.isInteger(parseInt(req.params.limit))
+			) {
+				// [INIT] //
+				const pageIndex = parseInt(req.params.page) - 1
+				const limit = parseInt(req.params.limit)
+				const skip = pageIndex * limit
+
+				const usersObj = await usersCollection.c_readAll(limit, skip)
+
+				usersObj.users.forEach(user => {
+					// [FORMAT] Remove things that should not be shown //
+					user.email = undefined
+					user.password = undefined
+				})
+
+				res.status(200).send(usersObj)
+			}
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
+					message: '/api/administration/comments: Invalid params'
+				})
+			}
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				message: `/api/administration/users: Error --> ${err}`,
+			})
+		}
+	}
+)
+
+
 // [READ] Auth Required - Decoded //
 router.get(
 	'/read',
@@ -34,7 +78,7 @@ router.get(
 		try {
 			const userObj = await usersCollection.c_read(req.decoded.user_id)
 
-			// Remove things that should not be shown //
+			// [FORMAT] Remove things that should not be shown //
 			userObj.user.password = undefined
 			
 			res.status(200).send(userObj)
@@ -59,7 +103,7 @@ router.get(
 			if (mongoose.isValidObjectId(req.params.user_id)) {
 				const userObj = await usersCollection.c_read(req.params.user_id)
 
-				// Remove things that should not be shown //
+				// [FORMAT] Remove things that should not be shown //
 				userObj.user.password = undefined
 
 				res.status(200).send(userObj)

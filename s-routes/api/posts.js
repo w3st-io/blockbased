@@ -55,23 +55,35 @@ router.post(
 
 					if (comment.status) {
 						// [CREATE] Activity //
-						const activity = await activitiesCollection.c_create(
+						const pActivity = await activitiesCollection.c_create(
 							'post',
 							undefined,
 							post.createdPost._id,
 							undefined,
 						)
 
-						if (activity.status) {
-							res.status(200).send({
-								executed: true,
-								status: true,
-								post: post,
-								comment: comment,
-								activity: activity,
-							})
+						if (pActivity.status) {
+							// [CREATE] Activity //
+							const cActivity = await activitiesCollection.c_create(
+								'comment',
+								undefined,
+								undefined,
+								comment.comment._id,
+							)
+						
+							if (cActivity.status) {
+								res.status(200).send({
+									executed: true,
+									status: true,
+									post: post,
+									comment: comment,
+									postActivity: pActivity,
+									commentActivity: cActivity,
+								})
+							}
+							else { res.status(200).send(cActivity) }	
 						}
-						else { res.status(200).send(activity) }						
+						else { res.status(200).send(pActivity) }						
 					}
 					else { res.status(200).send(comment) }
 		
@@ -97,19 +109,58 @@ router.post(
 )
 
 
+// [READ-ALL-ALL] Auth Required //
+router.get(
+	'/read-all-all/:limit/:page',
+	async (req, res) => {
+		try {
+			// [VALIDATE] //
+			if (
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.page))
+			) {
+				// [INIT] //
+				const limit = parseInt(req.params.limit)
+				const pageIndex = parseInt(req.params.page) - 1
+				const skip = pageIndex * limit
+
+				const returned = await postsCollection.c_readAllAll(limit, skip)
+	
+				res.status(200).send(returned)
+			}
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
+					message: '/api/administration/posts: Invalid params'
+				})
+			}
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				message: `/api/administration/posts: Error --> ${err}`,
+			})
+		}
+	}
+)
+
+
 // [READ-ALL] Within Cat //
-router.post(
-	'/read-all/:cat_id/:page',
+router.get(
+	'/read-all/:cat_id/:limit/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
 				validator.isAscii(req.params.cat_id) &&
-				Number.isInteger(parseInt(req.body.limit)) &&
-				Number.isInteger(parseInt(req.params.page))
+				Number.isInteger(parseInt(req.params.page)) &&
+				Number.isInteger(parseInt(req.params.limit))
 			) {
-				const limit = parseInt(req.body.limit)
+				// [INIT] //
+				const limit = parseInt(req.params.limit)
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
 
@@ -127,7 +178,7 @@ router.post(
 					).count
 
 					// [COUNT] Calculate Pages //
-					postsObj.pageCount = Math.ceil(postsCount.count / req.body.limit)
+					postsObj.pageCount = Math.ceil(postsCount.count / limit)
 
 					// For Each Post in Posts //
 					for (let i = 0; i < postsObj.posts.length; i++) {
@@ -318,20 +369,22 @@ router.delete(
 
 /******************* [OTHER-CURD] *******************/
 // [READ-ALL-SORT] Within Cat //
-router.post(
-	'/read-all-sort/:cat_id/:page',
+router.get(
+	'/read-all-sort/:cat_id/:sort/:limit/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
 				validator.isAscii(req.params.cat_id) &&
-				Number.isInteger(parseInt(req.params.page)) &&
-				Number.isInteger(parseInt(req.body.limit)) &&
-				validator.isAscii(req.body.sort)
+				Number.isInteger(parseInt(req.params.sort)) &&
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.page))
 			) {
+				// [INIT] //
+				const sort = parseInt(req.params.sort)
+				const limit = parseInt(req.params.limit)
 				const pageIndex = parseInt(req.params.page) - 1
-				const limit = parseInt(req.body.limit)
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Sort //
@@ -339,7 +392,7 @@ router.post(
 					req.params.cat_id,
 					limit,
 					skip,
-					req.body.sort,
+					sort,
 				)
 
 				if (postsObj.status) {
@@ -393,7 +446,7 @@ router.post(
 					).count
 					
 					// [COUNT] Calculate Pages //
-					postsObj.pageCount = Math.ceil(postsObj.postsCount / req.body.limit)
+					postsObj.pageCount = Math.ceil(postsObj.postsCount / limit)
 				}
 
 				res.status.send(postsObj)
