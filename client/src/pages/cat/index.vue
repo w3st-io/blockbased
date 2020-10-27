@@ -118,7 +118,7 @@
 			async tab(tab) {
 				this.loading = true
 
-				if (tab == 'recent') { this.sort = 0	 }
+				if (tab == 'recent') { this.sort = 0 }
 				else { this.sort = 1 }
 
 				this.refreshRoute()

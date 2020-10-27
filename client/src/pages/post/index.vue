@@ -89,14 +89,17 @@
 			return {
 				post_id: this.$route.params.post_id,
 				pageNumber: parseInt(this.$route.params.page),
-				limit: 5,
-				postTitle: 'unset',
-				totalPages: 10000,
+				limit: parseInt(this.$route.params.limit),
+
 				loading: true,
-				returned: {},
-				post: {},
-				comments: [],
 				error: '',
+
+				totalPages: 100000000,
+
+				returned: {},
+				comments: [],
+				post: {},
+				postTitle: 'unset',
 			}
 		},
 
@@ -109,6 +112,62 @@
 		},
 
 		methods: {
+			async startPage() {
+				if (this.pageNumber != 1) {
+					this.loading = true
+					this.pageNumber = 1
+
+					this.refreshRoute()
+
+					await this.getPageData()
+				}
+			},
+
+			async prevPage() {
+				if (this.pageNumber != 1) {
+					this.loading = true
+					this.pageNumber--
+
+					this.refreshRoute()
+
+					await this.getPageData()
+				}
+			},
+
+			async nextPage() {
+				if (this.pageNumber < this.totalPages) {
+					this.loading = true
+					this.pageNumber++
+
+					this.refreshRoute()
+
+					await this.getPageData()
+				}
+			},
+
+			async endPage() {
+				if (this.pageNumber != this.returned.commentsObj.pageCount) {
+					this.loading = true
+					this.pageNumber = this.returned.commentsObj.pageCount
+
+					this.refreshRoute()
+
+					await this.getPageData()
+				}
+			},
+
+			refreshRoute() {
+				// [REDIRECT] Cat Page //
+				router.push({
+					name: 'post',
+					params: {
+						cat_id: this.post_id,
+						limit: this.limit,
+						page: this.pageNumber,
+					}
+				})
+			},
+
 			async getPageData() {
 				try {
 					this.returned = await PageService.s_post(
@@ -117,7 +176,7 @@
 						this.pageNumber
 					)
 				}
-				catch (err) { this.error = err }
+				catch (err) { this.error = `This: --> ${err}` }
 
 				if (this.returned.status) {
 					this.post = this.returned.postObj.post
@@ -128,78 +187,6 @@
 				else { this.error = this.returned.message }
 
 				this.loading = false
-			},
-
-			async startPage() {
-				if (this.pageNumber != 1) {
-					this.loading = true
-					this.pageNumber = 1
-
-					await this.getPageData()
-
-					router.push({
-						name: 'post',
-						params: {
-							post_id: this.post_id,
-							limit: 5,
-							page: 1,
-						}
-					})
-				}
-			},
-
-			async prevPage() {
-				if (this.pageNumber != 1) {
-					this.loading = true
-					this.pageNumber--
-
-					await this.getPageData()
-
-					router.push({
-						name: 'post',
-						params: {
-							post_id: this.post_id,
-							limit: 5,
-							page: this.pageNumber,
-						}
-					})
-				}
-			},
-
-			async nextPage() {
-				if (this.pageNumber < this.totalPages) {
-					this.loading = true
-					this.pageNumber++
-
-					await this.getPageData()
-
-					router.push({
-						name: 'post',
-						params: {
-							post_id: this.post_id,
-							limit: 5,
-							page: this.pageNumber,
-						}
-					})
-				}
-			},
-
-			async endPage() {
-				if (this.pageNumber != this.returned.commentsObj.pageCount) {
-					this.loading = true
-					this.pageNumber = this.returned.commentsObj.pageCount
-
-					await this.getPageData()
-
-					router.push({
-						name: 'post',
-						params: {
-							post_id: this.post_id,
-							limit: 5,
-							page: this.returned.commentsObj.pageCount,
-						}
-					})
-				}
 			},
 
 			log() {
