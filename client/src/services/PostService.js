@@ -39,7 +39,24 @@ async function s_readAllAll(limit, page) {
 	try {
 		const authAxios = await this.authAxios()
 		
-		return (await authAxios.post(`/read-all-all/${limit}/${page}`)).data
+		return (await authAxios.get(`/read-all-all/${limit}/${page}`)).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `PostService: Error --> ${err}`
+		}
+	}
+}
+
+
+// [READ-ALL] Auth Required //
+async function s_readAll(cat_id, limit, page) {
+	try {
+		const authAxios = await this.authAxios()
+		
+		return (await authAxios.get(`/read-all-all/${cat_id}/${limit}/${page}`)).data
 	}
 	catch (err) {
 		return {
@@ -74,10 +91,9 @@ async function s_readAllSort(cat_id, limit, page, sort) {
 	try {
 		const authAxios = await this.authAxios()
 		
-		return (await authAxios.post(
-			`/read-all-sort/${cat_id}/${page}`,
-			{ limit, sort }
-		)).data
+		return (
+			await authAxios.post(`/read-all-sort/${cat_id}/${page}`, { limit, sort })
+		).data
 	}
 	catch (err) {
 		return {
@@ -95,7 +111,7 @@ async function s_like(post_id) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.post(`/like/${post_id}`)).data
+		return (await authAxios.post(`/like`, { post_id })).data
 	}
 	catch (err) {
 		return {
@@ -111,7 +127,7 @@ async function s_unlike(post_id) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.post(`/unlike/${post_id}`)).data
+		return (await authAxios.post(`/unlike`, { post_id })).data
 	}
 	catch (err) {
 		return {
@@ -129,7 +145,7 @@ async function s_follow(post_id) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.post(`/follow/${post_id}`)).data
+		return (await authAxios.post(`/follow`, { post_id })).data
 	}
 	catch (err) {
 		return {
@@ -144,7 +160,7 @@ async function s_unfollow(post_id) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.post(`/unfollow/${post_id}`)).data
+		return (await authAxios.post(`/unfollow`, { post_id })).data
 	}
 	catch (err) {
 		return {
@@ -178,6 +194,7 @@ export default {
 	authAxios,
 	s_create,
 	s_readAllAll,
+	s_readAll,
 	s_read,
 	s_readAllSort,
 	s_like,

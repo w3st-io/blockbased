@@ -61,7 +61,7 @@
 			try {
 				const returned = await UserService.s_read()
 
-				if (returned.status) { this.userData = returned.user }
+				if (returned.status) { this.userData = returned }
 				else { this.error = returned.message }
 			}
 			catch (err) { this.error = err }

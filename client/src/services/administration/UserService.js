@@ -25,7 +25,7 @@ async function s_update(user_id, img_url) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returned = await authAxios.post(`/update/${user_id}`, { img_url })
+		const returned = await authAxios.post(`/update`, { user_id, img_url })
 
 		return returned.data
 	}
@@ -44,7 +44,7 @@ async function s_banUser(user_id, hours) {
 	const authAxios = await this.authAxios()
 
 	try {
-		const returned = await authAxios.post(`/ban/${user_id}`, { hours })
+		const returned = await authAxios.post(`/ban`, { user_id, hours })
 	
 		return returned.data
 	}

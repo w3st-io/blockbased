@@ -473,29 +473,29 @@ router.get(
 /******************* [LIKE-SYSTEM] *******************/
 // [LIKE] Auth Required //
 router.post(
-	'/like/:post_id',
+	'/like',
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
-			if (mongoose.isValidObjectId(req.params.post_id)) {
+			if (mongoose.isValidObjectId(req.body.post_id)) {
 				const existance = await postLikesCollection.c_existance(
 					req.decoded.user_id,
-					req.params.post_id
+					req.body.post_id
 				)
 
 				if (!existance.existance) {
 					// [CREATE] postLike //
 					const postLikeObj = await postLikesCollection.c_create(
 						req.decoded.user_id,
-						req.params.post_id
+						req.body.post_id
 					)
 
 					if (postLikeObj.status) {
 						// [UPDATE] likeCount //
 						const post = await postsCollection.c_incrementLike(
-							req.params.post_id
+							req.body.post_id
 						)
 
 						res.status(200).send({
@@ -530,28 +530,28 @@ router.post(
 
 // [UNLIKE] Auth Required //
 router.post(
-	'/unlike/:post_id',
+	'/unlike',
 	rateLimiter.likeLimiter,
 	Auth.userToken(),
 	async (req, res) => {
 		try {
-			if (mongoose.isValidObjectId(req.params.post_id)) {
+			if (mongoose.isValidObjectId(req.body.post_id)) {
 				const existance = await postLikesCollection.c_existance(
 					req.decoded.user_id,
-					req.params.post_id
+					req.body.post_id
 				)
 
 				if (existance.existance) {
 					// [CREATE] postLike //
 					const postLikeObj = await postLikesCollection.c_delete(
 						req.decoded.user_id,
-						req.params.post_id
+						req.body.post_id
 					)
 					
 					if (postLikeObj.status) {
 						// [UPDATE] likeCount //
 						const post = await postsCollection.c_decrementLike(
-							req.params.post_id
+							req.body.post_id
 						)
 
 						res.status(200).send({
@@ -587,15 +587,15 @@ router.post(
 /******************* [FOLLOW SYSTEM] *******************/
 // [FOLLOW] Auth Required //
 router.post(
-	'/follow/:post_id',
+	'/follow',
 	Auth.userToken(),
 	rateLimiter.followLimiter,
 	async (req, res) => {
 		try {
-			if (mongoose.isValidObjectId(req.params.post_id)) {
+			if (mongoose.isValidObjectId(req.body.post_id)) {
 				const returned = await postFollowsCollection.c_create(
 					req.decoded.user_id,
-					req.params.post_id
+					req.body.post_id
 				)
 				
 				res.status(200).send(returned)
@@ -621,15 +621,15 @@ router.post(
 
 // [UNFOLLOW] Auth Required //
 router.post(
-	'/unfollow/:post_id',
+	'/unfollow',
 	rateLimiter.followLimiter,
 	Auth.userToken(),
 	async (req, res) => {
 		try {
-			if (mongoose.isValidObjectId(req.params.post_id)) {
+			if (mongoose.isValidObjectId(req.body.post_id)) {
 				const returned = await postFollowsCollection.c_delete(
 					req.decoded.user_id,
-					req.params.post_id
+					req.body.post_id
 				)
 				
 				res.status(200).send(returned)

@@ -28,17 +28,17 @@ const router = express.Router().use(cors())
 /******************* [USER PROFILE] *******************/
 // [READ-ALL] Auth Required //
 router.get(
-	'/read-all/:page/:limit',
+	'/read-all/:limit/:page',
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
-				Number.isInteger(parseInt(req.params.page)) &&
-				Number.isInteger(parseInt(req.params.limit))
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.page))
 			) {
 				// [INIT] //
-				const pageIndex = parseInt(req.params.page) - 1
 				const limit = parseInt(req.params.limit)
+				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
 
 				const usersObj = await usersCollection.c_readAll(limit, skip)
@@ -79,6 +79,7 @@ router.get(
 			const userObj = await usersCollection.c_read(req.decoded.user_id)
 
 			// [FORMAT] Remove things that should not be shown //
+			userObj.user.email = undefined
 			userObj.user.password = undefined
 			
 			res.status(200).send(userObj)
@@ -104,6 +105,7 @@ router.get(
 				const userObj = await usersCollection.c_read(req.params.user_id)
 
 				// [FORMAT] Remove things that should not be shown //
+				userObj.user.email = undefined
 				userObj.user.password = undefined
 
 				res.status(200).send(userObj)

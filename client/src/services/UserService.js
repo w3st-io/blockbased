@@ -19,13 +19,11 @@ async function authAxios() {
 
 /******************* [CRUD] *******************/
 // [READ-ALL] Auth Required //
-async function s_readAll() {
-	const authAxios = await this.authAxios()
-
+async function s_readAll(limit, page) {
 	try {
-		const returned = await authAxios.get(`/read-all`)
+		const authAxios = await this.authAxios()
 
-		return returned.data
+		return (await authAxios.get(`/read-all/${limit}/${page}`)).data
 	}
 	catch (err) {
 		return {
@@ -39,46 +37,27 @@ async function s_readAll() {
 
 // [READ] //
 async function s_read(user_id) {
-	const authAxios = await this.authAxios()
+	try {
+		const authAxios = await this.authAxios()
 	
-	if (user_id) {
-		try {
-			const { data } = await authAxios.get(`/read/${user_id}`)
-
-			return data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `UserService: Error --> ${err}`
-			}
-		}
+		if (user_id) { return (await authAxios.get(`/read/${user_id}`)).data }
+		else { return (await authAxios.get('/read')).data }
 	}
-	else {
-		try {
-			const { data } = await authAxios.get('/read')
-
-			return data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `UserService: Error --> ${err}`
-			}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserService: Error --> ${err}`
 		}
 	}
 }
 
 // [UPDATE] Auth Required //
 async function s_update(img_url) {
-	const authAxios = await this.authAxios()
-
 	try {
-		const { data } = await authAxios.post(`/update`, { img_url })
-
-		return data
+		const authAxios = await this.authAxios()
+		
+		return (await authAxios.post(`/update`, { img_url })).data
 	}
 	catch (err) {
 		return {
@@ -94,12 +73,10 @@ async function s_update(img_url) {
 /******************* [USER LOGIN/REGISTER] *******************/
 // [LOGIN] //
 async function login(email, password) {
-	const authAxios = await this.authAxios()
-
 	try {
-		const { data } = await authAxios.post('/login', { email, password })
+		const authAxios = await this.authAxios()
 		
-		return data
+		return (await authAxios.post('/login', { email, password })).data
 	}
 	catch (err) {
 		return {
@@ -113,16 +90,10 @@ async function login(email, password) {
 
 // [REGISTER] //
 async function register(username, email, password) {
-	const authAxios = await this.authAxios()
-	
 	try {
-		const { data } = await authAxios.post('/register', {
-			username,
-			email,
-			password,
-		})
-
-		return data
+		const authAxios = await this.authAxios()
+		
+		return (await authAxios.post('/register', { username, email, password })).data
 	}
 	catch (err) {
 		return {
@@ -136,15 +107,10 @@ async function register(username, email, password) {
 
 /******************* [VERIFY] *******************/
 async function verify(user_id, verificationCode) {
-	const authAxios = await this.authAxios()
-
 	try {
-		const { data } = await authAxios.post('/verify', {
-			user_id,
-			verificationCode,
-		})
+		const authAxios = await this.authAxios()
 		
-		return data
+		return (await authAxios.post('/verify', { user_id, verificationCode })).data
 	}
 	catch (err) {
 		return {
@@ -157,12 +123,10 @@ async function verify(user_id, verificationCode) {
 
 
 async function resendVerificationEmail(email) {
-	const authAxios = await this.authAxios()
-
 	try {
-		const { data } = await authAxios.post('/resend-verification-email', { email })
+		const authAxios = await this.authAxios()
 		
-		return data
+		return (await authAxios.post('/resend-verification-email', { email })).data
 	}
 	catch (err) {
 		return {
@@ -176,14 +140,10 @@ async function resendVerificationEmail(email) {
 
 /******************* [PASSWORD] *******************/
 async function requestPasswordReset(email) {
-	const authAxios = await this.authAxios()
-
 	try {
-		const { data } = await authAxios.post('/request-password-reset', { email })
-
-		console.log('requestPasswordReset', data)
-
-		return data
+		const authAxios = await this.authAxios()
+		
+		return (await authAxios.post('/request-password-reset', { email })).data
 	}
 	catch (err) {
 		return {
@@ -196,18 +156,16 @@ async function requestPasswordReset(email) {
 
 
 async function resetPassword(user_id, verificationCode, password) {
-	const authAxios = await this.authAxios()
-
 	try {
-		const { data } = await authAxios.post('/reset-password', {
-			user_id,
-			verificationCode,
-			password
-		})
-
-		console.log('resetPassword', data)
-
-		return data
+		const authAxios = await this.authAxios()
+		
+		return (
+			await authAxios.post('/reset-password', {
+				user_id,
+				verificationCode,
+				password
+			})
+		).data
 	}
 	catch (err) {
 		return {

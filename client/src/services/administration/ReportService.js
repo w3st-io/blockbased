@@ -22,12 +22,10 @@ async function authAxios() {
 /******************* [CRUD] *******************/
 // [READ-ALL-ALL] Auth Required //
 async function s_readAllAll() {
-	const authAxios = await this.authAxios()
-
 	try {
-		const returned = await authAxios.get('/read-all')
-
-		return returned.data
+		const authAxios = await this.authAxios()
+		
+		return (await authAxios.get('/read-all')).data
 	}
 	catch (err) {
 		return {

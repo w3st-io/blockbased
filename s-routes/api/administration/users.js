@@ -23,14 +23,17 @@ const router = express.Router().use(cors())
 /******************* [CRUD] *******************/
 // [UPDATE] Auth Required //
 router.post(
-	'/update/:user_id',
+	'/update',
 	Auth.adminToken(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
-			if (mongoose.isValidObjectId(req.params.user_id)) {
+			if (
+				mongoose.isValidObjectId(req.body.user_id) &&
+				validator.isAscii(req.body.img_url)
+			) {
 				const returned = await usersCollection.c_update(
-					req.decoded.user_id,
+					req.body.user_id,
 					req.body.img_url
 				)
 
@@ -58,17 +61,17 @@ router.post(
 /******************* [BAN] *******************/
 // [UPDATE] Auth Required //
 router.post(
-	'/ban/:user_id',
+	'/ban',
 	Auth.adminToken(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
-				mongoose.isValidObjectId(req.params.user_id) &&
+				mongoose.isValidObjectId(req.body.user_id) &&
 				Number.isInteger(parseInt(req.body.hours))
 			) {
 				const returned = await bansCollection.c_create(
-					req.params.user_id,
+					req.body.user_id,
 					parseInt(req.body.hours)
 				)
 
