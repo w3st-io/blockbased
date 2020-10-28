@@ -1,11 +1,12 @@
 <template>
 	<section>
 		<!-- Top Bar -->
-		<article class="py-2 bg-dark bg-secondary border-bottom border-primary">
+		<article class="bg-dark bg-secondary border-bottom border-primary">
 			<b-container>
 				<nav class=" px-0 navbar navbar-expand-lg navbar-dark">
+					<!-- Logo -->
 					<router-link to="/" class="navbar-brand">
-						<mark class="h4 bg-primary border border-secondary text-light">
+						<mark class="h4 bg-primary text-light">
 							BlockBased.io
 						</mark>
 					</router-link>
@@ -40,16 +41,32 @@
 			<b-container>
 				<b-navbar class="px-0 py-1">
 					<div class="mr-auto">
-						<NotificationMenuBtn v-if="loggedIn" />
-
 						<button
 							v-if="loggedIn"
 							@click="followedRedirect()"
 							class="ml-2 btn btn-sm btn-outline-light"
 						>Followed Posts</button>
+
+						<button
+							v-if="loggedIn"
+							@click="allActivityRedirect()"
+							class="ml-2 btn btn-sm btn-outline-light"
+						>All Activity</button>
 					</div>
 
 					<section>
+						<!-- Logged In -->
+						<NotificationMenuBtn v-if="loggedIn" />
+
+						<b-button
+							v-if="loggedIn"
+							@click="profileRedirect()"
+							variant="outline-primary"
+							size="sm"
+							class="ml-2"
+						>{{ decoded.username }}</b-button>
+
+						<!-- NOT Logged In -->
 						<b-button
 							v-if="!loggedIn"
 							@click="logInRedirect()"
@@ -64,22 +81,6 @@
 							size="sm"
 							class="ml-2"
 						>Register</b-button>
-
-						<b-button
-							v-if="loggedIn"
-							@click="profileRedirect()"
-							variant="outline-primary"
-							size="sm"
-							class="ml-2"
-						>{{ decoded.username }}</b-button>
-						
-						<b-button
-							v-if="loggedIn"
-							@click="logout()"
-							variant="outline-secondary"
-							size="sm"
-							class="ml-2"
-						>Log Out</b-button>
 					</section>
 				</b-navbar>
 			</b-container>
@@ -128,17 +129,11 @@
 			profileRedirect() { router.push({ name: 'profile' }) },
 
 			followedRedirect() {
-				router.push({
-					name: 'user-followed',
-					params: { page: 1 } 
-				})
+				router.push({ name: 'user-followed', params: { page: 1 } })
 			},
 
-			logout() {
-				EventBus.$emit('logged-out')
-				this.loggedIn = false
-
-				router.push({ name: 'login' })
+			allActivityRedirect() {
+				router.push({ name: 'activity', params: { page: 1 } })
 			},
 			
 			menuBtnClicked() { this.$emit('menu-btn-clicked') }

@@ -1,5 +1,6 @@
 <template>
-	<span> 
+	<span>
+		<!-- Button -->
 		<button
 			@click="showPopper = !showPopper"
 			class="
@@ -19,11 +20,12 @@
 			>
 		</button>
 
+		<!-- Dropdown Menu -->
 		<div
-			v-show="showPopper && notifications.length > 0"
+			v-show="showPopper"
 			v-click-outside="outsideClicked"
-			class="position-absolute mt-1 p-1 border border-light bg-dark rounded shadow z-index-menu"
-			style="width: 100%; max-width: 300px;"
+			class="dropdown-menu-right position-absolute mt-1 p-1 border border-light bg-dark rounded shadow z-index-menu"
+			style="width: 100%; max-width: 300px; float: left;"
 		>
 			<a
 				v-for="notification in notifications"

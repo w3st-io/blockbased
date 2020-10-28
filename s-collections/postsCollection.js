@@ -300,7 +300,13 @@ const c_readAllSort = async (cat_id, limit, skip, sort = 0) => {
 		// Set Sort //
 		if (sort == 0) { sort = { createdAt: -1 } }
 		else if (sort == 1) { sort = { likeCount: -1 } }
-		else { console.log('THIS') }
+		else {
+			return {
+				executed: true,
+				status: false,
+				message: 'Unknown filter'
+			}
+		}
 
 		const posts = await PostModel.find({ cat_id })
 			.sort(sort)

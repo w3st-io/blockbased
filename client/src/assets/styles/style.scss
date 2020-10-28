@@ -1,6 +1,8 @@
 // [IMPORT] Personal //
 @import './sass-variables.scss';
 
+* { border-radius: 0!important; }
+
 body {
 	opacity: 1;
 	background: #a8a8a8;

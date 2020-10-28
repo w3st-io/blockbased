@@ -10,24 +10,25 @@ import Router from 'vue-router'
 
 
 // [IMPORT] Personal //
-// [*]
+// [*] //
 import home from '@pages'
 import NotFound from '@pages/404'
-// [ADMIN]
+// [ACTIVITY] //
+import activity from '../pages/activity'
+// [ADMIN] //
 import Admin from '@pages/admin'
 import ALogin from '@pages/admin/a-login'
 import AProfile from '@pages/admin/a-profile'
 import ARegister from '@pages/admin/a-register'
-// [CAT]
+// [CAT] //
 import Cat from '@pages/cat'
 import PostCreate from '@pages/cat/post-create'
-// [POST]
+// [POST] //
 import Post from '@pages/post'
 import CommentCreate from '@pages/post/comment-create'
 import CommentEdit from '@pages/post/comment-edit'
 import CommentReply from '@pages/post/comment-reply'
-
-// [USER]
+// [USER] //
 import AccountCreated from '@pages/user/account-created'
 import followed from '@pages/user/followed'
 import Login from '@pages/user/login'
@@ -39,7 +40,7 @@ import ProfileEdit from '@pages/user/profile/edit'
 import ProfileView from '@pages/user/profile/view'
 import Verify from '@pages/user/verify'
 import Register from '@pages/user/register'
-// [Z]
+// [Z] //
 import z from '@pages/z'
 
 
@@ -60,6 +61,17 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'BlockBased.io'
+			}
+		},
+
+		// [ACTIVITY] //
+		{
+			path: '/activity/:filter/:limit/:page',
+			name: 'activity',
+			component: activity,
+			meta: {
+				auth: true,
+				title: 'Activity'
 			}
 		},
 

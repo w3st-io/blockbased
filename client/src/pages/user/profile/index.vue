@@ -1,53 +1,54 @@
 <template>
 	<div class="container">
 		<div class="row mt-4">
+			<!-- User Not Verifed -->
+				<div v-if="!isVerified" class="col-12 mb-3">
+					<div class="m-auto card card-body bg-danger">
+						<h5 class="text-center text-light">Account Not Verified!</h5>
+						<button
+							@click="resendvCodeEmail"
+							class="btn btn-outline-light"
+							
+						>Click to Resend Email</button>
+					</div>
+				</div>
+
 			<!-- Side Content -->
 			<section class="col-12 col-md-3 hidden-768">
-				<div class="card card-body bg-dark">
+				<div class="card card-body bg-dark text-light">
 					<img
 						:src="user.profileImg"
 						alt="Profile Image Here"
-						class="w-100"
+						class="m-auto w-100 border border-primary rounded"
 					>
+					<h4 class="mb-0 text-center text-light">{{ user.username }}</h4>
 				</div>
 			</section>
 
 			<!-- Main Content -->
 			<section class="col-12 col-md-9 text-light">
-				<!-- User Not Verifed -->
-				<div v-if="!isVerified" class="mb-3 card card-body bg-danger">
-					<h5 class="text-center">Account Not Verified</h5>
-
-					<button
-						@click="resendvCodeEmail"
-						class="btn btn-outline-light"
-					>Resend Email</button>
-
-				</div>
-
+				<!-- NOT Verified Message -->
 				<div v-if="vCodeSent" class="mt-3 alert alert-warning">
 					Email Sent, Please check your email
 				</div>
 
 				<!-- Profile Details -->
-				<div class="card card-body bg-dark">
-					<h4 class="text-light mb-2">Your Profile</h4>
+				<div class="card bg-dark text-light mb-3">
+					<div class="card-header">
+						<h4 class="text-primary">Your Profile</h4>
+					</div>
+					<div class="card-body">
+						<p class="m-0 text-secondary">Email</p>
+						<p class="">{{ user.email }}</p>
 
-					<table class="w-100 table-sm table-dark">
-						<tr>
-							<td>Username</td>
-							<td>{{ user.username }}</td>
-						</tr>
-						<tr>
-							<td>Email</td>
-							<td>{{ user.email }}</td>
-						</tr>
-					</table>
+						<p class="m-0 text-secondary">Bio</p>
+						<p class="m-0">{{ user.bio }}</p>
 
-					<button
-						@click="redirectProfileEdit()"
-						class="mt-3 btn btn-secondary"
-					>Edit Your Profile</button>
+						<button
+							@click="redirectProfileEdit()"
+							class="mt-3 w-100 btn btn-secondary"
+						>Edit Your Profile</button>
+					</div>
 				</div>
 			</section>
 		</div>
@@ -100,9 +101,7 @@
 						this.user.email
 					)
 
-					if (this.returned.status) {
-						this.vCodeSent = true
-					}
+					if (this.returned.status) { this.vCodeSent = true }
 				}
 			},
 

@@ -47,6 +47,12 @@ module.exports = mongoose.model(
 			required: [true, 'This is required'],
 		},
 
+		bio: {
+			type: String,
+			default: '',
+			maxlength: 600,
+		},
+
 		verified: {
 			type: Boolean,
 			default: false,
