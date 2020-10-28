@@ -17,9 +17,9 @@ async function authAxios() {
 
 /******************* [OTHER-CRUD] *******************/
 async function s_readAllUnread() {
-	const authAxios = await this.authAxios()
-
 	try {
+		const authAxios = await this.authAxios()
+
 		const { data } = await authAxios.get(`/read-all-unread`)
 
 		return data.notifications
@@ -30,9 +30,11 @@ async function s_readAllUnread() {
 
 /******************* [MARK-READ-STATUS] *******************/
 async function markRead(notification_id) {
-	const authAxios = await this.authAxios()
+	try {
+		const authAxios = await this.authAxios()
 
-	try { return await authAxios(`/mark-read/${notification_id}`) }
+		return await authAxios(`/mark-read/${notification_id}`)
+	}
 	catch (err) { return err }
 }
 

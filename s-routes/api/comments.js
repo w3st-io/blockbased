@@ -304,40 +304,38 @@ router.get(
 
 // [UPDATE] Auth Required //
 router.post(
-	'/update/:comment_id',
+	'/update',
 	Auth.userToken(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
-				mongoose.isValidObjectId(req.params.comment_id) &&
+				mongoose.isValidObjectId(req.body.comment_id) &&
 				req.body.text
 			) {
 				// [OWNERSHIP] //
 				const ownership = await commentsCollection.c_ownership(
-					req.params.comment_id,
+					req.body.comment_id,
 					req.decoded.user_id
 				)
 
 				if (ownership.status && ownership.ownership) {
 					// [CREATE] PreeditedComment //
 					const preeditedComment = await PreeditedCommentsCollection.c_create(
-						req.params.comment_id
+						req.body.comment_id
 					)
 
 					if (preeditedComment.status) {
 						// [UPDATE] //
 						const updatedComment = await commentsCollection.c_update(
-							req.params.comment_id,
+							req.body.comment_id,
 							req.decoded.user_id,
 							req.body.text
 						)
 						
 						res.status(200).send(updatedComment)
 					}
-					else {
-						res.status(200).send(preeditedComment)
-					}
+					else { res.status(200).send(preeditedComment) }
 				}
 				else {
 					res.status(200).send({
@@ -426,21 +424,21 @@ router.delete(
 /******************* [LIKE-SYSTEM] *******************/
 // [LIKE] Auth Required //
 router.post(
-	'/like/:comment_id/:post_id',
+	'/like',
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
-				mongoose.isValidObjectId(req.params.comment_id) &&
-				mongoose.isValidObjectId(req.params.post_id)
+				mongoose.isValidObjectId(req.body.post_id) &&
+				mongoose.isValidObjectId(req.body.comment_id)
 			) {
-					// [CREATE] CommentLike //
+				// [CREATE] CommentLike //
 				const commentLike = await commentLikesCollection.c_create(
 					req.decoded.user_id,
-					req.params.post_id,
-					req.params.comment_id,
+					req.body.post_id,
+					req.body.comment_id,
 				)
 
 				res.status(200).send(commentLike)
@@ -466,17 +464,17 @@ router.post(
 
 // [UNLIKE] Auth Required //
 router.post(
-	'/unlike/:comment_id',
+	'/unlike',
 	Auth.userToken(),
 	rateLimiter.likeLimiter,
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
-			if (mongoose.isValidObjectId(req.params.comment_id)) {
+			if (mongoose.isValidObjectId(req.body.comment_id)) {
 				// [DELETE] CommentLike //
 				const commentLike = await commentLikesCollection.c_delete(
 					req.decoded.user_id,
-					req.params.comment_id,
+					req.body.comment_id,
 				)
 				
 				res.status(200).send(commentLike)
@@ -503,14 +501,14 @@ router.post(
 /******************* [REPORTS] *******************/
 // [CREATE] //
 router.post(
-	'/report/:comment_id',
+	'/report',
 	Auth.userToken(),
 	rateLimiter.reportLimiter,
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
-				mongoose.isValidObjectId(req.params.comment_id) &&
+				mongoose.isValidObjectId(req.body.comment_id) &&
 				validator.isAscii(req.body.post_id) &&
 				validator.isAscii(req.body.reportType)
 			) {
@@ -519,7 +517,7 @@ router.post(
 
 				const commentReport = await commentReportsCollection.c_create(
 					req.decoded.user_id,
-					req.params.comment_id,
+					req.body.comment_id,
 					req.body.post_id,
 					req.body.reportType
 				)

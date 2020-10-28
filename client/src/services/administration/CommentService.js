@@ -25,7 +25,7 @@ async function s_delete(comment_id) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.delete(`/delete/${comment_id}`)).data
+		return (await authAxios.delete(`/delete/${comment_id}`, { test: 'test'})).data
 	}
 	catch (err) {
 		return {

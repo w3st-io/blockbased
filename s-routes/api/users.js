@@ -314,6 +314,7 @@ router.post(
 	}
 )
 
+
 router.post(
 	'/resend-verification-email',
 	async (req, res) => {

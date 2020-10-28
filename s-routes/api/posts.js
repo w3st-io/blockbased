@@ -86,7 +86,6 @@ router.post(
 						else { res.status(200).send(pActivity) }						
 					}
 					else { res.status(200).send(comment) }
-		
 				}
 				else { res.status(200).send(post) }
 			}

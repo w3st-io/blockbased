@@ -23,7 +23,7 @@ async function s_create(post_id, text, replyToComment = null) {
 		const authAxios = await this.authAxios()
 		
 		return (
-			await authAxios.post(`/create`, { post_id, text, replyToComment })
+			await authAxios.post('/create', { post_id, text, replyToComment })
 		).data
 	}
 	catch (err) {
@@ -92,7 +92,7 @@ async function s_update(comment_id, text) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.post(`/update/${comment_id}`, { text })).data
+		return (await authAxios.post('/update', { comment_id, text })).data
 	}
 	catch (err) {
 		return {
@@ -128,7 +128,7 @@ async function s_like(post_id, comment_id) {
 		const authAxios = await this.authAxios()
 
 		// Add the liker from the Post Object
-		return await authAxios.post(`/like/${comment_id}/${post_id}`)
+		return (await authAxios.post('/like', { post_id, comment_id })).data
 	}
 	catch (err) {
 		return {
@@ -140,12 +140,12 @@ async function s_like(post_id, comment_id) {
 }
 
 
-async function  s_unlike(comment_id) {
+async function s_unlike(comment_id) {
 	try {
 		const authAxios = await this.authAxios()
 
 		// Remove the liker from the Post Object
-		return await authAxios.post(`/unlike/${comment_id}`)
+		return (await authAxios.post('/unlike', { comment_id })).data
 	}
 	catch (err) {
 		return {
@@ -162,7 +162,9 @@ async function s_report(post_id, comment_id, reportType) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return await authAxios.post(`/report/${comment_id}`, { post_id, reportType })
+		return (
+			await authAxios.post('/report', { post_id, comment_id, reportType })
+		).data
 	}
 	catch (err) {
 		return {

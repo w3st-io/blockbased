@@ -57,7 +57,7 @@ async function s_update(img_url) {
 	try {
 		const authAxios = await this.authAxios()
 		
-		return (await authAxios.post(`/update`, { img_url })).data
+		return (await authAxios.post('/update', { img_url })).data
 	}
 	catch (err) {
 		return {
