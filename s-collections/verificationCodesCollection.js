@@ -47,6 +47,7 @@ const c_create = async (user_id) => {
 }
 
 
+// [READ] //
 const c_read = async (user_id) => {
 	try {
 		// [VALIDATE] user_id //

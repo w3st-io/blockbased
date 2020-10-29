@@ -53,8 +53,8 @@ const c_create = async (comment_id) => {
 }
 
 
-// [READ-ALL-ALL] //
-const c_readAllAll = async (limit, skip) => {
+// [READ] //
+const c_read = async (comment_id) => {
 }
 
 
@@ -63,8 +63,8 @@ const c_readAll = async (post_id, limit, skip) => {
 }
 
 
-// [READ] //
-const c_read = async (comment_id) => {
+// [READ-ALL-ALL] //
+const c_readAllAll = async (limit, skip) => {
 }
 
 
@@ -97,9 +97,9 @@ const c_countAll = async (post_id) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
-	c_readAllAll,
-	c_readAll,
 	c_read,
+	c_readAll,
+	c_readAllAll,
 	c_delete,
 	c_adminDelete,
 	c_existance,

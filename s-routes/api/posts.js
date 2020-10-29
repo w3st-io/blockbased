@@ -484,7 +484,7 @@ router.post(
 
 				if (existance.existance) {
 					// [CREATE] postLike //
-					const postLikeObj = await postLikesCollection.c_delete(
+					const postLikeObj = await postLikesCollection.c_deleteByUserAndPost(
 						req.decoded.user_id,
 						req.body.post_id
 					)

@@ -172,6 +172,39 @@ const c_readAllUser = async (user_id, limit, skip, sort = 'descending') => {
 }
 
 
+// [DELETE] Post //
+const c_deleteByPost = async (post_id) => {
+	try {
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postFollowsCollection: Invalid post_id',
+				updated: false,
+			}
+		}
+
+		const deletedPostFollow = await PostFollowModel.deleteMany({
+			post: post_id
+		})
+
+		return {
+			executed: true,
+			status: true,
+			deletedPostFollow: deletedPostFollow
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postFollowsCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
 // [DELETE] User & Post //
 const c_deleteByUserAndPost = async (user_id, post_id) => {
 	try {
@@ -216,42 +249,10 @@ const c_deleteByUserAndPost = async (user_id, post_id) => {
 }
 
 
-// [DELETE] Post //
-const c_deleteByPost = async (post_id) => {
-	try {
-		// [VALIDATE] post_id //
-		if (!mongoose.isValidObjectId(post_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postFollowsCollection: Invalid post_id',
-				updated: false,
-			}
-		}
-
-		const deletedPostFollow = await PostFollowModel.deleteMany({
-			post: post_id
-		})
-
-		return {
-			executed: true,
-			status: true,
-			deletedPostFollow: deletedPostFollow
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `postFollowsCollection: Error --> ${err}`,
-		}
-	}
-}
-
-
 // [DELETE] Custom //
 const c_deleteCustom = async (filter) => {
 	try {
+		// [VALIDATE] filter //
 		if (!filter || filter == {}) {
 			return {
 				executed: true,
@@ -277,7 +278,6 @@ const c_deleteCustom = async (filter) => {
 		}
 	}
 }
-
 
 
 /******************* [EXISTANCE] *******************/
@@ -398,8 +398,8 @@ module.exports = {
 	c_create,
 	c_readAll,
 	c_readAllUser,
-	c_deleteByUserAndPost,
 	c_deleteByPost,
+	c_deleteByUserAndPost,
 	c_deleteCustom,
 	c_existance,
 	c_countAll,

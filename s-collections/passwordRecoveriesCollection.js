@@ -47,8 +47,9 @@ const c_create = async (user_id) => {
 }
 
 
-// [DELETE] //
-const c_delete = async (user_id) => {
+/******************* [OTHER-CRUD] *******************/
+// [DELETE] User //
+const c_deleteByUser = async (user_id) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -59,9 +60,37 @@ const c_delete = async (user_id) => {
 			}
 		}
 
-		const passwordRecovery = await PasswordRecoveryModel.deleteMany({
-			user: user_id
-		})
+		await PasswordRecoveryModel.deleteMany({ user: user_id })
+
+		return {
+			executed: true,
+			status: true,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `passwordRecoveriesCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
+// [DELETE] Custom //
+const c_deleteCustom = async (filter) => {
+	try {
+		// [VALIDATE] filter //
+		if (!filter || filter == {}) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentLikesCollection: No filter passed',
+				updated: false,
+			}
+		}
+
+		await PasswordRecoveryModel.deleteMany(filter)
 
 		return {
 			executed: true,
@@ -176,7 +205,8 @@ const c_validateToken = async (user_id, verificationCode) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
-	c_delete,
+	c_deleteByUser,
+	c_deleteCustom,
 	c_existance,
 	c_validateToken,
 }

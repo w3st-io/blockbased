@@ -31,7 +31,7 @@ router.delete(
 			// [VALDIATE] //
 			if (mongoose.isValidObjectId(req.params.comment_id)) {
 				// [DELETE] //
-				const comment = await commentsCollection.c_adminDelete(
+				const comment = await commentsCollection.c_delete(
 					req.params.comment_id
 				)
 

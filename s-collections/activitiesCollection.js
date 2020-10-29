@@ -170,6 +170,7 @@ const c_deleteCommentActivity = async (comment_id) => {
 // [DELETE] Custom //
 const c_deleteCustom = async (filter) => {
 	try {
+		// [VALIDATE] filter //
 		if (!filter || filter == {}) {
 			return {
 				executed: true,

@@ -94,42 +94,35 @@ const c_create = async (user_id, post_id, text, replyToComment) => {
 }
 
 
-// [READ-ALL-ALL] //
-const c_readAllAll = async (limit, skip) => {
+// [READ] //
+const c_read = async (comment_id) => {
 	try {
-		// [SANTIZE] //
-		limit = parseInt(limit)
-		skip = parseInt(skip)
-
-		// [VALDIATE] limit //
-		if (!Number.isInteger(limit)) {
+		// [VALIDATE] comment_id //
+		if (!mongoose.isValidObjectId(comment_id)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentsCollection: Invalid limit',
+				message: 'commentsCollection: Invalid comment_id',
 			}
 		}
 
-		// [VALIDATE] skip //
-		if (!Number.isInteger(skip)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentsCollection: Invalid skip',
-			}
-		}
-
-		const comments = await CommentModel.find()
-			.skip(skip)
-			.limit(limit)
-			.populate({ path: 'user', select: 'username email profileImg', })
-			.populate({ path: 'post' })
+		const comment = await CommentModel.findById(comment_id)
+			.populate({ path: 'user', select: 'username email profileImg' })
+			.populate({ path: 'likers', select: '_id user_id post_id text' })
 			.exec()
+
+		if (!comment) {
+			return {
+				executed: true,
+				status: false,
+				message: 'No comment found',
+			}
+		}
 
 		return {
 			executed: true,
 			status: true,
-			comments: comments,
+			comment: comment
 		}
 	}
 	catch (err) {
@@ -205,35 +198,42 @@ const c_readAll = async (post_id, limit, skip) => {
 }
 
 
-// [READ] //
-const c_read = async (comment_id) => {
+// [READ-ALL-ALL] //
+const c_readAllAll = async (limit, skip) => {
 	try {
-		// [VALIDATE] comment_id //
-		if (!mongoose.isValidObjectId(comment_id)) {
+		// [SANTIZE] //
+		limit = parseInt(limit)
+		skip = parseInt(skip)
+
+		// [VALDIATE] limit //
+		if (!Number.isInteger(limit)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentsCollection: Invalid comment_id',
+				message: 'commentsCollection: Invalid limit',
 			}
 		}
 
-		const comment = await CommentModel.findById(comment_id)
-			.populate({ path: 'user', select: 'username email profileImg' })
-			.populate({ path: 'likers', select: '_id user_id post_id text' })
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid skip',
+			}
+		}
+
+		const comments = await CommentModel.find()
+			.skip(skip)
+			.limit(limit)
+			.populate({ path: 'user', select: 'username email profileImg', })
+			.populate({ path: 'post' })
 			.exec()
-
-		if (!comment) {
-			return {
-				executed: true,
-				status: false,
-				message: 'No comment found',
-			}
-		}
 
 		return {
 			executed: true,
 			status: true,
-			comment: comment
+			comments: comments,
 		}
 	}
 	catch (err) {
@@ -325,8 +325,40 @@ const c_update = async (comment_id, user_id, text) => {
 }
 
 
+// [ADMIN-DELETE] //
+const c_delete = async (comment_id) => {
+	try {
+		// [VALIDATE] comment_id //
+		if (!mongoose.isValidObjectId(comment_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid comment_id',
+			}
+		}
+
+		const deletedComment = await CommentModel.findOneAndRemove({ _id: comment_id })
+
+		return {
+			executed: true,
+			status: true,
+			deleted: true,
+			deletedComment: deletedComment,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
+/******************* [OTHER-CRUD] *******************/
 // [DELETE] //
-const c_delete = async (comment_id, user_id) => {
+const c_deleteByIdAndUser = async (comment_id, user_id) => {
 	try {
 		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
@@ -384,47 +416,24 @@ const c_delete = async (comment_id, user_id) => {
 }
 
 
-/******************* [OTHER-CRUD] *******************/
-const c_deleteCustom = async (params) => {
+const c_deleteCustom = async (filter) => {
 	try {
-		const comment = await CommentModel.deleteMany(params)
+		// [VALIDATE] filter //
+		if (!filter || filter == {}) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentLikesCollection: No filter passed',
+				updated: false,
+			}
+		}
+
+		const comment = await CommentModel.deleteMany(filter)
 
 		return {
 			executed: true,
 			status: true,
 			comment: comment,
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `commentsCollection: Error --> ${err}`,
-		}
-	}
-}
-
-
-/******************* [ADMIN-CRUD] *******************/
-// [ADMIN-DELETE] //
-const c_adminDelete = async (comment_id) => {
-	try {
-		// [VALIDATE] comment_id //
-		if (!mongoose.isValidObjectId(comment_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentsCollection: Invalid comment_id',
-			}
-		}
-
-		const deletedComment = await CommentModel.findOneAndRemove({ _id: comment_id })
-
-		return {
-			executed: true,
-			status: true,
-			deleted: true,
-			deletedComment: deletedComment,
 		}
 	}
 	catch (err) {
@@ -569,8 +578,8 @@ module.exports = {
 	c_read,
 	c_update,
 	c_delete,
+	c_deleteByIdAndUser,
 	c_deleteCustom,
-	c_adminDelete,
 	c_existance,
 	c_ownership,
 	c_countAll,

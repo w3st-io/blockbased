@@ -380,8 +380,8 @@ const c_readAllPinned = async (cat_id, sort = 0) => {
 }
 
 
-// [DELETE] Owned //
-const c_deleteOwned = async (post_id, user_id) => {
+// [DELETE] _id & user //
+const c_deleteByIdAndUser = async (post_id, user_id) => {
 	try {
 		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
@@ -616,7 +616,7 @@ module.exports = {
 	c_delete,
 	c_readAllSort,
 	c_readAllPinned,
-	c_deleteOwned,
+	c_deleteByIdAndUser,
 	c_incrementLike,
 	c_decrementLike,
 	c_existance,

@@ -20,6 +20,36 @@ const secretKey = config.SECRET_KEY
 
 
 /******************* [CRUD] *******************/
+// [READ] //
+const c_read = async (user_id) => {
+	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'UserCollection: Invalid user_id'
+			}
+		}
+	
+		const user = await UserModel.findOne({ _id: user_id })
+
+		return {
+			executed: true,
+			status: true,
+			user: user
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserCollection: Error --> ${err}`
+		}
+	}
+}
+
+
 // [READ-ALL] //
 const c_readAll = async (limit, skip) => {
 	try {
@@ -54,36 +84,6 @@ const c_readAll = async (limit, skip) => {
 			executed: true,
 			status: true,
 			users: users
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `UserCollection: Error --> ${err}`
-		}
-	}
-}
-
-
-// [READ] //
-const c_read = async (user_id) => {
-	try {
-		// [VALIDATE] user_id //
-		if (!mongoose.isValidObjectId(user_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'UserCollection: Invalid user_id'
-			}
-		}
-	
-		const user = await UserModel.findOne({ _id: user_id })
-
-		return {
-			executed: true,
-			status: true,
-			user: user
 		}
 	}
 	catch (err) {
@@ -474,8 +474,8 @@ const c_verifiedStatus = async (user_id) => {
 
 // [EXPORT] //
 module.exports = {
-	c_readAll,
 	c_read,
+	c_readAll,
 	c_update,
 	c_getIdByEmail,
 	c_updatePassword,

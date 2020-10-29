@@ -40,7 +40,7 @@ router.delete(
 				)
 
 				// [DELETE] postLikes //
-				const postLikes = await postLikesCollection.c_deleteAll(
+				const postLikes = await postLikesCollection.c_deleteByPost(
 					req.params.post_id
 				)
 

@@ -439,7 +439,7 @@ router.post(
 
 						if (updated.status) {
 							// [DELETE] passwordrecovery //
-							const deletedPR = await passwordRecoveriesCollection.c_delete(
+							const deletedPR = await passwordRecoveriesCollection.c_deleteByUser(
 								req.body.user_id
 							)
 

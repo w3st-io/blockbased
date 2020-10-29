@@ -67,8 +67,40 @@ const c_create = async (user_id, post_id) => {
 	
 }
 
-// [DELETE] //
-const c_delete = async (user_id, post_id) => {
+
+/******************* [OTHER-CRUD] *******************/
+// [DELETE] Post //
+const c_deleteByPost = async (post_id) => {
+	try {
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postLikesCollection: Invalid post_id',
+			}
+		}
+
+		const postLike = await PostLikeModel.deleteMany({ post: post_id })
+
+		return {
+			executed: true,
+			status: true,
+			deletedPostLike: postLike,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `deletedPostLike: Error --> ${err}`,
+		}
+	}
+}
+
+
+// [DELETE] User & Post //
+const c_deleteByUserAndPost = async (user_id, post_id) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -105,36 +137,6 @@ const c_delete = async (user_id, post_id) => {
 			executed: false,
 			status: false,
 			message: `postLikesCollection: Error --> ${err}`,
-		}
-	}
-}
-
-
-// [DELETE-ALL] //
-const c_deleteAll = async (post_id) => {
-	try {
-		// [VALIDATE] post_id //
-		if (!mongoose.isValidObjectId(post_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postLikesCollection: Invalid post_id',
-			}
-		}
-
-		const postLike = await PostLikeModel.deleteMany({ post: post_id })
-
-		return {
-			executed: true,
-			status: true,
-			deletedPostLike: postLike,
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `deletedPostLike: Error --> ${err}`,
 		}
 	}
 }
@@ -219,8 +221,8 @@ const c_countAll = async (post_id) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
-	c_delete,
-	c_deleteAll,
+	c_deleteByPost,
+	c_deleteByUserAndPost,
 	c_existance,
 	c_countAll,
 }
