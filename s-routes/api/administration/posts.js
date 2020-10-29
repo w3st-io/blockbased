@@ -35,7 +35,7 @@ router.delete(
 				const posts = await postsCollection.c_delete(req.params.post_id)
 
 				// [DELETE] postFollows //
-				const postFollows = await postFollowsCollection.c_deleteAll(
+				const postFollows = await postFollowsCollection.c_deleteByPost(
 					req.params.post_id
 				)
 

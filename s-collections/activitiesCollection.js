@@ -76,7 +76,37 @@ const c_create = async (type, user_id, post_id, comment_id) => {
 }
 
 
-// [DELETE] User Activity //
+// [DELETE] Custom //
+const c_delete = async (filter) => {
+	try {
+		if (!filter || filter == {}) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postFollowsCollection: No filter passed',
+				updated: false,
+			}
+		}
+
+		const activity = await ActivityModel.deleteMany(filter)
+
+		return {
+			executed: true,
+			status: true,
+			activity: activity,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `activitiesCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
+/******************* [CRUD] *******************/
 const c_deleteUserActivity = async (user_id) => {
 	try {
 		// [VALIDATE] user_id //
@@ -170,6 +200,7 @@ const c_deleteCommentActivity = async (comment_id) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
+	c_delete,
 	c_deleteUserActivity,
 	c_deletePostActivity,
 	c_deleteCommentActivity,

@@ -305,65 +305,7 @@ router.get(
 router.delete(
 	'/delete/:post_id',
 	Auth.userToken(),
-	async (req, res) => {
-		res.send(200)
-		/*
-		try {
-			// [VALIDATE][OWNERSHIP] //
-			if (mongoose.isValidObjectId(req.params.post_id)) {
-				const ownership = await postsCollection.c_ownership(
-					req.params.post_id,
-					req.decoded.user_id,
-				)
-				
-				if (ownership.status && ownership.ownership) {
-					// [DELETE] posts //
-					const posts = await postsCollection.c_deleteOwned(
-						req.params.post_id,
-						req.decoded.user_id
-					)
-
-					// [DELETE] postFollows //
-					const postFollows = await postFollowsCollection.c_deleteAll(
-						req.params.post_id
-					)
-
-					// [DELETE] postLikes //
-					const postLikes = await postLikesCollection.c_deleteAll(
-						req.params.post_id
-					)
-
-					// [DELETE] Activity //
-					const activity = await activitiesCollection.c_deletePostActivity(
-						req.params.post_id
-					)
-					
-					res.status(200).send({
-						executed: true,
-						status: true,
-						deleted: [posts, postFollows, postLikes, activity]
-					})
-					
-				}
-				else { res.status(200).send(ownership) }
-			}
-			else {
-				res.status(200).send({
-					executed: true,
-					status: false,
-					message: 'Invalid post_id',
-				})
-			}
-		}
-		catch (err) {
-			res.status(200).send({
-				executed: false,
-				status: false,
-				message: `/api/posts: Error --> ${err}`
-			})
-		}
-		*/
-	},
+	async (req, res) => { res.status(200).send() },
 )
 
 /******************* [OTHER-CURD] *******************/
@@ -626,12 +568,12 @@ router.post(
 	async (req, res) => {
 		try {
 			if (mongoose.isValidObjectId(req.body.post_id)) {
-				const returned = await postFollowsCollection.c_delete(
+				const pFObj = await postFollowsCollection.c_deleteByUserAndPost(
 					req.decoded.user_id,
 					req.body.post_id
 				)
 				
-				res.status(200).send(returned)
+				res.status(200).send(pFObj)
 			}
 			else {
 				res.status(200).send({

@@ -119,7 +119,11 @@ const c_update = async (user_id, img_url) => {
 
 		const updatedUser = await UserModel.findOneAndUpdate(
 			{ _id: user_id },
-			{ $set: { profileImg: img_url } }
+			{
+				$set: {
+					profileImg: img_url,
+				}
+			}
 		)
 
 		return {
@@ -284,7 +288,7 @@ const c_login = async (email, password) => {
 		}
 
 		// Set Token //
-		let token = jwt.sign(payload, secretKey, {/*  expiresIn: 7200  */})
+		let token = jwt.sign(payload, secretKey, {/* expiresIn: 7200 */})
 
 		return {
 			executed: true,
