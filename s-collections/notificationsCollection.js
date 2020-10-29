@@ -105,43 +105,8 @@ const c_readAll = async (user_id) => {
 }
 
 
-// [DELETE-ALL] //
-const c_deleteAll = async (comment_id) => {
-	try {
-		// [VALIDATE] comment_id //
-		if (!mongoose.isValidObjectId(comment_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'notificationsCollection: Invalid comment_id',
-			}
-		}
-
-		const deletedNotications = await NotificationModel.deleteMany({
-			comment: comment_id
-		})
-
-		return {
-			executed: true,
-			status: true,
-			deletedNotications: deletedNotications,
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `notificationsCollection: Error --> ${err}`,
-		}
-	}
-}
-
-// [DELETE] //
-const c_delete = async () => {}
-
-
 /******************* [OTHER-CRUD] *******************/
-// [READ-ALLUnread] //
+// [READ-ALL] Unread //
 const c_readAllUnread = async (user_id) => {
 	try {
 		// [VALIDATE] user_id //
@@ -185,6 +150,69 @@ const c_readAllUnread = async (user_id) => {
 			executed: false,
 			status: false,
 			message: `nofiticationsCollection: Error --> ${err}`
+		}
+	}
+}
+
+
+// [DELETE] Comment //
+const c_deleteByComment = async (comment_id) => {
+	try {
+		// [VALIDATE] comment_id //
+		if (!mongoose.isValidObjectId(comment_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'notificationsCollection: Invalid comment_id',
+			}
+		}
+
+		const deletedNotications = await NotificationModel.deleteMany({
+			comment: comment_id
+		})
+
+		return {
+			executed: true,
+			status: true,
+			deletedNotications: deletedNotications,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `notificationsCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
+// [DELETE] Custom //
+const c_deleteCustom = async (filter) => {
+	try {
+		if (!filter || filter == {}) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postFollowsCollection: No filter passed',
+				updated: false,
+			}
+		}
+
+
+		const deletedNotications = await NotificationModel.deleteMany(filter)
+
+		return {
+			executed: true,
+			status: true,
+			deletedNotications: deletedNotications,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `notificationsCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -258,9 +286,9 @@ const c_count = async (user_id) => {
 module.exports = {
 	c_create,
 	c_readAll,
-	c_deleteAll,
-	c_delete,
 	c_readAllUnread,
+	c_deleteByComment,
+	c_deleteCustom,
 	c_markRead,
 	c_count,
 }

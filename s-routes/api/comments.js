@@ -380,12 +380,12 @@ router.delete(
 					
 				if (comment.status) {
 					// [DELETE] CommentLike //
-					const commentLikes = await commentLikesCollection.c_deleteAll(
+					const commentLikes = await commentLikesCollection.c_deleteByComment(
 						req.params.comment_id
 					)
 
 					// [DELETE] Notifications //
-					const notifications = await notificationsCollection.c_deleteAll(
+					const notifications = await notificationsCollection.c_deleteByComment(
 						req.params.comment_id
 					)
 					
@@ -472,7 +472,7 @@ router.post(
 			// [VALIDATE] //
 			if (mongoose.isValidObjectId(req.body.comment_id)) {
 				// [DELETE] CommentLike //
-				const commentLike = await commentLikesCollection.c_delete(
+				const commentLike = await commentLikesCollection.c_deleteByUserAndComment(
 					req.decoded.user_id,
 					req.body.comment_id,
 				)

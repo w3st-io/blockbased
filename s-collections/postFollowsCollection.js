@@ -100,36 +100,6 @@ const c_readAll = async (post_id) => {
 }
 
 
-// [DELETE] //
-const c_delete = async (filter) => {
-	try {
-		if (!filter || filter == {}) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postFollowsCollection: No filter passed',
-				updated: false,
-			}
-		}
-
-		const deletedPostFollow = await PostFollowModel.deleteMany(filter)
-
-		return {
-			executed: true,
-			status: true,
-			deletedPostFollow: deletedPostFollow
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `postFollowsCollection: Error --> ${err}`,
-		}
-	}
-}
-
-
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] //
 const c_readAllUser = async (user_id, limit, skip, sort = 'descending') => {
@@ -279,6 +249,37 @@ const c_deleteByPost = async (post_id) => {
 }
 
 
+// [DELETE] Custom //
+const c_deleteCustom = async (filter) => {
+	try {
+		if (!filter || filter == {}) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postFollowsCollection: No filter passed',
+				updated: false,
+			}
+		}
+
+		const deletedPostFollow = await PostFollowModel.deleteMany(filter)
+
+		return {
+			executed: true,
+			status: true,
+			deletedPostFollow: deletedPostFollow
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postFollowsCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
+
 /******************* [EXISTANCE] *******************/
 const c_existance = async (user_id, post_id) => {
 	try {
@@ -396,10 +397,10 @@ const c_countAllUser = async (user_id) => {
 module.exports = {
 	c_create,
 	c_readAll,
-	c_delete,
 	c_readAllUser,
 	c_deleteByUserAndPost,
 	c_deleteByPost,
+	c_deleteCustom,
 	c_existance,
 	c_countAll,
 	c_countAllUser,

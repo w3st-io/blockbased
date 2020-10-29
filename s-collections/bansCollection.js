@@ -70,8 +70,9 @@ const c_create = async (user_id, hours) => {
 }
 
 
+/******************* [OTHER-CRUD] *******************/
 // [DELETE] //
-const c_delete = async (user_id) => {
+const c_deleteByUser = async (user_id) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -145,6 +146,6 @@ const c_existance = async (user_id) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
-	c_delete,
+	c_deleteByUser,
 	c_existance
 }

@@ -37,12 +37,12 @@ router.delete(
 
 				if (comment.status) {
 					// [DELETE] CommentLike //
-					const commentLikes = await commentLikesCollection.c_deleteAll(
+					const commentLikes = await commentLikesCollection.c_deleteByComment(
 						req.params.comment_id
 					)
 
 					// [DELETE] Notifications //
-					const notifications = await notificationsCollection.c_deleteAll(
+					const notifications = await notificationsCollection.c_deleteByComment(
 						req.params.comment_id
 					)
 
