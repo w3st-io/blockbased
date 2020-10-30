@@ -325,7 +325,7 @@ const c_update = async (comment_id, user_id, text) => {
 }
 
 
-// [ADMIN-DELETE] //
+// [DELETE] //
 const c_delete = async (comment_id) => {
 	try {
 		// [VALIDATE] comment_id //
@@ -357,7 +357,7 @@ const c_delete = async (comment_id) => {
 
 
 /******************* [OTHER-CRUD] *******************/
-// [DELETE] //
+// [DELETE] comment & user //
 const c_deleteByIdAndUser = async (comment_id, user_id) => {
 	try {
 		// [VALIDATE] comment_id //
@@ -416,6 +416,7 @@ const c_deleteByIdAndUser = async (comment_id, user_id) => {
 }
 
 
+// [DELETE] Custom //
 const c_deleteCustom = async (filter) => {
 	try {
 		// [VALIDATE] filter //

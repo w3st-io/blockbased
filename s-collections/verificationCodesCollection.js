@@ -88,15 +88,16 @@ const c_read = async (user_id) => {
 }
 
 
-// [DELETE] //
-const c_delete = async (user_id) => {
+/******************* [OTHER-CRUD] *******************/
+// [DELETE] user //
+const c_deleteByUser = async (user_id) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'VerificationCodesCollection: Invalid user_id',
+				message: 'verificationCodesCollection: Invalid user_id',
 			}
 		}
 	
@@ -214,7 +215,7 @@ const c_existance = async (user_id) => {
 module.exports = {
 	c_create,
 	c_read,
-	c_delete,
+	c_deleteByUser,
 	c_validate,
 	c_existance,
 }

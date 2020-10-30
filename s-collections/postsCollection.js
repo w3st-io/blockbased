@@ -182,7 +182,7 @@ const c_readAll = async (cat_id, limit, skip) => {
 }
 
 
-// [READ] Single Post //
+// [READ] //
 const c_read = async (post_id) => {
 	try {
 		// [VALIDATE] post_id //

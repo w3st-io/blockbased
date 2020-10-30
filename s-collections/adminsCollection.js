@@ -20,6 +20,7 @@ const secretKey = config.SECRET_KEY
 
 
 /******************* [LOGIN/REGISTER] *******************/
+// [LOGIN] //
 const c_login = async (email, password) => {
 	try {
 		// [VALIDATE] email //

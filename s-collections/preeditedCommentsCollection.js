@@ -58,39 +58,14 @@ const c_read = async (comment_id) => {
 }
 
 
-// [READ-ALL] Within a Post //
-const c_readAll = async (post_id, limit, skip) => {
-}
-
-
-// [READ-ALL-ALL] //
-const c_readAllAll = async (limit, skip) => {
-}
-
-
 // [DELETE] //
-const c_delete = async (comment_id, user_id) => {
+const c_delete = async (comment_id) => {
 }
 
 
 /******************* [ADMIN-CRUD] *******************/
-// [ADMIN-DELETE] //
-const c_adminDelete = async (comment_id) => {
-}
-
-
-/******************* [OWNERSHIP] *******************/
-const c_ownership = async (comment_id, user_id) => {
-}
-
-
-/******************* [EXISTANCE] *******************/
-const c_existance = async (comment_id) => {
-}
-
-
-/******************* [COUNT] *******************/
-const c_countAll = async (post_id) => {
+// [DELETE] user & comment //
+const c_deleteByUserAndComment = async (user_id, comment_id) => {
 }
 
 
@@ -98,11 +73,6 @@ const c_countAll = async (post_id) => {
 module.exports = {
 	c_create,
 	c_read,
-	c_readAll,
-	c_readAllAll,
 	c_delete,
-	c_adminDelete,
-	c_existance,
-	c_ownership,
-	c_countAll,
+	c_deleteByUserAndComment,
 }

@@ -110,7 +110,7 @@ const c_readAll = async () => {
 }
 
 
-// [DELETE] Single Report //
+// [DELETE] //
 const c_delete = async (commentReport_id) => {
 	try {
 		// [VALIDATE] commentReport_id //
