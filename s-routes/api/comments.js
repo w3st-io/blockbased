@@ -105,7 +105,6 @@ router.post(
 							})
 						}
 						else { res.status(200).send(activity) }
-
 					}
 					else { res.status(200).send(comment) }
 				}
@@ -226,9 +225,7 @@ router.get(
 					).count
 
 					// [COUNT] Calculate Total Pages //
-					commentsObj.pageCount = Math.ceil(
-						commentsObj.commentsCount / limit
-					)
+					commentsObj.pageCount = Math.ceil(commentsObj.commentsCount / limit)
 				
 					res.status(200).send(commentsObj)
 				}
@@ -370,6 +367,8 @@ router.delete(
 	Auth.userToken(),
 	async (req, res) => {
 		try {
+			res.sendStatus(200)
+			/*
 			// [VALIDATE] //
 			if (mongoose.isValidObjectId(req.params.comment_id)) {
 				// [DELETE] //
@@ -409,6 +408,7 @@ router.delete(
 					message: '/api/comments: Invalid comment_id'
 				})
 			}
+			*/
 		}
 		catch (err) {
 			res.status(200).send({
@@ -515,6 +515,7 @@ router.post(
 				// [FORMAT] //
 				req.body.reportType = req.body.reportType.toLowerCase()
 
+				// [CREATE] CommentReport //
 				const commentReport = await commentReportsCollection.c_create(
 					req.decoded.user_id,
 					req.body.comment_id,

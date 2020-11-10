@@ -7,7 +7,7 @@
 		<NavBar @menu-btn-clicked="toggle()" />
 
 		<!-- Display the router Stuff -->
-		<router-view :key="$route.name + ($route.params.id || '')" />
+		<RouterView :key="$route.name + ($route.params.id || '')" />
 
 		<!-- Bottom Footer -->
 		<Footer />
