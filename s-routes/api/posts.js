@@ -46,23 +46,23 @@ router.post(
 				)
 
 				if (post.status) {
-					// [CREATE] Comment //
-					const comment = await commentsCollection.c_create(
-						req.decoded.user_id,
+					// [CREATE] Activity //
+					const pActivity = await activitiesCollection.c_create(
+						'post',
+						undefined,
 						post.createdPost._id,
-						req.body.text
+						undefined,
 					)
 
-					if (comment.status) {
-						// [CREATE] Activity //
-						const pActivity = await activitiesCollection.c_create(
-							'post',
-							undefined,
+					if (pActivity.status) {
+						// [CREATE] Comment //
+						const comment = await commentsCollection.c_create(
+							req.decoded.user_id,
 							post.createdPost._id,
-							undefined,
+							req.body.text
 						)
 
-						if (pActivity.status) {
+						if (comment.status) {
 							// [CREATE] Activity //
 							const cActivity = await activitiesCollection.c_create(
 								'comment',
@@ -72,6 +72,7 @@ router.post(
 							)
 						
 							if (cActivity.status) {
+								// [SUCCESS] //
 								res.status(200).send({
 									executed: true,
 									status: true,
@@ -83,9 +84,9 @@ router.post(
 							}
 							else { res.status(200).send(cActivity) }	
 						}
-						else { res.status(200).send(pActivity) }						
+						else { res.status(200).send(comment) }						
 					}
-					else { res.status(200).send(comment) }
+					else { res.status(200).send(pActivity) }
 				}
 				else { res.status(200).send(post) }
 			}
@@ -300,13 +301,6 @@ router.get(
 	},
 )
 
-
-// [DELETE] Auth Required //
-router.delete(
-	'/delete/:post_id',
-	Auth.userToken(),
-	async (req, res) => { res.status(200).send() },
-)
 
 /******************* [OTHER-CURD] *******************/
 // [READ-ALL-SORT] Within Cat //

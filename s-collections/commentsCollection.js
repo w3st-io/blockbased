@@ -412,6 +412,37 @@ const c_deleteByIdAndUser = async (comment_id, user_id) => {
 }
 
 
+// [DELETE] post //
+const c_deleteByPost = async (post_id) => {
+	try {
+		// [VALIDATE] comment_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid post_id',
+				updated: false,
+			}
+		}
+
+		const comments = await CommentModel.deleteMany({ post: post_id })
+
+		return {
+			executed: true,
+			status: true,
+			comment: comments,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
 // [DELETE] Custom //
 const c_deleteCustom = async (filter) => {
 	try {
@@ -576,6 +607,7 @@ module.exports = {
 	c_update,
 	c_delete,
 	c_deleteByIdAndUser,
+	c_deleteByPost,
 	c_deleteCustom,
 	c_existance,
 	c_ownership,

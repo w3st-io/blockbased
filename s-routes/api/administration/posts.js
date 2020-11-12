@@ -11,6 +11,7 @@ const mongoose = require('mongoose')
 
 // [REQUIRE] Personal //
 const activitiesCollection = require('../../../s-collections/activitiesCollection')
+const commentsCollection = require('../../../s-collections/commentsCollection')
 const postsCollection = require('../../../s-collections/postsCollection')
 const postFollowsCollection = require('../../../s-collections/postFollowsCollection')
 const postLikesCollection = require('../../../s-collections/postLikesCollection')
@@ -39,7 +40,7 @@ router.delete(
 					req.params.post_id
 				)
 
-				// [DELETE] postLikes //
+				// [DELETE-ALL] postLikes //
 				const postLikes = await postLikesCollection.c_deleteByPost(
 					req.params.post_id
 				)
@@ -49,10 +50,14 @@ router.delete(
 					req.params.post_id
 				)
 
+				// [DELETE-ALL] comments //
+				const comments = await commentsCollection.c_deleteByPost(req.params.post_id)
+
+				// [SUCCESS] //
 				res.sendStatus(200).send({
 					executed: true,
 					status: true,
-					deleted: [posts, postFollows, postLikes, activity]
+					deleted: [posts, postFollows, postLikes, activity, comments]
 				})
 			}
 			else {

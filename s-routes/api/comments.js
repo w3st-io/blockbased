@@ -46,6 +46,7 @@ router.post(
 				const postExistance = await postsCollection.c_existance(req.body.post_id)
 
 				if (postExistance.existance) {
+					// [CREATE] Comment //
 					const comment = await commentsCollection.c_create(
 						req.decoded.user_id,
 						req.body.post_id,
