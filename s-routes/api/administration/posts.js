@@ -51,14 +51,24 @@ router.delete(
 				)
 
 				// [DELETE-ALL] comments //
-				const comments = await commentsCollection.c_deleteByPost(req.params.post_id)
+				const comments = await commentsCollection.c_deleteByPost(
+					req.params.post_id
+				)
 
-				// [SUCCESS] //
-				res.sendStatus(200).send({
-					executed: true,
-					status: true,
-					deleted: [posts, postFollows, postLikes, activity, comments]
-				})
+				if (
+					posts.status &&
+					postLikes.status &&
+					activity.status &&
+					comments.status
+				) {
+					// [SUCCESS] //
+					res.status(200).send({
+						executed: true,
+						status: true,
+						deleted: [posts, postFollows, postLikes, activity, comments]
+					})
+				}
+
 			}
 			else {
 				res.status(200).send({
@@ -69,6 +79,7 @@ router.delete(
 			}
 		}
 		catch (err) {
+			console.log('caught error', err)
 			res.status(200).send({
 				executed: false,
 				status: false,
