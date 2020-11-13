@@ -45,7 +45,7 @@ router.delete(
 					req.params.post_id
 				)
 
-				// [DELETE] Activity //
+				// [DELETE] Activity (Post & Comment) //
 				const activity = await activitiesCollection.c_deletePostActivity(
 					req.params.post_id
 				)
@@ -65,7 +65,13 @@ router.delete(
 					res.status(200).send({
 						executed: true,
 						status: true,
-						deleted: [posts, postFollows, postLikes, activity, comments]
+						deleted: [
+							posts,
+							postFollows,
+							postLikes,
+							activity,
+							comments
+						]
 					})
 				}
 

@@ -67,7 +67,7 @@ router.post(
 							const cActivity = await activitiesCollection.c_create(
 								'comment',
 								undefined,
-								undefined,
+								comment.comment.post,
 								comment.comment._id,
 							)
 						

@@ -12,7 +12,10 @@
 						>
 							<div class="row">
 								<!-- Created User -->
-								<div v-if="activity.user" class="col-sm-6 text-success">
+								<div
+									v-if="activity.type == 'user'"
+									class="col-sm-6 text-success"
+								>
 									<h5>
 										<img
 											:src="activity.user.profileImg"
@@ -25,7 +28,10 @@
 								</div>
 
 								<!-- Created Post -->
-								<div v-if="activity.post" class="col-sm-6 text-primary">
+								<div
+									v-if="activity.type == 'post'"
+									class="col-sm-6 text-primary"
+								>
 									<h5>
 										<img
 											:src="activity.post.user.profileImg"
@@ -40,7 +46,10 @@
 								</div>
 
 								<!-- Created Comment -->
-								<div v-if="activity.comment" class="col-sm-6">
+								<div
+									v-if="activity.type == 'comment'"
+									class="col-sm-6 text-primary"
+								>
 									<h5>
 										<img
 											:src="activity.comment.user.profileImg"
@@ -69,13 +78,14 @@
 
 <script>
 	// [IMPORT] //
-	import pageService from '../../services/PageService'
+	import pageService from '@services/PageService'
 
 	// [EXPORT] //
 	export default {
 		data: function() {
 			return {
 				data: {},
+				error: '',
 			}
 		},
 
