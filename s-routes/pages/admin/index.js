@@ -26,17 +26,22 @@ router.get(
 	Auth.adminToken(),
 	async (req, res) => {
 		try {
-			const userObj = await usersCollection.c_readAll(100000, 0)
+			const usersObj = await usersCollection.c_readAll(100000, 0)
 			const postObj = await postsCollection.c_readAllAll(100000, 0)
 			const commentsObj = await commentsCollection.c_readAllAll(100000, 0)
 			const commentReportsObj = await commentReportsCollection.c_readAll(100000, 0)
 
-			// [FORMAT] Remove things that should not be shown //
+			if (usersObj.status) {
+				usersObj.users.forEach(user => {
+					// [FORMAT] Remove things that should not be shown //
+					user.password = undefined
+				})
+			}
 
 			res.status(200).send({
 				executed: true,
 				status: true,
-				users: userObj.users,
+				users: usersObj.users,
 				posts: postObj.posts,
 				comments: commentsObj.comments,
 				commentReports: commentReportsObj.commentReports,

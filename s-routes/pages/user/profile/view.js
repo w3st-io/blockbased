@@ -27,8 +27,10 @@ router.get(
 			if (mongoose.isValidObjectId(req.params.user_id)) {
 				const userObj = await usersCollection.c_read(req.params.user_id)
 				
-				// [FORMAT] Remove things that should not be shown //
-				userObj.user.password = undefined
+				if (userObj.status) {
+					// [FORMAT] Remove things that should not be shown //
+					userObj.user.password = undefined
+				}
 
 				res.status(200).send(userObj)
 			}

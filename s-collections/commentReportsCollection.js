@@ -90,7 +90,7 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 const c_readAll = async () => {
 	try {
 		const commentReports = await CommentReportModel.find()
-			.populate('user')
+			.populate({ path: 'user', select: 'username email bio profileImg' })
 			.populate('comment')
 			.exec()
 

@@ -2,6 +2,7 @@
  * %%%%%%%%%%%%%%%%%%%%%%
  * %%% BLOCK SERVICES %%%
  * %%%%%%%%%%%%%%%%%%%%%%
+ * Order by route
 */
 // [IMPORT] //
 import axios from 'axios'
@@ -25,6 +26,23 @@ async function s_home() {
 		const authAxios = await this.authAxios()
 
 		return (await authAxios.get('/')).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `PageService: Error --> ${err}`
+		}
+	}
+}
+
+
+// [ACTIVITY] //
+async function s_activity() {
+	try {
+		const authAxios = await this.authAxios()
+
+		return (await authAxios.get('/activity')).data
 	}
 	catch (err) {
 		return {
@@ -189,6 +207,7 @@ async function s_user_profile_view(user_id) {
 export default {
 	authAxios,
 	s_home,
+	s_activity,
 	s_admin,
 	s_cat,
 	s_post,

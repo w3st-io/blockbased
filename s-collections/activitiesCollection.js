@@ -76,6 +76,53 @@ const c_create = async (type, user_id, post_id, comment_id) => {
 }
 
 
+// [READ-ALL] //
+const c_readAll = async () => {
+	try {
+		const activities = await ActivityModel.find()
+			// User // Post // Comment //
+			.populate({
+				path: 'user',
+				select: 'username bio profileImg'
+			})
+			.populate({
+				path: 'post',
+				populate: {
+					path: 'user',
+					select: 'username bio profileImg',
+				},
+			})
+			.populate({
+				path: 'comment',
+				populate: {
+					path: 'user',
+					select: 'username bio profileImg'
+				},
+			})
+			.populate({
+				path: 'comment',
+				populate: {
+					path: 'post',
+				},
+			})
+			.exec()
+
+		return {
+			executed: true,
+			status: true,
+			activities: activities,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `activitiesCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
 /******************* [CRUD] *******************/
 const c_deleteUserActivity = async (user_id) => {
 	try {
@@ -201,6 +248,7 @@ const c_deleteCustom = async (filter) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
+	c_readAll,
 	c_deleteUserActivity,
 	c_deletePostActivity,
 	c_deleteCommentActivity,

@@ -43,11 +43,13 @@ router.get(
 
 				const usersObj = await usersCollection.c_readAll(limit, skip)
 
-				usersObj.users.forEach(user => {
-					// [FORMAT] Remove things that should not be shown //
-					user.email = undefined
-					user.password = undefined
-				})
+				if (usersObj.status) {
+					usersObj.users.forEach(user => {
+						// [FORMAT] Remove things that should not be shown //
+						user.email = undefined
+						user.password = undefined
+					})
+				}
 
 				res.status(200).send(usersObj)
 			}
@@ -78,9 +80,10 @@ router.get(
 		try {
 			const userObj = await usersCollection.c_read(req.decoded.user_id)
 
-			// [FORMAT] Remove things that should not be shown //
-			userObj.user.email = undefined
-			userObj.user.password = undefined
+			if (userObj.status) {
+				// [FORMAT] Remove things that should not be shown //
+				userObj.user.password = undefined
+			}
 			
 			res.status(200).send(userObj)
 		}
@@ -104,9 +107,11 @@ router.get(
 			if (mongoose.isValidObjectId(req.params.user_id)) {
 				const userObj = await usersCollection.c_read(req.params.user_id)
 
-				// [FORMAT] Remove things that should not be shown //
-				userObj.user.email = undefined
-				userObj.user.password = undefined
+				if (userObj.status) {
+					// [FORMAT] Remove things that should not be shown //
+					userObj.user.email = undefined
+					userObj.user.password = undefined
+				}
 
 				res.status(200).send(userObj)
 			}
@@ -236,9 +241,9 @@ router.post(
 					// [CREATE] Activity //
 					const activity = await activitiesCollection.c_create(
 						'user',
-						undefined,
-						undefined,
 						user.user._id,
+						undefined,
+						undefined,
 					)
 
 					if (activity.status) {

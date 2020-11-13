@@ -10,6 +10,7 @@ const validator = require('validator')
 
 // [REQUIRE] //
 const PostModel = require('../s-models/PostModel')
+const activitiesCollection = require('./activitiesCollection')
 
 
 /******************* [CRUD] *******************/
@@ -106,7 +107,7 @@ const c_readAllAll = async (limit, skip) => {
 			.limit(limit)
 			.populate({
 				path: 'user',
-				select: 'username email profileImg',
+				select: 'username email bio profileImg',
 			})
 			.exec()
 
@@ -163,7 +164,7 @@ const c_readAll = async (cat_id, limit, skip) => {
 		const posts = await PostModel.find({ cat_id })
 			.skip(skip)
 			.limit(limit)
-			.populate({ path: 'user', select: 'username email profileImg', })
+			.populate({ path: 'user', select: 'username email bio profileImg', })
 			.exec()
 
 		return {
@@ -200,7 +201,7 @@ const c_read = async (post_id) => {
 		if (!existance.existance) { return existance }
 
 		const post = await PostModel.findById(post_id)
-			.populate({ path: 'user', select: 'username email profileImg', })
+			.populate({ path: 'user', select: 'username email bio profileImg', })
 			.exec()
 		
 		return {
@@ -312,7 +313,7 @@ const c_readAllSort = async (cat_id, limit, skip, sort = 0) => {
 			.sort(sort)
 			.skip(skip)
 			.limit(limit)
-			.populate({ path: 'user', select: 'username email profileImg', })
+			.populate({ path: 'user', select: 'username email bio profileImg', })
 			.exec()
 
 		return {
@@ -360,7 +361,7 @@ const c_readAllPinned = async (cat_id, sort = 0) => {
 			cat_id,
 			pinned: true,
 		})
-			.populate({ path: 'user', select: 'username email profileImg', })
+			.populate({ path: 'user', select: 'username email bio profileImg', })
 			.sort(sort)
 			.exec()
 

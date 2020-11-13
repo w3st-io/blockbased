@@ -133,7 +133,14 @@
 			},
 
 			allActivityRedirect() {
-				router.push({ name: 'activity', params: { page: 1 } })
+				router.push({
+					name: 'activity',
+					params: {
+						filter: 'none',
+						limit: 10,
+						page: 1
+					}
+				})
 			},
 			
 			menuBtnClicked() { this.$emit('menu-btn-clicked') }
