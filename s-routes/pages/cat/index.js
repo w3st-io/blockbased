@@ -21,8 +21,6 @@ const Auth = require('../../../s-middleware/Auth')
 const router = express.Router().use(cors())
 
 
-/******************* [CRUD] *******************/
-// [READ-ALL-SORT] Within Cat //
 router.get(
 	'/:cat_id/:sort/:limit/:page',
 	Auth.userTokenNotRequired(),
@@ -44,9 +42,9 @@ router.get(
 				// [READ-ALL] Sort //
 				const postsObj = await postsCollection.c_readAllSort(
 					req.params.cat_id,
+					sort,
 					limit,
 					skip,
-					sort,
 				)
 
 				if (postsObj.status) {

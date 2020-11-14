@@ -123,7 +123,98 @@ const c_readAll = async () => {
 }
 
 
-/******************* [CRUD] *******************/
+/******************* [OTHER-CRUD] *******************/
+// [READ-ALL] Sort //
+const c_readAllSort = async (sort = 0, limit, skip) => {
+	try {
+		// [SANITIZE] //
+		sort = parseInt(sort)
+		limit = parseInt(limit)
+		skip = parseInt(skip)
+
+		// [VALIDATE] sort //
+		if (!Number.isInteger(sort)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid sort',
+			}
+		}
+
+		// [VALIDATE] limit //
+		if (!Number.isInteger(limit)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid limit',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid skip',
+			}
+		}
+
+		// Set Sort //
+		if (sort == 0) { sort = {} }
+		else if (sort == 1) { sort = { createdAt: -1 } }
+		else {
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Unknown filter'
+			}
+		}
+
+		const activities = await ActivityModel.find()
+			// User // Post // Comment //
+			.populate({
+				path: 'user',
+				select: 'username bio profileImg'
+			})
+			.populate({
+				path: 'post',
+				populate: {
+					path: 'user',
+					select: 'username bio profileImg',
+				},
+			})
+			.populate({
+				path: 'comment',
+				populate: {
+					path: 'user',
+					select: 'username bio profileImg'
+				},
+			})
+			.populate({
+				path: 'comment',
+				populate: {
+					path: 'post',
+				},
+			})
+			.sort(sort)
+			.exec()
+
+		return {
+			executed: true,
+			status: true,
+			activities: activities,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `activitiesCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
 const c_deleteUserActivity = async (user_id) => {
 	try {
 		// [VALIDATE] user_id //
@@ -249,6 +340,7 @@ const c_deleteCustom = async (filter) => {
 module.exports = {
 	c_create,
 	c_readAll,
+	c_readAllSort,
 	c_deleteUserActivity,
 	c_deletePostActivity,
 	c_deleteCommentActivity,

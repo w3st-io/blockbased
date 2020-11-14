@@ -66,7 +66,7 @@ const router = new Router ({
 
 		// [ACTIVITY] //
 		{
-			path: '/activity/:filter/:limit/:page',
+			path: '/activity/:sort/:limit/:page',
 			name: 'activity',
 			component: activity,
 			meta: {

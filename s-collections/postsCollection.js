@@ -255,12 +255,12 @@ const c_delete = async (post_id) => {
 
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL-SORT] Within Cat //
-const c_readAllSort = async (cat_id, limit, skip, sort = 0) => {
+const c_readAllSort = async (cat_id, sort = 0, limit, skip) => {
 	try {
 		// [SANITIZE] //
+		sort = parseInt(sort)
 		limit = parseInt(limit)
 		skip = parseInt(skip)
-		sort = parseInt(sort)
 
 		// [VALIDATE] cat_id //
 		if (!validator.isAscii(cat_id)) {
@@ -268,6 +268,15 @@ const c_readAllSort = async (cat_id, limit, skip, sort = 0) => {
 				executed: true,
 				status: false,
 				message: 'postsCollection: Invalid cat_id',
+			}
+		}
+
+		// [VALIDATE] sort //
+		if (!Number.isInteger(sort)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid sort',
 			}
 		}
 
@@ -289,15 +298,6 @@ const c_readAllSort = async (cat_id, limit, skip, sort = 0) => {
 			}
 		}
 
-		// [VALIDATE] sort //
-		if (!Number.isInteger(sort)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postsCollection: Invalid sort',
-			}
-		}
-
 		// Set Sort //
 		if (sort == 0) { sort = { createdAt: -1 } }
 		else if (sort == 1) { sort = { likeCount: -1 } }
@@ -305,7 +305,7 @@ const c_readAllSort = async (cat_id, limit, skip, sort = 0) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'Unknown filter'
+				message: 'postsCollection: Unknown filter'
 			}
 		}
 
@@ -361,7 +361,10 @@ const c_readAllPinned = async (cat_id, sort = 0) => {
 			cat_id,
 			pinned: true,
 		})
-			.populate({ path: 'user', select: 'username email bio profileImg', })
+			.populate({
+				path: 'user',
+				select: 'username email bio profileImg'
+			})
 			.sort(sort)
 			.exec()
 

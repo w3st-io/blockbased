@@ -136,7 +136,7 @@
 				router.push({
 					name: 'activity',
 					params: {
-						filter: 'none',
+						sort: 1,
 						limit: 10,
 						page: 1
 					}

@@ -16,16 +16,32 @@ const activitiesCollection = require('../../../s-collections/activitiesCollectio
 const router = express.Router().use(cors())
 
 
-/******************* [USER PROFILE] *******************/
-
-// [READ] Auth Required - Decoded //
 router.get(
-	'/',
+	'/:sort/:limit/:page',
 	async (req, res) => {
 		try {
-			const activities = await activitiesCollection.c_readAll()
-			
-			res.status(200).send(activities)
+			// [VALIDATE] //
+			if (
+				Number.isInteger(parseInt(req.params.sort)) &&
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.page))
+			) {
+				// [INIT] //
+				const sort = parseInt(req.params.sort)
+				const limit = parseInt(req.params.limit)
+				const pageIndex = parseInt(req.params.page) - 1
+				const skip = pageIndex * limit
+
+				console.log('ss', sort, limit, req.params.page, skip)
+
+				const activities = await activitiesCollection.c_readAllSort(
+					sort,
+					limit,
+					skip
+				)
+				
+				res.status(200).send(activities)
+			}
 		}
 		catch (err) {
 			res.status(200).send({

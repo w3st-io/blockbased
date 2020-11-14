@@ -191,9 +191,9 @@
 				try {
 					this.data = await PageService.s_cat(
 						this.cat_id,
+						this.sort,
 						this.limit,
 						this.page,
-						this.sort,
 					)
 				}
 				catch (err) { this.error = `This: --> ${err}` }

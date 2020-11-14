@@ -78,15 +78,30 @@
 	export default {
 		data: function() {
 			return {
+				sort: parseInt(this.$route.params.sort),
+				limit: parseInt(this.$route.params.limit),
+				page: parseInt(this.$route.params.page),
+				loading: true,
 				data: {},
 				error: '',
 			}
 		},
 
 		created: async function() {
-			this.data = await pageService.s_activity()
+			this.data = await pageService.s_activity(this.sort, this.limit, this.page)
 
-			console.log(this.data)
-		}
+			this.log()
+		},
+
+		methods: {
+			log() {
+				console.log('%%% [PAGE] activity %%%')
+				console.log('limit:', this.limit)
+				console.log('cat_id:', this.cat_id)
+				console.log('page:', this.page)
+				console.log('data:', this.data)
+				if (this.error) { console.error('error:', this.error) }
+			},
+		},
 	}
 </script>

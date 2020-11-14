@@ -38,11 +38,11 @@ async function s_home() {
 
 
 // [ACTIVITY] //
-async function s_activity() {
+async function s_activity(sort = 0, limit, page) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.get('/activity')).data
+		return (await authAxios.get(`/activity/${sort}/${limit}/${page}`)).data
 	}
 	catch (err) {
 		return {
@@ -72,7 +72,7 @@ async function s_admin() {
 
 
 // [CAT] //
-async function s_cat(cat_id, limit, page, sort) {
+async function s_cat(cat_id, sort = 0, limit, page) {
 	try {
 		const authAxios = await this.authAxios()
 

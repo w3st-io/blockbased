@@ -325,9 +325,9 @@ router.get(
 				// [READ-ALL] Sort //
 				const postsObj = await postsCollection.c_readAllSort(
 					req.params.cat_id,
+					sort,
 					limit,
 					skip,
-					sort,
 				)
 
 				if (postsObj.status) {
