@@ -186,7 +186,6 @@
 				})
 			},
 
-			/******************* [INIT] Post *******************/
 			async getPageData() {
 				try {
 					this.data = await PageService.s_cat(
