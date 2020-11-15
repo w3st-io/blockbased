@@ -171,7 +171,9 @@ const c_readAllSort = async (sort = 0, limit, skip) => {
 		}
 
 		const activities = await ActivityModel.find()
-			// User // Post // Comment //
+			.sort(sort)
+			.skip(skip)
+			.limit(limit)
 			.populate({
 				path: 'user',
 				select: 'username bio profileImg'
@@ -196,7 +198,6 @@ const c_readAllSort = async (sort = 0, limit, skip) => {
 					path: 'post',
 				},
 			})
-			.sort(sort)
 			.exec()
 
 		return {
@@ -336,6 +337,27 @@ const c_deleteCustom = async (filter) => {
 }
 
 
+/******************* [COUNT] *******************/
+const c_countAll = async () => {
+	try {
+		const count = await ActivityModel.countDocuments()
+
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `activitiesCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_create,
@@ -345,4 +367,5 @@ module.exports = {
 	c_deletePostActivity,
 	c_deleteCommentActivity,
 	c_deleteCustom,
+	c_countAll,
 }

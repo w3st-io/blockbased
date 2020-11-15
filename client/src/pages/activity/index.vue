@@ -4,66 +4,99 @@
 			<div class="col-12">
 				<div class="card card-body bg-dark text-light">
 					<h4>All Activity</h4>
-					<ul class="list-group">
-						<li
-							v-for="activity in data.activities"
-							:key="activity._id"
-							class="list-group-item bg-dark"
-						>
-							<div class="row">
-								<!-- Details Section -->
-								<div class="col-sm-8">
-									<!-- Created User -->
-									<div v-if="activity.type == 'user'" class="row text-success">
-										<div class="col m-0 p-0" style="max-width: 35px;">
-											<img
-												:src="activity.user.profileImg"
-												class="w-100"
-											>
-										</div>
-										<h5 class="col">
-											{{ activity.user.username }} joined the site!
-										</h5>
-									</div>
+					
+					<!-- Botton Page Control -->
+					<section class="mt-3">
+						<PageNavButtons
+							@start-btn="startPage()"
+							@prev-btn="prevPage()"
+							@next-btn="nextPage()"
+							@end-btn="endPage()"
+							:badgeValue="page"
+							class="w-100"
+							style="max-width: 300px;"
+						/>
+					</section>
 
-									<!-- Created Post -->
-									<div v-if="activity.type == 'post'" class="row text-primary">
-										<div class="col m-0 p-0" style="max-width: 35px;">
-											<img
-												:src="activity.post.user.profileImg"
-												class="w-100"
+					<div class="row mt-3">
+						<div class="col-12">
+							<ul class="list-group">
+								<li
+									v-for="activity in activities"
+									:key="activity._id"
+									class="list-group-item bg-dark"
+								>
+									<div class="row">
+										<!-- Details Section -->
+										<div class="col-sm-8">
+											<!-- Created User -->
+											<div
+												v-if="activity.type == 'user'"
+												class="row text-success"
 											>
-										</div>
-										<h5 class="col">
-											{{ activity.post.user.username }}
-											created post: 
-											{{ activity.post.title }}
-										</h5>
-									</div>
-									
-									<!-- Created Comment -->
-									<div v-if="activity.type == 'comment'" class="row">
-										<div class="col m-0 p-0" style="max-width: 35px;">
-											<img
-												:src="activity.comment.user.profileImg"
-												class="w-100"
-											>
-										</div>
-										<h5 class="col">
-											{{ activity.comment.user.username }}
-											created a comment in
-											{{ activity.comment.post.title }}
-										</h5>
-									</div>
-								</div>
+												<div class="col m-0 p-0" style="max-width: 35px;">
+													<img
+														:src="activity.user.profileImg"
+														class="w-100"
+													>
+												</div>
 
-								<!-- Timestamp -->
-								<div class="col-sm-4 text-right text-secondary">
-									{{ new Date(activity.createdAt).toLocaleString() }}
-								</div>
-							</div>
-						</li>
-					</ul>
+												<!-- Text -->
+												<h5 class="col">
+													{{ activity.user.username }} joined the site!
+												</h5>
+											</div>
+
+											<!-- Created Post -->
+											<div
+												v-if="activity.type == 'post'"
+												class="row text-primary"
+											>
+												<div class="col m-0 p-0" style="max-width: 35px;">
+													<img
+														:src="activity.post.user.profileImg"
+														class="w-100"
+													>
+												</div>
+
+												<!-- Text -->
+												<h5 class="col">
+													{{ activity.post.user.username }}
+													created post: 
+													{{ activity.post.title }}
+												</h5>
+											</div>
+											
+											<!-- Created Comment -->
+											<div
+												v-if="activity.type == 'comment'"
+												class="row text-light"
+											>
+												<div class="col m-0 p-0" style="max-width: 35px;">
+													<img
+														:src="activity.comment.user.profileImg"
+														class="w-100"
+													>
+												</div>
+
+												<!-- Text -->
+												<h5 class="col">
+													{{ activity.comment.user.username }}
+													created a comment in
+													{{ activity.comment.post.title }}
+												</h5>
+											</div>
+										</div>
+
+										<!-- Timestamp -->
+										<div class="col-sm-4 text-right text-secondary">
+											{{ new Date(activity.createdAt).toLocaleString() }}
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
+					</div>
 
 					<!-- [ALERTS] -->
 					<section v-show="error" class="row mt-3">
@@ -86,6 +119,7 @@
 
 <script>
 	// [IMPORT] //
+	import PageNavButtons from '@components/controls/PageNavButtons'
 	import Alert from '@components/misc/Alert'
 	import router from '@router'
 	import pageService from '@services/PageService'
@@ -93,7 +127,8 @@
 	// [EXPORT] //
 	export default {
 		components: {
-			Alert
+			Alert,
+			PageNavButtons,
 		},
 
 		data: function() {
@@ -103,6 +138,7 @@
 				page: parseInt(this.$route.params.page),
 				loading: true,
 				data: {},
+				activities: [],
 				error: '',
 			}
 		},
@@ -183,7 +219,7 @@
 				}
 				catch (err) { this.error = `This: --> ${err}` }
 
-				if (this.data.status) { this.posts = this.data.posts }
+				if (this.data.status) { this.activities = this.data.activities }
 				else { this.error = this.data.message }
 
 				this.loading = false
