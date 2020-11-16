@@ -5,7 +5,7 @@
 				<div class="card card-body bg-dark text-light">
 					<h4>All Activity</h4>
 					
-					<!-- Botton Page Control -->
+					<!-- Page Control -->
 					<section class="mt-3">
 						<PageNavButtons
 							@start-btn="startPage()"
@@ -24,7 +24,7 @@
 								<li
 									v-for="activity in activities"
 									:key="activity._id"
-									class="list-group-item bg-dark"
+									class="card card-body mb-2 border-secondary bg-dark"
 								>
 									<div class="row">
 										<!-- Details Section -->

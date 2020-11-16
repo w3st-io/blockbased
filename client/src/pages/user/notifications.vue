@@ -4,19 +4,17 @@
 			<div class="col">
 				<div class="card card-body bg-dark">
 					<h4>Notifications</h4>
-					<b-card
+					<BCard
 						v-for="notification in notifications"
 						:key="notification._id"
 						class="bg-secondary my-1"
 					>
-						<p class="m-0">Seen by you: {{ notification.read }}</p>
-						<p class="m-0">Type: {{ notification.type }}</p>
-						<p class="m-0">Type: {{ notification.comment.text }}</p>
+						<p class="m-0">Seen: {{ notification.read }}</p>
 						<p class="m-0">Created:
 							{{ new Date(notification.createdAt).toLocaleString() }}
 						</p>
-
-					</b-card>
+						<p v-html="notification.comment.text" class="m-0"></p>
+					</BCard>
 				</div>
 			</div>
 		</div>
@@ -24,8 +22,10 @@
 </template>
 
 <script>
+	// [IMPORT] Personal //
 	import PageService from '../../services/PageService'
 
+	// [EXPORT] //
 	export default {
 		data: function() {
 			return {
