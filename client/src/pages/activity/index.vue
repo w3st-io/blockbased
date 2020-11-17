@@ -18,6 +18,7 @@
 						/>
 					</section>
 
+					<!-- Main -->
 					<div class="row mt-3">
 						<div class="col-12">
 							<ul class="list-group">
@@ -118,7 +119,7 @@
 </template>
 
 <script>
-	// [IMPORT] //
+	// [IMPORT] Personal //
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import Alert from '@components/misc/Alert'
 	import router from '@router'
@@ -144,7 +145,7 @@
 		},
 
 		created: async function() {
-			this.getPageData()
+			await this.getPageData()
 
 			this.log()
 		},
