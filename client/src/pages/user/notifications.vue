@@ -7,13 +7,32 @@
 					<BCard
 						v-for="notification in notifications"
 						:key="notification._id"
-						class="bg-secondary my-1"
+						class="my-1 bg-dark border-secondary"
 					>
-						<p class="m-0">Seen: {{ notification.read }}</p>
-						<p class="m-0">Created:
-							{{ new Date(notification.createdAt).toLocaleString() }}
-						</p>
-						<p v-html="notification.comment.text" class="m-0"></p>
+						<div class="row text-secondary">
+							<!-- Header -->
+							<h5
+								class="col-md-10 m-0"
+								:class="{
+									'font-weight-bold text-light': !notification.read,
+								}"
+							>
+								<span v-if ="!notification.read" class="text-primary">
+									&#9679;
+								</span>
+								{{ notification.comment.user.username }} made a 
+								{{ notification.type }} in 
+								{{ notification.comment.post.title }}
+							</h5>
+
+							<!-- Timestamp -->
+							<small class="col-md-2">
+								{{ new Date(notification.createdAt).toLocaleString() }}
+							</small>
+
+							<!-- Text -->
+							<p v-html="notification.comment.text" class="col-12 m-0"></p>
+						</div>
 					</BCard>
 				</div>
 			</div>
