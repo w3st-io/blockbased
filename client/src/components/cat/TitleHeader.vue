@@ -1,5 +1,5 @@
 <template>
-	<section class="row">
+	<BRow>
 		<!-- Left Side -->
 		<div class="col-lg-6 col-md-8 col-sm-8">
 			<!-- Title -->
@@ -30,7 +30,7 @@
 				class="btn btn-sm btn-primary"
 			>Create Post</button>
 		</div>
-	</section>
+	</BRow>
 </template>
 
 <script>

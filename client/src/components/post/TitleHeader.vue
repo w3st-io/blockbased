@@ -1,5 +1,5 @@
  <template>
-	<section class="row">
+	<BRow>
 		<!-- Left Side -->
 		<div class="col-lg-9 col-md-8 col-sm-8">
 			<!-- Title + Page Nav Buttons -->
@@ -42,7 +42,7 @@
 				@end-btn="end()"
 			/>
 		</div>
-	</section>
+	</BRow>
 </template>
 
 <script>

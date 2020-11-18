@@ -1,14 +1,14 @@
 <template>
 	<article>
 		<section class="mx-auto mt-5 p-4 card bg-dark border-secondary login-terminal">
-			<section class="row">
+			<BRow>
 				<!-- Welcome Half -->
-				<section class="col-6">
+				<BCol cols="6">
 					<h3 class="m-3 text-center text-light">Welcome Back</h3>
 					<div class="text-center">
-					<img :src="require('../../assets/images/logo.svg')" class="w-50">
+						<img :src="require('../../assets/images/logo.svg')" class="w-50">
 					</div>
-				</section>
+				</BCol>
 
 				<!-- LOG IN FORM -->
 				<ValidationObserver
@@ -63,11 +63,11 @@
 							:disabled="submitted"
 						>Login</button>
 					</form>
-					<router-link to="/user/password/request" class="text-primary">
+					<RouterLink to="/user/password/request" class="text-primary">
 						Forgot password?
-					</router-link>
+					</RouterLink>
 				</ValidationObserver>
-			</section>
+			</BRow>
 		</section>
 
 		<!-- [ALERTS] -->
