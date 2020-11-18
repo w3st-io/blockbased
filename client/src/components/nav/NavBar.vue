@@ -2,14 +2,14 @@
 	<section>
 		<!-- Top Bar -->
 		<article class="bg-dark bg-secondary border-bottom border-primary">
-			<b-container>
+			<BContainer>
 				<nav class=" px-0 navbar navbar-expand-lg navbar-dark">
 					<!-- Logo -->
-					<router-link to="/" class="navbar-brand">
+					<RouterLink to="/" class="navbar-brand">
 						<mark class="h4 bg-primary text-light">
 							BlockBased.io
 						</mark>
-					</router-link>
+					</RouterLink>
 
 					<!-- Hidden Menu Button -->
 					<button class="navbar-toggler" @click="menuBtnClicked">
@@ -33,13 +33,13 @@
 						-->
 					</div>
 				</nav>
-			</b-container>
+			</BContainer>
 		</article>
 		
 		<!-- Bottom Bar -->
 		<article class="p-0 bg-dark border-bottom border-dark shadow-sm">
-			<b-container>
-				<b-navbar class="px-0 py-1">
+			<BContainer>
+				<BNavbar class="px-0 py-1">
 					<div class="mr-auto">
 						<button
 							v-if="loggedIn"
@@ -58,32 +58,32 @@
 						<!-- Logged In -->
 						<NotificationMenuBtn v-if="loggedIn" />
 
-						<b-button
+						<BButton
 							v-if="loggedIn"
 							@click="profileRedirect()"
 							variant="outline-primary"
 							size="sm"
 							class="ml-2"
-						>{{ decoded.username }}</b-button>
+						>{{ decoded.username }}</BButton>
 
 						<!-- NOT Logged In -->
-						<b-button
+						<BButton
 							v-if="!loggedIn"
 							@click="logInRedirect()"
 							variant="outline-secondary"
 							size="sm"
-						>Login</b-button>
+						>Login</BButton>
 						
-						<b-button
+						<BButton
 							v-if="!loggedIn"
 							@click="registerRedirect()"
 							variant="outline-primary"
 							size="sm"
 							class="ml-2"
-						>Register</b-button>
+						>Register</BButton>
 					</section>
-				</b-navbar>
-			</b-container>
+				</BNavbar>
+			</BContainer>
 		</article>
 	</section>
 </template>

@@ -1,67 +1,69 @@
 <template>
-	<section class="my-4 container">
+	<BContainer class="my-4">
 		<!-- Set Page Title -->
-		<vue-headful :title="`Post - ${postTitle}`" />
+		<VueHeadful :title="`Post - ${postTitle}`" />
 		
-		<BCard bg-variant="dark">
-			<div class="row">
-				<div class="col-12">
-					<!-- Post Title Header -->
-					<PostTitleHeader
-						v-if="post"
-						:post="post"
-						:badgeValue="pageNumber"
-						@refreshPost="getPageData()"
-						@start-btn="startPage()"
-						@prev-btn="prevPage()"
-						@next-btn="nextPage()"
-						@end-btn="endPage()"
-						class="mb-3"
-					/>
-					<h1>{{ returned.pageCount }}</h1>
-				</div>
-			</div>
-			
+		<BRow>
+			<BCol cols="12">
+				<BCard bg-variant="dark">
+					<BRow>
+						<BCol cols="12">
+							<!-- Post Title Header -->
+							<PostTitleHeader
+								v-if="post"
+								:post="post"
+								:badgeValue="pageNumber"
+								@refreshPost="getPageData()"
+								@start-btn="startPage()"
+								@prev-btn="prevPage()"
+								@next-btn="nextPage()"
+								@end-btn="endPage()"
+								class="mb-3"
+							/>
+						</BCol>
+					</BRow>
+					
+					<BRow>
+						<BCol cols="12">
+							<!-- Comments List -->
+							<CommentList
+								v-if="!loading"
+								:comments="comments"
+								:post_id="post_id"
+								@refreshComments="getPageData()"
+							/>
+						</BCol>
+					</BRow>
 
-			<section class="row">
-				<div class="col-12">
-					<!-- Comments List -->
-					<CommentList
-						v-if="!loading"
-						:comments="comments"
-						:post_id="post_id"
-						@refreshComments="getPageData()"
-					/>
-				</div>
-			</section>
+					<!-- [DEFAULT] If No content -->
+					<NoContent v-if="!loading && comments == ''" class="my-3" />
+					
+					<!-- [LOADING] -->
+					<BRow v-show="loading" class="mt-3">
+						<BCol cols="12">
+							<Alert />
+						</BCol>
+					</BRow>
 
-			<!-- [DEFAULT] If No content -->
-			<NoContent v-if="!loading && comments == ''" class="my-3" />
-			
-			<!-- [LOADING] -->
-			<section v-show="loading" class="row mt-3">
-				<div class="col-12">
-					<Alert />
-				</div>
-			</section>
-
-			<!-- Botton Page Control -->
-			<section class="mt-3">
-				<PageNavButtons
-					@start-btn="startPage()"
-					@prev-btn="prevPage()"
-					@next-btn="nextPage()"
-					@end-btn="endPage()"
-					:badgeValue="pageNumber"
-					class="m-auto w-100"
-					style="max-width: 300px;"
-				/>
-			</section>
-		</BCard>
+					<!-- Botton Page Control -->
+					<div class="mt-3">
+						<PageNavButtons
+							@start-btn="startPage()"
+							@prev-btn="prevPage()"
+							@next-btn="nextPage()"
+							@end-btn="endPage()"
+							:badgeValue="pageNumber"
+							class="m-auto w-100"
+							style="max-width: 300px;"
+						/>
+					</div>
+				</BCard>
+			</BCol>
+		</BRow>
 
 		<!-- [ALERTS] -->
 		<div v-if="error" class="mt-3 alert alert-danger">{{ error }}</div>
-	</section>
+	</BContainer>
 </template>
 
 <script>

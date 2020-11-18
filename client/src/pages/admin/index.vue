@@ -1,13 +1,13 @@
 <template>
 	<BCard bg-variant="dark" class="mx-5 my-3">
 		<!-- Button Tabs -->
-		<div class="row">
-			<div class="col-6 my-3">
+		<BRow>
+			<BCol cols="6" class="my-3">
 				<ButtonTabs :tabs="tabs" @tabClicked="switchTab" />
-			</div>
+			</BCol>
 
-			<div class="col-6 text-right my-3"></div>
-		</div>
+			<BCol cols="6" class="text-right my-3"></BCol>
+		</BRow>
 		
 		<div class="my-3">
 			<!-- Users -->

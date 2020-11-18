@@ -1,7 +1,7 @@
 <template>
-	<div class="container">
+	<BContainer>
 		<!-- [CONTENT] -->
-		<div v-if="!loading" class="row mt-3">
+		<BRow v-if="!loading" class="mt-3">
 			<!-- Main Content -->
 			<section class="col-12 col-md-9 mb-3 p-0">
 				<BCard bg-variant="dark">
@@ -13,31 +13,29 @@
 
 			<!-- Side Content -->
 			<section class="col-12 col-md-3">
-				<adsense
+				<Adsense
 					ad-client="ca-pub-5696881492897672"
 					ad-slot="XXXXXXXX"
 					ad-style="display: block"
 					ad-format="auto"
-				></adsense>
+				></Adsense>
 			</section>
-		</div>
+		</BRow>
 
 		<!-- [ALERTS] -->
-		<div v-if="error" class="row mt-3">
-			<div class="col-12">
+		<BRow v-if="error" class="mt-3">
+			<BCol cols="12">
 				<div class="alert alert-danger">{{ error }}</div>
-			</div>
-		</div>
+			</BCol>
+		</BRow>
 
 		<!-- [LOADING] -->
-		<section v-show="loading" class="row mt-3">
-			<div class="col-12">
+		<BRow v-show="loading" class="mt-3 row">
+			<BCol cols="12">
 				<Alert BSColor="dark" />
-			</div>
-		</section>
-
-		
-	</div>
+			</BCol>
+		</BRow>
+	</BContainer>
 </template>
 
 <script>

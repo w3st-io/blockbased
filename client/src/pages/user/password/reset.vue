@@ -1,8 +1,13 @@
 <template>
-	<div class="container text-white">
-		<div class="row mt-3">
-			<div class="col">
-				<BCard bg-variant="dark" class="m-auto w-100" style="max-width: 500px;">
+	<BContainer class="text-white">
+		<BRow class="mt-3">
+			<BCol cols="12">
+				<BCard
+					bg-variant="dark"
+					border-variant="secondary"
+					class="m-auto w-100"
+					style="max-width: 500px;"
+				>
 					<h5 class="text-center">Create New Password</h5>
 					<p>Please enter your new password</p>
 
@@ -45,7 +50,9 @@
 							</ValidationProvider>
 					
 							<!-- Submit -->
-							<button class="w-100 btn btn-primary">Reset Password</button>
+							<BButton variant="primary" class="w-100">
+								Reset Password
+							</BButton>
 						</form>
 					</ValidationObserver>
 				</BCard>
@@ -56,9 +63,9 @@
 					class="mx-auto my-3 alert alert-warning"
 					style="max-width: 500px;"
 				>{{ alert }}</div>
-			</div>
-		</div>
-	</div>
+			</BCol>
+		</BRow>
+	</BContainer>
 </template>
 
 <script>

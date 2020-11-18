@@ -1,57 +1,61 @@
 <template>
-	<div class="container mt-3">
-		<BCard bg-variant="dark" class="text-light">
-			<!-- Title -->
-			<section class="row">
-				<div class="col-sm-10">
-					<h4>Posts You Are Following</h4>
+	<BContainer class="mt-3">
+		<BRow>
+			<BCol cols="12">
+				<BCard bg-variant="dark" class="text-light">
+					<!-- Title -->
+					<BRow>
+						<BCol cols="sm-10">
+							<h4>Posts You Are Following</h4>
 
-					<!-- Page Control -->
-					<PageNavButtons
-						@prev-btn="prevPage()"
-						@next-btn="nextPage()"
-						:badgeValue="pageNumber"
-						class="w-100 mb-3"
-						style="max-width: 300px;"
-					/>
-				</div>
+							<!-- Page Control -->
+							<PageNavButtons
+								@prev-btn="prevPage()"
+								@next-btn="nextPage()"
+								:badgeValue="pageNumber"
+								class="w-100 mb-3"
+								style="max-width: 300px;"
+							/>
+						</BCol>
 
-				<div class="col-sm-2">
-					<p class="w-100 badge badge-light">
-						Total: {{ totalFollows }}
-					</p>
-				</div>
-			</section>
+						<BCol cols="sm-2">
+							<BBadge variant="light" class="w-100">
+								Total: {{ totalFollows }}
+							</BBadge>
+						</BCol>
+					</BRow>
 
-			<section class="row">
-				<div class="col-12">
-					<!-- Display All the Posts -->
-					<PostList
-						v-if="!loading"
-						:posts="posts"
-						@refreshPosts="getData()"
-					/>
-				</div>
-			</section>
+					<BRow>
+						<BCol cols="12">
+							<!-- Display All the Posts -->
+							<PostList
+								v-if="!loading"
+								:posts="posts"
+								@refreshPosts="getData()"
+							/>
+						</BCol>
+					</BRow>
 
-			<!-- [DEFAULT] If No content -->
-			<NoContent v-if="!loading && posts == ''" class="mt-3" />
+					<!-- [DEFAULT] If No content -->
+					<NoContent v-if="!loading && posts == ''" class="mt-3" />
 
-			<!-- [LOADING] -->
-			<section v-show="loading" class="row mt-3">
-				<div class="col-12">
-					<Alert />
-				</div>
-			</section>
+					<!-- [LOADING] -->
+					<BRow v-show="loading" class="mt-3">
+						<BCol cols="12">
+							<Alert />
+						</BCol>
+					</BRow>
 
-			<!-- [ERROR] -->
-			<section v-show="error" class="row mt-3">
-				<div class="col-12">
-					<Alert BSColor="danger" :message="'Follow Page: ' + error" />
-				</div>
-			</section>
-		</BCard>
-	</div>
+					<!-- [ERROR] -->
+					<BRow v-show="error" class="mt-3">
+						<BCol cols="12">
+							<Alert BSColor="danger" :message="'Follow Page: ' + error" />
+						</BCol>
+					</BRow>
+				</BCard>
+			</BCol>
+		</BRow>
+	</BContainer>
 </template>
 
 <script>

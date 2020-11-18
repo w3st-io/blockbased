@@ -1,7 +1,7 @@
 <template>
-	<article class="container">
-		<div class="row mt-3">
-			<div class="col-9">
+	<BContainer>
+		<BRow class="mt-3">
+			<BCol cols="9">
 				<BCard bg-variant="dark" class="text-light">
 					<h4>All Activity</h4>
 					
@@ -19,8 +19,8 @@
 					</section>
 
 					<!-- Main -->
-					<div class="row mt-3">
-						<div class="col-12">
+					<BRow class="mt-3">
+						<BCol cols="12">
 							<ul class="list-group">
 								<li
 									v-for="activity in activities"
@@ -96,26 +96,26 @@
 									</div>
 								</li>
 							</ul>
-						</div>
-					</div>
+						</BCol>
+					</BRow>
 
 					<!-- [ALERTS] -->
-					<section v-show="error" class="row mt-3">
-						<div class="col-12">
+					<BRow v-show="error" class="mt-3">
+						<BCol cols="12">
 							<Alert BSColor="danger" :message="'Activity Page: ' + error" />
-						</div>
-					</section>
+						</BCol>
+					</BRow>
 
 					<!-- [LOADING] -->
-					<section v-show="loading" class="row mt-3">
-						<div class="col-12">
+					<BRow v-show="loading" class="mt-3">
+						<BCol class="12">
 							<Alert BSColor="dark" />
-						</div>
-					</section>
+						</BCol>
+					</BRow>
 				</BCard>
-			</div>
-		</div>
-	</article>
+			</BCol>
+		</BRow>
+	</BContainer>
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
-	<div class="container">
-		<div class="row mt-4">
-			<div class="col-12">
+	<BContainer>
+		<BRow class="mt-4">
+			<BCol cols="12">
 				<BCard bg-variant="dark">
 					<!-- Title -->
 					<h2 class="text-white">Your Admin Profile</h2>
@@ -29,9 +29,9 @@
 						</tr>
 					</table>
 				</BCard>
-			</div>
-		</div>
-	</div>
+			</BCol>
+		</BRow>
+	</BContainer>
 </template>
 
 <script>

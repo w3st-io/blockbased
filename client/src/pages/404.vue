@@ -1,15 +1,15 @@
 <template>
-	<section class="container">
-		<article class="row">
-			<div class="w-100 m-5 jumbotron bg-dark">
+	<BContainer>
+		<BRow>
+			<BJumbotron class="w-100 m-5 bg-dark">
 				<h1 class="w-100 mb-3 text-center text-light">404 Not Found</h1>
 
 				<div class="w-100 m-auto text-center">
-					<router-link to="/">
-						<button class="m-auto btn btn-primary">Go to Forum</button>
-					</router-link>
+					<RouterLink to="/">
+						<BButton variant="primary" class="m-auto">Go to Forum</BButton>
+					</RouterLink>
 				</div>
-			</div>
-		</article>
-	</section>
+			</BJumbotron>
+		</BRow>
+	</BContainer>
 </template>

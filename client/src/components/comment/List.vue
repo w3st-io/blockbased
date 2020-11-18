@@ -1,6 +1,6 @@
 <template>
-	<article class="row">
-		<section class="col-12">
+	<BRow>
+		<BCol cols="12">
 			<ul
 				v-if="comments != ''"
 				class="m-0 p-0 border border-bottom-0 border-secondary"
@@ -156,8 +156,8 @@
 					</div>
 				</li>
 			</ul>
-		</section>
-	</article>
+		</BCol>
+	</BRow>
 </template>
 
 <script>

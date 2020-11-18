@@ -1,10 +1,10 @@
 <template>
-	<section class="my-4 container">
+	<BContainer class="my-4">
 		<!-- Set Page Title -->
-		<vue-headful :title="`Cat - ${cat.title}`"/>
+		<VueHeadful :title="`Cat - ${cat.title}`"/>
 
-		<div class="row">
-			<div class="col-12">
+		<BRow class="row">
+			<BCol cols="12">
 				<BCard bg-variant="dark">
 					<!-- Cat Title Header -->
 					<CatTitleHeader
@@ -18,35 +18,37 @@
 					/>
 
 					<!-- Tabs -->
-					<section class="row text-center">
+					<BRow class="text-center">
 						<ButtonTabs
 							:tabs="['recent', 'popular']"
 							@tabClicked="tab"
 							class="col-12 mx-auto mb-2"
 							style="max-width: 300px;"
 						/>
-					</section>
+					</BRow>
 
 					<!-- Display All the Posts -->
-					<section class="row">
-						<div class="col-12">
+					<BRow>
+						<BCol cols="12">
 							<PostList
 								v-if="!loading"
 								:posts="posts"
 								@refreshPosts="getPageData()"
 							/>
-						</div>
-					</section>
+						</BCol>
+					</BRow>
 
 					<!-- [DEFAULT] If No content -->
-					<NoContent v-if="!loading && posts == ''" class="mt-3" />
+					<BRow>
+						<NoContent v-if="!loading && posts == ''" class="mt-3" />
+					</BRow>
 
 					<!-- [LOADING] -->
-					<section v-show="loading" class="row mt-3">
-						<div class="col-12">
+					<BRow v-show="loading" class="mt-3">
+						<BCol cols="12">
 							<Alert />
-						</div>
-					</section>
+						</BCol>
+					</BRow>
 
 					<!-- Botton Page Control -->
 					<section class="mt-3">
@@ -61,16 +63,16 @@
 						/>
 					</section>
 				</BCard>
-			</div>
-		</div>
+			</BCol>
+		</BRow>
 
 		<!-- [ALERTS] -->
-		<section v-show="error" class="row mt-3">
-			<div class="col-12">
+		<BRow v-show="error" class="mt-3">
+			<BCol cols="12">
 				<Alert BSColor="danger" :message="'Cat Page: ' + error" />
-			</div>
-		</section>
-	</section>
+			</BCol>
+		</BRow>
+	</BContainer>
 </template>
 
 <script>

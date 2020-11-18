@@ -1,5 +1,5 @@
 <template>
-	<section class="my-3 container">
+	<BContainer class="my-3">
 		<BCard bg-variant="dark">
 			<h3 class="mb-3 text-light">Create Comment in "{{ post_id }}"</h3>
 		
@@ -16,7 +16,7 @@
 
 		<!-- [ALERTS] -->
 		<div v-if="error" class="mt-3 alert alert-danger">{{ error }}</div>
-	</section>
+	</BContainer>
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
-	<div class="container text-white">
-		<div class="row mt-3">
-			<div class="col-12">
+	<BContainer class="text-white">
+		<BRow class="mt-3">
+			<BCol cols="12">
 				<BCard
 					bg-variant="dark"
 					border-variant="secondary"
@@ -32,9 +32,9 @@
 							</ValidationProvider>
 
 							<!-- Submit -->
-							<button type="submit" class="my-3 w-100 btn btn-primary">
+							<BButton variant="primary" type="submit" class="my-3 w-100">
 								Send Email
-							</button>
+							</BButton>
 						</form>
 					</ValidationObserver>
 				</BCard>
@@ -52,9 +52,9 @@
 					class="mx-auto my-3 alert alert-success"
 					style="max-width: 500px;"
 				>{{ success }}</div>
-			</div>
-		</div>
-	</div>
+			</BCol>
+		</BRow>
+	</BContainer>
 </template>
 
 <script>
