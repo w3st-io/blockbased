@@ -1,6 +1,6 @@
 <template>
 	<section class="container">
-		<div class="my-3 card card-body bg-dark">
+		<BCard bg-variant="dark" class="my-3">
 			<h3 class="mb-3 text-light">
 				In Reply to Comment "{{ comment_id }}"
 			</h3>
@@ -11,7 +11,7 @@
 				:post_id="comment.post"
 				@submit="submit"
 			/>
-		</div>
+		</BCard>
 
 		<!-- [ALERTS] -->
 		<div v-if="error" class="mt-3 alert alert-danger">{{ error }}</div>

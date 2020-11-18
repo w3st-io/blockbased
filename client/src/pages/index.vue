@@ -4,11 +4,11 @@
 		<div v-if="!loading" class="row mt-3">
 			<!-- Main Content -->
 			<section class="col-12 col-md-9 mb-3 p-0">
-				<div class="card card-body bg-dark">
+				<BCard bg-variant="dark">
 					<CatList :cats="cats1" :totalPosts="totalPosts1" class="mb-3" />
 					<CatList :cats="cats2" :totalPosts="totalPosts2" class="mb-3" />
 					<CatList :cats="cats3" :totalPosts="totalPosts3" class="mb-3" />
-				</div>
+				</BCard>
 			</section>
 
 			<!-- Side Content -->

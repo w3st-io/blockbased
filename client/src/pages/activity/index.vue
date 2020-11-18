@@ -1,8 +1,8 @@
 <template>
 	<article class="container">
 		<div class="row mt-3">
-			<div class="col-12">
-				<div class="card card-body bg-dark text-light">
+			<div class="col-9">
+				<BCard bg-variant="dark" class="text-light">
 					<h4>All Activity</h4>
 					
 					<!-- Page Control -->
@@ -112,7 +112,7 @@
 							<Alert BSColor="dark" />
 						</div>
 					</section>
-				</div>
+				</BCard>
 			</div>
 		</div>
 	</article>

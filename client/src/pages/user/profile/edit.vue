@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
-		<div class="row">
-			<div class="my-3 card card-body bg-dark">
+		<div class="row my-3">
+			<BCard bg-variant="dark" class="col-12">
 				<div v-if="!loading">
 					<label for="profileImgInput" class="text-light">
 						Profile Pic Url
@@ -31,7 +31,7 @@
 				<!-- [LOADING + ERROR] -->
 				<div v-if="loading" class="alert alert-warning">Loading..</div>
 				<div v-if="error" class="my-3 alert alert-danger">{{ error }}</div>
-			</div>
+			</BCard>
 		</div>
 	</div>
 </template>
@@ -58,13 +58,11 @@
 			if (!localStorage.usertoken) { router.push({ name: '/' }) }
 
 			// Retrieve User Profile Data //
-			try {
-				const returned = await UserService.s_read()
-
-				if (returned.status) { this.userData = returned }
-				else { this.error = returned.message }
-			}
+			try { this.data = await UserService.s_read() }
 			catch (err) { this.error = err }
+
+			if (this.data.status) { this.userData = this.data.user }
+			else { this.error = this.data.message }
 
 			// Set Image //
 			this.imgUrl = this.userData.profileImg

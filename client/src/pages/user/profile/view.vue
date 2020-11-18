@@ -1,5 +1,5 @@
 <template>
-	<div class="container my-4 card card-body bg-dark">
+	<BCard bg-variant="dark" class="container my-4">
 		<div class="row mt-3">
 			<div v-if="!error" class="col-sm-12 col-md-8 mb-3">
 				<!-- Profile Details -->
@@ -21,7 +21,7 @@
 
 			<div v-if="error" class="col-12 alert alert-danger">{{ error }}</div>
 		</div>
-	</div>
+	</BCard>
 </template>
 
 <script>

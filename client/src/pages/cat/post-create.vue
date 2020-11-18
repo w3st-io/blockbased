@@ -1,11 +1,11 @@
 <template>
 	<section class="container">
-		<div class="my-3 row card card-body bg-dark">
+		<BCard bg-variant="dark" class="my-3 row">
 			<h3 class="col-12 mb-3 text-light">Create Post in "{{ catTitle }}"</h3>
 
 			<!-- [COMPONENT] Create -->
 			<PostCreate :cat_id="cat_id" />
-		</div>
+		</BCard>
 	</section>
 </template>
 

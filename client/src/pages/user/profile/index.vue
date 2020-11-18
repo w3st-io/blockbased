@@ -3,26 +3,26 @@
 		<div class="row mt-4">
 			<!-- User Not Verifed -->
 				<div v-if="!isVerified" class="col-12 mb-3">
-					<div class="m-auto card card-body bg-danger">
+					<BCard bg-variant="danger" class="m-auto">
 						<h5 class="text-center text-light">Account Not Verified!</h5>
 						<button
 							@click="resendvCodeEmail"
 							class="btn btn-outline-light"
 							
 						>Click to Resend Email</button>
-					</div>
+					</BCard>
 				</div>
 
 			<!-- Side Content -->
 			<section class="col-12 col-md-3 hidden-768">
-				<div class="card card-body bg-dark text-light">
+				<BCard bg-variant="dark" class="text-light">
 					<img
 						:src="user.profileImg"
 						alt="Profile Image Here"
 						class="m-auto w-100 border border-primary rounded"
 					>
 					<h4 class="mb-0 text-center text-light">{{ user.username }}</h4>
-				</div>
+				</BCard>
 			</section>
 
 			<!-- Main Content -->

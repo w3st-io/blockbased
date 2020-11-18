@@ -1,5 +1,5 @@
 <template>
-	<article class="mx-5 my-3 card card-body bg-dark">
+	<BCard bg-variant="dark" class="mx-5 my-3">
 		<!-- Button Tabs -->
 		<div class="row">
 			<div class="col-6 my-3">
@@ -41,7 +41,7 @@
 
 		<!-- [ALERTS] -->
 		<div v-if="error" class="my-3 alert alert-danger">{{ error }}</div>
-	</article>
+	</BCard>
 </template>
 
 <script>

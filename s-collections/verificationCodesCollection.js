@@ -6,6 +6,7 @@
 // [REQUIRE] //
 const mongoose = require('mongoose')
 const validator = require('validator')
+const uuid = require('uuid')
 
 
 // [REQUIRE] Personal //
@@ -29,6 +30,7 @@ const c_create = async (user_id) => {
 		const verificationCode = await new VerificationCodeModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
+			verificationCode: uuid.v4(),
 		}).save()
 
 		return {

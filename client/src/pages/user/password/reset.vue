@@ -2,7 +2,7 @@
 	<div class="container text-white">
 		<div class="row mt-3">
 			<div class="col">
-				<div class="m-auto w-100 card card-body bg-dark" style="max-width: 500px;">
+				<BCard bg-variant="dark" class="m-auto w-100" style="max-width: 500px;">
 					<h5 class="text-center">Create New Password</h5>
 					<p>Please enter your new password</p>
 
@@ -48,7 +48,7 @@
 							<button class="w-100 btn btn-primary">Reset Password</button>
 						</form>
 					</ValidationObserver>
-				</div>
+				</BCard>
 
 				<!-- [ALERT] -->
 				<div

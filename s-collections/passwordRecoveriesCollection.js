@@ -5,6 +5,7 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const uuid = require('uuid')
 
 
 // [REQUIRE] Personal //
@@ -28,6 +29,7 @@ const c_create = async (user_id) => {
 		const passwordRecovery = await new PasswordRecoveryModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
+			verificationCode: uuid.v4()
 		}).save()
 
 		return {

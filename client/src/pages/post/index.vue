@@ -3,8 +3,7 @@
 		<!-- Set Page Title -->
 		<vue-headful :title="`Post - ${postTitle}`" />
 		
-		<article class="card card-body bg-dark">
-			
+		<BCard bg-variant="dark">
 			<div class="row">
 				<div class="col-12">
 					<!-- Post Title Header -->
@@ -58,7 +57,7 @@
 					style="max-width: 300px;"
 				/>
 			</section>
-		</article>
+		</BCard>
 
 		<!-- [ALERTS] -->
 		<div v-if="error" class="mt-3 alert alert-danger">{{ error }}</div>

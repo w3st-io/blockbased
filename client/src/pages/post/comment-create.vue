@@ -1,6 +1,6 @@
 <template>
 	<section class="my-3 container">
-		<div class="card card-body bg-dark">
+		<BCard bg-variant="dark">
 			<h3 class="mb-3 text-light">Create Comment in "{{ post_id }}"</h3>
 		
 			<!-- Informative Message -->
@@ -12,7 +12,7 @@
 				:post_id="post_id"
 				@submit="submit"
 			/>
-		</div>
+		</BCard>
 
 		<!-- [ALERTS] -->
 		<div v-if="error" class="mt-3 alert alert-danger">{{ error }}</div>

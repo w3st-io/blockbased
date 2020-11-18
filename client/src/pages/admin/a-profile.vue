@@ -1,32 +1,34 @@
 <template>
 	<div class="container">
 		<div class="row mt-4">
-			<div class="col-12 card card-body bg-dark">
-				<!-- Title -->
-				<h2 class="text-white">Your Admin Profile</h2>
+			<div class="col-12">
+				<BCard bg-variant="dark">
+					<!-- Title -->
+					<h2 class="text-white">Your Admin Profile</h2>
 
-				<table class="table table-border table-dark">
-					<tr>
-						<td>Admin Id</td>
-						<td>{{ adminDecoded.admin_id }}</td>
-					</tr>
-					<tr>
-						<td>Username</td>
-						<td>{{ adminDecoded.username }}</td>
-					</tr>
-					<tr>
-						<td>Email</td>
-						<td>{{ adminDecoded.email }}</td>
-					</tr>
-					<tr>
-						<td>First Name</td>
-						<td>{{ adminDecoded.first_name }}</td>
-					</tr>
-					<tr>
-						<td>Last Name</td>
-						<td>{{ adminDecoded.last_name }}</td>
-					</tr>
-				</table>
+					<table class="table table-border table-dark">
+						<tr>
+							<td>Admin Id</td>
+							<td>{{ adminDecoded.admin_id }}</td>
+						</tr>
+						<tr>
+							<td>Username</td>
+							<td>{{ adminDecoded.username }}</td>
+						</tr>
+						<tr>
+							<td>Email</td>
+							<td>{{ adminDecoded.email }}</td>
+						</tr>
+						<tr>
+							<td>First Name</td>
+							<td>{{ adminDecoded.first_name }}</td>
+						</tr>
+						<tr>
+							<td>Last Name</td>
+							<td>{{ adminDecoded.last_name }}</td>
+						</tr>
+					</table>
+				</BCard>
 			</div>
 		</div>
 	</div>

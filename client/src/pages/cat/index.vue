@@ -3,62 +3,66 @@
 		<!-- Set Page Title -->
 		<vue-headful :title="`Cat - ${cat.title}`"/>
 
-		<article class="card card-body bg-dark">
-			<!-- Cat Title Header -->
-			<CatTitleHeader
-				:cat="cat"
-				:postCount="data.postsCount"
-				:badgeValue="page"
-				@start-btn="startPage()"
-				@prev-btn="prevPage()"
-				@next-btn="nextPage()"
-				@end-btn="endPage()"
-			/>
-
-			<!-- Tabs -->
-			<section class="row text-center">
-				<ButtonTabs
-					:tabs="['recent', 'popular']"
-					@tabClicked="tab"
-					class="col-12 mx-auto mb-2"
-					style="max-width: 300px;"
-				/>
-			</section>
-
-			<!-- Display All the Posts -->
-			<section class="row">
-				<div class="col-12">
-					<PostList
-						v-if="!loading"
-						:posts="posts"
-						@refreshPosts="getPageData()"
+		<div class="row">
+			<div class="col-12">
+				<BCard bg-variant="dark">
+					<!-- Cat Title Header -->
+					<CatTitleHeader
+						:cat="cat"
+						:postCount="data.postsCount"
+						:badgeValue="page"
+						@start-btn="startPage()"
+						@prev-btn="prevPage()"
+						@next-btn="nextPage()"
+						@end-btn="endPage()"
 					/>
-				</div>
-			</section>
 
-			<!-- [DEFAULT] If No content -->
-			<NoContent v-if="!loading && posts == ''" class="mt-3" />
+					<!-- Tabs -->
+					<section class="row text-center">
+						<ButtonTabs
+							:tabs="['recent', 'popular']"
+							@tabClicked="tab"
+							class="col-12 mx-auto mb-2"
+							style="max-width: 300px;"
+						/>
+					</section>
 
-			<!-- [LOADING] -->
-			<section v-show="loading" class="row mt-3">
-				<div class="col-12">
-					<Alert />
-				</div>
-			</section>
+					<!-- Display All the Posts -->
+					<section class="row">
+						<div class="col-12">
+							<PostList
+								v-if="!loading"
+								:posts="posts"
+								@refreshPosts="getPageData()"
+							/>
+						</div>
+					</section>
 
-			<!-- Botton Page Control -->
-			<section class="mt-3">
-				<PageNavButtons
-					@start-btn="startPage()"
-					@prev-btn="prevPage()"
-					@next-btn="nextPage()"
-					@end-btn="endPage()"
-					:badgeValue="page"
-					class="m-auto w-100"
-					style="max-width: 300px;"
-				/>
-			</section>
-		</article>
+					<!-- [DEFAULT] If No content -->
+					<NoContent v-if="!loading && posts == ''" class="mt-3" />
+
+					<!-- [LOADING] -->
+					<section v-show="loading" class="row mt-3">
+						<div class="col-12">
+							<Alert />
+						</div>
+					</section>
+
+					<!-- Botton Page Control -->
+					<section class="mt-3">
+						<PageNavButtons
+							@start-btn="startPage()"
+							@prev-btn="prevPage()"
+							@next-btn="nextPage()"
+							@end-btn="endPage()"
+							:badgeValue="page"
+							class="m-auto w-100"
+							style="max-width: 300px;"
+						/>
+					</section>
+				</BCard>
+			</div>
+		</div>
 
 		<!-- [ALERTS] -->
 		<section v-show="error" class="row mt-3">

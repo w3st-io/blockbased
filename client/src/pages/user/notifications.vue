@@ -1,8 +1,8 @@
 <template>
 	<div class="container">
 		<div class="row mt-3">
-			<div class="col-12">
-				<div class="card card-body bg-dark text-light">
+			<div class="col-9">
+				<BCard bg-variant="dark" class="text-light">
 					<h4>Notifications</h4>
 
 					<!-- Page Control -->
@@ -25,7 +25,9 @@
 								v-for="notification in notifications"
 								:key="notification._id"
 								no-body
-								class="mb-2 p-2 bg-dark border-secondary"
+								bg-variant="dark"
+								border-variant="secondary"
+								class="mb-2 p-2"
 							>
 								<a
 									@click="
@@ -74,7 +76,7 @@
 							<Alert BSColor="danger" :message="'Activity Page: ' + error" />
 						</div>
 					</section>
-				</div>
+				</BCard>
 			</div>
 		</div>
 	</div>

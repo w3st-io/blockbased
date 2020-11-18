@@ -1,12 +1,12 @@
 <template>
 	<div class="container mt-3">
-		<article class="card card-body bg-dark text-light">
+		<BCard bg-variant="dark" class="text-light">
 			<!-- Title -->
 			<section class="row">
 				<div class="col-sm-10">
-					<h3 class="mb-3">Posts You Are Following</h3>
+					<h4>Posts You Are Following</h4>
 
-					<!-- Page Nav Buttons -->
+					<!-- Page Control -->
 					<PageNavButtons
 						@prev-btn="prevPage()"
 						@next-btn="nextPage()"
@@ -50,7 +50,7 @@
 					<Alert BSColor="danger" :message="'Follow Page: ' + error" />
 				</div>
 			</section>
-		</article>
+		</BCard>
 	</div>
 </template>
 

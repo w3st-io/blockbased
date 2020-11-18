@@ -1,8 +1,13 @@
 <template>
 	<div class="container text-white">
 		<div class="row mt-3">
-			<div class="col">
-				<div class="m-auto w-100 card card-body bg-dark" style="max-width: 500px;">
+			<div class="col-12">
+				<BCard
+					bg-variant="dark"
+					border-variant="secondary"
+					class="m-auto"
+					style="max-width: 500px;"
+				>
 					<h4 class="text-center">Enter Your Email to Reset Password</h4>
 
 					<ValidationObserver v-slot="{ handleSubmit }">
@@ -32,7 +37,7 @@
 							</button>
 						</form>
 					</ValidationObserver>
-				</div>
+				</BCard>
 
 				<!-- [ERROR] -->
 				<div

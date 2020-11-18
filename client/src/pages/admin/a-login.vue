@@ -3,7 +3,7 @@
 		<!-- Title -->
 		<h3 class="mb-3 text-center">Admin Login</h3>
 
-		<div class="card card-body bg-dark border-danger">
+		<BCard bg-variant="dark" border-variant="danger">
 			<!-- lOG IN FORM -->
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(login)">
@@ -54,7 +54,7 @@
 					>Login</button>
 				</form>
 			</ValidationObserver>
-		</div>
+		</BCard>
 
 		<!-- [ALERTS] -->
 		<div v-if="error" class="w-100 m-0 mt-3 alert alert-danger">

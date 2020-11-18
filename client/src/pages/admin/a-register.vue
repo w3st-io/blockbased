@@ -3,7 +3,7 @@
 		<!-- Title -->
 		<h3 class="mb-3 text-center">Admin Register</h3>
 
-		<div class="card card-body bg-dark border-danger">
+		<BCard bg-variant="dark" border-variant="danger">
 			<!-- FORM + VEE-VALIDATE -->
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(register)">
@@ -88,7 +88,7 @@
 					>Register</button>
 				</form>
 			</ValidationObserver>
-		</div>
+		</BCard>
 
 		<!-- [ALERTS] -->
 		<div v-if="error" class="m-0 mt-3 alert alert-danger">{{ error }}</div>

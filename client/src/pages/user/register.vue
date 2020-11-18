@@ -2,7 +2,7 @@
 	<article class="mx-auto my-3 text-light register-terminal">
 		<h3 class="mb-3 text-center">Join Something Awesome!</h3>
 
-		<div class="card card-body bg-dark border-secondary">
+		<BCard bg-variant="dark" border-variant="secondary">
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(register)">
 					<!-- Username -->
@@ -87,7 +87,7 @@
 					</button>
 				</form>
 			</ValidationObserver>
-		</div>
+		</BCard>
 		
 		<!-- [ALERTS] -->
 		<div v-show="error" class="m-0 mt-3 alert alert-danger">{{ error }}</div>
