@@ -17,19 +17,21 @@
 						@end-btn="endPage()"
 					/>
 
-					<!-- Tabs -->
 					<BRow class="text-center">
-						<ButtonTabs
-							:tabs="['recent', 'popular']"
-							@tabClicked="tab"
-							class="col-12 mx-auto mb-2"
-							style="max-width: 300px;"
-						/>
+						<BCol cols="12">
+							<!-- Tabs -->
+							<ButtonTabs
+								:tabs="['recent', 'popular']"
+								@tabClicked="tab"
+								class="mx-auto mb-2"
+								style="max-width: 300px;"
+							/>
+						</BCol>
 					</BRow>
 
-					<!-- Display All the Posts -->
 					<BRow>
 						<BCol cols="12">
+							<!-- Display All the Posts -->
 							<PostList
 								v-if="!loading"
 								:posts="posts"
@@ -38,14 +40,16 @@
 						</BCol>
 					</BRow>
 
-					<!-- [DEFAULT] If No content -->
 					<BRow>
-						<NoContent v-if="!loading && posts == ''" class="mt-3" />
+						<BCol cols="12">
+							<!-- [DEFAULT] If No content -->
+							<NoContent v-if="!loading && posts == ''" class="mt-3" />
+						</BCol>
 					</BRow>
 
-					<!-- [LOADING] -->
 					<BRow v-show="loading" class="mt-3">
 						<BCol cols="12">
+							<!-- [LOADING] -->
 							<Alert />
 						</BCol>
 					</BRow>

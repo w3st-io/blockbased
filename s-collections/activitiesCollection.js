@@ -14,7 +14,7 @@ const ActivityModel = require('../s-models/ActivityModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (type, user_id, post_id, comment_id) => {
+const c_create = async (type, user_id, post_id, created_user_id, created_post_id, created_comment_id) => {
 	try {
 		// [VALIDATE] type //
 		if (!validator.isAscii(type)) {
@@ -43,12 +43,30 @@ const c_create = async (type, user_id, post_id, comment_id) => {
 			}
 		}
 
-		// [VALIDATE] comment_id //
-		if (!mongoose.isValidObjectId(comment_id)) {
+		// [VALIDATE] created_user_id //
+		if (!mongoose.isValidObjectId(created_user_id)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'activitiesCollection: Invalid comment_id',
+				message: 'activitiesCollection: Invalid created_user_id',
+			}
+		}
+
+		// [VALIDATE] created_post_id //
+		if (!mongoose.isValidObjectId(created_post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid created_post_id',
+			}
+		}
+
+		// [VALIDATE] created_comment_id //
+		if (!mongoose.isValidObjectId(created_comment_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid created_comment_id',
 			}
 		}
 
@@ -57,7 +75,9 @@ const c_create = async (type, user_id, post_id, comment_id) => {
 			type: type,
 			user: user_id,
 			post: post_id,
-			comment: comment_id,
+			created_user: created_user_id,
+			created_post: created_post_id,
+			created_comment: created_comment_id,
 		}).save()
 
 		return {
@@ -174,30 +194,16 @@ const c_readAllSort = async (sort = 0, limit, skip) => {
 			.sort(sort)
 			.skip(skip)
 			.limit(limit)
+			// user //
 			.populate({
 				path: 'user',
 				select: 'username bio profileImg'
 			})
-			.populate({
-				path: 'post',
-				populate: {
-					path: 'user',
-					select: 'username bio profileImg',
-				},
-			})
-			.populate({
-				path: 'comment',
-				populate: {
-					path: 'user',
-					select: 'username bio profileImg'
-				},
-			})
-			.populate({
-				path: 'comment',
-				populate: {
-					path: 'post',
-				},
-			})
+			.populate({ path: 'post' })
+			.populate({ path: 'comment' })
+			.populate({ path: 'created_comment' })
+			.populate({ path: 'created_user', select: 'username bio profileImg' })
+			.populate({ path: 'created_post' })
 			.exec()
 
 		return {

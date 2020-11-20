@@ -35,8 +35,12 @@
 						</BCol>
 					</BRow>
 
-					<!-- [DEFAULT] If No content -->
-					<NoContent v-if="!loading && comments == ''" class="my-3" />
+					<BRow>
+						<BCol cols="12">
+							<!-- [DEFAULT] If No content -->
+							<NoContent v-if="!loading && comments == ''" class="my-3" />
+						</BCol>
+					</BRow>
 					
 					<!-- [LOADING] -->
 					<BRow v-show="loading" class="mt-3">
@@ -45,18 +49,20 @@
 						</BCol>
 					</BRow>
 
-					<!-- Botton Page Control -->
-					<div class="mt-3">
-						<PageNavButtons
-							@start-btn="startPage()"
-							@prev-btn="prevPage()"
-							@next-btn="nextPage()"
-							@end-btn="endPage()"
-							:badgeValue="pageNumber"
-							class="m-auto w-100"
-							style="max-width: 300px;"
-						/>
-					</div>
+					<BRow v-show="loading" class="mt-3">
+						<BCol cols="12">
+							<!-- Botton Page Control -->
+							<PageNavButtons
+								@start-btn="startPage()"
+								@prev-btn="prevPage()"
+								@next-btn="nextPage()"
+								@end-btn="endPage()"
+								:badgeValue="pageNumber"
+								class="m-auto w-100"
+								style="max-width: 300px;"
+							/>
+						</BCol>
+					</BRow>
 				</BCard>
 			</BCol>
 		</BRow>

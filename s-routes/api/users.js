@@ -243,6 +243,8 @@ router.post(
 						'user',
 						user.user._id,
 						undefined,
+						user.user._id,
+						undefined,
 						undefined,
 					)
 

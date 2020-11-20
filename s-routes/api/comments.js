@@ -88,13 +88,13 @@ router.post(
 							}
 						}
 
-						console.log('ssss', comment.comment.post)
-
 						// [CREATE] Activity //
 						const activity = await activitiesCollection.c_create(
 							'comment',
-							undefined,
+							req.decoded.user_id,
 							comment.comment.post,
+							undefined,
+							undefined,
 							comment.comment._id
 						)
 

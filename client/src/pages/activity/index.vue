@@ -1,114 +1,116 @@
 <template>
 	<BContainer>
 		<BRow class="mt-3">
-			<BCol cols="9">
+			<BCol cols="12">
 				<BCard bg-variant="dark" class="text-light">
 					<h4>All Activity</h4>
 					
-					<!-- Page Control -->
-					<section class="mt-3">
-						<PageNavButtons
-							@start-btn="startPage()"
-							@prev-btn="prevPage()"
-							@next-btn="nextPage()"
-							@end-btn="endPage()"
-							:badgeValue="page"
-							class="w-100"
-							style="max-width: 300px;"
-						/>
-					</section>
-
-					<!-- Main -->
 					<BRow class="mt-3">
 						<BCol cols="12">
+							<!-- Page Control -->
+							<PageNavButtons
+								@start-btn="startPage()"
+								@prev-btn="prevPage()"
+								@next-btn="nextPage()"
+								@end-btn="endPage()"
+								:badgeValue="page"
+								class="w-100"
+								style="max-width: 300px;"
+							/>
+						</BCol>
+					</BRow>
+
+					<BRow class="mt-3">
+						<BCol cols="12">
+							<!-- Main -->
 							<ul class="list-group">
 								<li
 									v-for="activity in activities"
 									:key="activity._id"
 									class="card card-body mb-2 border-secondary bg-dark"
 								>
-									<div class="row">
-										<!-- Details Section -->
-										<div class="col-sm-8">
+									<BRow>
+										<BCol cols="sm-8">
 											<!-- Created User -->
-											<div
+											<BRow
 												v-if="activity.type == 'user'"
-												class="row text-success"
+												class="text-success"
 											>
-												<div class="col m-0 p-0" style="max-width: 35px;">
+												<BCol class="m-0 p-0" style="max-width: 35px;">
+													<img
+														:src="activity.created_user.profileImg"
+														class="w-100"
+													>
+												</BCol>
+												<BCol>
+													<h5>
+														{{ activity.created_user.username }}
+														joined the site!
+													</h5>
+												</BCol>
+											</BRow>
+
+											<!-- Created Post -->
+											<BRow
+												v-if="activity.type == 'post'"
+												class="row text-primary"
+											>
+												<BCol class="m-0 p-0" style="max-width: 35px;">
 													<img
 														:src="activity.user.profileImg"
 														class="w-100"
 													>
-												</div>
-
-												<!-- Text -->
-												<h5 class="col">
-													{{ activity.user.username }} joined the site!
-												</h5>
-											</div>
-
-											<!-- Created Post -->
-											<div
-												v-if="activity.type == 'post'"
-												class="row text-primary"
-											>
-												<div class="col m-0 p-0" style="max-width: 35px;">
-													<img
-														:src="activity.post.user.profileImg"
-														class="w-100"
-													>
-												</div>
-
-												<!-- Text -->
-												<h5 class="col">
-													{{ activity.post.user.username }}
-													created post: 
-													{{ activity.post.title }}
-												</h5>
-											</div>
+												</BCol>
+												<BCol>
+													<h5>
+														{{ activity.user.username }}
+														created post: 
+														{{ activity.created_post.title }}
+													</h5>
+												</BCol>
+											</BRow>
 											
 											<!-- Created Comment -->
-											<div
+											<BRow
 												v-if="activity.type == 'comment'"
-												class="row text-light"
+												class="text-light"
 											>
-												<div class="col m-0 p-0" style="max-width: 35px;">
+												<BCol class="m-0 p-0" style="max-width: 35px;">
 													<img
-														:src="activity.comment.user.profileImg"
+														:src="activity.user.profileImg"
 														class="w-100"
 													>
-												</div>
-
-												<!-- Text -->
-												<h5 class="col">
-													{{ activity.comment.user.username }}
-													created a comment in
-													{{ activity.comment.post.title }}
-												</h5>
-											</div>
-										</div>
+												</BCol>
+												<BCol>
+													<h5>
+														{{ activity.user.username }}
+														created a comment in
+														{{ activity.post.title }}
+													</h5>
+												</BCol>
+											</BRow>
+										</BCol>
 
 										<!-- Timestamp -->
-										<div class="col-sm-4 text-right text-secondary">
+										<BCol cols="sm-4" class="text-right text-secondary">
 											{{ new Date(activity.createdAt).toLocaleString() }}
-										</div>
-									</div>
+										</BCol>
+									</BRow>
 								</li>
 							</ul>
 						</BCol>
 					</BRow>
 
-					<!-- [ALERTS] -->
 					<BRow v-show="error" class="mt-3">
 						<BCol cols="12">
+							<!-- [ALERTS] -->
 							<Alert BSColor="danger" :message="'Activity Page: ' + error" />
 						</BCol>
 					</BRow>
 
-					<!-- [LOADING] -->
 					<BRow v-show="loading" class="mt-3">
 						<BCol class="12">
+							<!-- [LOADING] -->
 							<Alert BSColor="dark" />
 						</BCol>
 					</BRow>

@@ -49,6 +49,8 @@ router.post(
 					// [CREATE] Activity //
 					const pActivity = await activitiesCollection.c_create(
 						'post',
+						req.decoded.user_id,
+						undefined,
 						undefined,
 						post.createdPost._id,
 						undefined,
@@ -66,8 +68,10 @@ router.post(
 							// [CREATE] Activity //
 							const cActivity = await activitiesCollection.c_create(
 								'comment',
-								undefined,
+								req.decoded.user_id,
 								comment.comment.post,
+								undefined,
+								undefined,
 								comment.comment._id,
 							)
 						
