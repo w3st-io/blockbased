@@ -1,12 +1,16 @@
 <template>
-	<section class="container">
-		<BCard bg-variant="dark" class="my-3 row">
-			<h3 class="col-12 mb-3 text-light">Create Post in "{{ catTitle }}"</h3>
+	<BContainer>
+		<BCard bg-variant="dark" class="my-3">
+			<BRow>
+				<BCol cols="12">
+					<h3 class="mb-3 text-light">Create Post in {{ catTitle }}</h3>
 
-			<!-- [COMPONENT] Create -->
-			<PostCreate :cat_id="cat_id" />
+					<!-- [COMPONENT] Create -->
+					<PostCreate :cat_id="cat_id" />
+				</BCol>
+			</BRow>
 		</BCard>
-	</section>
+	</BContainer>
 </template>
 
 <script>

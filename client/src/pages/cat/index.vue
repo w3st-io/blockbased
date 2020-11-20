@@ -1,7 +1,7 @@
 <template>
 	<BContainer class="my-4">
 		<!-- Set Page Title -->
-		<VueHeadful :title="`Cat - ${cat.title}`"/>
+		<VueHeadful :title="`Cat - ${cat.title}`" />
 
 		<BRow class="row">
 			<BCol cols="12">
@@ -54,18 +54,20 @@
 						</BCol>
 					</BRow>
 
-					<!-- Botton Page Control -->
-					<section class="mt-3">
-						<PageNavButtons
-							@start-btn="startPage()"
-							@prev-btn="prevPage()"
-							@next-btn="nextPage()"
-							@end-btn="endPage()"
-							:badgeValue="page"
-							class="m-auto w-100"
-							style="max-width: 300px;"
-						/>
-					</section>
+					<BRow class="mt-3">
+						<BCol cols="12">
+							<!-- Botton Page Control -->
+							<PageNavButtons
+								@start-btn="startPage()"
+								@prev-btn="prevPage()"
+								@next-btn="nextPage()"
+								@end-btn="endPage()"
+								:badgeValue="page"
+								class="m-auto w-100"
+								style="max-width: 300px;"
+							/>
+						</BCol>
+					</BRow>
 				</BCard>
 			</BCol>
 		</BRow>

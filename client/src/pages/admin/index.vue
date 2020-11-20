@@ -9,35 +9,37 @@
 			<BCol cols="6" class="text-right my-3"></BCol>
 		</BRow>
 		
-		<div class="my-3">
-			<!-- Users -->
-			<Users
-				v-show="activeTab == 'users'"
-				:users="users"
-				@refreshData="getData()"
-			/>
-			
-			<!-- Posts -->
-			<Posts
-				v-show="activeTab == 'posts'"
-				:posts="posts"
-				@refreshData="getData()"
-			/>
+		<BRow class="my-3">
+			<BCol cols="12">
+				<!-- Users -->
+				<Users
+					v-show="activeTab == 'users'"
+					:users="users"
+					@refreshData="getData()"
+				/>
+				
+				<!-- Posts -->
+				<Posts
+					v-show="activeTab == 'posts'"
+					:posts="posts"
+					@refreshData="getData()"
+				/>
 
-			<!-- Comments -->
-			<Comments
-				v-show="activeTab == 'comments'"
-				:comments="comments"
-				@refreshData="getData()"
-			/>
+				<!-- Comments -->
+				<Comments
+					v-show="activeTab == 'comments'"
+					:comments="comments"
+					@refreshData="getData()"
+				/>
 
-			<!-- Reports -->
-			<CommentReports
-				v-show="activeTab == 'commentReports'"
-				:commentReports="commentReports"
-				@refreshData="getData()"
-			/>
-		</div>
+				<!-- Reports -->
+				<CommentReports
+					v-show="activeTab == 'commentReports'"
+					:commentReports="commentReports"
+					@refreshData="getData()"
+				/>
+			</BCol>
+		</BRow>
 
 		<!-- [ALERTS] -->
 		<div v-if="error" class="my-3 alert alert-danger">{{ error }}</div>

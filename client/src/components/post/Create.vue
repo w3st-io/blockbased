@@ -1,5 +1,5 @@
 <template>
-	<section class="col-12">
+	<section>
 		<!-- [FORM] Create Post -->
 		<ValidationObserver v-slot="{ handleSubmit }">
 			<form @submit.prevent="handleSubmit(submit)">
@@ -44,14 +44,15 @@
 				</ValidationProvider>
 
 				<!-- Submit Button -->
-				<button
+				<BButton
+					variant="primary"
 					type="submit"
-					class="w-100 btn btn-primary"
+					class="w-100"
 					:disabled="disabled"
 				>
 					<span v-show="!loading">+ Create</span>
 					<span v-show="loading" class="spinner-grow"></span>
-				</button>
+				</BButton>
 			</form>
 		</ValidationObserver>
 		

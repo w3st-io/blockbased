@@ -50,7 +50,7 @@ router.post(
 					const pActivity = await activitiesCollection.c_create(
 						'post',
 						req.decoded.user_id,
-						undefined,
+						post.createdPost._id,
 						undefined,
 						post.createdPost._id,
 						undefined,

@@ -1,7 +1,7 @@
 <template>
 	<BContainer class="my-3">
 		<BCard bg-variant="dark">
-			<h3 class="mb-3 text-light">Create Comment in "{{ post_id }}"</h3>
+			<h3 class="mb-3 text-light">Create Comment</h3>
 		
 			<!-- Informative Message -->
 			<div class="alert alert-info" role="alert">{{ message }}</div>
