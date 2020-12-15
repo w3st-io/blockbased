@@ -183,7 +183,7 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/user/activity',
+			path: '/user/activity/:sort/:limit/:page',
 			name: 'user_activity',
 			component: user_activity,
 			meta: {

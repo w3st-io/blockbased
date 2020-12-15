@@ -201,7 +201,6 @@
 			},
 
 			refreshRoute() {
-				// [REDIRECT] Cat Page //
 				router.push({
 					name: 'activity',
 					params: {

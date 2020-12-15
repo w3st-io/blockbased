@@ -267,7 +267,7 @@ const c_readAllSortByUser = async (user_id, sort = 0, limit, skip) => {
 				message: 'activitiesCollection: Unknown filter'
 			}
 		}
-
+		
 		const activities = await ActivityModel.find({ user: user_id })
 			.sort(sort)
 			.skip(skip)
@@ -442,6 +442,26 @@ const c_countAll = async () => {
 }
 
 
+const c_countAllByUser = async (user_id) => {
+	try {
+		const count = await ActivityModel.countDocuments({ user: user_id })
+		
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `activitiesCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_create,
@@ -453,4 +473,5 @@ module.exports = {
 	c_deleteCommentActivity,
 	c_deleteCustom,
 	c_countAll,
+	c_countAllByUser,
 }

@@ -10,6 +10,7 @@ const express = require('express')
 
 // [REQUIRE] Personal //
 const activitiesCollection = require('../../../../s-collections/activitiesCollection')
+const Auth = require('../../../../s-middleware/Auth')
 
 
 // [EXPRESS + USE] //
@@ -18,6 +19,7 @@ const router = express.Router().use(cors())
 
 router.get(
 	'/:sort/:limit/:page',
+	Auth.userToken(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
@@ -33,7 +35,7 @@ router.get(
 				const skip = pageIndex * limit
 
 				const activitiesObj = await activitiesCollection.c_readAllSortByUser(
-					req.body.user_id,
+					req.decoded.user_id,
 					sort,
 					limit,
 					skip
@@ -41,7 +43,7 @@ router.get(
 				
 				// [COUNT] Activities //
 				activitiesObj.count = (
-					await activitiesCollection.c_countAll()
+					await activitiesCollection.c_countAllByUser(req.decoded.user_id)
 				).count
 				
 				// [COUNT] Calculate Pages //
