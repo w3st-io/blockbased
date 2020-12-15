@@ -222,7 +222,85 @@ const c_readAllSort = async (sort = 0, limit, skip) => {
 }
 
 
-const c_deleteUserActivity = async (user_id) => {
+// [READ-ALL] Sort //
+const c_readAllSortByUser = async (user_id, sort = 0, limit, skip) => {
+	try {
+		// [SANITIZE] //
+		sort = parseInt(sort)
+		limit = parseInt(limit)
+		skip = parseInt(skip)
+
+		// [VALIDATE] sort //
+		if (!Number.isInteger(sort)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid sort',
+			}
+		}
+
+		// [VALIDATE] limit //
+		if (!Number.isInteger(limit)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid limit',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid skip',
+			}
+		}
+
+		// Set Sort //
+		if (sort == 0) { sort = {} }
+		else if (sort == 1) { sort = { createdAt: -1 } }
+		else {
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Unknown filter'
+			}
+		}
+
+		const activities = await ActivityModel.find({ user: user_id })
+			.sort(sort)
+			.skip(skip)
+			.limit(limit)
+			// user //
+			.populate({
+				path: 'user',
+				select: 'username bio profileImg'
+			})
+			.populate({ path: 'post' })
+			.populate({ path: 'comment' })
+			.populate({ path: 'created_comment' })
+			.populate({ path: 'created_user', select: 'username bio profileImg' })
+			.populate({ path: 'created_post' })
+			.exec()
+
+		return {
+			executed: true,
+			status: true,
+			activities: activities,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `activitiesCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
+const c_deleteUserActivityByUser = async (user_id) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -369,7 +447,8 @@ module.exports = {
 	c_create,
 	c_readAll,
 	c_readAllSort,
-	c_deleteUserActivity,
+	c_readAllSortByUser,
+	c_deleteUserActivityByUser,
 	c_deletePostActivity,
 	c_deleteCommentActivity,
 	c_deleteCustom,

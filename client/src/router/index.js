@@ -16,30 +16,31 @@ import NotFound from '@pages/404'
 // [ACTIVITY] //
 import activity from '../pages/activity'
 // [ADMIN] //
-import Admin from '@pages/admin'
-import ALogin from '@pages/admin/a-login'
-import AProfile from '@pages/admin/a-profile'
-import ARegister from '@pages/admin/a-register'
+import admin from '@pages/admin'
+import admin_login from '@pages/admin/login'
+import admin_profile from '@pages/admin/profile'
+import admin_register from '@pages/admin/register'
 // [CAT] //
-import Cat from '@pages/cat'
-import PostCreate from '@pages/cat/post-create'
+import cat from '@pages/cat'
+import cat_PostCreate from '@pages/cat/post-create'
 // [POST] //
-import Post from '@pages/post'
-import CommentCreate from '@pages/post/comment-create'
-import CommentEdit from '@pages/post/comment-edit'
-import CommentReply from '@pages/post/comment-reply'
+import post from '@pages/post'
+import post_commentCreate from '@pages/post/comment-create'
+import post_commentEdit from '@pages/post/comment-edit'
+import post_commentReply from '@pages/post/comment-reply'
 // [USER] //
-import AccountCreated from '@pages/user/account-created'
-import followed from '@pages/user/followed'
-import Login from '@pages/user/login'
-import notifications from '@pages/user/notifications'
-import PasswordRequest from '@pages/user/password/request'
-import PasswordReset from '@pages/user/password/reset'
-import Profile from '@pages/user/profile'
-import ProfileEdit from '@pages/user/profile/edit'
-import ProfileView from '@pages/user/profile/view'
-import Verify from '@pages/user/verify'
-import Register from '@pages/user/register'
+import user_activity from '@pages/user/activity'
+import user_accountCreated from '@pages/user/account-created'
+import user_followed from '@pages/user/followed'
+import user_login from '@pages/user/login'
+import user_notifications from '@pages/user/notifications'
+import user_passwordRequest from '@pages/user/password/request'
+import user_passwordReset from '@pages/user/password/reset'
+import user_profile from '@pages/user/profile'
+import user_profileEdit from '@pages/user/profile/edit'
+import user_profileView from '@pages/user/profile/view'
+import user_verify from '@pages/user/verify'
+import user_register from '@pages/user/register'
 // [Z] //
 import z from '@pages/z'
 
@@ -79,7 +80,7 @@ const router = new Router ({
 		{
 			path: '/admin',
 			name: 'admin',
-			component: Admin,
+			component: admin,
 			meta: {
 				auth: true,
 				title: 'Admin'
@@ -88,7 +89,7 @@ const router = new Router ({
 		{
 			path: '/admin/a-login',
 			name: 'a-login',
-			component: ALogin,
+			component: admin_login,
 			meta: {
 				auth: true,
 				title: 'Admin Login'
@@ -97,7 +98,7 @@ const router = new Router ({
 		{
 			path: '/admin/a-profile',
 			name: 'a-profile',
-			component: AProfile,
+			component: admin_profile,
 			meta: {
 				auth: true,
 				title: 'Admin Profile'
@@ -106,7 +107,7 @@ const router = new Router ({
 		{
 			path: '/admin/a-register',
 			name: 'a-register',
-			component: ARegister,
+			component: admin_register,
 			meta: {
 				auth: true,
 				title: 'Admin Register'
@@ -117,7 +118,7 @@ const router = new Router ({
 		{
 			path: '/cat/:cat_id/:sort/:limit/:page',
 			name: 'cat',
-			component: Cat,
+			component: cat,
 			meta: {
 				auth: true,
 				title: `Cat -`
@@ -126,7 +127,7 @@ const router = new Router ({
 		{
 			path: '/cat/post-create/:cat_id',
 			name: 'post-create',
-			component: PostCreate,
+			component: cat_PostCreate,
 			meta: {
 				auth: true,
 				title: 'Create a Post'
@@ -137,7 +138,7 @@ const router = new Router ({
 		{
 			path: '/post/:post_id/:limit/:page',
 			name: 'post',
-			component: Post,
+			component: post,
 			meta: {
 				auth: true,
 				title: 'Post -'
@@ -146,7 +147,7 @@ const router = new Router ({
 		{
 			path: '/post/comment-create/:post_id',
 			name: 'comment-create',
-			component: CommentCreate,
+			component: post_commentCreate,
 			meta: {
 				auth: true,
 				title: 'Create Comment'
@@ -155,7 +156,7 @@ const router = new Router ({
 		{
 			path: '/post/comment-edit/:comment_id',
 			name: 'comment-edit',
-			component: CommentEdit,
+			component: post_commentEdit,
 			meta: {
 				auth: true,
 				title: 'Edit Comment'
@@ -164,7 +165,7 @@ const router = new Router ({
 		{
 			path: '/post/comment-reply/:comment_id',
 			name: 'comment-reply',
-			component: CommentReply,
+			component: post_commentReply,
 			meta: {
 				auth: true,
 				title: 'Reply to Comment'
@@ -175,16 +176,25 @@ const router = new Router ({
 		{
 			path: '/user/account-created',
 			name: 'account-created',
-			component: AccountCreated,
+			component: user_accountCreated,
 			meta: {
 				auth: true,
 				title: 'Successfully Created Account'
 			}
 		},
 		{
+			path: '/user/activity',
+			name: 'user_activity',
+			component: user_activity,
+			meta: {
+				auth: true,
+				title: 'Your Activity'
+			}
+		},
+		{
 			path: '/user/followed/:page',
 			name: 'user-followed',
-			component: followed,
+			component: user_followed,
 			meta: {
 				auth: true,
 				title: 'Posts You Are Following'
@@ -193,7 +203,7 @@ const router = new Router ({
 		{
 			path: '/user/login',
 			name: 'login',
-			component: Login,
+			component: user_login,
 			meta: {
 				auth: true,
 				title: 'Login'
@@ -202,7 +212,7 @@ const router = new Router ({
 		{
 			path: '/user/notifications',
 			name: 'notifications',
-			component: notifications,
+			component: user_notifications,
 			meta: {
 				auth: true,
 				title: 'notifications'
@@ -211,7 +221,7 @@ const router = new Router ({
 		{
 			path: '/user/password/request',
 			name: 'request',
-			component: PasswordRequest,
+			component: user_passwordRequest,
 			meta: {
 				auth: true,
 				title: 'Request for Password Reset'
@@ -220,7 +230,7 @@ const router = new Router ({
 		{
 			path: '/user/password/reset/:user_id/:verification_code',
 			name: 'reset-password',
-			component: PasswordReset,
+			component: user_passwordReset,
 			meta: {
 				auth: true,
 				title: 'Reset Password'
@@ -229,7 +239,7 @@ const router = new Router ({
 		{
 			path: '/user/profile',
 			name: 'profile',
-			component: Profile,
+			component: user_profile,
 			meta: {
 				auth: true,
 				title: 'Your Profile'
@@ -238,7 +248,7 @@ const router = new Router ({
 		{
 			path: '/user/profile/edit',
 			name: 'edit',
-			component: ProfileEdit,
+			component: user_profileEdit,
 			meta: {
 				auth: true,
 				title: 'Edit Your Profile'
@@ -247,7 +257,7 @@ const router = new Router ({
 		{
 			path: '/user/profile/view/:user_id',
 			name: 'profile-view',
-			component: ProfileView,
+			component: user_profileView,
 			meta: {
 				auth: true,
 				title: ''
@@ -256,7 +266,7 @@ const router = new Router ({
 		{
 			path: '/user/register',
 			name: 'register',
-			component: Register,
+			component: user_register,
 			meta: {
 				auth: true,
 				title: 'Register'
@@ -265,7 +275,7 @@ const router = new Router ({
 		{
 			path: '/user/verify/:user_id/:verification_code',
 			name: 'verify',
-			component: Verify,
+			component: user_verify,
 			meta: {
 				auth: true,
 				title: 'Verfiying your account..'

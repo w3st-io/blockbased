@@ -138,6 +138,24 @@ async function s_post_commentReply(comment_id) {
 
 
 // [USER] //
+async function s_user_activity(sort = 0, limit, page) {
+	try {
+		const authAxios = await this.authAxios()
+
+		return (
+			await authAxios.get(`/user/activity/${sort}/${limit}/${page}`)
+		).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `PageService: Error --> ${err}`
+		}
+	}
+}
+
+
 async function s_user_followed(limit, page) {
 	try {
 		const authAxios = await this.authAxios()
@@ -213,6 +231,7 @@ export default {
 	s_post,
 	s_post_commentEdit,
 	s_post_commentReply,
+	s_user_activity,
 	s_user_followed,
 	s_user_notifications,
 	s_user_profile,

@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%
- * %%% ACTIVITIY PAGE %%%
- * %%%%%%%%%%%%%%%%%%%%%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%% USER ACTIVITIY PAGE %%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%
 */
 // [REQUIRE] //
 const cors = require('cors')
@@ -9,7 +9,7 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const activitiesCollection = require('../../../s-collections/activitiesCollection')
+const activitiesCollection = require('../../../../s-collections/activitiesCollection')
 
 
 // [EXPRESS + USE] //
@@ -32,7 +32,8 @@ router.get(
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
 
-				const activitiesObj = await activitiesCollection.c_readAllSort(
+				const activitiesObj = await activitiesCollection.c_readAllSortByUser(
+					req.body.user_id,
 					sort,
 					limit,
 					skip
@@ -52,7 +53,7 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/pages/activity: Invalid params'
+					message: '/pages/user/activity: Invalid params'
 				})
 			}
 		}
