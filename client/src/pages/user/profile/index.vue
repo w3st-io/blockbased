@@ -1,21 +1,22 @@
 <template>
-	<div class="container">
-		<div class="row mt-4">
+	<BContainer>
+		<BRow class="mt-4">
 			<!-- User Not Verifed -->
-				<div v-if="!isVerified" class="col-12 mb-3">
+				<BCol v-if="!isVerified" cols="12" class="mb-3">
 					<BCard bg-variant="danger" class="m-auto">
 						<h5 class="text-center text-light">Account Not Verified!</h5>
-						<button
+						<BButton
+							variant="outline-light"
 							@click="resendvCodeEmail"
-							class="btn btn-outline-light"
+							class="w-100"
 							
-						>Click to Resend Email</button>
+						>Click to Resend Email</BButton>
 					</BCard>
-				</div>
+				</BCol>
 
 			<!-- Side Content -->
-			<section class="col-12 col-md-3 hidden-768">
-				<BCard bg-variant="dark" class="text-light">
+			<BCol cols="md-3">
+				<BCard bg-variant="dark" class="text-light hidden-768">
 					<img
 						:src="user.profileImg"
 						alt="Profile Image Here"
@@ -23,36 +24,52 @@
 					>
 					<h4 class="mb-0 text-center text-light">{{ user.username }}</h4>
 				</BCard>
-			</section>
+			</BCol>
 
 			<!-- Main Content -->
-			<section class="col-12 col-md-9 text-light">
+			<BCol cols="md-9" class="text-light">
 				<!-- NOT Verified Message -->
 				<div v-if="vCodeSent" class="mt-3 alert alert-warning">
 					Email Sent, Please check your email
 				</div>
 
 				<!-- Profile Details -->
-				<div class="card bg-dark text-light mb-3">
-					<div class="card-header">
+				<BCard bg-variant="dark" no-body class="text-light mb-3">
+					<BCardHeader>
 						<h4 class="text-primary">Your Profile</h4>
-					</div>
-					<div class="card-body">
+					</BCardHeader>
+					<BCardBody>
 						<p class="m-0 text-secondary">Email</p>
 						<p class="">{{ user.email }}</p>
 
 						<p class="m-0 text-secondary">Bio</p>
 						<p class="m-0">{{ user.bio }}</p>
 
-						<button
+						<BButton
+							variant="secondary"
 							@click="redirectProfileEdit()"
-							class="mt-3 w-100 btn btn-secondary"
-						>Edit Your Profile</button>
-					</div>
-				</div>
-			</section>
-		</div>
-	</div>
+							class="mt-3 w-100"
+						>Edit Your Profile</BButton>
+					</BCardBody>
+				</BCard>
+			</BCol>
+		</BRow>
+		<BRow>
+			<BCol cols="md-3"></BCol>
+
+			<BCol cols="md-9">
+				<BCard bg-variant="dark">
+					<BButton
+						bg-variant="dark"
+						@click="redirectYourActivity()"
+						class="text-light"
+					>
+						View Your Activity
+					</BButton>
+				</BCard>
+			</BCol>
+		</BRow>
+	</BContainer>
 </template>
 
 <script>
@@ -93,6 +110,17 @@
 		methods: {
 			redirectProfileEdit() {
 				router.push({ name: 'edit' })
+			},
+
+			redirectYourActivity() {
+				router.push({
+					name: 'user_activity',
+					params: {
+						sort: 1,
+						limit: 5,
+						page: 1,
+					}
+				})
 			},
 
 			async resendvCodeEmail() {

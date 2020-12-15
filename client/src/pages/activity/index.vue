@@ -228,7 +228,7 @@
 			},
 
 			log() {
-				console.log('%%% [PAGE] activity %%%')
+				console.log('%%% [PAGE] /activity %%%')
 				console.log('limit:', this.limit)
 				console.log('page:', this.page)
 				console.log('data:', this.data)
