@@ -1,8 +1,12 @@
 <template>
 	<BContainer class="mt-3">
-		<BCard bg-variant="dark" class="text-light">
-			{{ pageData }}
-		</BCard>
+		<BRow>
+			<BCol cols="12">
+				<BCard bg-variant="dark" class="text-light">
+					{{ pageData }}
+				</BCard>
+			</BCol>
+		</BRow>
 	</BContainer>
 </template>
 
