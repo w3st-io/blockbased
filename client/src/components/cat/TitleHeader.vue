@@ -1,7 +1,7 @@
 <template>
 	<BRow>
 		<!-- Left Side -->
-		<BCol sm="8" md="8" lg="6" class="bg-danger">
+		<BCol sm="8" md="8" lg="6">
 			<!-- Title -->
 			<h3 class="text-light">{{ cat.title }}</h3>
 
@@ -25,10 +25,11 @@
 			<br>
 
 			<!-- Create Button -->
-			<button
+			<BButton
+				variant="primary"
+				size="sm"
 				@click="redirectToCatPostCreate()"
-				class="btn btn-sm btn-primary"
-			>Create Post</button>
+			>Create Post</BButton>
 		</BCol>
 	</BRow>
 </template>

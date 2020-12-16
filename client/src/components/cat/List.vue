@@ -1,60 +1,48 @@
 <template>
 	<ul class="w-100 m-0 px-0 border border-secondary">
-		<li v-for="(cat, index) in cats" :key="index" class="row m-0 bg-dark">
-			<!-- Image Section -->
-			<div
-				@click="redirectToCatPosts(cat.cat_id)"
-				class="
-					col-lg-1
-					col-md-2
-					col-sm-2
-					col-2
-					p-3
-					align-self-center
-				"
-			>
-				<div class="w-100 overflow-auto rounded-circle">
-					<img :src="cat.image" class="w-100 bg-primary img-padding">
-				</div>
-			</div>
+		<li v-for="(cat, index) in cats" :key="index" class="bg-dark">
+			<BRow class="m-0">
+				<!-- Image Section -->
+				<BCol
+					cols="2"
+					lg="1"
+					md="2"
+					sm="2"
+					class="p-3 align-self-center"
+					@click="redirectToCatPosts(cat.cat_id)"
+				>
+					<div class="w-100 overflow-auto rounded-circle">
+						<img :src="cat.image" class="w-100 bg-primary img-padding">
+					</div>
+				</BCol>
 
-			<!-- Title -->
-			<div
-				@click="redirectToCatPosts(cat.cat_id)"
-				class="
-					col-lg-9
-					col-md-8
-					col-sm-8
-					col-8
-					py-3
-				"
-			>
-				<h4 class="text-light">{{ cat.title }}</h4>
-				<p class="m-0 text-light hidden-768">{{ cat.description }}</p>
-			</div>
+				<!-- Title -->
+				<BCol
+					cols="8"
+					lg="9"
+					md="8"
+					sm="8"
+					class="py-3"
+					@click="redirectToCatPosts(cat.cat_id)"
+				>
+					<h4 class="text-light">{{ cat.title }}</h4>
+					<p class="m-0 text-light hidden-768">{{ cat.description }}</p>
+				</BCol>
 
-			<!-- Count -->
-			<div
-				@click="redirectToCatPosts(cat.cat_id)"
-				class="
-					col-lg-2
-					col-md-2
-					col-sm-2
-					col-2
-					p-3
-					text-right
-					hidden-768
-				"
-			>
-				<p class="align-self-center badge badge-primary text-light">
-					<span class="m-0 custom-font-size">
-						<p class="m-0">
-							{{ totalPosts[index].totalPosts }}
-						</p>
-						<span class="small">Posts</span>
-					</span>
-				</p>
-			</div>
+				<!-- Count -->
+				<BCol
+					cols="2"
+					class="p-3 text-right hidden-768"
+					@click="redirectToCatPosts(cat.cat_id)"
+				>
+					<BBadge variant="primary" class="align-self-center text-light">
+						<span class="m-0 custom-font-size">
+							<p class="m-0">{{ totalPosts[index].totalPosts }}</p>
+							<span class="small">Posts</span>
+						</span>
+					</BBadge>
+				</BCol>
+			</BRow>
 		</li>
 	</ul>
 </template>
@@ -63,7 +51,6 @@
 	// [IMPORT] Personal //
 	import router from '@router'
 
-	// [EXPORT] //
 	export default {
 		props: {
 			cats: { type: Array, required: true, },

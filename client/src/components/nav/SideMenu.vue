@@ -4,17 +4,17 @@
 		:class="{ isOpen: sideMenuOpen }"
 		style="z-index: 1040;"
 	>
-		<button
-			class="w-100 m-0 p-2 btn btn-dark bg-secondary text-center text-primary"
+		<BButton
+			variant="dark"
+			class="w-100 m-0 p-2 bg-secondary text-center text-primary"
 			@click="closeMenu"
 		>
 			<span aria-hidden="true" style="font-size: 2em;">&times;</span>
-		</button>
+		</BButton>
 
-		<button
-			class="w-100 btn btn-primary"
-			v-on:click="homeBtn()"
-		>Forum</button>
+		<BButton variant="primary" class="w-100" @click="homeBtn()">
+			Forum
+		</BButton>
 	</nav>
 </template>
 <script>

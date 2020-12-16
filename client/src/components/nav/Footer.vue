@@ -1,13 +1,13 @@
 <template>
 	<!-- Footer -->
 	<footer class="mt-5 pt-4 page-footer font-small bg-dark border-top border-secondary text-center">
-		<b-button
+		<BButton
 			v-if="loggedIn"
-			@click="logout()"
 			variant="outline-secondary"
 			size="sm"
 			class="m-auto"
-		>Log Out</b-button>
+			@click="logout()"
+		>Log Out</BButton>
 
 		<!-- Copyright -->
 		<div class="pt-3 pb-5 footer-copyright text-secondary">

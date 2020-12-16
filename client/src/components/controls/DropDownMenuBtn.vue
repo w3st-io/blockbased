@@ -1,13 +1,14 @@
 <template>
 	<span> 
-		<button
+		<BButton
+			:variant="BSColor"
+			size="sm"
+			class="position-relative dropdown-toggle z-index-button"
 			@click="showPopper = !showPopper"
-			:class="'btn-'+ BSColor"
-			class="position-relative btn btn-sm dropdown-toggle z-index-button"
 		>
 			<img v-if="btnImage" :src="btnImage" alt="No Img">
 			<span v-if="btnName">{{ btnName }}</span>
-		</button>
+		</BButton>
 
 		<div
 			v-show="showPopper"
@@ -26,11 +27,11 @@
 			<a
 				v-for="(listItem, index) in list"
 				:key="index"
+				class="dropdown-item bg-dark text-light"
 				@click="
 					emit(listItem)
 					showPopper = !showPopper
 				"
-				class="dropdown-item bg-dark text-light"
 			>{{ listItem }}</a>
 		</div>
 	</span>

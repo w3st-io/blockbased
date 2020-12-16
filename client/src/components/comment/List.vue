@@ -99,8 +99,9 @@
 										@ddmb-clicked="report"
 									/>
 
-									<!-- Edit v-if="comment.user._id == decoded.user_id" -->
+									<!-- Edit -->
 									<BButton
+										v-if="comment.user._id == decoded.user_id"
 										variant="none"
 										size="sm"
 										@click="redirectToEdit(comment._id)"

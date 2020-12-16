@@ -1,39 +1,38 @@
 <template>
-	<section>
-		<!-- [FORM] Edit Comment -->
-		<ValidationObserver v-slot="{ handleSubmit }">
-			<form	@submit.prevent="handleSubmit(submit)">
-				<!-- Text Area -->
-				<ValidationProvider
-					tag="div"
-					class="form-group" 
-					name="confirmation"
-					rules=""
-					v-slot="{ errors }"
-				>
-					<!-- ToastUI Editor -->
-					<Editor
-						initialEditType="wysiwyg"
-						:initialValue="initialEditorText"
-						ref="toastuiEditor"
-					/>
+	<!-- [FORM] Edit Comment -->
+	<ValidationObserver v-slot="{ handleSubmit }">
+		<form @submit.prevent="handleSubmit(submit)">
+			<!-- Text Area -->
+			<ValidationProvider
+				tag="div"
+				class="form-group" 
+				name="confirmation"
+				rules=""
+				v-slot="{ errors }"
+			>
+				<!-- ToastUI Editor -->
+				<Editor
+					initialEditType="wysiwyg"
+					:initialValue="initialEditorText"
+					ref="toastuiEditor"
+				/>
 
-					<!-- Error -->
-					<span class="text-danger">{{ errors[0] }}</span>
-				</ValidationProvider>
-				
-				<!-- Submit Button -->
-				<button
-					type="submit"
-					class="w-100 btn btn-primary"
-					:disabled="loading"
-				>
-					<span v-show="!loading">+ Update</span>
-					<span v-show="loading" class="spinner-grow"></span>
-				</button>
-			</form>
-		</ValidationObserver>
-	</section>
+				<!-- Error -->
+				<span class="text-danger">{{ errors[0] }}</span>
+			</ValidationProvider>
+			
+			<!-- Submit Button -->
+			<BButton
+				:disabled="loading"
+				variant="primary"
+				type="submit"
+				class="w-100"
+			>
+				<span v-show="!loading">+ Update</span>
+				<span v-show="loading" class="spinner-grow"></span>
+			</BButton>
+		</form>
+	</ValidationObserver>
 </template>
 
 <script>

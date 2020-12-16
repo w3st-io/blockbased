@@ -20,10 +20,10 @@
 					<td>{{ report.user.username }}</td>
 					<td>{{ new Date(report.createdAt).toLocaleString() }}</td>
 					<td class="text-center">
-						<button
+						<BButton
+							variant="danger"
 							@click="deleteReport(report._id)"
-							class="btn btn-danger"
-						>Delete</button>
+						>Delete</BButton>
 					</td>
 				</tr>
 			</tbody>
@@ -38,7 +38,6 @@
 	// [IMPORT] Personal //
 	import AReportService from '@services/administration/ReportService'
 
-	// [EXPORT] //
 	export default {
 		props: {
 			commentReports: { type: Array, required: true, },

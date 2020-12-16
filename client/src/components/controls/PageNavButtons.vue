@@ -28,9 +28,6 @@
 </template>
 
 <script>
-	// [IMPORT] //
-
-	// [EXPORT] //
 	export default {
 		props: {
 			badgeValue: { type: Number, required: true, },
