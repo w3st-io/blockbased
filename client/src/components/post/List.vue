@@ -1,93 +1,87 @@
 <template>
-	<article class="row">
-		<section class="col-12">
+	<BRow>
+		<BCol cols="12">
 			<ul
 				v-if="!loading && posts != ''"
 				class="m-0 px-0 border border-secondary"
 			>
-				<li v-for="post in posts" :key="post._id" class="row m-0 bg-dark">
-					<!-- Title --> 
-					<div
-						class="
-							col-lg-9
-							col-md-8
-							col-sm-8
-							col-xs-8
-							col-8
-							p-2
-						"
-						@click="redirectToPost(post._id)"
-					>
-						<h5 class="text-light">
-							<img
-								v-if="post.pinned"
-								:src="require('../../assets/images/symbol-icons/pin.svg')"
-								class="small text-secondary"
-								style="width: 18px;"
-							>
-							{{ post.title }}
-						</h5>
-						<p class="m-0 small text-secondary">
-							<span v-if="post.user.username" class="text-light">
-								{{ post.user.username }}
-							</span>
-							- {{ new Date(post.createdAt).toLocaleString() }}
-						</p>
-					</div>
+				<li v-for="post in posts" :key="post._id" class="bg-dark">
+					<BRow class="m-0">
+						<!-- Title --> 
+						<BCol
+							cols="8"
+							lg="9"
+							md="8"
+							sm="8"
+							xs="8"
+							class="p-2"
+							@click="redirectToPost(post._id)"
+						>
+							<h5 class="text-light">
+								<img
+									v-if="post.pinned"
+									:src="require('../../assets/images/symbol-icons/pin.svg')"
+									class="small text-secondary"
+									style="width: 18px;"
+								>
+								{{ post.title }}
+							</h5>
+							<p class="m-0 small text-secondary">
+								<span v-if="post.user.username" class="text-light">
+									{{ post.user.username }}
+								</span>
+								- {{ new Date(post.createdAt).toLocaleString() }}
+							</p>
+						</BCol>
 
-					<!-- Total Comments -->
-					<div
-						class="
-							col-lg-2
-							col-md-2
-							col-sm-2
-							col-xs-3
-							col-4
-							p-2
-							text-center
-						" 
-						@click="redirectToPost(post._id)"
-					>
-						<p class="pb-0 m-0 align-self-center text-light">
-							<span class="m-0">
-								<p class="h4 m-0">
-									{{ post.commentCount }}
-								</p>
-								<span>Comments</span>
-							</span>
-						</p>
-					</div>
+						<!-- Total Comments -->
+						<BCol
+							cols="4"
+							lg="2"
+							md="2"
+							sm="2"
+							xs="3"
+							class="p-2 text-center" 
+							@click="redirectToPost(post._id)"
+						>
+							<p class="pb-0 m-0 align-self-center text-light">
+								<span class="m-0">
+									<p class="h4 m-0">
+										{{ post.commentCount }}
+									</p>
+									<span>Comments</span>
+								</span>
+							</p>
+						</BCol>
 
-					<!-- Like -->
-					<div
-						class="
-							col-lg-1
-							col-md-2
-							col-sm-2
-							p-2
-							text-center
-						"
-						@click="redirectToPost(post._id)"
-					>
-						<h4 class="m-0 text-white">
-							<button
-								:disabled="disabled"
-								@click.prevent.stop="likeBtn(post)"
-								class="w-100 btn"
-								:class="{
-									'btn-outline-success': post.liked,
-									'btn-outline-light': !post.liked,
-								}"
-							>{{ post.likeCount }} ▲</button>
-						</h4>
-					</div>
+						<!-- Like -->
+						<BCol
+							lg="1"
+							md="2"
+							sm="2"
+							class="p-2 text-center" 
+							@click="redirectToPost(post._id)"
+						>
+							<h4 class="m-0 text-white">
+								<button
+									:disabled="disabled"
+									@click.prevent.stop="likeBtn(post)"
+									class="w-100 btn"
+									:class="{
+										'btn-outline-success': post.liked,
+										'btn-outline-light': !post.liked,
+									}"
+								>{{ post.likeCount }} ▲</button>
+							</h4>
+						</BCol>
+					</BRow>
 				</li>
 			</ul>
 
 			<!-- [ALERTS] -->
 			<div v-if="error" class="m-0 mt-3 alert alert-danger">{{ error }}</div>
-		</section>
-	</article>
+		</BCol>
+	</BRow>
 </template>
 
 <script>
