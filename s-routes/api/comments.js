@@ -502,7 +502,7 @@ router.post(
 
 
 /******************* [REPORTS] *******************/
-// [CREATE] //
+// [CREATE] Report //
 router.post(
 	'/report',
 	Auth.userToken(),

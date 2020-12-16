@@ -134,7 +134,7 @@ router.get(
 				message: `/pages/post: Error --> ${err}`
 			})
 		}
-	},
+	}
 )
 
 

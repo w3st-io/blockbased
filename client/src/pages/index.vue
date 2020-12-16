@@ -11,14 +11,7 @@
 			</BCol>
 
 			<!-- Side Content -->
-			<BCol cols="md-3">
-				<Adsense
-					ad-client="ca-pub-5696881492897672"
-					ad-slot="XXXXXXXX"
-					ad-style="display: block"
-					ad-format="auto"
-				></Adsense>
-			</BCol>
+			<BCol cols="md-3"><Adsense /></BCol>
 		</BRow>
 
 		<!-- [ALERTS] -->
@@ -43,6 +36,7 @@
 
 <script>
 	// [IMPORT] //
+	import Adsense from '../components/adsense'
 	import CatList from '@components/cat/List'
 	import Alert from '../components/misc/Alert'
 	import PageService from '@services/PageService'
@@ -51,6 +45,7 @@
 	// [EXPORT] //
 	export default {
 		components: {
+			Adsense,
 			Alert,
 			CatList,
 		},
