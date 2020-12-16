@@ -1,25 +1,24 @@
 <template>
 	<BContainer>
-		<!-- [CONTENT] -->
 		<BRow v-if="!loading" class="mt-3">
 			<!-- Main Content -->
-			<section class="col-12 col-md-9 mb-3 p-0">
+			<BCol cols="md-9" class="mb-3 p-0">
 				<BCard bg-variant="dark">
 					<CatList :cats="cats1" :totalPosts="totalPosts1" class="mb-3" />
 					<CatList :cats="cats2" :totalPosts="totalPosts2" class="mb-3" />
 					<CatList :cats="cats3" :totalPosts="totalPosts3" class="mb-3" />
 				</BCard>
-			</section>
+			</BCol>
 
 			<!-- Side Content -->
-			<section class="col-12 col-md-3">
+			<BCol cols="md-3">
 				<Adsense
 					ad-client="ca-pub-5696881492897672"
 					ad-slot="XXXXXXXX"
 					ad-style="display: block"
 					ad-format="auto"
 				></Adsense>
-			</section>
+			</BCol>
 		</BRow>
 
 		<!-- [ALERTS] -->
@@ -35,6 +34,10 @@
 				<Alert BSColor="dark" />
 			</BCol>
 		</BRow>
+
+		<BRow>
+			<div id="token-txs-10"></div>
+		</Brow>
 	</BContainer>
 </template>
 
@@ -54,8 +57,6 @@
 
 		data: function() {
 			return {
-				error: '',
-				loading: true,
 				dbCats: [],
 				cats1: cats.slice(0, 2),
 				cats2: cats.slice(2, 5),
@@ -63,6 +64,8 @@
 				totalPosts1: [],
 				totalPosts2: [],
 				totalPosts3: [],
+				error: '',
+				loading: true,
 			}
 		},
 
@@ -78,6 +81,8 @@
 				this.loading = false
 			}
 			else { this.error = this.dbCats.message }
+
+			
 		},
 	}
 </script>

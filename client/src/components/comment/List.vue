@@ -5,155 +5,166 @@
 				v-if="comments != ''"
 				class="m-0 p-0 border border-bottom-0 border-secondary"
 			>
-				<li
-					v-for="comment in comments"
-					:key="comment._id"
-					class="comment row m-0 border-bottom border-secondary text-light"
-				>
-					<!-- Profile/Timestamp Bar -->
-					<div class="col-6 p-1 border-bottom border-secondary">
-						<span class="small text-secondary">
-							{{ new Date(comment.createdAt).toLocaleString() }}
-						</span>
-					</div>
+				<li v-for="comment in comments" :key="comment._id">
+					<BRow class="m-0 comment border-bottom border-secondary text-light">
+						<!-- Profile/Timestamp Bar -->
+						<BCol cols="6" class="p-1 border-bottom border-secondary">
+							<span class="small text-secondary">
+								{{ new Date(comment.createdAt).toLocaleString() }}
+							</span>
+						</BCol>
 
-					<div class="col-6 p-1 border-bottom border-secondary text-right">
-						<!-- In Reply to Comment Btn -->
-						<button
+						<BCol cols="6" class="p-1 border-bottom border-secondary text-right">
+							<!-- In Reply to Comment Btn -->
+							<BButton
+								v-if="comment.replyToComment != null"
+								variant="none"
+								size="sm"
+								@click="toggleOpenRepliedTo(comment._id)"
+								class="dropdown-toggle"
+								:class="{
+									'btn-outline-secondary': openedRepliedTo != comment._id,
+									'btn-outline-primary': openedRepliedTo == comment._id,
+								}"
+							>In Reply to Comment</BButton>
+						</BCol>
+
+						<BCol
 							v-if="comment.replyToComment != null"
-							@click="toggleOpenRepliedTo(comment._id)"
-							class="btn btn-sm dropdown-toggle"
-							:class="{
-								'btn-outline-secondary': openedRepliedTo != comment._id,
-								'btn-outline-primary': openedRepliedTo == comment._id,
-							}"
-						>In Reply to Comment</button>
-					</div>
-
-					<div
-						v-if="comment.replyToComment != null"
-						v-show="openedRepliedTo == comment._id"
-						class="col-12 p-1 border-bottom border-secondary"
-					>
-						<p class="small text-secondary">
-							{{ comment.replyToComment.user.username }} -
-							{{
-								new Date(comment.replyToComment.createdAt).toLocaleString()
-							}}
-							:
-						</p>
-						<p
-							v-html="comment.replyToComment.text"
-							class="m-0 multiline small"
-						></p>
-					</div>
-
-					<!-- Profile Section -->
-					<div class="col-lg-2 col-md-2 col-sm-2 col-12 px-0 py-3 border-secondary">
-						<div
-							class="
-								m-auto
-								border
-								border-primary
-								rounded-lg
-								pro-img-holder
-							"
+							v-show="openedRepliedTo == comment._id"
+							cols="12"
+							class="p-1 border-bottom border-secondary"
 						>
-							<img
-								:src="comment.user.profileImg"
-								class="m-auto w-100 pro-img"
+							<p class="small text-secondary">
+								{{ comment.replyToComment.user.username }} -
+								{{
+									new Date(comment.replyToComment.createdAt).toLocaleString()
+								}}
+								:
+							</p>
+							<p
+								v-html="comment.replyToComment.text"
+								class="m-0 multiline small"
+							></p>
+						</BCol>
+
+						<!-- Profile Section -->
+						<BCol cols="12" sm="2" md="2" lg="2" class="px-0 py-3 border-secondary">
+							<div
+								class="
+									m-auto
+									border
+									border-primary
+									rounded-lg
+									pro-img-holder
+								"
 							>
-						</div>
-
-						<p class="m-0 mt-2 text-center small">
-							<span class="mark bg-primary">{{ comment.user.username }}</span>
-						</p>
-					</div>
-
-					<!-- Comment Section -->
-					<div class="col-lg-10 col-md-10 col-sm-10 col-12 px-2 pt-3">
-						<p
-							v-html="comment.text"
-							class="m-0 multiline"
-						></p>
-					</div>
-				
-					<!-- Bottom Bar -->
-					<div class="col-12 p-2 border-top border-secondary">
-						<div class="row">
-							<!-- Left -->
-							<div class="col-4 m-0 small">
-								<!-- [COMPONENT] Drop Down Menu Button -->
-								<DropDownMenuBtn
-									:disabled="disabled"
-									:_id="comment._id"
-									btnName="Report"
-									BSColor="outline-secondary"
-									:list="[
-										'Innapropiate',
-										'Offensive',
-										'Scam',
-										'Bot',
-										'Other'
-									]"
-									@ddmb-clicked="report"
-								/>
-
-								<!-- Edit -->
-								<button
-									v-if="comment.user._id == decoded.user_id"
-									@click="redirectToEdit(comment._id)"
-									class="py-0 btn btn-sm text-secondary"
-								>Edit</button>
+								<img
+									:src="comment.user.profileImg"
+									class="m-auto w-100 pro-img"
+								>
 							</div>
+
+							<p class="m-0 mt-2 text-center small">
+								<span class="mark bg-primary">{{ comment.user.username }}</span>
+							</p>
+						</BCol>
+
+						<!-- Comment Section -->
+						<BCol cols="12" sm="10" md="10" lg="10" class="px-2 pt-3">
+							<p
+								v-html="comment.text"
+								class="m-0 multiline"
+							></p>
+						</BCol>
+					
+						<!-- Bottom Bar -->
+						<BCol cols="12" class="p-2 border-top border-secondary">
+							<BRow>
+								<!-- Left -->
+								<BCol cols="4" class="m-0 small">
+									<!-- [COMPONENT] Drop Down Menu Button -->
+									<DropDownMenuBtn
+										:disabled="disabled"
+										:_id="comment._id"
+										btnName="Report"
+										BSColor="outline-secondary"
+										:list="[
+											'Innapropiate',
+											'Offensive',
+											'Scam',
+											'Bot',
+											'Other'
+										]"
+										@ddmb-clicked="report"
+									/>
+
+									<!-- Edit v-if="comment.user._id == decoded.user_id" -->
+									<BButton
+										variant="none"
+										size="sm"
+										@click="redirectToEdit(comment._id)"
+										class="py-0 text-secondary"
+									>Edit</BButton>
+								</BCol>
+								
+								<!-- Middle -->
+								<BCol cols="4" class="text-center">
+									<!-- Reply -->
+									<BButton
+										variant="outline-secondary"
+										size="sm"
+										@click="redirectToReply(comment._id)"
+										class="text-secondary"
+									>Reply</BButton>
+								</BCol>
+
+								<!-- Right -->
+								<BCol cols="4" class="m-0 text-right small text-secondary">
+									<!-- Like Btn -->
+									<BButton
+										variant="none"
+										@click="likeBtn(comment)"
+										:class="{
+											'btn-outline-success': comment.liked,
+											'btn-outline-light': !comment.liked
+										}"
+										style="font-size: 1em;"
+									>{{ comment.likeCount }} ▲</BButton>
+								</BCol>
+							</BRow>
+						</BCol>
+
+						<!-- Admin Bar -->
+						<BCol
+							v-if="adminLoggedIn"
+							cols="12"
+							class="p-2 border border-warning"
+						>
+							<BButton
+								variant="outline-secondary"
+								size="sm"
+								@click="redirectToEdit(comment._id)"
+								class="mr-1"
+							>Edit</BButton>
+
+							<BButton
+								variant="outline-danger"
+								size="sm"
+								@click="deleteComment(comment._id)"
+								class="mr-1"
+							>Delete</BButton>
 							
-							<!-- Middle -->
-							<div class="col-4 text-center">
-								<!-- Reply -->
-								<button
-									@click="redirectToReply(comment._id)"
-									class="btn btn-sm btn-outline-secondary text-secondary"
-								>Reply</button>
-							</div>
+							<BButton
+								variant="outline-danger"
+								size="sm"
+								@click="adminDelete(comment._id)"
+								class="mr-1"
+							>Admin-Delete</BButton>
 
-							<!-- Right -->
-							<div class="col-4 m-0 text-right small text-secondary">
-								<!-- Like Btn -->
-								<button
-									@click="likeBtn(comment)"
-									class="btn"
-									:class="{
-										'btn-outline-success': comment.liked,
-										'btn-outline-light': !comment.liked
-									}"
-									style="font-size: 1em;"
-								>{{ comment.likeCount }} ▲</button>
-							</div>
-						</div>
-					</div>
-
-					<!-- Admin Bar -->
-					<div
-						v-if="adminLoggedIn"
-						class="col-12 p-2 border border-warning"
-					>
-						<button
-							@click="redirectToEdit(comment._id)"
-							class="mr-1 btn btn-sm btn-outline-secondary"
-						>Edit</button>
-
-						<button
-							@click="deleteComment(comment._id)"
-							class="mr-1 btn btn-sm btn-outline-danger"
-						>Delete</button>
-						
-						<button
-							@click="adminDelete(comment._id)"
-							class="btn btn-sm btn-outline-danger"
-						>Admin-Delete</button>
-
-						<span class="ml-1 small text-secondary">{{ comment._id }}</span>
-					</div>
+							<span class="ml-1 small text-secondary">{{ comment._id }}</span>
+						</BCol>
+					</BRow>
 				</li>
 			</ul>
 		</BCol>

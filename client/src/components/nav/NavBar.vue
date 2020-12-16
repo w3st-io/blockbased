@@ -1,9 +1,9 @@
 <template>
-	<section>
+	<div>
 		<!-- Top Bar -->
-		<article class="bg-dark bg-secondary border-bottom border-primary">
+		<div class="bg-dark bg-secondary border-bottom border-primary">
 			<BContainer>
-				<nav class=" px-0 navbar navbar-expand-lg navbar-dark">
+				<nav class="px-0 navbar navbar-expand-lg navbar-dark">
 					<!-- Logo -->
 					<RouterLink to="/" class="navbar-brand">
 						<mark class="h4 bg-primary text-light">
@@ -34,27 +34,30 @@
 					</div>
 				</nav>
 			</BContainer>
-		</article>
+		</div>
 		
 		<!-- Bottom Bar -->
-		<article class="p-0 bg-dark border-bottom border-dark shadow-sm">
+		<div class="p-0 bg-dark border-bottom border-dark shadow-sm">
 			<BContainer>
 				<BNavbar class="px-0 py-1">
 					<div class="mr-auto">
-						<button
+						<BButton
 							v-if="loggedIn"
+							variant="outline-light"
+							size="sm"
 							@click="followedRedirect()"
-							class="ml-2 btn btn-sm btn-outline-light"
-						>Followed Posts</button>
+							class="ml-2"
+						>Followed Posts</BButton>
 
-						<button
-							v-if="loggedIn"
+						<BButton
+							variant="outline-light"
+							size="sm"
 							@click="allActivityRedirect()"
-							class="ml-2 btn btn-sm btn-outline-light"
-						>All Activity</button>
+							class="ml-2"
+						>All Activity</BButton>
 					</div>
 
-					<section>
+					<div>
 						<!-- Logged In -->
 						<NotificationMenuBtn v-if="loggedIn" />
 
@@ -81,11 +84,11 @@
 							size="sm"
 							class="ml-2"
 						>Register</BButton>
-					</section>
+					</div>
 				</BNavbar>
 			</BContainer>
-		</article>
-	</section>
+		</div>
+	</div>
 </template>
 
 <script>

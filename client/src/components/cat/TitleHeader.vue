@@ -1,7 +1,7 @@
 <template>
 	<BRow>
 		<!-- Left Side -->
-		<div class="col-lg-6 col-md-8 col-sm-8">
+		<BCol sm="8" md="8" lg="6" class="bg-danger">
 			<!-- Title -->
 			<h3 class="text-light">{{ cat.title }}</h3>
 
@@ -14,14 +14,14 @@
 				:badgeValue="badgeValue"
 				style="max-width: 300px;"
 			/>
-		</div>
+		</BCol>
 
 		<!-- Right Side -->
-		<div class="col-lg-6 col-md-4 col-sm-4 mb-3 text-right">
+		<BCol sm="4" md="4" lg="6" class="mb-3 text-right">
 			<!-- Post Count -->
-			<div class="mb-2 badge badge-dark text-secondary">
+			<BBadge variant="dark" class="mb-2 text-secondary">
 				<h5 class="m-0">Total Posts: {{ postCount }}</h5>
-			</div>
+			</BBadge>
 			<br>
 
 			<!-- Create Button -->
@@ -29,7 +29,7 @@
 				@click="redirectToCatPostCreate()"
 				class="btn btn-sm btn-primary"
 			>Create Post</button>
-		</div>
+		</BCol>
 	</BRow>
 </template>
 
