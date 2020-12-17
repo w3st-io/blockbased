@@ -1,13 +1,19 @@
 <template>
 	<nav class="navbar navbar-dark fixed-bottom bg-warning border border-warning">
 		<div>
-			<RouterLink to="/admin" class="mr-2 btn btn-sm btn-secondary">
+			<BButton size="sm" @click="redirectAdmin()" class="mr-2">
 				Admin Dashboard
-			</RouterLink>
-			<RouterLink to="/admin/profile" class="mr-2 btn btn-sm btn-secondary">
+			</BButton>
+			
+			<BButton size="sm" @click="redirectAdminFunction()" class="mr-2">
+				Admin Function
+			</BButton>
+
+			<BButton size="sm" @click="redirectAdminProfile()" class="mr-2">
 				Admin Profile
-			</RouterLink>
-			<BButton variant="warning" @click="logout" class="mr-2 btn-sm">
+			</BButton>
+
+			<BButton variant="warning" @click="logout()" class="mr-2 btn-sm">
 				Logout
 			</BButton>
 		</div>
@@ -16,6 +22,7 @@
 
 <script>
 	// [IMPORT] Personal //
+	import router from '@router'
 	import { EventBus } from '@main'
 
 	// [EXPORT] //
@@ -25,6 +32,12 @@
 				localStorage.removeItem('admintoken')
 				EventBus.$emit('admin-logged-out')
 			},
+
+			redirectAdmin() { router.push({ name: 'admin' }) },
+
+			redirectAdminFunction() { router.push({ name: 'admin-function' }) },
+
+			redirectAdminProfile() { router.push({ name: 'admin-profile' }) },
 		},
 	}
 </script>

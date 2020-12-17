@@ -107,7 +107,7 @@ const router = new Router ({
 		},
 		{
 			path: '/admin/profile',
-			name: 'a-profile',
+			name: 'admin-profile',
 			component: admin_profile,
 			meta: {
 				auth: true,

@@ -32,7 +32,7 @@
 					</BRow>
 
 					<BRow class="mt-3">
-						<BCol cols="6">
+						<BCol md="6">
 							<h3>Functions</h3>
 							<BButton
 								variant="primary"
@@ -41,12 +41,12 @@
 							>Actions</BButton>
 						</BCol>
 
-						<BCol cols="6">
+						<BCol md="6">
 							<h3>
 								<span class="h2 text-success">&#9679;</span>
 								Users Online
 							</h3>
-							<BTable small bordered dark :items="users"></BTable>
+							<BTable small bordered dark :items="users" class="w-100"></BTable>
 						</BCol>
 					</BRow>
 				</BCard>
