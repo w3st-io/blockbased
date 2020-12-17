@@ -1,6 +1,6 @@
 <template>
 	<BContainer class="mt-3 text-light">
-		<BRow>
+		<BRow v-if="!loading">
 			<BCol cols="12">
 				<BCard bg-variant="dark">
 					<BRow>
@@ -22,8 +22,8 @@
 						<BCol cols="12">
 							<WrappedLineChart
 								:title="'Activity'"
-								:labels="['sd', 'sdf', 'sdf', '23']"
-								:data="[1,3,4,7]"
+								:labels="activityLabels"
+								:data="activityValues"
 								:height="350"
 							/>
 						</BCol>
@@ -31,12 +31,20 @@
 
 					<BRow class="mt-3">
 						<BCol cols="12">
-							<BButton variant="primary" @click="redirectAdminFunction()">
-								Function
-							</BButton>
+							<BButton
+								variant="primary"
+								@click="redirectAdminFunction()"
+							>Actions</BButton>
 						</BCol>
 					</BRow>
 				</BCard>
+			</BCol>
+		</BRow>
+
+		<!-- [LOADING] -->
+		<BRow v-show="loading" class="mt-3 row">
+			<BCol cols="12">
+				<Alert BSColor="dark" />
 			</BCol>
 		</BRow>
 	</BContainer>
@@ -45,6 +53,7 @@
 <script>
 	// [IMPORT] Personal //
 	import WrappedLineChart from '@components/chartjs/WrappedLineChart'
+	import Alert from '@components/misc/Alert'
 	import router from '@router'
 	import PageService from '@services/PageService'
 
@@ -52,12 +61,16 @@
 	export default {
 		components: {
 			WrappedLineChart,
+			Alert,
 		},
 
 		data: function() {
 			return {
 				returned: {},
+				activityLabels: [],
+				activityValues: [],
 				usersOnline: 0,
+				loading: true,
 				error: '',
 			}
 		},
@@ -78,8 +91,14 @@
 
 				if (this.returned.status) {
 					this.usersOnline = this.returned.users.length
+
+					// Map Data activityData //
+					this.activityLabels = this.returned.activityData.map(d => d.time)
+					this.activityValues = this.returned.activityData.map(d => d.count)
 				}
 				else { this.error = this.returned.message }
+
+				this.loading = false
 			},
 
 			redirectAdminFunction() { router.push({ name: 'admin-function' }) },

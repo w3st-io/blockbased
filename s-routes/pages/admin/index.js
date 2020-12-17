@@ -10,8 +10,10 @@ const express = require('express')
 
 // [REQUIRE] Personal //
 const usersCollection = require('../../../s-collections/usersCollection')
+const activitiesCollection = require('../../../s-collections/activitiesCollection')
 const Auth = require('../../../s-middleware/Auth')
 const userUtil = require('../../../s-utils/userUtils')
+const timeUtil = require('../../../s-utils/timeUtil')
 
 
 // [EXPRESS + USE] //
@@ -24,9 +26,15 @@ router.get(
 	Auth.adminToken(),
 	async (req, res) => {
 		try {
-			const userSockets = userUtil.getAllUserSockets()
+			// [INIT] //
 			let users = []
+			let activityData = []
 
+			const timeFrame = 60
+			const timeInterval = 1
+			const userSockets = userUtil.getAllUserSockets()
+
+			// Users Online //
 			for (let i = 0; i < userSockets.length; i++) {
 				let user = await usersCollection.c_readSensitive(
 					userSockets[i].user_id,
@@ -36,9 +44,28 @@ router.get(
 				users.push(user)
 			}
 
+			// Activity Order //
+			for (let i = timeFrame; i > 0; i = i - timeInterval) {
+				// timePointA & timePointB //
+				const timePointA = timeUtil.pastTimeByMinutes(i + timeInterval)
+				const timePointB = timeUtil.pastTimeByMinutes(i)
+
+				// [READ-ALL] timePointA < Activity < timePointB //
+				const { count: activityCount } = await activitiesCollection.c_countTimeFrame(
+					timePointA,
+					timePointB
+				)
+
+				activityData.push({
+					time: timePointB.toLocaleTimeString(),
+					count: activityCount
+				})
+			}
+
 			res.status(200).send({
 				executed: true,
 				status: true,
+				activityData,
 				users,
 			})
 		}

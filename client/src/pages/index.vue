@@ -36,9 +36,9 @@
 
 <script>
 	// [IMPORT] //
-	import Adsense from '../components/adsense'
+	import Adsense from '@components/adsense'
 	import CatList from '@components/cat/List'
-	import Alert from '../components/misc/Alert'
+	import Alert from '@components/misc/Alert'
 	import PageService from '@services/PageService'
 	import { cats } from '@defaults/cats'
 
