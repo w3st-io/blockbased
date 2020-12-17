@@ -33,7 +33,7 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'Invalid user _id'
+					message: 'Invalid user_id'
 				})
 			}
 		}
