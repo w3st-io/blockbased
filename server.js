@@ -59,13 +59,16 @@ app.io = io
 // [MONGOOSE-CONNECTION] //
 mongoose.connect(
 	config.MONG_URI,
-	{ useNewUrlParser: true, useUnifiedTopology: true },
+	{
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useFindAndModify: false,
+	},
 	(err, connected) => {
 		if (connected) { console.log('Mongoose Connected to DB') }
 		else { console.log(`Mongoose Connection Error --> ${err}`) }
 	}
 )
-mongoose.set('useFindAndModify', false)
 
 
 // [USE] //
