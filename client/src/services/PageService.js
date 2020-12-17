@@ -71,6 +71,22 @@ async function s_admin() {
 }
 
 
+async function s_admin_function() {
+	try {
+		const authAxios = await this.authAxios()
+
+		return (await authAxios.get('/admin/function')).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `PageService: Error --> ${err}`
+		}
+	}
+}
+
+
 // [CAT] //
 async function s_cat(cat_id, sort = 0, limit, page) {
 	try {
@@ -227,6 +243,7 @@ export default {
 	s_home,
 	s_activity,
 	s_admin,
+	s_admin_function,
 	s_cat,
 	s_post,
 	s_post_commentEdit,

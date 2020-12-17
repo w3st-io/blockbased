@@ -9,10 +9,6 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const commentsCollection = require('../../../s-collections/commentsCollection')
-const postsCollection = require('../../../s-collections/postsCollection')
-const usersCollection = require('../../../s-collections/usersCollection')
-const commentReportsCollection = require('../../../s-collections/commentReportsCollection')
 const Auth = require('../../../s-middleware/Auth')
 const userUtil = require('../../../s-utils/userUtils')
 
@@ -28,26 +24,11 @@ router.get(
 	async (req, res) => {
 		try {
 			const userSockets = userUtil.getAllUserSockets()
-			console.log('userSockets', userSockets)
-			const usersObj = await usersCollection.c_readAll(100000, 0)
-			const postObj = await postsCollection.c_readAllAll(100000, 0)
-			const commentsObj = await commentsCollection.c_readAllAll(100000, 0)
-			const commentReportsObj = await commentReportsCollection.c_readAll(100000, 0)
-
-			if (usersObj.status) {
-				usersObj.users.forEach(user => {
-					// [FORMAT] Remove things that should not be shown //
-					user.password = undefined
-				})
-			}
 
 			res.status(200).send({
 				executed: true,
 				status: true,
-				users: usersObj.users,
-				posts: postObj.posts,
-				comments: commentsObj.comments,
-				commentReports: commentReportsObj.commentReports,
+				userSockets: userSockets 
 			})
 		}
 		catch (err) {

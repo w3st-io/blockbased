@@ -17,6 +17,7 @@ import NotFound from '@pages/404'
 import activity from '../pages/activity'
 // [ADMIN] //
 import admin from '@pages/admin'
+import admin_function from '@pages/admin/function'
 import admin_login from '@pages/admin/login'
 import admin_profile from '@pages/admin/profile'
 import admin_register from '@pages/admin/register'
@@ -87,12 +88,12 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/admin/function/status',
-			name: 'admin-function-status',
-			component: admin,
+			path: '/admin/function',
+			name: 'admin-function',
+			component: admin_function,
 			meta: {
 				auth: true,
-				title: 'Status'
+				title: 'Admin Function'
 			}
 		},
 		{

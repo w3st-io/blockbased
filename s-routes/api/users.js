@@ -63,7 +63,7 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/administration/comments: Invalid params'
+					message: '/api/administration/users: Invalid params'
 				})
 			}
 		}
