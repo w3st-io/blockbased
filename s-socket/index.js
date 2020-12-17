@@ -8,8 +8,9 @@ module.exports = {
 	start: (io) => {
 		io.on('connection', (socket) => {
 			// [LOG] //
-			console.log('New web-socket connected:')
+			console.log('New web-socket Connected')
 		
+
 			// [EMIT] user //
 			socket.emit('user', userUtils.getUserSocket(socket.id))
 		
@@ -20,10 +21,9 @@ module.exports = {
 				if (user_id && !userUtils.getUserSocketByUserId(user_id)) {
 					userUtils.join(socket.id, user_id)
 		
-					// [EMIT-SOCKET] usersOnline //
+					// [EMIT-SOCKET][EMIT-SOCKET-BROADCAST] usersOnline //
 					socket.emit('user', userUtils.getUserSocket(socket.id))
 		
-					// [EMIT-SOCKET-BROADCAST] usersOnline //
 					socket.broadcast.emit('user', userUtils.getUserSocket(socket.id))
 				}
 			})
@@ -35,11 +35,11 @@ module.exports = {
 		
 			// [ON] Disconnect //
 			socket.on('disconnect', () => {
-				// [LOG] //
-				//console.log('WS disconnected')
-		
 				// Leave variable
 				userUtils.leave(socket.id)
+
+				// [LOG] //
+				console.log('Web-socket Disconnected')
 			})
 		})
 	}

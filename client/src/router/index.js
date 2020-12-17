@@ -87,6 +87,15 @@ const router = new Router ({
 			}
 		},
 		{
+			path: '/admin/function/status',
+			name: 'admin-function-status',
+			component: admin,
+			meta: {
+				auth: true,
+				title: 'Status'
+			}
+		},
+		{
 			path: '/admin/login',
 			name: 'a-login',
 			component: admin_login,
