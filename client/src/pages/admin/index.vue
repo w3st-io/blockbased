@@ -30,11 +30,21 @@
 					</BRow>
 
 					<BRow class="mt-3">
-						<BCol cols="12">
+						<BCol cols="6">
+							<h3>Functions</h3>
 							<BButton
 								variant="primary"
+								class="w-100"
 								@click="redirectAdminFunction()"
 							>Actions</BButton>
+						</BCol>
+						
+						<BCol cols="6">
+							<h3>
+								<span class="h2 text-success">&#9679;</span>
+								Users Online
+							</h3>
+							<BTable small bordered dark :items="users"></BTable>
 						</BCol>
 					</BRow>
 				</BCard>
@@ -67,9 +77,10 @@
 		data: function() {
 			return {
 				returned: {},
+				usersOnline: 0,
+				users: [],
 				activityLabels: [],
 				activityValues: [],
-				usersOnline: 0,
 				loading: true,
 				error: '',
 			}
@@ -90,7 +101,8 @@
 				catch (err) { this.error = err }
 
 				if (this.returned.status) {
-					this.usersOnline = this.returned.users.length
+					this.users = this.returned.users
+					this.usersOnline = this.users.length
 
 					// Map Data activityData //
 					this.activityLabels = this.returned.activityData.map(d => d.time)

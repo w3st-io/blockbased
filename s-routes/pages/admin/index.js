@@ -26,13 +26,14 @@ router.get(
 	Auth.adminToken(),
 	async (req, res) => {
 		try {
+			// [INIT] Const //
+			const userSockets = userUtil.getAllUserSockets()
+			const timeFrame = 60
+			const timeInterval = 1
+
 			// [INIT] //
 			let users = []
 			let activityData = []
-
-			const timeFrame = 60
-			const timeInterval = 1
-			const userSockets = userUtil.getAllUserSockets()
 
 			// Users Online //
 			for (let i = 0; i < userSockets.length; i++) {
@@ -41,7 +42,7 @@ router.get(
 					'username'
 				)
 
-				users.push(user)
+				users.push(user.user)
 			}
 
 			// Activity Order //
@@ -65,8 +66,8 @@ router.get(
 			res.status(200).send({
 				executed: true,
 				status: true,
-				activityData,
 				users,
+				activityData,
 			})
 		}
 		catch (err) {
