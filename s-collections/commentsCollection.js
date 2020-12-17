@@ -229,6 +229,8 @@ const c_readAllAll = async (limit, skip) => {
 			.populate({ path: 'post' })
 			.exec()
 
+		console.log('commentsCollection: readAllAll')
+		
 		return {
 			executed: true,
 			status: true,

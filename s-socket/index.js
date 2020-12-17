@@ -8,7 +8,7 @@ module.exports = {
 	start: (io) => {
 		io.on('connection', (socket) => {
 			// [LOG] //
-			console.log('New web-socket Connected')
+			//console.log('New web-socket Connected')
 		
 
 			// [EMIT] user //
@@ -39,7 +39,7 @@ module.exports = {
 				userUtils.leave(socket.id)
 
 				// [LOG] //
-				console.log('Web-socket Disconnected')
+				//console.log('Web-socket Disconnected')
 			})
 		})
 	}

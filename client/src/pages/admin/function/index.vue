@@ -1,16 +1,16 @@
 <template>
-	<BContainer class="mt-3">
-		<BCard bg-variant="dark">
+	<BContainer>
+		<BCard bg-variant="dark" class="my-3">
 			<!-- Button Tabs -->
 			<BRow>
-				<BCol cols="6" class="my-3">
+				<BCol cols="6">
 					<ButtonTabs :tabs="tabs" @tabClicked="switchTab" />
 				</BCol>
 
-				<BCol cols="6" class="text-right my-3"></BCol>
+				<BCol cols="6" class="text-right"></BCol>
 			</BRow>
 			
-			<BRow class="my-3">
+			<BRow class="mt-3">
 				<BCol cols="12">
 					<!-- Users -->
 					<Users

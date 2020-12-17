@@ -25,12 +25,7 @@ router.get(
 	Auth.userTokenByPassVerification(),
 	async (req, res) => {
 		try {
-			const userObj = await usersCollection.c_read(req.decoded.user_id)
-		
-			if (userObj.status) {
-				// [FORMAT] Remove things that should not be shown //
-				userObj.user.password = undefined
-			}
+			const userObj = await usersCollection.c_readSensitive(req.decoded.user_id)
 			
 			res.status(200).send(userObj)
 		}

@@ -15,7 +15,7 @@ const UserModel = require('../s-models/UserModel')
 
 /******************* [CRUD] *******************/
 // [READ] //
-const c_read = async (user_id) => {
+const c_read = async (user_id, select) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -25,8 +25,17 @@ const c_read = async (user_id) => {
 				message: 'UserCollection: Invalid user_id'
 			}
 		}
+
+		// [VALIDATE] user_id //
+		if (select != undefined && !validator.isAscii(select)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'UserCollection: Invalid select'
+			}
+		}
 	
-		const user = await UserModel.findOne({ _id: user_id })
+		const user = await UserModel.findOne({ _id: user_id }).select(select)
 
 		return {
 			executed: true,
@@ -39,35 +48,6 @@ const c_read = async (user_id) => {
 			executed: false,
 			status: false,
 			message: `UserCollection: Error --> ${err}`
-		}
-	}
-}
-
-
-const c_readByEmail = async (email) => {
-	try {
-		// [VALIDATE] user_id //
-		if (!validator.isEmail(email)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'usersCollection: Invalid email'
-			}
-		}
-	
-		const user = await UserModel.findOne({ email })
-
-		return {
-			executed: true,
-			status: true,
-			user: user
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `usersCollection: Error --> ${err}`
 		}
 	}
 }
@@ -103,6 +83,8 @@ const c_readAll = async (limit, skip) => {
 			.limit(limit)
 			.exec()
 
+		console.log('usersCollection: readAll')
+		
 		return {
 			executed: true,
 			status: true,
@@ -251,6 +233,76 @@ const c_register = async (username, email, password) => {
 			status: false,
 			message: `usersCollection: Error --> ${err}`,
 			created: false,
+		}
+	}
+}
+
+
+const c_readSensitive = async (user_id, select = undefined) => {
+	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'UserCollection: Invalid user_id'
+			}
+		}
+
+		// [VALIDATE] user_id //
+		if (select != undefined && !validator.isAscii(select)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'UserCollection: Invalid select'
+			}
+		}
+	
+		const user = await UserModel.findOne({ _id: user_id }).select(select)
+
+		// [HIDE] //
+		user.password = undefined
+
+		return {
+			executed: true,
+			status: true,
+			user: user
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserCollection: Error --> ${err}`
+		}
+	}
+}
+
+
+const c_readByEmail = async (email) => {
+	try {
+		// [VALIDATE] user_id //
+		if (!validator.isEmail(email)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'usersCollection: Invalid email'
+			}
+		}
+	
+		const user = await UserModel.findOne({ email })
+
+		return {
+			executed: true,
+			status: true,
+			user: user
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `usersCollection: Error --> ${err}`
 		}
 	}
 }
@@ -426,10 +478,11 @@ const c_verifiedStatus = async (user_id) => {
 // [EXPORT] //
 module.exports = {
 	c_read,
-	c_readByEmail,
 	c_readAll,
 	c_update,
 	c_register,
+	c_readSensitive,
+	c_readByEmail,
 	c_getIdByEmail,
 	c_updatePassword,
 	c_verify,
