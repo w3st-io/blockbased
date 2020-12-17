@@ -8,7 +8,7 @@ module.exports = {
 	start: (io) => {
 		io.on('connection', (socket) => {
 			// [LOG] //
-			//console.log('New WS connected')
+			console.log('New web-socket connected:')
 		
 			// [EMIT] user //
 			socket.emit('user', userUtils.getUserSocket(socket.id))

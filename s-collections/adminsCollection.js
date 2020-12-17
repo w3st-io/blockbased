@@ -5,25 +5,18 @@
 */
 // [REQUIRE] //
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const config = require('../s-config')
 const AdminModel = require('../s-models/AdminModel')
 
 
-// [INIT] //
-const secretKey = config.SECRET_KEY
-
-
-/******************* [LOGIN/REGISTER] *******************/
-// [LOGIN] //
-const c_login = async (email, password) => {
+/******************* [CRUD] *******************/
+const c_readByEmail = async (email) => {
 	try {
-		// [VALIDATE] email //
+		// [VALIDATE] user_id //
 		if (!validator.isEmail(email)) {
 			return {
 				executed: true,
@@ -31,71 +24,26 @@ const c_login = async (email, password) => {
 				message: 'adminsCollection: Invalid email'
 			}
 		}
-
-		
-		// [VALIDATE] password //
-		if (!validator.isAscii(password)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'adminsCollection: Invalid password (must be ASCII)'
-			}
-		}
-
-		// [VALIDATE-EMAIL] //
-		const userFound = await AdminModel.findOne({ email })
-		
-		if (!userFound) {
-			return {
-				executed: true,
-				status: false,
-				message: 'Account does not exist',
-				validation: false,
-			}
-		}
-
-		// [VALIDATE-PASSWORD] //
-		if (!bcrypt.compareSync(password, userFound.password)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'Invalid password',
-				validation: false,
-			}
-		}
-
-		// Set Payload //
-		const payload = {
-			admin_id: userFound._id,
-			role: userFound.role,
-			email: userFound.email,
-			username: userFound.username,
-			first_name: userFound.first_name,
-			last_name: userFound.last_name,
-		}
-
-		// Set Token //
-		const token = jwt.sign(payload, secretKey, {/* expiresIn: 7200 */})
+	
+		const user = await AdminModel.findOne({ email })
 
 		return {
 			executed: true,
 			status: true,
-			message: 'success',
-			validation: true,
-			token: token,
+			user: user
 		}
 	}
 	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `adminsCollection: Error --> ${err}`,
-			validation: false,
+			message: `adminsCollection: Error --> ${err}`
 		}
 	}
 }
 
 
+/******************* [OTHER-CRUD] *******************/
 // [REGISTER] //
 const c_register = async (username, email, password) => {
 	try {
@@ -189,6 +137,6 @@ const c_register = async (username, email, password) => {
 
 // [EXPORT] //
 module.exports = {
-	c_login,
+	c_readByEmail,
 	c_register,
 }

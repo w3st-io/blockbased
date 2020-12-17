@@ -27,7 +27,7 @@ router.get(
 		try {
 			const userObj = await usersCollection.c_read(req.decoded.user_id)
 		
-			if (userObj) {
+			if (userObj.status) {
 				// [FORMAT] Remove things that should not be shown //
 				userObj.user.password = undefined
 			}

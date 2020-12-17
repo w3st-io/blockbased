@@ -4,7 +4,7 @@
 			<RouterLink to="/admin" class="mr-2 btn btn-sm btn-secondary">
 				Admin Dashboard
 			</RouterLink>
-			<RouterLink to="/admin/a-profile" class="mr-2 btn btn-sm btn-secondary">
+			<RouterLink to="/admin/profile" class="mr-2 btn btn-sm btn-secondary">
 				Admin Profile
 			</RouterLink>
 			<BButton variant="warning" @click="logout" class="mr-2 btn-sm">

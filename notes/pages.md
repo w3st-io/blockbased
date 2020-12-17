@@ -5,9 +5,9 @@
 ##### ////////// [PAGES] /////////
 #### // [ADMIN] //
 #### /admin (INDEX)
-#### /admin/a-login
-#### /admin/a-profile
-#### /admin/a-register
+#### /admin/login
+#### /admin/profile
+#### /admin/register
 ####
 #### // [CAT] //
 #### /cat/:cat_id/:page (INDEX)

@@ -4,6 +4,7 @@
  * %%%%%%%%%%%%%%%%%%%
 */
 // [REQUIRE] //
+const bcrypt = require('bcryptjs')
 const cors = require('cors')
 const express = require('express')
 const jwt = require('jsonwebtoken')
@@ -12,6 +13,7 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
+const config = require('../../s-config')
 const rateLimiters = require('../../s-rate-limiters')
 const activitiesCollection = require('../../s-collections/activitiesCollection')
 const passwordRecoveriesCollection = require('../../s-collections/passwordRecoveriesCollection')
@@ -19,6 +21,10 @@ const usersCollection = require('../../s-collections/usersCollection')
 const verificationCodesCollection = require('../../s-collections/verificationCodesCollection')
 const Auth = require('../../s-middleware/Auth')
 const mailerUtil = require('../../s-utils/mailerUtil')
+
+
+// [INIT] //
+const secretKey = config.SECRET_KEY
 
 
 // [EXPRESS + USE] //
@@ -179,12 +185,77 @@ router.post(
 				validator.isAscii(req.body.email) &&
 				validator.isAscii(req.body.password)
 			) {
-				const returned = await usersCollection.c_login(
-					req.body.email,
-					req.body.password
-				)
-		
-				res.status(200).send(returned)
+				// [VALIDATE] email //
+				if (validator.isEmail(req.body.email)) {
+					// [VALIDATE] password //
+					if (validator.isAscii(req.body.password)) {
+						const userObj = await usersCollection.c_readByEmail(
+							req.body.email
+						)
+
+						if (userObj.user) {
+							const userFound = userObj.user
+
+							console.log(userFound)
+
+							// [VALIDATE-PASSWORD] //
+							if (bcrypt.compareSync(req.body.password, userFound.password)) {
+								const payload = {
+									user_id: userFound._id,
+									email: userFound.email,
+									username: userFound.username,
+									first_name: userFound.first_name,
+									last_name: userFound.last_name,
+								}
+						
+								// Set Token //
+								let token = jwt.sign(
+									payload,
+									secretKey,
+									{/* expiresIn: 7200 */}
+								)
+						
+								res.status(200).send({
+									executed: true,
+									status: true,
+									message: 'success',
+									validation: true,
+									token: token,
+								})
+							}
+							else {
+								res.status(200).send({
+									executed: true,
+									status: true,
+									message: 'Invalid email or password',
+									validation: false,
+								})
+							}
+						}
+						else {
+							res.status(200).send({
+								executed: true,
+								status: true,
+								message: 'Invalid email or password',
+								validation: false
+							})
+						}
+					}
+					else {
+						res.status(200).send({
+							executed: true,
+							status: false,
+							message: '/api/users: Invalid email'
+						})
+					}
+				}
+				else {
+					res.status(200).send({
+						executed: true,
+						status: false,
+						message: '/api/users: Invalid password'
+					})
+				}
 			}
 			else {
 				res.status(200).send({

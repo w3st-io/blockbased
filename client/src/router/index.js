@@ -87,7 +87,7 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/admin/a-login',
+			path: '/admin/login',
 			name: 'a-login',
 			component: admin_login,
 			meta: {
@@ -96,7 +96,7 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/admin/a-profile',
+			path: '/admin/profile',
 			name: 'a-profile',
 			component: admin_profile,
 			meta: {
@@ -105,7 +105,7 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/admin/a-register',
+			path: '/admin/register',
 			name: 'a-register',
 			component: admin_register,
 			meta: {

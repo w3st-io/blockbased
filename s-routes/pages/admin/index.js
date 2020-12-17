@@ -14,6 +14,7 @@ const postsCollection = require('../../../s-collections/postsCollection')
 const usersCollection = require('../../../s-collections/usersCollection')
 const commentReportsCollection = require('../../../s-collections/commentReportsCollection')
 const Auth = require('../../../s-middleware/Auth')
+const userUtil = require('../../../s-utils/userUtils')
 
 
 // [EXPRESS + USE] //
@@ -26,6 +27,8 @@ router.get(
 	Auth.adminToken(),
 	async (req, res) => {
 		try {
+			const userSockets = userUtil.getAllUserSockets()
+			console.log('userSockets', userSockets)
 			const usersObj = await usersCollection.c_readAll(100000, 0)
 			const postObj = await postsCollection.c_readAllAll(100000, 0)
 			const commentsObj = await commentsCollection.c_readAllAll(100000, 0)
