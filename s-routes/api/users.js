@@ -196,8 +196,6 @@ router.post(
 						if (userObj.user) {
 							const userFound = userObj.user
 
-							console.log(userFound)
-
 							// [VALIDATE-PASSWORD] //
 							if (bcrypt.compareSync(req.body.password, userFound.password)) {
 								const payload = {

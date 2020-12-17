@@ -11,10 +11,12 @@
 							</BBadge>
 						</BCol>
 						<BCol sm="4">
+							<!--
 							<BBadge variant="dark" class="w-100 p-1 border border-secondary rounded">
 								<h6 class="m-0">Admins Online</h6>
 								<h5 class="m-0">{{ '--' }}</h5>
 							</BBadge>
+							-->
 						</BCol>
 					</BRow>
 
@@ -38,7 +40,7 @@
 								@click="redirectAdminFunction()"
 							>Actions</BButton>
 						</BCol>
-						
+
 						<BCol cols="6">
 							<h3>
 								<span class="h2 text-success">&#9679;</span>

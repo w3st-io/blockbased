@@ -37,7 +37,7 @@ router.get(
 
 			// Users Online //
 			for (let i = 0; i < userSockets.length; i++) {
-				let user = await usersCollection.c_readSensitive(
+				const user = await usersCollection.c_readSensitive(
 					userSockets[i].user_id,
 					'username'
 				)
