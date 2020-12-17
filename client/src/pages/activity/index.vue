@@ -93,7 +93,7 @@
 
 										<!-- Timestamp -->
 										<BCol cols="sm-4" class="text-right text-secondary">
-											{{ new Date(activity.createdAt).toLocaleString() }}
+											{{ new Date(activity.created_at).toLocaleString() }}
 										</BCol>
 									</BRow>
 								</li>

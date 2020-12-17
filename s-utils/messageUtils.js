@@ -9,7 +9,7 @@ const formatMessage = (user_idFrom, user_idTo, text) => {
 		from: user_idFrom,
 		to: user_idTo,
 		text: text,
-		createdAt: new Date()
+		created_at: new Date()
 	}
 }
 
@@ -19,7 +19,7 @@ const formatGroupMessage = (user_idFrom, text) => {
 	return {
 		from: user_idFrom,
 		text: text,
-		createdAt: new Date()
+		created_at: new Date()
 	}
 }
 

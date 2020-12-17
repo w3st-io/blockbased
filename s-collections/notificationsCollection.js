@@ -73,7 +73,7 @@ const c_readAll = async (user_id) => {
 		}
 
 		const notifications = await NotificationModel.find({ user: user_id })
-			.sort({ createdAt: -1 })
+			.sort({ created_at: -1 })
 			.populate({
 				path: 'comment',
 				populate: {
@@ -123,7 +123,7 @@ const c_readAllUnread = async (user_id) => {
 			user: user_id,
 			read: false
 		})
-			.sort({ createdAt: -1 })
+			.sort({ created_at: -1 })
 			.populate({
 				path: 'comment',
 				populate: {

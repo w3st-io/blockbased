@@ -40,7 +40,7 @@ module.exports = mongoose.model(
 			ref: 'Comment',
 		},
 
-		createdAt: {
+		created_at: {
 			type: Date,
 			default: Date.now,
 			maxlength: 50

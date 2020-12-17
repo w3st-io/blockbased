@@ -17,7 +17,7 @@
 					<td>{{ post.title }}</td>
 					<td>{{ post.user.email }}</td>
 					<td>{{ post.user.username }}</td>
-					<td>{{ new Date(post.createdAt).toLocaleString() }}</td>
+					<td>{{ new Date(post.created_at).toLocaleString() }}</td>
 					<td class="text-center">
 						<button
 							@click="deletePost(post._id)"

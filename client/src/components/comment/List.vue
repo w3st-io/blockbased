@@ -10,7 +10,7 @@
 						<!-- Profile/Timestamp Bar -->
 						<BCol cols="6" class="p-1 border-bottom border-secondary">
 							<span class="small text-secondary">
-								{{ new Date(comment.createdAt).toLocaleString() }}
+								{{ new Date(comment.created_at).toLocaleString() }}
 							</span>
 						</BCol>
 
@@ -38,7 +38,7 @@
 							<p class="small text-secondary">
 								{{ comment.replyToComment.user.username }} -
 								{{
-									new Date(comment.replyToComment.createdAt).toLocaleString()
+									new Date(comment.replyToComment.created_at).toLocaleString()
 								}}
 								:
 							</p>

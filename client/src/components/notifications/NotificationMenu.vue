@@ -41,7 +41,7 @@
 					{{ notification.comment.user.username }} made a {{ notification.type }}
 				</p>
 				<small class="text-secondary">
-					{{ new Date(notification.createdAt).toLocaleString() }}
+					{{ new Date(notification.created_at).toLocaleString() }}
 				</small>
 			</a>
 

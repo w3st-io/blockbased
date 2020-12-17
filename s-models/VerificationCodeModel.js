@@ -19,5 +19,11 @@ module.exports = mongoose.model(
 			required: [true, 'This is required'],
 			maxlength: 50,
 		},
+
+		created_at: {
+			type: Date,
+			default: Date.now,
+			maxlength: 50
+		},
 	})
 )

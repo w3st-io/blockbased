@@ -301,7 +301,7 @@ const c_readAllSort = async (cat_id, sort = 0, limit, skip) => {
 		}
 
 		// Set Sort //
-		if (sort == 0) { sort = { createdAt: -1 } }
+		if (sort == 0) { sort = { created_at: -1 } }
 		else if (sort == 1) { sort = { likeCount: -1 } }
 		else {
 			return {
@@ -356,7 +356,7 @@ const c_readAllPinned = async (cat_id, sort = 0) => {
 		}
 
 		// Set Sort //
-		if (sort == 0) { sort = { createdAt: -1 } }
+		if (sort == 0) { sort = { created_at: -1 } }
 		else if (sort == 0) { sort = { likeCount: -1 } }
 
 		const posts = await PostModel.find({

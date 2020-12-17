@@ -147,7 +147,7 @@ const c_readAllUser = async (user_id, limit, skip, sort = 'descending') => {
 		// [INIT] //
 		let sort2
 
-		if (sort == 'descending') { sort2 = { createdAt: -1 } }
+		if (sort == 'descending') { sort2 = { created_at: -1 } }
 		else if (sort == 'popularity') { sort2 = { likeCount: -1 } }
 
 		const postFollows = await PostFollowModel.find({ user: user_id })

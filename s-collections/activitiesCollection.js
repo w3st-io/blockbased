@@ -181,7 +181,7 @@ const c_readAllSort = async (sort = 0, limit, skip) => {
 
 		// Set Sort //
 		if (sort == 0) { sort = {} }
-		else if (sort == 1) { sort = { createdAt: -1 } }
+		else if (sort == 1) { sort = { created_at: -1 } }
 		else {
 			return {
 				executed: true,
@@ -259,7 +259,7 @@ const c_readAllSortByUser = async (user_id, sort = 0, limit, skip) => {
 
 		// Set Sort //
 		if (sort == 0) { sort = {} }
-		else if (sort == 1) { sort = { createdAt: -1 } }
+		else if (sort == 1) { sort = { created_at: -1 } }
 		else {
 			return {
 				executed: true,
@@ -462,6 +462,32 @@ const c_countAllByUser = async (user_id) => {
 }
 
 
+const c_countTimeFrame = async (timePointA, timePointB) => {
+	try {
+		// [READ-ALL] timePointA < Tweets < timePointB //
+		const count = await ActivityModel.countDocuments({
+			created_at: {
+				$gte: timePointA,
+				$lte: timePointB
+			}
+		})
+
+		return {
+			executed: true,
+			status: true,
+			count: count,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `activitiesCollection: Caught Error --> ${err}`,
+		}
+	}
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_create,
@@ -474,4 +500,5 @@ module.exports = {
 	c_deleteCustom,
 	c_countAll,
 	c_countAllByUser,
+	c_countTimeFrame,
 }

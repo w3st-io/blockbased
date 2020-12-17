@@ -7,7 +7,7 @@
 				{{ post.title }}
 				<span class="text-secondary hide-the-ugly" style="font-size: .5em;">
 					Posted by: {{ post.user.username }} -
-					{{ new Date(post.createdAt).toLocaleString() }}
+					{{ new Date(post.created_at).toLocaleString() }}
 				</span>
 			</h3>
 
@@ -72,7 +72,7 @@
 			return {
 				disabled: false,
 				username: '',
-				createdAt: '',
+				created_at: '',
 				error: '',
 			}
 		},
@@ -80,7 +80,7 @@
 		created: async function() {
 			if (this.post) {
 				this.username = this.post.user.username
-				this.createdAt = this.post.createdAt
+				this.created_at = this.post.created_at
 			}
 			// [LOG] //
 			//this.log()

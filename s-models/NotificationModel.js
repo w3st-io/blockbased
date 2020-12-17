@@ -32,7 +32,7 @@ module.exports = mongoose.model(
 			default: false,
 		},
 	
-		createdAt: {
+		created_at: {
 			type: Date,
 			default: Date.now,
 			maxlength: 50

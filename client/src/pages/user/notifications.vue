@@ -52,7 +52,7 @@
 
 										<!-- Timestamp -->
 										<small class="col-md-2">
-											{{ new Date(notification.createdAt).toLocaleString() }}
+											{{ new Date(notification.created_at).toLocaleString() }}
 										</small>
 
 										<!-- Text -->
