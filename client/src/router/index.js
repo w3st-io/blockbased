@@ -31,14 +31,15 @@ import post_commentEdit from '@pages/post/comment-edit'
 import post_commentReply from '@pages/post/comment-reply'
 // [USER] //
 import user_activity from '@pages/user/activity'
+import user_activity_lookup from '@pages/user/activity/lookup'
 import user_accountCreated from '@pages/user/account-created'
 import user_followed from '@pages/user/followed'
 import user_login from '@pages/user/login'
 import user_notifications from '@pages/user/notifications'
-import user_passwordRequest from '@pages/user/password/request'
-import user_passwordReset from '@pages/user/password/reset'
+import user_password_request from '@pages/user/password/request'
+import user_password_reset from '@pages/user/password/reset'
 import user_profile from '@pages/user/profile'
-import user_profileEdit from '@pages/user/profile/edit'
+import user_profile_edit from '@pages/user/profile/edit'
 import user_profile_lookup from '@pages/user/profile/lookup'
 import user_verify from '@pages/user/verify'
 import user_register from '@pages/user/register'
@@ -202,6 +203,15 @@ const router = new Router ({
 			}
 		},
 		{
+			path: '/user/activity/lookup/:user_id/:sort/:limit/:page',
+			name: 'user_activity_lookup',
+			component: user_activity_lookup,
+			meta: {
+				auth: true,
+				title: 'Lookup Activity'
+			}
+		},
+		{
 			path: '/user/followed/:page',
 			name: 'user-followed',
 			component: user_followed,
@@ -231,7 +241,7 @@ const router = new Router ({
 		{
 			path: '/user/password/request',
 			name: 'request',
-			component: user_passwordRequest,
+			component: user_password_request,
 			meta: {
 				auth: true,
 				title: 'Request for Password Reset'
@@ -240,7 +250,7 @@ const router = new Router ({
 		{
 			path: '/user/password/reset/:user_id/:verification_code',
 			name: 'reset-password',
-			component: user_passwordReset,
+			component: user_password_reset,
 			meta: {
 				auth: true,
 				title: 'Reset Password'
@@ -258,7 +268,7 @@ const router = new Router ({
 		{
 			path: '/user/profile/edit',
 			name: 'edit',
-			component: user_profileEdit,
+			component: user_profile_edit,
 			meta: {
 				auth: true,
 				title: 'Edit Your Profile'
