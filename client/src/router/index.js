@@ -39,7 +39,7 @@ import user_passwordRequest from '@pages/user/password/request'
 import user_passwordReset from '@pages/user/password/reset'
 import user_profile from '@pages/user/profile'
 import user_profileEdit from '@pages/user/profile/edit'
-import user_profileView from '@pages/user/profile/view'
+import user_profile_lookup from '@pages/user/profile/lookup'
 import user_verify from '@pages/user/verify'
 import user_register from '@pages/user/register'
 // [Z] //
@@ -265,9 +265,9 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/user/profile/view/:user_id',
-			name: 'profile-view',
-			component: user_profileView,
+			path: '/user/profile/lookup/:user_id',
+			name: 'profile-lookup',
+			component: user_profile_lookup,
 			meta: {
 				auth: true,
 				title: ''

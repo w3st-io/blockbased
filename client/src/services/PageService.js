@@ -220,11 +220,11 @@ async function s_user_profile() {
 }
 
 
-async function s_user_profile_view(user_id) {
+async function s_user_profile_lookup(user_id) {
 	try {
 		const authAxios = await this.authAxios()
 	
-		return (await authAxios.get(`/user/profile/view/${user_id}`)).data
+		return (await authAxios.get(`/user/profile/lookup/${user_id}`)).data
 	}
 	catch (err) {
 		return {
@@ -252,5 +252,5 @@ export default {
 	s_user_followed,
 	s_user_notifications,
 	s_user_profile,
-	s_user_profile_view,
+	s_user_profile_lookup,
 }

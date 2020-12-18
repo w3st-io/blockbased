@@ -38,7 +38,7 @@
 		},
 
 		created: async function() {
-			const returned = await PageService.s_user_profile_view(this.user_id)
+			const returned = await PageService.s_user_profile_lookup(this.user_id)
 
 			if (returned.status) { this.user = returned.user }
 			else { this.error = returned.message }

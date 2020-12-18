@@ -10,7 +10,7 @@
 		</p>
 		<div class="d-flex justify-content-between align-items-center">
 			<div class="btn-group">
-				<button class="btn btn-sm btn-outline-light">View</button>
+				<button class="btn btn-sm btn-outline-light">Visit</button>
 				<button class="btn btn-sm btn-outline-light">Edit</button>
 			</div>
 			<small class="text-muted">9 mins</small>

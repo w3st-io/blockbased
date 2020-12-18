@@ -41,7 +41,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/pages/user/profile/view: Error --> ${err}`
+				message: `/pages/user/profile/lookup: Error --> ${err}`
 			})
 		}
 	}

@@ -21,7 +21,7 @@
 #### // [PROFILE] //
 #### /profile (INDEX)
 #### /profile/edit
-#### /profile/view/:user_id
+#### /profile/lookup/:user_id
 ####
 #### // [USER] //
 #### /user/login
