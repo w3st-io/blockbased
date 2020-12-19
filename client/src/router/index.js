@@ -276,7 +276,7 @@ const router = new Router ({
 		},
 		{
 			path: '/user/profile/lookup/:user_id',
-			name: 'profile-lookup',
+			name: 'user_profile_lookup',
 			component: user_profile_lookup,
 			meta: {
 				auth: true,

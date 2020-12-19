@@ -46,7 +46,32 @@
 								<span class="h2 text-success">&#9679;</span>
 								Users Online
 							</h3>
-							<BTable small bordered dark :items="users" class="w-100"></BTable>
+							<table class="table table-sm table-dark table-bordered w-100">
+								<tr v-for="user in users" :key="user._id">
+									<th>username</th>
+									<th>Profile</th>
+									<th>Activity</th>
+								</tr>
+								<tr v-for="user in users" :key="user._id">
+									<td>{{ user.username }}</td>
+									<td>
+										<BButton
+											size="sm"
+											variant="primary"
+											class="w-100"
+											@click="redirectProfilePage(user._id)"
+										>Profile</BButton>
+									</td>
+									<td>
+										<BButton
+											size="sm"
+											variant="primary"
+											class="w-100"
+											@click="redirectActivityPage(user._id)"
+										>Activity</BButton>
+									</td>
+								</tr>
+							</table>
 						</BCol>
 					</BRow>
 				</BCard>
@@ -116,6 +141,25 @@
 			},
 
 			redirectAdminFunction() { router.push({ name: 'admin-function' }) },
+
+			redirectActivityPage(user_id) {
+				router.push({
+					name: 'user_activity_lookup',
+					params: {
+						user_id: user_id,
+						sort: 1,
+						limit: 5,
+						page: 1,
+					}
+				})
+			},
+
+			redirectProfilePage(user_id) {
+				router.push({
+					name: 'user_profile_lookup',
+					params: { user_id: user_id, }
+				})
+			},
 		}
 	}
 </script>

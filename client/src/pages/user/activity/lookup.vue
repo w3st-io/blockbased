@@ -23,7 +23,7 @@
 					<BRow class="mt-3">
 						<BCol cols="12">
 							<!-- Main -->
-							<ul class="list-group">
+							<BListGroup>
 								<li
 									v-for="activity in activities"
 									:key="activity._id"
@@ -97,7 +97,7 @@
 										</BCol>
 									</BRow>
 								</li>
-							</ul>
+							</BListGroup>
 						</BCol>
 					</BRow>
 
@@ -202,7 +202,8 @@
 
 			refreshRoute() {
 				router.push({
-					name: 'user_activity',
+					user_id: this.user_id,
+					name: 'user_activity_lookup',
 					params: {
 						sort: this.sort,
 						limit: this.limit,
