@@ -172,6 +172,25 @@ async function s_user_activity(sort = 0, limit, page) {
 }
 
 
+// [USER] //
+async function s_user_activity_lookup(user_id, sort = 0, limit, page) {
+	try {
+		const authAxios = await this.authAxios()
+
+		return (
+			await authAxios.get(`/user/activity/lookup/${user_id}/${sort}/${limit}/${page}`)
+		).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `PageService: Error --> ${err}`
+		}
+	}
+}
+
+
 async function s_user_followed(limit, page) {
 	try {
 		const authAxios = await this.authAxios()
@@ -249,6 +268,7 @@ export default {
 	s_post_commentEdit,
 	s_post_commentReply,
 	s_user_activity,
+	s_user_activity_lookup,
 	s_user_followed,
 	s_user_notifications,
 	s_user_profile,

@@ -47,7 +47,7 @@
 								Users Online
 							</h3>
 							<table class="table table-sm table-dark table-bordered w-100">
-								<tr v-for="user in users" :key="user._id">
+								<tr>
 									<th>username</th>
 									<th>email</th>
 									<th>Profile</th>

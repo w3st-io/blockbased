@@ -205,6 +205,7 @@
 					user_id: this.user_id,
 					name: 'user_activity_lookup',
 					params: {
+						user_id: this.user_id,
 						sort: this.sort,
 						limit: this.limit,
 						page: this.page,
@@ -214,7 +215,8 @@
 
 			async getPageData() {
 				try {
-					this.data = await pageService.s_user_activity(
+					this.data = await pageService.s_user_activity_lookup(
+						this.user_id,
 						this.sort,
 						this.limit,
 						this.page
