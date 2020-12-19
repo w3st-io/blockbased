@@ -49,23 +49,25 @@
 							<table class="table table-sm table-dark table-bordered w-100">
 								<tr v-for="user in users" :key="user._id">
 									<th>username</th>
+									<th>email</th>
 									<th>Profile</th>
 									<th>Activity</th>
 								</tr>
 								<tr v-for="user in users" :key="user._id">
 									<td>{{ user.username }}</td>
+									<td>{{ user.email }}</td>
 									<td>
 										<BButton
+											variant="outline-primary"
 											size="sm"
-											variant="primary"
 											class="w-100"
 											@click="redirectProfilePage(user._id)"
 										>Profile</BButton>
 									</td>
 									<td>
 										<BButton
+											variant="outline-primary"
 											size="sm"
-											variant="primary"
 											class="w-100"
 											@click="redirectActivityPage(user._id)"
 										>Activity</BButton>

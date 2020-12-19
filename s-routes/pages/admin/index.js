@@ -39,7 +39,7 @@ router.get(
 			for (let i = 0; i < userSockets.length; i++) {
 				const user = await usersCollection.c_readSensitive(
 					userSockets[i].user_id,
-					'username'
+					'username email'
 				)
 
 				users.push(user.user)
