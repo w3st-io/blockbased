@@ -25,7 +25,10 @@ router.get(
 		try {
 			// [VALIDATE] //
 			if (mongoose.isValidObjectId(req.params.user_id)) {
-				const userObj = await usersCollection.c_readSensitive(req.params.user_id)
+				const userObj = await usersCollection.c_readSensitive(
+					req.params.user_id,
+					'username created_at profileImg'
+				)
 
 				res.status(200).send(userObj)
 			}

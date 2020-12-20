@@ -1,27 +1,47 @@
 <template>
-	<BCard bg-variant="dark" class="container my-4">
-		<div class="row mt-3">
-			<div v-if="!error" class="col-sm-12 col-md-8 mb-3">
-				<!-- Profile Details -->
-				<div class="row">
-					<div class="col-4">
-						<img
-							:src="user.profileImg"
-							alt="Profile Image Not Available"
-							class="w-100"
-						>
-					</div>
+	<BContainer>
+		<BRow class="mt-3">
+			<BCol v-if="!error" sm="12" md="8">
+				<BCard bg-variant="dark text-light">
+					<!-- Profile Details -->
+					<BRow>
+						<BCol cols="4">
+							<div class="border border-primary rounded">
+								<img
+									:src="user.profileImg"
+									alt="Profile Image Not Available"
+									class="w-100"
+								>
+							</div>
+						</BCol>
 
-					<div class="col-8">
-						<h3 class="text-light">{{ user.username }}</h3>
-						<h5 class="text-light">Email: {{ user.email }}</h5>
-					</div>
-				</div>
-			</div>
+						<BCol cols="8">
+							<h3>{{ user.username }}</h3>
+							<p>Joined {{ new Date(user.created_at).toLocaleString() }}</p>
 
-			<div v-if="error" class="col-12 alert alert-danger">{{ error }}</div>
-		</div>
-	</BCard>
+							<BRow>
+								<BCol cols="12" md="6">
+									<BBadge variant="dark" class="w-100 py-2 border border-primary rounded">
+										<h5>Total Comments</h5>
+										<p>--</p>
+									</BBadge>
+								</BCol>
+								<BCol cols="12" md="6">
+									<BBadge variant="dark" class="w-100 py-2 border border-primary rounded">
+										<h5>Total Posts</h5>
+										<p>--</p>
+									</BBadge>
+								</BCol>
+							</BRow>
+						</BCol>
+					</BRow>
+				</BCard>
+			</BCol>
+			<BCol cols="12">
+				<div v-if="error" class="col-12 alert alert-danger">{{ error }}</div>
+			</BCol>
+		</BRow>
+	</BContainer>
 </template>
 
 <script>
@@ -33,15 +53,16 @@
 				user_id: this.$route.params.user_id,
 				user: {},
 				profileImg: require('../../../assets/images/DefaultProfileImg.png'),
+				data: {},
 				error: '',
 			}
 		},
 
 		created: async function() {
-			const returned = await PageService.s_user_profile_lookup(this.user_id)
+			this.data = await PageService.s_user_profile_lookup(this.user_id)
 
-			if (returned.status) { this.user = returned.user }
-			else { this.error = returned.message }
+			if (this.data.status) { this.user = this.data.user }
+			else { this.error = this.data.message }
 		},
 	}
 </script>

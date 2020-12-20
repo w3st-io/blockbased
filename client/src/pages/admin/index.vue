@@ -32,7 +32,7 @@
 					</BRow>
 
 					<BRow class="mt-3">
-						<BCol md="6">
+						<BCol lg="6">
 							<h3>Functions</h3>
 							<BButton
 								variant="primary"
@@ -41,7 +41,7 @@
 							>Actions</BButton>
 						</BCol>
 
-						<BCol md="6">
+						<BCol lg="6">
 							<h3>
 								<span class="h2 text-success">&#9679;</span>
 								Users Online
