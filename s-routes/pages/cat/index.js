@@ -72,7 +72,7 @@ router.get(
 						
 						// [COUNT] Comments //
 						postsObj.posts[i].commentCount = (
-							await commentsCollection.c_countAll(postsObj.posts[i]._id)
+							await commentsCollection.c_countAllByPost(postsObj.posts[i]._id)
 						).count
 	
 						// [USER-LOGGED] //

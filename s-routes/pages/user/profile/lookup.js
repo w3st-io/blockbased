@@ -10,8 +10,8 @@ const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
+const commentsCollection = require('../../../../s-collections/commentsCollection')
 const usersCollection = require('../../../../s-collections/usersCollection')
-
 
 // [EXPRESS + USE] //
 const router = express.Router().use(cors())
@@ -30,7 +30,19 @@ router.get(
 					'username created_at profileImg'
 				)
 
-				res.status(200).send(userObj)
+				if (userObj.status) {
+					const commentCount = await commentsCollection.c_countAllByUser(
+						req.params.user_id
+					)
+					
+					res.status(200).send({
+						executed: true,
+						status: true,
+						user: userObj.user,
+						commentCount: commentCount.count
+					})
+				}
+				else { res.status(200).send(userObj) }
 			}
 			else {
 				res.status(200).send({

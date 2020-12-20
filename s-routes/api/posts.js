@@ -198,7 +198,7 @@ router.get(
 						
 						// [COUNT] Comment //
 						postsObj.posts[i].commentCount = (
-							await commentsCollection.c_countAll(postsObj.posts[i]._id)
+							await commentsCollection.c_countAllByPost(postsObj.posts[i]._id)
 						).count
 
 						// [USER-LOGGED] //
@@ -357,7 +357,7 @@ router.get(
 						
 						// [COUNT] Comment //
 						postsObj.posts[i].commentCount = (
-							await commentsCollection.c_countAll(postsObj.posts[i]._id)
+							await commentsCollection.c_countAllByPost(postsObj.posts[i]._id)
 						).count
 
 						// [USER-LOGGED] //

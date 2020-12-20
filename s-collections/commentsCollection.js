@@ -570,7 +570,37 @@ const c_existance = async (comment_id) => {
 
 
 /******************* [COUNT] *******************/
-const c_countAll = async (post_id) => {
+const c_countAllByUser = async (user_id) => {
+	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid user_id'
+			}
+		}
+
+		const count = await CommentModel.countDocuments({ user: user_id })
+
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`
+		}
+	}
+}
+
+
+
+const c_countAllByPost = async (post_id) => {
 	try {
 		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
@@ -612,5 +642,6 @@ module.exports = {
 	c_deleteCustom,
 	c_existance,
 	c_ownership,
-	c_countAll,
+	c_countAllByUser,
+	c_countAllByPost,
 }

@@ -103,7 +103,7 @@ router.get(
 
 					// [COUNT] Comments //
 					commentsObj.commentsCount = (
-						await commentsCollection.c_countAll(req.params.post_id)
+						await commentsCollection.c_countAllByPost(req.params.post_id)
 					).count
 
 					// [COUNT] Calculate Total Pages //

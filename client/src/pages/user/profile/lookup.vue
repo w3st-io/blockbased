@@ -16,21 +16,47 @@
 						</BCol>
 
 						<BCol cols="8">
-							<h3>{{ user.username }}</h3>
-							<p>Joined {{ new Date(user.created_at).toLocaleString() }}</p>
+							<BRow class="">
+								<BCol cols="12" md="4">
+									<h3>{{ user.username }}</h3>
+								</BCol>
+							</BRow>
 
-							<BRow>
-								<BCol cols="12" md="6">
-									<BBadge variant="dark" class="w-100 py-2 border border-primary rounded">
-										<h5>Total Comments</h5>
-										<p>--</p>
+							<BRow class="mt-3">
+								<BCol cols="12" md="4">
+									<BBadge
+										variant="dark"
+										class="w-100 py-1 border border-secondary rounded"
+									>
+										<h6>Content Score</h6>
+										<h4>--</h4>
 									</BBadge>
 								</BCol>
-								<BCol cols="12" md="6">
-									<BBadge variant="dark" class="w-100 py-2 border border-primary rounded">
-										<h5>Total Posts</h5>
-										<p>--</p>
+								<BCol cols="12" md="4">
+									<BBadge
+										variant="dark"
+										class="w-100 py-1 border border-secondary rounded"
+									>
+										<h6>Total Comments</h6>
+										<h4>{{ data.commentCount }}</h4>
 									</BBadge>
+								</BCol>
+								<BCol cols="12" md="4">
+									<BBadge
+										variant="dark"
+										class="w-100 py-1 border border-secondary rounded"
+									>
+										<h6>Total Posts</h6>
+										<h4>--</h4>
+									</BBadge>
+								</BCol>
+							</BRow>
+
+							<BRow class="mt-3">
+								<BCol cols="12">
+									<p>
+										Joined {{ new Date(user.created_at).toLocaleString() }}
+									</p>
 								</BCol>
 							</BRow>
 						</BCol>
@@ -60,6 +86,8 @@
 
 		created: async function() {
 			this.data = await PageService.s_user_profile_lookup(this.user_id)
+
+			console.log(this.data)
 
 			if (this.data.status) { this.user = this.data.user }
 			else { this.error = this.data.message }
