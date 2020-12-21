@@ -333,38 +333,6 @@ const c_readAllSortByCat = async (cat_id, sort = 0, limit, skip) => {
 }
 
 
-// [READ-ALL] Within user_id //
-const c_readAllUnlimitedByUser = async (user_id) => {
-	try {
-		// [VALIDATE] user_id //
-		if (!validator.isAscii(user_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postsCollection: Invalid user_id',
-			}
-		}
-
-		const posts = await PostModel.find({ user: user_id })
-			.populate({ path: 'user', select: 'username email bio profileImg', })
-			.exec()
-
-		return {
-			executed: true,
-			status: true,
-			posts: posts,
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `postsCollection: Error --> ${err}`,
-		}
-	}
-}
-
-
 // [READ-ALL] Pinned Posts //
 const c_readAllPinned = async (cat_id, sort = 0) => {
 	try { 
@@ -682,7 +650,6 @@ module.exports = {
 	c_delete,
 	c_readAllByCat,
 	c_readAllSortByCat,
-	c_readAllUnlimitedByUser,
 	c_readAllPinned,
 	c_deleteByIdAndUser,
 	c_incrementLike,

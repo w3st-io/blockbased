@@ -77,7 +77,37 @@ const c_create = async (user_id, post_id, comment_id, commentUser_id) => {
 
 
 /******************* [OTHER-CRUD] *******************/
-// [DELETE-ALL] //
+// [DELETE] post //
+const c_deleteByPost = async (post_id) => {
+	try {
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentLikesCollection: Invalid post_id',
+			}
+		}
+
+		const commentLikes = await CommentLikeModel.deleteMany({ post: post_id })
+
+		return {
+			executed: true,
+			status: true,
+			commentLikes: commentLikes
+		}
+	}
+	catch (err) {
+		return {
+			executed: true,
+			status: false,
+			message: `commentLikesCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
+// [DELETE] comment //
 const c_deleteByComment = async (comment_id) => {
 	try {
 		// [VALIDATE] comment_id //
@@ -107,7 +137,7 @@ const c_deleteByComment = async (comment_id) => {
 }
 
 
-// [DELETE] //
+// [DELETE] user & comment //
 const c_deleteByUserAndComment = async (user_id, comment_id) => {
 	try {
 		// [VALIDATE] user_id //
@@ -229,7 +259,7 @@ const c_existance = async (user_id, comment_id) => {
 
 
 /******************* [COUNT] *******************/
-const c_countAll = async (comment_id) => {
+const c_countAllByComment = async (comment_id) => {
 	try {
 		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
@@ -261,9 +291,10 @@ const c_countAll = async (comment_id) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
+	c_deleteByPost,
 	c_deleteByComment,
 	c_deleteByUserAndComment,
 	c_deleteCustom,
 	c_existance,
-	c_countAll,
+	c_countAllByComment,
 }

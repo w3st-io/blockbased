@@ -204,7 +204,7 @@ router.get(
 						for (let i = 0; i < commentsObj.comments.length; i++) {
 							// [COUNT] Likes //
 							commentsObj.comments[i].likeCount = (
-								await commentLikesCollection.c_countAll(
+								await commentLikesCollection.c_countAllByComment(
 									commentsObj.comments[i]._id
 								)
 							).count
@@ -266,7 +266,7 @@ router.get(
 				if (commentObj.status) {
 					// [COUNT] Likes //
 					commentObj.comment.likeCount = (
-						await commentLikesCollection.c_countAll(req.params.comment_id)
+						await commentLikesCollection.c_countAllByComment(req.params.comment_id)
 					).count
 	
 					// [USER-LOGGED] //

@@ -4,9 +4,8 @@
 			<BCol v-if="!error" sm="12" md="9" class="mb-3">
 				<BCard bg-variant="dark text-light">
 					<!-- Profile Details -->
-					<BRow class="">
+					<BRow>
 						<BCol cols="3">
-							<h3 class="text-center">{{ user.username }}</h3>
 							<div class="border border-primary rounded">
 								<img
 									:src="user.profileImg"
@@ -21,17 +20,12 @@
 						</BCol>
 
 						<BCol cols="9">
-							<BRow class="">
-								<BCol cols="12" md="4">
-									<BBadge
-										variant="dark"
-										class="w-100 mb-2 py-1 border border-secondary rounded"
-									>
-										<h6>Content Score</h6>
-										<h4>--</h4>
-									</BBadge>
+							<BRow>
+								<BCol cols="12">
+									<h3 class="mb-3">{{ user.username }}</h3>
 								</BCol>
-								<BCol cols="12" md="4">
+
+								<BCol cols="12" md="3">
 									<BBadge
 										variant="dark"
 										class="w-100 mb-2 py-1 border border-secondary rounded"
@@ -40,13 +34,34 @@
 										<h4>{{ data.commentCount }}</h4>
 									</BBadge>
 								</BCol>
-								<BCol cols="12" md="4">
+
+								<BCol cols="12" md="3">
 									<BBadge
 										variant="dark"
 										class="w-100 mb-2 py-1 border border-secondary rounded"
 									>
 										<h6>Total Posts</h6>
 										<h4>{{ data.postCount }}</h4>
+									</BBadge>
+								</BCol>
+
+								<BCol cols="12" md="3">
+									<BBadge
+										variant="dark"
+										class="w-100 mb-2 py-1 border border-secondary rounded"
+									>
+										<h6>Post Score</h6>
+										<h4>{{ data.postLikesCount }}</h4>
+									</BBadge>
+								</BCol>
+
+								<BCol cols="12" md="3">
+									<BBadge
+										variant="dark"
+										class="w-100 mb-2 py-1 border border-secondary rounded"
+									>
+										<h6>Comment Score</h6>
+										<h4>--</h4>
 									</BBadge>
 								</BCol>
 							</BRow>

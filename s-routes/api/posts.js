@@ -188,7 +188,7 @@ router.get(
 					for (let i = 0; i < postsObj.posts.length; i++) {
 						// [COUNT] Likes //
 						postsObj.posts[i].likeCount = (
-							await postLikesCollection.c_countAll(postsObj.posts[i]._id)
+							await postLikesCollection.c_countAllById(postsObj.posts[i]._id)
 						).count
 						
 						// [COUNT] Follows //
@@ -257,7 +257,7 @@ router.get(
 				if (postObj.status) {
 					// [COUNT] Likes //
 					postObj.post.likeCount = (
-						await postLikesCollection.c_countAll(postObj.post._id)
+						await postLikesCollection.c_countAllById(postObj.post._id)
 					).count
 		
 					// [COUNT] Follows //
@@ -347,7 +347,7 @@ router.get(
 					for (let i = 0; i < postsObj.posts.length; i++) {
 						// [COUNT] Likes //
 						postsObj.posts[i].likeCount = (
-							await postLikesCollection.c_countAll(postsObj.posts[i]._id)
+							await postLikesCollection.c_countAllById(postsObj.posts[i]._id)
 						).count
 						
 						// [COUNT] Follows //

@@ -189,7 +189,7 @@ const c_existance = async (user_id, post_id) => {
 
 
 /******************* [COUNT] *******************/
-const c_countAll = async (post_id) => {
+const c_countAllById = async (post_id) => {
 	try {
 		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
@@ -215,6 +215,36 @@ const c_countAll = async (post_id) => {
 			message: `postLikesCollection: Error --> ${err}`
 		}
 	}
+}
+
+
+/******************* [COUNT] *******************/
+const c_countAllByPostUser = async (postUser) => {
+	try {
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(postUser)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postLikesCollection: Invalid post_id',
+			}
+		}
+	
+		const count = await PostLikeModel.countDocuments({ postUser })
+
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postLikesCollection: Error --> ${err}`
+		}
+	}
 	
 }
 
@@ -225,5 +255,6 @@ module.exports = {
 	c_deleteByPost,
 	c_deleteByUserAndPost,
 	c_existance,
-	c_countAll,
+	c_countAllById,
+	c_countAllByPostUser,
 }

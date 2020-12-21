@@ -12,6 +12,7 @@ const mongoose = require('mongoose')
 // [REQUIRE] Personal //
 const activitiesCollection = require('../../../s-collections/activitiesCollection')
 const commentsCollection = require('../../../s-collections/commentsCollection')
+const commentLikesCollection = require('../../../s-collections/commentLikesCollection')
 const postsCollection = require('../../../s-collections/postsCollection')
 const postFollowsCollection = require('../../../s-collections/postFollowsCollection')
 const postLikesCollection = require('../../../s-collections/postLikesCollection')
@@ -55,6 +56,11 @@ router.delete(
 					req.params.post_id
 				)
 
+				// [DELETE-ALL] comments //
+				const commentLikes = await commentLikesCollection.c_deleteByPost(
+					req.params.post_id
+				)
+
 				if (
 					posts.status &&
 					postLikes.status &&
@@ -70,7 +76,8 @@ router.delete(
 							postFollows,
 							postLikes,
 							activity,
-							comments
+							comments,
+							commentLikes
 						]
 					})
 				}
