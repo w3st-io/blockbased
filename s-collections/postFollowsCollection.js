@@ -102,7 +102,7 @@ const c_readAll = async (post_id) => {
 
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] //
-const c_readAllUser = async (user_id, limit, skip, sort = 'descending') => {
+const c_readAllSortByUser = async (sort = 'descending', user_id, limit, skip) => {
 	try {
 		// [SANTIZE] //
 		limit = parseInt(limit)
@@ -397,7 +397,7 @@ const c_countAllUser = async (user_id) => {
 module.exports = {
 	c_create,
 	c_readAll,
-	c_readAllUser,
+	c_readAllSortByUser,
 	c_deleteByPost,
 	c_deleteByUserAndPost,
 	c_deleteCustom,

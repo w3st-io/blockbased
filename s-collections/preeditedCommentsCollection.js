@@ -53,26 +53,7 @@ const c_create = async (comment_id) => {
 }
 
 
-// [READ] //
-const c_read = async (comment_id) => {
-}
-
-
-// [DELETE] //
-const c_delete = async (comment_id) => {
-}
-
-
-/******************* [ADMIN-CRUD] *******************/
-// [DELETE] user & comment //
-const c_deleteByUserAndComment = async (user_id, comment_id) => {
-}
-
-
 // [EXPORT] //
 module.exports = {
 	c_create,
-	c_read,
-	c_delete,
-	c_deleteByUserAndComment,
 }

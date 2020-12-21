@@ -40,7 +40,7 @@ router.get(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Sort //
-				const postsObj = await postsCollection.c_readAllSort(
+				const postsObj = await postsCollection.c_readAllSortByCat(
 					req.params.cat_id,
 					sort,
 					limit,

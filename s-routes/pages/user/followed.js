@@ -45,7 +45,8 @@ router.get(
 				const totalPages = Math.ceil(totalFollows / limit)
 				
 				// [READ-ALL] postFollows for user //
-				const pFObj = await postFollowsCollection.c_readAllUser(
+				const pFObj = await postFollowsCollection.c_readAllSortByUser(
+					undefined,
 					req.decoded.user_id,
 					limit,
 					skip

@@ -34,7 +34,6 @@ router.get(
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
 
-				console.log('sd',req.params.user_id);
 				const activitiesObj = await activitiesCollection.c_readAllSortByUser(
 					req.params.user_id,
 					sort,

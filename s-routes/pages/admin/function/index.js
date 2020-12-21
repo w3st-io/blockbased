@@ -27,7 +27,7 @@ router.get(
 	async (req, res) => {
 		try {
 			const usersObj = await usersCollection.c_readAll(100000, 0)
-			const postObj = await postsCollection.c_readAllAll(100000, 0)
+			const postObj = await postsCollection.c_readAll(100000, 0)
 			const commentsObj = await commentsCollection.c_readAll(100000, 0)
 			const commentReportsObj = await commentReportsCollection.c_readAll(100000, 0)
 

@@ -128,7 +128,7 @@ router.get(
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
 
-				const returned = await postsCollection.c_readAllAll(limit, skip)
+				const returned = await postsCollection.c_readAll(limit, skip)
 	
 				res.status(200).send(returned)
 			}
@@ -169,7 +169,7 @@ router.get(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Posts with cat_id //
-				const postsObj = await postsCollection.c_readAll(
+				const postsObj = await postsCollection.c_readAllByCat(
 					req.params.cat_id,
 					limit,
 					skip,
@@ -327,7 +327,7 @@ router.get(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Sort //
-				const postsObj = await postsCollection.c_readAllSort(
+				const postsObj = await postsCollection.c_readAllSortByCat(
 					req.params.cat_id,
 					sort,
 					limit,

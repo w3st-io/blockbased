@@ -134,7 +134,7 @@ const c_read = async (comment_id) => {
 }
 
 
-// [READ-ALL-ALL] //
+// [READ-ALL] //
 const c_readAll = async (limit, skip) => {
 	try {
 		// [SANTIZE] //

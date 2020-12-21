@@ -77,7 +77,7 @@ const c_create = async (user_id, cat_id, title) => {
 
 
 // [READ-ALL-ALL] //
-const c_readAllAll = async (limit, skip) => {
+const c_readAll = async (limit, skip) => {
 	try {
 		// [SANITIZE] //
 		limit = parseInt(limit)
@@ -123,62 +123,6 @@ const c_readAllAll = async (limit, skip) => {
 			executed: false,
 			status: false,
 			message: `postCollections: Error --> ${err}`,
-		}
-	}
-}
-
-
-// [READ-ALL] Within Cat //
-const c_readAll = async (cat_id, limit, skip) => {
-	try {
-		// [SANITIZE] //
-		limit = parseInt(limit)
-		skip = parseInt(skip)
-
-		// [VALIDATE] cat_id //
-		if (!validator.isAscii(cat_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postsCollection: Invalid cat_id',
-			}
-		}
-
-		// [VALIDATE] limit //
-		if (!Number.isIntegar(limit)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postsCollection: Invalid limit',
-			}
-		}
-
-		// [VALIDATE] skip //
-		if (!Number.isInteger(skip)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postsCollection: Invalid skip',
-			}
-		}
-
-		const posts = await PostModel.find({ cat_id })
-			.skip(skip)
-			.limit(limit)
-			.populate({ path: 'user', select: 'username email bio profileImg', })
-			.exec()
-
-		return {
-			executed: true,
-			status: true,
-			posts: posts,
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `postsCollection: Error --> ${err}`,
 		}
 	}
 }
@@ -255,8 +199,64 @@ const c_delete = async (post_id) => {
 
 
 /******************* [OTHER-CRUD] *******************/
+// [READ-ALL] Within Cat //
+const c_readAllByCat = async (cat_id, limit, skip) => {
+	try {
+		// [SANITIZE] //
+		limit = parseInt(limit)
+		skip = parseInt(skip)
+
+		// [VALIDATE] cat_id //
+		if (!validator.isAscii(cat_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid cat_id',
+			}
+		}
+
+		// [VALIDATE] limit //
+		if (!Number.isIntegar(limit)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid limit',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid skip',
+			}
+		}
+
+		const posts = await PostModel.find({ cat_id })
+			.skip(skip)
+			.limit(limit)
+			.populate({ path: 'user', select: 'username email bio profileImg', })
+			.exec()
+
+		return {
+			executed: true,
+			status: true,
+			posts: posts,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postsCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
 // [READ-ALL-SORT] Within Cat //
-const c_readAllSort = async (cat_id, sort = 0, limit, skip) => {
+const c_readAllSortByCat = async (cat_id, sort = 0, limit, skip) => {
 	try {
 		// [SANITIZE] //
 		sort = parseInt(sort)
@@ -645,11 +645,11 @@ const c_countAllByUser = async (user_id) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
-	c_readAllAll,
 	c_readAll,
 	c_read,
 	c_delete,
-	c_readAllSort,
+	c_readAllByCat,
+	c_readAllSortByCat,
 	c_readAllPinned,
 	c_deleteByIdAndUser,
 	c_incrementLike,
