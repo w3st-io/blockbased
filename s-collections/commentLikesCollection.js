@@ -15,6 +15,8 @@ const CommentLikeModel = require('../s-models/CommetLikeModel')
 // [CREATE] //
 const c_create = async (user_id, post_id, comment_id, commentUser_id) => {
 	try {
+		console.log(commentUser_id, 'sdf')
+		
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {

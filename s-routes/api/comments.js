@@ -439,7 +439,7 @@ router.post(
 				mongoose.isValidObjectId(req.body.commentUser_id)
 			) {
 				// [EXISTANCE] commentLike //
-				const existance = await postLikesCollection.c_existance(
+				const existance = await commentLikesCollection.c_existance(
 					req.decoded.user_id,
 					req.body.post_id,
 				)

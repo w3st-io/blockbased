@@ -251,7 +251,7 @@
 							await CommentService.s_like(
 								this.post_id,
 								comment._id,
-								comment.user
+								comment.user._id
 							)
 						}
 						catch (err) { this.error = err }
