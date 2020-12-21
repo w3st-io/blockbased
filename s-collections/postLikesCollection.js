@@ -189,7 +189,7 @@ const c_existance = async (user_id, post_id) => {
 
 
 /******************* [COUNT] *******************/
-const c_countAllById = async (post_id) => {
+const c_countAllByPost = async (post_id) => {
 	try {
 		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
@@ -218,7 +218,6 @@ const c_countAllById = async (post_id) => {
 }
 
 
-/******************* [COUNT] *******************/
 const c_countAllByPostUser = async (postUser) => {
 	try {
 		// [VALIDATE] post_id //
@@ -255,6 +254,6 @@ module.exports = {
 	c_deleteByPost,
 	c_deleteByUserAndPost,
 	c_existance,
-	c_countAllById,
+	c_countAllByPost,
 	c_countAllByPostUser,
 }

@@ -60,7 +60,7 @@ router.get(
 					if (postObj.status) {
 						// [COUNT] Likes //
 						postObj.post.likeCount = (
-							await postLikesCollection.c_countAllById(postObj.post._id)
+							await postLikesCollection.c_countAllByPost(postObj.post._id)
 						).count
 			
 						// [COUNT] Follows //

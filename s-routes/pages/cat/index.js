@@ -62,7 +62,7 @@ router.get(
 					for (let i = 0; i < postsObj.posts.length; i++) {
 						// [COUNT] Likes //
 						postsObj.posts[i].likeCount = (
-							await postLikesCollection.c_countAllById(postsObj.posts[i]._id)
+							await postLikesCollection.c_countAllByPost(postsObj.posts[i]._id)
 						).count
 						
 						// [COUNT] Follows //

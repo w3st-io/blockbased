@@ -288,6 +288,41 @@ const c_countAllByComment = async (comment_id) => {
 }
 
 
+const c_countAllByCommentUser = async (commentUser_id) => {
+	try {
+		// [VALIDATE] commentUser_id //
+		if (!mongoose.isValidObjectId(commentUser_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentLikesCollection: Invalid commentUser_id',
+			}
+		}
+		console.log(commentUser_id);
+	
+		const count = await CommentLikeModel.countDocuments({
+			commentUser: commentUser_id
+		})
+
+		console.log(count);
+
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentLikesCollection: Error --> ${err}`
+		}
+	}
+	
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_create,
@@ -297,4 +332,5 @@ module.exports = {
 	c_deleteCustom,
 	c_existance,
 	c_countAllByComment,
+	c_countAllByCommentUser,
 }

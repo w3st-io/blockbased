@@ -61,7 +61,7 @@
 										class="w-100 mb-2 py-1 border border-secondary rounded"
 									>
 										<h6>Comment Score</h6>
-										<h4>--</h4>
+										<h4>{{ data.commentLikeCount }}</h4>
 									</BBadge>
 								</BCol>
 							</BRow>
