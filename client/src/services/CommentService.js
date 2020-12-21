@@ -123,12 +123,14 @@ async function  s_delete(comment_id) {
 
 /******************* [LIKE-SYSTEM] *******************/
 // ADD/REMOVE LIKE //
-async function s_like(post_id, comment_id) {
+async function s_like(post_id, comment_id, commentUser_id) {
 	try {
 		const authAxios = await this.authAxios()
 
 		// Add the liker from the Post Object
-		return (await authAxios.post('/like', { post_id, comment_id })).data
+		return (
+			await authAxios.post('/like', { post_id, comment_id, commentUser_id })
+		).data
 	}
 	catch (err) {
 		return {

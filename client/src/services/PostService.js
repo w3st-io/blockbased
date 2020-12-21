@@ -107,11 +107,11 @@ async function s_readAllSort(cat_id, limit, page, sort) {
 
 /******************* [LIKE-SYSTEM] *******************/
 // ADD/REMOVE LIKE //
-async function s_like(post_id) {
+async function s_like(post_id, postUser_id) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.post('/like', { post_id })).data
+		return (await authAxios.post('/like', { post_id, postUser_id })).data
 	}
 	catch (err) {
 		return {

@@ -13,7 +13,7 @@ const PostLikeModel = require('../s-models/PostLikeModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (user_id, post_id) => {
+const c_create = async (user_id, post_id, postUser_id) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -33,14 +33,12 @@ const c_create = async (user_id, post_id) => {
 			}
 		}
 	
-		// [EXISTANCE] //
-		const existance = await c_existance(user_id, post_id)
-
-		if (!existance.status || existance.existance) {
+		// [VALIDATE] postUser_id //
+		if (!mongoose.isValidObjectId(postUser_id)) {
 			return {
 				executed: true,
 				status: false,
-				message: existance.message,
+				message: 'postLikesCollection: Invalid postUser_id',
 			}
 		}
 
@@ -49,6 +47,7 @@ const c_create = async (user_id, post_id) => {
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
 			post: post_id,
+			postUser: postUser_id,
 		}).save()
 
 		return {
@@ -168,12 +167,14 @@ const c_existance = async (user_id, post_id) => {
 			return {
 				executed: true,
 				status: true,
+				message: 'postLike does NOT exist',
 				existance: false,
 			}
 		}
 		return {
 			executed: true,
 			status: true,
+			message: 'postLike does exist',
 			existance: true,
 		}
 	}

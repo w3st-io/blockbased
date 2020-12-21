@@ -418,17 +418,22 @@ router.post(
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
-			if (mongoose.isValidObjectId(req.body.post_id)) {
+			if (
+				mongoose.isValidObjectId(req.body.post_id) &&
+				mongoose.isValidObjectId(req.body.postUser_id)
+			) {
+				// [EXISTANCE] postLike //
 				const existance = await postLikesCollection.c_existance(
 					req.decoded.user_id,
-					req.body.post_id
+					req.body.post_id,
 				)
 
 				if (!existance.existance) {
 					// [CREATE] postLike //
 					const postLikeObj = await postLikesCollection.c_create(
 						req.decoded.user_id,
-						req.body.post_id
+						req.body.post_id,
+						req.body.postUser_id
 					)
 
 					if (postLikeObj.status) {
@@ -446,7 +451,11 @@ router.post(
 					}
 					else { res.send(200).send(postLikeObj) }
 				}
-				else { res.status(200).send(existance) }
+				else { res.status(200).send({
+					executed: true,
+					status: false,
+					message: existance.message
+				}) }
 			}
 			else {
 				res.status(200).send({

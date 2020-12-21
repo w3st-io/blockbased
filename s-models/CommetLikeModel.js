@@ -26,6 +26,12 @@ module.exports = mongoose.model(
 			required: true,
 		},
 
+		commentUser: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: true,
+		},
+
 		created_at: {
 			type: Date,
 			default: Date.now,

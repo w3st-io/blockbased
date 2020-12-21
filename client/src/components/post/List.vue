@@ -124,7 +124,12 @@
 						catch (err) { this.error = err }
 					}
 					else {
-						try { this.returned = await PostService.s_like(post._id) }
+						try {
+							this.returned = await PostService.s_like(
+								post._id,
+								post.user
+							)
+						}
 						catch (err) { this.error = err }
 					}
 

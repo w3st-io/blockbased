@@ -247,7 +247,13 @@
 					else {
 						this.disabled = true
 
-						try { await CommentService.s_like(this.post_id, comment._id) }
+						try {
+							await CommentService.s_like(
+								this.post_id,
+								comment._id,
+								comment.user
+							)
+						}
 						catch (err) { this.error = err }
 
 						this.disabled = false

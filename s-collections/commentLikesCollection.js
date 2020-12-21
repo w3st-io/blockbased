@@ -13,7 +13,7 @@ const CommentLikeModel = require('../s-models/CommetLikeModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (user_id, post_id, comment_id) => {
+const c_create = async (user_id, post_id, comment_id, commentUser_id) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -42,10 +42,14 @@ const c_create = async (user_id, post_id, comment_id) => {
 			}
 		}
 
-		// [EXISTANCE] //
-		const existance = await c_existance(user_id, comment_id)
-
-		if (!existance.status || existance.existance) { return existance }
+		// [VALIDATE] commentUser_id //
+		if (!mongoose.isValidObjectId(commentUser_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentLikesCollection: Invalid commentUser_id',
+			}
+		}
 	
 		// [SAVE] //
 		const commentLike = await new CommentLikeModel({
@@ -53,6 +57,7 @@ const c_create = async (user_id, post_id, comment_id) => {
 			user: user_id,
 			post: post_id,
 			comment: comment_id,
+			commentUser: commentUser_id,
 		}).save()
 
 		return {
@@ -197,12 +202,7 @@ const c_existance = async (user_id, comment_id) => {
 			}
 		}
 
-		const returned = await CommentLikeModel.findOne({
-			user: user_id,
-			comment: comment_id,
-		})
-
-		if (!returned) {
+		if (!await CommentLikeModel.findOne({ user: user_id, comment: comment_id,})) {
 			return {
 				executed: true,
 				status: true,

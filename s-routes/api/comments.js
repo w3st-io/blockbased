@@ -435,16 +435,33 @@ router.post(
 			// [VALIDATE] //
 			if (
 				mongoose.isValidObjectId(req.body.post_id) &&
-				mongoose.isValidObjectId(req.body.comment_id)
+				mongoose.isValidObjectId(req.body.comment_id) &&
+				mongoose.isValidObjectId(req.body.commentUser_id)
 			) {
-				// [CREATE] CommentLike //
-				const commentLike = await commentLikesCollection.c_create(
+				// [EXISTANCE] commentLike //
+				const existance = await postLikesCollection.c_existance(
 					req.decoded.user_id,
 					req.body.post_id,
-					req.body.comment_id,
 				)
 
-				res.status(200).send(commentLike)
+				if (!existance.existance) {
+					// [CREATE] CommentLike //
+					const commentLike = await commentLikesCollection.c_create(
+						req.decoded.user_id,
+						req.body.post_id,
+						req.body.comment_id,
+						req.body.commentUser_id
+					)
+
+					res.status(200).send(commentLike)
+				}
+				else {
+					res.status(200).send({
+						executed: true,
+						status: false,
+						message: existance.message
+					})
+				}
 			}
 			else {
 				res.status(200).send({
