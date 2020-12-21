@@ -74,7 +74,7 @@ router.get(
 				else { res.status(200).send(postObj) }
 
 				//// [COMMENTS][READ-ALL] ////
-				const commentsObj = await commentsCollection.c_readAll(
+				const commentsObj = await commentsCollection.c_readAllByPost(
 					req.params.post_id,
 					limit,
 					skip

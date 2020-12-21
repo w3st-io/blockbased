@@ -46,7 +46,7 @@
 										class="w-100 mb-2 py-1 border border-secondary rounded"
 									>
 										<h6>Total Posts</h6>
-										<h4>--</h4>
+										<h4>{{ data.postCount }}</h4>
 									</BBadge>
 								</BCol>
 							</BRow>

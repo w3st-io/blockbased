@@ -10,7 +10,6 @@ const validator = require('validator')
 
 // [REQUIRE] //
 const PostModel = require('../s-models/PostModel')
-const activitiesCollection = require('./activitiesCollection')
 
 
 /******************* [CRUD] *******************/
@@ -583,7 +582,7 @@ const c_ownership = async (post_id, user_id) => {
 
 
 /******************* [COUNT] *******************/
-const c_countAll = async (cat_id) => {
+const c_countAllByCat = async (cat_id) => {
 	try {
 		// [VALIDATE] cat_id //
 		if (!validator.isAscii(cat_id)) {
@@ -596,6 +595,36 @@ const c_countAll = async (cat_id) => {
 		}
 
 		const count = await PostModel.countDocuments({ cat_id })
+
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postsCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
+const c_countAllByUser = async (user_id) => {
+	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid user_id',
+				updated: false,
+			}
+		}
+
+		const count = await PostModel.countDocuments({ user: user_id })
 
 		return {
 			executed: true,
@@ -627,5 +656,6 @@ module.exports = {
 	c_decrementLike,
 	c_existance,
 	c_ownership,
-	c_countAll,
+	c_countAllByCat,
+	c_countAllByUser,
 }

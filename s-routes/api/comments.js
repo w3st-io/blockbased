@@ -147,7 +147,7 @@ router.get(
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
 
-				const commentsObj = await commentsCollection.c_readAllAll(limit, skip)
+				const commentsObj = await commentsCollection.c_readAll(limit, skip)
 					
 				res.status(200).send(commentsObj)
 			}
@@ -193,7 +193,7 @@ router.get(
 				)
 
 				if (postExistance.existance) {
-					const commentsObj = await commentsCollection.c_readAll(
+					const commentsObj = await commentsCollection.c_readAllByPost(
 						req.params.post_id,
 						limit,
 						skip

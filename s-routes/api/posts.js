@@ -178,7 +178,7 @@ router.get(
 				if (postsObj.status) {
 					// [COUNT] Posts //
 					postsObj.postCount = (
-						await postsCollection.c_countAll(req.params.cat_id)
+						await postsCollection.c_countAllByCat(req.params.cat_id)
 					).count
 
 					// [COUNT] Calculate Pages //
@@ -381,7 +381,7 @@ router.get(
 					}
 					// [COUNT] Posts //
 					postsObj.postsCount = (
-						await postsCollection.c_countAll(req.params.cat_id)
+						await postsCollection.c_countAllByCat(req.params.cat_id)
 					).count
 					
 					// [COUNT] Calculate Pages //
@@ -607,7 +607,7 @@ router.get(
 	async (req, res) => {
 		try {
 			if (validator.isAscii(req.params.cat_id)) {
-				const returned = await postsCollection.c_countAll(req.params.cat_id)
+				const returned = await postsCollection.c_countAllByCat(req.params.cat_id)
 
 				if (returned.status) { res.status(200).send(returned.count.toString()) }
 				else { res.status(200).send(returned.message.toString()) }

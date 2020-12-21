@@ -134,71 +134,8 @@ const c_read = async (comment_id) => {
 }
 
 
-// [READ-ALL] Within a Post //
-const c_readAll = async (post_id, limit, skip) => {
-	try {
-		// [SANTIZE] //
-		limit = parseInt(limit)
-		skip = parseInt(skip)
-
-		// [VALIDATE] post_id //
-		if (!mongoose.isValidObjectId(post_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentsCollection: Invalid post_id',
-			}
-		}
-
-		// [VALDIATE] limit //
-		if (!Number.isInteger(limit)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentsCollection: Invalid limit',
-			}
-		}
-
-		// [VALIDATE] skip //
-		if (!Number.isInteger(skip)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentsCollection: Invalid skip',
-			}
-		}
-
-		const comments = await CommentModel.find({ post: post_id })
-			.skip(skip)
-			.limit(limit)
-			.populate({ path: 'user', select: 'username email bio profileImg', })
-			.populate({
-				path: 'replyToComment',
-				populate: {
-					path: 'user',
-					select: 'username',
-				}
-			})
-			.exec()
-
-		return {
-			executed: true,
-			status: true,
-			comments: comments
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `commentsCollection: Error --> ${err}`,
-		}
-	}
-}
-
-
 // [READ-ALL-ALL] //
-const c_readAllAll = async (limit, skip) => {
+const c_readAll = async (limit, skip) => {
 	try {
 		// [SANTIZE] //
 		limit = parseInt(limit)
@@ -358,6 +295,69 @@ const c_delete = async (comment_id) => {
 
 
 /******************* [OTHER-CRUD] *******************/
+// [READ-ALL] Within a Post //
+const c_readAllByPost = async (post_id, limit, skip) => {
+	try {
+		// [SANTIZE] //
+		limit = parseInt(limit)
+		skip = parseInt(skip)
+
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid post_id',
+			}
+		}
+
+		// [VALDIATE] limit //
+		if (!Number.isInteger(limit)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid limit',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid skip',
+			}
+		}
+
+		const comments = await CommentModel.find({ post: post_id })
+			.skip(skip)
+			.limit(limit)
+			.populate({ path: 'user', select: 'username email bio profileImg', })
+			.populate({
+				path: 'replyToComment',
+				populate: {
+					path: 'user',
+					select: 'username',
+				}
+			})
+			.exec()
+
+		return {
+			executed: true,
+			status: true,
+			comments: comments
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
 // [DELETE] comment & user //
 const c_deleteByIdAndUser = async (comment_id, user_id) => {
 	try {
@@ -632,11 +632,11 @@ const c_countAllByPost = async (post_id) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
-	c_readAllAll,
 	c_readAll,
 	c_read,
 	c_update,
 	c_delete,
+	c_readAllByPost,
 	c_deleteByIdAndUser,
 	c_deleteByPost,
 	c_deleteCustom,

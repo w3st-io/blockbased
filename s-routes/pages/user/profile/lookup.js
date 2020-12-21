@@ -12,6 +12,7 @@ const mongoose = require('mongoose')
 // [REQUIRE] Personal //
 const commentsCollection = require('../../../../s-collections/commentsCollection')
 const usersCollection = require('../../../../s-collections/usersCollection')
+const postsCollection = require('../../../../s-collections/postsCollection')
 
 // [EXPRESS + USE] //
 const router = express.Router().use(cors())
@@ -35,11 +36,16 @@ router.get(
 						req.params.user_id
 					)
 					
+					const postCount = await postsCollection.c_countAllByUser(
+						req.params.user_id
+					)
+
 					res.status(200).send({
 						executed: true,
 						status: true,
 						user: userObj.user,
-						commentCount: commentCount.count
+						commentCount: commentCount.count,
+						postCount: postCount.count,
 					})
 				}
 				else { res.status(200).send(userObj) }
