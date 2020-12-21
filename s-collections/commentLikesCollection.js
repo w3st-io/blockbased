@@ -298,13 +298,10 @@ const c_countAllByCommentUser = async (commentUser_id) => {
 				message: 'commentLikesCollection: Invalid commentUser_id',
 			}
 		}
-		console.log(commentUser_id);
 	
 		const count = await CommentLikeModel.countDocuments({
 			commentUser: commentUser_id
 		})
-
-		console.log(count);
 
 		return {
 			executed: true,

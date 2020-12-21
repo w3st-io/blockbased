@@ -34,11 +34,6 @@ router.get(
 				)
 
 				if (userObj.status) {
-					// [COUNT] Comments //
-					const commentCount = await commentsCollection.c_countAllByUser(
-						req.params.user_id
-					)
-					
 					// [COUNT] Posts //
 					const postCount = await postsCollection.c_countAllByUser(
 						req.params.user_id
@@ -46,6 +41,11 @@ router.get(
 
 					// [COUNT] postLikes //
 					const pLCount = await postLikesCollection.c_countAllByPostUser(
+						req.params.user_id
+					)
+
+					// [COUNT] Comments //
+					const commentCount = await commentsCollection.c_countAllByUser(
 						req.params.user_id
 					)
 
