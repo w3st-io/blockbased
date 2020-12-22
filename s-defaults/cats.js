@@ -5,7 +5,7 @@ module.exports = [
 		title: 'General Discussion',
 		description: 'General discussions about anything relating to blockchain',
 		image: null,
-		recentPost: {},
+		recentPost: null,
 		totalPosts: null,
 	},
 	{
@@ -13,7 +13,7 @@ module.exports = [
 		title: 'News',
 		description: 'Latest news about the industry',
 		image: null,
-		recentPost: {},
+		recentPost: null,
 		totalPosts: null,
 	},
 	{
@@ -21,7 +21,7 @@ module.exports = [
 		title: 'Dapp Ideas, Tips, Tricks',
 		description: 'Share some ideas & find new partners!',
 		image: null,
-		recentPost: {},
+		recentPost: null,
 		totalPosts: null,
 	},
 	{
@@ -29,7 +29,7 @@ module.exports = [
 		title: 'Smart Contracts',
 		description: 'Discuss smart contracts, share your smart contracts!',
 		image: null,
-		recentPost: {},
+		recentPost: null,
 		totalPosts: null,
 	},
 	{
@@ -37,7 +37,7 @@ module.exports = [
 		title: 'Get Help',
 		description: 'Need help? Ask us & we might be able to help with that!',
 		image: null,
-		recentPost: {},
+		recentPost: null,
 		totalPosts: null,
 	},
 	{
@@ -45,7 +45,7 @@ module.exports = [
 		title: 'Learn',
 		description: 'Learn about blockchain & learn what it can do for you..',
 		image: null,
-		recentPost: {},
+		recentPost: null,
 		totalPosts: null,
 	},
 	{
@@ -53,7 +53,7 @@ module.exports = [
 		title: 'Misc.',
 		description: 'Anything uncategorized',
 		image: null,
-		recentPost: {},
+		recentPost: null,
 		totalPosts: null,
 	},
 ]

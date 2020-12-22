@@ -41,7 +41,7 @@ router.get(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Sort //
-				const postsObj = await postsCollection.c_readAllSortByCat(
+				const postsObj = await postsCollection.c_readSortByCat(
 					req.params.cat_id,
 					sort,
 					limit,
@@ -51,7 +51,7 @@ router.get(
 				if (postsObj.status) {
 					// [PINNED] (1st Page Only) //
 					if (pageIndex == 0) {
-						const { posts: pinnedPosts } = await postsCollection.c_readAllPinned(
+						const { posts: pinnedPosts } = await postsCollection.c_readPinned(
 							req.params.cat_id
 						)
 

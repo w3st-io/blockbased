@@ -198,7 +198,7 @@ const c_delete = async (post_id) => {
 
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] Within Cat //
-const c_readAllByCat = async (cat_id, limit, skip) => {
+const c_readByCat = async (cat_id, limit, skip) => {
 	try {
 		// [SANITIZE] //
 		limit = parseInt(limit)
@@ -254,7 +254,7 @@ const c_readAllByCat = async (cat_id, limit, skip) => {
 
 
 // [READ-ALL-SORT] Within Cat //
-const c_readAllSortByCat = async (cat_id, sort = 0, limit, skip) => {
+const c_readSortByCat = async (cat_id, sort = 0, limit, skip) => {
 	try {
 		// [SANITIZE] //
 		sort = parseInt(sort)
@@ -332,7 +332,7 @@ const c_readAllSortByCat = async (cat_id, sort = 0, limit, skip) => {
 
 
 // [READ-ALL] Pinned Posts //
-const c_readAllPinned = async (cat_id, sort = 0) => {
+const c_readPinned = async (cat_id, sort = 0) => {
 	try { 
 		// [VALIDATE] cat_id //
 		if (!validator.isAscii(cat_id)) {
@@ -646,9 +646,9 @@ module.exports = {
 	c_readAll,
 	c_read,
 	c_delete,
-	c_readAllByCat,
-	c_readAllSortByCat,
-	c_readAllPinned,
+	c_readByCat,
+	c_readSortByCat,
+	c_readPinned,
 	c_deleteByIdAndUser,
 	c_incrementLike,
 	c_decrementLike,

@@ -169,7 +169,7 @@ router.get(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Posts with cat_id //
-				const postsObj = await postsCollection.c_readAllByCat(
+				const postsObj = await postsCollection.c_readByCat(
 					req.params.cat_id,
 					limit,
 					skip,
@@ -327,7 +327,7 @@ router.get(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Sort //
-				const postsObj = await postsCollection.c_readAllSortByCat(
+				const postsObj = await postsCollection.c_readSortByCat(
 					req.params.cat_id,
 					sort,
 					limit,
@@ -336,7 +336,7 @@ router.get(
 
 				if (postsObj.status) {
 					// [PINNED] Insert Posts //
-					const { posts: pinnedPosts } = await postsCollection.c_readAllPinned(
+					const { posts: pinnedPosts } = await postsCollection.c_readPinned(
 						req.params.cat_id
 					)
 					
