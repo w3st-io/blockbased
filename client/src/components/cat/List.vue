@@ -2,7 +2,7 @@
 	<BListGroup class="w-100 m-0 px-0">
 		<BListGroupItem
 			v-for="(cat, index) in cats" :key="index"
-			class="p-0 bg-dark"
+			class="p-0 bg-dark border-secondary"
 		>
 			<BRow class="m-0">
 				<!-- Image Section -->
@@ -74,8 +74,12 @@
 						</BCol>
 
 						<BCol cols="9">
-							<a href="#" class="small" @click="redirectToRecentPost(cat.recentPost._id)">
-								{{ cat.recentPost.title }}
+							<a
+								href="#"
+								class="small"
+								@click="redirectToRecentPost(cat.recentPost._id)"
+							>
+								{{ cat.recentPost.title.replace(/(.{60})..+/, "$1…") }}
 							</a><br>
 							<p class="small">
 								{{ new Date(cat.recentPost.created_at).toLocaleString() }}
