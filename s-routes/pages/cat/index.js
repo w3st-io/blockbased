@@ -14,6 +14,7 @@ const postsCollection = require('../../../s-collections/postsCollection')
 const postFollowsCollection = require('../../../s-collections/postFollowsCollection')
 const postLikesCollection = require('../../../s-collections/postLikesCollection')
 const commentsCollection = require('../../../s-collections/commentsCollection')
+const cats = require('../../../s-defaults/cats')
 const Auth = require('../../../s-middleware/Auth')
 
 
@@ -104,7 +105,12 @@ router.get(
 					postsObj.pageCount = Math.ceil(postsObj.postsCount / limit)
 				}
 				
-				res.status(200).send(postsObj)
+				res.status(200).send({
+					executed: true,
+					status: true,
+					cats: cats,
+					postsObj: postsObj,
+				})
 			}
 			else {
 				res.status(200).send({

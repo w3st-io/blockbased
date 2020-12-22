@@ -1,8 +1,7 @@
 <template>
-	<BContainer class="my-4">
+	<BContainer class="my-4 text-light">
 		<!-- Set Page Title -->
 		<VueHeadful :title="`Cat - ${cat.title}`" />
-
 		<BRow class="row">
 			<BCol cols="12">
 				<BCard bg-variant="dark">
@@ -91,7 +90,6 @@
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import PageService from '@services/PageService'
-	import { cats } from '@defaults/cats'
 
 	// [EXPORT] //
 	export default {
@@ -112,16 +110,14 @@
 				page: parseInt(this.$route.params.page),
 				loading: true,
 				data: {},
-				cat: {},
+				cats: [],
 				posts: [],
+				cat: {},
 				error: '',
 			}
 		},
 
 		created: async function() {
-			// Get Cat Details //
-			this.cat = cats.find(cat => cat.cat_id === this.cat_id)
-
 			// [LOG] //
 			this.log()
 		},
@@ -209,7 +205,14 @@
 				}
 				catch (err) { this.error = `This: --> ${err}` }
 
-				if (this.data.status) { this.posts = this.data.posts }
+				if (this.data.status) {
+					// Store Posts & Cats //
+					this.posts = this.data.postsObj.posts
+					this.cats = this.data.cats
+
+					// Get Cat Details //
+					this.cat = this.cats.find(cat => cat.cat_id === this.cat_id)
+				}
 				else { this.error = this.data.message }
 
 				this.loading = false
