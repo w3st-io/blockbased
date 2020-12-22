@@ -4,7 +4,6 @@
 			<thead>
 				<tr>
 					<th>Report Type</th>
-					<th>comment</th>
 					<th>Reporter</th>
 					<th>Date Created</th>
 					<th></th>
@@ -16,14 +15,13 @@
 					:key="report._id"
 				>
 					<td>{{ report.reportType }}</td>
-					<td>{{ report.comment.text }}</td>
 					<td>{{ report.user.username }}</td>
 					<td>{{ new Date(report.created_at).toLocaleString() }}</td>
 					<td class="text-center">
 						<BButton
 							variant="danger"
-							@click="deleteReport(report._id)"
-						>Delete</BButton>
+							@click="handleReport(report._id)"
+						>Handle</BButton>
 					</td>
 				</tr>
 			</tbody>
@@ -36,7 +34,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import AReportService from '@services/administration/ReportService'
+	import AReportService from '@services/administration/CommentReportService'
 
 	export default {
 		props: {
@@ -55,9 +53,9 @@
 		},
 
 		methods: {
-			async deleteReport(report_id) {
-				// Delete Report //
-				try { await AReportService.s_delete(report_id) }
+			async handleReport(report_id) {
+				// Handle Report //
+				try { await AReportService.s_markHandled(report_id) }
 				catch (err) { this.error = err }
 				
 				this.$emit('refreshData')

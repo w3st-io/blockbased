@@ -33,7 +33,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/administration/reports: Error --> ${err}`,
+				message: `/api/administration/comment-reports: Error --> ${err}`,
 			})
 		}
 	}
@@ -42,14 +42,14 @@ router.get(
 
 // [DELETE] Auth Required //
 router.delete(
-	'/delete/:report_id',
+	'/delete/:commentReport_id',
 	Auth.adminToken(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
-			if (mongoose.isValidObjectId(req.params.report_id)) {
+			if (mongoose.isValidObjectId(req.params.commentReport_id)) {
 				const returned = await commentReportsCollection.c_delete(
-					req.params.report_id
+					req.params.commentReport_id
 				)
 				
 				res.status(200).send(returned)
@@ -58,7 +58,7 @@ router.delete(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/administration/reports: Invalid report _id'
+					message: '/api/administration/comment-reports: Invalid commentReport_id'
 				})
 			}
 		}
@@ -66,7 +66,40 @@ router.delete(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/administration/reports: Error --> ${err}`,
+				message: `/api/administration/comment-reports: Error --> ${err}`,
+			})
+		}
+	}
+)
+
+
+/******************* [MARK-HANDLED-STATUS] *******************/
+router.get(
+	'/mark-handled/:commentReport_id',
+	Auth.userToken(),
+	async (req, res) => {
+		try {
+			// [VALIDATE] //
+			if (mongoose.isValidObjectId(req.params.commentReport_id)) {
+				const returned = await commentReportsCollection.c_markHandled(
+					req.params.commentReport_id
+				)
+
+				res.status(200).send(returned)
+			}
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
+					message: 'Invalid commentReport_id'
+				})
+			}
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				message: `/api/administration/comment-reports: Error --> ${err}`,
 			})
 		}
 	}

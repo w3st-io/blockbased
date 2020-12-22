@@ -14,7 +14,7 @@ const CommentReportModel = require('../s-models/CommentReportModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (user_id, comment_id, post_id, reportType) => {
+const c_create = async (user_id, comment, post_id, reportType) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -22,15 +22,6 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 				executed: true,
 				status: false,
 				message: 'commentReportsCollection: Invalid user_id',
-			}
-		}
-
-		// [VALIDATE] comment_id //
-		if (!mongoose.isValidObjectId(comment_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentReportsCollection: Invalid comment_id',
 			}
 		}
 
@@ -55,8 +46,8 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 		// [FORMAT] //
 		reportType = reportType.toLowerCase()
 
-		// [EXISTANCE] //
-		const existance = await c_existance(user_id, comment_id)
+		// [EXISTANCE] Do not double save //
+		const existance = await c_existance(user_id, comment._id)
 		
 		if (!existance.status || existance.existance) { return existance }
 	
@@ -64,7 +55,7 @@ const c_create = async (user_id, comment_id, post_id, reportType) => {
 		const commentReport = await new CommentReportModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
-			comment: comment_id,
+			comment: comment,
 			post: post_id,
 			reportType,
 		}).save()
@@ -91,7 +82,6 @@ const c_readAll = async () => {
 	try {
 		const commentReports = await CommentReportModel.find()
 			.populate({ path: 'user', select: 'username email bio profileImg' })
-			.populate('comment')
 			.exec()
 		
 		console.log('CommentReportsCollection: readAll')
@@ -144,9 +134,69 @@ const c_delete = async (commentReport_id) => {
 }
 
 
+/******************* [OTHER-CRUD] *******************/
+const c_readUnhandled = async () => {
+	try {
+		const commentReports = await CommentReportModel.find({ handled: false })
+			.populate({ path: 'user', select: 'username email bio profileImg' })
+			.exec()
+		
+		console.log('CommentReportsCollection: readAll')
+
+		return {
+			executed: true,
+			status: true,
+			commentReports: commentReports
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentReportsCollection: Error --> ${err}`
+		}
+	}
+}
+
+
+/******************* [MARK-HANDLED-STATUS] *******************/
+const c_markHandled = async (commentReport_id) => {
+	try {
+		// [VALIDATE] commentReport_id //
+		if (!mongoose.isValidObjectId(commentReport_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentReportsCollection: Invalid commentReport_id',
+			}
+		}
+
+		const commentReport = await CommentReportModel.updateOne(
+			{ _id: commentReport_id },
+			{ handled: true },
+		)
+			
+		return {
+			executed: true,
+			status: true,
+			markedHandled: true,
+			commentReport: commentReport
+		}
+	}	
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentReportsCollection: Error --> ${err}`,
+			markedHandled: true,
+		}
+	}
+}
+
+
 /******************* [EXISTANCE] *******************/
 // Verify that User is not Double Reporting //
-const c_existance = async (user_id, comment_id) => {
+const c_existance = async (user_id, comment) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -157,17 +207,8 @@ const c_existance = async (user_id, comment_id) => {
 			}
 		}
 
-		// [VALIDATE] comment_id //
-		if (!mongoose.isValidObjectId(comment_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentReportsCollection: Invalid comment_id',
-			}
-		}
-
 		const commentReport = await CommentReportModel.findOne({	
-			comment: comment_id,
+			'comment._id': comment._id,
 			user: user_id,
 		})
 
@@ -203,5 +244,7 @@ module.exports = {
 	c_create,
 	c_readAll,
 	c_delete,
+	c_readUnhandled,
+	c_markHandled,
 	c_existance,
 }

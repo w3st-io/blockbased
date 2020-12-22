@@ -535,15 +535,29 @@ router.post(
 				// [FORMAT] //
 				req.body.reportType = req.body.reportType.toLowerCase()
 
-				// [CREATE] CommentReport //
-				const commentReport = await commentReportsCollection.c_create(
-					req.decoded.user_id,
-					req.body.comment_id,
-					req.body.post_id,
-					req.body.reportType
+				// [READ] comment //
+				const commentObj = await commentsCollection.c_read(
+					req.body.comment_id
 				)
-				
-				res.status(200).send(commentReport)
+
+				if (commentObj.status && commentObj.comment) {
+					// [CREATE] commentReport //
+					const commentReport = await commentReportsCollection.c_create(
+						req.decoded.user_id,
+						commentObj.comment,
+						req.body.post_id,
+						req.body.reportType
+					)
+					
+					res.status(200).send(commentReport)
+				}
+				else {
+					res.status(200).send({
+						executed: true,
+						status: false,
+						message: 'Comment doesnt exist.'
+					})
+				}
 			}
 			else {
 				res.status(200).send({

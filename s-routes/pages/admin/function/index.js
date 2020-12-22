@@ -29,7 +29,7 @@ router.get(
 			const usersObj = await usersCollection.c_readAll(100000, 0)
 			const postObj = await postsCollection.c_readAll(100000, 0)
 			const commentsObj = await commentsCollection.c_readAll(100000, 0)
-			const commentReportsObj = await commentReportsCollection.c_readAll(100000, 0)
+			const commentReportsObj = await commentReportsCollection.c_readUnhandled(100000, 0)
 
 			if (usersObj.status) {
 				usersObj.users.forEach(user => {
