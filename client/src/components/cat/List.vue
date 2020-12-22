@@ -1,6 +1,9 @@
 <template>
-	<ul class="w-100 m-0 px-0 border border-secondary">
-		<li v-for="(cat, index) in cats" :key="index" class="bg-dark">
+	<BListGroup class="w-100 m-0 px-0">
+		<BListGroupItem
+			v-for="(cat, index) in cats" :key="index"
+			class="p-0 bg-dark"
+		>
 			<BRow class="m-0">
 				<!-- Image Section -->
 				<BCol
@@ -12,7 +15,7 @@
 					@click="redirectToCatPosts(cat.cat_id)"
 				>
 					<div class="w-100 overflow-auto rounded-circle">
-						<img :src="cat.image" class="w-100 bg-primary img-padding">
+						<img :src="images[index]" class="w-100 bg-primary img-padding">
 					</div>
 				</BCol>
 
@@ -35,16 +38,16 @@
 					class="p-3 text-right hidden-768"
 					@click="redirectToCatPosts(cat.cat_id)"
 				>
-					<BBadge variant="primary" class="align-self-center text-light">
-						<span class="m-0 custom-font-size">
-							<p class="m-0">{{ totalPosts[index].totalPosts }}</p>
-							<span class="small">Posts</span>
+					<BBadge variant="unset" class="align-self-center text-light">
+						<span class="m-0">
+							<h5 class="m-0">{{ cat.totalPosts }}</h5>
+							<span class="small"><h6 class="m-0">Posts</h6></span>
 						</span>
 					</BBadge>
 				</BCol>
 			</BRow>
-		</li>
-	</ul>
+		</BListGroupItem>
+	</BListGroup>
 </template>
 
 <script>
@@ -54,7 +57,20 @@
 	export default {
 		props: {
 			cats: { type: Array, required: true, },
-			totalPosts: { type: Array, required: true, },
+		},
+
+		data() {
+			return {
+				images: [
+					require('../../assets/images/caticons/message-square.svg'),
+					require('../../assets/images/caticons/globe.svg'),
+					require('../../assets/images/caticons/zap.svg'),
+					require('../../assets/images/caticons/codesandbox.svg'),
+					require('../../assets/images/caticons/flag.svg'),
+					require('../../assets/images/caticons/book-open.svg'),
+					require('../../assets/images/caticons/archive.svg'),
+				],
+			}
 		},
 
 		created: async function() {
@@ -88,16 +104,14 @@
 	// [IMPORT] Personal //
 	@import 'src/assets/styles/bootstrap-override.scss';
 
-	li {
+	.list-group-item {
 		@extend .bg-dark;
 		&:hover { @extend .bg-secondary; }
 	}
-	li:nth-child(even) {
+	.list-group-item:nth-child(even) {
 		background: $backgroundGrey !important;
 		&:hover { @extend .bg-secondary; }
 	}
-
-	.custom-font-size { font-size: 16px; }
 
 	.img-padding { padding: 20%; }
 

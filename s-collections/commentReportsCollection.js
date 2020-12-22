@@ -83,8 +83,6 @@ const c_readAll = async () => {
 		const commentReports = await CommentReportModel.find()
 			.populate({ path: 'user', select: 'username email bio profileImg' })
 			.exec()
-		
-		console.log('CommentReportsCollection: readAll')
 
 		return {
 			executed: true,
@@ -140,8 +138,6 @@ const c_readUnhandled = async () => {
 		const commentReports = await CommentReportModel.find({ handled: false })
 			.populate({ path: 'user', select: 'username email bio profileImg' })
 			.exec()
-		
-		console.log('CommentReportsCollection: readAll')
 
 		return {
 			executed: true,

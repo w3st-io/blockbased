@@ -110,8 +110,6 @@ const c_readAll = async (limit, skip) => {
 			})
 			.exec()
 
-		console.log('postsCollection: readAllAll')
-
 		return {
 			executed: true,
 			status: true,

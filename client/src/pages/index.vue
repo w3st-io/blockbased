@@ -3,10 +3,10 @@
 		<BRow v-if="!loading" class="mt-3">
 			<!-- Main Content -->
 			<BCol cols="md-9" class="mb-3 p-0">
-				<BCard bg-variant="dark">
-					<CatList :cats="cats1" :totalPosts="totalPosts1" class="mb-3" />
-					<CatList :cats="cats2" :totalPosts="totalPosts2" class="mb-3" />
-					<CatList :cats="cats3" :totalPosts="totalPosts3" class="mb-3" />
+				<BCard bg-variant="dark text-light">
+					<CatList :cats="cats1" class="mb-3" />
+					<CatList :cats="cats2" class="mb-3" />
+					<CatList :cats="cats3" class="mb-3" />
 				</BCard>
 			</BCol>
 
@@ -40,7 +40,6 @@
 	import CatList from '@components/cat/List'
 	import Alert from '@components/misc/Alert'
 	import PageService from '@services/PageService'
-	import { cats } from '@defaults/cats'
 
 	// [EXPORT] //
 	export default {
@@ -52,30 +51,27 @@
 
 		data: function() {
 			return {
-				dbCats: [],
-				cats1: cats.slice(0, 2),
-				cats2: cats.slice(2, 5),
-				cats3: cats.slice(5),
-				totalPosts1: [],
-				totalPosts2: [],
-				totalPosts3: [],
+				returned: [],
+				cats1: [],
+				cats2: [],
+				cats3: [],
 				error: '',
 				loading: true,
 			}
 		},
 
 		created: async function() {
-			try { this.dbCats = await PageService.s_home() }
+			try { this.returned = await PageService.s_home() }
 			catch (err) { this.error = err }
 
-			if (this.dbCats.status) {
-				this.totalPosts1 = this.dbCats.cats.slice(0, 2)
-				this.totalPosts2 = this.dbCats.cats.slice(2, 5)
-				this.totalPosts3 = this.dbCats.cats.slice(5)
+			if (this.returned.status) {
+				this.cats1 = this.returned.cats.slice(0, 2)
+				this.cats2 = this.returned.cats.slice(2, 5)
+				this.cats3 = this.returned.cats.slice(5)
 
 				this.loading = false
 			}
-			else { this.error = this.dbCats.message }
+			else { this.error = this.returned.message }
 
 			
 		},

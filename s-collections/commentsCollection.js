@@ -165,8 +165,6 @@ const c_readAll = async (limit, skip) => {
 			.populate({ path: 'user', select: 'username email bio profileImg', })
 			.populate({ path: 'post' })
 			.exec()
-
-		console.log('commentsCollection: readAllAll')
 		
 		return {
 			executed: true,

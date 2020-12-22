@@ -82,8 +82,6 @@ const c_readAll = async (limit, skip) => {
 			.skip(skip)
 			.limit(limit)
 			.exec()
-
-		console.log('usersCollection: readAll')
 		
 		return {
 			executed: true,
