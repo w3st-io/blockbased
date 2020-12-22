@@ -7,10 +7,10 @@
 			<BRow class="m-0">
 				<!-- Image Section -->
 				<BCol
-					cols="2"
-					lg="1"
-					md="2"
+					cols="3"
 					sm="2"
+					md="2"
+					lg="1"
 					class="p-3 align-self-center"
 					@click="redirectToCatPosts(cat.cat_id)"
 				>
@@ -21,10 +21,10 @@
 
 				<!-- Title -->
 				<BCol
-					cols="8"
-					lg="9"
-					md="8"
-					sm="8"
+					cols="9"
+					sm="10"
+					md="5"
+					lg="6"
 					class="py-3"
 					@click="redirectToCatPosts(cat.cat_id)"
 				>
@@ -35,15 +35,53 @@
 				<!-- Count -->
 				<BCol
 					cols="2"
-					class="p-3 text-right hidden-768"
+					lg="1"
+					class="p-3 text-right hidden-768 hidden-1200"
 					@click="redirectToCatPosts(cat.cat_id)"
 				>
-					<BBadge variant="unset" class="align-self-center text-light">
-						<span class="m-0">
-							<h5 class="m-0">{{ cat.totalPosts }}</h5>
-							<span class="small"><h6 class="m-0">Posts</h6></span>
-						</span>
-					</BBadge>
+					<a href="">
+						<BBadge variant="unset" class="align-self-center text-light">
+							<span class="m-0">
+								<h5 class="m-0">{{ cat.totalPosts }}</h5>
+								<span class="small"><h6 class="m-0">Posts</h6></span>
+							</span>
+						</BBadge>
+					</a>
+				</BCol>
+
+				<!-- Recent Posts -->
+				<BCol
+					v-if="cat.recentPost"
+					cols="3"
+					md="5"
+					lg="4"
+					class="hidden-768"
+				>
+					<BRow>
+						<BCol cols="12">
+							<h1 class="m-0 mt-1 text-center small">Recent Post</h1>
+						</BCol>
+
+						<BCol cols="3" class="p-1">
+							<img
+								:src="cat.recentPost.user.profileImg"
+								alt="x" 
+								class="w-100 border border-primary rounded"
+							>
+							<p class="text-center text-secondary">
+								{{ cat.recentPost.user.username }}
+							</p>
+						</BCol>
+
+						<BCol cols="9">
+							<a href="#" class="small" @click="redirectToRecentPost(cat.recentPost._id)">
+								{{ cat.recentPost.title }}
+							</a><br>
+							<p class="small">
+								{{ new Date(cat.recentPost.created_at).toLocaleString() }}
+							</p>
+						</BCol>
+					</BRow>
 				</BCol>
 			</BRow>
 		</BListGroupItem>
@@ -91,6 +129,18 @@
 				})
 			},
 
+			redirectToRecentPost(post_id) {
+				// [REDIRECT] //
+				router.push({
+					name: 'post',
+					params: {
+						post_id: post_id,
+						limit: 5,
+						page: 1,
+					}
+				})
+			},
+
 			log() {
 				console.log('%%% [COMPONENT] Cat List %%%')
 				console.log('cats:', this.cats)
@@ -116,7 +166,10 @@
 	.img-padding { padding: 20%; }
 
 	@media screen and (max-width: 768px) {
-		.not-hidden-768 { width: 100%; }
 		.hidden-768 { display: none !important; }
+	}
+
+	@media screen and (max-width: 1200px) {
+		.hidden-1200 { display: none !important; }
 	}
 </style>

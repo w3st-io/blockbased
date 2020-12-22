@@ -312,7 +312,7 @@ const c_readSortByCat = async (cat_id, sort = 0, limit, skip) => {
 			.sort(sort)
 			.skip(skip)
 			.limit(limit)
-			.populate({ path: 'user', select: 'username email bio profileImg', })
+			.populate({ path: 'user', select: 'username bio profileImg', })
 			.exec()
 
 		return {

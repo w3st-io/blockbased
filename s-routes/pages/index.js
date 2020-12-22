@@ -28,6 +28,14 @@ router.get(
 				cats[i].totalPosts = (
 					await postsCollection.c_countAllByCat(cats[i].cat_id)
 				).count
+
+				// [RECENT-POST] //
+				cats[i].recentPost = (await postsCollection.c_readSortByCat(
+						cats[i].cat_id,
+						0,
+						1,
+						0
+				)).posts[0]
 			}
 			
 			res.send({
