@@ -70,20 +70,18 @@
 	// [IMPORT] Personal //
 	import PostService from '@services/PostService'
 	import router from '@router'
-	import { cats } from '@defaults/cats'
 
 	// [EXPORT] //
 	export default {
 		components: { Editor },
 
 		props: {
-			cat_id: { type: String, required: true, }
+			cat: { type: Object, required: true, }
 		},
 
 		data: function() {
 			return {
 				returned: {},
-				cat: {},
 				disabled: false,
 				loading: false,
 				title: '',
@@ -92,9 +90,6 @@
 		},
 
 		created: async function() {
-			// Get Cat Details //
-			this.cat = cats.find(cat => cat.cat_id === this.cat_id)
-
 			// [LOG] //
 			//this.log()
 		},
@@ -114,7 +109,7 @@
 
 				try {
 					this.returned = await PostService.s_create(
-						this.cat_id,
+						this.cat.cat_id,
 						this.title,
 						this.editorText
 					)
@@ -129,7 +124,7 @@
 					router.push({
 						name: 'cat',
 						params: {
-							cat_id: this.cat_id,
+							cat_id: this.cat.cat_id,
 							sort: 0,
 							limit: 5,
 							page: 1,
@@ -141,7 +136,7 @@
 
 			log() {
 				console.log('%%% [COMPONENT] PostCreate %%%')
-				console.log('cat_id:', this.cat_id)
+				console.log('cat:', this.cat)
 			},
 		},
 	}

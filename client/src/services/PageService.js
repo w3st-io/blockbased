@@ -104,6 +104,22 @@ async function s_cat(cat_id, sort = 0, limit, page) {
 }
 
 
+async function s_cat_postCreate() {
+	try {
+		const authAxios = await this.authAxios()
+
+		return (await authAxios.get(`/cat/post-create`)).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `PageService: Error --> ${err}`
+		}
+	}
+}
+
+
 // [POST] //
 async function s_post(post_id, limit, page) {
 	try {
@@ -264,6 +280,7 @@ export default {
 	s_admin,
 	s_admin_function,
 	s_cat,
+	s_cat_postCreate,
 	s_post,
 	s_post_commentEdit,
 	s_post_commentReply,
