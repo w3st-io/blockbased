@@ -18,7 +18,11 @@ const router = express.Router().use(cors())
 // [MAIN-ROUTE] //
 router.get(
 	'/',
-	async (req, res) => { res.send('API') }
+	async (req, res) => {
+		res.send({
+			working: true,
+		})
+	}
 )
 
 // [BASE-URL] //
