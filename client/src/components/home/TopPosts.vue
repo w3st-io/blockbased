@@ -1,9 +1,8 @@
 <template>
 	<!-- Popular Posts -->
 	<BCard bg-variant="dark" class="text-light">
-		<h5>Top Posts</h5>
-
-		<BListGroup>
+		<BListGroup class="">
+			<BListGroupItem class="p-2 bg-dark"><h5>Top Posts</h5></BListGroupItem>
 			<BListGroupItem
 				v-for="post in topPosts" :key="post._id"
 				class="p-2 bg-dark"
