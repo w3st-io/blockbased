@@ -21,10 +21,9 @@
 		<!-- Floating Pop Up Banner -->
 		<PopUpBanner
 			v-if="message"
+			:decoded="decoded"
 			:message="message"
 			BGColor="info"
-			class="bg-danger"
-			style="width: 65%;"
 		/>
 	</div>
 </template>
@@ -80,7 +79,7 @@
 			// Set Socket //
 			await this.setSocket()
 
-			// [LOGGEDIN] //
+			// [USER-LOGGEDIN] //
 			if (localStorage.usertoken) {
 				this.loggedIn = true
 				
@@ -88,9 +87,13 @@
 				catch (err) { `App: Error --> ${err}` }
 
 				this.socket.emit('join', this.decoded.user_id)
+
+				if (this.decoded.verified == false) {
+					this.message = 'You are not verified'
+				}
 			}
 
-			// [ADMIN LOGGEDIN] //
+			// [ADMIN-LOGGEDIN] //
 			if (localStorage.admintoken) {
 				this.adminLoggedIn = true
 

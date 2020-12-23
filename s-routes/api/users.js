@@ -204,6 +204,7 @@ router.post(
 									username: userFound.username,
 									first_name: userFound.first_name,
 									last_name: userFound.last_name,
+									verified: userFound.verified
 								}
 						
 								// Set Token //
