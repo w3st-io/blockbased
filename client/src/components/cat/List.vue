@@ -88,7 +88,7 @@
 								class="small"
 								@click="redirectToRecentPost(cat.recentPost._id)"
 							>
-								{{ cat.recentPost.title.replace(/(.{60})..+/, "$1…") }}
+								{{ cat.recentPost.title.replace(/(.{60})..+/, '$1…') }}
 							</a><br>
 							<p class="small">
 								{{ new Date(cat.recentPost.created_at).toLocaleString() }}

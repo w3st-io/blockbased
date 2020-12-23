@@ -12,10 +12,7 @@
 
 			<!-- Side Content -->
 			<BCol cols="md-3">
-				<!-- Popular Posts -->
-				<BCard bg-variant="dark" class="text-light">
-					<h6>Popular Posts</h6>
-				</BCard>
+				<TopPosts :topPosts="topPosts" />
 
 				<!-- Adsense -->
 				<Adsense />
@@ -43,6 +40,7 @@
 
 <script>
 	// [IMPORT] //
+	import TopPosts from '../components/home/TopPosts'
 	import Adsense from '@components/adsense'
 	import CatList from '@components/cat/List'
 	import Alert from '@components/misc/Alert'
@@ -54,6 +52,7 @@
 			Adsense,
 			Alert,
 			CatList,
+			TopPosts,
 		},
 
 		data: function() {
@@ -62,6 +61,7 @@
 				cats1: [],
 				cats2: [],
 				cats3: [],
+				topPosts: [],
 				error: '',
 				loading: true,
 			}
@@ -76,11 +76,20 @@
 				this.cats2 = this.returned.cats.slice(2, 5)
 				this.cats3 = this.returned.cats.slice(5)
 
+				this.topPosts = this.returned.topPosts
+
 				this.loading = false
 			}
 			else { this.error = this.returned.message }
 
-			
+			this.log()
+		},
+
+		methods: {
+			log() {
+				console.log('%%% [/] %%%')
+				console.log('returned:', this.returned)
+			}
 		},
 	}
 </script>

@@ -9,7 +9,10 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
+const commentsCollection = require('../../s-collections/commentsCollection')
 const postsCollection = require('../../s-collections/postsCollection')
+const postFollowsCollection = require('../../s-collections/postFollowsCollection')
+const postLikesCollection = require('../../s-collections/postLikesCollection')
 const Auth = require('../../s-middleware/Auth')
 const cats = require('../../s-defaults/cats')
 
@@ -30,18 +33,60 @@ router.get(
 				).count
 
 				// [RECENT-POST] //
-				cats[i].recentPost = (await postsCollection.c_readSortByCat(
-						cats[i].cat_id,
-						0,
-						1,
-						0
-				)).posts[0]
+				cats[i].recentPost = (
+					await postsCollection.c_readSortByCat(cats[i].cat_id, 0, 1, 0)
+				).posts[0]
+
 			}
+			
+			// [TOP-POSTS] //
+			const topPosts = (
+				await postsCollection.c_readSort(1, 5, 0)
+			).posts
+
+			// For Each Post in Top Post //
+			for (let i = 0; i < topPosts.length; i++) {
+				// [COUNT] Likes //
+				topPosts[i].likeCount = (
+					await postLikesCollection.c_countAllByPost(topPosts[i]._id)
+				).count
+				
+				// [COUNT] Follows //
+				topPosts[i].followsCount = (
+					await postFollowsCollection.c_countAll(topPosts[i]._id)
+				).count
+				
+				// [COUNT] Comments //
+				topPosts[i].commentCount = (
+					await commentsCollection.c_countAllByPost(topPosts[i]._id)
+				).count
+
+				// [USER-LOGGED] //
+				if (req.decoded) {
+					// [LIKED-STATUS] //
+					topPosts[i].liked = (
+						await postLikesCollection.c_existance(
+							req.decoded.user_id,
+							topPosts[i]._id
+						)
+					).existance
+	
+					// [FOLLOWED-STATUS] //
+					topPosts[i].followed = (
+						await postFollowsCollection.c_existance(
+							req.decoded.user_id,
+							topPosts[i]._id
+						)
+					).existance
+				}
+			}
+
 			
 			res.send({
 				executed: true,
 				status: true,
 				cats: cats,
+				topPosts: topPosts,
 			})
 		}
 		catch (err) {

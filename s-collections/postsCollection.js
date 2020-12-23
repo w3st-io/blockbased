@@ -254,6 +254,75 @@ const c_readByCat = async (cat_id, limit, skip) => {
 
 
 // [READ-ALL-SORT] Within Cat //
+const c_readSort = async (sort = 0, limit, skip) => {
+	try {
+		// [SANITIZE] //
+		sort = parseInt(sort)
+		limit = parseInt(limit)
+		skip = parseInt(skip)
+
+		// [VALIDATE] sort //
+		if (!Number.isInteger(sort)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid sort',
+			}
+		}
+
+		// [VALIDATE] limit //
+		if (!Number.isInteger(limit)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid limit',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid skip',
+			}
+		}
+
+		// Set Sort //
+		if (sort == 0) { sort = { created_at: -1 } }
+		else if (sort == 1) { sort = { likeCount: -1 } }
+		else {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Unknown filter'
+			}
+		}
+
+		const posts = await PostModel.find()
+			.sort(sort)
+			.skip(skip)
+			.limit(limit)
+			.populate({ path: 'user', select: 'username bio profileImg', })
+			.exec()
+
+		return {
+			executed: true,
+			status: true,
+			posts: posts,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postsCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
+// [READ-ALL-SORT] Within Cat //
 const c_readSortByCat = async (cat_id, sort = 0, limit, skip) => {
 	try {
 		// [SANITIZE] //
@@ -647,6 +716,7 @@ module.exports = {
 	c_read,
 	c_delete,
 	c_readByCat,
+	c_readSort,
 	c_readSortByCat,
 	c_readPinned,
 	c_deleteByIdAndUser,

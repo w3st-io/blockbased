@@ -160,7 +160,7 @@
 
 			async nextPage() {
 				// As long as page does not exceed max Number of Pages //
-				if (this.page < this.data.pageCount) {
+				if (this.page < this.data.postsObj.pageCount) {
 					this.loading = true
 					this.page++
 
@@ -171,9 +171,9 @@
 			},
 
 			async endPage() {
-				if (this.page != this.data.pageCount) {
+				if (this.page != this.data.postsObj.pageCount) {
 					this.loading = true
-					this.page = this.data.pageCount
+					this.page = this.data.postsObj.pageCount
 
 					this.refreshRoute()
 

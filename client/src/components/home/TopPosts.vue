@@ -1,0 +1,50 @@
+<template>
+	<!-- Popular Posts -->
+	<BCard bg-variant="dark" class="text-light">
+		<h5>Top Posts</h5>
+
+		<BListGroup>
+			<BListGroupItem
+				v-for="post in topPosts" :key="post._id"
+				class="p-2 bg-dark"
+			>
+				<a href="#" @click="redirectToPost(post._id)">
+					{{ post.title.replace(/(.{60})..+/, '$1…') }}
+				</a>
+				<br>
+
+				{{ post.user.username }}
+				<span class="text-secondary">
+					-
+					{{ new Date(post.created_at).toLocaleString() }}
+				</span>
+			</BListGroupItem>
+
+		</BListGroup>
+	</BCard>
+</template>
+
+<script>
+	// [IMPORT] Personal //
+	import router from '@router'
+
+	export default {
+		props: {
+			topPosts: { type: Array, required: true, },
+		},
+
+		methods: {
+			redirectToPost(post_id) {
+				// [REDIRECT] //
+				router.push({
+					name: 'post',
+					params: {
+						post_id: post_id,
+						limit: 5,
+						page: 1,
+					}
+				})
+			},
+		}
+	}
+</script>
