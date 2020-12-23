@@ -3,7 +3,7 @@
 		<BRow v-if="!loading" class="mt-3">
 			<!-- Main Content -->
 			<BCol cols="md-9" class="mb-3 p-0">
-				<BCard bg-variant="dark text-light">
+				<BCard bg-variant="dark" class="text-light">
 					<CatList :cats="cats1" class="mb-3" />
 					<CatList :cats="cats2" class="mb-3" />
 					<CatList :cats="cats3" class="mb-3" />
@@ -11,7 +11,15 @@
 			</BCol>
 
 			<!-- Side Content -->
-			<BCol cols="md-3"><Adsense /></BCol>
+			<BCol cols="md-3">
+				<!-- Popular Posts -->
+				<BCard bg-variant="dark" class="text-light">
+					<h6>Popular Posts</h6>
+				</BCard>
+
+				<!-- Adsense -->
+				<Adsense />
+			</BCol>
 		</BRow>
 
 		<!-- [ALERTS] -->
@@ -29,7 +37,6 @@
 		</BRow>
 
 		<BRow>
-			<div id="token-txs-10"></div>
 		</Brow>
 	</BContainer>
 </template>

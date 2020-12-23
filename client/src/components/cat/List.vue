@@ -7,44 +7,49 @@
 			<BRow class="m-0">
 				<!-- Image Section -->
 				<BCol
-					cols="3"
+					cols="2"
 					sm="2"
 					md="2"
 					lg="1"
+					xl="1"
 					class="p-3 align-self-center"
 					@click="redirectToCatPosts(cat.cat_id)"
 				>
 					<div class="w-100 overflow-auto rounded-circle">
-						<img :src="images[index]" class="w-100 bg-primary img-padding">
+						<img :src="images[index]" class="w-100 img-padding bg-primary">
 					</div>
 				</BCol>
 
 				<!-- Title -->
 				<BCol
-					cols="9"
+					cols="10"
 					sm="10"
-					md="5"
-					lg="6"
+					md="10"
+					lg="7"
+					xl="6"
 					class="py-3"
 					@click="redirectToCatPosts(cat.cat_id)"
 				>
 					<h4 class="text-light">{{ cat.title }}</h4>
-					<p class="m-0 text-light hidden-768">{{ cat.description }}</p>
+					<p class="m-0 text-light">{{ cat.description }}</p>
 				</BCol>
 
 				<!-- Count -->
 				<BCol
 					cols="2"
+					sm="2"
+					md="2"
 					lg="1"
-					class="p-3 text-right hidden-768 hidden-1200"
+					xl="1"
+					class="p-3 text-right d-none d-md-block"
 					@click="redirectToCatPosts(cat.cat_id)"
 				>
-					<a href="">
-						<BBadge variant="unset" class="align-self-center text-light">
-							<span class="m-0">
-								<h5 class="m-0">{{ cat.totalPosts }}</h5>
-								<span class="small"><h6 class="m-0">Posts</h6></span>
-							</span>
+					<a href="" class="text-secondary">
+						<BBadge variant="unset" class="p-0 align-self-center">
+							
+							<h5 class="m-0">{{ cat.totalPosts }}</h5>
+							<span class="small"><h6 class="m-0">Posts</h6></span>
+							
 						</BBadge>
 					</a>
 				</BCol>
@@ -52,28 +57,32 @@
 				<!-- Recent Posts -->
 				<BCol
 					v-if="cat.recentPost"
-					cols="3"
-					md="5"
-					lg="4"
-					class="hidden-768"
+					cols="12"
+					sm="12"
+					md="10"
+					lg="3"
+					xl="4"
+					class="rounded"
 				>
 					<BRow>
 						<BCol cols="12">
-							<h1 class="m-0 mt-1 text-center small">Recent Post</h1>
+							<h1 class="m-0 mt-1 text-center small text-secondary">
+								Recent Post
+							</h1>
 						</BCol>
 
-						<BCol cols="3" class="p-1">
+						<BCol cols="2" class="p-1">
 							<img
 								:src="cat.recentPost.user.profileImg"
 								alt="x" 
 								class="w-100 border border-primary rounded"
 							>
-							<p class="text-center text-secondary">
+							<p class="m-0 text-center text-light">
 								{{ cat.recentPost.user.username }}
 							</p>
 						</BCol>
 
-						<BCol cols="9">
+						<BCol cols="10">
 							<a
 								href="#"
 								class="small"
@@ -168,12 +177,4 @@
 	}
 
 	.img-padding { padding: 20%; }
-
-	@media screen and (max-width: 768px) {
-		.hidden-768 { display: none !important; }
-	}
-
-	@media screen and (max-width: 1200px) {
-		.hidden-1200 { display: none !important; }
-	}
 </style>
