@@ -3,14 +3,14 @@
 		<BRow>
 			<BCol cols="12">
 				<BCard bg-variant="dark" class="text-light">
-					<!-- Title -->
 					<BRow>
+						<!-- Title -->
 						<BCol cols="12" sm="6">
 							<h4>Posts You Are Following</h4>
 						</BCol>
 
+						<!-- Page Control -->
 						<BCol cols="12" sm="6">
-							<!-- Page Control -->
 							<PageNavButtons
 								@prev-btn="prevPage()"
 								@next-btn="nextPage()"
@@ -20,6 +20,7 @@
 							/>
 						</BCol>
 
+						<!-- Total -->
 						<BCol cols="12" sm="2">
 							<BBadge variant="light" class="w-100">
 								Total: {{ totalFollows }}

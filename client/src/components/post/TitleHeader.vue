@@ -1,8 +1,7 @@
  <template>
 	<BRow>
-		<!-- Left Side -->
-		<div class="col-lg-9 col-md-8 col-sm-8">
-			<!-- Title + Page Nav Buttons -->
+		<!-- Title -->
+		<BCol sm="10" class="">
 			<h3 class="mb-2 text-light">
 				{{ post.title }}
 				<span class="text-secondary hide-the-ugly" style="font-size: .5em;">
@@ -10,39 +9,43 @@
 					{{ new Date(post.created_at).toLocaleString() }}
 				</span>
 			</h3>
+		</BCol>
 
+		<!-- Follow + Count -->
+		<BCol sm="2" class="text-right">
+			<div class="mb-3">
+				<span class="ml-2 badge badge-light">{{ post.followsCount }}</span>
+				<button
+					:disabled="disabled"
+					@click="followBtn()"
+					class="ml-2 btn btn-sm btn-outline-secondary"
+					:class="{ 'btn-outline-success': post.followed }"
+				>{{ post.followed ? 'following ✓' : 'follow' }}</button>
+			</div>
+		</BCol>
+
+		<!-- Add Comment -->
+		<BCol col="12" sm="6">
 			<BButton
 				:disabled="disabled"
 				variant="primary"
 				size="sm"
 				@click="redirectToPostCommentCreate()"
 			>Add Comment</BButton>
-		</div>
-		<!-- Right Side -->
-		<div class="col-lg-3 col-md-4 col-sm-4 text-right">
-			<div class="mb-3">
-				<span>
-					<span class="ml-2 badge badge-light">
-						{{ post.followsCount }}
-					</span>
-					<button
-						:disabled="disabled"
-						@click="followBtn()"
-						class="ml-2 btn btn-sm btn-outline-secondary"
-						:class="{ 'btn-outline-success': post.followed }"
-					>{{ post.followed ? 'following ✓' : 'follow' }}</button>
-				</span>
-			</div>
+		</BCol>
 
-			<!-- Page Control -->
+		<!-- Page Control -->
+		<BCol col="12" sm="6">
 			<PageNavButtons
 				:badgeValue="badgeValue"
 				@start-btn="start()"
 				@prev-btn="prev()"
 				@next-btn="next()"
 				@end-btn="end()"
+				class="ml-auto"
+				style="max-width: 300px;"
 			/>
-		</div>
+		</BCol>
 	</BRow>
 </template>
 
