@@ -7,7 +7,9 @@
 				<BRow>
 					<!-- Profile -->
 					<BCol cols="12" lg="3" class="mt-2">
-						<h3 class="bg-secondary text-center text-light">{{ username }}</h3>
+						<BBadge variant="primary" class="w-100 mb-3 p-0">
+							<h3>{{ username }}</h3>
+						</BBadge>
 
 						<div class="m-auto" style="max-width: 170px;">
 							<img
@@ -36,8 +38,8 @@
 							<!-- Total Comments -->
 							<BCol cols="12" sm="6" md="6" lg="3">
 								<BBadge
-									variant="dark"
-									class="w-100 mb-2 py-1 border border-secondary rounded"
+									variant="secondary"
+									class="w-100 mb-2"
 								>
 									<h6>Total Comments</h6>
 									<h4>{{ commentCount }}</h4>
@@ -47,8 +49,8 @@
 							<!-- Total Posts -->
 							<BCol cols="12" sm="6" md="6" lg="3">
 								<BBadge
-									variant="dark"
-									class="w-100 mb-2 py-1 border border-secondary rounded"
+									variant="secondary"
+									class="w-100 mb-2"
 								>
 									<h6>Total Posts</h6>
 									<h4>{{ postCount }}</h4>
@@ -58,8 +60,8 @@
 							<!-- Post Score -->
 							<BCol cols="12" sm="6" md="6" lg="3">
 								<BBadge
-									variant="dark"
-									class="w-100 mb-2 py-1 border border-secondary rounded"
+									variant="secondary"
+									class="w-100 mb-2"
 								>
 									<h6>Post Score</h6>
 									<h4>{{ postLikeCount }}</h4>
@@ -69,8 +71,8 @@
 							<!-- Comment Score -->
 							<BCol cols="12" sm="6" md="6" lg="3">
 								<BBadge
-									variant="dark"
-									class="w-100 mb-2 py-1 border border-secondary rounded"
+									variant="secondary"
+									class="w-100 mb-2"
 								>
 									<h6>Comment Score</h6>
 									<h4>{{ commentLikeCount }}</h4>
@@ -111,12 +113,7 @@
 								>View Activity</BButton>
 							</BCol>
 						</BRow>
-
 					</BCol>
-				</BRow>
-
-				<BRow class="mt-1">
-					
 				</BRow>
 			</BCard>
 		</BCol>
