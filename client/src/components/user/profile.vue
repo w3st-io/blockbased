@@ -7,8 +7,8 @@
 				<BRow>
 					<!-- Profile -->
 					<BCol cols="12" lg="3" class="mt-2">
-						<BBadge variant="primary" class="w-100 mb-3 p-0">
-							<h3>{{ username }}</h3>
+						<BBadge variant="primary" class="w-100 mb-3 p-0 rounded">
+							<h3 class="mb-1">{{ username }}</h3>
 						</BBadge>
 
 						<div class="m-auto" style="max-width: 170px;">
@@ -25,6 +25,12 @@
 							{{ email }}
 						</h6>
 
+						<h6>
+							<span class="text-secondary">Bio:</span>
+							<br>
+							{{ bio }}
+						</h6>					
+
 						<h6 class="mt-3">
 							<span class="text-secondary">Joined:</span>
 							<br>
@@ -38,7 +44,7 @@
 							<!-- Total Comments -->
 							<BCol cols="12" sm="6" md="6" lg="3">
 								<BBadge
-									variant="secondary"
+									variant="dark"
 									class="w-100 mb-2"
 								>
 									<h6>Total Comments</h6>
@@ -49,7 +55,7 @@
 							<!-- Total Posts -->
 							<BCol cols="12" sm="6" md="6" lg="3">
 								<BBadge
-									variant="secondary"
+									variant="dark"
 									class="w-100 mb-2"
 								>
 									<h6>Total Posts</h6>
@@ -60,7 +66,7 @@
 							<!-- Post Score -->
 							<BCol cols="12" sm="6" md="6" lg="3">
 								<BBadge
-									variant="secondary"
+									variant="dark"
 									class="w-100 mb-2"
 								>
 									<h6>Post Score</h6>
@@ -71,30 +77,27 @@
 							<!-- Comment Score -->
 							<BCol cols="12" sm="6" md="6" lg="3">
 								<BBadge
-									variant="secondary"
+									variant="dark"
 									class="w-100 mb-2"
 								>
 									<h6>Comment Score</h6>
 									<h4>{{ commentLikeCount }}</h4>
 								</BBadge>
 							</BCol>
+						</BRow>
 
-							<BCol class="mt-2">
-								<h4>Bio</h4>
-								<p>{{ bio }}</p>
+						<hr class="border-primary">
+						<BRow>
+							<BCol cols="12">
+								<h3>Awards</h3>
+								<h6 class="text-center text-secondary">
+									No awards yet
+								</h6>
 							</BCol>
 						</BRow>
 
-						<BRow class="mt-3">
-							<BCol cols="6">
-								<BButton
-									v-if="personal"
-									variant="outline-primary"
-									class="w-100 mt-3"
-									@click="redirectYourActivity()"
-								>View Your Activity</BButton>
-							</BCol>
-
+						<hr class="mt-4 border-secondary">
+						<BRow>
 							<BCol cols="6">
 								<BButton
 									v-if="personal"
@@ -104,10 +107,19 @@
 								>Edit Profile</BButton>
 							</BCol>
 
+							<BCol cols="6">
+								<BButton
+									v-if="personal"
+									variant="outline-primary"
+									class="w-100 mt-3"
+									@click="redirectYourActivity()"
+								>View Your Activity</BButton>
+							</BCol>
+
 							<BCol cols="12">
 								<BButton
 									v-if="!personal"
-									variant="outline-secondary"
+									variant="outline-primary"
 									class="w-100 mt-3"
 									@click="redirectActivity(user_id)"
 								>View Activity</BButton>
@@ -135,6 +147,10 @@
 
 				<BButton variant="outline-secondary" class="w-100 mt-2">
 					View Friends
+				</BButton>
+
+				<BButton v-if="!personal" variant="outline-info" class="w-100 mt-2">
+					Message
 				</BButton>
 			</BCard>
 		</BCol>

@@ -30,10 +30,10 @@
 			:profileImg="user.profileImg"
 			:bio="user.bio"
 			:created_at="user.created_at"
-			:commentCount="commentCount"
-			:commentLikeCount="commentLikeCount"
-			:postCount="postCount"
-			:postLikeCount="postLikeCount"
+			:commentCount="data.commentCount"
+			:commentLikeCount="data.commentLikeCount"
+			:postCount="data.postCount"
+			:postLikeCount="data.postLikeCount"
 		/>
 
 		<BRow class="mt-3">
@@ -61,6 +61,7 @@
 			return {
 				returned: {},
 				user: {},
+				data: {},
 				isVerified: true,
 				vCodeSent: false,
 				error: '',
@@ -75,6 +76,7 @@
 			catch (err) { this.error = err }
 
 			if (this.returned.status) {
+				this.data = this.returned
 				this.user = this.returned.user
 				this.isVerified = this.user.verified
 			}
