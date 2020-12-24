@@ -30,7 +30,7 @@ router.get(
 			if (mongoose.isValidObjectId(req.params.user_id)) {
 				const userObj = await usersCollection.c_readSensitive(
 					req.params.user_id,
-					'username created_at profileImg'
+					'username profileImg bio created_at'
 				)
 
 				if (userObj.status) {
@@ -59,7 +59,7 @@ router.get(
 						status: true,
 						user: userObj.user,
 						postCount: postCount.count,
-						postLikesCount: pLCount.count,
+						postLikeCount: pLCount.count,
 						commentCount: commentCount.count,
 						commentLikeCount: cLCount.count,
 					})
