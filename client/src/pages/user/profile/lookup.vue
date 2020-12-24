@@ -23,7 +23,7 @@
 </template>
 
 <script>
-	import Profile from '../../../components/user/profile'
+	import Profile from '@components/user/profile'
 	import PageService from '@services/PageService'
 
 	export default {

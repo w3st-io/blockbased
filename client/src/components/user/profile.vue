@@ -216,7 +216,15 @@
 			},
 
 			redirectActivity(user_id) {
-				console.log(user_id)
+				router.push({
+					name: 'user_activity_lookup',
+					params: {
+						user_id: user_id,
+						sort: 1,
+						limit: 5,
+						page: 1,
+					}
+				})
 			},
 
 			redirectYourActivity() {
