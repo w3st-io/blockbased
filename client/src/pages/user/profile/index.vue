@@ -22,7 +22,7 @@
 		</BRow>
 
 		<Profile
-			v-if="user"
+			v-if="!error"
 			:personal="true"
 			:user_id="user._id"
 			:email="user.email"

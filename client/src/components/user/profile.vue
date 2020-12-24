@@ -90,7 +90,7 @@
 						<BRow>
 							<BCol cols="12">
 								<h3>Awards</h3>
-								<h6 class="text-center text-secondary">
+								<h6 class="py-5 text-center text-secondary">
 									No awards yet
 								</h6>
 							</BCol>
