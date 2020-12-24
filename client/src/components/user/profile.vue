@@ -17,7 +17,7 @@
 							>
 						</div>
 
-						<h6 class="mt-3">
+						<h6 v-if="personal" class="mt-3">
 							<span class="text-secondary">Email:</span>
 							<br>
 							{{ email }}

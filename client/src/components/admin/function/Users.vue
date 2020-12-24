@@ -6,7 +6,8 @@
 					<th>Email</th>
 					<th>Username</th>
 					<th>Created At</th>
-					<th></th>
+					<th>View Profile</th>
+					<th>Ban</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -14,12 +15,19 @@
 					<td>{{ user.email }}</td>
 					<td>{{ user.username }}</td>
 					<td>{{ new Date(user.created_at).toLocaleString() }}</td>
-					
+					<td>
+						<BButton
+							variant="secondary"
+							class="w-100"
+							@click="viewProfile(user._id)"
+						>View Profile</BButton>
+					</td>
 					<td class="text-center">
-						<button
-							@click="banUser(user.user_id)"
-							class="btn btn-outline-danger"
-						>Ban</button>
+						<BButton
+							variant="outline-danger"
+							class="w-100"
+							@click="banUser(user._id)"
+						>Ban</BButton>
 					</td>
 				</tr>
 			</tbody>
@@ -32,7 +40,8 @@
 
 <script>
 	// [IMPORT] //
-	import AUserService from '../../../services/administration/UserService'
+	import router from '@router'
+	import AUserService from '@services/administration/UserService'
 
 	// [EXPORT] //
 	export default {
@@ -52,6 +61,13 @@
 		},
 
 		methods: {
+			viewProfile(user_id) {
+				router.push({
+					name: 'user_profile_lookup',
+					params: { user_id: user_id, }
+				})
+			},
+
 			async banUser(user_id) {
 				// Ban User //
 				try { await AUserService.s_banUser(user_id, 1) }

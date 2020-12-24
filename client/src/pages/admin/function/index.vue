@@ -50,10 +50,10 @@
 
 <script>
 	// [IMPORT] Personal //
-	import Posts from '@components/admin/index/Posts'
-	import CommentReports from '@components/admin/index/CommentReports'
-	import Comments from '@components/admin/index/Comments'
-	import Users from '@components/admin/index/Users'
+	import Posts from '@components/admin/function/Posts'
+	import CommentReports from '@components/admin/function/CommentReports'
+	import Comments from '@components/admin/function/Comments'
+	import Users from '@components/admin/function/Users'
 	import ButtonTabs from '@components/controls/ButtonTabs'
 	import router from '@router'
 	import PageService from '@services/PageService'
