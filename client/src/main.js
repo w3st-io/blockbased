@@ -17,7 +17,7 @@ import App from './App.vue'
 import router from '@router'
 import '@assets/styles/bootstrap-override.scss'
 import '@assets/styles/style.scss'
-import './stuff-n-rules'
+import './vee-validation-rules'
 
 
 // [VUE-USE] //
