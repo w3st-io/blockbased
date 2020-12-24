@@ -6,7 +6,7 @@
 				<!-- Profile Details -->
 				<BRow>
 					<!-- Profile -->
-					<BCol cols="12" lg="2" class="mt-2">
+					<BCol cols="12" lg="3" class="mt-2">
 						<h3 class="bg-secondary text-center text-light">{{ username }}</h3>
 
 						<div class="m-auto" style="max-width: 170px;">
@@ -17,15 +17,21 @@
 							>
 						</div>
 
-						<h6 class="mt-2">{{ email }}</h6>
+						<h6 class="mt-3">
+							<span class="text-secondary">Email:</span>
+							<br>
+							{{ email }}
+						</h6>
 
-						<h6 class="mt-2">
-							Joined {{ new Date(created_at).toLocaleString() }}
+						<h6 class="mt-3">
+							<span class="text-secondary">Joined:</span>
+							<br>
+							{{ new Date(created_at).toLocaleString() }}
 						</h6>
 					</BCol>
 
 					<!-- Account Details -->
-					<BCol cols="12" lg="10" class="mt-2">
+					<BCol cols="12" lg="9" class="mt-2">
 						<BRow>
 							<!-- Total Comments -->
 							<BCol cols="12" sm="6" md="6" lg="3">

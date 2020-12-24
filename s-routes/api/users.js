@@ -395,6 +395,7 @@ router.post(
 router.post(
 	'/resend-verification-email',
 	async (req, res) => {
+		console.log(req.body.email);
 		try {
 			// [VALIDATE] //
 			if (validator.isAscii(req.body.email)) {

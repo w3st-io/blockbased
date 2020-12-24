@@ -12,6 +12,13 @@
 					>Click to Resend Email</BButton>
 				</BCard>
 			</BCol>
+
+			<!-- User Not Verifed -->
+			<BCol v-if="vCodeSent" cols="12" class="mt-3">
+				<BCard bg-variant="success" class="m-auto">
+					<h5 class="text-center text-light">Email Sent!</h5>
+				</BCard>
+			</BCol>
 		</BRow>
 
 		<Profile
@@ -64,7 +71,6 @@
 			// [REDIRECT] Not Log Required //
 			if (!localStorage.usertoken) { router.push({ name: 'login' }) }
 
-			// Retrieve User Profile Data //
 			try { this.returned = await await PageService.s_user_profile() }
 			catch (err) { this.error = err }
 
@@ -86,6 +92,7 @@
 					)
 
 					if (this.returned.status) { this.vCodeSent = true }
+					else { this.error = this.returned.message }
 				}
 			},
 
