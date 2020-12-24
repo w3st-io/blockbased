@@ -22,8 +22,10 @@
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.0",
     "vue-click-outside": "^1.1.0",
+    "vue-google-adsense": "^1.9.1",
     "vue-headful": "^2.1.0",
-    "vue-router": "^3.3.4"
+    "vue-router": "^3.3.4",
+    "vue-script2": "^2.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",
@@ -35,7 +37,6 @@
     "eslint-plugin-vue": "^6.2.2",
     "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
-    "vue-adsense": "^1.0.1",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {

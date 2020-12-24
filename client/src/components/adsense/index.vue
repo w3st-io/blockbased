@@ -1,9 +1,10 @@
 <template>
-	<Adsense
-		ad-client="ca-pub-5696881492897672"
-		ad-slot="XXXXXXXX"
-		ad-style="display: block"
-		ad-format="auto"
-		class="bg-dark"
-	></Adsense>
+	<div class="ad-container">
+		<Adsense
+			data-ad-client="ca-pub-5696881492897672"
+			data-ad-slot="1234567890"
+			data-ad-format="auto"
+			:data-full-width-responsive="true"
+		></Adsense>
+	</div>
 </template>
