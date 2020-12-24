@@ -3,10 +3,9 @@
 		<BRow class="mt-3">
 			<BCol cols="12">
 				<BCard bg-variant="dark" class="text-light">
-					<h4>All Activity</h4>
-					
-					<BRow class="mt-3">
-						<BCol cols="12">
+					<BRow>
+						<BCol cols="6"><h4>All Activity</h4></BCol>
+						<BCol cols="6">
 							<!-- Page Control -->
 							<PageNavButtons
 								@start-btn="startPage()"
@@ -14,7 +13,7 @@
 								@next-btn="nextPage()"
 								@end-btn="endPage()"
 								:badgeValue="page"
-								class="w-100"
+								class="w-100 ml-auto"
 								style="max-width: 300px;"
 							/>
 						</BCol>

@@ -5,20 +5,22 @@
 				<BCard bg-variant="dark" class="text-light">
 					<!-- Title -->
 					<BRow>
-						<BCol cols="sm-10">
+						<BCol cols="12" sm="6">
 							<h4>Posts You Are Following</h4>
+						</BCol>
 
+						<BCol cols="12" sm="6">
 							<!-- Page Control -->
 							<PageNavButtons
 								@prev-btn="prevPage()"
 								@next-btn="nextPage()"
 								:badgeValue="pageNumber"
-								class="w-100 mb-3"
+								class="w-100 ml-auto"
 								style="max-width: 300px;"
 							/>
 						</BCol>
 
-						<BCol cols="sm-2">
+						<BCol cols="12" sm="2">
 							<BBadge variant="light" class="w-100">
 								Total: {{ totalFollows }}
 							</BBadge>

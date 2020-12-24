@@ -5,15 +5,12 @@
 			<!-- Title -->
 			<h3 class="text-light">{{ cat.title }}</h3>
 
-			<!-- Page Nav Buttons -->
-			<PageNavButtons
-				@start-btn="start()"
-				@prev-btn="prev()"
-				@next-btn="next()"
-				@end-btn="end()"
-				:badgeValue="badgeValue"
-				style="max-width: 300px;"
-			/>
+			<!-- Create Button -->
+			<BButton
+				variant="primary"
+				size="sm"
+				@click="redirectToCatPostCreate()"
+			>Create Post</BButton>
 		</BCol>
 
 		<!-- Right Side -->
@@ -24,12 +21,16 @@
 			</BBadge>
 			<br>
 
-			<!-- Create Button -->
-			<BButton
-				variant="primary"
-				size="sm"
-				@click="redirectToCatPostCreate()"
-			>Create Post</BButton>
+			<!-- Page Nav Buttons -->
+			<PageNavButtons
+				@start-btn="start()"
+				@prev-btn="prev()"
+				@next-btn="next()"
+				@end-btn="end()"
+				:badgeValue="badgeValue"
+				class="ml-auto"
+				style="max-width: 300px;"
+			/>
 		</BCol>
 	</BRow>
 </template>

@@ -11,11 +11,12 @@
 				</span>
 			</h3>
 
-			<button
+			<BButton
 				:disabled="disabled"
+				variant="primary"
+				size="sm"
 				@click="redirectToPostCommentCreate()"
-				class="btn btn-sm btn-primary"
-			>Add Comment</button>
+			>Add Comment</BButton>
 		</div>
 		<!-- Right Side -->
 		<div class="col-lg-3 col-md-4 col-sm-4 text-right">
