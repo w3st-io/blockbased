@@ -1,20 +1,24 @@
 <template>
-	<article>
-		<section class="mx-auto mt-5 p-4 card bg-dark border-secondary login-terminal">
-			<BRow>
-				<!-- Welcome Half -->
-				<BCol cols="12" md="6" class="d-none d-md-block">
-					<h3 class="m-3 text-center text-light">Welcome Back</h3>
-					<div class="text-center">
-						<img :src="require('../../assets/images/logo.svg')" class="w-50">
-					</div>
-				</BCol>
+	<BCard
+		bg-variant="dark"
+		border-variant="secondary"
+		class="mx-auto mt-5"
+		style="max-width: 800px;"
+	>
+		<BRow>
+			<!-- Welcome Half -->
+			<BCol cols="12" md="6" class="d-none d-md-block">
+				<h3 class="m-3 text-center text-light">Welcome Back</h3>
+				<div class="text-center">
+					<img :src="require('../../assets/images/logo.svg')" class="w-50">
+				</div>
+			</BCol>
 
+			<BCol cols="12" md="6">
 				<!-- LOG IN FORM -->
 				<ValidationObserver
 					v-slot="{ handleSubmit }"
 					tag="section"
-					class="col-12 col-md-6"
 				>
 					<form @submit.prevent="handleSubmit(login)">
 						<!-- Email  -->
@@ -57,30 +61,40 @@
 						<br>
 
 						<!-- Submit -->
-						<button
-							class="w-100 mb-1 btn btn-lg btn-primary"
-							type="submit"
+						<BButton
+							variant="primary"
+							size="lg"
 							:disabled="submitted"
-						>Login</button>
+							class="w-100 mb-1"
+							type="submit"
+						>Login</BButton>
 					</form>
 					<RouterLink to="/user/password/request" class="text-primary">
 						Forgot password?
 					</RouterLink>
 				</ValidationObserver>
-			</BRow>
-		</section>
-
-		<!-- [ALERTS] -->
-		<div class="mx-auto my-3 login-terminal">
-			<Alert v-if="error" variant="danger" :message="error" />
-		</div>
-	</article>
+			</BCol>
+		</BRow>
+		
+		<!-- [ERROR] -->
+		<BRow class="mt-3">
+			<BCol cols="12">
+				<Alert
+					v-if="error"
+					variant="danger"
+					:message="error"
+					class="m-auto"
+					style="max-width: 800px;"
+				/>
+			</BCol>
+		</BRow>
+	</BCard>
 </template>
 
 <script>
 	// [IMPORT] Personal //
-	import { EventBus } from '@main'
 	import Alert from '@components/misc/Alert'
+	import { EventBus } from '@main'
 	import router from '@router'
 	import UserService from '@services/UserService'
 
@@ -92,11 +106,11 @@
 
 		data: function() {
 			return {
+				decoded: {},
+				submitted: false,
 				email: '',
 				password: '',
 				returned: '',
-				decoded: {},
-				submitted: false,
 				error: '',
 			}
 		},
@@ -133,7 +147,3 @@
 		}
 	}
 </script>
-
-<style scoped>
-	.login-terminal { max-width: 800px; }
-</style>
