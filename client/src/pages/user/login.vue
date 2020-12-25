@@ -3,7 +3,7 @@
 		<section class="mx-auto mt-5 p-4 card bg-dark border-secondary login-terminal">
 			<BRow>
 				<!-- Welcome Half -->
-				<BCol cols="6">
+				<BCol cols="12" md="6" class="d-none d-md-block">
 					<h3 class="m-3 text-center text-light">Welcome Back</h3>
 					<div class="text-center">
 						<img :src="require('../../assets/images/logo.svg')" class="w-50">
@@ -14,7 +14,7 @@
 				<ValidationObserver
 					v-slot="{ handleSubmit }"
 					tag="section"
-					class="col-6"
+					class="col-12 col-md-6"
 				>
 					<form @submit.prevent="handleSubmit(login)">
 						<!-- Email  -->
