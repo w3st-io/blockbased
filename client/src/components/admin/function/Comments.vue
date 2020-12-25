@@ -29,18 +29,23 @@
 		</table>
 
 		<!-- [ALERTS] -->
-		<div v-if="error" class="m-0 mt-3 alert alert-danger">{{ error }}</div>
+		<Alert v-if="error" variant="danger" :message="error" class="mt-3" />
 	</section>
 </template>
 
 <script>
 	// [IMPORT] Personal //
+	import Alert from '@components/misc/Alert'
 	import ACommentService from '@services/administration/CommentService'
 
 	// [EXPORT] //
 	export default {
 		props: {
 			comments: { type: Array, required: true, },
+		},
+
+		components: {
+			Alert
 		},
 
 		data: function() {

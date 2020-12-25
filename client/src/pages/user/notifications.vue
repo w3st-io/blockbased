@@ -73,7 +73,7 @@
 					<!-- [ALERTS] -->
 					<section v-show="error" class="row mt-3">
 						<div class="col-12">
-							<Alert BSColor="danger" :message="'Activity Page: ' + error" />
+							<Alert variant="danger" :message="'Activity Page: ' + error" />
 						</div>
 					</section>
 				</BCard>

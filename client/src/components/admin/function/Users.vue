@@ -34,7 +34,7 @@
 		</table>
 
 		<!-- [ALERTS] -->
-		<div v-if="error" class="m-0 mt-3 alert alert-danger">{{ error }}</div>
+		<Alert v-if="error" variant="danger" :message="error" class="mt-3" />
 	</section>
 </template>
 
@@ -42,11 +42,16 @@
 	// [IMPORT] //
 	import router from '@router'
 	import AUserService from '@services/administration/UserService'
+	import Alert from '@components/misc/Alert'
 
 	// [EXPORT] //
 	export default {
 		props: {
 			users: { type: Array, required: true, },
+		},
+
+		components: {
+			Alert
 		},
 
 		data: function() {

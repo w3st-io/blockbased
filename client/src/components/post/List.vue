@@ -79,7 +79,7 @@
 			</ul>
 
 			<!-- [ALERTS] -->
-			<div v-if="error" class="m-0 mt-3 alert alert-danger">{{ error }}</div>
+			<Alert v-if="error" variant="danger" :message="error" class="mt-3" />
 		</BCol>
 	</BRow>
 </template>
@@ -88,11 +88,16 @@
 	// [IMPORT] Personal //
 	import router from '@router'
 	import PostService from '@services/PostService'
+	import Alert from '@components/misc/Alert'
 
 	// [EXPORT] //
 	export default {
 		props: {
 			posts: { type: Array, required: true, },
+		},
+
+		components: {
+			Alert
 		},
 
 		data: function() {

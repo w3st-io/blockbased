@@ -1,7 +1,7 @@
 <template>
 	<span> 
 		<BButton
-			:variant="BSColor"
+			:variant="variant"
 			size="sm"
 			class="position-relative dropdown-toggle z-index-button"
 			@click="showPopper = !showPopper"
@@ -48,7 +48,7 @@
 			list: { type: Array, required: true },
 			btnName: { type: String, },
 			btnImage: { type: String, },
-			BSColor: { type: String, default: 'light' },
+			variant: { type: String, default: 'light' },
 		},
 
 		data: function() {
@@ -77,7 +77,7 @@
 				console.log('_id:', this._id)
 				console.log('list:', this.list)
 				console.log('btnName:', this.btnName)
-				console.log('BSColor:', this.BSColor)
+				console.log('variant:', this.variant)
 			}
 		},
 

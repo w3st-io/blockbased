@@ -1,20 +1,21 @@
  <template>
 	<BRow>
 		<!-- Title -->
-		<BCol sm="10" class="">
+		<BCol sm="10">
 			<h3 class="mb-2 text-light">
 				{{ post.title }}
-				<span class="text-secondary hide-the-ugly" style="font-size: .5em;">
+				<br>
+				<p class="small text-secondary hide-the-ugly" style="font-size: .5em;">
 					Posted by: {{ post.user.username }} -
 					{{ new Date(post.created_at).toLocaleString() }}
-				</span>
+				</p>
 			</h3>
 		</BCol>
 
 		<!-- Follow + Count -->
 		<BCol sm="2" class="text-right">
 			<div class="mb-3">
-				<span class="ml-2 badge badge-light">{{ post.followsCount }}</span>
+				<BBadge variant="light" class="ml-2">{{ post.followsCount }}</BBadge>
 				<button
 					:disabled="disabled"
 					@click="followBtn()"

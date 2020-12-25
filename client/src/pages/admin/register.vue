@@ -91,7 +91,7 @@
 		</BCard>
 
 		<!-- [ALERTS] -->
-		<div v-if="error" class="m-0 mt-3 alert alert-danger">{{ error }}</div>
+		<Alert v-if="error" variant="danger" :message="error" class="mt-3" />
 	</div>
 </template>
 
@@ -99,6 +99,7 @@
 	// [IMPORT] Personal //
 	import router from '@router'
 	import AdminService from '@services/AdminService'
+	import Alert from '@components/misc/Alert'
 
 	// [EXPORT] //
 	export default {
@@ -111,6 +112,10 @@
 				data: '',
 				error: '',
 			}
+		},
+
+		components: {
+			Alert
 		},
 
 		created: async function() {

@@ -83,7 +83,7 @@
 		<!-- [LOADING] -->
 		<BRow v-show="loading" class="mt-3 row">
 			<BCol cols="12">
-				<Alert BSColor="dark" />
+				<Alert variant="dark" />
 			</BCol>
 		</BRow>
 	</BContainer>

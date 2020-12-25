@@ -29,18 +29,23 @@
 		</table>
 		
 		<!-- [AELRTS] -->
-		<div v-if="error" class="m-0 mt-3 alert alert-danger">{{ error }}</div>
+		<Alert v-if="error" variant="danger" :message="error" class="mt-3" />
 	</section>
 </template>
 
 <script>
 	// [IMPORT] Personal //
+	import Alert from '@components/misc/Alert'
 	import APostService from '@services/administration/PostService'
 
 	// [EXPORT] //
 	export default {
 		props: {
 			posts: { type: Array, required: true, },
+		},
+
+		components: {
+			Alert
 		},
 
 		data: function() {

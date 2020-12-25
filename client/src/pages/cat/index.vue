@@ -74,7 +74,7 @@
 		<!-- [ALERTS] -->
 		<BRow v-show="error" class="mt-3">
 			<BCol cols="12">
-				<Alert BSColor="danger" :message="'Cat Page: ' + error" />
+				<Alert variant="danger" :message="'Cat Page: ' + error" />
 			</BCol>
 		</BRow>
 	</BContainer>

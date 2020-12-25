@@ -19,17 +19,11 @@
 			</BCol>
 		</BRow>
 
-		<!-- [ALERTS] -->
-		<BRow v-if="error" class="mt-3">
+		<!-- [LOADING + ERROR] -->
+		<BRow class="mt-3 row">
 			<BCol cols="12">
-				<div class="alert alert-danger">{{ error }}</div>
-			</BCol>
-		</BRow>
-
-		<!-- [LOADING] -->
-		<BRow v-show="loading" class="mt-3 row">
-			<BCol cols="12">
-				<Alert BSColor="dark" />
+				<Alert v-show="loading" variant="dark" />
+				<Alert v-if="error" variant="danger" :message="error" />
 			</BCol>
 		</BRow>
 

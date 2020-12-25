@@ -37,9 +37,7 @@
 						>
 							<p class="small text-secondary">
 								{{ comment.replyToComment.user.username }} -
-								{{
-									new Date(comment.replyToComment.created_at).toLocaleString()
-								}}
+								{{ new Date(comment.replyToComment.created_at).toLocaleString() }}
 								:
 							</p>
 							<p
@@ -50,15 +48,7 @@
 
 						<!-- Profile Section -->
 						<BCol cols="12" sm="2" md="2" lg="2" class="px-0 py-3 border-secondary">
-							<div
-								class="
-									m-auto
-									border
-									border-primary
-									rounded-lg
-									pro-img-holder
-								"
-							>
+							<div class="m-auto border border-primary rounded-lg pro-img-holder">
 								<img
 									:src="comment.user.profileImg"
 									class="m-auto w-100 pro-img"
@@ -66,16 +56,15 @@
 							</div>
 
 							<p class="m-0 mt-2 text-center small">
-								<span class="mark bg-primary">{{ comment.user.username }}</span>
+								<span class="mark bg-primary">
+									{{ comment.user.username }}
+								</span>
 							</p>
 						</BCol>
 
 						<!-- Comment Section -->
 						<BCol cols="12" sm="10" md="10" lg="10" class="px-2 pt-3">
-							<p
-								v-html="comment.text"
-								class="m-0 multiline"
-							></p>
+							<p v-html="comment.text" class="m-0 multiline"></p>
 						</BCol>
 					
 						<!-- Bottom Bar -->
@@ -88,7 +77,7 @@
 										:disabled="disabled"
 										:_id="comment._id"
 										btnName="Report"
-										BSColor="outline-secondary"
+										variant="outline-secondary"
 										:list="[
 											'Innapropiate',
 											'Offensive',

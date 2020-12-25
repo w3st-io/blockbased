@@ -52,7 +52,7 @@
 					<!-- [ERROR] -->
 					<BRow v-show="error" class="mt-3">
 						<BCol cols="12">
-							<Alert BSColor="danger" :message="'Follow Page: ' + error" />
+							<Alert variant="danger" :message="'Follow Page: ' + error" />
 						</BCol>
 					</BRow>
 				</BCard>

@@ -128,7 +128,7 @@
 				console.log('_id:', this._id)
 				console.log('list:', this.list)
 				console.log('btnName:', this.btnName)
-				console.log('BSColor:', this.BSColor)
+				console.log('variant:', this.variant)
 			}
 		},
 

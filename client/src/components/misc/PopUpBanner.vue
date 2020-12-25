@@ -1,7 +1,7 @@
 <template>
 	<nav
 		class="w-50 mx-auto fixed-bottom alert shadow"
-		:class="`alert-${BSColor}`"
+		:class="`alert-${variant}`"
 		style="margin-bottom: 100px;"
 	>{{ message }}</nav>
 </template>
@@ -10,7 +10,7 @@
 	export default {
 		props: {
 			message: { type: String, required: true, },
-			BSColor: { type: String, default: 'warning' },
+			variant: { type: String, default: 'warning' },
 		},
 
 		created: function() {

@@ -104,14 +104,14 @@
 					<BRow v-show="error" class="mt-3">
 						<BCol cols="12">
 							<!-- [ALERTS] -->
-							<Alert BSColor="danger" :message="'Activity Page: ' + error" />
+							<Alert variant="danger" :message="'Activity Page: ' + error" />
 						</BCol>
 					</BRow>
 
 					<BRow v-show="loading" class="mt-3">
 						<BCol class="12">
 							<!-- [LOADING] -->
-							<Alert BSColor="dark" />
+							<Alert variant="dark" />
 						</BCol>
 					</BRow>
 				</BCard>

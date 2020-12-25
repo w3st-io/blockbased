@@ -44,12 +44,10 @@
 					class="p-3 text-right d-none d-md-block"
 					@click="redirectToCatPosts(cat.cat_id)"
 				>
-					<a href="" class="text-secondary">
+					<a href="#" class="text-secondary">
 						<BBadge variant="unset" class="p-0 align-self-center">
-							
 							<h5 class="m-0">{{ cat.totalPosts }}</h5>
 							<span class="small"><h6 class="m-0">Posts</h6></span>
-							
 						</BBadge>
 					</a>
 				</BCol>

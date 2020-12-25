@@ -1,16 +1,16 @@
 <template>
-	<section :class="'alert alert-' + BSColor">
+	<BAlert :variant="variant" show>
 		<div class="d-flex justify-content-center">
 			<div v-if="!message" class="spinner-grow"></div>
 		</div>
 		<span v-if="message">{{ message }}</span>
-	</section>
+	</BAlert>
 </template>
 
 <script>
 	export default {
 		props: {
-			BSColor: {
+			variant: {
 				type: String,
 				required: false,
 				default: 'primary'

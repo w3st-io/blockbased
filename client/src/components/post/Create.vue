@@ -20,6 +20,7 @@
 						aria-label="Recipient's username"
 						v-model="title"
 					>
+					
 					<!-- Error -->
 					<span class="text-danger">{{ errors[0] }}</span>
 				</ValidationProvider>
@@ -57,7 +58,7 @@
 		</ValidationObserver>
 		
 		<!-- [ALERTS] -->
-		<div v-if="error" class="mt-3 alert alert-danger">{{ error }}</div>
+		<Alert v-if="error" variant="danger" :message="error" class="mt-3" />
 	</section>
 </template>
 
@@ -68,12 +69,16 @@
 	import '@toast-ui/editor/dist/toastui-editor.css'
 
 	// [IMPORT] Personal //
+	import Alert from '@components/misc/Alert'
 	import PostService from '@services/PostService'
 	import router from '@router'
 
 	// [EXPORT] //
 	export default {
-		components: { Editor },
+		components: {
+			Editor,
+			Alert,
+		},
 
 		props: {
 			cat: { type: Object, required: true, }
