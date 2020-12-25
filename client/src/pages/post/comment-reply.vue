@@ -14,20 +14,22 @@
 		</BCard>
 
 		<!-- [ALERTS] -->
-		<div v-if="error" class="mt-3 alert alert-danger">{{ error }}</div>
+		<Alert v-if="error" variant="danger" :message="error" class="mt-3" />
 	</BContainer>
 </template>
 
 <script>
 	// [IMPORT] Personal //
 	import CommentCreate from '@components/comment/Create'
+	import Alert from '@components/misc/Alert'
 	import CommentService from '@services/CommentService'
-	import PageService from '../../services/PageService'
+	import PageService from '@services/PageService'
 	import router from '@router'
 
 	// [EXPORT] //
 	export default {
 		components: {
+			Alert,
 			CommentCreate
 		},
 

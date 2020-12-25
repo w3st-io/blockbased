@@ -38,20 +38,29 @@
 						</form>
 					</ValidationObserver>
 				</BCard>
+			</BCol>
+		</BRow>
 
+		<BRow class="mt-3">
+			<BCol cols="12">
 				<!-- [ERROR] -->
-				<div
+				<Alert
 					v-if="error"
-					class="mx-auto my-3 alert alert-danger"
+					variant="danger"
+					:message="error"
+					class="mx-auto"
 					style="max-width: 500px;"
-				>{{ error }}</div>
-
+				/>
+			</BCol>
+			<BCol cols="12">
 				<!-- [SUCCESS] -->
-				<div
+				<Alert
 					v-if="success"
-					class="mx-auto my-3 alert alert-success"
+					variant="success"
+					:message="success"
+					class="mx-auto"
 					style="max-width: 500px;"
-				>{{ success }}</div>
+				/>
 			</BCol>
 		</BRow>
 	</BContainer>
@@ -59,11 +68,16 @@
 
 <script>
 	// [IMPORT] Personal //
+	import Alert from '@components/misc/Alert'
 	import router from '@router'
 	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {
+		components: {
+			Alert,
+		},
+
 		data: function() {
 			return {
 				email: '',

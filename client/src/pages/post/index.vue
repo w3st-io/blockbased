@@ -68,7 +68,7 @@
 		</BRow>
 
 		<!-- [ALERTS] -->
-		<div v-if="error" class="mt-3 alert alert-danger">{{ error }}</div>
+		<Alert v-if="error" variant="danger" :message="error" class="mt-3" />
 	</BContainer>
 </template>
 

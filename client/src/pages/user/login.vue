@@ -72,7 +72,7 @@
 
 		<!-- [ALERTS] -->
 		<div class="mx-auto my-3 login-terminal">
-			<div v-if="error" class="alert alert-danger">{{ error }}</div>
+			<Alert v-if="error" variant="danger" :message="error" />
 		</div>
 	</article>
 </template>
@@ -80,11 +80,16 @@
 <script>
 	// [IMPORT] Personal //
 	import { EventBus } from '@main'
+	import Alert from '@components/misc/Alert'
 	import router from '@router'
 	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {
+		components: {
+			Alert,
+		},
+
 		data: function() {
 			return {
 				email: '',

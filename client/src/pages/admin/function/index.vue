@@ -43,7 +43,11 @@
 			</BRow>
 
 			<!-- [ALERTS] -->
-			<div v-if="error" class="my-3 alert alert-danger">{{ error }}</div>
+			<BRow class="my-3">
+				<BCol cols="12">
+					<Alert v-if="error" variant="danger" :message="error" />
+				</BCol>
+			</BRow>
 		</BCard>
 	</BContainer>
 </template>
@@ -55,6 +59,7 @@
 	import Comments from '@components/admin/function/Comments'
 	import Users from '@components/admin/function/Users'
 	import ButtonTabs from '@components/controls/ButtonTabs'
+	import Alert from '@components/misc/Alert'
 	import router from '@router'
 	import PageService from '@services/PageService'
 
@@ -63,6 +68,7 @@
 		components: {
 			Posts,
 			ButtonTabs,
+			Alert,
 			CommentReports,
 			Comments,
 			Users,

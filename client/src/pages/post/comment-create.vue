@@ -4,7 +4,7 @@
 			<h3 class="mb-3 text-light">Create Comment</h3>
 		
 			<!-- Informative Message -->
-			<div class="alert alert-info" role="alert">{{ message }}</div>
+			<Alert variant="info" :message="message" />
 
 			<!-- Comment Create Component -->
 			<CommentCreate
@@ -15,7 +15,7 @@
 		</BCard>
 
 		<!-- [ALERTS] -->
-		<div v-if="error" class="mt-3 alert alert-danger">{{ error }}</div>
+		<Alert v-if="error" variant="danger" :message="error" class="mt-3" />
 	</BContainer>
 </template>
 
@@ -23,13 +23,15 @@
 	// [IMPORT] Personal //
 	import CommentCreate from '@components/comment/Create'
 	import CommentService from '@services/CommentService'
+	import Alert from '@components/misc/Alert'
 	import PostService from '@services/PostService'
 	import router from '@router'
 
 	// [EXPORT] //
 	export default {
 		components: {
-			CommentCreate
+			CommentCreate,
+			Alert,
 		},
 
 		data: function() {
