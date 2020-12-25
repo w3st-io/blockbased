@@ -89,18 +89,23 @@
 			</ValidationObserver>
 		</BCard>
 		
-		<!-- [ALERTS] -->
-		<div v-show="error" class="m-0 mt-3 alert alert-danger">{{ error }}</div>
+		<!-- [ERROR] -->
+		<Alert v-if="error" variant="danger" :message="error" class="m-0 mt-3" />
 	</article>
 </template>
 
 <script>
 	// [IMPORT] Personal //
+	import Alert from '@components/misc/Alert'
 	import router from '@router'
 	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {
+		components: {
+			Alert,
+		},
+
 		data: function() {
 			return {
 				username: '',

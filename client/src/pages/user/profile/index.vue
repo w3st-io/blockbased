@@ -38,7 +38,7 @@
 
 		<BRow class="mt-3">
 			<BCol cols="12">
-				<div v-if="error" class="col-12 alert alert-danger">{{ error }}</div>
+				<Alert v-if="error" variant="danger" :message="error" />
 			</BCol>
 		</BRow>
 	</BContainer>
@@ -46,6 +46,7 @@
 
 <script>
 	// [IMPORT] Personal //
+	import Alert from '@components/misc/Alert'
 	import Profile from '@components/user/profile'
 	import router from '@router'
 	import PageService from '@services/PageService'
@@ -54,7 +55,8 @@
 	// [EXPORT] //
 	export default {
 		components: {
-			Profile
+			Alert,
+			Profile,
 		},
 
 		data: function() {

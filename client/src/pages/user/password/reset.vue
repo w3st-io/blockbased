@@ -57,12 +57,14 @@
 					</ValidationObserver>
 				</BCard>
 
-				<!-- [ALERT] -->
-				<div
-					v-if="alert"
-					class="mx-auto my-3 alert alert-warning"
+				<!-- [MESSAGE] -->
+				<Alert
+					v-if="message"
+					variant="info"
+					:message="message"
+					class="mx-auto"
 					style="max-width: 500px;"
-				>{{ alert }}</div>
+				/>
 			</BCol>
 		</BRow>
 	</BContainer>
@@ -70,17 +72,22 @@
 
 <script>
 	// [IMPORT] Personal //
+	import Alert from '@components/misc/Alert'
 	import router from '@router'
 	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {
+		components: {
+			Alert,
+		},
+
 		data: function() {
 			return {
 				password: '',
 				confirm: '',
 				data: '',
-				alert: '',
+				message: '',
 			} 
 		},
 
@@ -92,7 +99,7 @@
 					this.password
 				)
 
-				this.alert = this.data.message
+				this.message = this.data.message
 
 				setTimeout(() => { router.push({ name: 'login' }) }, 1500)
 			},

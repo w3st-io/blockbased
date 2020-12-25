@@ -29,8 +29,8 @@
 				</div>
 
 				<!-- [LOADING + ERROR] -->
-				<div v-if="loading" class="alert alert-warning">Loading..</div>
-				<div v-if="error" class="my-3 alert alert-danger">{{ error }}</div>
+				<Alert v-if="loading" variant="warning" message="Loading.." />
+				<Alert v-if="error" variant="danger" :message="error" class="my-3" />
 			</BCard>
 		</div>
 	</div>
@@ -38,11 +38,16 @@
 
 <script>
 	// [IMPORT] Personal //
+	import Alert from '@components/misc/Alert'
 	import router from '@router'
 	import UserService from '@services/UserService'
 
 	// [EXPORT] //
 	export default {
+		components: {
+			Alert,
+		},
+
 		data: function() {
 			return {
 				loading: true,

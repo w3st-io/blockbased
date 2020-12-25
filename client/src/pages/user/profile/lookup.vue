@@ -16,17 +16,23 @@
 
 		<BRow class="mt-3">
 			<BCol cols="12">
-				<div v-if="error" class="col-12 alert alert-danger">{{ error }}</div>
+				<Alert v-if="error" variant="danger" :message="error" />
 			</BCol>
 		</BRow>
 	</BContainer>
 </template>
 
 <script>
+	import Alert from '@components/misc/Alert'
 	import Profile from '@components/user/profile'
 	import PageService from '@services/PageService'
 
 	export default {
+		components: {
+			Alert,
+			Profile,
+		},
+
 		data: function() {
 			return {
 				user_id: this.$route.params.user_id,
@@ -34,10 +40,6 @@
 				data: {},
 				error: '',
 			}
-		},
-
-		components: {
-			Profile,
 		},
 
 		created: async function() {
