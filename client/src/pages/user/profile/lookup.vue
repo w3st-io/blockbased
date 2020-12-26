@@ -5,7 +5,7 @@
 			:personal="false"
 			:user_id="data.user._id"
 			:username="data.user.username"
-			:profileImg="data.user.profileImg"
+			:profile_img="data.user.profile_img"
 			:bio="data.user.bio"
 			:created_at="data.user.created_at"
 			:commentCount="data.commentCount"
@@ -36,7 +36,7 @@
 		data: function() {
 			return {
 				user_id: this.$route.params.user_id,
-				profileImg: require('../../../assets/images/DefaultProfileImg.png'),
+				profile_img: require('../../../assets/images/DefaultProfileImg.png'),
 				data: {},
 				error: '',
 			}

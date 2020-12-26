@@ -81,7 +81,7 @@ const c_create = async (user_id, comment, post_id, reportType) => {
 const c_readAll = async () => {
 	try {
 		const commentReports = await CommentReportModel.find()
-			.populate({ path: 'user', select: 'username email bio profileImg' })
+			.populate({ path: 'user', select: 'username email bio profile_img' })
 			.exec()
 
 		return {
@@ -136,7 +136,7 @@ const c_delete = async (commentReport_id) => {
 const c_readUnhandled = async () => {
 	try {
 		const commentReports = await CommentReportModel.find({ handled: false })
-			.populate({ path: 'user', select: 'username email bio profileImg' })
+			.populate({ path: 'user', select: 'username email bio profile_img' })
 			.exec()
 
 		return {

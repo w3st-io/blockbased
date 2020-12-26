@@ -32,52 +32,6 @@ const router = express.Router().use(cors())
 
 
 /******************* [USER PROFILE] *******************/
-// [READ-ALL] Auth Required //
-router.get(
-	'/read-all/:limit/:page',
-	async (req, res) => {
-		try {
-			// [VALIDATE] //
-			if (
-				Number.isInteger(parseInt(req.params.limit)) &&
-				Number.isInteger(parseInt(req.params.page))
-			) {
-				// [INIT] //
-				const limit = parseInt(req.params.limit)
-				const pageIndex = parseInt(req.params.page) - 1
-				const skip = pageIndex * limit
-
-				const usersObj = await usersCollection.c_readAll(limit, skip)
-
-				if (usersObj.status) {
-					usersObj.users.forEach(user => {
-						// [FORMAT] Remove things that should not be shown //
-						user.email = undefined
-						user.password = undefined
-					})
-				}
-
-				res.status(200).send(usersObj)
-			}
-			else {
-				res.status(200).send({
-					executed: true,
-					status: false,
-					message: '/api/administration/users: Invalid params'
-				})
-			}
-		}
-		catch (err) {
-			res.status(200).send({
-				executed: false,
-				status: false,
-				message: `/api/administration/users: Error --> ${err}`,
-			})
-		}
-	}
-)
-
-
 // [READ] Auth Required - Decoded //
 router.get(
 	'/read',
@@ -140,6 +94,52 @@ router.get(
 )
 
 
+// [READ-ALL] Auth Required //
+router.get(
+	'/read-all/:limit/:page',
+	async (req, res) => {
+		try {
+			// [VALIDATE] //
+			if (
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.page))
+			) {
+				// [INIT] //
+				const limit = parseInt(req.params.limit)
+				const pageIndex = parseInt(req.params.page) - 1
+				const skip = pageIndex * limit
+
+				const usersObj = await usersCollection.c_readAll(limit, skip)
+
+				if (usersObj.status) {
+					usersObj.users.forEach(user => {
+						// [FORMAT] Remove things that should not be shown //
+						user.email = undefined
+						user.password = undefined
+					})
+				}
+
+				res.status(200).send(usersObj)
+			}
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
+					message: '/api/administration/users: Invalid params'
+				})
+			}
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				message: `/api/administration/users: Error --> ${err}`,
+			})
+		}
+	}
+)
+
+
 // [UPDATE] Auth Required //
 router.post(
 	'/update',
@@ -147,10 +147,14 @@ router.post(
 	async (req, res) => {
 		// [VALIDATE] //
 		try {
-			if (validator.isAscii(req.body.img_url)) {
+			if (
+				validator.isAscii(req.body.img_url) &&
+				validator.isAscii(req.body.bio)
+			) {
 				const returned = await usersCollection.c_update(
 					req.decoded.user_id,
-					req.body.img_url
+					req.body.img_url,
+					req.body.bio
 				)
 		
 				res.status(200).send(returned)
@@ -159,7 +163,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/users: Invalid img_url'
+					message: '/api/users: Invalid params'
 				})
 			}
 		}

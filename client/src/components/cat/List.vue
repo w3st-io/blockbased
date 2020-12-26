@@ -71,7 +71,7 @@
 
 						<BCol cols="2" class="p-1">
 							<img
-								:src="cat.recentPost.user.profileImg"
+								:src="cat.recentPost.user.profile_img"
 								alt="x" 
 								class="w-100 border border-primary rounded"
 							>

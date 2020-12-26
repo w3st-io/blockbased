@@ -37,7 +37,7 @@
 											>
 												<BCol class="m-0 p-0" style="max-width: 35px;">
 													<img
-														:src="activity.created_user.profileImg"
+														:src="activity.created_user.profile_img"
 														class="w-100"
 													>
 												</BCol>
@@ -56,7 +56,7 @@
 											>
 												<BCol class="m-0 p-0" style="max-width: 35px;">
 													<img
-														:src="activity.user.profileImg"
+														:src="activity.user.profile_img"
 														class="w-100"
 													>
 												</BCol>
@@ -76,7 +76,7 @@
 											>
 												<BCol class="m-0 p-0" style="max-width: 35px;">
 													<img
-														:src="activity.user.profileImg"
+														:src="activity.user.profile_img"
 														class="w-100"
 													>
 												</BCol>

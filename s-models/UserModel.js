@@ -36,7 +36,7 @@ module.exports = mongoose.model(
 			maxlength: 24,
 		},
 		
-		profileImg: {
+		profile_img: {
 			type: String,
 			default: defaultImage,
 			maxlength: 600,

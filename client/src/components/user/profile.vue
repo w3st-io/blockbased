@@ -1,7 +1,7 @@
 <template>
 	<BRow class="mt-3">
 		<!-- Account Details -->
-		<BCol sm="12" md="9" class="mb-3">
+		<BCol sm="12" lg="9" class="mb-3">
 			<BCard bg-variant="dark text-light">
 				<!-- Profile Details -->
 				<BRow>
@@ -13,7 +13,7 @@
 
 						<div class="m-auto" style="max-width: 170px;">
 							<img
-								:src="profileImg"
+								:src="profile_img"
 								alt="Profile Image Not Available"
 								class="w-100 mx-auto border border-primary rounded"
 							>
@@ -25,7 +25,7 @@
 							{{ email }}
 						</h6>
 
-						<h6>
+						<h6 class="mt-3">
 							<span class="text-secondary">Bio:</span>
 							<br>
 							{{ bio }}
@@ -131,7 +131,7 @@
 		</BCol>
 
 		<!-- Social -->
-		<BCol sm="12" md="3">
+		<BCol sm="12" lg="3">
 			<BCard bg-variant="dark text-light">
 				<BBadge
 					variant="dark"
@@ -186,7 +186,7 @@
 				required: true,
 			},
 
-			profileImg: {
+			profile_img: {
 				type: String,
 				required: true,
 			},

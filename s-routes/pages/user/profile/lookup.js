@@ -30,7 +30,7 @@ router.get(
 			if (mongoose.isValidObjectId(req.params.user_id)) {
 				const userObj = await usersCollection.c_readSensitive(
 					req.params.user_id,
-					'username profileImg bio created_at'
+					'username profile_img bio created_at'
 				)
 
 				if (userObj.status) {

@@ -30,11 +30,13 @@ router.post(
 			// [VALIDATE] //
 			if (
 				mongoose.isValidObjectId(req.body.user_id) &&
-				validator.isAscii(req.body.img_url)
+				validator.isAscii(req.body.img_url) &&
+				validator.isAscii(req.body.bio)
 			) {
 				const returned = await usersCollection.c_update(
 					req.body.user_id,
-					req.body.img_url
+					req.body.img_url,
+					req.body.bio
 				)
 
 				res.status(200).send(returned)
@@ -43,7 +45,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/administration/users: Invalid user_id'
+					message: '/api/administration/users: Invalid params'
 				})
 			}
 		}

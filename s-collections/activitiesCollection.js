@@ -103,20 +103,20 @@ const c_readAll = async () => {
 			// User // Post // Comment //
 			.populate({
 				path: 'user',
-				select: 'username bio profileImg'
+				select: 'username bio profile_img'
 			})
 			.populate({
 				path: 'post',
 				populate: {
 					path: 'user',
-					select: 'username bio profileImg',
+					select: 'username bio profile_img',
 				},
 			})
 			.populate({
 				path: 'comment',
 				populate: {
 					path: 'user',
-					select: 'username bio profileImg'
+					select: 'username bio profile_img'
 				},
 			})
 			.populate({
@@ -197,12 +197,12 @@ const c_readAllSort = async (sort = 0, limit, skip) => {
 			// user //
 			.populate({
 				path: 'user',
-				select: 'username bio profileImg'
+				select: 'username bio profile_img'
 			})
 			.populate({ path: 'post' })
 			.populate({ path: 'comment' })
 			.populate({ path: 'created_comment' })
-			.populate({ path: 'created_user', select: 'username bio profileImg' })
+			.populate({ path: 'created_user', select: 'username bio profile_img' })
 			.populate({ path: 'created_post' })
 			.exec()
 
@@ -275,12 +275,12 @@ const c_readAllSortByUser = async (user_id, sort = 0, limit, skip) => {
 			// user //
 			.populate({
 				path: 'user',
-				select: 'username bio profileImg'
+				select: 'username bio profile_img'
 			})
 			.populate({ path: 'post' })
 			.populate({ path: 'comment' })
 			.populate({ path: 'created_comment' })
-			.populate({ path: 'created_user', select: 'username bio profileImg' })
+			.populate({ path: 'created_user', select: 'username bio profile_img' })
 			.populate({ path: 'created_post' })
 			.exec()
 

@@ -27,7 +27,7 @@
 			:user_id="user._id"
 			:email="user.email"
 			:username="user.username"
-			:profileImg="user.profileImg"
+			:profile_img="user.profile_img"
 			:bio="user.bio"
 			:created_at="user.created_at"
 			:commentCount="data.commentCount"

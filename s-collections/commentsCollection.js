@@ -107,7 +107,7 @@ const c_read = async (comment_id) => {
 		}
 
 		const comment = await CommentModel.findById(comment_id)
-			.populate({ path: 'user', select: 'username email bio profileImg' })
+			.populate({ path: 'user', select: 'username email bio profile_img' })
 			.exec()
 
 		if (!comment) {
@@ -162,7 +162,7 @@ const c_readAll = async (limit, skip) => {
 		const comments = await CommentModel.find()
 			.skip(skip)
 			.limit(limit)
-			.populate({ path: 'user', select: 'username email bio profileImg', })
+			.populate({ path: 'user', select: 'username email bio profile_img', })
 			.populate({ path: 'post' })
 			.exec()
 		
@@ -330,7 +330,7 @@ const c_readAllByPost = async (post_id, limit, skip) => {
 		const comments = await CommentModel.find({ post: post_id })
 			.skip(skip)
 			.limit(limit)
-			.populate({ path: 'user', select: 'username email bio profileImg', })
+			.populate({ path: 'user', select: 'username email bio profile_img', })
 			.populate({
 				path: 'replyToComment',
 				populate: {

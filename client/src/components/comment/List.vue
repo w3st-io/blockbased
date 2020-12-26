@@ -50,7 +50,7 @@
 						<BCol cols="12" sm="2" md="2" lg="2" class="px-0 py-3 border-secondary">
 							<div class="m-auto border border-primary rounded-lg pro-img-holder">
 								<img
-									:src="comment.user.profileImg"
+									:src="comment.user.profile_img"
 									class="m-auto w-100 pro-img"
 								>
 							</div>

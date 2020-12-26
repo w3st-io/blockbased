@@ -100,7 +100,7 @@ const c_readAll = async (limit, skip) => {
 
 
 // [UPDATE] Profile Picture //
-const c_update = async (user_id, img_url) => {
+const c_update = async (user_id, img_url, bio) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -120,11 +120,21 @@ const c_update = async (user_id, img_url) => {
 			}
 		}
 
+		// [VALIDATE] bio //
+		if (!validator.isAscii(bio)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'UserCollection: Invalid bio'
+			}
+		}
+
 		const updatedUser = await UserModel.findOneAndUpdate(
 			{ _id: user_id },
 			{
 				$set: {
-					profileImg: img_url,
+					profile_img: img_url,
+					bio: bio,
 				}
 			}
 		)
@@ -149,7 +159,7 @@ const c_update = async (user_id, img_url) => {
 /******************* [OTHER-CRUD] *******************/
 const c_register = async (username, email, password) => {
 	try {
-		// [VALIDATE] //
+		// [VALIDATE] username //
 		if (!validator.isAscii(username)) {
 			return {
 				executed: true,
@@ -167,7 +177,7 @@ const c_register = async (username, email, password) => {
 			}
 		}
 
-		// [VALIDATE] //
+		// [VALIDATE] password //
 		if (!validator.isAscii(password)) {
 			return {
 				executed: true,

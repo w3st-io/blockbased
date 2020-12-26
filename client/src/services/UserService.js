@@ -53,11 +53,11 @@ async function s_read(user_id) {
 }
 
 // [UPDATE] Auth Required //
-async function s_update(img_url) {
+async function s_update(img_url, bio) {
 	try {
 		const authAxios = await this.authAxios()
 		
-		return (await authAxios.post('/update', { img_url })).data
+		return (await authAxios.post('/update', { img_url, bio })).data
 	}
 	catch (err) {
 		return {

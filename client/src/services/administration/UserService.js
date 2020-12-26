@@ -21,13 +21,11 @@ async function authAxios() {
 
 /******************* [CRUD] *******************/
 // [UPDATE] Auth Required //
-async function s_update(user_id, img_url) {
-	const authAxios = await this.authAxios()
-
+async function s_update(user_id, img_url, bio) {
 	try {
-		const returned = await authAxios.post(`/update`, { user_id, img_url })
+		const authAxios = await this.authAxios()
 
-		return returned.data
+		return (await authAxios.post(`/update`, { user_id, img_url, bio })).data
 	}
 	catch (err) {
 		return {
@@ -41,12 +39,10 @@ async function s_update(user_id, img_url) {
 
 /******************* [USER PROFILE] *******************/
 async function s_banUser(user_id, hours) {
-	const authAxios = await this.authAxios()
-
 	try {
-		const returned = await authAxios.post(`/ban`, { user_id, hours })
-	
-		return returned.data
+		const authAxios = await this.authAxios()
+
+		return (await authAxios.post(`/ban`, { user_id, hours })).data
 	}
 	catch (err) {
 		return {

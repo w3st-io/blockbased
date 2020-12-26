@@ -106,7 +106,7 @@ const c_readAll = async (limit, skip) => {
 			.limit(limit)
 			.populate({
 				path: 'user',
-				select: 'username email bio profileImg',
+				select: 'username email bio profile_img',
 			})
 			.exec()
 
@@ -144,7 +144,7 @@ const c_read = async (post_id) => {
 		if (!existance.existance) { return existance }
 
 		const post = await PostModel.findById(post_id)
-			.populate({ path: 'user', select: 'username email bio profileImg', })
+			.populate({ path: 'user', select: 'username email bio profile_img', })
 			.exec()
 		
 		return {
@@ -234,7 +234,7 @@ const c_readByCat = async (cat_id, limit, skip) => {
 		const posts = await PostModel.find({ cat_id })
 			.skip(skip)
 			.limit(limit)
-			.populate({ path: 'user', select: 'username email bio profileImg', })
+			.populate({ path: 'user', select: 'username email bio profile_img', })
 			.exec()
 
 		return {
@@ -303,7 +303,7 @@ const c_readSort = async (sort = 0, limit, skip) => {
 			.sort(sort)
 			.skip(skip)
 			.limit(limit)
-			.populate({ path: 'user', select: 'username bio profileImg', })
+			.populate({ path: 'user', select: 'username bio profile_img', })
 			.exec()
 
 		return {
@@ -381,7 +381,7 @@ const c_readSortByCat = async (cat_id, sort = 0, limit, skip) => {
 			.sort(sort)
 			.skip(skip)
 			.limit(limit)
-			.populate({ path: 'user', select: 'username bio profileImg', })
+			.populate({ path: 'user', select: 'username bio profile_img', })
 			.exec()
 
 		return {
@@ -431,7 +431,7 @@ const c_readPinned = async (cat_id, sort = 0) => {
 		})
 			.populate({
 				path: 'user',
-				select: 'username email bio profileImg'
+				select: 'username email bio profile_img'
 			})
 			.sort(sort)
 			.exec()

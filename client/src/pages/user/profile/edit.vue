@@ -1,19 +1,9 @@
 <template>
-	<div class="container">
-		<div class="row my-3">
-			<BCard bg-variant="dark" class="col-12">
-				<div v-if="!loading">
-					<label for="profileImgInput" class="text-light">
-						Profile Pic Url
-					</label>
-
-					<input
-						name="profileImgInput"
-						type="text"
-						class="my-2 form-control"
-						v-model="imgUrl"
-					>
-
+	<BContainer>
+		<BRow v-if="!loading" class="my-3">
+			<BCol cols="12" sm="8">
+				<BCard bg-variant="dark">
+					<!-- Image Display -->
 					<div class="w-100 p-3 text-center">
 						<img
 							:src="imgUrl"
@@ -23,17 +13,43 @@
 						>
 					</div>
 
-					<button @click="updateUserData()" class="w-100 btn btn-secondary">
-						Edit Your Profile
-					</button>
-				</div>
+					<!-- Image URL -->
+					<label for="profile_imgInput" class="text-light">
+						Profile Pic Url
+					</label>
+					<input
+						name="profile_imgInput"
+						type="text"
+						class="my-2 form-control"
+						v-model="imgUrl"
+					>
 
-				<!-- [LOADING + ERROR] -->
-				<Alert v-if="loading" variant="warning" message="Loading.." />
-				<Alert v-if="error" variant="danger" :message="error" class="my-3" />
-			</BCard>
-		</div>
-	</div>
+					<!-- Bio -->
+					<label for="profile_imgInput" class="mt-3 text-light">
+						Bio
+					</label>
+					<input
+						name="profile_imgInput"
+						type="text"
+						class="my-2 form-control"
+						v-model="bio"
+					>
+
+					<BButton
+						variant="secondary"
+						class="w-100 mt-3"
+						@click="updateUserData()"
+					>Edit Your Profile</BButton>
+
+					<!-- [LOADING + ERROR] -->
+					<Alert v-if="loading" variant="warning" message="Loading.." />
+					<Alert v-if="error" variant="danger" :message="error" class="my-3" />
+				</BCard>
+			</BCol>
+
+			<BCol cols="12" sm="8"></BCol>
+		</BRow>
+	</BContainer>
 </template>
 
 <script>
@@ -54,6 +70,7 @@
 				userData: {},
 				data: {},
 				imgUrl: '',
+				bio: '',
 				error: '',
 			}
 		},
@@ -66,11 +83,14 @@
 			try { this.data = await UserService.s_read() }
 			catch (err) { this.error = err }
 
-			if (this.data.status) { this.userData = this.data.user }
-			else { this.error = this.data.message }
+			if (this.data.status) {
+				this.userData = this.data.user
 
-			// Set Image //
-			this.imgUrl = this.userData.profileImg
+				// Set Image //
+				this.imgUrl = this.userData.profile_img
+				this.bio = this.userData.bio
+			}
+			else { this.error = this.data.message }
 
 			// Enable Loading //
 			this.loading = false
@@ -81,7 +101,7 @@
 
 		methods: {
 			async updateUserData() {
-				try { this.data = await UserService.s_update(this.imgUrl) }
+				try { this.data = await UserService.s_update(this.imgUrl, this.bio) }
 				catch (err) { this.error = err }
 
 				if (this.data.status) {
