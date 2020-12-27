@@ -48,8 +48,8 @@ router.post(
 				if (post.status) {
 					// [CREATE] Activity //
 					const pActivity = await activitiesCollection.c_create(
-						'post',
 						req.decoded.user_id,
+						'post',
 						post.createdPost._id,
 						undefined,
 						post.createdPost._id,
@@ -67,8 +67,8 @@ router.post(
 						if (comment.status) {
 							// [CREATE] Activity //
 							const cActivity = await activitiesCollection.c_create(
-								'comment',
 								req.decoded.user_id,
+								'comment',
 								comment.comment.post,
 								undefined,
 								undefined,

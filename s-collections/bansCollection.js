@@ -32,17 +32,6 @@ const c_create = async (user_id, hours) => {
 				message: 'bansCollection: Invalid hours (must be numeric)'
 			}
 		}
-	
-		// [EXISTANCE] //
-		const existance = await c_existance(user_id)
-
-		if (!existance.status || existance.existance) {
-			return {
-				executed: true,
-				status: false,
-				message: existance.message
-			}
-		}
 
 		let banTime = new Date()
 		banTime.setHours(banTime.getHours() + hours)

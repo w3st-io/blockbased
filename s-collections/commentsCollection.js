@@ -597,7 +597,6 @@ const c_countAllByUser = async (user_id) => {
 }
 
 
-
 const c_countAllByPost = async (post_id) => {
 	try {
 		// [VALIDATE] post_id //

@@ -14,8 +14,18 @@ const ActivityModel = require('../s-models/ActivityModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (type, user_id, post_id, created_user_id, created_post_id, created_comment_id) => {
+const c_create = async (user_id, type, post_id, created_user_id, created_post_id, created_comment_id) => {
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid user_id',
+			}
+		}
+
+
 		// [VALIDATE] type //
 		if (!validator.isAscii(type)) {
 			return {
@@ -25,14 +35,6 @@ const c_create = async (type, user_id, post_id, created_user_id, created_post_id
 			}
 		}
 
-		// [VALIDATE] user_id //
-		if (!mongoose.isValidObjectId(user_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'activitiesCollection: Invalid user_id',
-			}
-		}
 
 		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {

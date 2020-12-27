@@ -90,8 +90,8 @@ router.post(
 
 						// [CREATE] Activity //
 						const activity = await activitiesCollection.c_create(
-							'comment',
 							req.decoded.user_id,
+							'comment',
 							comment.comment.post,
 							undefined,
 							undefined,
@@ -541,15 +541,31 @@ router.post(
 				)
 
 				if (commentObj.status && commentObj.comment) {
-					// [CREATE] commentReport //
-					const commentReport = await commentReportsCollection.c_create(
-						req.decoded.user_id,
-						commentObj.comment,
-						req.body.post_id,
-						req.body.reportType
+					// [EXISTANCE] Do not double save //
+					const existance = await commentReportsCollection.c_existanceByUserAndComment(
+						user_id,
+						comment._id
 					)
-					
-					res.status(200).send(commentReport)
+
+					if (existance.status && !existance.existance) {
+						// [CREATE] commentReport //
+						const commentReport = await commentReportsCollection.c_create(
+							req.decoded.user_id,
+							commentObj.comment,
+							req.body.post_id,
+							req.body.reportType
+						)
+
+						res.status(200).send(commentReport)
+					}
+					else {
+						res.status(200).send({
+							executed: true,
+							status: false,
+							message: existance.message,
+							existance: existance.existance,
+						})
+					}
 				}
 				else {
 					res.status(200).send({

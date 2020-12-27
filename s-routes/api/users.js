@@ -314,8 +314,8 @@ router.post(
 
 					// [CREATE] Activity //
 					const activity = await activitiesCollection.c_create(
-						'user',
 						user.user._id,
+						'user',
 						undefined,
 						user.user._id,
 						undefined,

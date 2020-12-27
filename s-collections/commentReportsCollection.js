@@ -45,11 +45,6 @@ const c_create = async (user_id, comment, post_id, reportType) => {
 
 		// [FORMAT] //
 		reportType = reportType.toLowerCase()
-
-		// [EXISTANCE] Do not double save //
-		const existance = await c_existance(user_id, comment._id)
-		
-		if (!existance.status || existance.existance) { return existance }
 	
 		// [SAVE] //
 		const commentReport = await new CommentReportModel({
@@ -192,7 +187,7 @@ const c_markHandled = async (commentReport_id) => {
 
 /******************* [EXISTANCE] *******************/
 // Verify that User is not Double Reporting //
-const c_existance = async (user_id, comment) => {
+const c_existanceByUserAndComment = async (user_id, comment) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -242,5 +237,5 @@ module.exports = {
 	c_delete,
 	c_readUnhandled,
 	c_markHandled,
-	c_existance,
+	c_existanceByUserAndComment,
 }
