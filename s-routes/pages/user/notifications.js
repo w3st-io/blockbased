@@ -50,7 +50,7 @@ router.get(
 					executed: true,
 					status: true,
 					notifications,
-					totalNotifications,
+					totalNotifications: totalNotifications,
 					totalPages,
 				})
 			}

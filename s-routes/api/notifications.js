@@ -21,19 +21,10 @@ const router = express.Router().use(cors())
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] SORT //
 router.get(
-	'/',
+	'/read-sort/:limit/:page',
 	Auth.userToken(),
 	async (req, res) => {
-		console.log('sdfsdf');
-		res.send({ executed: true, })
-	}
-)
-// [READ-ALL] SORT //
-router.get(
-	'/read-sort/:sort/:limit/:page',
-	Auth.userToken(),
-	async (req, res) => {
-		console.log('runnign');
+		console.log('running')
 		try {
 			// [VALIDATE] //
 			if (

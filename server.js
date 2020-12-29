@@ -105,7 +105,7 @@ app.use('/pages/post/comment-reply', p_post_commentReply)
 app.use('/pages/user/activity', p_user_activity)
 app.use('/pages/user/activity/lookup', p_user_activity_lookup)
 app.use('/pages/user/followed', p_user_followed)
-app.use('/pages/user/notifications', p_user_notifications)
+app.use('/pages/user/notification', p_user_notifications)
 app.use('/pages/user/profile', p_user_profile)
 app.use('/pages/user/profile/lookup', p_user_profile_lookup)
 
