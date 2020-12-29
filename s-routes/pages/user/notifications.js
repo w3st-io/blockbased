@@ -19,7 +19,7 @@ const router = express.Router().use(cors())
 
 // [READ-ALL] //
 router.get(
-	'/:limit/:page',
+	'/:sort/:limit/:page',
 	Auth.userToken(),
 	async (req, res) => {
 		try {

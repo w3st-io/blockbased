@@ -229,7 +229,7 @@ async function s_user_notifications(sort = 0, limit, page) {
 		const authAxios = await this.authAxios()
 
 		return (
-			await authAxios.post(`/user/notification/${limit}/${page}`)
+			await authAxios.get(`/user/notification/${sort}/${limit}/${page}`)
 		).data
 	}
 	catch (err) {
