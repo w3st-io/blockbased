@@ -104,16 +104,20 @@
 
 		data: function() {
 			return {
+				sort: parseInt(this.$route.params.sort),
+				limit: parseInt(this.$route.params.limit),
+				page: parseInt(this.$route.params.page),
 				loading: true,
+				error: '',
 				data: {},
 				notifications: [],
-				page: 0,
-				error: '',
 			}
 		},
 
 		created: async function() {
 			await this.getPageData()
+
+			this.log()
 		},
 		
 		methods: {
@@ -129,6 +133,65 @@
 				else { this.error = this.data.message }
 
 				this.loading = false
+			},
+
+			refreshRoute() {
+				// [REDIRECT] Notifications Page //
+				router.push({
+					name: 'notifications',
+					params: {
+						sort: this.sort,
+						limit: this.limit,
+						page: this.page,
+					}
+				})
+			},
+
+			async startPage() {
+				// As long as the page is not going into 0 or negative //
+				if (this.page != 1) {
+					this.loading = true
+					this.page = 1
+					
+					this.refreshRoute()
+
+					await this.getPageData()
+				}
+			},
+
+			async prevPage() {
+				// As long as the page is not going into 0 or negative //
+				if (this.page != 1) {
+					this.loading = true
+					this.page--
+					
+					this.refreshRoute()
+					
+					await this.getPageData()
+				}
+			},
+
+			async nextPage() {
+				// As long as page does not exceed max Number of Pages //
+				if (this.page < this.data.pageCount) {
+					this.loading = true
+					this.page++
+
+					this.refreshRoute()
+
+					await this.getPageData()
+				}
+			},
+
+			async endPage() {
+				if (this.page != this.data.pageCount) {
+					this.loading = true
+					this.page = this.data.postsObj.pageCount
+
+					this.refreshRoute()
+
+					await this.getPageData()
+				}
 			},
 
 			async clicked(notification_id, post_id) {

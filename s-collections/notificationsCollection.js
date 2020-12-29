@@ -106,6 +106,60 @@ const c_readAll = async (user_id) => {
 
 
 /******************* [OTHER-CRUD] *******************/
+// [READ-ALL] //
+const c_readSort = async (user_id, sort, limit, skip) => {
+	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'notificationsCollection: Invalid user_id',
+				updated: false,
+			}
+		}
+
+		// [INIT] //
+		let sort2
+
+		if (sort == 0) { sort2 = { created_at: -1 } }
+		else { sort2 = {} }
+
+		const notifications = await NotificationModel.find({ user: user_id })
+			.sort(sort2)
+			.skip(skip)
+			.limit(limit)
+			.populate({
+				path: 'comment',
+				populate: {
+					path: 'user',
+					select: 'username',
+				}
+			})
+			.populate({
+				path: 'comment',
+				populate: {
+					path: 'post',
+					select: 'title',
+				}
+			})
+	
+		return {
+			executed: true,
+			status: true,
+			notifications: notifications
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `nofiticationsCollection: Error --> ${err}`
+		}
+	}
+}
+
+
 // [READ-ALL] Unread //
 const c_readAllUnread = async (user_id) => {
 	try {
@@ -287,6 +341,7 @@ const c_count = async (user_id) => {
 module.exports = {
 	c_create,
 	c_readAll,
+	c_readSort,
 	c_readAllUnread,
 	c_deleteByComment,
 	c_deleteCustom,

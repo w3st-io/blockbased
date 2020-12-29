@@ -230,7 +230,7 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/user/notifications',
+			path: '/user/notifications/:sort/:limit/:page',
 			name: 'notifications',
 			component: user_notifications,
 			meta: {

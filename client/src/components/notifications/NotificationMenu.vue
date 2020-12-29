@@ -120,6 +120,11 @@
 				// [REDIRECT] //
 				router.push({
 					name: 'notifications',
+					params: {
+						sort: 0,
+						limit: 3,
+						page: 1,
+					},
 				})
 			},
 

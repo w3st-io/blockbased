@@ -134,6 +134,43 @@
 				await this.getPageData()
 			},
 
+			async getPageData() {
+				try {
+					this.data = await PageService.s_cat(
+						this.cat_id,
+						this.sort,
+						this.limit,
+						this.page,
+					)
+				}
+				catch (err) { this.error = `This: --> ${err}` }
+
+				if (this.data.status) {
+					// Store Posts & Cats //
+					this.posts = this.data.postsObj.posts
+					this.cats = this.data.cats
+
+					// Get Cat Details //
+					this.cat = this.cats.find(cat => cat.cat_id === this.cat_id)
+				}
+				else { this.error = this.data.message }
+
+				this.loading = false
+			},
+
+			refreshRoute() {
+				// [REDIRECT] Cat Page //
+				router.push({
+					name: 'cat',
+					params: {
+						cat_id: this.cat_id,
+						sort: this.sort,
+						limit: this.limit,
+						page: this.page,
+					}
+				})
+			},
+
 			async startPage() {
 				// As long as the page is not going into 0 or negative //
 				if (this.page != 1) {
@@ -179,43 +216,6 @@
 
 					await this.getPageData()
 				}
-			},
-
-			refreshRoute() {
-				// [REDIRECT] Cat Page //
-				router.push({
-					name: 'cat',
-					params: {
-						cat_id: this.cat_id,
-						sort: this.sort,
-						limit: this.limit,
-						page: this.page,
-					}
-				})
-			},
-
-			async getPageData() {
-				try {
-					this.data = await PageService.s_cat(
-						this.cat_id,
-						this.sort,
-						this.limit,
-						this.page,
-					)
-				}
-				catch (err) { this.error = `This: --> ${err}` }
-
-				if (this.data.status) {
-					// Store Posts & Cats //
-					this.posts = this.data.postsObj.posts
-					this.cats = this.data.cats
-
-					// Get Cat Details //
-					this.cat = this.cats.find(cat => cat.cat_id === this.cat_id)
-				}
-				else { this.error = this.data.message }
-
-				this.loading = false
 			},
 
 			log() {

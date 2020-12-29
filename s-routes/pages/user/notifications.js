@@ -38,9 +38,10 @@ router.get(
 				)
 
 				// [COUNT] postFollows //
-				const totalNotifications = (
-					await notificationsCollection.c_count(req.decoded.user_id)
-				).count
+				const {
+					count: totalNotifications
+				} = await notificationsCollection.c_count(req.decoded.user_id)
+				
 
 				// [COUNT] totalPages //
 				const totalPages = Math.ceil(totalNotifications / limit)
