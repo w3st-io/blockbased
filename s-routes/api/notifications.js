@@ -21,6 +21,30 @@ const router = express.Router().use(cors())
 /******************* [CRUD] *******************/
 // [READ-ALL] //
 router.get(
+	'/read-all',
+	Auth.userToken(),
+	async (req, res) => {
+		try {
+			const returned = await notificationsCollection.c_readAllUnread(
+				req.decoded.user_id
+			)
+
+			res.status(200).send(returned)
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				message: `/api/notifications: Error --> ${err}`,
+			})
+		}
+	}
+)
+
+
+/******************* [OTHER-CRUD] *******************/
+// [READ-ALL] //
+router.get(
 	'/read-all-unread',
 	Auth.userToken(),
 	async (req, res) => {
