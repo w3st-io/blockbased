@@ -18,18 +18,50 @@ const Auth = require('../../s-middleware/Auth')
 const router = express.Router().use(cors())
 
 
-/******************* [CRUD] *******************/
-// [READ-ALL] //
+/******************* [OTHER-CRUD] *******************/
+// [READ-ALL] SORT //
 router.get(
-	'/read-all',
+	'/',
 	Auth.userToken(),
 	async (req, res) => {
+		console.log('sdfsdf');
+		res.send({ executed: true, })
+	}
+)
+// [READ-ALL] SORT //
+router.get(
+	'/read-sort/:sort/:limit/:page',
+	Auth.userToken(),
+	async (req, res) => {
+		console.log('runnign');
 		try {
-			const returned = await notificationsCollection.c_readAllUnread(
-				req.decoded.user_id
-			)
+			// [VALIDATE] //
+			if (
+				Number.isInteger(parseInt(req.params.sort)) &&
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.page))
+			) {
+				// [INIT] //
+				const sort = parseInt(req.params.sort)
+				const limit = parseInt(req.params.limit)
+				const pageIndex = parseInt(req.params.page) - 1
+				const skip = pageIndex * limit
 
-			res.status(200).send(returned)
+				const returned = await notificationsCollection.c_readAllUnread(
+					req.decoded.user_id,
+					limit,
+					skip,
+				)
+
+				res.status(200).send(returned)
+			}
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
+					message: '/api/administration/comments: Invalid params'
+				})
+			}
 		}
 		catch (err) {
 			res.status(200).send({
@@ -42,7 +74,6 @@ router.get(
 )
 
 
-/******************* [OTHER-CRUD] *******************/
 // [READ-ALL] //
 router.get(
 	'/read-all-unread',

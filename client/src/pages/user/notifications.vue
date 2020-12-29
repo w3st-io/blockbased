@@ -1,26 +1,31 @@
 <template>
-	<div class="container">
-		<div class="row mt-3">
-			<div class="col-9">
+	<BContainer>
+		<BRow class="mt-3">
+			<BCol cols="12">
 				<BCard bg-variant="dark" class="text-light">
-					<h4>Notifications</h4>
+					<BRow>
+						<!-- Title -->
+						<BCol cols="12" sm="5" md="6" lg="8">
+							<h4>Notifications</h4>
+						</BCol>
 
-					<!-- Page Control -->
-					<section class="mt-3">
-						<PageNavButtons
-							@start-btn="startPage()"
-							@prev-btn="prevPage()"
-							@next-btn="nextPage()"
-							@end-btn="endPage()"
-							:badgeValue="page"
-							class="w-100"
-							style="max-width: 300px;"
-						/>
-					</section>
+						<!-- Page Control -->
+						<BCol cols="12" sm="7" md="6" lg="4">
+							<PageNavButtons
+								@start-btn="startPage()"
+								@prev-btn="prevPage()"
+								@next-btn="nextPage()"
+								@end-btn="endPage()"
+								:badgeValue="page"
+								class="w-100 ml-auto"
+								style="max-width: 300px;"
+							/>
+						</BCol>
+					</BRow>
 
 					<!-- Main -->
-					<div class="row mt-3">
-						<div class="col-12">
+					<BRow class="mt-3">
+						<BCol cols="12">
 							<BCard
 								v-for="notification in notifications"
 								:key="notification._id"
@@ -30,11 +35,12 @@
 								class="mb-2 p-2"
 							>
 								<a
-									@click="
-										clicked(notification._id, notification.comment.post._id)
-									"
+									@click="clicked(
+										notification._id,
+										notification.comment.post._id
+									)"
 								>
-									<div class="row text-secondary">
+									<BRow class="text-secondary">
 										<!-- Header -->
 										<h5
 											class="col-md-10 m-0"
@@ -57,29 +63,27 @@
 
 										<!-- Text -->
 										<p v-html="notification.comment.text" class="col-12 m-0"></p>
-									</div>
+									</BRow>
 								</a>
 							</BCard>
-						</div>
-					</div>
+						</BCol>
+					</BRow>
 
 					<!-- [LOADING] -->
-					<section v-show="loading" class="row mt-3">
-						<div class="col-12">
-							<Alert />
-						</div>
-					</section>
+					<BRow v-show="loading" class="mt-3">
+						<BCol cols="12"><Alert /></BCol>
+					</BRow>
 
 					<!-- [ALERTS] -->
-					<section v-show="error" class="row mt-3">
-						<div class="col-12">
-							<Alert variant="danger" :message="'Activity Page: ' + error" />
-						</div>
-					</section>
+					<BRow v-show="error" class="mt-3">
+						<BCol cols="12">
+							<Alert variant="danger" :message="'Notification Page: ' + error" />
+						</BCol>
+					</BRow>
 				</BCard>
-			</div>
-		</div>
-	</div>
+			</BCol>
+		</BRow>
+	</BContainer>
 </template>
 
 <script>
@@ -115,7 +119,7 @@
 		methods: {
 			async getPageData() {
 				try {
-					this.data = await PageService.s_user_notifications(100, 0)
+					this.data = await PageService.s_user_notifications(0, 100, 0)
 				}
 				catch (err) { this.error = `This: --> ${err}` }
 

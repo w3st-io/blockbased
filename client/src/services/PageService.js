@@ -223,11 +223,20 @@ async function s_user_followed(limit, page) {
 }
 
 
-async function s_user_notifications(limit, page) {
+async function s_user_notifications(sort = 0, limit, page) {
 	try {
+		console.log('s_user_notifications')
+		
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.get(`/user/notifications/${limit}/${page}`)).data
+		const test = await authAxios.get(`/user/ddd/`)
+		console.log('test',test)
+
+		return (
+			await authAxios.get(
+				`/user/notifications/read-sort/${sort}/${limit}/${page}`
+			)
+		).data
 	}
 	catch (err) {
 		return {
