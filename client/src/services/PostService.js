@@ -34,23 +34,6 @@ async function s_create(cat_id, title, text) {
 }
 
 
-// [READ] Single Post //
-async function s_read(post_id) {
-	try {
-		const authAxios = await this.authAxios()
-		
-		return (await authAxios.get(`/read/${post_id}`)).data
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `PostService: Error --> ${err}`
-		}
-	}
-}
-
-
 /******************* [LIKE-SYSTEM] *******************/
 // ADD/REMOVE LIKE //
 async function s_like(post_id, postUser_id) {
@@ -122,7 +105,6 @@ async function s_unfollow(post_id) {
 export default {
 	authAxios,
 	s_create,
-	s_read,
 	s_like,
 	s_unlike,
 	s_follow,

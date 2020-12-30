@@ -137,6 +137,22 @@ async function s_post(post_id, limit, page) {
 }
 
 
+async function s_post_commentCreate(post_id) {
+	try {
+		const authAxios = await this.authAxios()
+
+		return (await authAxios.get(`/post/comment-create/${post_id}`)).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `PageService: Error --> ${err}`
+		}
+	}
+}
+
+
 async function s_post_commentEdit(comment_id) {
 	try {
 		const authAxios = await this.authAxios()
@@ -285,6 +301,7 @@ export default {
 	s_cat,
 	s_cat_postCreate,
 	s_post,
+	s_post_commentCreate,
 	s_post_commentEdit,
 	s_post_commentReply,
 	s_user_activity,

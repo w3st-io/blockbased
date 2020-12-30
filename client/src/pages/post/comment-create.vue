@@ -24,7 +24,7 @@
 	import CommentCreate from '@components/comment/Create'
 	import CommentService from '@services/CommentService'
 	import Alert from '@components/misc/Alert'
-	import PostService from '@services/PostService'
+	import PageService from '@services/PageService'
 	import router from '@router'
 
 	// [EXPORT] //
@@ -39,11 +39,8 @@
 				// Default //
 				loading: true,
 				post_id: this.$route.params.post_id,
-				
-				// Post //
+				pageData: {},
 				post: {},
-
-				// Comment //
 				data: {},
 
 				// Msssage + Error //
@@ -59,14 +56,15 @@
 			// [REDIRECT] Log Needed //
 			if (!localStorage.usertoken) { router.push({ name: 'login' }) }			
 
-			// Get Post Details //
-			this.post = await PostService.s_read(this.post_id)
+			// Get Post Details // Assign post data //
+			this.pageData = await PageService.s_post_commentCreate(this.post_id)
+			this.post = this.pageData.post
 
 			// Set Loaded //
 			this.loading = false
 
 			// [LOG] //
-			//this.log()
+			this.log()
 		},
 
 		methods: {
@@ -99,6 +97,9 @@
 			log() {
 				console.log('%%% [PAGE] PostCommentCreate %%%')
 				console.log('post_id:', this.post_id)
+				console.log('pageData:', this.pageData)
+				console.log('post:', this.post)
+				console.log('data:', this.data)
 			},
 		}
 	}
