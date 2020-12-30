@@ -17,12 +17,11 @@
 							cols="12" sm="4" md="4" lg="6"
 							class="text-right d-none d-sm-block"
 						>
-							<BBadge variant="dark" class="mb-2 text-secondary">
-								<h5 v-if="data.postsObj" class="m-0">
+							<BBadge v-if="data.postsObj" variant="dark" class="mb-2 text-secondary">
+								<span class="h5">
 									Total Posts: {{ data.postsObj.postsCount }}
-								</h5>
+								</span>
 							</BBadge>
-							<br>
 						</BCol>
 
 						<!-- Create Button -->
@@ -50,8 +49,8 @@
 					</BRow>
 
 					<BRow class="text-center">
+						<!-- Tabs -->
 						<BCol cols="12" class="py-2">
-							<!-- Tabs -->
 							<ButtonTabs
 								:tabs="['recent', 'popular']"
 								@tabClicked="tab"
@@ -62,8 +61,8 @@
 					</BRow>
 
 					<BRow>
+						<!-- Post List -->
 						<BCol cols="12">
-							<!-- Display All the Posts -->
 							<PostList
 								v-if="!loading"
 								:posts="posts"
@@ -73,22 +72,20 @@
 					</BRow>
 
 					<BRow>
+						<!-- No content -->
 						<BCol cols="12">
-							<!-- [DEFAULT] If No content -->
 							<NoContent v-if="!loading && posts == ''" class="mt-3" />
 						</BCol>
 					</BRow>
 
 					<BRow v-show="loading" class="mt-3">
-						<BCol cols="12">
-							<!-- [LOADING] -->
-							<Alert />
-						</BCol>
+						<!-- Loading -->
+						<BCol cols="12"><Alert /></BCol>
 					</BRow>
 
 					<BRow class="mt-3">
+						<!-- Botton Page Control -->
 						<BCol cols="12">
-							<!-- Botton Page Control -->
 							<PageNavButtons
 								@start-btn="startPage()"
 								@prev-btn="prevPage()"
@@ -104,8 +101,8 @@
 			</BCol>
 		</BRow>
 
-		<!-- [ALERTS] -->
 		<BRow v-show="error" class="mt-3">
+			<!-- Error -->
 			<BCol cols="12">
 				<Alert variant="danger" :message="'Cat Page: ' + error" />
 			</BCol>
