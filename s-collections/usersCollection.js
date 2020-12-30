@@ -212,6 +212,7 @@ const c_readSorted = async (sort = 0, limit, skip) => {
 			.sort(sort)
 			.limit(limit)
 			.skip(skip)
+			.select('-password')
 			.exec()
 		
 		return {

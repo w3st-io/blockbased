@@ -26,12 +26,16 @@ router.get(
 			// [VALIDATE] //
 			if (mongoose.isValidObjectId(req.params.comment_id)) {
 				// [READ] Comment //
-				const returned = await commentsCollection.c_read(req.params.comment_id)
+				const returned = await commentsCollection.c_read(
+					req.params.comment_id
+				)
 			
 				if (returned.status) {
 					// [COUNT] Likes //
 					returned.comment.likeCount = (
-						await commentLikesCollection.c_countByComment(req.params.comment_id)
+						await commentLikesCollection.c_countByComment(
+							req.params.comment_id
+						)
 					).count
 	
 					// [USER-LOGGED] //
