@@ -7,10 +7,10 @@
 			<BRow>
 				<!-- Title -->
 				<BCol sm="10">
-					<h3 class="mb-2 text-light">
+					<h3 v-if="post" class="mb-2 text-light">
 						{{ post.title }}
 						<br>
-						<p v-if="post.user" class="small text-secondary hide-the-ugly" style="font-size: .5em;">
+						<p class="text-secondary" style="font-size: .5em;">
 							Posted by: {{ post.user.username }} -
 							{{ new Date(post.created_at).toLocaleString() }}
 						</p>
@@ -20,7 +20,9 @@
 				<!-- Follow + Count -->
 				<BCol sm="2" class="text-right">
 					<div class="mb-3">
-						<BBadge variant="light" class="ml-2">{{ post.followsCount }}</BBadge>
+						<BBadge variant="light" class="ml-2">
+							{{ post.followsCount }}
+						</BBadge>
 						<button
 							:disabled="disabled"
 							@click="followBtn()"
