@@ -143,6 +143,7 @@ const c_readSort = async (user_id, sort, limit, skip) => {
 					select: 'title',
 				}
 			})
+			.exec()
 	
 		return {
 			executed: true,

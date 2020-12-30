@@ -102,7 +102,7 @@ router.get(
 					).count
 					
 					// [COUNT] Calculate Pages //
-					postsObj.pageCount = Math.ceil(postsObj.postsCount / limit)
+					postsObj.totalPages = Math.ceil(postsObj.postsCount / limit)
 				}
 				
 				res.status(200).send({

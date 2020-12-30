@@ -123,7 +123,11 @@
 		methods: {
 			async getPageData() {
 				try {
-					this.data = await PageService.s_user_notifications(0, 100, 0)
+					this.data = await PageService.s_user_notifications(
+						this.sort,
+						this.limit,
+						this.page
+					)
 				}
 				catch (err) { this.error = `This: --> ${err}` }
 
@@ -173,7 +177,7 @@
 
 			async nextPage() {
 				// As long as page does not exceed max Number of Pages //
-				if (this.page < this.data.pageCount) {
+				if (this.page < this.data.totalPages) {
 					this.loading = true
 					this.page++
 
@@ -184,9 +188,9 @@
 			},
 
 			async endPage() {
-				if (this.page != this.data.pageCount) {
+				if (this.page != this.data.totalPages) {
 					this.loading = true
-					this.page = this.data.postsObj.pageCount
+					this.page = this.data.postsObj.totalPages
 
 					this.refreshRoute()
 

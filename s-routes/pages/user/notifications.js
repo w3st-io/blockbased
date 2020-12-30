@@ -28,13 +28,17 @@ router.get(
 				Number.isInteger(parseInt(req.params.page))
 			) {
 				// [INIT] //
+				const sort = parseInt(req.params.sort)
 				const limit = parseInt(req.params.limit)
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
 
 				// [READ-ALL] //
-				const { notifications } = await notificationsCollection.c_readAll(
-					req.decoded.user_id
+				const { notifications } = await notificationsCollection.c_readSort(
+					req.decoded.user_id,
+					sort,
+					limit,
+					skip
 				)
 
 				// [COUNT] postFollows //
@@ -50,7 +54,7 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: true,
-					notifications,
+					notifications: notifications,
 					totalNotifications: totalNotifications,
 					totalPages,
 				})

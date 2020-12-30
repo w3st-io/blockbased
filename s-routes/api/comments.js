@@ -228,7 +228,7 @@ router.get(
 					).count
 
 					// [COUNT] Calculate Total Pages //
-					commentsObj.pageCount = Math.ceil(commentsObj.commentsCount / limit)
+					commentsObj.totalPages = Math.ceil(commentsObj.commentsCount / limit)
 				
 					res.status(200).send(commentsObj)
 				}

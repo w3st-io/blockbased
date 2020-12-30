@@ -44,7 +44,7 @@ router.get(
 				).count
 				
 				// [COUNT] Calculate Pages //
-				activitiesObj.pageCount = Math.ceil(activitiesObj.count / limit)
+				activitiesObj.totalPages = Math.ceil(activitiesObj.count / limit)
 
 				res.status(200).send(activitiesObj)
 			}

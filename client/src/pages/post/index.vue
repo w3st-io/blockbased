@@ -153,9 +153,9 @@
 			},
 
 			async endPage() {
-				if (this.pageNumber != this.returned.commentsObj.pageCount) {
+				if (this.pageNumber != this.returned.commentsObj.totalPages) {
 					this.loading = true
-					this.pageNumber = this.returned.commentsObj.pageCount
+					this.pageNumber = this.returned.commentsObj.totalPages
 
 					this.refreshRoute()
 
@@ -188,7 +188,7 @@
 				if (this.returned.status) {
 					this.post = this.returned.postObj.post
 					this.comments = this.returned.commentsObj.comments
-					this.totalPages = this.returned.commentsObj.pageCount
+					this.totalPages = this.returned.commentsObj.totalPages
 					this.postTitle = this.post.title
 				}
 				else { this.error = this.returned.message }
