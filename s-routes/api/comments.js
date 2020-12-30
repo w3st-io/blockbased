@@ -407,8 +407,8 @@ router.post(
 		try {
 			// [VALIDATE] //
 			if (
+				mongoose.isValidObjectId(req.body.post_id) &&
 				mongoose.isValidObjectId(req.body.comment_id) &&
-				validator.isAscii(req.body.post_id) &&
 				validator.isAscii(req.body.reportType)
 			) {
 				// [FORMAT] //
@@ -422,8 +422,8 @@ router.post(
 				if (commentObj.status && commentObj.comment) {
 					// [EXISTANCE] Do not double save //
 					const existance = await commentReportsCollection.c_existanceByUserAndComment(
-						user_id,
-						comment._id
+						req.decoded.user_id,
+						commentObj.comment._id
 					)
 
 					if (existance.status && !existance.existance) {

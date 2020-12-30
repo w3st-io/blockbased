@@ -92,6 +92,8 @@
 			if (!localStorage.admintoken) { router.push({ name: 'a-login' }) }
 
 			await this.getData()
+
+			this.log()
 		},
 
 		methods: {
@@ -108,6 +110,11 @@
 					this.commentReports = this.returned.commentReports
 				}
 				else { this.error = this.returned.message }
+			},
+
+			log() {
+				console.log('%%% [PAGE] /admin/function %%%')
+				console.log('returned', this.returned)
 			},
 		}
 	}

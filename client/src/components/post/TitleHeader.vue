@@ -26,7 +26,7 @@
 		</BCol>
 
 		<!-- Add Comment -->
-		<BCol col="12" sm="6">
+		<BCol cols="12" sm="6">
 			<BButton
 				:disabled="disabled"
 				variant="primary"
@@ -36,7 +36,7 @@
 		</BCol>
 
 		<!-- Page Control -->
-		<BCol col="12" sm="6">
+		<BCol cols="12" sm="6">
 			<PageNavButtons
 				:badgeValue="badgeValue"
 				@start-btn="start()"

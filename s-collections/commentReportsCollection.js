@@ -213,7 +213,7 @@ const c_markHandled = async (commentReport_id) => {
 
 /******************* [EXISTANCE] *******************/
 // Verify that User is not Double Reporting //
-const c_existanceByUserAndComment = async (user_id, comment) => {
+const c_existanceByUserAndComment = async (user_id, comment_id) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -225,7 +225,7 @@ const c_existanceByUserAndComment = async (user_id, comment) => {
 		}
 
 		const commentReport = await CommentReportModel.findOne({	
-			'comment._id': comment._id,
+			'comment._id': comment_id,
 			user: user_id,
 		})
 
@@ -233,7 +233,7 @@ const c_existanceByUserAndComment = async (user_id, comment) => {
 			return {
 				executed: true,
 				status: true,
-				message: 'Comment report exists',
+				message: 'Comment report does NOT exists',
 				existance: false,
 			}
 		}
@@ -241,7 +241,7 @@ const c_existanceByUserAndComment = async (user_id, comment) => {
 		return {
 			executed: true,
 			status: true,
-			message: 'Comment report does NOT exists',
+			message: 'Comment report exists',
 			existance: true,
 			commentReport: commentReport,
 		}
