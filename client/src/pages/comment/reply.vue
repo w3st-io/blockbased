@@ -65,7 +65,7 @@
 		methods: {
 			async getPage() {
 				try {
-					this.data = await PageService.s_post_commentReply(this.comment_id)
+					this.data = await PageService.s_comment_reply(this.comment_id)
 				}
 				catch (err) { this.error = err }
 

@@ -24,11 +24,12 @@ import admin_register from '@pages/admin/register'
 // [CAT] //
 import cat from '@pages/cat'
 import cat_PostCreate from '@pages/cat/post-create'
+// [COMMENT] //
+import comment_create from '@pages/comment/create'
+import comment_edit from '@pages/comment/edit'
+import comment_reply from '@pages/comment/reply'
 // [POST] //
 import post from '@pages/post'
-import post_commentCreate from '@pages/post/comment-create'
-import post_commentEdit from '@pages/post/comment-edit'
-import post_commentReply from '@pages/post/comment-reply'
 // [USER] //
 import user_activity from '@pages/user/activity'
 import user_activity_lookup from '@pages/user/activity/lookup'
@@ -145,6 +146,35 @@ const router = new Router ({
 			}
 		},
 
+		// [COMMENT] //
+		{
+			path: '/comment/create/:post_id',
+			name: 'comment-create',
+			component: comment_create,
+			meta: {
+				auth: true,
+				title: 'Create Comment'
+			}
+		},
+		{
+			path: '/comment/edit/:comment_id',
+			name: 'comment-edit',
+			component: comment_edit,
+			meta: {
+				auth: true,
+				title: 'Edit Comment'
+			}
+		},
+		{
+			path: '/comment/reply/:comment_id',
+			name: 'comment-reply',
+			component: comment_reply,
+			meta: {
+				auth: true,
+				title: 'Reply to Comment'
+			}
+		},
+
 		// [POST] //
 		{
 			path: '/post/:post_id/:limit/:page',
@@ -153,33 +183,6 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Post -'
-			}
-		},
-		{
-			path: '/post/comment-create/:post_id',
-			name: 'comment-create',
-			component: post_commentCreate,
-			meta: {
-				auth: true,
-				title: 'Create Comment'
-			}
-		},
-		{
-			path: '/post/comment-edit/:comment_id',
-			name: 'comment-edit',
-			component: post_commentEdit,
-			meta: {
-				auth: true,
-				title: 'Edit Comment'
-			}
-		},
-		{
-			path: '/post/comment-reply/:comment_id',
-			name: 'comment-reply',
-			component: post_commentReply,
-			meta: {
-				auth: true,
-				title: 'Reply to Comment'
 			}
 		},
 

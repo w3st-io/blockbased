@@ -57,7 +57,7 @@
 			if (!localStorage.usertoken) { router.push({ name: 'login' }) }			
 
 			// Get Post Details // Assign post data //
-			this.pageData = await PageService.s_post_commentCreate(this.post_id)
+			this.pageData = await PageService.s_comment_create(this.post_id)
 			this.post = this.pageData.post
 
 			// Set Loaded //

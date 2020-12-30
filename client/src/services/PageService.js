@@ -137,11 +137,11 @@ async function s_post(post_id, limit, page) {
 }
 
 
-async function s_post_commentCreate(post_id) {
+async function s_comment_create(post_id) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.get(`/post/comment-create/${post_id}`)).data
+		return (await authAxios.get(`/comment/create/${post_id}`)).data
 	}
 	catch (err) {
 		return {
@@ -153,11 +153,11 @@ async function s_post_commentCreate(post_id) {
 }
 
 
-async function s_post_commentEdit(comment_id) {
+async function s_comment_edit(comment_id) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.get(`/post/comment-edit/${comment_id}`)).data
+		return (await authAxios.get(`/comment/edit/${comment_id}`)).data
 	}
 	catch (err) {
 		return {
@@ -169,11 +169,11 @@ async function s_post_commentEdit(comment_id) {
 }
 
 
-async function s_post_commentReply(comment_id) {
+async function s_comment_reply(comment_id) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.get(`/post/comment-reply/${comment_id}`)).data
+		return (await authAxios.get(`/comment/reply/${comment_id}`)).data
 	}
 	catch (err) {
 		return {
@@ -301,9 +301,9 @@ export default {
 	s_cat,
 	s_cat_postCreate,
 	s_post,
-	s_post_commentCreate,
-	s_post_commentEdit,
-	s_post_commentReply,
+	s_comment_create,
+	s_comment_edit,
+	s_comment_reply,
 	s_user_activity,
 	s_user_activity_lookup,
 	s_user_followed,
