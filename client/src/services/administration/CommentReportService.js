@@ -19,21 +19,6 @@ async function authAxios() {
 }
 
 
-/******************* [CRUD] *******************/
-// [DELETE] Auth Required //
-async function s_delete(report_id) {
-	const authAxios = await this.authAxios()
-
-	let result = new Promise ((resolve, reject) => {
-		authAxios.delete(`/delete/${report_id}`)
-			.then((res) => { resolve(res) })
-			.catch((err) => { reject(err) })
-	})
-
-	return result	
-}
-
-
 /******************* [MARK-HANDLED-STATUS] *******************/
 // [DELETE] Auth Required //
 async function s_markHandled(report_id) {
@@ -52,6 +37,5 @@ async function s_markHandled(report_id) {
 // [EXPORT] //
 export default {
 	authAxios,
-	s_delete,
 	s_markHandled,
 }

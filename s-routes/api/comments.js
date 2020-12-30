@@ -132,55 +132,6 @@ router.post(
 )
 
 
-// [READ] //
-router.get(
-	'/read/:comment_id',
-	async (req, res) => {
-		try {
-			// [VALIDATE] //
-			if (mongoose.isValidObjectId(req.params.comment_id)) {
-				// [READ] Comment //
-				const commentObj = await commentsCollection.c_read(req.params.comment_id)
-			
-				if (commentObj.status) {
-					// [COUNT] Likes //
-					commentObj.comment.likeCount = (
-						await commentLikesCollection.c_countByComment(req.params.comment_id)
-					).count
-	
-					// [USER-LOGGED] //
-					if (req.decoded) {
-						// [LIKED-STATUS] //
-						commentObj.comment.liked = (
-							await commentLikesCollection.c_existance(
-								req.decoded.user_id,
-								req.params.comment_id
-							)
-						).existance
-					}
-				}
-	
-				res.status(200).send(commentObj)
-			}
-			else {
-				res.status(200).send({
-					executed: true,
-					status: false,
-					message: '/api/comments: Invalid comment _id'
-				})
-			}
-		}
-		catch (err) {
-			res.status(200).send({
-				executed: false,
-				status: false,
-				message: `/api/comments: Error --> ${err}`,
-			})
-		}
-	},
-)
-
-
 // [UPDATE] Auth Required //
 router.post(
 	'/update',

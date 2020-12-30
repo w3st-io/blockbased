@@ -18,40 +18,6 @@ const Auth = require('../../../s-middleware/Auth')
 const router = express.Router().use(cors())
 
 
-/******************* [CRUD] *******************/
-// [DELETE] Auth Required //
-router.delete(
-	'/delete/:commentReport_id',
-	Auth.adminToken(),
-	async (req, res) => {
-		try {
-			// [VALIDATE] //
-			if (mongoose.isValidObjectId(req.params.commentReport_id)) {
-				const returned = await commentReportsCollection.c_delete(
-					req.params.commentReport_id
-				)
-				
-				res.status(200).send(returned)
-			}
-			else {
-				res.status(200).send({
-					executed: true,
-					status: false,
-					message: '/api/administration/comment-reports: Invalid commentReport_id'
-				})
-			}
-		}
-		catch (err) {
-			res.status(200).send({
-				executed: false,
-				status: false,
-				message: `/api/administration/comment-reports: Error --> ${err}`,
-			})
-		}
-	}
-)
-
-
 /******************* [MARK-HANDLED-STATUS] *******************/
 router.get(
 	'/mark-handled/:commentReport_id',

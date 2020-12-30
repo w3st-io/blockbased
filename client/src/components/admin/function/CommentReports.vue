@@ -35,7 +35,7 @@
 <script>
 	// [IMPORT] Personal //
 	import Alert from '@components/misc/Alert'
-	import AReportService from '@services/administration/CommentReportService'
+	import a_CommentReportService from '@services/administration/CommentReportService'
 
 	export default {
 		components: {
@@ -60,7 +60,7 @@
 		methods: {
 			async handleReport(report_id) {
 				// Handle Report //
-				try { await AReportService.s_markHandled(report_id) }
+				try { await a_CommentReportService.s_markHandled(report_id) }
 				catch (err) { this.error = err }
 				
 				this.$emit('refreshData')

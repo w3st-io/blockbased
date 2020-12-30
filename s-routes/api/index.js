@@ -20,7 +20,8 @@ router.get(
 	'/',
 	async (req, res) => {
 		res.send({
-			working: true,
+			base_url: config.BASE_URL,
+			socket_base_url: config.SOCKET_BASE_URL
 		})
 	}
 )

@@ -114,7 +114,7 @@
 
 			log() {
 				console.log('%%% [PAGE] /admin/function %%%')
-				console.log('returned', this.returned)
+				console.log('returned:', this.returned)
 			},
 		}
 	}

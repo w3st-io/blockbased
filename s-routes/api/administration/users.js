@@ -7,11 +7,9 @@
 const cors = require('cors')
 const express = require('express')
 const mongoose = require('mongoose')
-const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const usersCollection = require('../../../s-collections/usersCollection')
 const bansCollection = require('../../../s-collections/bansCollection')
 const Auth = require('../../../s-middleware/Auth')
 
