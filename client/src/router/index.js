@@ -23,13 +23,13 @@ import admin_profile from '@pages/admin/profile'
 import admin_register from '@pages/admin/register'
 // [CAT] //
 import cat from '@pages/cat'
-import cat_PostCreate from '@pages/cat/post-create'
 // [COMMENT] //
 import comment_create from '@pages/comment/create'
 import comment_edit from '@pages/comment/edit'
 import comment_reply from '@pages/comment/reply'
 // [POST] //
 import post from '@pages/post'
+import post_create from '@pages/post/create'
 // [USER] //
 import user_activity from '@pages/user/activity'
 import user_activity_lookup from '@pages/user/activity/lookup'
@@ -136,15 +136,6 @@ const router = new Router ({
 				title: `Cat -`
 			}
 		},
-		{
-			path: '/cat/post-create/:cat_id',
-			name: 'post-create',
-			component: cat_PostCreate,
-			meta: {
-				auth: true,
-				title: 'Create a Post'
-			}
-		},
 
 		// [COMMENT] //
 		{
@@ -183,6 +174,15 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Post -'
+			}
+		},
+		{
+			path: '/post/create/:cat_id',
+			name: 'post-create',
+			component: post_create,
+			meta: {
+				auth: true,
+				title: 'Create a Post'
 			}
 		},
 

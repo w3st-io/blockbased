@@ -39,7 +39,7 @@
 			// [REDIRECT] Not Log Needed //
 			if (!localStorage.usertoken) { router.push({ name: 'login' }) }
 
-			this.data = await PageService.s_cat_postCreate()
+			this.data = await PageService.s_post_create()
 
 			if (this.data.status) {
 				// Store Cats //
