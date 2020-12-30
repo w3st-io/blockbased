@@ -34,31 +34,31 @@ router.get(
 
 				// [RECENT-POST] //
 				cats[i].recentPost = (
-					await postsCollection.c_readSortByCat(cats[i].cat_id, 0, 1, 0)
+					await postsCollection.c_readByCatSorted(cats[i].cat_id, 0, 1, 0)
 				).posts[0]
 
 			}
 			
 			// [TOP-POSTS] //
 			const topPosts = (
-				await postsCollection.c_readSort(1, 5, 0)
+				await postsCollection.c_readSorted(1, 5, 0)
 			).posts
 
 			// For Each Post in Top Post //
 			for (let i = 0; i < topPosts.length; i++) {
 				// [COUNT] Likes //
 				topPosts[i].likeCount = (
-					await postLikesCollection.c_countAllByPost(topPosts[i]._id)
+					await postLikesCollection.c_countByPost(topPosts[i]._id)
 				).count
 				
 				// [COUNT] Follows //
 				topPosts[i].followsCount = (
-					await postFollowsCollection.c_countAll(topPosts[i]._id)
+					await postFollowsCollection.c_countByPost(topPosts[i]._id)
 				).count
 				
 				// [COUNT] Comments //
 				topPosts[i].commentCount = (
-					await commentsCollection.c_countAllByPost(topPosts[i]._id)
+					await commentsCollection.c_countByPost(topPosts[i]._id)
 				).count
 
 				// [USER-LOGGED] //

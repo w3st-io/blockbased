@@ -26,9 +26,9 @@ router.get(
 	Auth.adminToken(),
 	async (req, res) => {
 		try {
-			const usersObj = await usersCollection.c_readAll(100000, 0)
-			const postObj = await postsCollection.c_readAll(100000, 0)
-			const commentsObj = await commentsCollection.c_readAll(100000, 0)
+			const usersObj = await usersCollection.c_readSorted(0, 100000, 0)
+			const postObj = await postsCollection.c_readSorted(0, 100000, 0)
+			const commentsObj = await commentsCollection.c_readSorted(0, 100000, 0)
 			const commentReportsObj = await commentReportsCollection.c_readUnhandled(100000, 0)
 
 			if (usersObj.status) {

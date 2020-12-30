@@ -34,7 +34,7 @@ router.get(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] //
-				const { notifications } = await notificationsCollection.c_readSort(
+				const { notifications } = await notificationsCollection.c_readByUserSorted(
 					req.decoded.user_id,
 					sort,
 					limit,

@@ -38,7 +38,7 @@ router.get(
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
 
-				const returned = await notificationsCollection.c_readAllUnread(
+				const returned = await notificationsCollection.c_readByUserSortedUnread(
 					req.decoded.user_id,
 					limit,
 					skip,
@@ -67,11 +67,11 @@ router.get(
 
 // [READ-ALL] //
 router.get(
-	'/read-all-unread',
+	'/read-unread',
 	Auth.userToken(),
 	async (req, res) => {
 		try {
-			const returned = await notificationsCollection.c_readAllUnread(
+			const returned = await notificationsCollection.c_readByUserSortedUnread(
 				req.decoded.user_id
 			)
 

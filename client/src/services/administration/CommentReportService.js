@@ -20,22 +20,6 @@ async function authAxios() {
 
 
 /******************* [CRUD] *******************/
-// [READ-ALL-ALL] Auth Required //
-async function s_readAllAll() {
-	try {
-		const authAxios = await this.authAxios()
-		
-		return (await authAxios.get('/read-all')).data
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `Reports Service: Error --> ${err}`
-		}
-	}
-}
-
 // [DELETE] Auth Required //
 async function s_delete(report_id) {
 	const authAxios = await this.authAxios()
@@ -68,7 +52,6 @@ async function s_markHandled(report_id) {
 // [EXPORT] //
 export default {
 	authAxios,
-	s_readAllAll,
 	s_delete,
 	s_markHandled,
 }

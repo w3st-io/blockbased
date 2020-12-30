@@ -31,7 +31,7 @@ router.get(
 				if (returned.status) {
 					// [COUNT] Likes //
 					returned.comment.likeCount = (
-						await commentLikesCollection.c_countAllByComment(req.params.comment_id)
+						await commentLikesCollection.c_countByComment(req.params.comment_id)
 					).count
 	
 					// [USER-LOGGED] //

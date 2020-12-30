@@ -98,56 +98,9 @@ const c_create = async (user_id, type, post_id, created_user_id, created_post_id
 }
 
 
-// [READ-ALL] //
-const c_readAll = async () => {
-	try {
-		const activities = await ActivityModel.find()
-			// User // Post // Comment //
-			.populate({
-				path: 'user',
-				select: 'username bio profile_img'
-			})
-			.populate({
-				path: 'post',
-				populate: {
-					path: 'user',
-					select: 'username bio profile_img',
-				},
-			})
-			.populate({
-				path: 'comment',
-				populate: {
-					path: 'user',
-					select: 'username bio profile_img'
-				},
-			})
-			.populate({
-				path: 'comment',
-				populate: {
-					path: 'post',
-				},
-			})
-			.exec()
-
-		return {
-			executed: true,
-			status: true,
-			activities: activities,
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `activitiesCollection: Error --> ${err}`,
-		}
-	}
-}
-
-
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] Sort //
-const c_readAllSort = async (sort = 0, limit, skip) => {
+const c_readSorted = async (sort = 0, limit, skip) => {
 	try {
 		// [SANITIZE] //
 		sort = parseInt(sort)
@@ -194,8 +147,8 @@ const c_readAllSort = async (sort = 0, limit, skip) => {
 
 		const activities = await ActivityModel.find()
 			.sort(sort)
-			.skip(skip)
 			.limit(limit)
+			.skip(skip)
 			// user //
 			.populate({
 				path: 'user',
@@ -225,7 +178,7 @@ const c_readAllSort = async (sort = 0, limit, skip) => {
 
 
 // [READ-ALL] Sort //
-const c_readAllSortByUser = async (user_id, sort = 0, limit, skip) => {
+const c_readByUserSorted = async (user_id, sort = 0, limit, skip) => {
 	try {
 		// [SANITIZE] //
 		sort = parseInt(sort)
@@ -272,8 +225,8 @@ const c_readAllSortByUser = async (user_id, sort = 0, limit, skip) => {
 		
 		const activities = await ActivityModel.find({ user: user_id })
 			.sort(sort)
-			.skip(skip)
 			.limit(limit)
+			.skip(skip)
 			// user //
 			.populate({
 				path: 'user',
@@ -302,6 +255,7 @@ const c_readAllSortByUser = async (user_id, sort = 0, limit, skip) => {
 }
 
 
+// [DELETE] User Activity //
 const c_deleteUserActivityByUser = async (user_id) => {
 	try {
 		// [VALIDATE] user_id //
@@ -424,7 +378,7 @@ const c_deleteCustom = async (filter) => {
 
 
 /******************* [COUNT] *******************/
-const c_countAll = async () => {
+const c_count = async () => {
 	try {
 		const count = await ActivityModel.countDocuments()
 
@@ -444,7 +398,7 @@ const c_countAll = async () => {
 }
 
 
-const c_countAllByUser = async (user_id) => {
+const c_countByUser = async (user_id) => {
 	try {
 		const count = await ActivityModel.countDocuments({ user: user_id })
 		
@@ -493,14 +447,13 @@ const c_countTimeFrame = async (timePointA, timePointB) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
-	c_readAll,
-	c_readAllSort,
-	c_readAllSortByUser,
+	c_readSorted,
+	c_readByUserSorted,
 	c_deleteUserActivityByUser,
 	c_deletePostActivity,
 	c_deleteCommentActivity,
 	c_deleteCustom,
-	c_countAll,
-	c_countAllByUser,
+	c_count,
+	c_countByUser,
 	c_countTimeFrame,
 }

@@ -5,6 +5,7 @@
 */
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 
 // [REQUIRE] Personal //
@@ -59,56 +60,17 @@ const c_create = async (user_id, comment_id, type) => {
 }
 
 
-// [READ-ALL] //
-const c_readAll = async (user_id) => {
-	try {
-		// [VALIDATE] user_id //
-		if (!mongoose.isValidObjectId(user_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'notificationsCollection: Invalid user_id',
-				updated: false,
-			}
-		}
-
-		const notifications = await NotificationModel.find({ user: user_id })
-			.sort({ created_at: -1 })
-			.populate({
-				path: 'comment',
-				populate: {
-					path: 'user',
-					select: 'username',
-				}
-			})
-			.populate({
-				path: 'comment',
-				populate: {
-					path: 'post',
-					select: 'title',
-				}
-			})
-	
-		return {
-			executed: true,
-			status: true,
-			notifications: notifications
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `nofiticationsCollection: Error --> ${err}`
-		}
-	}
-}
-
-
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] //
-const c_readSort = async (user_id, sort, limit, skip) => {
+const c_readByUserSorted = async (user_id, sort, limit, skip) => {
 	try {
+		// [INIT] //
+		let sort2
+
+		// [SANTIZE] //
+		limit = parseInt(limit)
+		skip = parseInt(skip)
+
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
@@ -119,16 +81,43 @@ const c_readSort = async (user_id, sort, limit, skip) => {
 			}
 		}
 
-		// [INIT] //
-		let sort2
+		// [VALIDATE] sort //
+		if (!Number.isInteger(sort)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'notificationsCollection: Invalid sort',
+				updated: false,
+			}
+		}
+
+		// [VALIDATE] limit //
+		if (!Number.isInteger(limit)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'notificationsCollection: Invalid limit',
+				updated: false,
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'notificationsCollection: Invalid skip',
+				updated: false,
+			}
+		}
 
 		if (sort == 0) { sort2 = { created_at: -1 } }
 		else { sort2 = {} }
 
 		const notifications = await NotificationModel.find({ user: user_id })
 			.sort(sort2)
-			.skip(skip)
 			.limit(limit)
+			.skip(skip)
 			.populate({
 				path: 'comment',
 				populate: {
@@ -161,9 +150,12 @@ const c_readSort = async (user_id, sort, limit, skip) => {
 }
 
 
-// [READ-ALL] Unread //
-const c_readAllUnread = async (user_id) => {
+// [READ-ALL] Sort Unread //
+const c_readByUserSortedUnread = async (user_id, sort = 0) => {
 	try {
+		// [INIT] //
+		let sort2
+
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
@@ -174,11 +166,24 @@ const c_readAllUnread = async (user_id) => {
 			}
 		}
 
+		// [VALIDATE] user_id //
+		if (!Number.isInteger(sort)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'notificationsCollection: Invalid sort',
+				updated: false,
+			}
+		}
+
+		if (sort == 0) { sort2 = { created_at: -1 } }
+		else { sort2 = {} }
+
 		const notifications = await NotificationModel.find({
 			user: user_id,
 			read: false
 		})
-			.sort({ created_at: -1 })
+			.sort(sort2)
 			.populate({
 				path: 'comment',
 				populate: {
@@ -341,9 +346,8 @@ const c_count = async (user_id) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
-	c_readAll,
-	c_readSort,
-	c_readAllUnread,
+	c_readByUserSorted,
+	c_readByUserSortedUnread,
 	c_deleteByComment,
 	c_deleteCustom,
 	c_markRead,

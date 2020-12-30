@@ -44,12 +44,12 @@ router.get(
 				if (postObj.status) {
 					// [COUNT] Likes //
 					postObj.post.likeCount = (
-						await postLikesCollection.c_countAllByPost(postObj.post._id)
+						await postLikesCollection.c_countByPost(postObj.post._id)
 					).count
 		
 					// [COUNT] Follows //
 					postObj.post.followsCount = (
-						await postFollowsCollection.c_countAll(postObj.post._id)
+						await postFollowsCollection.c_countByPost(postObj.post._id)
 					).count
 	
 					// [USER-LOGGED] //
@@ -74,7 +74,7 @@ router.get(
 				else { res.status(200).send(postObj) }
 
 				//// [COMMENTS][READ-ALL] ////
-				const commentsObj = await commentsCollection.c_readAllByPost(
+				const commentsObj = await commentsCollection.c_readByPost(
 					req.params.post_id,
 					limit,
 					skip
@@ -84,7 +84,7 @@ router.get(
 					for (let i = 0; i < commentsObj.comments.length; i++) {
 						// [COUNT] Likes //
 						commentsObj.comments[i].likeCount = (
-							await commentLikesCollection.c_countAllByComment(
+							await commentLikesCollection.c_countByComment(
 								commentsObj.comments[i]._id
 							)
 						).count
@@ -103,7 +103,7 @@ router.get(
 
 					// [COUNT] Comments //
 					commentsObj.commentsCount = (
-						await commentsCollection.c_countAllByPost(req.params.post_id)
+						await commentsCollection.c_countByPost(req.params.post_id)
 					).count
 
 					// [COUNT] Calculate Total Pages //

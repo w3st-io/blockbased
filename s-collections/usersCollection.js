@@ -14,91 +14,6 @@ const UserModel = require('../s-models/UserModel')
 
 
 /******************* [CRUD] *******************/
-// [READ] //
-const c_read = async (user_id, select) => {
-	try {
-		// [VALIDATE] user_id //
-		if (!mongoose.isValidObjectId(user_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'UserCollection: Invalid user_id'
-			}
-		}
-
-		// [VALIDATE] user_id //
-		if (select != undefined && !validator.isAscii(select)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'UserCollection: Invalid select'
-			}
-		}
-	
-		const user = await UserModel.findOne({ _id: user_id }).select(select)
-
-		return {
-			executed: true,
-			status: true,
-			user: user
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `UserCollection: Error --> ${err}`
-		}
-	}
-}
-
-
-// [READ-ALL] //
-const c_readAll = async (limit, skip) => {
-	try {
-		// [SANTIZE] //
-		limit = parseInt(limit)
-		skip = parseInt(skip)
-
-		// [VALDIATE] limit //
-		if (!Number.isInteger(limit)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'usersCollection: Invalid limit',
-			}
-		}
-
-		// [VALIDATE] skip //
-		if (!Number.isInteger(skip)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'usersCollection: Invalid skip',
-			}
-		}
-
-		const users = await UserModel.find()
-			.skip(skip)
-			.limit(limit)
-			.exec()
-		
-		return {
-			executed: true,
-			status: true,
-			users: users
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `UserCollection: Error --> ${err}`
-		}
-	}
-}
-
-
 // [UPDATE] Profile Picture //
 const c_update = async (user_id, img_url, bio) => {
 	try {
@@ -246,7 +161,76 @@ const c_register = async (username, email, password) => {
 }
 
 
-const c_readSensitive = async (user_id, select = undefined) => {
+// [READ-ALL] Sorted //
+const c_readSorted = async (sort = 0, limit, skip) => {
+	try {
+		// [SANTIZE] //
+		sort = parse(sort)
+		limit = parseInt(limit)
+		skip = parseInt(skip)
+
+		// [VALIDATE] sort //
+		if (!Number.isInteger(sort)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'usersCollection: Invalid sort',
+			}
+		}
+
+		// [VALDIATE] limit //
+		if (!Number.isInteger(limit)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'usersCollection: Invalid limit',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'usersCollection: Invalid skip',
+			}
+		}
+
+		// Set Sort //
+		if (sort == 0) { sort = {} }
+		else if (sort == 1) { sort = { created_at: -1 } }
+		else {
+			return {
+				executed: true,
+				status: false,
+				message: 'usersCollection: Unknown filter'
+			}
+		}
+
+
+		const users = await UserModel.find()
+			.sort(sort)
+			.limit(limit)
+			.skip(skip)
+			.exec()
+		
+		return {
+			executed: true,
+			status: true,
+			users: users
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserCollection: Error --> ${err}`
+		}
+	}
+}
+
+
+const c_readSelect = async (user_id, select = undefined) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -485,11 +469,10 @@ const c_verifiedStatus = async (user_id) => {
 
 // [EXPORT] //
 module.exports = {
-	c_read,
-	c_readAll,
 	c_update,
 	c_register,
-	c_readSensitive,
+	c_readSorted,
+	c_readSelect,
 	c_readByEmail,
 	c_getIdByEmail,
 	c_updatePassword,

@@ -36,40 +36,6 @@ async function s_create(post_id, text, replyToComment = null) {
 }
 
 
-// [READ-ALL-ALL] Auth Required //
-async function s_readAllAll(limit, page) {
-	try {
-		const authAxios = await this.authAxios()
-
-		return (await authAxios.get(`/read-all-all/${limit}/${page}`)).data
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `ACommentService: Error --> ${err}`
-		}
-	}
-}
-
-
-// [READ-ALL] //
-async function s_readAll(post_id, limit, page) {
-	try {
-		const authAxios = await this.authAxios()
-		
-		return (await authAxios.get(`/read-all/${post_id}/${limit}/${page}`)).data
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `CommentService: Error --> ${err}`
-		}
-	}
-}
-
-
 // [READ] //
 async function s_read(comment_id) {
 	try {
@@ -182,8 +148,6 @@ async function s_report(post_id, comment_id, reportType) {
 export default {
 	authAxios,
 	s_create,
-	s_readAllAll,
-	s_readAll,
 	s_read,
 	s_update,
 	s_delete,

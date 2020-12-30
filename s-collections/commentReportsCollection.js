@@ -72,29 +72,6 @@ const c_create = async (user_id, comment, post_id, reportType) => {
 }
 
 
-// [READ-ALL] //
-const c_readAll = async () => {
-	try {
-		const commentReports = await CommentReportModel.find()
-			.populate({ path: 'user', select: 'username email bio profile_img' })
-			.exec()
-
-		return {
-			executed: true,
-			status: true,
-			commentReports: commentReports
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `commentReportsCollection: Error --> ${err}`
-		}
-	}
-}
-
-
 // [DELETE] //
 const c_delete = async (commentReport_id) => {
 	try {
@@ -128,10 +105,59 @@ const c_delete = async (commentReport_id) => {
 
 
 /******************* [OTHER-CRUD] *******************/
-const c_readUnhandled = async () => {
+const c_readUnhandled = async (sort = 0, limit, skip) => {
 	try {
+		// [SANITIZE] //
+		sort = parseInt(sort)
+		limit = parseInt(limit)
+		skip = parseInt(skip)
+
+		// [VALIDATE] sort //
+		if (!Number.isInteger(sort)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentReportsCollection: Invalid sort',
+			}
+		}
+
+		// [VALIDATE] limit //
+		if (!Number.isInteger(limit)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentReportsCollection: Invalid limit',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentReportsCollection: Invalid skip',
+			}
+		}
+
+		// Set Sort //
+		if (sort == 0) { sort = {} }
+		else if (sort == 1) { sort = { created_at: -1 } }
+		else {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentReportsCollection: Unknown filter'
+			}
+		}
+
 		const commentReports = await CommentReportModel.find({ handled: false })
-			.populate({ path: 'user', select: 'username email bio profile_img' })
+			.sort(sort)
+			.limit(limit)
+			.skip(skip)
+			.populate({
+				path: 'user',
+				select: 'username email bio profile_img'
+			})
 			.exec()
 
 		return {
@@ -233,7 +259,6 @@ const c_existanceByUserAndComment = async (user_id, comment) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
-	c_readAll,
 	c_delete,
 	c_readUnhandled,
 	c_markHandled,

@@ -29,7 +29,7 @@
 					</BRow>
 
 					<BRow>
-						<BCol cols="12">
+						<BCol cols="12" class="mt-3">
 							<!-- Display All the Posts -->
 							<PostList
 								v-if="!loading"

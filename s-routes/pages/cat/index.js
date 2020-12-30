@@ -41,7 +41,7 @@ router.get(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Sort //
-				const postsObj = await postsCollection.c_readSortByCat(
+				const postsObj = await postsCollection.c_readByCatSorted(
 					req.params.cat_id,
 					sort,
 					limit,
@@ -63,17 +63,17 @@ router.get(
 					for (let i = 0; i < postsObj.posts.length; i++) {
 						// [COUNT] Likes //
 						postsObj.posts[i].likeCount = (
-							await postLikesCollection.c_countAllByPost(postsObj.posts[i]._id)
+							await postLikesCollection.c_countByPost(postsObj.posts[i]._id)
 						).count
 						
 						// [COUNT] Follows //
 						postsObj.posts[i].followsCount = (
-							await postFollowsCollection.c_countAll(postsObj.posts[i]._id)
+							await postFollowsCollection.c_countByPost(postsObj.posts[i]._id)
 						).count
 						
 						// [COUNT] Comments //
 						postsObj.posts[i].commentCount = (
-							await commentsCollection.c_countAllByPost(postsObj.posts[i]._id)
+							await commentsCollection.c_countByPost(postsObj.posts[i]._id)
 						).count
 	
 						// [USER-LOGGED] //

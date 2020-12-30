@@ -134,54 +134,6 @@ const c_read = async (comment_id) => {
 }
 
 
-// [READ-ALL] //
-const c_readAll = async (limit, skip) => {
-	try {
-		// [SANTIZE] //
-		limit = parseInt(limit)
-		skip = parseInt(skip)
-
-		// [VALDIATE] limit //
-		if (!Number.isInteger(limit)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentsCollection: Invalid limit',
-			}
-		}
-
-		// [VALIDATE] skip //
-		if (!Number.isInteger(skip)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentsCollection: Invalid skip',
-			}
-		}
-
-		const comments = await CommentModel.find()
-			.skip(skip)
-			.limit(limit)
-			.populate({ path: 'user', select: 'username email bio profile_img', })
-			.populate({ path: 'post' })
-			.exec()
-		
-		return {
-			executed: true,
-			status: true,
-			comments: comments,
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `commentsCollection: Error --> ${err}`,
-		}
-	}
-}
-
-
 // [UPDATE] //
 const c_update = async (comment_id, user_id, text) => {
 	try {
@@ -293,8 +245,78 @@ const c_delete = async (comment_id) => {
 
 
 /******************* [OTHER-CRUD] *******************/
-// [READ-ALL] Within a Post //
-const c_readAllByPost = async (post_id, limit, skip) => {
+// [READ-ALL] sorted//
+const c_readSorted = async (sort = 0, limit, skip) => {
+	try {
+		// [SANTIZE] //
+		sort = parseInt(sort)
+		limit = parseInt(limit)
+		skip = parseInt(skip)
+
+		// [VALDIATE] sort //
+		if (!Number.isInteger(sort)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid sort',
+			}
+		}
+
+		// [VALDIATE] limit //
+		if (!Number.isInteger(limit)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid limit',
+			}
+		}
+
+		// [VALIDATE] skip //
+		if (!Number.isInteger(skip)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid skip',
+			}
+		}
+
+		// Set Sort //
+		if (sort == 0) { sort = {} }
+		else if (sort == 1) { sort = { created_at: -1 } }
+		else {
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Unknown filter'
+			}
+		}
+
+		const comments = await CommentModel.find()
+			.sort(sort)
+			.limit(limit)
+			.skip(skip)
+			.populate({ path: 'user', select: 'username email bio profile_img', })
+			.populate({ path: 'post' })
+			.exec()
+		
+		return {
+			executed: true,
+			status: true,
+			comments: comments,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
+// [READ-ALL] Post //
+const c_readByPost = async (post_id, limit, skip) => {
 	try {
 		// [SANTIZE] //
 		limit = parseInt(limit)
@@ -328,8 +350,8 @@ const c_readAllByPost = async (post_id, limit, skip) => {
 		}
 
 		const comments = await CommentModel.find({ post: post_id })
-			.skip(skip)
 			.limit(limit)
+			.skip(skip)
 			.populate({ path: 'user', select: 'username email bio profile_img', })
 			.populate({
 				path: 'replyToComment',
@@ -568,7 +590,7 @@ const c_existance = async (comment_id) => {
 
 
 /******************* [COUNT] *******************/
-const c_countAllByUser = async (user_id) => {
+const c_countByUser = async (user_id) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -597,7 +619,7 @@ const c_countAllByUser = async (user_id) => {
 }
 
 
-const c_countAllByPost = async (post_id) => {
+const c_countByPost = async (post_id) => {
 	try {
 		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
@@ -629,16 +651,16 @@ const c_countAllByPost = async (post_id) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
-	c_readAll,
 	c_read,
 	c_update,
 	c_delete,
-	c_readAllByPost,
+	c_readSorted,
+	c_readByPost,
 	c_deleteByIdAndUser,
 	c_deleteByPost,
 	c_deleteCustom,
 	c_existance,
 	c_ownership,
-	c_countAllByUser,
-	c_countAllByPost,
+	c_countByUser,
+	c_countByPost,
 }

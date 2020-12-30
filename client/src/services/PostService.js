@@ -34,40 +34,6 @@ async function s_create(cat_id, title, text) {
 }
 
 
-// [READ-ALL-ALL] Auth Required //
-async function s_readAllAll(limit, page) {
-	try {
-		const authAxios = await this.authAxios()
-		
-		return (await authAxios.get(`/read-all-all/${limit}/${page}`)).data
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `PostService: Error --> ${err}`
-		}
-	}
-}
-
-
-// [READ-ALL] Auth Required //
-async function s_readAll(cat_id, limit, page) {
-	try {
-		const authAxios = await this.authAxios()
-		
-		return (await authAxios.get(`/read-all-all/${cat_id}/${limit}/${page}`)).data
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `PostService: Error --> ${err}`
-		}
-	}
-}
-
-
 // [READ] Single Post //
 async function s_read(post_id) {
 	try {
@@ -193,8 +159,6 @@ async function s_count(cat_id) {
 export default {
 	authAxios,
 	s_create,
-	s_readAllAll,
-	s_readAll,
 	s_read,
 	s_readAllSort,
 	s_like,

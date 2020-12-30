@@ -38,7 +38,10 @@ router.get(
 	Auth.userTokenByPassVerification(),
 	async (req, res) => {
 		try {
-			const userObj = await usersCollection.c_read(req.decoded.user_id)
+			const userObj = await usersCollection.c_readSelect(
+				req.decoded.user_id,
+				'_id first_name last_name username bio verified created_at profile_img'
+			)
 
 			if (userObj.status) {
 				// [FORMAT] Remove things that should not be shown //
@@ -65,7 +68,10 @@ router.get(
 		try {
 			// [VALIDATE] //
 			if (mongoose.isValidObjectId(req.params.user_id)) {
-				const userObj = await usersCollection.c_read(req.params.user_id)
+				const userObj = await usersCollection.c_readSelect(
+					req.params.user_id,
+					'_id first_name last_name username bio verified created_at profile_img'
+				)
 
 				if (userObj.status) {
 					// [FORMAT] Remove things that should not be shown //
@@ -88,52 +94,6 @@ router.get(
 				executed: false,
 				status: false,
 				message: `/api/users: Error --> ${err}`,
-			})
-		}
-	}
-)
-
-
-// [READ-ALL] Auth Required //
-router.get(
-	'/read-all/:limit/:page',
-	async (req, res) => {
-		try {
-			// [VALIDATE] //
-			if (
-				Number.isInteger(parseInt(req.params.limit)) &&
-				Number.isInteger(parseInt(req.params.page))
-			) {
-				// [INIT] //
-				const limit = parseInt(req.params.limit)
-				const pageIndex = parseInt(req.params.page) - 1
-				const skip = pageIndex * limit
-
-				const usersObj = await usersCollection.c_readAll(limit, skip)
-
-				if (usersObj.status) {
-					usersObj.users.forEach(user => {
-						// [FORMAT] Remove things that should not be shown //
-						user.email = undefined
-						user.password = undefined
-					})
-				}
-
-				res.status(200).send(usersObj)
-			}
-			else {
-				res.status(200).send({
-					executed: true,
-					status: false,
-					message: '/api/administration/users: Invalid params'
-				})
-			}
-		}
-		catch (err) {
-			res.status(200).send({
-				executed: false,
-				status: false,
-				message: `/api/administration/users: Error --> ${err}`,
 			})
 		}
 	}

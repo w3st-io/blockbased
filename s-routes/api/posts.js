@@ -113,136 +113,6 @@ router.post(
 )
 
 
-// [READ-ALL-ALL] Auth Required //
-router.get(
-	'/read-all-all/:limit/:page',
-	async (req, res) => {
-		try {
-			// [VALIDATE] //
-			if (
-				Number.isInteger(parseInt(req.params.limit)) &&
-				Number.isInteger(parseInt(req.params.page))
-			) {
-				// [INIT] //
-				const limit = parseInt(req.params.limit)
-				const pageIndex = parseInt(req.params.page) - 1
-				const skip = pageIndex * limit
-
-				const returned = await postsCollection.c_readAll(limit, skip)
-	
-				res.status(200).send(returned)
-			}
-			else {
-				res.status(200).send({
-					executed: true,
-					status: false,
-					message: '/api/administration/posts: Invalid params'
-				})
-			}
-		}
-		catch (err) {
-			res.status(200).send({
-				executed: false,
-				status: false,
-				message: `/api/administration/posts: Error --> ${err}`,
-			})
-		}
-	}
-)
-
-
-// [READ-ALL] Within Cat //
-router.get(
-	'/read-all/:cat_id/:limit/:page',
-	Auth.userTokenNotRequired(),
-	async (req, res) => {
-		try {
-			// [VALIDATE] //
-			if (
-				validator.isAscii(req.params.cat_id) &&
-				Number.isInteger(parseInt(req.params.page)) &&
-				Number.isInteger(parseInt(req.params.limit))
-			) {
-				// [INIT] //
-				const limit = parseInt(req.params.limit)
-				const pageIndex = parseInt(req.params.page) - 1
-				const skip = pageIndex * limit
-
-				// [READ-ALL] Posts with cat_id //
-				const postsObj = await postsCollection.c_readByCat(
-					req.params.cat_id,
-					limit,
-					skip,
-				)
-
-				if (postsObj.status) {
-					// [COUNT] Posts //
-					postsObj.postCount = (
-						await postsCollection.c_countAllByCat(req.params.cat_id)
-					).count
-
-					// [COUNT] Calculate Pages //
-					postsObj.totalPages = Math.ceil(postsCount.count / limit)
-
-					// For Each Post in Posts //
-					for (let i = 0; i < postsObj.posts.length; i++) {
-						// [COUNT] Likes //
-						postsObj.posts[i].likeCount = (
-							await postLikesCollection.c_countAllByPost(postsObj.posts[i]._id)
-						).count
-						
-						// [COUNT] Follows //
-						postsObj.posts[i].followsCount = (
-							await postFollowsCollection.c_countAll(postsObj.posts[i]._id)
-						).count
-						
-						// [COUNT] Comment //
-						postsObj.posts[i].commentCount = (
-							await commentsCollection.c_countAllByPost(postsObj.posts[i]._id)
-						).count
-
-						// [USER-LOGGED] //
-						if (req.decoded) {
-							// [LIKED-STATUS] //
-							postsObj.posts[i].liked = (
-								await postLikesCollection.c_existance(
-									req.decoded.user_id,
-									postsObj.posts[i]._id
-								)
-							).existance
-
-							// [FOLLOW-STATUS] //
-							postsObj.posts[i].followed = (
-								await postFollowsCollection.c_existance(
-									req.decoded.user_id,
-									postsObj.posts[i]._id
-								)
-							).existance
-						}
-					}
-				}
-
-				res.status.send(postsObj)
-			}
-			else {
-				res.status(200).send({
-					executed: true,
-					status: false,
-					message: '/api/posts: Invalid Params'
-				})
-			}
-		}
-		catch (err) {
-			res.status.send({
-				executed: false,
-				status: false,
-				message: `/api/posts: Error --> ${err}`
-			})
-		}
-	}
-)
-
-
 // [READ] //
 router.get(
 	'/read/:post_id',
@@ -257,12 +127,12 @@ router.get(
 				if (postObj.status) {
 					// [COUNT] Likes //
 					postObj.post.likeCount = (
-						await postLikesCollection.c_countAllByPost(postObj.post._id)
+						await postLikesCollection.c_countByPost(postObj.post._id)
 					).count
 		
 					// [COUNT] Follows //
 					postObj.post.followsCount = (
-						await postFollowsCollection.c_countAll(postObj.post._id)
+						await postFollowsCollection.c_countByPost(postObj.post._id)
 					).count
 
 					// [USER-LOGGED] //
@@ -327,7 +197,7 @@ router.get(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Sort //
-				const postsObj = await postsCollection.c_readSortByCat(
+				const postsObj = await postsCollection.c_readByCatSorted(
 					req.params.cat_id,
 					sort,
 					limit,
@@ -347,17 +217,17 @@ router.get(
 					for (let i = 0; i < postsObj.posts.length; i++) {
 						// [COUNT] Likes //
 						postsObj.posts[i].likeCount = (
-							await postLikesCollection.c_countAllByPost(postsObj.posts[i]._id)
+							await postLikesCollection.c_countByPost(postsObj.posts[i]._id)
 						).count
 						
 						// [COUNT] Follows //
 						postsObj.posts[i].followsCount = (
-							await postFollowsCollection.c_countAll(postsObj.posts[i]._id)
+							await postFollowsCollection.c_countByPost(postsObj.posts[i]._id)
 						).count
 						
 						// [COUNT] Comment //
 						postsObj.posts[i].commentCount = (
-							await commentsCollection.c_countAllByPost(postsObj.posts[i]._id)
+							await commentsCollection.c_countByPost(postsObj.posts[i]._id)
 						).count
 
 						// [USER-LOGGED] //

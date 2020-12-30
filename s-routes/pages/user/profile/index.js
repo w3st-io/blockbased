@@ -29,7 +29,9 @@ router.get(
 	Auth.userTokenByPassVerification(),
 	async (req, res) => {
 		try {
-			const userObj = await usersCollection.c_readSensitive(req.decoded.user_id)
+			const userObj = await usersCollection.c_readSelect(
+				req.decoded.user_id
+			)
 			
 			if (userObj.status) {
 				// [COUNT] Posts //
@@ -38,17 +40,17 @@ router.get(
 				)
 
 				// [COUNT] postLikes //
-				const pLCount = await postLikesCollection.c_countAllByPostUser(
+				const pLCount = await postLikesCollection.c_countByPostUser(
 					req.decoded.user_id
 				)
 
 				// [COUNT] Comments //
-				const commentCount = await commentsCollection.c_countAllByUser(
+				const commentCount = await commentsCollection.c_countByUser(
 					req.decoded.user_id
 				)
 
 				// [COUNT] commentLikes //
-				const cLCount = await commentLikesCollection.c_countAllByCommentUser(
+				const cLCount = await commentLikesCollection.c_countByCommentUser(
 					req.decoded.user_id
 				)
 

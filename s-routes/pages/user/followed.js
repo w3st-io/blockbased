@@ -45,9 +45,9 @@ router.get(
 				const totalPages = Math.ceil(totalFollows / limit)
 				
 				// [READ-ALL] postFollows for user //
-				const pFObj = await postFollowsCollection.c_readAllSortByUser(
-					undefined,
+				const pFObj = await postFollowsCollection.c_readByUserSorted(
 					req.decoded.user_id,
+					undefined,
 					limit,
 					skip
 				)
@@ -60,17 +60,17 @@ router.get(
 					if (postObj.status) {
 						// [COUNT] Likes //
 						postObj.post.likeCount = (
-							await postLikesCollection.c_countAllByPost(postObj.post._id)
+							await postLikesCollection.c_countByPost(postObj.post._id)
 						).count
 			
 						// [COUNT] Follows //
 						postObj.post.followsCount = (
-							await postFollowsCollection.c_countAll(postObj.post._id)
+							await postFollowsCollection.c_countByPost(postObj.post._id)
 						).count
 
 						// [COUNT] Comments //
 						postObj.post.commentCount = (
-							await commentsCollection.c_countAllByPost(postObj.post._id)
+							await commentsCollection.c_countByPost(postObj.post._id)
 						).count
 		
 						// [USER-LOGGED] //

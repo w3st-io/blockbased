@@ -32,7 +32,7 @@ router.get(
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
 
-				const activitiesObj = await activitiesCollection.c_readAllSort(
+				const activitiesObj = await activitiesCollection.c_readSorted(
 					sort,
 					limit,
 					skip
@@ -40,7 +40,7 @@ router.get(
 				
 				// [COUNT] Activities //
 				activitiesObj.count = (
-					await activitiesCollection.c_countAll()
+					await activitiesCollection.c_count()
 				).count
 				
 				// [COUNT] Calculate Pages //

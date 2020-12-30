@@ -70,50 +70,32 @@ const c_create = async (user_id, post_id) => {
 }
 
 
-// [READ-ALL] //
-const c_readAll = async (post_id) => {
-	try {
-		// [VALIDATE] post_id //
-		if (!mongoose.isValidObjectId(post_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postFollowsCollection: Invalid post_id',
-			}
-		}
-
-		const postFollows = await PostFollowModel.find({ post: post_id })
-
-		return {
-			executed: true,
-			status: true,
-			postFollows: postFollows,
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `postFollowsCollection: Error --> ${err}`,
-		}
-	}
-}
-
-
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] //
-const c_readAllSortByUser = async (sort = 'descending', user_id, limit, skip) => {
+const c_readByUserSorted = async (user_id, sort = 0, limit, skip) => {
 	try {
+		// [INIT] //
+		let sort2
+		
 		// [SANTIZE] //
 		limit = parseInt(limit)
 		skip = parseInt(skip)
 
-		// [VALIDATE] post_id //
+		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'postFollowsCollection: Invalid post_id',
+				message: 'postFollowsCollection: Invalid user_id',
+			}
+		}
+
+		// [VALIDATE] sort //
+		if (!validator.isAscii(sort)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid sort',
 			}
 		}
 
@@ -135,26 +117,44 @@ const c_readAllSortByUser = async (sort = 'descending', user_id, limit, skip) =>
 			}
 		}
 
-		// [VALIDATE] sort //
-		if (!validator.isAscii(sort)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postsCollection: Invalid sort',
-			}
-		}
-
-		// [INIT] //
-		let sort2
-
-		if (sort == 'descending') { sort2 = { created_at: -1 } }
-		else if (sort == 'popularity') { sort2 = { likeCount: -1 } }
+		if (sort == 0) { sort2 = { created_at: -1 } }
+		else if (sort == 1) { sort2 = {} }
 
 		const postFollows = await PostFollowModel.find({ user: user_id })
 			.sort(sort2)
-			.skip(skip)
 			.limit(limit)
+			.skip(skip)
 			.exec()
+
+		return {
+			executed: true,
+			status: true,
+			postFollows: postFollows,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postFollowsCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
+// [READ-ALL] //
+const c_readByPost = async (post_id) => {
+	try {
+		// [VALIDATE] post_id //
+		if (!mongoose.isValidObjectId(post_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postFollowsCollection: Invalid post_id',
+			}
+		}
+
+		const postFollows = await PostFollowModel.find({ post: post_id })
 
 		return {
 			executed: true,
@@ -335,7 +335,7 @@ const c_existance = async (user_id, post_id) => {
 
 
 /******************* [COUNT] *******************/
-const c_countAll = async (post_id) => {
+const c_countByPost = async (post_id) => {
 	try {
 		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
@@ -396,12 +396,12 @@ const c_countAllUser = async (user_id) => {
 // [EXPORT] //
 module.exports = {
 	c_create,
-	c_readAll,
-	c_readAllSortByUser,
+	c_readByUserSorted,
+	c_readByPost,
 	c_deleteByPost,
 	c_deleteByUserAndPost,
 	c_deleteCustom,
 	c_existance,
-	c_countAll,
+	c_countByPost,
 	c_countAllUser,
 }

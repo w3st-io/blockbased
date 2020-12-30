@@ -19,27 +19,6 @@ const router = express.Router().use(cors())
 
 
 /******************* [CRUD] *******************/
-// [READ-ALL] Auth Required //
-router.get(
-	'/read-all',
-	Auth.adminToken(),
-	async (req, res) => {
-		try {
-			const returned = await commentReportsCollection.c_readAll()
-
-			res.status(200).send(returned)
-		}
-		catch (err) {
-			res.status(200).send({
-				executed: false,
-				status: false,
-				message: `/api/administration/comment-reports: Error --> ${err}`,
-			})
-		}
-	}
-)
-
-
 // [DELETE] Auth Required //
 router.delete(
 	'/delete/:commentReport_id',
@@ -61,6 +40,31 @@ router.delete(
 					message: '/api/administration/comment-reports: Invalid commentReport_id'
 				})
 			}
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				message: `/api/administration/comment-reports: Error --> ${err}`,
+			})
+		}
+	}
+)
+
+
+/******************* [OTHER-CRUD] *******************/
+// [READ-ALL] Unhandled //
+router.get(
+	'/read-unhandled/:limit/:skip',
+	Auth.adminToken(),
+	async (req, res) => {
+		try {
+			const returned = await commentReportsCollection.c_readUnhandled(
+				req.params.limit,
+				req.params.skip
+			)
+			
+			res.status(200).send(returned)
 		}
 		catch (err) {
 			res.status(200).send({

@@ -259,7 +259,7 @@ const c_existance = async (user_id, comment_id) => {
 
 
 /******************* [COUNT] *******************/
-const c_countAllByComment = async (comment_id) => {
+const c_countByComment = async (comment_id) => {
 	try {
 		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
@@ -288,7 +288,7 @@ const c_countAllByComment = async (comment_id) => {
 }
 
 
-const c_countAllByCommentUser = async (commentUser_id) => {
+const c_countByCommentUser = async (commentUser_id) => {
 	try {
 		// [VALIDATE] commentUser_id //
 		if (!mongoose.isValidObjectId(commentUser_id)) {
@@ -328,6 +328,6 @@ module.exports = {
 	c_deleteByUserAndComment,
 	c_deleteCustom,
 	c_existance,
-	c_countAllByComment,
-	c_countAllByCommentUser,
+	c_countByComment,
+	c_countByCommentUser,
 }

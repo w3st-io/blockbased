@@ -28,7 +28,7 @@ router.get(
 		try {
 			// [VALIDATE] //
 			if (mongoose.isValidObjectId(req.params.user_id)) {
-				const userObj = await usersCollection.c_readSensitive(
+				const userObj = await usersCollection.c_readSelect(
 					req.params.user_id,
 					'username profile_img bio created_at'
 				)
@@ -40,17 +40,17 @@ router.get(
 					)
 
 					// [COUNT] postLikes //
-					const pLCount = await postLikesCollection.c_countAllByPostUser(
+					const pLCount = await postLikesCollection.c_countByPostUser(
 						req.params.user_id
 					)
 
 					// [COUNT] Comments //
-					const commentCount = await commentsCollection.c_countAllByUser(
+					const commentCount = await commentsCollection.c_countByUser(
 						req.params.user_id
 					)
 
 					// [COUNT] commentLikes //
-					const cLCount = await commentLikesCollection.c_countAllByCommentUser(
+					const cLCount = await commentLikesCollection.c_countByCommentUser(
 						req.params.user_id
 					)
 

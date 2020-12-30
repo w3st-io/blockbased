@@ -20,7 +20,7 @@ async function s_readAllUnread() {
 	try {
 		const authAxios = await this.authAxios()
 
-		const { data } = await authAxios.get(`/read-all-unread`)
+		const { data } = await authAxios.get(`/read-unread`)
 
 		return data.notifications
 	}

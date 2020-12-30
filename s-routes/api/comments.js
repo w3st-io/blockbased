@@ -56,12 +56,12 @@ router.post(
 
 					if (comment.status) {
 						// [COUNT] Comments //
-						const commentCount = await commentsCollection.c_countAllByPost(
+						const commentCount = await commentsCollection.c_countByPost(
 							req.body.post_id
 						)
 
 						// [READ-ALL] Follows //
-						const pFObj = await postFollowsCollection.c_readAll(
+						const pFObj = await postFollowsCollection.c_readByPost(
 							req.body.post_id
 						)
 						
@@ -132,44 +132,6 @@ router.post(
 )
 
 
-// [READ-ALL-ALL] //
-router.get(
-	'/read-all-all/:limit/:page',
-	async (req, res) => {
-		try {
-			// [VALIDATE] //
-			if (
-				Number.isInteger(parseInt(req.params.limit)) &&
-				Number.isInteger(parseInt(req.params.page))
-			) {
-				// [INIT] //
-				const limit = parseInt(req.params.limit)
-				const pageIndex = parseInt(req.params.page) - 1
-				const skip = pageIndex * limit
-
-				const commentsObj = await commentsCollection.c_readAll(limit, skip)
-					
-				res.status(200).send(commentsObj)
-			}
-			else {
-				res.status(200).send({
-					executed: true,
-					status: false,
-					message: '/api/administration/comments: Invalid params'
-				})
-			}
-		}
-		catch (err) {
-			res.status(200).send({
-				executed: false,
-				status: false,
-				message: `/api/administration/comments: Error --> ${err}`,
-			})
-		}
-	}
-)
-
-
 // [READ-ALL] Within Post //
 router.get(
 	'/read-all/:post_id/:limit/:page',
@@ -193,7 +155,7 @@ router.get(
 				)
 
 				if (postExistance.existance) {
-					const commentsObj = await commentsCollection.c_readAllByPost(
+					const commentsObj = await commentsCollection.c_readByPost(
 						req.params.post_id,
 						limit,
 						skip
@@ -204,7 +166,7 @@ router.get(
 						for (let i = 0; i < commentsObj.comments.length; i++) {
 							// [COUNT] Likes //
 							commentsObj.comments[i].likeCount = (
-								await commentLikesCollection.c_countAllByComment(
+								await commentLikesCollection.c_countByComment(
 									commentsObj.comments[i]._id
 								)
 							).count
@@ -224,7 +186,7 @@ router.get(
 
 					// [COUNT] Comments //
 					commentsObj.commentsCount = (
-						await commentsCollection.c_countAllByPost(req.params.post_id)
+						await commentsCollection.c_countByPost(req.params.post_id)
 					).count
 
 					// [COUNT] Calculate Total Pages //
@@ -266,7 +228,7 @@ router.get(
 				if (commentObj.status) {
 					// [COUNT] Likes //
 					commentObj.comment.likeCount = (
-						await commentLikesCollection.c_countAllByComment(req.params.comment_id)
+						await commentLikesCollection.c_countByComment(req.params.comment_id)
 					).count
 	
 					// [USER-LOGGED] //
