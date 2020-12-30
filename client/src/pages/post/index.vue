@@ -2,16 +2,15 @@
 	<BContainer class="my-4">
 		<!-- Set Page Title -->
 		<VueHeadful :title="`Post - ${postTitle}`" />
-		
+
 		<BCard bg-variant="dark">
-			<!-- Title-header -->
-			<BRow v-if="!loading">
+			<BRow>
 				<!-- Title -->
 				<BCol sm="10">
 					<h3 class="mb-2 text-light">
 						{{ post.title }}
 						<br>
-						<p class="small text-secondary hide-the-ugly" style="font-size: .5em;">
+						<p v-if="post.user" class="small text-secondary hide-the-ugly" style="font-size: .5em;">
 							Posted by: {{ post.user.username }} -
 							{{ new Date(post.created_at).toLocaleString() }}
 						</p>
@@ -54,24 +53,25 @@
 					/>
 				</BCol>
 
-				<BCol cols="12" class="mt-3">
-					<!-- Comments List -->
+				<!-- Comments List -->
+				<BCol v-if="!loading" cols="12" class="mt-3">
 					<CommentList
 						:comments="comments"
 						:post_id="post_id"
 						@refreshComments="getPageData()"
 					/>
 				</BCol>
+
+				<!-- [LOADING] -->
+				<BCol v-if="loading" cols="12" class="my-3"><Alert /></BCol>
 				
+				<!-- [DEFAULT] If No content -->
 				<BCol v-if="!loading && comments == ''" cols="12">
-					<!-- [DEFAULT] If No content -->
 					<NoContent class="my-3" />
 				</BCol>
-			</BRow>
-			
-			<BRow v-if="!loading" class="mt-3">
-				<BCol cols="12">
-					<!-- Botton Page Control -->
+
+				<!-- Botton Page Control -->
+				<BCol cols="12" class="mt-3">
 					<PageNavButtons
 						@start-btn="startPage()"
 						@prev-btn="prevPage()"
@@ -90,12 +90,9 @@
 					<Alert variant="danger" :message="error" class="mt-3" />
 				</BCol>
 			</BRow>
-
-			<BRow v-if="loading" class="mt-3">
-				<BCol cols="12"><Alert /></BCol>
-			</BRow>
 		</BCard>
 
+		
 	</BContainer>
 </template>
 
@@ -123,12 +120,11 @@
 				post_id: this.$route.params.post_id,
 				pageNumber: parseInt(this.$route.params.page),
 				limit: parseInt(this.$route.params.limit),
+				totalPages: 100000000,
 
 				disabled: false,
 				loading: true,
 				error: '',
-
-				totalPages: 100000000,
 
 				returned: {},
 				comments: [],
