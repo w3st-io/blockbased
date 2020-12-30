@@ -6,7 +6,7 @@
 					<h3 class="mb-3 text-light">Create Post in {{ catTitle }}</h3>
 
 					<!-- [COMPONENT] Create -->
-					<PostCreate :cat="cat" />
+					<create :cat="cat" />
 				</BCol>
 			</BRow>
 		</BCard>
@@ -15,14 +15,14 @@
 
 <script>
 	// [IMPORT] Personal //
-	import PostCreate from '@components/post/Create'
-	import PageService from '../../services/PageService'
+	import create from '@components/post/Create'
+	import PageService from '@services/PageService'
 	import router from '@router'
 
 	// [EXPORT] //
 	export default {
 		components: {
-			PostCreate
+			create
 		},
 
 		data: function() {

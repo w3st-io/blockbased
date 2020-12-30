@@ -125,7 +125,7 @@ async function s_post_create() {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.get(`/cat/post-create`)).data
+		return (await authAxios.get(`/post/create`)).data
 	}
 	catch (err) {
 		return {
