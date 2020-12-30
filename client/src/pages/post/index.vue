@@ -3,72 +3,99 @@
 		<!-- Set Page Title -->
 		<VueHeadful :title="`Post - ${postTitle}`" />
 		
-		<BRow>
-			<BCol cols="12">
-				<BCard bg-variant="dark">
-					<BRow>
-						<BCol cols="12">
-							<!-- Post Title Header -->
-							<PostTitleHeader
-								v-if="post"
-								:post="post"
-								:badgeValue="pageNumber"
-								@refreshPost="getPageData()"
-								@start-btn="startPage()"
-								@prev-btn="prevPage()"
-								@next-btn="nextPage()"
-								@end-btn="endPage()"
-								class="mb-3"
-							/>
-						</BCol>
-					</BRow>
-					
-					<BRow>
-						<BCol cols="12">
-							<!-- Comments List -->
-							<CommentList
-								v-if="!loading"
-								:comments="comments"
-								:post_id="post_id"
-								@refreshComments="getPageData()"
-							/>
-						</BCol>
-					</BRow>
+		<BCard bg-variant="dark">
+			<!-- Title-header -->
+			<BRow v-if="!loading">
+				<!-- Title -->
+				<BCol sm="10">
+					<h3 class="mb-2 text-light">
+						{{ post.title }}
+						<br>
+						<p class="small text-secondary hide-the-ugly" style="font-size: .5em;">
+							Posted by: {{ post.user.username }} -
+							{{ new Date(post.created_at).toLocaleString() }}
+						</p>
+					</h3>
+				</BCol>
 
-					<BRow>
-						<BCol cols="12">
-							<!-- [DEFAULT] If No content -->
-							<NoContent v-if="!loading && comments == ''" class="my-3" />
-						</BCol>
-					</BRow>
-					
-					<!-- [LOADING] -->
-					<BRow v-show="loading" class="mt-3">
-						<BCol cols="12">
-							<Alert />
-						</BCol>
-					</BRow>
+				<!-- Follow + Count -->
+				<BCol sm="2" class="text-right">
+					<div class="mb-3">
+						<BBadge variant="light" class="ml-2">{{ post.followsCount }}</BBadge>
+						<button
+							:disabled="disabled"
+							@click="followBtn()"
+							class="ml-2 btn btn-sm btn-outline-secondary"
+							:class="{ 'btn-outline-success': post.followed }"
+						>{{ post.followed ? 'following ✓' : 'follow' }}</button>
+					</div>
+				</BCol>
 
-					<BRow v-show="loading" class="mt-3">
-						<BCol cols="12">
-							<!-- Botton Page Control -->
-							<PageNavButtons
-								@start-btn="startPage()"
-								@prev-btn="prevPage()"
-								@next-btn="nextPage()"
-								@end-btn="endPage()"
-								:badgeValue="pageNumber"
-								class="m-auto w-100"
-								style="max-width: 300px;"
-							/>
-						</BCol>
-					</BRow>
-				</BCard>
-			</BCol>
-		</BRow>
+				<!-- Add Comment -->
+				<BCol cols="12" sm="6">
+					<BButton
+						:disabled="disabled"
+						variant="primary"
+						size="sm"
+						@click="redirectToPostCommentCreate()"
+					>Add Comment</BButton>
+				</BCol>
 
-		<!-- [ALERTS] -->
-		<Alert v-if="error" variant="danger" :message="error" class="mt-3" />
+				<!-- Page Control -->
+				<BCol cols="12" sm="6">
+					<PageNavButtons
+						:badgeValue="pageNumber"
+						@start-btn="startPage()"
+						@prev-btn="prevPage()"
+						@next-btn="nextPage()"
+						@end-btn="endPage()"
+						class="ml-auto"
+						style="max-width: 300px;"
+					/>
+				</BCol>
+
+				<BCol cols="12" class="mt-3">
+					<!-- Comments List -->
+					<CommentList
+						:comments="comments"
+						:post_id="post_id"
+						@refreshComments="getPageData()"
+					/>
+				</BCol>
+				
+				<BCol v-if="!loading && comments == ''" cols="12">
+					<!-- [DEFAULT] If No content -->
+					<NoContent class="my-3" />
+				</BCol>
+			</BRow>
+			
+			<BRow v-if="!loading" class="mt-3">
+				<BCol cols="12">
+					<!-- Botton Page Control -->
+					<PageNavButtons
+						@start-btn="startPage()"
+						@prev-btn="prevPage()"
+						@next-btn="nextPage()"
+						@end-btn="endPage()"
+						:badgeValue="pageNumber"
+						class="m-auto w-100"
+						style="max-width: 300px;"
+					/>
+				</BCol>
+			</BRow>
+
+			<BRow v-if="error">
+				<BCol cols="12">
+					<!-- [ALERTS] -->
+					<Alert variant="danger" :message="error" class="mt-3" />
+				</BCol>
+			</BRow>
+
+			<BRow v-if="loading" class="mt-3">
+				<BCol cols="12"><Alert /></BCol>
+			</BRow>
+		</BCard>
+
 	</BContainer>
 </template>
 
@@ -77,17 +104,16 @@
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import CommentList from '@components/comment/List'
 	import Alert from '@components/misc/Alert'
-	import PostTitleHeader from '@components/post/TitleHeader'
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import PageService from '@services/PageService'
+	import PostService from '@services/PostService'
 
 	// [EXPORT] //
 	export default {
 		components: {
 			Alert,
 			CommentList,
-			PostTitleHeader,
 			NoContent,
 			PageNavButtons,
 		},
@@ -98,6 +124,7 @@
 				pageNumber: parseInt(this.$route.params.page),
 				limit: parseInt(this.$route.params.limit),
 
+				disabled: false,
 				loading: true,
 				error: '',
 
@@ -119,6 +146,61 @@
 		},
 
 		methods: {
+			async followBtn() {
+				// [LOG REQUIRED] //
+				if (localStorage.usertoken) {
+					// Disable Buttons //
+					this.disabled = true
+
+					if (!this.post.followed) {
+						try { await PostService.s_follow(this.post._id) }
+						catch (err) { this.error = err }
+					}
+					else {
+						try { await PostService.s_unfollow(this.post._id) }
+						catch (err) { this.error = err }
+					}
+
+					this.getPageData()
+
+					// Enable Buttons //
+					this.disabled = false
+				}
+			},
+
+			refreshRoute() {
+				// [REDIRECT] Cat Page //
+				router.push({
+					name: 'post',
+					params: {
+						cat_id: this.post_id,
+						limit: this.limit,
+						page: this.pageNumber,
+					}
+				})
+			},
+
+			async getPageData() {
+				try {
+					this.returned = await PageService.s_post(
+						this.post_id,
+						this.limit,
+						this.pageNumber
+					)
+				}
+				catch (err) { this.error = `This: --> ${err}` }
+
+				if (this.returned.status) {
+					this.post = this.returned.postObj.post
+					this.comments = this.returned.commentsObj.comments
+					this.totalPages = this.returned.commentsObj.totalPages
+					this.postTitle = this.post.title
+				}
+				else { this.error = this.returned.message }
+
+				this.loading = false
+			},
+
 			async startPage() {
 				if (this.pageNumber != 1) {
 					this.loading = true
@@ -163,37 +245,11 @@
 				}
 			},
 
-			refreshRoute() {
-				// [REDIRECT] Cat Page //
+			redirectToPostCommentCreate() {
 				router.push({
-					name: 'post',
-					params: {
-						cat_id: this.post_id,
-						limit: this.limit,
-						page: this.pageNumber,
-					}
+					name: 'comment-create',
+					params: { post_id: this.post._id, }
 				})
-			},
-
-			async getPageData() {
-				try {
-					this.returned = await PageService.s_post(
-						this.post_id,
-						this.limit,
-						this.pageNumber
-					)
-				}
-				catch (err) { this.error = `This: --> ${err}` }
-
-				if (this.returned.status) {
-					this.post = this.returned.postObj.post
-					this.comments = this.returned.commentsObj.comments
-					this.totalPages = this.returned.commentsObj.totalPages
-					this.postTitle = this.post.title
-				}
-				else { this.error = this.returned.message }
-
-				this.loading = false
 			},
 
 			log() {
