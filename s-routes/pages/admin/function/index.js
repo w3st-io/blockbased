@@ -31,8 +31,6 @@ router.get(
 			const commentsObj = await commentsCollection.c_readSorted(0, 100000, 0)
 			const commentReportsObj = await commentReportsCollection.c_readUnhandled(0, 100000, 0)
 
-			console.log(commentReportsObj)
-
 			if (usersObj.status) {
 				usersObj.users.forEach(user => { user.password = undefined })
 			}

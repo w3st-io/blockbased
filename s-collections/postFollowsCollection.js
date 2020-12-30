@@ -74,10 +74,8 @@ const c_create = async (user_id, post_id) => {
 // [READ-ALL] //
 const c_readByUserSorted = async (user_id, sort = 0, limit, skip) => {
 	try {
-		// [INIT] //
-		let sort2
-		
 		// [SANTIZE] //
+		sort = parseInt(sort)
 		limit = parseInt(limit)
 		skip = parseInt(skip)
 
@@ -91,7 +89,7 @@ const c_readByUserSorted = async (user_id, sort = 0, limit, skip) => {
 		}
 
 		// [VALIDATE] sort //
-		if (!validator.isAscii(sort)) {
+		if (!Number.isInteger(sort)) {
 			return {
 				executed: true,
 				status: false,
@@ -117,11 +115,11 @@ const c_readByUserSorted = async (user_id, sort = 0, limit, skip) => {
 			}
 		}
 
-		if (sort == 0) { sort2 = { created_at: -1 } }
-		else if (sort == 1) { sort2 = {} }
+		if (sort == 0) { sort = { created_at: -1 } }
+		else if (sort == 1) { sort = {} }
 
 		const postFollows = await PostFollowModel.find({ user: user_id })
-			.sort(sort2)
+			.sort(sort)
 			.limit(limit)
 			.skip(skip)
 			.exec()

@@ -71,7 +71,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/pages/post/followed: Error --> ${err}`
+				message: `/pages/post/notifications: Error --> ${err}`
 			})
 		}
 	},
