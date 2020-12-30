@@ -6,18 +6,51 @@
 			<BCol cols="12">
 				<BCard bg-variant="dark">
 					<!-- Cat Title Header -->
-					<CatTitleHeader
-						:cat="cat"
-						:postCount="data.postsCount"
-						:badgeValue="page"
-						@start-btn="startPage()"
-						@prev-btn="prevPage()"
-						@next-btn="nextPage()"
-						@end-btn="endPage()"
-					/>
+					<BRow>
+						<!-- Title -->
+						<BCol cols="12" sm="8" md="8" lg="6">
+							<h3 class="m-0 text-light">{{ cat.title }}</h3>
+						</BCol>
+
+						<!-- Post Count -->
+						<BCol
+							cols="12" sm="4" md="4" lg="6"
+							class="text-right d-none d-sm-block"
+						>
+							<BBadge variant="dark" class="mb-2 text-secondary">
+								<h5 v-if="data.postsObj" class="m-0">
+									Total Posts: {{ data.postsObj.postsCount }}
+								</h5>
+							</BBadge>
+							<br>
+						</BCol>
+
+						<!-- Create Button -->
+						<BCol cols="12" sm="3" md="4" lg="2" class="py-2">
+							<BButton
+								variant="primary"
+								size="sm"
+								class="w-100"
+								@click="redirectToCatPostCreate()"
+							>Create Post</BButton>
+						</BCol>
+
+						<!-- Page Nav Buttons -->
+						<BCol cols="12" sm="9" md="8" lg="10" class="py-2">
+							<PageNavButtons
+								@start-btn="startPage()"
+								@prev-btn="prevPage()"
+								@next-btn="nextPage()"
+								@end-btn="endPage()"
+								:badgeValue="page"
+								class="ml-auto"
+								style="max-width: 300px;"
+							/>
+						</BCol>
+					</BRow>
 
 					<BRow class="text-center">
-						<BCol cols="12">
+						<BCol cols="12" class="py-2">
 							<!-- Tabs -->
 							<ButtonTabs
 								:tabs="['recent', 'popular']"
@@ -86,7 +119,6 @@
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import Alert from '@components/misc/Alert'
 	import PostList from '@components/post/List'
-	import CatTitleHeader from '@components/cat/TitleHeader'
 	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import PageService from '@services/PageService'
@@ -98,7 +130,6 @@
 			PostList,
 			ButtonTabs,
 			NoContent,
-			CatTitleHeader,
 			PageNavButtons,
 		},
 
@@ -216,6 +247,13 @@
 
 					await this.getPageData()
 				}
+			},
+
+			redirectToCatPostCreate() {
+				router.push({
+					name: 'post-create',
+					params: { cat_id: this.cat.cat_id }
+				})
 			},
 
 			log() {
