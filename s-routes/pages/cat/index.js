@@ -98,7 +98,7 @@ router.get(
 
 					// [COUNT] Posts //
 					postsObj.postsCount = (
-						await postsCollection.c_countAllByCat(req.params.cat_id)
+						await postsCollection.c_countByCat(req.params.cat_id)
 					).count
 					
 					// [COUNT] Calculate Pages //

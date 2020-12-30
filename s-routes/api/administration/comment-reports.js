@@ -52,31 +52,6 @@ router.delete(
 )
 
 
-/******************* [OTHER-CRUD] *******************/
-// [READ-ALL] Unhandled //
-router.get(
-	'/read-unhandled/:limit/:skip',
-	Auth.adminToken(),
-	async (req, res) => {
-		try {
-			const returned = await commentReportsCollection.c_readUnhandled(
-				req.params.limit,
-				req.params.skip
-			)
-			
-			res.status(200).send(returned)
-		}
-		catch (err) {
-			res.status(200).send({
-				executed: false,
-				status: false,
-				message: `/api/administration/comment-reports: Error --> ${err}`,
-			})
-		}
-	}
-)
-
-
 /******************* [MARK-HANDLED-STATUS] *******************/
 router.get(
 	'/mark-handled/:commentReport_id',

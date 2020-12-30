@@ -543,7 +543,7 @@ const c_ownership = async (post_id, user_id) => {
 
 
 /******************* [COUNT] *******************/
-const c_countAllByCat = async (cat_id) => {
+const c_countByCat = async (cat_id) => {
 	try {
 		// [VALIDATE] cat_id //
 		if (!validator.isAscii(cat_id)) {
@@ -573,7 +573,7 @@ const c_countAllByCat = async (cat_id) => {
 }
 
 
-const c_countAllByUser = async (user_id) => {
+const c_countByUser = async (user_id) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -616,6 +616,6 @@ module.exports = {
 	c_decrementLike,
 	c_existance,
 	c_ownership,
-	c_countAllByCat,
-	c_countAllByUser,
+	c_countByCat,
+	c_countByUser,
 }

@@ -92,14 +92,14 @@
 			async readAllUnreadNotifications() {
 				this.show = true
 
-				this.notifications = await NotificationService.s_readAllUnread()
+				this.notifications = await NotificationService.s_readUnread()
 
 				// Wait 3 seconds
 				setTimeout(() => { this.show = false }, 5000)
 			},
 
 			closeClicked(notification_id) {
-				NotificationService.markRead(notification_id)
+				NotificationService.s_markRead(notification_id)
 
 				// [UPDATE] //
 				EventBus.$emit('update-notification')

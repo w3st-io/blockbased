@@ -16,7 +16,7 @@ async function authAxios() {
 }
 
 /******************* [OTHER-CRUD] *******************/
-async function s_readAllUnread() {
+async function s_readUnread() {
 	try {
 		const authAxios = await this.authAxios()
 
@@ -29,7 +29,7 @@ async function s_readAllUnread() {
 
 
 /******************* [MARK-READ-STATUS] *******************/
-async function markRead(notification_id) {
+async function s_markRead(notification_id) {
 	try {
 		const authAxios = await this.authAxios()
 
@@ -42,6 +42,6 @@ async function markRead(notification_id) {
 // [EXPORT] //
 export default {
 	authAxios,
-	s_readAllUnread,
-	markRead,
+	s_readUnread,
+	s_markRead,
 }

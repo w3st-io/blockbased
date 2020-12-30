@@ -35,7 +35,7 @@ router.get(
 			
 			if (userObj.status) {
 				// [COUNT] Posts //
-				const postCount = await postsCollection.c_countAllByUser(
+				const postCount = await postsCollection.c_countByUser(
 					req.decoded.user_id
 				)
 

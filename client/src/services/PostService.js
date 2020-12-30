@@ -51,26 +51,6 @@ async function s_read(post_id) {
 }
 
 
-/******************* [OTHER-CRUD] *******************/
-// [READ-ALL] Within Cat //
-async function s_readAllSort(cat_id, limit, page, sort) {
-	try {
-		const authAxios = await this.authAxios()
-		
-		return (
-			await authAxios.get(`/read-all-sort/${cat_id}/${page}/${limit}/${sort}`)
-		).data
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			error: `PostService: Error --> ${err}`
-		}
-	}
-}
-
-
 /******************* [LIKE-SYSTEM] *******************/
 // ADD/REMOVE LIKE //
 async function s_like(post_id, postUser_id) {
@@ -138,32 +118,13 @@ async function s_unfollow(post_id) {
 }
 
 
-/******************* [COUNT] *******************/
-async function s_count(cat_id) {
-	try {
-		const authAxios = await this.authAxios()
-
-		return (await authAxios.get(`/count/${cat_id}`)).data
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			error: `PostService: Error --> ${err}`
-		}
-	}
-}
-
-
 // [EXPORT] //
 export default {
 	authAxios,
 	s_create,
 	s_read,
-	s_readAllSort,
 	s_like,
 	s_unlike,
 	s_follow,
 	s_unfollow,
-	s_count,
 }

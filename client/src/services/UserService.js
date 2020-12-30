@@ -169,9 +169,7 @@ async function getUserTokenDecodeData() {
 		username: '',
 	}
 
-	if (localStorage.usertoken) {
-		decoded = jwtDecode(localStorage.usertoken)
-	}
+	if (localStorage.usertoken) { decoded = jwtDecode(localStorage.usertoken) }
 
 	return decoded
 }

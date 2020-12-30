@@ -19,30 +19,12 @@ async function authAxios() {
 }
 
 
-/******************* [CRUD] *******************/
-// [UPDATE] Auth Required //
-async function s_update(user_id, img_url, bio) {
-	try {
-		const authAxios = await this.authAxios()
-
-		return (await authAxios.post(`/update`, { user_id, img_url, bio })).data
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `UserService: Error --> ${err}`
-		}
-	}
-	
-}
-
 /******************* [USER PROFILE] *******************/
 async function s_banUser(user_id, hours) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.post(`/ban`, { user_id, hours })).data
+		return (await authAxios.get(`/ban/${user_id}/${hours}`)).data
 	}
 	catch (err) {
 		return {
@@ -57,6 +39,5 @@ async function s_banUser(user_id, hours) {
 // [EXPORT] //
 export default {
 	authAxios,
-	s_update,
 	s_banUser,
 }

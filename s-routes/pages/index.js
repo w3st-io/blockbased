@@ -29,7 +29,7 @@ router.get(
 			for (let i = 0; i < cats.length; i++) {
 				// [TOTAL-POSTS] //
 				cats[i].totalPosts = (
-					await postsCollection.c_countAllByCat(cats[i].cat_id)
+					await postsCollection.c_countByCat(cats[i].cat_id)
 				).count
 
 				// [RECENT-POST] //

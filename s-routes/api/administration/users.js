@@ -20,61 +20,24 @@ const Auth = require('../../../s-middleware/Auth')
 const router = express.Router().use(cors())
 
 
-/******************* [CRUD] *******************/
-// [UPDATE] Auth Required //
-router.post(
-	'/update',
-	Auth.adminToken(),
-	async (req, res) => {
-		try {
-			// [VALIDATE] //
-			if (
-				mongoose.isValidObjectId(req.body.user_id) &&
-				validator.isAscii(req.body.img_url) &&
-				validator.isAscii(req.body.bio)
-			) {
-				const returned = await usersCollection.c_update(
-					req.body.user_id,
-					req.body.img_url,
-					req.body.bio
-				)
-
-				res.status(200).send(returned)
-			}
-			else {
-				res.status(200).send({
-					executed: true,
-					status: false,
-					message: '/api/administration/users: Invalid params'
-				})
-			}
-		}
-		catch (err) {
-			res.status(200).send({
-				executed: false,
-				status: false,
-				message: `/api/administration/users: Error --> ${err}`,
-			})
-		}
-	}
-)
-
-
 /******************* [BAN] *******************/
 // [UPDATE] Auth Required //
-router.post(
-	'/ban',
+router.get(
+	'/ban/:user_id/:hours',
 	Auth.adminToken(),
 	async (req, res) => {
 		try {
+			// [SANITZE] //
+			hours = parseInt(req.params.hours)
+
 			// [VALIDATE] //
 			if (
-				mongoose.isValidObjectId(req.body.user_id) &&
-				Number.isInteger(parseInt(req.body.hours))
+				mongoose.isValidObjectId(req.params.user_id) &&
+				Number.isInteger(parseInt(req.params.hours))
 			) {
 				const returned = await bansCollection.c_create(
-					req.body.user_id,
-					parseInt(req.body.hours)
+					req.params.user_id,
+					hours
 				)
 
 				res.status(200).send(returned)

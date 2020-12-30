@@ -200,7 +200,7 @@
 
 			async clicked(notification_id, post_id) {
 				// Mark Read
-				NotificationService.markRead(notification_id)
+				NotificationService.s_markRead(notification_id)
 
 				// [UPDATE] //
 				EventBus.$emit('update-notification')

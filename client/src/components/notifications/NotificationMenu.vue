@@ -89,12 +89,12 @@
 
 		methods: {
 			async readAllNotifications() {
-				this.notifications = await NotificationService.s_readAllUnread()
+				this.notifications = await NotificationService.s_readUnread()
 			},
 
 			async clicked(notification_id, post_id) {
 				// Mark Read
-				NotificationService.markRead(notification_id)
+				NotificationService.s_markRead(notification_id)
 
 				// [UPDATE] //
 				try { await this.readAllNotifications() }

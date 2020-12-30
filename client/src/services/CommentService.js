@@ -36,23 +36,6 @@ async function s_create(post_id, text, replyToComment = null) {
 }
 
 
-// [READ] //
-async function s_read(comment_id) {
-	try {
-		const authAxios = await this.authAxios()
-
-		return (await authAxios.get(`/read/${comment_id}`)).data
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `CommentService: Error --> ${err}`
-		}
-	}
-}
-
-
 // [UPDATE] Auth Required //
 async function s_update(comment_id, text) {
 	try {
@@ -148,7 +131,6 @@ async function s_report(post_id, comment_id, reportType) {
 export default {
 	authAxios,
 	s_create,
-	s_read,
 	s_update,
 	s_delete,
 	s_like,
