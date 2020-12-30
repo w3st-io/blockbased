@@ -165,7 +165,7 @@ const c_register = async (username, email, password) => {
 const c_readSorted = async (sort = 0, limit, skip) => {
 	try {
 		// [SANTIZE] //
-		sort = parse(sort)
+		sort = parseInt(sort)
 		limit = parseInt(limit)
 		skip = parseInt(skip)
 
@@ -197,7 +197,7 @@ const c_readSorted = async (sort = 0, limit, skip) => {
 		}
 
 		// Set Sort //
-		if (sort == 0) { sort = {} }
+		if (sort == 0) { sort = undefined }
 		else if (sort == 1) { sort = { created_at: -1 } }
 		else {
 			return {

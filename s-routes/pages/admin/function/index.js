@@ -29,13 +29,10 @@ router.get(
 			const usersObj = await usersCollection.c_readSorted(0, 100000, 0)
 			const postObj = await postsCollection.c_readSorted(0, 100000, 0)
 			const commentsObj = await commentsCollection.c_readSorted(0, 100000, 0)
-			const commentReportsObj = await commentReportsCollection.c_readUnhandled(100000, 0)
+			const commentReportsObj = await commentReportsCollection.c_readUnhandled(0, 100000, 0)
 
 			if (usersObj.status) {
-				usersObj.users.forEach(user => {
-					// [FORMAT] Remove things that should not be shown //
-					user.password = undefined
-				})
+				usersObj.users.forEach(user => { user.password = undefined })
 			}
 
 			res.status(200).send({
