@@ -44,7 +44,7 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/administration/users: Invalid user_id'
+					message: '/api/admin/users: Invalid user_id'
 				})
 			}
 		}
@@ -52,7 +52,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/administration/users: Error --> ${err}`,
+				message: `/api/admin/users: Error --> ${err}`,
 			})
 		}
 	}

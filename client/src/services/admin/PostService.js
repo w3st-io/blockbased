@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- * %%% ADMINISTRATION REPORTS SERVICES %%%
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%% ADMINISTRATION BLOCK SERVICES %%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 */
 // [IMPORT] //
 import axios from 'axios'
@@ -10,7 +10,7 @@ import axios from 'axios'
 // [AUTH-TOKEN-SETUP] //
 async function authAxios() {
 	return axios.create({
-		baseURL: '/api/administration/comment-reports',
+		baseURL: '/api/admin/posts',
 		headers: {
 			authorization: `Bearer ${localStorage.usertoken}`,
 			authorization2: `Bearer ${localStorage.admintoken}`
@@ -19,23 +19,23 @@ async function authAxios() {
 }
 
 
-/******************* [MARK-HANDLED-STATUS] *******************/
+/******************* [CRUD] *******************/
 // [DELETE] Auth Required //
-async function s_markHandled(report_id) {
+async function s_delete(post_id) {
 	const authAxios = await this.authAxios()
 
-	let result = new Promise ((resolve, reject) => {
-		authAxios.get(`/mark-handled/${report_id}`)
+	const result = new Promise ((resolve, reject) => {
+		authAxios.delete(`/delete/${post_id}`)
 			.then((res) => { resolve(res) })
 			.catch((err) => { reject(err) })
 	})
 
-	return result	
+	return result
 }
 
 
 // [EXPORT] //
 export default {
 	authAxios,
-	s_markHandled,
+	s_delete,
 }

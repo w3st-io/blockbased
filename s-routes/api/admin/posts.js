@@ -87,7 +87,7 @@ router.delete(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/administration/posts: Invalid post_id'
+					message: '/api/admin/posts: Invalid post_id'
 				})
 			}
 		}
@@ -96,7 +96,7 @@ router.delete(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/administration/posts: Error --> ${err}`,
+				message: `/api/admin/posts: Error --> ${err}`,
 			})
 		}
 	}

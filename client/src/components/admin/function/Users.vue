@@ -41,7 +41,7 @@
 <script>
 	// [IMPORT] //
 	import router from '@router'
-	import AUserService from '@services/administration/UserService'
+	import AUserService from '@services/admin/UserService'
 	import Alert from '@components/misc/Alert'
 
 	// [EXPORT] //

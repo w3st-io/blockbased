@@ -1,7 +1,7 @@
 /**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- * %%% ADMINISTRATION USER SERVICES %%%
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * %%% ADMINISTRATION COMMENT SERVICES %%%
+ * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 */
 // [IMPORT] //
 import axios from 'axios'
@@ -10,7 +10,7 @@ import axios from 'axios'
 // [AUTH-TOKEN-SETUP] //
 async function authAxios() {
 	return axios.create({
-		baseURL: '/api/administration/users',
+		baseURL: '/api/admin/comments',
 		headers: {
 			authorization: `Bearer ${localStorage.usertoken}`,
 			authorization2: `Bearer ${localStorage.admintoken}`
@@ -19,18 +19,19 @@ async function authAxios() {
 }
 
 
-/******************* [USER PROFILE] *******************/
-async function s_banUser(user_id, hours) {
+/******************* [CRUD] *******************/
+// [DELETE] //
+async function s_delete(comment_id) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.get(`/ban/${user_id}/${hours}`)).data
+		return (await authAxios.delete(`/delete/${comment_id}`)).data
 	}
 	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `UserService: Error --> ${err}`
+			message: `ACommentService: Error --> ${err}`
 		}
 	}
 }
@@ -39,5 +40,5 @@ async function s_banUser(user_id, hours) {
 // [EXPORT] //
 export default {
 	authAxios,
-	s_banUser,
+	s_delete,
 }

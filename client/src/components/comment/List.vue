@@ -166,7 +166,7 @@
 	import DropDownMenuBtn from '@components/controls/DropDownMenuBtn'
 	import router from '@router'
 	import CommentService from '@services/CommentService'
-	import ACommentService from '@services/administration/CommentService'
+	import ACommentService from '@services/admin/CommentService'
 	import UserService from '@services/UserService'
 	
 	// [EXPORT] //

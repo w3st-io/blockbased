@@ -35,7 +35,7 @@
 <script>
 	// [IMPORT] Personal //
 	import Alert from '@components/misc/Alert'
-	import a_CommentReportService from '@services/administration/CommentReportService'
+	import a_CommentReportService from '@services/admin/CommentReportService'
 
 	export default {
 		components: {
