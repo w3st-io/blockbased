@@ -87,6 +87,80 @@ async function s_admin_function() {
 }
 
 
+async function s_admin_function_commentReports(sort, limit, page) {
+	try {
+		const authAxios = await this.authAxios()
+
+		return (
+			await authAxios.get(
+				`/admin/function/commentReports/${sort}/${limit}/${page}`
+			)
+		).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `PageService: Error --> ${err}`
+		}
+	}
+}
+
+
+async function s_admin_function_comments(sort, limit, page) {
+	try {
+		const authAxios = await this.authAxios()
+
+		return (
+			await authAxios.get(`/admin/function/comments/${sort}/${limit}/${page}`)
+		).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `PageService: Error --> ${err}`
+		}
+	}
+}
+
+
+async function s_admin_function_posts(sort, limit, page) {
+	try {
+		const authAxios = await this.authAxios()
+
+		return (
+			await authAxios.get(`/admin/function/posts/${sort}/${limit}/${page}`)
+		).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `PageService: Error --> ${err}`
+		}
+	}
+}
+
+
+async function s_admin_function_users(sort, limit, page) {
+	try {
+		const authAxios = await this.authAxios()
+
+		return (
+			await authAxios.get(`/admin/function/users/${sort}/${limit}/${page}`)
+		).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `PageService: Error --> ${err}`
+		}
+	}
+}
+
+
 // [CAT] //
 async function s_cat(cat_id, sort = 0, limit, page) {
 	try {
@@ -301,6 +375,10 @@ export default {
 	s_activity,
 	s_admin,
 	s_admin_function,
+	s_admin_function_commentReports,
+	s_admin_function_comments,
+	s_admin_function_posts,
+	s_admin_function_users,
 	s_cat,
 	s_post,
 	s_post_create,

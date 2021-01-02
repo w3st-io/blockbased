@@ -18,6 +18,10 @@ import activity from '../pages/activity'
 // [ADMIN] //
 import admin from '@pages/admin'
 import admin_function from '@pages/admin/function'
+import admin_function_commentReports from '@pages/admin/function/commentReports'
+import admin_function_comments from '@pages/admin/function/comments'
+import admin_function_posts from '@pages/admin/function/posts'
+import admin_function_users from '@pages/admin/function/users'
 import admin_login from '@pages/admin/login'
 import admin_profile from '@pages/admin/profile'
 import admin_register from '@pages/admin/register'
@@ -96,6 +100,42 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Admin Function'
+			}
+		},
+		{
+			path: '/admin/function/comment-reports',
+			name: 'admin-function-comment-reports',
+			component: admin_function_commentReports,
+			meta: {
+				auth: true,
+				title: 'Admin-f-comment-reports'
+			}
+		},
+		{
+			path: '/admin/function/comments',
+			name: 'admin-function-comments',
+			component: admin_function_comments,
+			meta: {
+				auth: true,
+				title: 'Admin-f-comments'
+			}
+		},
+		{
+			path: '/admin/function/posts',
+			name: 'admin-function-posts',
+			component: admin_function_posts,
+			meta: {
+				auth: true,
+				title: 'Admin-f-posts'
+			}
+		},
+		{
+			path: '/admin/function/users',
+			name: 'admin-function-users',
+			component: admin_function_users,
+			meta: {
+				auth: true,
+				title: 'Admin-f-users'
 			}
 		},
 		{
