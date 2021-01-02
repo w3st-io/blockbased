@@ -211,7 +211,9 @@ async function s_user_activity_lookup(user_id, sort = 0, limit, page) {
 		const authAxios = await this.authAxios()
 
 		return (
-			await authAxios.get(`/user/activity/lookup/${user_id}/${sort}/${limit}/${page}`)
+			await authAxios.get(
+				`/user/activity/lookup/${user_id}/${sort}/${limit}/${page}`
+			)
 		).data
 	}
 	catch (err) {

@@ -72,6 +72,7 @@ const c_update = async (user_id, img_url, bio) => {
 
 
 /******************* [OTHER-CRUD] *******************/
+// [CREATE] User //
 const c_register = async (username, email, password) => {
 	try {
 		// [VALIDATE] username //

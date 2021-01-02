@@ -31,7 +31,6 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.postLimiter,
 	async (req, res) => {
-		console.log(req.body.cat_id, req.body.title, req.body.text);
 		try {
 			// [VALIDATE] //
 			if (

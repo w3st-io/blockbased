@@ -4,7 +4,7 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const usersCollection = require('../../../../s-collections/usersCollection')
+const postsCollection = require('../../../../s-collections/postsCollection')
 const Auth = require('../../../../s-middleware/Auth')
 
 
@@ -30,7 +30,7 @@ router.get(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Sort //
-				const { users } = await usersCollection.c_readSorted(
+				const { posts } = await postsCollection.c_readSorted(
 					sort,
 					limit,
 					skip
@@ -39,14 +39,14 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: true,
-					users: users,
+					posts: posts,
 				})
 			}
 			else {
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/pages/admin/function/users: Invalid Params'
+					message: '/pages/admin/function/posts: Invalid Params'
 				})
 			}
 		}
@@ -54,7 +54,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/pages/admin/function/users: Error --> ${err}`
+				message: `/pages/admin/function/posts: Error --> ${err}`
 			})
 		}
 	}
