@@ -14,11 +14,11 @@ import Router from 'vue-router'
 import home from '@pages'
 import NotFound from '@pages/404'
 // [ACTIVITY] //
-import activity from '../pages/activity'
+import activity from '@pages/activity'
 // [ADMIN] //
 import admin from '@pages/admin'
 import admin_function from '@pages/admin/function'
-import admin_function_commentReports from '@pages/admin/function/commentReports'
+import admin_function_commentReports from '@pages/admin/function/comment-reports'
 import admin_function_comments from '@pages/admin/function/comments'
 import admin_function_posts from '@pages/admin/function/posts'
 import admin_function_users from '@pages/admin/function/users'
