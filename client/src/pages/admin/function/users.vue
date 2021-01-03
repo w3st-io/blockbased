@@ -53,7 +53,13 @@
 			switchTab(tabClicked) { this.activeTab = tabClicked },
 			
 			async getData() {
-				try { this.returned = await PageService.s_admin_function() }
+				try {
+					this.returned = await PageService.s_admin_function(
+						this.sort,
+						this.limit,
+						this.page
+					)
+				}
 				catch (err) { this.error = err }
 
 				if (this.returned.status) { this.users = this.returned.users }
@@ -61,7 +67,7 @@
 			},
 
 			log() {
-				console.log('%%% [PAGE] /admin/function %%%')
+				console.log('%%% [PAGE] /admin/function/users %%%')
 				console.log('returned:', this.returned)
 			},
 		}
