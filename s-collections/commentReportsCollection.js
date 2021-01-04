@@ -259,7 +259,7 @@ const c_existanceByUserAndComment = async (user_id, comment_id) => {
 /******************* [EXISTANCE] *******************/
 const c_count = async () => {
 	try {
-		const count = await UserModel.countDocuments()
+		const count = await CommentReportModel.countDocuments()
 
 		return {
 			executed: true,
