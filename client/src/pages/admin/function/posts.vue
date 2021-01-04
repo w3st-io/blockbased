@@ -1,10 +1,33 @@
 <template>
 	<BContainer>
 		<BCard bg-variant="dark" class="my-3">
+			<BRow>
+				<!-- Page Nav Buttons -->
+				<BCol cols="12" sm="7" class="py-2">
+					<PageNavButtons
+						@start-btn="startPage()"
+						@prev-btn="prevPage()"
+						@next-btn="nextPage()"
+						@end-btn="endPage()"
+						:badgeValue="page"
+						style="max-width: 300px;"
+					/>
+				</BCol>
+				
+				<!-- Total Posts -->
+				<BCol cols="12" sm="5" class="py-2 text-right">
+					<BBadge variant="dark">
+						<h6 class="m-0">
+							Total Posts:<br>{{ returned.postCount }}
+						</h6>
+					</BBadge>
+				</BCol>
+			</BRow>
+			
 			<BRow class="mt-3">
 				<BCol cols="12">
 					<!-- Posts -->
-					<Posts :posts="posts" @refreshData="getData()" />
+					<Posts :posts="posts" @refreshData="getPageData()" />
 				</BCol>
 			</BRow>
 
@@ -21,6 +44,7 @@
 <script>
 	// [IMPORT] Personal //
 	import Posts from '@components/admin/function/Posts'
+	import PageNavButtons from '@components/controls/PageNavButtons'
 	import Alert from '@components/misc/Alert'
 	import router from '@router'
 	import PageService from '@services/PageService'
@@ -28,12 +52,16 @@
 	// [EXPORT] //
 	export default {
 		components: {
-			Alert,
 			Posts,
+			PageNavButtons,
+			Alert,
 		},
 
 		data: function() {
 			return {
+				sort: parseInt(this.$route.params.sort),
+				limit: parseInt(this.$route.params.limit),
+				page: parseInt(this.$route.params.page),
 				returned: {},
 				posts: [],
 				error: '',
@@ -44,7 +72,7 @@
 			// [REDIRECT] Not Admin Log Required //
 			if (!localStorage.admintoken) { router.push({ name: 'a-login' }) }
 
-			await this.getData()
+			await this.getPageData()
 
 			this.log()
 		},
@@ -52,9 +80,9 @@
 		methods: {
 			switchTab(tabClicked) { this.activeTab = tabClicked },
 			
-			async getData() {
+			async getPageData() {
 				try {
-					this.returned = await PageService.s_admin_function(
+					this.returned = await PageService.s_admin_function_posts(
 						this.sort,
 						this.limit,
 						this.page
@@ -64,6 +92,64 @@
 
 				if (this.returned.status) { this.posts = this.returned.posts }
 				else { this.error = this.returned.message }
+			},
+
+			refreshRoute() {
+				router.push({
+					name: 'admin-function-posts',
+					params: {
+						sort: this.sort,
+						limit: this.limit,
+						page: this.page,
+					}
+				})
+			},
+
+			async startPage() {
+				// As long as the page is not going into 0 or negative //
+				if (this.page != 1) {
+					this.loading = true
+					this.page = 1
+					
+					this.refreshRoute()
+
+					await this.getPageData()
+				}
+			},
+
+			async prevPage() {
+				// As long as the page is not going into 0 or negative //
+				if (this.page != 1) {
+					this.loading = true
+					this.page--
+					
+					this.refreshRoute()
+					
+					await this.getPageData()
+				}
+			},
+
+			async nextPage() {
+				// As long as page does not exceed max Number of Pages //
+				if (this.page < this.returned.totalPages) {
+					this.loading = true
+					this.page++
+
+					this.refreshRoute()
+
+					await this.getPageData()
+				}
+			},
+
+			async endPage() {
+				if (this.page != this.returned.totalPages) {
+					this.loading = true
+					this.page = this.returned.totalPages
+
+					this.refreshRoute()
+
+					await this.getPageData()
+				}
 			},
 
 			log() {

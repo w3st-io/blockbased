@@ -222,7 +222,7 @@
 
 			redirectUsers() {
 				router.push({
-					name: 'admin-function-comments',
+					name: 'admin-function-users',
 					params: {
 						sort: 0,
 						limit: 5,

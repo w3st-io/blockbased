@@ -17,7 +17,9 @@
 				<!-- Total Comments -->
 				<BCol cols="12" sm="5" class="py-2 text-right">
 					<BBadge variant="dark">
-						<h6 class="m-0">Total Comments:<br>{{ returned.commentCount }}</h6>
+						<h6 class="m-0">
+							Total Comments:<br>{{ returned.commentCount }}
+						</h6>
 					</BBadge>
 				</BCol>
 			</BRow>
