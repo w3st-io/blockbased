@@ -4,10 +4,6 @@
 			<BButton size="sm" @click="redirectAdmin()" class="mr-2">
 				Admin Dashboard
 			</BButton>
-			
-			<BButton size="sm" @click="redirectAdminFunction()" class="mr-2">
-				Admin Function
-			</BButton>
 
 			<BButton size="sm" @click="redirectAdminProfile()" class="mr-2">
 				Admin Profile
@@ -34,8 +30,6 @@
 			},
 
 			redirectAdmin() { router.push({ name: 'admin' }) },
-
-			redirectAdminFunction() { router.push({ name: 'admin-function' }) },
 
 			redirectAdminProfile() { router.push({ name: 'admin-profile' }) },
 		},

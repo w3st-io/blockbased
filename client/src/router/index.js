@@ -17,7 +17,6 @@ import NotFound from '@pages/404'
 import activity from '@pages/activity'
 // [ADMIN] //
 import admin from '@pages/admin'
-import admin_function from '@pages/admin/function'
 import admin_function_commentReports from '@pages/admin/function/comment-reports'
 import admin_function_comments from '@pages/admin/function/comments'
 import admin_function_posts from '@pages/admin/function/posts'
@@ -91,15 +90,6 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Admin'
-			}
-		},
-		{
-			path: '/admin/function',
-			name: 'admin-function',
-			component: admin_function,
-			meta: {
-				auth: true,
-				title: 'Admin Function'
 			}
 		},
 		{

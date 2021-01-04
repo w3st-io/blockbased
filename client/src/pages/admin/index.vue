@@ -31,17 +31,35 @@
 						</BCol>
 					</BRow>
 
-					<BRow class="mt-3">
-						<BCol lg="6">
-							<h3>Functions</h3>
-							<BButton
-								variant="primary"
-								class="w-100"
-								@click="redirectAdminFunction()"
-							>Actions</BButton>
+					<!-- Buttons -->
+					<BRow class="mt-2">
+						<BCol cols="3">
+							<BButton class="w-100" @click="redirectCommentReports()">
+								commentReports
+							</BButton>
 						</BCol>
 
-						<BCol lg="6">
+						<BCol cols="3">
+							<BButton class="w-100" @click="redirectComments()">
+								comments
+							</BButton>
+						</BCol>
+
+						<BCol cols="3">
+							<BButton class="w-100" @click="redirectPosts()">
+								posts
+							</BButton>
+						</BCol>
+
+						<BCol cols="3">
+							<BButton class="w-100" @click="redirectUsers()">
+								users
+							</BButton>
+						</BCol>
+					</BRow>
+
+					<BRow class="mt-3">
+						<BCol lg="12">
 							<h3>
 								<span class="h2 text-success">&#9679;</span>
 								Users Online
@@ -74,6 +92,13 @@
 									</td>
 								</tr>
 							</table>
+						</BCol>
+					</BRow>
+
+					<!-- [ALERTS] -->
+					<BRow class="my-3">
+						<BCol cols="12">
+							<Alert v-if="error" variant="danger" :message="error" />
 						</BCol>
 					</BRow>
 				</BCard>
@@ -142,8 +167,6 @@
 				this.loading = false
 			},
 
-			redirectAdminFunction() { router.push({ name: 'admin-function' }) },
-
 			redirectActivityPage(user_id) {
 				router.push({
 					name: 'user_activity_lookup',
@@ -160,6 +183,51 @@
 				router.push({
 					name: 'user_profile_lookup',
 					params: { user_id: user_id, }
+				})
+			},
+
+						redirectCommentReports() {
+				router.push({
+					name: 'admin-function-comment-reports',
+					params: {
+						sort: 0,
+						limit: 5,
+						page: 1,
+					}
+				})
+			},
+
+			redirectComments() {
+				router.push({
+					name: 'admin-function-comments',
+					params: {
+						sort: 0,
+						limit: 5,
+						page: 1,
+					}
+				})
+			},
+
+
+			redirectPosts() {
+				router.push({
+					name: 'admin-function-posts',
+					params: {
+						sort: 0,
+						limit: 5,
+						page: 1,
+					}
+				})
+			},
+
+			redirectUsers() {
+				router.push({
+					name: 'admin-function-comments',
+					params: {
+						sort: 0,
+						limit: 5,
+						page: 1,
+					}
 				})
 			},
 		}
