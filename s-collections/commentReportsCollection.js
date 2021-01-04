@@ -256,6 +256,27 @@ const c_existanceByUserAndComment = async (user_id, comment_id) => {
 }
 
 
+/******************* [EXISTANCE] *******************/
+const c_count = async () => {
+	try {
+		const count = await UserModel.countDocuments()
+
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `usersCollection: Error --> ${err}`
+		}
+	}
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_create,
@@ -263,4 +284,5 @@ module.exports = {
 	c_readUnhandled,
 	c_markHandled,
 	c_existanceByUserAndComment,
+	c_count,
 }

@@ -469,6 +469,27 @@ const c_verifiedStatus = async (user_id) => {
 }
 
 
+/******************* [COUNT] *******************/
+const c_count = async () => {
+	try {
+		const count = await UserModel.countDocuments()
+
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `usersCollection: Error --> ${err}`
+		}
+	}
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_update,
@@ -480,4 +501,5 @@ module.exports = {
 	c_updatePassword,
 	c_verify,
 	c_verifiedStatus,
+	c_count,
 }

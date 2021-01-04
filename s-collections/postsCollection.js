@@ -543,6 +543,26 @@ const c_ownership = async (post_id, user_id) => {
 
 
 /******************* [COUNT] *******************/
+const c_count = async () => {
+	try {
+		const count = await PostModel.countDocuments()
+
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postsCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
 const c_countByCat = async (cat_id) => {
 	try {
 		// [VALIDATE] cat_id //
@@ -616,6 +636,7 @@ module.exports = {
 	c_decrementLike,
 	c_existance,
 	c_ownership,
+	c_count,
 	c_countByCat,
 	c_countByUser,
 }

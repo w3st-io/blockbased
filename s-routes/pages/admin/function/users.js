@@ -36,10 +36,16 @@ router.get(
 					skip
 				)
 
+				const { count } = await usersCollection.c_count()
+
+				const totalPages = Math.ceil(count / limit)
+
 				res.status(200).send({
 					executed: true,
 					status: true,
 					users: users,
+					userCount: count,
+					totalPages: totalPages,
 				})
 			}
 			else {
