@@ -590,6 +590,26 @@ const c_existance = async (comment_id) => {
 
 
 /******************* [COUNT] *******************/
+const c_count = async () => {
+	try {
+		const count = await CommentModel.countDocuments()
+
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`
+		}
+	}
+}
+
+
 const c_countByUser = async (user_id) => {
 	try {
 		// [VALIDATE] user_id //
@@ -661,6 +681,7 @@ module.exports = {
 	c_deleteCustom,
 	c_existance,
 	c_ownership,
+	c_count,
 	c_countByUser,
 	c_countByPost,
 }

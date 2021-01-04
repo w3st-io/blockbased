@@ -3,7 +3,7 @@
 		<BCard bg-variant="dark" class="my-3">
 			<BRow>
 				<!-- Page Nav Buttons -->
-				<BCol cols="12" sm="9" md="8" lg="10" class="py-2">
+				<BCol cols="12" sm="7" class="py-2">
 					<PageNavButtons
 						@start-btn="startPage()"
 						@prev-btn="prevPage()"
@@ -13,6 +13,17 @@
 						style="max-width: 300px;"
 					/>
 				</BCol>
+				
+				<!-- Total Comments -->
+				<BCol cols="12" sm="5" class="py-2 text-right">
+					<BBadge variant="dark">
+						<h6 class="m-0">
+							Total Comments:<br>
+							{{ returned.commentCount }}
+						</h6>
+					</BBadge>
+				</BCol>
+
 			</BRow>
 			<BRow class="mt-3">
 				<!-- Comments -->
@@ -72,7 +83,7 @@
 			
 			async getPageData() {
 				try {
-					this.returned = await PageService.s_admin_function(
+					this.returned = await PageService.s_admin_function_comments(
 						this.sort,
 						this.limit,
 						this.page
@@ -122,7 +133,7 @@
 
 			async nextPage() {
 				// As long as page does not exceed max Number of Pages //
-				if (this.page < this.data.postsObj.totalPages) {
+				if (this.page < this.returned.totalPages) {
 					this.loading = true
 					this.page++
 
@@ -133,9 +144,9 @@
 			},
 
 			async endPage() {
-				if (this.page != this.data.postsObj.totalPages) {
+				if (this.page != this.returned.totalPages) {
 					this.loading = true
-					this.page = this.data.postsObj.totalPages
+					this.page = this.returned.totalPages
 
 					this.refreshRoute()
 
