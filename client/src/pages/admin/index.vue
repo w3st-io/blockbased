@@ -33,6 +33,8 @@
 
 					<!-- Buttons -->
 					<BRow class="mt-2">
+						<BCol cols="12"><h3>Functions</h3></BCol>
+
 						<BCol cols="3">
 							<BButton class="w-100" @click="redirectCommentReports()">
 								commentReports
