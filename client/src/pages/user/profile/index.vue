@@ -13,7 +13,7 @@
 				</BCard>
 			</BCol>
 
-			<!-- User Not Verifed -->
+			<!-- Email Sent -->
 			<BCol v-if="vCodeSent" cols="12" class="mt-3">
 				<BCard bg-variant="success" class="m-auto">
 					<h5 class="text-center text-light">Email Sent!</h5>
@@ -36,6 +36,7 @@
 			:postLikeCount="data.postLikeCount"
 		/>
 
+		<!-- [ALERTS] -->
 		<BRow class="mt-3">
 			<BCol cols="12">
 				<Alert v-if="error" variant="danger" :message="error" />

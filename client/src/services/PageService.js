@@ -161,6 +161,24 @@ async function s_admin_function_users(sort, limit, page) {
 }
 
 
+async function s_admin_function_users_record(user_id) {
+	try {
+		const authAxios = await this.authAxios()
+
+		return (
+			await authAxios.get(`/admin/function/users/record/${user_id}`)
+		).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `PageService: Error --> ${err}`
+		}
+	}
+}
+
+
 // [CAT] //
 async function s_cat(cat_id, sort = 0, limit, page) {
 	try {
@@ -379,6 +397,7 @@ export default {
 	s_admin_function_comments,
 	s_admin_function_posts,
 	s_admin_function_users,
+	s_admin_function_users_record,
 	s_cat,
 	s_post,
 	s_post_create,

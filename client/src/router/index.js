@@ -21,6 +21,7 @@ import admin_function_commentReports from '@pages/admin/function/comment-reports
 import admin_function_comments from '@pages/admin/function/comments'
 import admin_function_posts from '@pages/admin/function/posts'
 import admin_function_users from '@pages/admin/function/users'
+import admin_function_users_record from '@pages/admin/function/users/record'
 import admin_login from '@pages/admin/login'
 import admin_profile from '@pages/admin/profile'
 import admin_register from '@pages/admin/register'
@@ -126,6 +127,15 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Admin-f-users'
+			}
+		},
+		{
+			path: '/admin/function/users/record/:user_id',
+			name: 'admin-function-users-record',
+			component: admin_function_users_record,
+			meta: {
+				auth: true,
+				title: 'Admin-f-users-record'
 			}
 		},
 		{

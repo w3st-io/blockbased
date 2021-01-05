@@ -81,6 +81,43 @@ class Auth {
 	}
 
 
+	// [USER-TOKEN] NOT required //
+	static adminTokenNotRequired() {
+		return async (req, res, next) => {
+			if (req.headers.authorization2) {
+				// [SLICE] "Bearer " //
+				const tokenBody = req.headers.authorization2.slice(7)
+
+				if (tokenBody !== 'undefined') {
+					// Validate JWT //
+					try {
+						const decoded = await jwt.verify(tokenBody, secretKey)
+
+						// Check if the role is admin
+						if (decoded.role == 'admin') { req.decoded2 = decoded }
+						else {
+							res.status(200).send({
+								executed: true,
+								status: false,
+								message: 'Access Denied: Invalid Token',
+								auth: false,
+							})
+						}
+						
+						console.log('auth req.decoded2:', req.decoded2)
+					}
+					catch (err) { console.log('JWT Verify:', err) }
+					
+				}
+			}
+			else { console.log('no req.headers.authorization') }
+			
+			// Since token is not required move on anyways
+			next()
+		}
+	}
+
+
 	/******************* [USER] *******************/
 	// [USER-TOKEN] //
 	static userToken() {
@@ -213,9 +250,9 @@ class Auth {
 	}
 
 
-	// [USER-TOKEN] NOT rquired //
+	// [USER-TOKEN] NOT required //
 	static userTokenNotRequired() {
-		return (req, res, next) => {
+		return async (req, res, next) => {
 			// [INIT] //
 			const token = req.headers.authorization
 
@@ -225,13 +262,13 @@ class Auth {
 
 				// If a token exists => Validate JWT //
 				if (tokenBody !== 'undefined') {
-					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
-						if (decoded) {
-							// [INIT] Put decoded in req //
-							req.decoded = decoded
-						}
-						else { console.log('JWT Verify:', err) }
-					})
+					try {
+						const decoded = await jwt.verify(tokenBody, secretKey)
+						
+						// [INIT] Put decoded in req //
+						req.decoded = decoded
+					}
+					catch (err) { console.log('JWT Verify:', err) }
 				}
 			}
 			

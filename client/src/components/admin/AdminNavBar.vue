@@ -1,5 +1,5 @@
 <template>
-	<nav class="navbar navbar-dark fixed-bottom bg-warning border border-warning">
+	<nav class="navbar navbar-dark fixed-bottom bg-warning">
 		<div>
 			<BButton size="sm" @click="redirectAdmin()" class="mr-2">
 				Admin Dashboard
