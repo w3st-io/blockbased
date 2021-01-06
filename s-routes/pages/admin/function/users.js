@@ -4,8 +4,8 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const usersCollection = require('../../../../../s-collections/usersCollection')
-const Auth = require('../../../../../s-middleware/Auth')
+const usersCollection = require('../../../../s-collections/usersCollection')
+const Auth = require('../../../../s-middleware/Auth')
 
 
 // [EXPRESS + USE] //

@@ -130,15 +130,6 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/admin/function/users/record/:user_id',
-			name: 'admin-function-users-record',
-			component: admin_function_users_record,
-			meta: {
-				auth: true,
-				title: 'Admin-f-users-record'
-			}
-		},
-		{
 			path: '/admin/login',
 			name: 'a-login',
 			component: admin_login,
