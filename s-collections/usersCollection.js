@@ -255,7 +255,7 @@ const c_readSelect = async (user_id, select = undefined) => {
 		const user = await UserModel.findOne({ _id: user_id }).select(select)
 
 		// [HIDE] //
-		user.password = undefined
+		if (user) { user.password = undefined }
 
 		return {
 			executed: true,

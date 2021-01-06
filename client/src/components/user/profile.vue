@@ -36,6 +36,8 @@
 							<br>
 							{{ new Date(created_at).toLocaleString() }}
 						</h6>
+
+						<h6 class="mt-3 small text-secondary">{{ user_id }}</h6>
 					</BCol>
 
 					<!-- Account Details -->
@@ -168,11 +170,6 @@
 				</BButton>
 
 			</BCard>
-		</BCol>
-
-		<!-- user_id -->
-		<BCol cols="12" class="mt-2 text-center">
-			<span class="small text-secondary">{{ user_id }}</span>
 		</BCol>
 	</BRow>
 </template>

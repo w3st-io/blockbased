@@ -39,7 +39,7 @@
 		>
 			<div class="card-header p-2">
 				<span class="small">
-					{{ notification.comment.post.title }}
+					{{ notification.comment.post.title.replace(/(.{60})..+/, '$1…')  }}
 				</span>
 				<button
 					@click="closeClicked(notification._id)"

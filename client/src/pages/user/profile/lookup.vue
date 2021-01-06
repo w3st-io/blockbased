@@ -23,6 +23,14 @@
 		/>
 
 		<BRow>
+			<BCol v-if="!error && !loading" cols="12" class="mt-3 text-light">
+				<BCard bg-variant="dark" border-variant="warning">
+					Record
+				</BCard>
+			</BCol>
+		</BRow>
+
+		<BRow>
 			<BCol v-if="error" cols="12" class="mt-3">
 				<Alert variant="danger" :message="error" />
 			</BCol>

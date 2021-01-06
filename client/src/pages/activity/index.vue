@@ -4,7 +4,9 @@
 			<BCol cols="12">
 				<BCard bg-variant="dark" class="text-light">
 					<BRow>
-						<BCol cols="6"><h4>All Activity</h4></BCol>
+						<BCol cols="6">
+							<h4>All Activity</h4>
+						</BCol>
 						<BCol cols="6">
 							<!-- Page Control -->
 							<PageNavButtons
@@ -64,7 +66,7 @@
 													<h5>
 														{{ activity.user.username }}
 														created post: 
-														{{ activity.created_post.title }}
+														{{ activity.created_post.title.replace(/(.{60})..+/, '$1…') }}
 													</h5>
 												</BCol>
 											</BRow>
@@ -84,7 +86,7 @@
 													<h5>
 														{{ activity.user.username }}
 														created a comment in
-														{{ activity.post.title }}
+														{{ activity.post.title.replace(/(.{60})..+/, '$1…') }}
 													</h5>
 												</BCol>
 											</BRow>

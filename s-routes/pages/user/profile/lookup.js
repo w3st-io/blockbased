@@ -39,60 +39,69 @@ router.get(
 				)
 
 				if (userObj.status) {
-					// [COUNT] Posts //
-					const postCount = await postsCollection.c_countByUser(
-						req.params.user_id
-					)
-
-					// [COUNT] postLikes //
-					const pLCount = await postLikesCollection.c_countByPostUser(
-						req.params.user_id
-					)
-
-					// [COUNT] Comments //
-					const commentCount = await commentsCollection.c_countByUser(
-						req.params.user_id
-					)
-
-					// [COUNT] commentLikes //
-					const cLCount = await commentLikesCollection.c_countByCommentUser(
-						req.params.user_id
-					)
-
-					// Activity Order //
-					for (let i = timeFrame; i > 0; i = i - timeInterval) {
-						// timePointA & timePointB //
-						const timePointA = timeUtil.pastTimeByMinutes(i + timeInterval)
-						const timePointB = timeUtil.pastTimeByMinutes(i)
-
-						// [READ-ALL] timePointA < Activity < timePointB //
-						const { count: activityCount } = await activitiesCollection.c_countByUserTimeFrame(
-							req.params.user_id,
-							timePointA,
-							timePointB
+					if (userObj.user) {
+						// [COUNT] Posts //
+						const postCount = await postsCollection.c_countByUser(
+							req.params.user_id
 						)
 
-						activityData.push({
-							time: timePointB.toLocaleTimeString(),
-							count: activityCount
+						// [COUNT] postLikes //
+						const pLCount = await postLikesCollection.c_countByPostUser(
+							req.params.user_id
+						)
+
+						// [COUNT] Comments //
+						const commentCount = await commentsCollection.c_countByUser(
+							req.params.user_id
+						)
+
+						// [COUNT] commentLikes //
+						const cLCount = await commentLikesCollection.c_countByCommentUser(
+							req.params.user_id
+						)
+
+						// Activity Order //
+						for (let i = timeFrame; i > 0; i = i - timeInterval) {
+							// timePointA & timePointB //
+							const timePointA = timeUtil.pastTimeByMinutes(i + timeInterval)
+							const timePointB = timeUtil.pastTimeByMinutes(i)
+
+							// [READ-ALL] timePointA < Activity < timePointB //
+							const { count: activityCount } = await activitiesCollection.c_countByUserTimeFrame(
+								req.params.user_id,
+								timePointA,
+								timePointB
+							)
+
+							activityData.push({
+								time: timePointB.toLocaleTimeString(),
+								count: activityCount
+							})
+						}
+
+
+						if (req.decoded2 && req.decoded2.role == 'admin') {
+							console.log('send admin data as well!')
+						}
+
+						res.status(200).send({
+							executed: true,
+							status: true,
+							user: userObj.user,
+							postCount: postCount.count,
+							postLikeCount: pLCount.count,
+							commentCount: commentCount.count,
+							commentLikeCount: cLCount.count,
+							activityData: activityData,
 						})
 					}
-
-
-					if (req.decoded2 && req.decoded2.role == 'admin') {
-						console.log('send admin data as well!')
+					else {
+						res.status(200).send({
+							executed:true,
+							status:false,
+							message:'User not Found'
+						})
 					}
-
-					res.status(200).send({
-						executed: true,
-						status: true,
-						user: userObj.user,
-						postCount: postCount.count,
-						postLikeCount: pLCount.count,
-						commentCount: commentCount.count,
-						commentLikeCount: cLCount.count,
-						activityData: activityData,
-					})
 				}
 				else { res.status(200).send(userObj) }
 			}

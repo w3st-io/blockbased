@@ -127,7 +127,7 @@
 
 						<!-- Admin Bar -->
 						<BCol
-							v-if="adminLoggedIn"
+							v-if="localStorage.admintoken"
 							cols="12"
 							class="p-2 border border-warning"
 						>
@@ -183,7 +183,6 @@
 		data: function() {
 			return {
 				decoded: {},
-				adminLoggedIn: false,
 				disabled: false,
 				openedRepliedTo: null,
 				error: '',
@@ -191,8 +190,6 @@
 		},
 
 		created: async function() {
-			if (localStorage.admintoken) { this.adminLoggedIn = true }
-
 			if (localStorage.usertoken) {
 				this.decoded = await UserService.getUserTokenDecodeData()
 			}

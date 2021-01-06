@@ -1,13 +1,12 @@
 <template>
 	<BContainer class="my-4">
-		{{ loading }}
 		<!-- Set Page Title -->
 		<VueHeadful :title="`Post - ${postTitle}`" />
 
 		<BCard bg-variant="dark">
 			<BRow>
 				<!-- Title -->
-				<BCol sm="10">
+				<BCol cols="12" sm="10">
 					<h3 v-if="post" class="mb-2 text-light">
 						{{ post.title }}
 						<br>

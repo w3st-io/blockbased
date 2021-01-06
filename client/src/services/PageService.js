@@ -201,7 +201,9 @@ async function s_post(post_id, limit, page) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.get(`/post/${post_id}/${limit}/${page}`)).data
+		const { data } = await authAxios.get(`/post/${post_id}/${limit}/${page}`)
+
+		return data
 	}
 	catch (err) {
 		return {

@@ -36,9 +36,11 @@
 				"
 				class="dropdown-item text-light"
 			>
-				<h6>{{ notification.comment.post.title }}</h6>
-				<p class="m-0">
-					{{ notification.comment.user.username }} made a {{ notification.type }}
+				<p class="m-0 text-wrap">
+					{{ notification.comment.post.title.replace(/(.{60})..+/, '$1…') }}<br>
+					<span class="text-secondary">
+						{{ notification.comment.user.username }} made a {{ notification.type }}
+					</span>
 				</p>
 				<small class="text-secondary">
 					{{ new Date(notification.created_at).toLocaleString() }}
