@@ -256,7 +256,7 @@ const c_existanceByUserAndComment = async (user_id, comment_id) => {
 }
 
 
-/******************* [EXISTANCE] *******************/
+/******************* [COUNT] *******************/
 const c_count = async () => {
 	try {
 		const count = await CommentReportModel.countDocuments()
@@ -271,7 +271,29 @@ const c_count = async () => {
 		return {
 			executed: false,
 			status: false,
-			message: `usersCollection: Error --> ${err}`
+			message: `commentReportsColelction: Error --> ${err}`
+		}
+	}
+}
+
+
+const c_countByUser = async (user_id) => {
+	try {
+		const count = await CommentReportModel.countDocuments({
+			user: user_id
+		})
+
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentReportsColelction: Error --> ${err}`
 		}
 	}
 }
@@ -285,4 +307,5 @@ module.exports = {
 	c_markHandled,
 	c_existanceByUserAndComment,
 	c_count,
+	c_countByUser,
 }

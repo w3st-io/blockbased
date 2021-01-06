@@ -30,6 +30,7 @@ router.get(
 			if (mongoose.isValidObjectId(req.params.user_id)) {
 				const timeFrame = 60
 				const timeInterval = 1
+				const commentReportCount = undefined
 
 				let activityData = []
 
@@ -81,7 +82,7 @@ router.get(
 
 
 						if (req.decoded2 && req.decoded2.role == 'admin') {
-							console.log('send admin data as well!')
+							commentReportCount = 0
 						}
 
 						res.status(200).send({
@@ -93,6 +94,7 @@ router.get(
 							commentCount: commentCount.count,
 							commentLikeCount: cLCount.count,
 							activityData: activityData,
+							commentReportCount: commentReportCount,
 						})
 					}
 					else {
