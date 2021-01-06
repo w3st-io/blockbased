@@ -103,8 +103,6 @@ class Auth {
 								auth: false,
 							})
 						}
-						
-						console.log('auth req.decoded2:', req.decoded2)
 					}
 					catch (err) { console.log('JWT Verify:', err) }
 					
@@ -268,7 +266,15 @@ class Auth {
 						// [INIT] Put decoded in req //
 						req.decoded = decoded
 					}
-					catch (err) { console.log('JWT Verify:', err) }
+					catch (err) {
+						console.log('JWT Verify:', err)
+
+						res.status(200).send({
+							executed: true,
+							status: false,
+							message: err
+						})
+					}
 				}
 			}
 			

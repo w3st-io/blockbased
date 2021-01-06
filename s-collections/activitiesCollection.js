@@ -418,6 +418,32 @@ const c_countByUser = async (user_id) => {
 }
 
 
+const c_countByUserTimeFrame = async (user_id, timePointA, timePointB) => {
+	try {
+		const count = await ActivityModel.countDocuments({
+			user: user_id,
+			created_at: {
+				$gte: timePointA,
+				$lte: timePointB
+			}
+		})
+		
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `activitiesCollection: Error --> ${err}`,
+		}
+	}
+}
+
+
 const c_countTimeFrame = async (timePointA, timePointB) => {
 	try {
 		// [READ-ALL] timePointA < Tweets < timePointB //
@@ -455,5 +481,6 @@ module.exports = {
 	c_deleteCustom,
 	c_count,
 	c_countByUser,
+	c_countByUserTimeFrame,
 	c_countTimeFrame,
 }

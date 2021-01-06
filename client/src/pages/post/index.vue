@@ -1,5 +1,6 @@
 <template>
 	<BContainer class="my-4">
+		{{ loading }}
 		<!-- Set Page Title -->
 		<VueHeadful :title="`Post - ${postTitle}`" />
 
@@ -17,7 +18,7 @@
 					</h3>
 				</BCol>
 
-				<!-- Follow + Count -->
+				<!-- Count + Follow -->
 				<BCol sm="2" class="text-right">
 					<div class="mb-3">
 						<BBadge variant="light" class="ml-2">
@@ -55,6 +56,11 @@
 					/>
 				</BCol>
 
+				<!-- Loading -->
+				<BCol v-if="loading" cols="12" class="my-3">
+					<Alert variant="primary" />
+				</BCol>
+
 				<!-- Comments List -->
 				<BCol v-if="!loading" cols="12" class="mt-3">
 					<CommentList
@@ -63,9 +69,6 @@
 						@refreshComments="getPageData()"
 					/>
 				</BCol>
-
-				<!-- [LOADING] -->
-				<BCol v-if="loading" cols="12" class="my-3"><Alert /></BCol>
 				
 				<!-- [DEFAULT] If No content -->
 				<BCol v-if="!loading && comments == ''" cols="12">
@@ -188,6 +191,8 @@
 				}
 				catch (err) { this.error = `This: --> ${err}` }
 
+				this.loading = false
+
 				if (this.returned.status) {
 					this.post = this.returned.postObj.post
 					this.comments = this.returned.commentsObj.comments
@@ -195,8 +200,6 @@
 					this.postTitle = this.post.title
 				}
 				else { this.error = this.returned.message }
-
-				this.loading = false
 			},
 
 			async startPage() {

@@ -5,12 +5,15 @@ const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
+const activitiesCollection = require('../../../../s-collections/activitiesCollection')
 const commentsCollection = require('../../../../s-collections/commentsCollection')
 const commentLikesCollection = require('../../../../s-collections/commentLikesCollection')
 const postsCollection = require('../../../../s-collections/postsCollection')
 const postLikesCollection = require('../../../../s-collections/postLikesCollection')
 const usersCollection = require('../../../../s-collections/usersCollection')
 const Auth = require('../../../../s-middleware/Auth')
+const timeUtil = require('../../../../s-utils/timeUtil')
+
 
 // [EXPRESS + USE] //
 const router = express.Router().use(cors())
@@ -25,6 +28,11 @@ router.get(
 		try {
 			// [VALIDATE] //
 			if (mongoose.isValidObjectId(req.params.user_id)) {
+				const timeFrame = 60
+				const timeInterval = 1
+
+				let activityData = []
+
 				const userObj = await usersCollection.c_readSelect(
 					req.params.user_id,
 					'username profile_img bio created_at'
@@ -51,7 +59,27 @@ router.get(
 						req.params.user_id
 					)
 
-					if (req.decoded2) {
+					// Activity Order //
+					for (let i = timeFrame; i > 0; i = i - timeInterval) {
+						// timePointA & timePointB //
+						const timePointA = timeUtil.pastTimeByMinutes(i + timeInterval)
+						const timePointB = timeUtil.pastTimeByMinutes(i)
+
+						// [READ-ALL] timePointA < Activity < timePointB //
+						const { count: activityCount } = await activitiesCollection.c_countByUserTimeFrame(
+							req.params.user_id,
+							timePointA,
+							timePointB
+						)
+
+						activityData.push({
+							time: timePointB.toLocaleTimeString(),
+							count: activityCount
+						})
+					}
+
+
+					if (req.decoded2 && req.decoded2.role == 'admin') {
 						console.log('send admin data as well!')
 					}
 
@@ -63,6 +91,7 @@ router.get(
 						postLikeCount: pLCount.count,
 						commentCount: commentCount.count,
 						commentLikeCount: cLCount.count,
+						activityData: activityData,
 					})
 				}
 				else { res.status(200).send(userObj) }

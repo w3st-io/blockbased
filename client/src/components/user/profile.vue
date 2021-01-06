@@ -1,8 +1,8 @@
 <template>
 	<BRow class="mt-3">
 		<!-- Account Details -->
-		<BCol sm="12" lg="9" class="mb-3">
-			<BCard bg-variant="dark text-light">
+		<BCol sm="12" lg="9">
+			<BCard bg-variant="dark" class="mb-4 text-light">
 				<!-- Profile Details -->
 				<BRow>
 					<!-- Profile -->
@@ -115,16 +115,30 @@
 									@click="redirectYourActivity()"
 								>View Your Activity</BButton>
 							</BCol>
-
-							<BCol cols="12">
-								<BButton
-									v-if="!personal"
-									variant="outline-primary"
-									class="w-100 mt-3"
-									@click="redirectActivity(user_id)"
-								>View Activity</BButton>
-							</BCol>
 						</BRow>
+					</BCol>
+				</BRow>
+			</BCard>
+
+			<BCard bg-variant="dark" class="text-light">
+				<BRow>
+					<!-- Wrapped Chart -->
+					<BCol cols="12" lg="12" class="mt-2">
+						<WrappedLineChart
+							:title="'Activity'"
+							:labels="activityLabels"
+							:data="activityValues"
+							:height="350"
+						/>
+					</BCol>
+
+					<BCol cols="12">
+						<BButton
+							v-if="!personal"
+							variant="outline-primary"
+							class="w-100 mt-3"
+							@click="redirectActivity(user_id)"
+						>View Activity</BButton>
 					</BCol>
 				</BRow>
 			</BCard>
@@ -152,11 +166,12 @@
 				<BButton v-if="!personal" variant="outline-info" class="w-100 mt-2">
 					Message
 				</BButton>
+
 			</BCard>
 		</BCol>
 
 		<!-- user_id -->
-		<BCol cols="12" class="text-center">
+		<BCol cols="12" class="mt-2 text-center">
 			<span class="small text-secondary">{{ user_id }}</span>
 		</BCol>
 	</BRow>
@@ -164,9 +179,14 @@
 
 <script>
 	// [IMPORT] Personal //
+	import WrappedLineChart from '@components/chartjs/WrappedLineChart'
 	import router from '@router'
 
 	export default {
+		components: {
+			WrappedLineChart
+		},
+
 		props: {
 			personal: {
 				type: Boolean,
@@ -224,6 +244,25 @@
 				required: true,
 				default: 0,
 			},
+
+			activityData: {
+				type: Array,
+			}
+		},
+
+		data: function() {
+			return {
+				activityLabels: [],
+				activityValues: [],
+			}
+		},
+
+		created() {
+			// Map Data activityData //
+			if (this.activityData) {
+				this.activityLabels = this.activityData.map(d => d.time)
+				this.activityValues = this.activityData.map(d => d.count)
+			}
 		},
 
 		methods: {

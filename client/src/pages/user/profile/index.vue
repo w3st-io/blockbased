@@ -1,6 +1,11 @@
 <template>
 	<BContainer>
 		<BRow>
+			<!-- Loading -->
+			<BCol v-if="loading" cols="12" class="mt-3">
+				<Alert variant="primary" />
+			</BCol>
+
 			<!-- User Not Verifed -->
 			<BCol v-if="!isVerified" cols="12" class="mt-3">
 				<BCard bg-variant="danger" class="m-auto">
@@ -22,7 +27,7 @@
 		</BRow>
 
 		<Profile
-			v-if="!error"
+			v-if="!error && !loading"
 			:personal="true"
 			:user_id="user._id"
 			:email="user.email"
@@ -34,12 +39,13 @@
 			:commentLikeCount="data.commentLikeCount"
 			:postCount="data.postCount"
 			:postLikeCount="data.postLikeCount"
+			:activityData="data.activityData"
 		/>
 
-		<!-- [ALERTS] -->
 		<BRow class="mt-3">
-			<BCol cols="12">
-				<Alert v-if="error" variant="danger" :message="error" />
+			<!-- Error -->
+			<BCol v-if="error" cols="12">
+				<Alert variant="danger" :message="error" />
 			</BCol>
 		</BRow>
 	</BContainer>
@@ -65,8 +71,11 @@
 				returned: {},
 				user: {},
 				data: {},
+				activityLabels: [],
+				activityValues: [],
 				isVerified: true,
 				vCodeSent: false,
+				loading: true,
 				error: '',
 			}
 		},
@@ -77,6 +86,8 @@
 
 			try { this.returned = await await PageService.s_user_profile() }
 			catch (err) { this.error = err }
+
+			this.loading = false
 
 			if (this.returned.status) {
 				this.data = this.returned
