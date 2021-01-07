@@ -27,7 +27,12 @@
 				<BCard bg-variant="dark" border-variant="warning">
 					<BRow>
 						<!-- commentReports -->
-						<BCol cols="4">
+						<BCol cols="12" class="text-center">
+							<h5>Admin Data</h5>
+						</BCol>
+
+						<!-- commentReports -->
+						<BCol cols="12" lg="4" class="mb-3">
 							<BBadge variant="secondary" class="w-100">
 								<h6>
 									Comment Report<br>
@@ -37,7 +42,7 @@
 						</BCol>
 
 						<!-- Handled commentReports -->
-						<BCol cols="4">
+						<BCol cols="12" lg="4" class="mb-3">
 							<BBadge variant="secondary" class="w-100">
 								<h6>
 									Handled Comment Report<br>
@@ -47,7 +52,7 @@
 						</BCol>
 
 						<!-- Unhandled commentReports -->
-						<BCol cols="4">
+						<BCol cols="12" lg="4" class="mb-3">
 							<BBadge variant="secondary" class="w-100">
 								<h6>
 									Unhandled Comment Report<br>

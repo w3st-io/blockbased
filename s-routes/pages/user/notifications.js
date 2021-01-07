@@ -19,6 +19,7 @@ router.get(
 	async (req, res) => {
 		try {
 			if (
+				Number.isInteger(parseInt(req.params.sort)) &&
 				Number.isInteger(parseInt(req.params.limit)) &&
 				Number.isInteger(parseInt(req.params.page))
 			) {
@@ -58,7 +59,7 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/pages/cat: Invalid Params'
+					message: '/pages/notifications: Invalid Params'
 				})
 			}
 		}
@@ -66,7 +67,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/pages/post/notifications: Error --> ${err}`
+				message: `/pages/notifications: Error --> ${err}`
 			})
 		}
 	},

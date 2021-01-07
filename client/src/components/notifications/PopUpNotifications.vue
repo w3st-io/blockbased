@@ -9,7 +9,7 @@
 			class="ml-auto p-0 btn btn-primary btn-lg rounded-circle shadow"
 			style="width: 50px; height: 50px; font-family: monospace;"
 		>
-			<span v-if="!show" class="" style="font-size: 2em;">
+			<span v-if="!show" style="font-size: 2em;">
 				{{ !userShow ? '+' : '-' }}
 			</span>
 			<span
@@ -71,6 +71,7 @@
 			return {
 				show: true,
 				userShow: false,
+				reqData: {},
 				notifications: [],
 			}
 		},
@@ -85,14 +86,18 @@
 			})
 
 			// [LOG] //
-			//this.log()
+			this.log()
 		},
 
 		methods: {
 			async readAllUnreadNotifications() {
 				this.show = true
 
-				this.notifications = await NotificationService.s_readUnread()
+				this.reqData = await NotificationService.s_readUnread(1, 5, 1)
+
+				if (this.reqData.status) {
+					this.notifications = this.reqData.notifications
+				}
 
 				// Wait 3 seconds
 				setTimeout(() => { this.show = false }, 5000)
@@ -111,6 +116,7 @@
 		
 			log() {
 				console.log('%%% [COMPONENT] PopUpNotifications %%%')
+				console.log('reqData:', this.reqData)
 				console.log('nothifications:', this.notifications)
 			},
 		},

@@ -16,13 +16,11 @@ async function authAxios() {
 }
 
 /******************* [OTHER-CRUD] *******************/
-async function s_readUnread() {
+async function s_readUnread(sort, limit, page) {
 	try {
 		const authAxios = await this.authAxios()
 
-		const { data } = await authAxios.get(`/read-unread`)
-
-		return data.notifications
+		return (await authAxios.get(`/read-unread/${sort}/${limit}/${page}`)).data
 	}
 	catch (err) { return err }
 }

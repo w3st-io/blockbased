@@ -21,15 +21,46 @@ const router = express.Router().use(cors())
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] unread //
 router.get(
-	'/read-unread',
+	'/read-unread/:sort/:limit/:page',
 	Auth.userToken(),
 	async (req, res) => {
 		try {
-			const returned = await notificationsCollection.c_readByUserSortedUnread(
-				req.decoded.user_id
-			)
+			if (
+				Number.isInteger(parseInt(req.params.sort)) &&
+				Number.isInteger(parseInt(req.params.limit)) &&
+				Number.isInteger(parseInt(req.params.page))
+			) {
+				// [INIT] //
+				const sort = parseInt(req.params.sort)
+				const limit = parseInt(req.params.limit)
+				const pageIndex = parseInt(req.params.page) - 1
+				const skip = pageIndex * limit
 
-			res.status(200).send(returned)
+				const { notifications } = await notificationsCollection.c_readByUserSortedUnread(
+					req.decoded.user_id,
+					sort,
+					limit,
+					skip,
+				)
+
+				const { count } = await notificationsCollection.c_countUnread(
+					req.decoded.user_id,
+				)
+
+				res.status(200).send({
+					executed: true,
+					status: true,
+					notifications: notifications,
+					unreadNotificationCount: count,
+				})
+			}
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
+					message: '/pages/cat: Invalid Params'
+				})
+			}
 		}
 		catch (err) {
 			res.status(200).send({

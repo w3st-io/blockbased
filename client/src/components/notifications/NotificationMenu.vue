@@ -12,7 +12,7 @@
 			"
 		>
 			<span v-if="notifications.length != 0" class="mr-1 badge badge-danger">
-				{{ notifications.length }}
+				{{ reqData.unreadNotificationCount }}
 			</span>
 			<img
 				:src="require('../../assets/images/icons/bell.svg')"
@@ -47,6 +47,11 @@
 				</small>
 			</a>
 
+			<p
+				v-if="reqData.unreadNotificationCount > 5"
+				class="m-0 text-center text-wrap text-light"
+			>+{{ reqData.unreadNotificationCount - 5 }} More</p>
+
 			<!-- See All Notifications Page -->
 			<div class="w-100 text-center text-light">
 				<a href="" @click="redirectNotifications()">See All Notifications</a>
@@ -69,6 +74,7 @@
 		data: function() {
 			return {
 				showPopper: false,
+				reqData: {},
 				notifications: [],
 			}
 		},
@@ -91,7 +97,11 @@
 
 		methods: {
 			async readAllNotifications() {
-				this.notifications = await NotificationService.s_readUnread()
+				this.reqData = await NotificationService.s_readUnread(1, 5, 1)
+
+				if (this.reqData.status) {
+					this.notifications = this.reqData.notifications
+				}
 			},
 
 			async clicked(notification_id, post_id) {
@@ -123,7 +133,7 @@
 				router.push({
 					name: 'notifications',
 					params: {
-						sort: 0,
+						sort: 1,
 						limit: 3,
 						page: 1,
 					},

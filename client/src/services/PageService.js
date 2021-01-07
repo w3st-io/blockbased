@@ -337,7 +337,6 @@ async function s_user_followed(limit, page) {
 
 
 async function s_user_notifications(sort = 0, limit, page) {
-	console.log(sort);
 	try {
 		const authAxios = await this.authAxios()
 
