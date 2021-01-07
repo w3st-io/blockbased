@@ -6,8 +6,9 @@ const mongoose = require('mongoose')
 
 // [REQUIRE] Personal //
 const activitiesCollection = require('../../../../s-collections/activitiesCollection')
-const commentsCollection = require('../../../../s-collections/commentsCollection')
 const commentLikesCollection = require('../../../../s-collections/commentLikesCollection')
+const commentReportsCollection = require('../../../../s-collections/commentReportsCollection')
+const commentsCollection = require('../../../../s-collections/commentsCollection')
 const postsCollection = require('../../../../s-collections/postsCollection')
 const postLikesCollection = require('../../../../s-collections/postLikesCollection')
 const usersCollection = require('../../../../s-collections/usersCollection')
@@ -30,9 +31,9 @@ router.get(
 			if (mongoose.isValidObjectId(req.params.user_id)) {
 				const timeFrame = 60
 				const timeInterval = 1
-				const commentReportCount = undefined
-
+				
 				let activityData = []
+				let adminData = undefined
 
 				const userObj = await usersCollection.c_readSelect(
 					req.params.user_id,
@@ -82,7 +83,23 @@ router.get(
 
 
 						if (req.decoded2 && req.decoded2.role == 'admin') {
-							commentReportCount = 0
+							const commentReportCount = await commentReportsCollection.c_countByUser(
+								req.params.user_id
+							)
+
+							const commentReportHandledCount = await commentReportsCollection.c_countHandledByUser(
+								req.params.user_id
+							)
+
+							const commentReportUnhandledCount = await commentReportsCollection.c_countUnhandledByUser(
+								req.params.user_id
+							)
+
+							adminData = {
+								commentReportCount: commentReportCount.count,
+								commentReportHandledCount: commentReportHandledCount.count,
+								commentReportUnhandledCount: commentReportUnhandledCount.count
+							}
 						}
 
 						res.status(200).send({
@@ -94,7 +111,7 @@ router.get(
 							commentCount: commentCount.count,
 							commentLikeCount: cLCount.count,
 							activityData: activityData,
-							commentReportCount: commentReportCount,
+							adminData: adminData,
 						})
 					}
 					else {

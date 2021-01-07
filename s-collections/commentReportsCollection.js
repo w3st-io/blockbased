@@ -299,6 +299,52 @@ const c_countByUser = async (user_id) => {
 }
 
 
+const c_countHandledByUser = async (user_id) => {
+	try {
+		const count = await CommentReportModel.countDocuments({
+			user: user_id,
+			handled: true,
+		})
+
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentReportsColelction: Error --> ${err}`
+		}
+	}
+}
+
+
+const c_countUnhandledByUser = async (user_id) => {
+	try {
+		const count = await CommentReportModel.countDocuments({
+			user: user_id,
+			handled: false,
+		})
+
+		return {
+			executed: true,
+			status: true,
+			count: count
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentReportsColelction: Error --> ${err}`
+		}
+	}
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_create,
@@ -308,4 +354,6 @@ module.exports = {
 	c_existanceByUserAndComment,
 	c_count,
 	c_countByUser,
+	c_countHandledByUser,
+	c_countUnhandledByUser
 }

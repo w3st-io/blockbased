@@ -9,11 +9,7 @@
 					<BRow class="m-0">
 						<!-- Title --> 
 						<BCol
-							cols="8"
-							lg="9"
-							md="8"
-							sm="8"
-							xs="8"
+							cols="8" lg="9" md="8" sm="8" xs="8"
 							class="p-2"
 							@click="redirectToPost(post._id)"
 						>
@@ -36,11 +32,7 @@
 
 						<!-- Total Comments -->
 						<BCol
-							cols="4"
-							lg="2"
-							md="2"
-							sm="2"
-							xs="3"
+							cols="4" lg="2" md="2" sm="2" xs="3"
 							class="p-2 text-center" 
 							@click="redirectToPost(post._id)"
 						>
@@ -55,10 +47,7 @@
 						</BCol>
 
 						<!-- Like -->
-						<BCol
-							lg="1"
-							md="2"
-							sm="2"
+						<BCol lg="1" md="2" sm="2"
 							class="p-2 text-center" 
 							@click="redirectToPost(post._id)"
 						>

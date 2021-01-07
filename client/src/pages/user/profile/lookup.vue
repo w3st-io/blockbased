@@ -10,22 +10,52 @@
 		<Profile
 			v-if="!error && !loading"
 			:personal="false"
-			:user_id="data.user._id"
-			:username="data.user.username"
-			:profile_img="data.user.profile_img"
-			:bio="data.user.bio"
-			:created_at="data.user.created_at"
-			:commentCount="data.commentCount"
-			:commentLikeCount="data.commentLikeCount"
-			:postCount="data.postCount"
-			:postLikeCount="data.postLikeCount"
-			:activityData="data.activityData"
+			:user_id="reqData.user._id"
+			:username="reqData.user.username"
+			:profile_img="reqData.user.profile_img"
+			:bio="reqData.user.bio"
+			:created_at="reqData.user.created_at"
+			:commentCount="reqData.commentCount"
+			:commentLikeCount="reqData.commentLikeCount"
+			:postCount="reqData.postCount"
+			:postLikeCount="reqData.postLikeCount"
+			:activityData="reqData.activityData"
 		/>
 
-		<BRow>
-			<BCol v-if="!error && !loading" cols="12" class="mt-3 text-light">
+		<BRow v-if="!error && !loading && reqData.adminData">
+			<BCol cols="12" class="mt-3 text-light">
 				<BCard bg-variant="dark" border-variant="warning">
-					Record
+					<BRow>
+						<!-- commentReports -->
+						<BCol cols="4">
+							<BBadge variant="secondary" class="w-100">
+								<h6>
+									Comment Report<br>
+									{{ reqData.adminData.commentReportCount }}
+								</h6>
+							</BBadge>
+						</BCol>
+
+						<!-- Handled commentReports -->
+						<BCol cols="4">
+							<BBadge variant="secondary" class="w-100">
+								<h6>
+									Handled Comment Report<br>
+									{{ reqData.adminData.commentReportHandledCount }}
+								</h6>
+							</BBadge>
+						</BCol>
+
+						<!-- Unhandled commentReports -->
+						<BCol cols="4">
+							<BBadge variant="secondary" class="w-100">
+								<h6>
+									Unhandled Comment Report<br>
+									{{ reqData.adminData.commentReportUnhandledCount }}
+								</h6>
+							</BBadge>
+						</BCol>
+					</BRow>					
 				</BCard>
 			</BCol>
 		</BRow>
@@ -53,18 +83,27 @@
 			return {
 				user_id: this.$route.params.user_id,
 				profile_img: require('../../../assets/images/DefaultProfileImg.png'),
-				data: {},
+				reqData: {},
 				loading: true,
 				error: '',
 			}
 		},
 
 		created: async function() {
-			this.data = await PageService.s_user_profile_lookup(this.user_id)
+			this.reqData = await PageService.s_user_profile_lookup(this.user_id)
 
 			this.loading = false
 
-			if (!this.data.status) { this.error = this.data.message }
+			if (!this.reqData.status) { this.error = this.reqData.message }
+
+			this.log()
+		},
+
+		methods: {
+			log() {
+				console.log('%%% [PAGE] user/profile/lookup/:user_id %%%')
+				console.log('reqData:', this.reqData)
+			}
 		},
 	}
 </script>
