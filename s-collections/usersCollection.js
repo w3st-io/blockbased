@@ -31,11 +31,15 @@ const c_update = async (user_id, img_url, bio) => {
 		}
 
 		// [VALIDATE] bio //
-		if (!validator.isAscii(bio)) {
+		if (
+			bio.includes('<script') ||
+			bio.includes('</script>') ||
+			!validator.isAscii(bio)
+		) {
 			return {
 				executed: true,
 				status: false,
-				message: 'UserCollection: Invalid bio'
+				message: 'UserCollection: Invalid bio &/or XSS not aloud',
 			}
 		}
 

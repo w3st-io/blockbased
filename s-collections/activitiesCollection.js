@@ -222,11 +222,7 @@ const c_readByUserSorted = async (user_id, sort = 0, limit, skip) => {
 			.sort(sort)
 			.limit(limit)
 			.skip(skip)
-			// user //
-			.populate({
-				path: 'user',
-				select: 'username bio profile_img'
-			})
+			.populate({ path: 'user', select: 'username bio profile_img' })
 			.populate({ path: 'post' })
 			.populate({ path: 'comment' })
 			.populate({ path: 'created_comment' })
@@ -395,6 +391,16 @@ const c_count = async () => {
 
 const c_countByUser = async (user_id) => {
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid user_id',
+			}
+		}
+
 		const count = await ActivityModel.countDocuments({ user: user_id })
 		
 		return {
@@ -415,6 +421,36 @@ const c_countByUser = async (user_id) => {
 
 const c_countByUserTimeFrame = async (user_id, timePointA, timePointB) => {
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid user_id',
+			}
+		}
+
+		// [VALIDATE] timePointA //
+		if (!(new Date(timePointA)).getTime() > 0) {
+
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid timePointA',
+			}
+		}
+
+		// [VALIDATE] timePointA //
+		if (!(new Date(timePointB)).getTime() > 0) {
+
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid timePointA',
+			}
+		}
+
 		const count = await ActivityModel.countDocuments({
 			user: user_id,
 			created_at: {
@@ -441,6 +477,26 @@ const c_countByUserTimeFrame = async (user_id, timePointA, timePointB) => {
 
 const c_countTimeFrame = async (timePointA, timePointB) => {
 	try {
+		// [VALIDATE] timePointA //
+		if (!(new Date(timePointA)).getTime() > 0) {
+
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid timePointA',
+			}
+		}
+
+		// [VALIDATE] timePointA //
+		if (!(new Date(timePointB)).getTime() > 0) {
+
+			return {
+				executed: true,
+				status: false,
+				message: 'activitiesCollection: Invalid timePointA',
+			}
+		}
+
 		// [READ-ALL] timePointA < Tweets < timePointB //
 		const count = await ActivityModel.countDocuments({
 			created_at: {
