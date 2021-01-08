@@ -62,7 +62,7 @@ router.get(
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
-			if (mongoose.isValidObjectId(req.params.user_id)) {
+			if (validator.isAscii(req.params.user_id)) {
 				const userObj = await usersCollection.c_readSelect(
 					req.params.user_id,
 					'_id first_name last_name username bio verified created_at profile_img'
@@ -316,7 +316,7 @@ router.post(
 		try {
 			// [VALIDATE] //
 			if (
-				mongoose.isValidObjectId(req.body.user_id) &&
+				validator.isAscii(req.body.user_id) &&
 				validator.isAscii(req.body.verificationCode)
 			) {
 				// [EXISTANCE] //
@@ -354,7 +354,6 @@ router.post(
 router.post(
 	'/resend-verification-email',
 	async (req, res) => {
-		console.log(req.body.email);
 		try {
 			// [VALIDATE] //
 			if (validator.isAscii(req.body.email)) {
@@ -451,7 +450,7 @@ router.post(
 	async (req, res) => {
 		try {
 			if (
-				mongoose.isValidObjectId(req.body.user_id) &&
+				validator.isAscii(req.body.user_id) &&
 				validator.isAscii(req.body.verificationCode) &&
 				validator.isAscii(req.body.password)
 			) {
@@ -516,6 +515,68 @@ router.post(
 			})
 		}
 	}
+)
+
+
+/******************* [REPORTS] *******************/
+// [CREATE] Report //
+router.get(
+	'/report',
+	Auth.userToken(),
+	rateLimiter.reportLimiter,
+	async (req, res) => {
+		try {
+			// [VALIDATE] //
+			if (
+				validator.isAscii(req.body.reportType, reportedUser) &&
+				validator.isAscii(req.body.reportedUser)
+			) {
+				// [FORMAT] //
+				req.body.reportType = req.body.reportType.toLowerCase()
+
+			
+				// [EXISTANCE] Do not double save //
+				const existance = await userReportCollection.c_existanceByUserAndReportedUser(
+					req.decoded.user_id,
+					req.body.reportedUser
+				)
+
+				if (existance.status && !existance.existance) {
+					// [CREATE] commentReport //
+					const commentReport = await userReportCollection.c_create(
+						req.decoded.user_id,
+						commentObj.comment,
+						req.body.post_id,
+						req.body.reportType
+					)
+
+					res.status(200).send(commentReport)
+				}
+				else {
+					res.status(200).send({
+						executed: true,
+						status: false,
+						message: existance.message,
+						existance: existance.existance,
+					})
+				}
+			}
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
+					message: '/api/comments: Invalid params',
+				})
+			}
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				message: `/api/comments: Error --> ${err}`,
+			})
+		}
+	},
 )
 
 

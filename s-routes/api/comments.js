@@ -134,7 +134,7 @@ router.post(
 		try {
 			// [VALIDATE] //
 			if (
-				mongoose.isValidObjectId(req.body.comment_id) &&
+				validator.isAscii(req.body.comment_id) &&
 				req.body.text
 			) {
 				// [OWNERSHIP] //
@@ -258,9 +258,9 @@ router.post(
 		try {
 			// [VALIDATE] //
 			if (
-				mongoose.isValidObjectId(req.body.post_id) &&
-				mongoose.isValidObjectId(req.body.comment_id) &&
-				mongoose.isValidObjectId(req.body.commentUser_id)
+				validator.isAscii(req.body.post_id) &&
+				validator.isAscii(req.body.comment_id) &&
+				validator.isAscii(req.body.commentUser_id)
 			) {
 				// [EXISTANCE] commentLike //
 				const existance = await commentLikesCollection.c_existance(
@@ -314,7 +314,7 @@ router.post(
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
-			if (mongoose.isValidObjectId(req.body.comment_id)) {
+			if (validator.isAscii(req.body.comment_id)) {
 				// [DELETE] CommentLike //
 				const commentLike = await commentLikesCollection.c_deleteByUserAndComment(
 					req.decoded.user_id,
@@ -352,8 +352,8 @@ router.post(
 		try {
 			// [VALIDATE] //
 			if (
-				mongoose.isValidObjectId(req.body.post_id) &&
-				mongoose.isValidObjectId(req.body.comment_id) &&
+				validator.isAscii(req.body.post_id) &&
+				validator.isAscii(req.body.comment_id) &&
 				validator.isAscii(req.body.reportType)
 			) {
 				// [FORMAT] //

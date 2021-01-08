@@ -25,7 +25,7 @@ router.get(
 
 			// [VALIDATE] //
 			if (
-				mongoose.isValidObjectId(req.params.user_id) &&
+				validator.isAscii(req.params.user_id) &&
 				Number.isInteger(parseInt(req.params.hours))
 			) {
 				const returned = await bansCollection.c_create(

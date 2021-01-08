@@ -118,8 +118,8 @@ router.post(
 		try {
 			// [VALIDATE] //
 			if (
-				mongoose.isValidObjectId(req.body.post_id) &&
-				mongoose.isValidObjectId(req.body.postUser_id)
+				validator.isAscii(req.body.post_id) &&
+				validator.isAscii(req.body.postUser_id)
 			) {
 				// [EXISTANCE] postLike //
 				const existance = await postLikesCollection.c_existance(
@@ -182,7 +182,7 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		try {
-			if (mongoose.isValidObjectId(req.body.post_id)) {
+			if (validator.isAscii(req.body.post_id)) {
 				const existance = await postLikesCollection.c_existance(
 					req.decoded.user_id,
 					req.body.post_id
@@ -239,7 +239,7 @@ router.post(
 	rateLimiter.followLimiter,
 	async (req, res) => {
 		try {
-			if (mongoose.isValidObjectId(req.body.post_id)) {
+			if (validator.isAscii(req.body.post_id)) {
 				const returned = await postFollowsCollection.c_create(
 					req.decoded.user_id,
 					req.body.post_id
@@ -273,7 +273,7 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		try {
-			if (mongoose.isValidObjectId(req.body.post_id)) {
+			if (validator.isAscii(req.body.post_id)) {
 				const pFObj = await postFollowsCollection.c_deleteByUserAndPost(
 					req.decoded.user_id,
 					req.body.post_id

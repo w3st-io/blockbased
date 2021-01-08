@@ -76,7 +76,7 @@ router.get(
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
-			if (mongoose.isValidObjectId(req.params.notification_id)) {
+			if (validator.isAscii(req.params.notification_id)) {
 				const returned = await notificationsCollection.c_markRead(
 					req.params.notification_id
 				)

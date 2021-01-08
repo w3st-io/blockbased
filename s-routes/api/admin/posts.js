@@ -26,7 +26,7 @@ router.delete(
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
-			if (mongoose.isValidObjectId(req.params.post_id)) {
+			if (validator.isAscii(req.params.post_id)) {
 				//// [POSTS] ////
 				// [DELETE] posts //
 				const posts = await postsCollection.c_delete(req.params.post_id)
