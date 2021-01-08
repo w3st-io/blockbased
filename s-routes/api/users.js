@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs')
 const cors = require('cors')
 const express = require('express')
 const jwt = require('jsonwebtoken')
-const mongoose = require('mongoose')
 const validator = require('validator')
 
 
@@ -12,6 +11,7 @@ const config = require('../../s-config')
 const rateLimiters = require('../../s-rate-limiters')
 const activitiesCollection = require('../../s-collections/activitiesCollection')
 const passwordRecoveriesCollection = require('../../s-collections/passwordRecoveriesCollection')
+const userReportsCollection = require('../../s-collections/userReportsCollection')
 const usersCollection = require('../../s-collections/usersCollection')
 const verificationCodesCollection = require('../../s-collections/verificationCodesCollection')
 const Auth = require('../../s-middleware/Auth')
@@ -520,15 +520,15 @@ router.post(
 
 /******************* [REPORTS] *******************/
 // [CREATE] Report //
-router.get(
+router.post(
 	'/report',
 	Auth.userToken(),
-	rateLimiter.reportLimiter,
+	rateLimiters.reportLimiter,
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (
-				validator.isAscii(req.body.reportType, reportedUser) &&
+				validator.isAscii(req.body.reportType) &&
 				validator.isAscii(req.body.reportedUser)
 			) {
 				// [FORMAT] //
@@ -536,21 +536,20 @@ router.get(
 
 			
 				// [EXISTANCE] Do not double save //
-				const existance = await userReportCollection.c_existanceByUserAndReportedUser(
+				const existance = await userReportsCollection.c_existanceByUserAndReportedUser(
 					req.decoded.user_id,
 					req.body.reportedUser
 				)
 
 				if (existance.status && !existance.existance) {
 					// [CREATE] commentReport //
-					const commentReport = await userReportCollection.c_create(
+					const userReport = await userReportsCollection.c_create(
 						req.decoded.user_id,
-						commentObj.comment,
-						req.body.post_id,
-						req.body.reportType
+						req.body.reportType,
+						req.body.reportedUser
 					)
 
-					res.status(200).send(commentReport)
+					res.status(200).send(userReport)
 				}
 				else {
 					res.status(200).send({
@@ -565,7 +564,7 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/comments: Invalid params',
+					message: '/api/users: Invalid params',
 				})
 			}
 		}
@@ -573,7 +572,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/comments: Error --> ${err}`,
+				message: `/api/users: Error --> ${err}`,
 			})
 		}
 	},

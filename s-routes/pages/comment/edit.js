@@ -19,7 +19,7 @@ router.get(
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
-			if (mongoose.isValidObjectId(req.params.comment_id)) {
+			if (validator.isAscii(req.params.comment_id)) {
 				// [READ] Comment //
 				const returned = await commentsCollection.c_read(req.params.comment_id)
 			

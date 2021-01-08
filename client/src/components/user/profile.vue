@@ -20,24 +20,28 @@
 						</div>
 
 						<h6 v-if="personal" class="mt-3">
-							<span class="text-secondary">Email:</span>
-							<br>
+							<span class="text-secondary">Email:</span><br>
 							{{ email }}
 						</h6>
 
 						<h6 class="mt-3">
-							<span class="text-secondary">Bio:</span>
-							<br>
+							<span class="text-secondary">Bio:</span><br>
 							{{ bio }}
 						</h6>					
 
 						<h6 class="mt-3">
-							<span class="text-secondary">Joined:</span>
-							<br>
+							<span class="text-secondary">Joined:</span><br>
 							{{ new Date(created_at).toLocaleString() }}
 						</h6>
 
 						<h6 class="mt-3 small text-secondary">{{ user_id }}</h6>
+
+						<BButton
+							v-if="!personal"
+							variant="outline-danger"
+							class="w-100 mt-3"
+							@click="reportUser()"
+						>Report User</BButton>
 					</BCol>
 
 					<!-- Account Details -->
@@ -56,10 +60,7 @@
 
 							<!-- Total Posts -->
 							<BCol cols="12" sm="6" md="6" lg="3">
-								<BBadge
-									variant="dark"
-									class="w-100 mb-2"
-								>
+								<BBadge variant="dark" class="w-100 mb-2">
 									<h6>Total Posts</h6>
 									<h4>{{ postCount }}</h4>
 								</BBadge>
@@ -67,10 +68,7 @@
 
 							<!-- Post Score -->
 							<BCol cols="12" sm="6" md="6" lg="3">
-								<BBadge
-									variant="dark"
-									class="w-100 mb-2"
-								>
+								<BBadge variant="dark" class="w-100 mb-2">
 									<h6>Post Score</h6>
 									<h4>{{ postLikeCount }}</h4>
 								</BBadge>
@@ -78,10 +76,7 @@
 
 							<!-- Comment Score -->
 							<BCol cols="12" sm="6" md="6" lg="3">
-								<BBadge
-									variant="dark"
-									class="w-100 mb-2"
-								>
+								<BBadge variant="dark" class="w-100 mb-2">
 									<h6>Comment Score</h6>
 									<h4>{{ commentLikeCount }}</h4>
 								</BBadge>
@@ -176,6 +171,7 @@
 
 <script>
 	// [IMPORT] Personal //
+	import UserService from '../../services/UserService'
 	import WrappedLineChart from '@components/chartjs/WrappedLineChart'
 	import router from '@router'
 
@@ -249,6 +245,7 @@
 
 		data: function() {
 			return {
+				reqData: '',
 				activityLabels: [],
 				activityValues: [],
 			}
@@ -288,6 +285,16 @@
 						page: 1,
 					}
 				})
+			},
+
+			async reportUser() {
+				try {
+					this.reqData = await UserService.s_report('other', this.user_id)
+					console.log('reqData:', this.reqData)
+				}
+				catch (err) {
+					console.log('profile:', err)
+				}
 			},
 		},
 	}

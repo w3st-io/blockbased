@@ -160,6 +160,24 @@ async function resetPassword(user_id, verificationCode, password) {
 }
 
 
+async function s_report(reportType, reportedUser) {
+	try {
+		const authAxios = await this.authAxios()
+		
+		return (
+			await authAxios.post('/report', { reportType, reportedUser })
+		).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserService: Error --> ${err}`
+		}	
+	}
+}
+
+
 /******************* [USER-PROFILE] *******************/
 // [TOKEN DECODE] //
 async function getUserTokenDecodeData() {
@@ -186,5 +204,6 @@ export default {
 	resendVerificationEmail,
 	requestPasswordReset,
 	resetPassword,
+	s_report,
 	getUserTokenDecodeData,
 }

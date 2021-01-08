@@ -21,7 +21,7 @@ router.get(
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
-			if (mongoose.isValidObjectId(req.params.post_id)) {
+			if (validator.isAscii(req.params.post_id)) {
 				// [READ] Post //
 				const postObj = await postsCollection.c_read(req.params.post_id)
 

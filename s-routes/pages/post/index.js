@@ -24,7 +24,7 @@ router.get(
 		try {
 			// [VALIDATE] //
 			if (
-				mongoose.isValidObjectId(req.params.post_id) &&
+				validator.isAscii(req.params.post_id) &&
 				Number.isInteger(parseInt(req.params.limit)) &&
 				Number.isInteger(parseInt(req.params.page))
 			) {

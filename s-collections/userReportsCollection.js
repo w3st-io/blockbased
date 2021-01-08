@@ -78,7 +78,7 @@ const c_delete = async (userReport_id) => {
 			}
 		}
 
-		const userReport = await userReportModel.deleteOne({ _id: userReport_id })
+		const userReport = await UserReportModel.deleteOne({ _id: userReport_id })
 
 		return {
 			executed: true,
@@ -142,7 +142,7 @@ const c_readUnhandled = async (sort, limit, skip) => {
 			}
 		}
 
-		const userReports = await userReportModel.find({ handled: false })
+		const userReports = await UserReportModel.find({ handled: false })
 			.sort(sort)
 			.limit(limit)
 			.skip(skip)
@@ -180,7 +180,7 @@ const c_markHandled = async (userReport_id) => {
 			}
 		}
 
-		const userReport = await userReportModel.updateOne(
+		const userReport = await UserReportModel.updateOne(
 			{ _id: userReport_id },
 			{ handled: true },
 		)
@@ -225,7 +225,7 @@ const c_existanceByUserAndReportedUser = async (user_id, reportedUser_id) => {
 			}
 		}
 
-		const userReport = await userReportModel.findOne({
+		const userReport = await UserReportModel.findOne({
 			user: user_id,
 			reportedUser: reportedUser_id
 		})
@@ -260,7 +260,7 @@ const c_existanceByUserAndReportedUser = async (user_id, reportedUser_id) => {
 /******************* [COUNT] *******************/
 const c_count = async () => {
 	try {
-		const count = await userReportModel.countDocuments()
+		const count = await UserReportModel.countDocuments()
 
 		return {
 			executed: true,
@@ -289,7 +289,7 @@ const c_countByUser = async (user_id) => {
 			}
 		}
 
-		const count = await userReportModel.countDocuments({
+		const count = await UserReportModel.countDocuments({
 			user: user_id
 		})
 
@@ -320,7 +320,7 @@ const c_countHandledByReportedUser = async (user_id) => {
 			}
 		}
 
-		const count = await userReportModel.countDocuments({
+		const count = await UserReportModel.countDocuments({
 			user: user_id,
 			handled: true,
 		})
@@ -351,8 +351,8 @@ const c_countUnhandledByReportedUser = async (user_id) => {
 				message: 'userReportsCollection: Invalid user_id',
 			}
 		}
-		
-		const count = await userReportModel.countDocuments({
+
+		const count = await UserReportModel.countDocuments({
 			user: user_id,
 			handled: false,
 		})
