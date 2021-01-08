@@ -83,15 +83,15 @@ router.get(
 
 
 						if (req.decoded2 && req.decoded2.role == 'admin') {
-							const commentReportCount = await commentReportsCollection.c_countByUser(
+							const commentReportCount = await commentReportsCollection.c_countByReportedUser(
 								req.params.user_id
 							)
 
-							const commentReportHandledCount = await commentReportsCollection.c_countHandledByUser(
+							const commentReportHandledCount = await commentReportsCollection.c_countHandledByReportedUser(
 								req.params.user_id
 							)
 
-							const commentReportUnhandledCount = await commentReportsCollection.c_countUnhandledByUser(
+							const commentReportUnhandledCount = await commentReportsCollection.c_countUnhandledByReportedUser(
 								req.params.user_id
 							)
 

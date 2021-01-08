@@ -8,6 +8,12 @@ module.exports = mongoose.model(
 	mongoose.Schema({
 		_id: mongoose.Schema.Types.ObjectId,
 
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: true,
+		},
+
 		handled: {
 			type: Boolean,
 			default: false,
@@ -21,7 +27,7 @@ module.exports = mongoose.model(
 		},
 		
 		
-		user: {
+		reportedUser: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
 			required: true,

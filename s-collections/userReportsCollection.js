@@ -4,28 +4,19 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const CommentReportModel = require('../s-models/CommentReportModel')
+const UserReportModel = require('../s-models/UserReportModel')
 
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (user_id, comment, post_id, reportType) => {
+const c_create = async (user_id, reportType) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentReportsCollection: Invalid user_id',
-			}
-		}
-
-		// [VALIDATE] post_id //
-		if (!mongoose.isValidObjectId(post_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentReportsCollection: Invalid post_id',
+				message: 'userReportsCollection: Invalid user_id',
 			}
 		}
 
@@ -34,29 +25,7 @@ const c_create = async (user_id, comment, post_id, reportType) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentReportsCollection: Invalid reportType',
-			}
-		}
-
-		// [VALIDATE] comment //
-		if (
-			!mongoose.isValidObjectId(comment.user_id) &&
-			!mongoose.isValidObjectId(comment.post_id) &&
-			!comment.text &&
-			comment.text.length >= 6000 &&
-			(
-				!mongoose.isValidObjectId(comment.replyToComment) &&
-				comment.replyToComment !== null
-			) &&
-			(
-				comment.text.includes('<script') ||
-				comment.text.includes('</script>')
-			)
-		) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentsCollection: Invalid comment',
+				message: 'userReportsCollection: Invalid reportType',
 			}
 		}
 
@@ -64,12 +33,9 @@ const c_create = async (user_id, comment, post_id, reportType) => {
 		reportType = reportType.toLowerCase()
 	
 		// [SAVE] //
-		const commentReport = await new CommentReportModel({
+		const userReport = await new UserReportModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
-			post: post_id,
-			comment: comment,
-			reportedUser: comment.user,
 			reportType,
 		}).save()
 
@@ -77,46 +43,44 @@ const c_create = async (user_id, comment, post_id, reportType) => {
 			executed: true,
 			status: true,
 			created: true,
-			commentReport: commentReport,
+			userReport: userReport,
 		}
 	}
 	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `commentReportsCollection: Error --> ${err}`
+			message: `userReportsCollection: Error --> ${err}`
 		}
 	}
 }
 
 
 // [DELETE] //
-const c_delete = async (commentReport_id) => {
+const c_delete = async (userReport_id) => {
 	try {
-		// [VALIDATE] commentReport_id //
-		if (!mongoose.isValidObjectId(commentReport_id)) {
+		// [VALIDATE] userReport_id //
+		if (!mongoose.isValidObjectId(userReport_id)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentReportsCollection: Invalid commentReport_id'
+				message: 'userReportsCollection: Invalid userReport_id'
 			}
 		}
 
-		const commentReport = await CommentReportModel.deleteOne({
-			_id: commentReport_id
-		})
+		const userReport = await userReportModel.deleteOne({ _id: userReport_id })
 
 		return {
 			executed: true,
 			status: true,
-			commentReport: commentReport,
+			userReport: userReport,
 		}
 	}
 	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `commentReportsCollection: Error --> ${err}`
+			message: `userReportsCollection: Error --> ${err}`
 		}
 	}
 }
@@ -135,7 +99,7 @@ const c_readUnhandled = async (sort, limit, skip) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentReportsCollection: Invalid sort',
+				message: 'userReportsCollection: Invalid sort',
 			}
 		}
 
@@ -144,7 +108,7 @@ const c_readUnhandled = async (sort, limit, skip) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentReportsCollection: Invalid limit',
+				message: 'userReportsCollection: Invalid limit',
 			}
 		}
 
@@ -153,7 +117,7 @@ const c_readUnhandled = async (sort, limit, skip) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentReportsCollection: Invalid skip',
+				message: 'userReportsCollection: Invalid skip',
 			}
 		}
 
@@ -164,11 +128,11 @@ const c_readUnhandled = async (sort, limit, skip) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentReportsCollection: Unknown filter'
+				message: 'userReportsCollection: Unknown filter'
 			}
 		}
 
-		const commentReports = await CommentReportModel.find({ handled: false })
+		const userReports = await userReportModel.find({ handled: false })
 			.sort(sort)
 			.limit(limit)
 			.skip(skip)
@@ -181,33 +145,33 @@ const c_readUnhandled = async (sort, limit, skip) => {
 		return {
 			executed: true,
 			status: true,
-			commentReports: commentReports
+			userReports: userReports
 		}
 	}
 	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `commentReportsCollection: Error --> ${err}`
+			message: `userReportsCollection: Error --> ${err}`
 		}
 	}
 }
 
 
 /******************* [MARK-HANDLED-STATUS] *******************/
-const c_markHandled = async (commentReport_id) => {
+const c_markHandled = async (userReport_id) => {
 	try {
-		// [VALIDATE] commentReport_id //
-		if (!mongoose.isValidObjectId(commentReport_id)) {
+		// [VALIDATE] userReport_id //
+		if (!mongoose.isValidObjectId(userReport_id)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentReportsCollection: Invalid commentReport_id',
+				message: 'userReportsCollection: Invalid userReport_id',
 			}
 		}
 
-		const commentReport = await CommentReportModel.updateOne(
-			{ _id: commentReport_id },
+		const userReport = await userReportModel.updateOne(
+			{ _id: userReport_id },
 			{ handled: true },
 		)
 			
@@ -215,14 +179,14 @@ const c_markHandled = async (commentReport_id) => {
 			executed: true,
 			status: true,
 			markedHandled: true,
-			commentReport: commentReport
+			userReport: userReport
 		}
 	}	
 	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `commentReportsCollection: Error --> ${err}`,
+			message: `userReportsCollection: Error --> ${err}`,
 			markedHandled: true,
 		}
 	}
@@ -231,32 +195,32 @@ const c_markHandled = async (commentReport_id) => {
 
 /******************* [EXISTANCE] *******************/
 // Verify that User is not Double Reporting //
-const c_existanceByUserAndComment = async (user_id, comment_id) => {
+const c_existanceByUserAndReportedUser = async (user_id, reportedUser_id) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentReportsCollection: Invalid user_id',
+				message: 'userReportsCollection: Invalid user_id',
 			}
 		}
 
 		// [VALIDATE] user_id //
-		if (!mongoose.isValidObjectId(comment_id)) {
+		if (!mongoose.isValidObjectId(reportedUser_id)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentReportsCollection: Invalid comment_id',
+				message: 'userReportsCollection: Invalid user_id',
 			}
 		}
 
-		const commentReport = await CommentReportModel.findOne({	
-			'comment._id': comment_id,
+		const userReport = await userReportModel.findOne({
 			user: user_id,
+			reportedUser: reportedUser_id
 		})
 
-		if (!commentReport) {
+		if (!userReport) {
 			return {
 				executed: true,
 				status: true,
@@ -270,14 +234,14 @@ const c_existanceByUserAndComment = async (user_id, comment_id) => {
 			status: true,
 			message: 'Comment report exists',
 			existance: true,
-			commentReport: commentReport,
+			userReport: userReport,
 		}
 	}
 	catch (err) {
 		return {
 			executed: false,
 			status: false,
-			message: `commentReportsCollection: Error --> ${err}`
+			message: `userReportsCollection: Error --> ${err}`
 		}
 	}
 }
@@ -286,7 +250,7 @@ const c_existanceByUserAndComment = async (user_id, comment_id) => {
 /******************* [COUNT] *******************/
 const c_count = async () => {
 	try {
-		const count = await CommentReportModel.countDocuments()
+		const count = await userReportModel.countDocuments()
 
 		return {
 			executed: true,
@@ -298,25 +262,16 @@ const c_count = async () => {
 		return {
 			executed: false,
 			status: false,
-			message: `commentReportsColelction: Error --> ${err}`
+			message: `userReportsColelction: Error --> ${err}`
 		}
 	}
 }
 
 
-const c_countByReportedUser = async (user_id) => {
+const c_countByUser = async (user_id) => {
 	try {
-		// [VALIDATE] user_id //
-		if (!mongoose.isValidObjectId(user_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentReportsCollection: Invalid user_id',
-			}
-		}
-
-		const count = await CommentReportModel.countDocuments({
-			reportedUser: user_id
+		const count = await userReportModel.countDocuments({
+			user: user_id
 		})
 
 		return {
@@ -329,7 +284,7 @@ const c_countByReportedUser = async (user_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `commentReportsColelction: Error --> ${err}`
+			message: `userReportsColelction: Error --> ${err}`
 		}
 	}
 }
@@ -337,17 +292,8 @@ const c_countByReportedUser = async (user_id) => {
 
 const c_countHandledByReportedUser = async (user_id) => {
 	try {
-		// [VALIDATE] user_id //
-		if (!mongoose.isValidObjectId(user_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentReportsCollection: Invalid user_id',
-			}
-		}
-
-		const count = await CommentReportModel.countDocuments({
-			reportedUser: user_id,
+		const count = await userReportModel.countDocuments({
+			user: user_id,
 			handled: true,
 		})
 
@@ -361,7 +307,7 @@ const c_countHandledByReportedUser = async (user_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `commentReportsColelction: Error --> ${err}`
+			message: `userReportsColelction: Error --> ${err}`
 		}
 	}
 }
@@ -369,17 +315,8 @@ const c_countHandledByReportedUser = async (user_id) => {
 
 const c_countUnhandledByReportedUser = async (user_id) => {
 	try {
-		// [VALIDATE] user_id //
-		if (!mongoose.isValidObjectId(user_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'commentReportsCollection: Invalid user_id',
-			}
-		}
-		
-		const count = await CommentReportModel.countDocuments({
-			reportedUser: user_id,
+		const count = await userReportModel.countDocuments({
+			user: user_id,
 			handled: false,
 		})
 
@@ -393,7 +330,7 @@ const c_countUnhandledByReportedUser = async (user_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `commentReportsColelction: Error --> ${err}`
+			message: `userReportsColelction: Error --> ${err}`
 		}
 	}
 }
@@ -405,9 +342,9 @@ module.exports = {
 	c_delete,
 	c_readUnhandled,
 	c_markHandled,
-	c_existanceByUserAndComment,
+	c_existanceByUserAndReportedUser,
 	c_count,
-	c_countByReportedUser,
+	c_countByUser,
 	c_countHandledByReportedUser,
 	c_countUnhandledByReportedUser
 }

@@ -8,6 +8,12 @@ module.exports = mongoose.model(
 	mongoose.Schema({
 		_id: mongoose.Schema.Types.ObjectId,
 
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: true,
+		},
+
 		handled: {
 			type: Boolean,
 			default: false,
@@ -16,7 +22,7 @@ module.exports = mongoose.model(
 		reportType: {
 			type: String,
 			required: true,
-			enum: ['innapropiate', 'offensive', 'scam', 'bot', 'other'],
+			enum: ['innapropiate', 'offensive', 'scam', 'bot', 'spam', 'other'],
 			maxlength: 14,
 		},
 		
@@ -31,7 +37,7 @@ module.exports = mongoose.model(
 			required: true,
 		},
 		
-		user: {
+		reportedUser: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
 			required: true,

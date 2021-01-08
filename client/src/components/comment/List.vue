@@ -83,6 +83,7 @@
 											'Offensive',
 											'Scam',
 											'Bot',
+											'Spam',
 											'Other'
 										]"
 										@ddmb-clicked="report"
