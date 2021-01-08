@@ -100,6 +100,7 @@
 			async getData() {
 				try {
 					this.data = await pageService.s_user_followed(
+						1,
 						this.limit,
 						this.pageNumber
 					)

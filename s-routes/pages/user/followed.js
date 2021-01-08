@@ -17,15 +17,17 @@ const router = express.Router().use(cors())
 
 // [READ-ALL] //
 router.get(
-	'/:limit/:page',
+	'/:sort/:limit/:page',
 	Auth.userToken(),
 	async (req, res) => {
 		try {
 			if (
+				Number.isInteger(parseInt(req.params.sort)) &&
 				Number.isInteger(parseInt(req.params.limit)) &&
 				Number.isInteger(parseInt(req.params.page))
 			) {
 				// [INIT] //
+				const sort = parseInt(req.params.sort)
 				const limit = parseInt(req.params.limit)
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
@@ -42,7 +44,7 @@ router.get(
 				// [READ-ALL] postFollows for user //
 				const pFObj = await postFollowsCollection.c_readByUserSorted(
 					req.decoded.user_id,
-					undefined,
+					sort,
 					limit,
 					skip
 				)

@@ -110,8 +110,8 @@ const c_readByUserSorted = async (user_id, sort = 0, limit, skip) => {
 			}
 		}
 
-		if (sort == 0) { sort = { created_at: -1 } }
-		else if (sort == 1) { sort = {} }
+		if (sort == 0) { sort = {} }
+		else if (sort == 1) { sort = { created_at: -1 }  }
 
 		const postFollows = await PostFollowModel.find({ user: user_id })
 			.sort(sort)

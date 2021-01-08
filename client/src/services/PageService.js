@@ -320,11 +320,11 @@ async function s_user_activity_lookup(user_id, sort = 0, limit, page) {
 }
 
 
-async function s_user_followed(limit, page) {
+async function s_user_followed(sort, limit, page) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.get(`/user/followed/${limit}/${page}`)).data
+		return (await authAxios.get(`/user/followed/${sort}/${limit}/${page}`)).data
 	}
 	catch (err) {
 		return {

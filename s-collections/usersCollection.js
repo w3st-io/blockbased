@@ -193,7 +193,7 @@ const c_readSorted = async (sort = 0, limit, skip) => {
 		}
 
 		// Set Sort //
-		if (sort == 0) { sort = undefined }
+		if (sort == 0) { sort = {} }
 		else if (sort == 1) { sort = { created_at: -1 } }
 		else {
 			return {

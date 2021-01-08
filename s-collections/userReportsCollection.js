@@ -280,6 +280,15 @@ const c_count = async () => {
 
 const c_countByUser = async (user_id) => {
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'userReportsCollection: Invalid user_id',
+			}
+		}
+
 		const count = await userReportModel.countDocuments({
 			user: user_id
 		})
@@ -302,6 +311,15 @@ const c_countByUser = async (user_id) => {
 
 const c_countHandledByReportedUser = async (user_id) => {
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'userReportsCollection: Invalid user_id',
+			}
+		}
+
 		const count = await userReportModel.countDocuments({
 			user: user_id,
 			handled: true,
@@ -325,6 +343,15 @@ const c_countHandledByReportedUser = async (user_id) => {
 
 const c_countUnhandledByReportedUser = async (user_id) => {
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'userReportsCollection: Invalid user_id',
+			}
+		}
+		
 		const count = await userReportModel.countDocuments({
 			user: user_id,
 			handled: false,

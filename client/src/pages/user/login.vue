@@ -145,7 +145,7 @@
 				EventBus.$emit('logged-in')
 
 				// [REDIRECT] //
-				router.push({ name: '/' })
+				router.go(-1)
 			},
 		}
 	}
