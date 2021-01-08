@@ -9,7 +9,7 @@ const UserReportModel = require('../s-models/UserReportModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (user_id, reportType) => {
+const c_create = async (user_id, reportType, reportedUser_id) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -29,6 +29,15 @@ const c_create = async (user_id, reportType) => {
 			}
 		}
 
+		// [VALIDATE] reportedUser_id //
+		if (!mongoose.isValidObjectId(reportedUser_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'userReportsCollection: Invalid reportedUser_id',
+			}
+		}
+
 		// [FORMAT] //
 		reportType = reportType.toLowerCase()
 	
@@ -37,6 +46,7 @@ const c_create = async (user_id, reportType) => {
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
 			reportType,
+			reportedUser: reportedUser_id,
 		}).save()
 
 		return {
