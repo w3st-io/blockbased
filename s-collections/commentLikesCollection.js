@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- * %%% COMMENT LIKES COLLECTION %%%
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-*/
 // [REQUIRE] //
 const mongoose = require('mongoose')
 

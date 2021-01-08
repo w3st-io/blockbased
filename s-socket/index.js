@@ -1,4 +1,3 @@
-
 // [REQUIRE] Personal //
 const userUtils = require('../s-utils/userUtils')
 

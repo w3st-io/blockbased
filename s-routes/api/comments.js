@@ -1,9 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%%%%
- * %%% COMMENT ROUTES %%%
- * %%%%%%%%%%%%%%%%%%%%%%
- * this MUST have nested if's due to error if none
-*/
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')

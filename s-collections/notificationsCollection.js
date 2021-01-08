@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- * %%% NOTIFICATIONS COLLECTION %%%
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-*/
 // [REQUIRE] //
 const mongoose = require('mongoose')
 const validator = require('validator')

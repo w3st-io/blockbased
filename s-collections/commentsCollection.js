@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%
- * %%% COMMENTS COLLECTION %%%
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%
-*/
 // [REQUIRE] //
 const mongoose = require('mongoose')
 
@@ -42,7 +37,7 @@ const c_create = async (user_id, post_id, text, replyToComment) => {
 			}
 		}
 
-		// replyToComment //
+		// [VALIDATE] replyToComment //
 		if (!mongoose.isValidObjectId(replyToComment) && replyToComment !== null) {
 			return {
 				executed: true,
@@ -51,7 +46,7 @@ const c_create = async (user_id, post_id, text, replyToComment) => {
 			}
 		}
 
-		// Text Length //
+		// [VALIDATE] Text Length //
 		if (text.length >= 6000) {
 			return {
 				executed: true,
@@ -60,7 +55,7 @@ const c_create = async (user_id, post_id, text, replyToComment) => {
 			}
 		}
 
-		// Text XSS //
+		// [VALIDATE] Text XSS //
 		if (text.includes('<script') || text.includes('</script>')) {
 			return {
 				executed: true,

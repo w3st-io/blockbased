@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- * %%% COMMENTS REPORTS COLLECTION %%%
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-*/
 // [REQUIRE] //
 const mongoose = require('mongoose')
 const validator = require('validator')
@@ -40,6 +35,28 @@ const c_create = async (user_id, comment, post_id, reportType) => {
 				executed: true,
 				status: false,
 				message: 'commentReportsCollection: Invalid reportType',
+			}
+		}
+
+		// [VALIDATE] comment //
+		if (
+			!mongoose.isValidObjectId(comment.user_id) &&
+			!mongoose.isValidObjectId(comment.post_id) &&
+			!comment.text &&
+			comment.text.length >= 6000 &&
+			(
+				!mongoose.isValidObjectId(comment.replyToComment) &&
+				comment.replyToComment !== null
+			) &&
+			(
+				comment.text.includes('<script') ||
+				comment.text.includes('</script>')
+			)
+		) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid comment',
 			}
 		}
 

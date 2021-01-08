@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 // [EXPORT] //
 module.exports = mongoose.model(
-	'CommentReport',
+	'UserReport',
 	mongoose.Schema({
 		_id: mongoose.Schema.Types.ObjectId,
 
@@ -16,20 +16,10 @@ module.exports = mongoose.model(
 		reportType: {
 			type: String,
 			required: true,
-			enum: ['innapropiate', 'offensive', 'scam', 'bot', 'other'],
-			maxlength: 14,
+			enum: ['innapropiate', 'offensive', 'scammer', 'bot', 'other'],
+			maxlength: 24,
 		},
 		
-		post: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Post',
-			required: true,
-		},
-		
-		comment: {
-			type: Object,
-			required: true,
-		},
 		
 		user: {
 			type: mongoose.Schema.Types.ObjectId,

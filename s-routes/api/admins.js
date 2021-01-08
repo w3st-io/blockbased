@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%
- * %%% ADMIN ROUTE %%%
- * %%%%%%%%%%%%%%%%%%%
-*/
 // [REQUIRE] //
 const bcrypt = require('bcryptjs')
 const cors = require('cors')

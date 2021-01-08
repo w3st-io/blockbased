@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- * %%% PASSWORD RECOVERIES COLLECTION %%%
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-*/
 // [REQUIRE] //
 const mongoose = require('mongoose')
 const uuid = require('uuid')
