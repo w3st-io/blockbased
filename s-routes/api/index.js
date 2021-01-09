@@ -2,6 +2,7 @@
 const cors = require('cors')
 const express = require('express')
 
+
 // [REQUIRE] Personal //
 const config = require('../../s-config')
 
@@ -21,11 +22,13 @@ router.get(
 	}
 )
 
+
 // [BASE-URL] //
 router.get(
 	'/get-base-url',
 	async (req, res) => { res.send(config.BASE_URL) }
 )
+
 	
 // [SOCKET-BASE-URL] //
 router.get(

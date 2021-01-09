@@ -46,6 +46,7 @@
 	// [EXPORT] //
 	export default {
 		name: 'App',
+
 		components: {
 			AdminNavBar,
 			PopUpNotifications,
@@ -161,7 +162,7 @@
 			},
 
 			log() {
-				console.log('%%% [APP] App %%%')
+				console.log('%%% [APP] %%%')
 				console.log('usertoken:', localStorage.usertoken)
 				console.log('admintoken:', localStorage.admintoken)
 				console.log('data:', this.data)
@@ -181,7 +182,7 @@
 			Ubuntu,
 			Cantarell,
 			'Open Sans',
-			'Helvetica Neue', 
+			'Helvetica Neue',
 			sans-serif
 		;
 		-webkit-font-smoothing: antialiased;
