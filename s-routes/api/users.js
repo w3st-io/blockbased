@@ -400,6 +400,7 @@ router.post(
 /******************* [PASSWORD] *******************/
 router.post(
 	'/reset-password',
+	Auth.userToken(),
 	async (req, res) => {
 		try {
 			if (validator.isAscii(req.body.password)) {					

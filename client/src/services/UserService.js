@@ -131,6 +131,22 @@ async function s_resendVerificationEmail(email) {
 
 
 /******************* [PASSWORD] *******************/
+async function s_resetPassword(password) {
+	try {
+		const authAxios = await this.authAxios()
+		
+		return (await authAxios.post('/reset-password', { password })).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserService: Error --> ${err}`
+		}	
+	}
+}
+
+
 async function s_requestPasswordReset(email) {
 	try {
 		const authAxios = await this.authAxios()
@@ -196,6 +212,7 @@ export default {
 	s_login,
 	s_register,
 	s_verify,
+	s_resetPassword,
 	s_resendVerificationEmail,
 	s_requestPasswordReset,
 	s_notLoggedResetPassword,
