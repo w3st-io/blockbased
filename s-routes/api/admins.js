@@ -40,22 +40,17 @@ router.post(
 						)
 
 						if (userObj.user) {
-							const userFound = userObj.user
-
 							// [VALIDATE-PASSWORD] //
-							if (bcrypt.compareSync(req.body.password, userFound.password)) {
-								const payload = {
-									admin_id: userFound._id,
-									role: userFound.role,
-									email: userFound.email,
-									username: userFound.username,
-									first_name: userFound.first_name,
-									last_name: userFound.last_name,
-								}
-						
-								// Set Token //
-								let token = jwt.sign(
-									payload,
+							if (bcrypt.compareSync(req.body.password, userObj.user.password)) {
+								const token = jwt.sign(
+									{
+										admin_id: userObj.user._id,
+										role: userObj.user.role,
+										email: userObj.user.email,
+										username: userObj.user.username,
+										first_name: userObj.user.first_name,
+										last_name: userObj.user.last_name,
+									},
 									secretKey,
 									{/* expiresIn: 7200 */}
 								)

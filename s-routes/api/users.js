@@ -153,22 +153,17 @@ router.post(
 						)
 
 						if (userObj.user) {
-							const userFound = userObj.user
-
 							// [VALIDATE-PASSWORD] //
-							if (bcrypt.compareSync(req.body.password, userFound.password)) {
-								const payload = {
-									user_id: userFound._id,
-									email: userFound.email,
-									username: userFound.username,
-									first_name: userFound.first_name,
-									last_name: userFound.last_name,
-									verified: userFound.verified
-								}
-						
-								// Set Token //
-								let token = jwt.sign(
-									payload,
+							if (bcrypt.compareSync(req.body.password, userObj.user.password)) {
+								const token = jwt.sign(
+									{
+										user_id: userObj.user._id,
+										email: userObj.user.email,
+										username: userObj.user.username,
+										first_name: userObj.user.first_name,
+										last_name: userObj.user.last_name,
+										verified: userObj.user.verified
+									},
 									secretKey,
 									{/* expiresIn: 7200 */}
 								)
@@ -403,14 +398,36 @@ router.post(
 	Auth.userToken(),
 	async (req, res) => {
 		try {
-			if (validator.isAscii(req.body.password)) {					
-				// [UPDATE] Password //
-				const updatedPwd = await usersCollection.c_updatePassword(
-					req.decoded.user_id,
-					req.body.password
+			if (
+				validator.isAscii(req.body.currentPassword) &&
+				validator.isAscii(req.body.password)
+			) {
+				const userObj = await usersCollection.c_read(
+					req.decoded.user_id
 				)
+				
+				if (userObj.status) {
+					// [VALIDATE-PASSWORD] //
+					if (bcrypt.compareSync(req.body.currentPassword, userObj.user.password)) {		
+						// [UPDATE] Password //
+						const updatedPwd = await usersCollection.c_updatePassword(
+							req.decoded.user_id,
+							req.body.password
+						)
 
-				res.status(200).send(updatedPwd)
+						res.status(200).send(updatedPwd) 
+					}
+					else {
+						res.status(200).send({
+							executed: true,
+							status: false,
+							message: 'Invalid password',
+						})
+					}
+				}
+				else {
+					res.send(userObj)
+				}
 			}
 			else {
 				res.status(200).send({

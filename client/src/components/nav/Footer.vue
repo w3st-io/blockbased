@@ -1,6 +1,6 @@
 <template>
 	<!-- Footer -->
-	<footer class="mt-5 pt-4 page-footer font-small bg-dark border-top border-secondary text-center">
+	<footer class="mt-5 pt-4 page-footer font-small bg-dark text-center">
 		<BButton
 			v-if="loggedIn"
 			variant="outline-secondary"

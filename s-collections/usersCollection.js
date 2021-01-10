@@ -9,6 +9,35 @@ const UserModel = require('../s-models/UserModel')
 
 
 /******************* [CRUD] *******************/
+const c_read = async (_id) => {
+	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'usersCollection: Invalid _id'
+			}
+		}
+	
+		const user = await UserModel.findOne({ _id })
+
+		return {
+			executed: true,
+			status: true,
+			user: user
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `usersCollection: Error --> ${err}`
+		}
+	}
+}
+
+
 // [UPDATE] Profile Picture //
 const c_update = async (user_id, img_url, bio) => {
 	try {
@@ -491,6 +520,7 @@ const c_count = async () => {
 
 // [EXPORT] //
 module.exports = {
+	c_read,
 	c_update,
 	c_register,
 	c_readSorted,

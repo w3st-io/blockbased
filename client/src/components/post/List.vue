@@ -109,31 +109,30 @@
 		methods: {
 			/******************* [BTN] Like *******************/
 			async likeBtn(post) {
-				// [LOG REQUIRED] //
+				// [LOG-REQUIRED] //
 				if (localStorage.usertoken) {
 					this.disabled = true
 					
-					if (post.liked) {
-						try { this.returned = await PostService.s_unlike(post._id) }
-						catch (err) { this.error = err }
-					}
-					else {
-						try {
+					try {
+						if (post.liked) {
+							this.returned = await PostService.s_unlike(post._id)
+						}
+						else {
 							this.returned = await PostService.s_like(
 								post._id,
-								post.user
+								post.user._id
 							)
 						}
-						catch (err) { this.error = err }
-					}
 
-					if (this.returned.status == true)  {
-						// [UPDATE] Posts //
-						this.$emit('refreshPosts')
+						if (this.returned.status == true)  {
+							// [UPDATE] Posts //
+							this.$emit('refreshPosts')
 
-						// Wait 2 seconds before enabling
-						setTimeout(() => { this.disabled = false }, 2000)							
+							// Wait 1 seconds before enabling
+							setTimeout(() => { this.disabled = false }, 1000)
+						}
 					}
+					catch (err) { this.error = err }
 				}
 			},
 

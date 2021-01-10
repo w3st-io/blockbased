@@ -1,11 +1,6 @@
 <template>
 	<BContainer>
-		<BCard
-			bg-variant="dark"
-			border-variant="secondary"
-			class="mx-auto mt-5"
-			style="max-width: 800px;"
-		>
+		<BCard bg-variant="dark" class="mx-auto mt-5" style="max-width: 800px;">
 			<BRow>
 				<!-- Welcome Half -->
 				<BCol cols="12" md="6" class="d-none d-md-block">
@@ -17,10 +12,7 @@
 
 				<BCol cols="12" md="6">
 					<!-- LOG IN FORM -->
-					<ValidationObserver
-						v-slot="{ handleSubmit }"
-						tag="section"
-					>
+					<ValidationObserver v-slot="{ handleSubmit }" tag="section">
 						<form @submit.prevent="handleSubmit(login)">
 							<!-- Email  -->
 							<ValidationProvider
@@ -90,7 +82,6 @@
 				</BCol>
 			</BRow>
 		</BCard>
-
 	</BContainer>
 </template>
 
@@ -127,7 +118,10 @@
 			async login() {
 				try {
 					// Get Status from Login Function //
-					this.returned = await UserService.s_login(this.email, this.password)
+					this.returned = await UserService.s_login(
+						this.email,
+						this.password
+					)
 					
 					// Check Validation Status //
 					if (

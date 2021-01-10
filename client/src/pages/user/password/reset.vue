@@ -4,7 +4,6 @@
 			<BCol cols="12">
 				<BCard
 					bg-variant="dark"
-					border-variant="secondary"
 					class="m-auto w-100"
 					style="max-width: 500px;"
 				>

@@ -12,6 +12,23 @@
 
 					<ValidationObserver v-slot="{ handleSubmit }">
 						<form @submit.prevent="handleSubmit(submit)">
+							<!-- Current Password -->
+							<ValidationProvider
+								tag="div"
+								class="form-group"
+								rules="required"
+								v-slot="{ errors }"
+							>
+								<input
+									v-model="currentPassword"
+									type="password"
+									class="form-control bg-dark text-light border-secondary"
+									:class="{ 'is-invalid border-danger': errors != '' }"
+									placeholder="Current Password"
+								>
+								<span class="text-danger">{{ errors[0] }}</span>
+							</ValidationProvider>
+
 							<!-- Password -->
 							<ValidationProvider
 								tag="div"
@@ -87,6 +104,7 @@
 		data: function() {
 			return {
 				submitted: false,
+				currentPassword: '',
 				password: '',
 				confirm: '',
 				reqData: '',
@@ -99,9 +117,20 @@
 				this.submitted = true
 
 				try {
-					this.reqData = await UserService.s_resetPassword(this.password)
+					this.reqData = await UserService.s_resetPassword(
+						this.currentPassword,
+						this.password
+					)
 
 					this.message = this.reqData.message
+
+
+					if (this.reqData.status) {
+						this.submitted = true
+						setTimeout(() => { router.push({ name: 'profile' }) }, 1500)
+					}
+
+					this.submitted = false
 				}
 				catch (err) {
 					this.message = err
@@ -110,8 +139,6 @@
 				}
 				
 				console.log('reqData:', this.reqData)
-
-				setTimeout(() => { router.push({ name: 'profile' }) }, 1500)
 			},
 		},
 	}

@@ -131,11 +131,13 @@ async function s_resendVerificationEmail(email) {
 
 
 /******************* [PASSWORD] *******************/
-async function s_resetPassword(password) {
+async function s_resetPassword(currentPassword, password) {
 	try {
 		const authAxios = await this.authAxios()
 		
-		return (await authAxios.post('/reset-password', { password })).data
+		return (
+			await authAxios.post('/reset-password', { currentPassword, password })
+		).data
 	}
 	catch (err) {
 		return {
