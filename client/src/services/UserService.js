@@ -109,7 +109,11 @@ async function resendVerificationEmail(email) {
 	try {
 		const authAxios = await this.authAxios()
 		
-		return (await authAxios.post('/resend-verification-email', { email })).data
+		const result = await authAxios.post('/resend-verification-email', { email })
+
+		console.log(result.data)
+
+		return result.data
 	}
 	catch (err) {
 		return {

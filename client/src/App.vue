@@ -88,10 +88,6 @@
 				catch (err) { `App: Error --> ${err}` }
 
 				this.socket.emit('join', this.decoded.user_id)
-
-				if (this.decoded.verified == false) {
-					this.message = 'You are not verified'
-				}
 			}
 
 			// [ADMIN-LOGGEDIN] //

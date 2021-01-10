@@ -1,7 +1,7 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
-const mongoose = require('mongoose')
+const validator = require('validator')
 
 
 // [REQUIRE] Personal //
@@ -55,7 +55,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/comments: Error --> ${err}`,
+				message: `/api/comments/edit: Error --> ${err}`,
 			})
 		}
 	},
