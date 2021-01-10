@@ -20,7 +20,6 @@ const a_posts = require('./s-routes/api/posts')
 const a_comments = require('./s-routes/api/comments')
 const a_notifications = require('./s-routes/api/notifications')
 const a_users = require('./s-routes/api/users')
-const a_search = require('./s-routes/api/search')
 
 const p_ = require ('./s-routes/pages')
 const p_activity = require('./s-routes/pages/activity')
@@ -41,6 +40,7 @@ const p_user_followed = require('./s-routes/pages/user/followed')
 const p_user_notifications = require('./s-routes/pages/user/notifications')
 const p_user_profile = require('./s-routes/pages/user/profile')
 const p_user_profile_lookup = require('./s-routes/pages/user/profile/lookup')
+const p_search = require('./s-routes/pages/search')
 
 const s_socket = require('./s-socket')
 const config = require('./s-config')
@@ -92,7 +92,6 @@ app.use('/api/posts', a_posts)
 app.use('/api/comments', a_comments)
 app.use('/api/notifications', a_notifications)
 app.use('/api/users', a_users)
-app.use('/api/search', a_search)
 
 app.use('/pages', p_)
 app.use('/pages/activity', p_activity)
@@ -113,6 +112,7 @@ app.use('/pages/user/followed', p_user_followed)
 app.use('/pages/user/notification', p_user_notifications)
 app.use('/pages/user/profile', p_user_profile)
 app.use('/pages/user/profile/lookup', p_user_profile_lookup)
+app.use('/pages/search', p_search)
 
 
 // [HEROKU] Set Static Folder for Heroku //
