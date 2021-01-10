@@ -107,10 +107,10 @@
 							<BCol cols="6">
 								<BButton
 									v-if="personal"
-									variant="outline-primary"
+									variant="outline-secondary"
 									class="w-100 mt-3"
-									@click="redirectYourActivity()"
-								>View Your Activity</BButton>
+									@click="redirectChangePassword()"
+								>Change Password</BButton>
 							</BCol>
 						</BRow>
 					</BCol>
@@ -130,6 +130,13 @@
 					</BCol>
 
 					<BCol cols="12">
+						<BButton
+							v-if="personal"
+							variant="outline-primary"
+							class="w-100 mt-3"
+							@click="redirectYourActivity()"
+						>View Your Activity</BButton>
+								
 						<BButton
 							v-if="!personal"
 							variant="outline-primary"
@@ -171,7 +178,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import UserService from '../../services/UserService'
+	import UserService from '@services/UserService'
 	import WrappedLineChart from '@components/chartjs/WrappedLineChart'
 	import router from '@router'
 
@@ -262,6 +269,17 @@
 		methods: {
 			redirectProfileEdit() {
 				router.push({ name: 'edit' })
+			},
+
+			redirectChangePassword() {
+				router.push({
+					name: 'user_activity',
+					params: {
+						sort: 1,
+						limit: 5,
+						page: 1,
+					}
+				})
 			},
 
 			redirectActivity(user_id) {
