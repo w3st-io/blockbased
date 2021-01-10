@@ -1,5 +1,6 @@
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const mongooseFuzzySearching = require('mongoose-fuzzy-searching')
 
 
 // [EXPORT] //
@@ -61,5 +62,16 @@ module.exports = mongoose.model(
 			default: Date.now,
 			maxlength: 50
 		},
-	})
+	}).plugin(
+		mongooseFuzzySearching,
+		{
+			fields: [
+				{
+					name: 'title',
+					minSize: 4,
+					weight: 5,
+				},
+			]
+		}
+	)
 )

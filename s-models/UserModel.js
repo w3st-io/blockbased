@@ -1,5 +1,7 @@
 // [REQUIRE] //
 const mongoose = require('mongoose')
+const mongooseFuzzySearching = require('mongoose-fuzzy-searching')
+
 
 // [INIT] //
 const defaultImage = 'https://icon-library.com/images/placeholder-icon/placeholder-icon-17.jpg'
@@ -63,5 +65,31 @@ module.exports = mongoose.model(
 			default: Date.now,
 			maxlength: 50
 		},
-	})
+	}).plugin(
+		mongooseFuzzySearching,
+		{
+			fields: [
+				{
+					name: 'email',
+					minSize: 4,
+					weight: 5,
+				},
+				{
+					name: 'username',
+					minSize: 4,
+					weight: 5,
+				},
+				{
+					name: 'first_name',
+					minSize: 4,
+					weight: 5,
+				},
+				{
+					name: 'last_name',
+					minSize: 4,
+					weight: 5,
+				},
+			]
+		}
+	)
 )
