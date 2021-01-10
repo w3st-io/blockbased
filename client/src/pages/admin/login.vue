@@ -111,7 +111,7 @@
 			async login() {
 				// Get Status from Login Function //
 				try {
-					this.data = await AdminService.login(
+					this.data = await AdminService.s_login(
 						this.email,
 						this.password
 					)

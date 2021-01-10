@@ -127,7 +127,7 @@
 			async register() {
 				// [REGISTER] //
 				try {
-					this.data = await AdminService.register(
+					this.data = await AdminService.s_register(
 						this.username,
 						this.email,
 						this.password,

@@ -60,7 +60,7 @@
 
 		methods: {
 			async getAdminData() {
-				try { this.adminDecoded = await AdminService.getAdminTokenDecodeData() }
+				try { this.adminDecoded = await AdminService.s_getAdminTokenDecodeData() }
 				catch (err) { this.error = err }
 			},
 

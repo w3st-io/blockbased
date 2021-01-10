@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- * %%% ADMINISTRATION BLOCK SERVICES %%%
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-*/
 // [IMPORT] //
 import axios from 'axios'
 

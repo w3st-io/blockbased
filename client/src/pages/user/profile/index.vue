@@ -103,7 +103,7 @@
 		methods: {
 			async resendvCodeEmail() {
 				if (this.user) {
-					this.returned = await UserService.resendVerificationEmail(
+					this.returned = await UserService.s_resendVerificationEmail(
 						this.user.email
 					)
 

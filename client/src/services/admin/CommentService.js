@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- * %%% ADMINISTRATION COMMENT SERVICES %%%
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-*/
 // [IMPORT] //
 import axios from 'axios'
 

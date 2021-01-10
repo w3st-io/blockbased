@@ -100,7 +100,7 @@
 				this.submitted = true
 
 				try {
-					this.reqData = await UserService.resetPassword(
+					this.reqData = await UserService.s_notLoggedResetPassword(
 						this.$route.params.user_id,
 						this.$route.params.verification_code,
 						this.password
@@ -108,7 +108,11 @@
 
 					this.message = this.reqData.message
 				}
-				catch (err) { this.message = err }
+				catch (err) {
+					this.message = err
+
+					this.submitted = false
+				}
 				
 				console.log('reqData:', this.reqData)
 

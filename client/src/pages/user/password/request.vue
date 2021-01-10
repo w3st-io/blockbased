@@ -33,6 +33,7 @@
 
 							<!-- Submit -->
 							<BButton
+								:disabled="submitted"
 								variant="primary"
 								type="submit"
 								class="my-3 w-100"
@@ -82,6 +83,7 @@
 
 		data: function() {
 			return {
+				submitted: false,
 				email: '',
 				data: '',
 				success: '',
@@ -97,10 +99,14 @@
 		methods: {
 			async submit() {
 				try {
-					this.data = await UserService.requestPasswordReset(this.email)
+					this.submitted = true
+
+					this.data = await UserService.s_requestPasswordReset(this.email)
 
 					if (!this.data.status || this.data.existance) {
 						this.error = this.data.message
+
+						this.submitted = false
 					}
 					else {
 						this.success = this.data.message

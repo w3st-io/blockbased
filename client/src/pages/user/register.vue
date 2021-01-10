@@ -124,7 +124,7 @@
 		methods: {
 			async register() {
 				try {
-					this.data = await UserService.register(
+					this.data = await UserService.s_register(
 						this.username,
 						this.email,
 						this.password,

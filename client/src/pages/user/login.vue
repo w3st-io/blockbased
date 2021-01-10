@@ -127,7 +127,7 @@
 			async login() {
 				try {
 					// Get Status from Login Function //
-					this.returned = await UserService.login(this.email, this.password)
+					this.returned = await UserService.s_login(this.email, this.password)
 					
 					// Check Validation Status //
 					if (

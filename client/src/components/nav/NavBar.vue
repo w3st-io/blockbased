@@ -117,7 +117,7 @@
 			if (localStorage.usertoken) {
 				this.loggedIn = true
 
-				this.decoded = await UserService.getUserTokenDecodeData()
+				this.decoded = await UserService.s_getUserTokenDecodeData()
 			}
 
 			// [ON-EVENTBUS] //

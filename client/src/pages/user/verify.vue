@@ -33,7 +33,7 @@
 
 		created: async function() {
 			try {
-				this.returned = await UserService.verify(
+				this.returned = await UserService.s_verify(
 					this.user_id,
 					this.verificationCode
 				)

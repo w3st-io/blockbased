@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%%%%
- * %%% ADMIN SERVICES %%%
- * %%%%%%%%%%%%%%%%%%%%%%
-*/
 // [IMPORT] //
 import jwtDecode from 'jwt-decode'
 import axios from 'axios'
@@ -17,8 +12,8 @@ async function authAxios() {
 }
 
 
-// [TOKEN DECODE] //
-function getAdminTokenDecodeData() {
+/******************* [TOKEN-DECODE] *******************/
+async function s_getAdminTokenDecodeData() {
 	let decoded = {}
 
 	if (localStorage.admintoken) {
@@ -40,7 +35,7 @@ function getAdminTokenDecodeData() {
 
 
 // [LOGIN] //
-async function login(email, password) {
+async function s_login(email, password) {
 	const authAxios = await this.authAxios()
 	
 	try { return (await authAxios.post('/login', { email, password })).data }
@@ -55,7 +50,7 @@ async function login(email, password) {
 
 
 // [REGISTER] //
-async function register(username, email, password) {
+async function s_register(username, email, password) {
 	const authAxios = await this.authAxios()
 	try {
 		return (
@@ -75,7 +70,7 @@ async function register(username, email, password) {
 // [EXPORT] //
 export default {
 	authAxios,
-	getAdminTokenDecodeData,
-	login,
-	register,
+	s_getAdminTokenDecodeData,
+	s_login,
+	s_register,
 }

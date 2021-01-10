@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- * %%% NOTIFICATION SERVICES %%%
- * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-*/
 // [IMPORT] //
 import axios from 'axios'
 
@@ -31,7 +26,7 @@ async function s_markRead(notification_id) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return await authAxios(`/mark-read/${notification_id}`)
+		return (await authAxios(`/mark-read/${notification_id}`)).data
 	}
 	catch (err) { return err }
 }

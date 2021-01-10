@@ -399,6 +399,38 @@ router.post(
 
 /******************* [PASSWORD] *******************/
 router.post(
+	'/reset-password',
+	async (req, res) => {
+		try {
+			if (validator.isAscii(req.body.password)) {					
+				// [UPDATE] Password //
+				const updatedPwd = await usersCollection.c_updatePassword(
+					req.body.user_id,
+					req.body.password
+				)
+
+				es.status(200).send(updatedPwd)
+			}
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
+					message: '/api/users: Invalid Params'
+				})
+			}
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				message: `/api/users: Error --> ${err}`,
+			})
+		}
+	}
+)
+
+
+router.post(
 	'/request-password-reset',
 	async (req, res) => {
 		try {
@@ -446,7 +478,7 @@ router.post(
 
 
 router.post(
-	'/reset-password',
+	'/not-logged-reset-password',
 	async (req, res) => {
 		try {
 			if (
@@ -468,12 +500,12 @@ router.post(
 
 					if (pwdRecovery.status && pwdRecovery.valid) {
 						// [UPDATE] Password //
-						const updated = await usersCollection.c_updatePassword(
+						const updatedPwd = await usersCollection.c_updatePassword(
 							req.body.user_id,
 							req.body.password
 						)
 
-						if (updated.status) {
+						if (updatedPwd.status) {
 							// [DELETE] passwordrecovery //
 							const deletedPR = await passwordRecoveriesCollection.c_deleteByUser(
 								req.body.user_id
@@ -487,7 +519,7 @@ router.post(
 								})
 							}
 						}
-						else { res.status(200).send(updated) }
+						else { res.status(200).send(updatedPwd) }
 					}
 					else { res.status(200).send(pwdRecovery) }
 				}

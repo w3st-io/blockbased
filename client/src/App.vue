@@ -84,7 +84,7 @@
 			if (localStorage.usertoken) {
 				this.loggedIn = true
 				
-				try { this.decoded = await UserService.getUserTokenDecodeData() }
+				try { this.decoded = await UserService.s_getUserTokenDecodeData() }
 				catch (err) { `App: Error --> ${err}` }
 
 				this.socket.emit('join', this.decoded.user_id)

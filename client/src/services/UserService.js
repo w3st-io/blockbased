@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%%%
- * %%% USER SERVICES %%%
- * %%%%%%%%%%%%%%%%%%%%%
-*/
 // [IMPORT] //
 import jwtDecode from 'jwt-decode'
 import axios from 'axios'
@@ -14,6 +9,20 @@ async function authAxios() {
 		baseURL: '/api/users',
 		headers: { authorization: `Bearer ${localStorage.usertoken}` }
 	})
+}
+
+
+/******************* [TOKEN-DECODE] *******************/
+async function s_getUserTokenDecodeData() {
+	let decoded = {
+		_id: '',
+		email: '',
+		username: '',
+	}
+
+	if (localStorage.usertoken) { decoded = jwtDecode(localStorage.usertoken) }
+
+	return decoded
 }
 
 
@@ -55,7 +64,7 @@ async function s_update(img_url, bio) {
 
 /******************* [USER LOGIN/REGISTER] *******************/
 // [LOGIN] //
-async function login(email, password) {
+async function s_login(email, password) {
 	try {
 		const authAxios = await this.authAxios()
 		
@@ -72,7 +81,7 @@ async function login(email, password) {
 
 
 // [REGISTER] //
-async function register(username, email, password) {
+async function s_register(username, email, password) {
 	try {
 		const authAxios = await this.authAxios()
 		
@@ -89,7 +98,7 @@ async function register(username, email, password) {
 
 
 /******************* [VERIFY] *******************/
-async function verify(user_id, verificationCode) {
+async function s_verify(user_id, verificationCode) {
 	try {
 		const authAxios = await this.authAxios()
 		
@@ -105,7 +114,7 @@ async function verify(user_id, verificationCode) {
 }
 
 
-async function resendVerificationEmail(email) {
+async function s_resendVerificationEmail(email) {
 	try {
 		const authAxios = await this.authAxios()
 		
@@ -122,7 +131,7 @@ async function resendVerificationEmail(email) {
 
 
 /******************* [PASSWORD] *******************/
-async function requestPasswordReset(email) {
+async function s_requestPasswordReset(email) {
 	try {
 		const authAxios = await this.authAxios()
 		
@@ -138,12 +147,12 @@ async function requestPasswordReset(email) {
 }
 
 
-async function resetPassword(user_id, verificationCode, password) {
+async function s_notLoggedResetPassword(user_id, verificationCode, password) {
 	try {
 		const authAxios = await this.authAxios()
 		
 		return (
-			await authAxios.post('/reset-password', {
+			await authAxios.post('/not-logged-reset-password', {
 				user_id,
 				verificationCode,
 				password
@@ -178,32 +187,17 @@ async function s_report(reportType, reportedUser) {
 }
 
 
-/******************* [USER-PROFILE] *******************/
-// [TOKEN DECODE] //
-async function getUserTokenDecodeData() {
-	let decoded = {
-		_id: '',
-		email: '',
-		username: '',
-	}
-
-	if (localStorage.usertoken) { decoded = jwtDecode(localStorage.usertoken) }
-
-	return decoded
-}
-
-
 // [EXPORT] //
 export default {
 	authAxios,
+	s_getUserTokenDecodeData,
 	s_read,
 	s_update,
-	login,
-	register,
-	verify,
-	resendVerificationEmail,
-	requestPasswordReset,
-	resetPassword,
+	s_login,
+	s_register,
+	s_verify,
+	s_resendVerificationEmail,
+	s_requestPasswordReset,
+	s_notLoggedResetPassword,
 	s_report,
-	getUserTokenDecodeData,
 }

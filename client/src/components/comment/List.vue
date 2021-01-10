@@ -195,7 +195,7 @@
 			if (localStorage.admintoken) { this.adminLoggedIn = true }
 
 			if (localStorage.usertoken) {
-				this.decoded = await UserService.getUserTokenDecodeData()
+				this.decoded = await UserService.s_getUserTokenDecodeData()
 			}
 
 			// [LOG] //
