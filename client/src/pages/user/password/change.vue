@@ -4,7 +4,6 @@
 			<BCol cols="12">
 				<BCard
 					bg-variant="dark"
-					border-variant="secondary"
 					class="m-auto w-100"
 					style="max-width: 500px;"
 				>
@@ -100,11 +99,7 @@
 				this.submitted = true
 
 				try {
-					this.reqData = await UserService.s_notLoggedResetPassword(
-						this.$route.params.user_id,
-						this.$route.params.verification_code,
-						this.password
-					)
+					this.reqData = await UserService.s_resetPassword(this.password)
 
 					this.message = this.reqData.message
 				}
@@ -116,7 +111,7 @@
 				
 				console.log('reqData:', this.reqData)
 
-				setTimeout(() => { router.push({ name: 'login' }) }, 1500)
+				setTimeout(() => { router.push({ name: 'profile' }) }, 1500)
 			},
 		},
 	}

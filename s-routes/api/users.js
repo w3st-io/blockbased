@@ -406,11 +406,11 @@ router.post(
 			if (validator.isAscii(req.body.password)) {					
 				// [UPDATE] Password //
 				const updatedPwd = await usersCollection.c_updatePassword(
-					req.body.user_id,
+					req.decoded.user_id,
 					req.body.password
 				)
 
-				es.status(200).send(updatedPwd)
+				res.status(200).send(updatedPwd)
 			}
 			else {
 				res.status(200).send({

@@ -379,7 +379,7 @@ const c_updatePassword = async (user_id, password) => {
 		return {
 			executed: true,
 			status: true,
-			message: 'UserCollection: Updated profile',
+			message: 'UserCollection: Updated password',
 			user: user
 		}
 	}

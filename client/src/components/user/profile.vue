@@ -109,7 +109,7 @@
 									v-if="personal"
 									variant="outline-secondary"
 									class="w-100 mt-3"
-									@click="redirectChangePassword()"
+									@click="redirectPasswordChange()"
 								>Change Password</BButton>
 							</BCol>
 						</BRow>
@@ -271,15 +271,8 @@
 				router.push({ name: 'edit' })
 			},
 
-			redirectChangePassword() {
-				router.push({
-					name: 'user_activity',
-					params: {
-						sort: 1,
-						limit: 5,
-						page: 1,
-					}
-				})
+			redirectPasswordChange() {
+				router.push({ name: 'password-change', })
 			},
 
 			redirectActivity(user_id) {
