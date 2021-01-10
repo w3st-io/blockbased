@@ -50,14 +50,17 @@
 							</ValidationProvider>
 					
 							<!-- Submit -->
-							<BButton variant="primary" class="w-100">
-								Reset Password
-							</BButton>
+							<BButton
+								:disabled="submitted"
+								variant="primary"
+								class="w-100"
+								type="submit"
+							>Reset Password</BButton>
 						</form>
 					</ValidationObserver>
 				</BCard>
 
-				<!-- [MESSAGE] -->
+				<!-- Message -->
 				<Alert
 					v-if="message"
 					variant="info"
@@ -84,22 +87,30 @@
 
 		data: function() {
 			return {
+				submitted: false,
 				password: '',
 				confirm: '',
-				data: '',
+				reqData: '',
 				message: '',
 			} 
 		},
 
 		methods: {
 			async submit() {
-				this.data = await UserService.resetPassword(
-					this.$route.params.user_id,
-					this.$route.params.verification_code,
-					this.password
-				)
+				this.submitted = true
 
-				this.message = this.data.message
+				try {
+					this.reqData = await UserService.resetPassword(
+						this.$route.params.user_id,
+						this.$route.params.verification_code,
+						this.password
+					)
+
+					this.message = this.reqData.message
+				}
+				catch (err) { this.message = err }
+				
+				console.log('reqData:', this.reqData)
 
 				setTimeout(() => { router.push({ name: 'login' }) }, 1500)
 			},

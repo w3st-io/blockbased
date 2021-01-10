@@ -32,9 +32,11 @@
 							</ValidationProvider>
 
 							<!-- Submit -->
-							<BButton variant="primary" type="submit" class="my-3 w-100">
-								Send Email
-							</BButton>
+							<BButton
+								variant="primary"
+								type="submit"
+								class="my-3 w-100"
+							>Send Email</BButton>
 						</form>
 					</ValidationObserver>
 				</BCard>
