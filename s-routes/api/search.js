@@ -4,7 +4,7 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const config = require('../../s-config')
+const UserModel = require('../../s-models/UserModel')
 
 
 // [EXPRESS + USE] //
@@ -14,7 +14,18 @@ const router = express.Router().use(cors())
 // [SEARCH] //
 router.get(
 	'/:query',
-	async (req, res) => { res.send() }
+	async (req, res) => {
+		// Users //
+		const userResult = await UserModel.fuzzySearch({
+			query: req.params.query,
+		})
+
+		res.send({
+			executed: true,
+			status: true,
+			userResult: userResult,
+		})
+	}
 )
 
 
