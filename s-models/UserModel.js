@@ -11,6 +11,11 @@ module.exports = mongoose.model(
 	'User',
 	mongoose.Schema({
 		_id: mongoose.Schema.Types.ObjectId,
+		email: {	
+			type: String,	
+			required: [true, 'This is required'],	
+			maxlength: 50,	
+		},
 
 		username: {
 			type: String,
@@ -73,11 +78,6 @@ module.exports = mongoose.model(
 		mongooseFuzzySearching,
 		{
 			fields: [
-				{
-					name: 'email',
-					minSize: 4,
-					weight: 5,
-				},
 				{
 					name: 'username',
 					minSize: 4,
