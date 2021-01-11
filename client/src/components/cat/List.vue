@@ -69,17 +69,16 @@
 							</h1>
 						</BCol>
 
+						<!-- Profile -->
 						<BCol cols="2" class="p-1">
 							<img
 								:src="cat.recentPost.user.profile_img"
 								alt="x" 
 								class="w-100 border border-primary rounded"
 							>
-							<p class="m-0 text-center text-light">
-								{{ cat.recentPost.user.username }}
-							</p>
 						</BCol>
 
+						<!-- Post -->
 						<BCol cols="10">
 							<a
 								href="#"
@@ -87,8 +86,10 @@
 								@click="redirectToRecentPost(cat.recentPost._id)"
 							>
 								{{ cat.recentPost.title.replace(/(.{60})..+/, '$1…') }}
-							</a><br>
-							<p class="small">
+							</a>
+							<p class="mb-1 small text-light">
+								created by: {{ cat.recentPost.user.username }}
+								-
 								{{ new Date(cat.recentPost.created_at).toLocaleString() }}
 							</p>
 						</BCol>
