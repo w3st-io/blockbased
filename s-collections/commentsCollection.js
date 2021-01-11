@@ -115,6 +115,7 @@ const c_read = async (user_id, comment_id) => {
 			}
 		}
 
+		// [FILL-DATA] //
 		comment = await c_fillData(user_id, comment)
 
 		return {
@@ -298,7 +299,7 @@ const c_readSorted = async (user_id, sort = 0, limit, skip) => {
 			.populate({ path: 'post' })
 			.exec()
 
-		// [SET] Data //
+		// [FILL-DATA] //
 		for (let i = 0; i < comments.length; i++) {
 			comments[i] = await c_fillData(user_id, comments[i])
 		}
@@ -366,7 +367,7 @@ const c_readByPost = async (user_id, post_id, limit, skip) => {
 			})
 			.exec()
 
-		// [SET] Data //
+		// [FILL-DATA] //
 		for (let i = 0; i < comments.length; i++) {
 			comments[i] = await c_fillData(user_id, comments[i])
 		}
@@ -681,9 +682,7 @@ const c_countByPost = async (post_id) => {
 const c_fillData = async (user_id, comment) => {
 	// [COUNT] Likes //
 	comment.likeCount = (
-		await commentLikesCollection.c_countByComment(
-			comment._id
-		)
+		await commentLikesCollection.c_countByComment(comment._id)
 	).count
 
 	// [USER-LOGGED] //

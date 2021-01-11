@@ -631,19 +631,13 @@ const c_countByUser = async (user_id) => {
 /******************* [FILL-DATA] *******************/
 const c_fillData = async (user_id, post) => {
 	// [COUNT] Likes //
-	post.likeCount = (
-		await postLikesCollection.c_countByPost(post._id)
-	).count
+	post.likeCount = (await postLikesCollection.c_countByPost(post._id)).count
 
 	// [COUNT] Follows //
-	post.followsCount = (
-		await postFollowsCollection.c_countByPost(post._id)
-	).count
+	post.followsCount = (await postFollowsCollection.c_countByPost(post._id)).count
 
 	// [COUNT] Comments //
-	post.commentCount = (
-		await commentsCollection.c_countByPost(post._id)
-	).count
+	post.commentCount = (await commentsCollection.c_countByPost(post._id)).count
 
 	// [USER-LOGGED] //
 	if (user_id) {
