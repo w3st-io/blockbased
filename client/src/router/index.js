@@ -48,6 +48,8 @@ import user_profile_edit from '@pages/user/profile/edit'
 import user_profile_lookup from '@pages/user/profile/lookup'
 import user_verify from '@pages/user/verify'
 import user_register from '@pages/user/register'
+// [SEARCH] //
+import search from '@pages/search'
 // [Z] //
 import z from '@pages/z'
 
@@ -342,6 +344,17 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Verfiying your account..'
+			}
+		},
+
+		// [SEARCH] //
+		{
+			path: '/search/:query',
+			name: 'search',
+			component: search,
+			meta: {
+				auth: true,
+				title: 'Search'
 			}
 		},
 

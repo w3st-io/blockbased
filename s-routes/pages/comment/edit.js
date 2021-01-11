@@ -31,7 +31,7 @@ router.get(
 	
 					// [USER-LOGGED] //
 					if (req.decoded) {
-						// [LIKED-STATUS] //
+						// [LIKED-STATE] //
 						returned.comment.liked = (
 							await commentLikesCollection.c_existance(
 								req.decoded.user_id,

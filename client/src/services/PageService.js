@@ -383,7 +383,22 @@ async function s_user_profile_lookup(user_id) {
 			message: `PageService: Error --> ${err}`
 		}
 	}
+}
+
+
+async function s_search(query) {
+	try {
+		const authAxios = await this.authAxios()
 	
+		return (await authAxios.get(`/search/${query}`)).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `PageService: Error --> ${err}`
+		}
+	}
 }
 
 
@@ -411,4 +426,5 @@ export default {
 	s_user_notifications,
 	s_user_profile,
 	s_user_profile_lookup,
+	s_search,
 }

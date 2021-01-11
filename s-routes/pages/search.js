@@ -17,16 +17,20 @@ router.get(
 	'/:query',
 	async (req, res) => {
 		// Posts //
-		const postResult = await PostModel.fuzzySearch({ query: req.params.query })
+		const postResults = await PostModel
+			.fuzzySearch({ query: req.params.query })
+			.populate({ path: 'user', select: 'username bio profile_img' })
+
 
 		// Users //
-		const userResult = await UserModel.fuzzySearch({ query: req.params.query })
+		const userResults = await UserModel
+			.fuzzySearch({ query: req.params.query })
 
 		res.send({
 			executed: true,
 			status: true,
-			postResult: postResult,
-			userResult: userResult,
+			postResults: postResults,
+			userResults: userResults,
 		})
 	}
 )

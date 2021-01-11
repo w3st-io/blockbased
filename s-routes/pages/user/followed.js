@@ -72,7 +72,7 @@ router.get(
 		
 						// [USER-LOGGED] //
 						if (req.decoded) {
-							// [LIKED-STATUS] //
+							// [LIKED-STATE] //
 							postObj.post.liked = (
 								await postLikesCollection.c_existance(
 									req.decoded.user_id,
@@ -80,7 +80,7 @@ router.get(
 								)
 							).existance
 			
-							// [FOLLOWED-STATUS] //
+							// [FOLLOWED-STATE] //
 							postObj.post.followed = (
 								await postFollowsCollection.c_existance(
 									req.decoded.user_id,
