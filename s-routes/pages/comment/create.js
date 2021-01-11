@@ -14,7 +14,7 @@ const router = express.Router().use(cors())
 
 router.get(
 	'/:post_id',
-	Auth.userToken,
+	Auth.userToken(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
