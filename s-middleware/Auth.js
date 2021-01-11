@@ -146,8 +146,7 @@ class Auth {
 									const ban = await bansCollection.c_existance(
 										req.decoded.user_id
 									)
-										
-									console.log('userToken')
+									
 									next()
 								}
 								else { res.status(200).send(verified) }

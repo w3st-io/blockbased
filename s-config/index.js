@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%
- * %%% CONFIG %%%
- * %%%%%%%%%%%%%%
-*/
 // [REQUIRE] //
 require('dotenv').config()
 
