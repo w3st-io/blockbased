@@ -387,6 +387,45 @@ const c_deleteByIdAndUser = async (post_id, user_id) => {
 }
 
 
+/******************* [FUZZY-SEARCH] *******************/
+const c_fuzzySearch = async (user_id, query) => {
+	try {
+		// [VALIDATE] post_id //
+		if (!validator.isAscii(query)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid query',
+				existance: false,
+			}
+		}
+
+		const posts = await PostModel
+			.fuzzySearch({ query: query })
+			.populate({ path: 'user', select: 'username bio profile_img' })
+
+		// [FILL-DATA] //
+		for (let i = 0; i < posts.length; i++) {
+			posts[i] = await c_fillData(user_id, posts[i])
+		}
+
+		return {
+			executed: true,
+			status: true,
+			posts: posts
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postsCollection: Error --> ${err}`,
+			existance: false,
+		}
+	}	
+}
+
+
 /******************* [LIKE-SYSTEM] *******************/
 const c_incrementLike = async (post_id) => {
 	try {
@@ -665,6 +704,7 @@ module.exports = {
 	c_readByCatSorted,
 	c_readPinned,
 	c_deleteByIdAndUser,
+	c_fuzzySearch,
 	c_incrementLike,
 	c_decrementLike,
 	c_existance,

@@ -6,9 +6,7 @@
 				<nav class="px-0 navbar navbar-expand-lg navbar-dark">
 					<!-- Logo -->
 					<RouterLink to="/" class="navbar-brand">
-						<mark class="h4 bg-primary text-light">
-							BlockBased.io
-						</mark>
+						<mark class="h4 bg-primary text-light">BlockBased.io</mark>
 					</RouterLink>
 
 					<!-- Hidden Menu Button -->
@@ -19,18 +17,22 @@
 					<!-- Top Menu -->
 					<div class="collapse navbar-collapse">
 						<div class="navbar-nav mr-auto"></div>
-						<!-- Search and Button
+						<!-- Search and Button -->
 						<div class="input-group" style="width: 300px;">
 							<input
+								v-model="query"
 								type="text"
 								placeholder="Search"
 								class="form-control border-secondary bg-dark text-light"
 							>
 							<div class="input-group-append">
-								<button class="btn btn-outline-secondary">Search</button>
+								<BButton
+									variant="outline-secondary"
+									type="submit"
+									@click="searchRedirect()"
+								>Search</BButton>
 							</div>
 						</div>
-						-->
 					</div>
 				</nav>
 			</BContainer>
@@ -45,15 +47,15 @@
 							v-if="loggedIn"
 							variant="outline-light"
 							size="sm"
-							@click="followedRedirect()"
 							class="ml-2"
+							@click="followedRedirect()"
 						>Followed Posts</BButton>
 
 						<BButton
 							variant="outline-light"
 							size="sm"
-							@click="allActivityRedirect()"
 							class="ml-2"
+							@click="allActivityRedirect()"
 						>All Activity</BButton>
 					</div>
 
@@ -63,26 +65,26 @@
 
 						<BButton
 							v-if="loggedIn"
-							@click="profileRedirect()"
 							variant="outline-primary"
 							size="sm"
 							class="ml-2"
+							@click="profileRedirect()"
 						>{{ decoded.username }}</BButton>
 
 						<!-- NOT Logged In -->
 						<BButton
 							v-if="!loggedIn"
-							@click="logInRedirect()"
 							variant="outline-secondary"
 							size="sm"
+							@click="logInRedirect()"
 						>Login</BButton>
 						
 						<BButton
 							v-if="!loggedIn"
-							@click="registerRedirect()"
 							variant="outline-primary"
 							size="sm"
 							class="ml-2"
+							@click="registerRedirect()"
 						>Register</BButton>
 					</div>
 				</BNavbar>
@@ -108,6 +110,7 @@
 			return {
 				decoded: {},
 				loggedIn: false,
+				query: '',
 				notifications: '',
 				totalNotifications: 0,
 			}
@@ -144,6 +147,17 @@
 						page: 1
 					}
 				})
+			},
+
+			searchRedirect() {
+				router.push({
+					name: 'search',
+					params: {
+						query: this.query
+					}
+				})
+
+				EventBus.$emit('force-rerender')
 			},
 			
 			menuBtnClicked() { this.$emit('menu-btn-clicked') }
