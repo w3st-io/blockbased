@@ -27,6 +27,7 @@
 							>
 							<div class="input-group-append">
 								<BButton
+									:disabled="!query"
 									variant="outline-secondary"
 									type="submit"
 									@click="searchRedirect()"
@@ -150,14 +151,16 @@
 			},
 
 			searchRedirect() {
-				router.push({
-					name: 'search',
-					params: {
-						query: this.query
-					}
-				})
-
-				EventBus.$emit('force-rerender')
+				if (this.query) {
+					router.push({
+						name: 'search',
+						params: {
+							query: this.query
+						}
+					})
+	
+					EventBus.$emit('force-rerender')
+				}
 			},
 			
 			menuBtnClicked() { this.$emit('menu-btn-clicked') }
