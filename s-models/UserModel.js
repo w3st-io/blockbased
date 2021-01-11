@@ -61,12 +61,12 @@ module.exports = mongoose.model(
 
 		friends: {
 			type: Boolean,
-			default: false,
+			default: null
 		},
 
 		blocked: {
 			type: Boolean,
-			default: false,
+			default: null
 		},
 
 		created_at: {
