@@ -37,12 +37,6 @@ router.get(
 				req.decoded.user_id,
 				'_id first_name last_name username bio verified created_at profile_img'
 			)
-
-			if (userObj.status) {
-				// [FORMAT] Remove things that should not be shown //
-				userObj.user.password = undefined
-			}
-			
 			res.status(200).send(userObj)
 		}
 		catch (err) {
@@ -67,12 +61,6 @@ router.get(
 					req.params.user_id,
 					'_id first_name last_name username bio verified created_at profile_img'
 				)
-
-				if (userObj.status) {
-					// [FORMAT] Remove things that should not be shown //
-					userObj.user.email = undefined
-					userObj.user.password = undefined
-				}
 
 				res.status(200).send(userObj)
 			}

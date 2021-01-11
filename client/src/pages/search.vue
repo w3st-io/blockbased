@@ -9,7 +9,7 @@
 						@refreshPosts="getPageData()"
 					/>
 				</BCard>
-				{{ reqData }}
+				{{ reqData.userResults }}
 			</BCol>
 		</BRow>
 	</BContainer>
@@ -35,7 +35,9 @@
 		},
 
 		async created() {
-			this.getPageData()
+			await this.getPageData()
+
+			this.log()
 		},
 
 		methods: {
@@ -50,6 +52,11 @@
 				}
 				catch (err) { this.error = err }
 			},
+
+			log() {
+				console.log('%%% [PAGE] /search %%%')
+				console.log('reqData:', this.reqData)
+			}
 		},
 	}
 </script>

@@ -100,7 +100,7 @@ const c_update = async (user_id, img_url, bio) => {
 
 
 /******************* [OTHER-CRUD] *******************/
-// [CREATE] User //
+// [CREATE] User (with password) //
 const c_register = async (username, email, password) => {
 	try {
 		// [VALIDATE] username //
@@ -190,7 +190,7 @@ const c_register = async (username, email, password) => {
 }
 
 
-// [READ-ALL] Sorted //
+// [READ-ALL] Sorted (No password) //
 const c_readSorted = async (sort = 0, limit, skip) => {
 	try {
 		// [SANTIZE] //
@@ -260,6 +260,7 @@ const c_readSorted = async (sort = 0, limit, skip) => {
 }
 
 
+// [READ-ALL] Sorted (No password) //
 const c_readSelect = async (user_id, select = undefined) => {
 	try {
 		// [VALIDATE] user_id //
@@ -281,9 +282,6 @@ const c_readSelect = async (user_id, select = undefined) => {
 		}
 	
 		const user = await UserModel.findOne({ _id: user_id }).select(select)
-
-		// [HIDE] //
-		if (user) { user.password = undefined }
 
 		return {
 			executed: true,
@@ -422,6 +420,45 @@ const c_updatePassword = async (user_id, password) => {
 }
 
 
+/******************* [FUZZY-SEARCH] *******************/
+const c_fuzzySearch = async (user_id, query) => {
+	try {
+		// [VALIDATE] post_id //
+		if (!validator.isAscii(query)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'usersCollection: Invalid query',
+				existance: false,
+			}
+		}
+
+		// [READ] //
+		const users = await UserModel.fuzzySearch({ query: query })
+			.select('-password -email')
+			.exec()
+		
+		// [COUNT] //
+		const count = await UserModel.fuzzySearch({ query: query }).countDocuments()
+
+		return {
+			executed: true,
+			status: true,
+			users: users,
+			count: count,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `usersCollection: Error --> ${err}`,
+			existance: false,
+		}
+	}
+}
+
+
 /******************* [VERIFY] *******************/
 const c_verify = async (user_id) => {
 	try {
@@ -528,6 +565,7 @@ module.exports = {
 	c_readByEmail,
 	c_getIdByEmail,
 	c_updatePassword,
+	c_fuzzySearch,
 	c_verify,
 	c_verifiedStatus,
 	c_count,

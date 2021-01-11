@@ -388,7 +388,7 @@ const c_deleteByIdAndUser = async (post_id, user_id) => {
 
 
 /******************* [FUZZY-SEARCH] *******************/
-const c_fuzzySearch = async (user_id, query) => {
+const c_fuzzySearch = async (user_id, query, limit = 5, skip) => {
 	try {
 		// [VALIDATE] post_id //
 		if (!validator.isAscii(query)) {
@@ -400,9 +400,15 @@ const c_fuzzySearch = async (user_id, query) => {
 			}
 		}
 
-		const posts = await PostModel
-			.fuzzySearch({ query: query })
+		// [READ] //
+		const posts = await PostModel.fuzzySearch({ query: query })
 			.populate({ path: 'user', select: 'username bio profile_img' })
+			.limit(limit)
+			.skip(skip)
+			.exec()
+
+		// [COUNT] //
+		const count = await PostModel.fuzzySearch({ query: query }).countDocuments()
 
 		// [FILL-DATA] //
 		for (let i = 0; i < posts.length; i++) {
@@ -412,7 +418,8 @@ const c_fuzzySearch = async (user_id, query) => {
 		return {
 			executed: true,
 			status: true,
-			posts: posts
+			posts: posts,
+			count: count,
 		}
 	}
 	catch (err) {
@@ -422,7 +429,7 @@ const c_fuzzySearch = async (user_id, query) => {
 			message: `postsCollection: Error --> ${err}`,
 			existance: false,
 		}
-	}	
+	}
 }
 
 
