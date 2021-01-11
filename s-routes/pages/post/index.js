@@ -27,13 +27,10 @@ router.get(
 				Number.isInteger(parseInt(req.params.page))
 			) {
 				// [INIT] //
+				const user_id = (req.decoded) ? req.decoded.user_id : undefined
 				const limit = parseInt(req.params.limit)
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
-				let user_id = undefined
-
-				// [SET] user_id //
-				if (req.decoded) { user_id = req.decoded.user_id }
 
 				///// [READ][POSTS] ////
 				const postObj = await postsCollection.c_read(

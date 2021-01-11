@@ -19,10 +19,7 @@ router.get(
 	async (req, res) => {
 		try {
 			// [INIT] //
-			let user_id = undefined
-
-			// [SET] user_id //
-			if (req.decoded) { user_id = req.decoded.user_id }
+			const user_id = (req.decoded) ? req.decoded.user_id : undefined
 
 			for (let i = 0; i < cats.length; i++) {
 				// [TOTAL-POSTS] //

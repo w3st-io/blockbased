@@ -14,19 +14,14 @@ const router = express.Router().use(cors())
 
 router.get(
 	'/:post_id',
-	Auth.userTokenNotRequired(),
+	Auth.userToken,
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (validator.isAscii(req.params.post_id)) {
-				let user_id = undefined
-
-				// [SET] user_id //
-				if (req.decoded) { user_id = req.decoded.user_id }
-
 				// [READ] Post //
 				const postObj = await postsCollection.c_read(
-					user_id,
+					req.decoded.user_id,
 					req.params.post_id
 				)
 
