@@ -38,7 +38,7 @@ router.get(
 					await postFollowsCollection.c_countAllUser(req.decoded.user_id)
 				).count
 
-				// [COUNT] totalPages //
+				// [CALCULATE] totalPages //
 				const totalPages = Math.ceil(totalFollows / limit)
 				
 				// [READ-ALL] postFollows for user //
@@ -51,46 +51,11 @@ router.get(
 
 				for (let i = 0; i < pFObj.postFollows.length; i++) {
 					const postObj = await postsCollection.c_read(
+						req.decoded.user_id,
 						pFObj.postFollows[i].post
 					)
 					
-					if (postObj.status) {
-						// [COUNT] Likes //
-						postObj.post.likeCount = (
-							await postLikesCollection.c_countByPost(postObj.post._id)
-						).count
-			
-						// [COUNT] Follows //
-						postObj.post.followsCount = (
-							await postFollowsCollection.c_countByPost(postObj.post._id)
-						).count
-
-						// [COUNT] Comments //
-						postObj.post.commentCount = (
-							await commentsCollection.c_countByPost(postObj.post._id)
-						).count
-		
-						// [USER-LOGGED] //
-						if (req.decoded) {
-							// [LIKED-STATE] //
-							postObj.post.liked = (
-								await postLikesCollection.c_existance(
-									req.decoded.user_id,
-									postObj.post._id
-								)
-							).existance
-			
-							// [FOLLOWED-STATE] //
-							postObj.post.followed = (
-								await postFollowsCollection.c_existance(
-									req.decoded.user_id,
-									postObj.post._id
-								)
-							).existance
-						}
-
-						posts.push(postObj.post)
-					}
+					if (postObj.status) { posts.push(postObj.post) }
 					else { res.status(200).send(postObj) }
 				}
 
@@ -98,8 +63,8 @@ router.get(
 					executed: true,
 					status: true,
 					posts: posts,
-					totalFollows,
-					totalPages,
+					totalFollows: totalFollows,
+					totalPages: totalPages,
 				})
 			}
 			else {

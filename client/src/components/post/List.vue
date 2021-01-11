@@ -118,7 +118,6 @@
 							this.returned = await PostService.s_unlike(post._id)
 						}
 						else {
-							console.log('sdf');
 							this.returned = await PostService.s_like(
 								post._id,
 								post.user._id

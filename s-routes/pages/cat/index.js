@@ -6,9 +6,6 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const postsCollection = require('../../../s-collections/postsCollection')
-const postFollowsCollection = require('../../../s-collections/postFollowsCollection')
-const postLikesCollection = require('../../../s-collections/postLikesCollection')
-const commentsCollection = require('../../../s-collections/commentsCollection')
 const cats = require('../../../s-defaults/cats')
 const Auth = require('../../../s-middleware/Auth')
 
@@ -34,9 +31,14 @@ router.get(
 				const limit = parseInt(req.params.limit)
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
+				let user_id = undefined
+
+				// [SET] user_id //
+				if (req.decoded) { user_id = req.decoded.user_id }
 
 				// [READ-ALL] Sort //
 				const postsObj = await postsCollection.c_readByCatSorted(
+					user_id,
 					req.params.cat_id,
 					sort,
 					limit,
@@ -47,48 +49,12 @@ router.get(
 					// [PINNED] (1st Page Only) //
 					if (pageIndex == 0) {
 						const { posts: pinnedPosts } = await postsCollection.c_readPinned(
+							user_id,
 							req.params.cat_id
 						)
 
 						// For Each Pinned Post Insert It At the Beginning of Array //
 						pinnedPosts.forEach(p => { postsObj.posts.unshift(p) })
-					}
-
-					// For Each Post in Posts //
-					for (let i = 0; i < postsObj.posts.length; i++) {
-						// [COUNT] Likes //
-						postsObj.posts[i].likeCount = (
-							await postLikesCollection.c_countByPost(postsObj.posts[i]._id)
-						).count
-						
-						// [COUNT] Follows //
-						postsObj.posts[i].followsCount = (
-							await postFollowsCollection.c_countByPost(postsObj.posts[i]._id)
-						).count
-						
-						// [COUNT] Comments //
-						postsObj.posts[i].commentCount = (
-							await commentsCollection.c_countByPost(postsObj.posts[i]._id)
-						).count
-	
-						// [USER-LOGGED] //
-						if (req.decoded) {
-							// [LIKED-STATE] //
-							postsObj.posts[i].liked = (
-								await postLikesCollection.c_existance(
-									req.decoded.user_id,
-									postsObj.posts[i]._id
-								)
-							).existance
-			
-							// [FOLLOWED-STATE] //
-							postsObj.posts[i].followed = (
-								await postFollowsCollection.c_existance(
-									req.decoded.user_id,
-									postsObj.posts[i]._id
-								)
-							).existance
-						}
 					}
 
 					// [COUNT] Posts //

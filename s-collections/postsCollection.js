@@ -5,6 +5,9 @@ const validator = require('validator')
 
 // [REQUIRE] //
 const PostModel = require('../s-models/PostModel')
+const commentsCollection = require('../s-collections/commentsCollection')
+const postFollowsCollection = require('../s-collections/postFollowsCollection')
+const postLikesCollection = require('../s-collections/postLikesCollection')
 
 
 /******************* [CRUD] *******************/
@@ -72,7 +75,7 @@ const c_create = async (user_id, cat_id, title) => {
 
 
 // [READ] //
-const c_read = async (post_id) => {
+const c_read = async (user_id, post_id) => {
 	try {
 		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
@@ -83,14 +86,12 @@ const c_read = async (post_id) => {
 			}
 		}
 
-		// [EXISTANCE] //
-		const existance = await c_existance(post_id)
-		
-		if (!existance.existance) { return existance }
-
-		const post = await PostModel.findById(post_id)
+		let post = await PostModel.findById(post_id)
 			.populate({ path: 'user', select: 'username email bio profile_img', })
 			.exec()
+
+		// [FILL-DATA] //
+		post = await c_fillData(user_id, post)
 		
 		return {
 			executed: true,
@@ -143,7 +144,7 @@ const c_delete = async (post_id) => {
 
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL-SORT] Within Cat //
-const c_readSorted = async (sort = 0, limit, skip) => {
+const c_readSorted = async (user_id, sort = 0, limit, skip) => {
 	try {
 		// [SANITIZE] //
 		sort = parseInt(sort)
@@ -188,12 +189,18 @@ const c_readSorted = async (sort = 0, limit, skip) => {
 			}
 		}
 
-		const posts = await PostModel.find()
+		let posts = await PostModel.find()
 			.sort(sort)
 			.limit(limit)
 			.skip(skip)
 			.populate({ path: 'user', select: 'username bio profile_img', })
 			.exec()
+
+		console.log('2');
+		// [FILL-DATA] //
+		for (let i = 0; i < posts.length; i++) {
+			posts[i] = await c_fillData(user_id, posts[i])
+		}
 
 		return {
 			executed: true,
@@ -212,7 +219,7 @@ const c_readSorted = async (sort = 0, limit, skip) => {
 
 
 // [READ-ALL] Within Cat Sorted //
-const c_readByCatSorted = async (cat_id, sort = 0, limit, skip) => {
+const c_readByCatSorted = async (user_id, cat_id, sort = 0, limit, skip) => {
 	try {
 		// [SANITIZE] //
 		sort = parseInt(sort)
@@ -266,12 +273,18 @@ const c_readByCatSorted = async (cat_id, sort = 0, limit, skip) => {
 			}
 		}
 
-		const posts = await PostModel.find({ cat_id })
+		let posts = await PostModel.find({ cat_id })
 			.sort(sort)
 			.limit(limit)
 			.skip(skip)
 			.populate({ path: 'user', select: 'username bio profile_img', })
 			.exec()
+
+		console.log('3');
+		// [FILL-DATA] //
+		for (let i = 0; i < posts.length; i++) {
+			posts[i] = await c_fillData(user_id, posts[i])
+		}
 
 		return {
 			executed: true,
@@ -290,7 +303,7 @@ const c_readByCatSorted = async (cat_id, sort = 0, limit, skip) => {
 
 
 // [READ-ALL] Pinned Posts //
-const c_readPinned = async (cat_id, sort = 0) => {
+const c_readPinned = async (user_id, cat_id, sort = 0) => {
 	try { 
 		// [VALIDATE] cat_id //
 		if (!validator.isAscii(cat_id)) {
@@ -314,16 +327,16 @@ const c_readPinned = async (cat_id, sort = 0) => {
 		if (sort == 0) { sort = { created_at: -1 } }
 		else if (sort == 0) { sort = { likeCount: -1 } }
 
-		const posts = await PostModel.find({
-			cat_id,
-			pinned: true,
-		})
-			.populate({
-				path: 'user',
-				select: 'username email bio profile_img'
-			})
+		let posts = await PostModel.find({ cat_id, pinned: true, })
+			.populate({ path: 'user', select: 'username email bio profile_img' })
 			.sort(sort)
 			.exec()
+
+			console.log('4');
+		// [FILL-DATA] //
+		for (let i = 0; i < posts.length; i++) {
+			posts[i] = await c_fillData(user_id, posts[i])
+		}
 
 		return {
 			executed: true,
@@ -618,6 +631,42 @@ const c_countByUser = async (user_id) => {
 }
 
 
+/******************* [FILL-DATA] *******************/
+const c_fillData = async (user_id, post) => {
+	console.log('before:', post)
+	// [COUNT] Likes //
+	post.likeCount = (
+		await postLikesCollection.c_countByPost(post._id)
+	).count
+
+	// [COUNT] Follows //
+	post.followsCount = (
+		await postFollowsCollection.c_countByPost(post._id)
+	).count
+
+	// [COUNT] Comments //
+	post.commentCount = (
+		await commentsCollection.c_countByPost(post._id)
+	).count
+
+	// [USER-LOGGED] //
+	if (user_id) {
+		// [LIKED-STATE] //
+		post.liked = (
+			await postLikesCollection.c_existance(user_id, post._id)
+		).existance
+
+		// [FOLLOWED-STATE] //
+		post.followed = (
+			await postFollowsCollection.c_existance(user_id, post._id)
+		).existance
+	}
+
+	console.log('after:', post)
+	return post
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_create,
@@ -634,4 +683,5 @@ module.exports = {
 	c_count,
 	c_countByCat,
 	c_countByUser,
+	c_fillData,
 }

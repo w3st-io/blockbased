@@ -6,8 +6,6 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const postsCollection = require('../../../s-collections/postsCollection')
-const postLikesCollection = require('../../../s-collections/postLikesCollection')
-const postFollowsCollection = require('../../../s-collections/postFollowsCollection')
 const commentsCollection = require('../../../s-collections/commentsCollection')
 const commentLikesCollection = require('../../../s-collections/commentLikesCollection')
 const Auth = require('../../../s-middleware/Auth')
@@ -32,41 +30,19 @@ router.get(
 				const limit = parseInt(req.params.limit)
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
+				let user_id = undefined
 
-				///// [POSTS][READ] ////
-				const postObj = await postsCollection.c_read(req.params.post_id)
+				// [SET] user_id //
+				if (req.decoded) { user_id = req.decoded.user_id }
+
+				///// [READ][POSTS] ////
+				const postObj = await postsCollection.c_read(
+					user_id,
+					req.params.post_id
+				)
 
 				if (postObj.status) {
-					// [COUNT] Likes //
-					postObj.post.likeCount = (
-						await postLikesCollection.c_countByPost(postObj.post._id)
-					).count
-		
-					// [COUNT] Follows //
-					postObj.post.followsCount = (
-						await postFollowsCollection.c_countByPost(postObj.post._id)
-					).count
-	
-					// [USER-LOGGED] //
-					if (req.decoded) {
-						// [LIKED-STATE] //
-						postObj.post.liked = (
-							await postLikesCollection.c_existance(
-								req.decoded.user_id,
-								postObj.post._id
-							)
-						).existance
-		
-						// [FOLLOWED-STATE] //
-						postObj.post.followed = (
-							await postFollowsCollection.c_existance(
-								req.decoded.user_id,
-								postObj.post._id
-							)
-						).existance
-					}
-
-					//// [COMMENTS][READ-ALL] ////
+					//// [READ-ALL][COMMENTS] ////
 					const commentsObj = await commentsCollection.c_readByPost(
 						req.params.post_id,
 						limit,

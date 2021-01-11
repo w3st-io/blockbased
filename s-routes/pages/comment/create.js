@@ -1,13 +1,10 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
-const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
 const postsCollection = require('../../../s-collections/postsCollection')
-const postLikesCollection = require('../../../s-collections/postLikesCollection')
-const postFollowsCollection = require('../../../s-collections/postFollowsCollection')
 const Auth = require('../../../s-middleware/Auth')
 
 
@@ -22,39 +19,16 @@ router.get(
 		try {
 			// [VALIDATE] //
 			if (validator.isAscii(req.params.post_id)) {
+				let user_id = undefined
+
+				// [SET] user_id //
+				if (req.decoded) { user_id = req.decoded.user_id }
+
 				// [READ] Post //
-				const postObj = await postsCollection.c_read(req.params.post_id)
-
-				if (postObj.status) {
-					// [COUNT] Likes //
-					postObj.post.likeCount = (
-						await postLikesCollection.c_countByPost(postObj.post._id)
-					).count
-		
-					// [COUNT] Follows //
-					postObj.post.followsCount = (
-						await postFollowsCollection.c_countByPost(postObj.post._id)
-					).count
-
-					// [USER-LOGGED] //
-					if (req.decoded) {
-						// [LIKED-STATE] //
-						postObj.post.liked = (
-							await postLikesCollection.c_existance(
-								req.decoded.user_id,
-								postObj.post._id
-							)
-						).existance
-		
-						// [FOLLOWED-STATE] //
-						postObj.post.followed = (
-							await postFollowsCollection.c_existance(
-								req.decoded.user_id,
-								postObj.post._id
-							)
-						).existance
-					}
-				}
+				const postObj = await postsCollection.c_read(
+					user_id,
+					req.params.post_id
+				)
 
 				res.status(200).send(postObj)
 			}

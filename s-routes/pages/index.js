@@ -4,10 +4,7 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const commentsCollection = require('../../s-collections/commentsCollection')
 const postsCollection = require('../../s-collections/postsCollection')
-const postFollowsCollection = require('../../s-collections/postFollowsCollection')
-const postLikesCollection = require('../../s-collections/postLikesCollection')
 const Auth = require('../../s-middleware/Auth')
 const cats = require('../../s-defaults/cats')
 
@@ -21,6 +18,12 @@ router.get(
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
+			// [INIT] //
+			let user_id = undefined
+
+			// [SET] user_id //
+			if (req.decoded) { user_id = req.decoded.user_id }
+
 			for (let i = 0; i < cats.length; i++) {
 				// [TOTAL-POSTS] //
 				cats[i].totalPosts = (
@@ -29,52 +32,21 @@ router.get(
 
 				// [RECENT-POST] //
 				cats[i].recentPost = (
-					await postsCollection.c_readByCatSorted(cats[i].cat_id, 0, 1, 0)
+					await postsCollection.c_readByCatSorted(
+						user_id,
+						cats[i].cat_id,
+						0,
+						1,
+						0
+					)
 				).posts[0]
 
 			}
 			
 			// [TOP-POSTS] //
 			const topPosts = (
-				await postsCollection.c_readSorted(1, 5, 0)
+				await postsCollection.c_readSorted(user_id ,1, 5, 0)
 			).posts
-
-			// For Each Post in Top Post //
-			for (let i = 0; i < topPosts.length; i++) {
-				// [COUNT] Likes //
-				topPosts[i].likeCount = (
-					await postLikesCollection.c_countByPost(topPosts[i]._id)
-				).count
-				
-				// [COUNT] Follows //
-				topPosts[i].followsCount = (
-					await postFollowsCollection.c_countByPost(topPosts[i]._id)
-				).count
-				
-				// [COUNT] Comments //
-				topPosts[i].commentCount = (
-					await commentsCollection.c_countByPost(topPosts[i]._id)
-				).count
-
-				// [USER-LOGGED] //
-				if (req.decoded) {
-					// [LIKED-STATE] //
-					topPosts[i].liked = (
-						await postLikesCollection.c_existance(
-							req.decoded.user_id,
-							topPosts[i]._id
-						)
-					).existance
-	
-					// [FOLLOWED-STATE] //
-					topPosts[i].followed = (
-						await postFollowsCollection.c_existance(
-							req.decoded.user_id,
-							topPosts[i]._id
-						)
-					).existance
-				}
-			}
 
 			
 			res.send({
