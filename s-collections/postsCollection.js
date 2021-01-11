@@ -33,20 +33,20 @@ const c_create = async (user_id, cat_id, title) => {
 		}
 
 		// [VALIDATE] title //
-		if (!validator.isAscii(title)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postsCollection: Invalid title',
-			}
-		}
-
-		// [VALIDATE] title //
 		if (!title) {
 			return {
 				executed: true,
 				status: false,
 				message: 'postsCollection: No title passed',
+			}
+		}
+
+		// [VALIDATE] title //
+		if (!validator.isAscii(title)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid title',
 			}
 		}
 
@@ -196,7 +196,6 @@ const c_readSorted = async (user_id, sort = 0, limit, skip) => {
 			.populate({ path: 'user', select: 'username bio profile_img', })
 			.exec()
 
-		console.log('2');
 		// [FILL-DATA] //
 		for (let i = 0; i < posts.length; i++) {
 			posts[i] = await c_fillData(user_id, posts[i])
@@ -280,7 +279,6 @@ const c_readByCatSorted = async (user_id, cat_id, sort = 0, limit, skip) => {
 			.populate({ path: 'user', select: 'username bio profile_img', })
 			.exec()
 
-		console.log('3');
 		// [FILL-DATA] //
 		for (let i = 0; i < posts.length; i++) {
 			posts[i] = await c_fillData(user_id, posts[i])
@@ -332,7 +330,6 @@ const c_readPinned = async (user_id, cat_id, sort = 0) => {
 			.sort(sort)
 			.exec()
 
-			console.log('4');
 		// [FILL-DATA] //
 		for (let i = 0; i < posts.length; i++) {
 			posts[i] = await c_fillData(user_id, posts[i])
@@ -633,7 +630,6 @@ const c_countByUser = async (user_id) => {
 
 /******************* [FILL-DATA] *******************/
 const c_fillData = async (user_id, post) => {
-	console.log('before:', post)
 	// [COUNT] Likes //
 	post.likeCount = (
 		await postLikesCollection.c_countByPost(post._id)
@@ -662,7 +658,6 @@ const c_fillData = async (user_id, post) => {
 		).existance
 	}
 
-	console.log('after:', post)
 	return post
 }
 
