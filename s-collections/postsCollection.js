@@ -433,6 +433,28 @@ const c_fuzzySearch = async (user_id, query, limit = 5, skip) => {
 }
 
 
+const c_fuzzySearchCount = async (query) => {
+	try {
+		// [COUNT] //
+		const count = await PostModel.fuzzySearch({ query: query }).countDocuments()
+
+		return {
+			executed: true,
+			status: true,
+			count: count,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `postsCollection: Error --> ${err}`,
+			existance: false,
+		}
+	}
+}
+
+
 /******************* [LIKE-SYSTEM] *******************/
 const c_incrementLike = async (post_id) => {
 	try {
@@ -712,6 +734,7 @@ module.exports = {
 	c_readPinned,
 	c_deleteByIdAndUser,
 	c_fuzzySearch,
+	c_fuzzySearchCount,
 	c_incrementLike,
 	c_decrementLike,
 	c_existance,
