@@ -12,12 +12,6 @@ module.exports = mongoose.model(
 	mongoose.Schema({
 		_id: mongoose.Schema.Types.ObjectId,
 
-		email: {
-			type: String,
-			required: [true, 'This is required'],
-			maxlength: 50,
-		},
-
 		username: {
 			type: String,
 			required: [true, 'This is required'],
@@ -56,6 +50,16 @@ module.exports = mongoose.model(
 		},
 
 		verified: {
+			type: Boolean,
+			default: false,
+		},
+
+		friends: {
+			type: Boolean,
+			default: false,
+		},
+
+		blocked: {
 			type: Boolean,
 			default: false,
 		},

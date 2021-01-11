@@ -18,7 +18,7 @@
 					<div class="collapse navbar-collapse">
 						<div class="navbar-nav mr-auto"></div>
 						<!-- Search and Button -->
-						<div class="input-group" style="width: 300px;">
+						<form class="input-group" style="width: 300px;">
 							<input
 								v-model="query"
 								type="text"
@@ -32,7 +32,7 @@
 									@click="searchRedirect()"
 								>Search</BButton>
 							</div>
-						</div>
+						</form>
 					</div>
 				</nav>
 			</BContainer>
