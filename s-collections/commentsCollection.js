@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 
 
 // [REQUIRE] Personal //
+const commentLikesCollection = require('../s-collections/commentLikesCollection')
 const CommentModel = require('../s-models/CommentModel')
 
 
@@ -90,8 +91,9 @@ const c_create = async (user_id, post_id, text, replyToComment) => {
 
 
 // [READ] //
-const c_read = async (comment_id) => {
+const c_read = async (user_id, comment_id) => {
 	try {
+		console.log('sdsdf');
 		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
 			return {
@@ -101,10 +103,11 @@ const c_read = async (comment_id) => {
 			}
 		}
 
-		const comment = await CommentModel.findById(comment_id)
+		let comment = await CommentModel.findById(comment_id)
 			.populate({ path: 'user', select: 'username email bio profile_img' })
 			.exec()
 
+		
 		if (!comment) {
 			return {
 				executed: true,
@@ -112,6 +115,8 @@ const c_read = async (comment_id) => {
 				message: 'No comment found',
 			}
 		}
+
+		comment = await c_fillData(user_id, comment)
 
 		return {
 			executed: true,
@@ -240,8 +245,8 @@ const c_delete = async (comment_id) => {
 
 
 /******************* [OTHER-CRUD] *******************/
-// [READ-ALL] sorted//
-const c_readSorted = async (sort = 0, limit, skip) => {
+// [READ] sorted//
+const c_readSorted = async (user_id, sort = 0, limit, skip) => {
 	try {
 		// [SANTIZE] //
 		sort = parseInt(sort)
@@ -293,6 +298,11 @@ const c_readSorted = async (sort = 0, limit, skip) => {
 			.populate({ path: 'user', select: 'username email bio profile_img', })
 			.populate({ path: 'post' })
 			.exec()
+
+		// [SET] Data //
+		for (let i = 0; i < comments.length; i++) {
+			comments[i] = await c_fillData(user_id, comments[i])
+		}
 		
 		return {
 			executed: true,
@@ -310,8 +320,8 @@ const c_readSorted = async (sort = 0, limit, skip) => {
 }
 
 
-// [READ-ALL] Post //
-const c_readByPost = async (post_id, limit, skip) => {
+// [READ] Post //
+const c_readByPost = async (user_id, post_id, limit, skip) => {
 	try {
 		// [SANTIZE] //
 		limit = parseInt(limit)
@@ -344,7 +354,7 @@ const c_readByPost = async (post_id, limit, skip) => {
 			}
 		}
 
-		const comments = await CommentModel.find({ post: post_id })
+		let comments = await CommentModel.find({ post: post_id })
 			.limit(limit)
 			.skip(skip)
 			.populate({ path: 'user', select: 'username email bio profile_img', })
@@ -356,6 +366,11 @@ const c_readByPost = async (post_id, limit, skip) => {
 				}
 			})
 			.exec()
+
+		// [SET] Data //
+		for (let i = 0; i < comments.length; i++) {
+			comments[i] = await c_fillData(user_id, comments[i])
+		}
 
 		return {
 			executed: true,
@@ -663,6 +678,27 @@ const c_countByPost = async (post_id) => {
 }
 
 
+/******************* [FILL-DATA] *******************/
+const c_fillData = async (user_id, comment) => {
+	// [COUNT] Likes //
+	comment.likeCount = (
+		await commentLikesCollection.c_countByComment(
+			comment._id
+		)
+	).count
+
+	// [USER-LOGGED] //
+	if (user_id) {
+		// [LIKED-STATE] //
+		comment.liked = (
+			await commentLikesCollection.c_existance(user_id, comment._id)
+		).existance
+	}
+
+	return comment
+}
+
+
 // [EXPORT] //
 module.exports = {
 	c_create,
@@ -679,4 +715,5 @@ module.exports = {
 	c_count,
 	c_countByUser,
 	c_countByPost,
+	c_fillData,
 }

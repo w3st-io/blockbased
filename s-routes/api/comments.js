@@ -13,7 +13,7 @@ const commentsCollection = require('../../s-collections/commentsCollection')
 const commentLikesCollection = require('../../s-collections/commentLikesCollection')
 const commentReportsCollection = require('../../s-collections/commentReportsCollection')
 const postFollowsCollection = require('../../s-collections/postFollowsCollection')
-const PreeditedCommentsCollection = require('../../s-collections/preeditedCommentsCollection')
+const preeditedCommentsCollection = require('../../s-collections/preeditedCommentsCollection')
 const notificationsCollection = require('../../s-collections/notificationsCollection')
 const Auth = require('../../s-middleware/Auth')
 const userUtils = require('../../s-utils/userUtils')
@@ -145,7 +145,8 @@ router.post(
 
 				if (ownership.status && ownership.ownership) {
 					// [CREATE] PreeditedComment //
-					const preeditedComment = await PreeditedCommentsCollection.c_create(
+					const preeditedComment = await preeditedCommentsCollection.c_create(
+						req.decoded.user_id,
 						req.body.comment_id
 					)
 
@@ -361,6 +362,7 @@ router.post(
 
 				// [READ] comment //
 				const commentObj = await commentsCollection.c_read(
+					req.decoded.user_id,
 					req.body.comment_id
 				)
 

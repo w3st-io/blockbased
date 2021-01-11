@@ -131,11 +131,11 @@ class Auth {
 				if (validator.isJWT(tokenBody)) {
 					// [VERIFY] tokenBody //
 					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
-						if (decoded) {
-							// [INIT] Put decoded in req //
-							req.decoded = decoded
+						try {
+							if (decoded) {
+								// [INIT] Put decoded in req //
+								req.decoded = decoded
 
-							try {
 								// Check verified //
 								const verified = await usersCollection.c_verifiedStatus(
 									req.decoded.user_id
@@ -146,25 +146,27 @@ class Auth {
 									const ban = await bansCollection.c_existance(
 										req.decoded.user_id
 									)
-
+										
+									console.log('3')
 									next()
 								}
 								else { res.status(200).send(verified) }
 							}
-							catch (err) {
+
+							else {
 								res.status(200).send({
-									executed: false,
+									executed: true,
 									status: false,
-									message: `Auth: Error --> ${err}`
+									message: `Access denied: JWT Error --> ${err}`,
+									auth: false,
 								})
 							}
 						}
-						else {
+						catch (err) {
 							res.status(200).send({
-								executed: true,
+								executed: false,
 								status: false,
-								message: `Access denied: JWT Error --> ${err}`,
-								auth: false,
+								message: `Auth: Error --> ${err}`
 							})
 						}
 					})

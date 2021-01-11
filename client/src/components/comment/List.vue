@@ -45,7 +45,6 @@
 								class="m-0 multiline small"
 							></p>
 						</BCol>
-
 						<!-- Profile Section -->
 						<BCol cols="12" sm="2" md="2" lg="2" class="px-0 py-3 border-secondary">
 							<div class="m-auto border border-primary rounded-lg pro-img-holder">

@@ -7,7 +7,6 @@ const validator = require('validator')
 // [REQUIRE] Personal //
 const postsCollection = require('../../../s-collections/postsCollection')
 const commentsCollection = require('../../../s-collections/commentsCollection')
-const commentLikesCollection = require('../../../s-collections/commentLikesCollection')
 const Auth = require('../../../s-middleware/Auth')
 
 
@@ -41,32 +40,13 @@ router.get(
 				if (postObj.status) {
 					//// [READ-ALL][COMMENTS] ////
 					const commentsObj = await commentsCollection.c_readByPost(
+						user_id,
 						req.params.post_id,
 						limit,
 						skip
 					)
 
 					if (commentsObj.status) {
-						for (let i = 0; i < commentsObj.comments.length; i++) {
-							// [COUNT] Likes //
-							commentsObj.comments[i].likeCount = (
-								await commentLikesCollection.c_countByComment(
-									commentsObj.comments[i]._id
-								)
-							).count
-		
-							// [USER-LOGGED] //
-							if (req.decoded) {
-								// [LIKED-STATE] //
-								commentsObj.comments[i].liked = (
-									await commentLikesCollection.c_existance(
-										req.decoded.user_id,
-										commentsObj.comments[i]._id
-									)
-								).existance
-							}
-						}
-
 						// [COUNT] Comments //
 						commentsObj.commentsCount = (
 							await commentsCollection.c_countByPost(req.params.post_id)

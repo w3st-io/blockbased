@@ -34,7 +34,7 @@ router.get(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Sort //
-				const postsObj = await postsCollection.c_readByCatSorted(
+				const pObj = await postsCollection.c_readByCatSorted(
 					user_id,
 					req.params.cat_id,
 					sort,
@@ -42,7 +42,7 @@ router.get(
 					skip,
 				)
 
-				if (postsObj.status) {
+				if (pObj.status) {
 					// [PINNED] (1st Page Only) //
 					if (pageIndex == 0) {
 						const { posts: pinnedPosts } = await postsCollection.c_readPinned(
@@ -51,24 +51,25 @@ router.get(
 						)
 
 						// For Each Pinned Post Insert It At the Beginning of Array //
-						pinnedPosts.forEach(p => { postsObj.posts.unshift(p) })
+						pinnedPosts.forEach(p => { pObj.posts.unshift(p) })
 					}
 
 					// [COUNT] Posts //
-					postsObj.postsCount = (
+					pObj.postsCount = (
 						await postsCollection.c_countByCat(req.params.cat_id)
 					).count
 					
 					// [COUNT] Calculate Pages //
-					postsObj.totalPages = Math.ceil(postsObj.postsCount / limit)
+					pObj.totalPages = Math.ceil(pObj.postsCount / limit)
+					
+					res.status(200).send({
+						executed: true,
+						status: true,
+						cats: cats,
+						postsObj: pObj,
+					})
 				}
-				
-				res.status(200).send({
-					executed: true,
-					status: true,
-					cats: cats,
-					postsObj: postsObj,
-				})
+				else { res.status(200).send(pObj) }
 			}
 			else {
 				res.status(200).send({

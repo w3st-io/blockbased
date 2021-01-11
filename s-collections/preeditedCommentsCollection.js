@@ -12,7 +12,7 @@ const PreeditCommentModel = require('../s-models/PreeditedCommentModel')
 const c_create = async (comment_id) => {
 	try {
 		// [VALIDATE] user_id //
-		if (!mongoose.isValidObjectId(comment_id)) {
+		if (!mongoose.isValidObjectId(user_id, comment_id)) {
 			return {
 				executed: true,
 				status: false,
@@ -21,7 +21,7 @@ const c_create = async (comment_id) => {
 		}
 
 		// [READ] //
-		const { comment } = await commentsCollection.c_read(comment_id)
+		const { comment } = await commentsCollection.c_read(user_id, comment_id)
 
 		// [SAVE] //
 		const preeditedComment = await new PreeditCommentModel({

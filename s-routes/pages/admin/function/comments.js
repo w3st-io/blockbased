@@ -31,6 +31,7 @@ router.get(
 
 				// [READ-ALL] Sort //
 				const { comments } = await commentsCollection.c_readSorted(
+					undefined,
 					sort,
 					limit,
 					skip

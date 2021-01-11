@@ -252,7 +252,9 @@ async function s_comment_edit(comment_id) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.get(`/comment/edit/${comment_id}`)).data
+		const reqData = (await authAxios.get(`/comment/edit/${comment_id}`))
+
+		return reqData.data
 	}
 	catch (err) {
 		return {

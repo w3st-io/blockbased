@@ -6,7 +6,7 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const commentsCollection = require('../../../s-collections/commentsCollection')
-const commentLikesCollection = require('../../../s-collections/commentLikesCollection')
+const Auth = require('../../../s-middleware/Auth')
 
 
 // [EXPRESS + USE] //
@@ -16,30 +16,16 @@ const router = express.Router().use(cors())
 // [READ] //
 router.get(
 	'/:comment_id',
+	Auth.userTokenNotRequired,
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
 			if (validator.isAscii(req.params.comment_id)) {
 				// [READ] Comment //
-				const returned = await commentsCollection.c_read(req.params.comment_id)
-			
-				if (returned.status) {
-					// [COUNT] Likes //
-					returned.comment.likeCount = (
-						await commentLikesCollection.c_countByComment(req.params.comment_id)
-					).count
-	
-					// [USER-LOGGED] //
-					if (req.decoded) {
-						// [LIKED-STATE] //
-						returned.comment.liked = (
-							await commentLikesCollection.c_existance(
-								req.decoded.user_id,
-								req.params.comment_id
-							)
-						).existance
-					}
-				}
+				const returned = await commentsCollection.c_read(
+					req.decoded.user_id,
+					req.params.comment_id
+				)
 	
 				res.status(200).send(returned)
 			}
@@ -47,7 +33,7 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/comments: Invalid comment _id'
+					message: '/api/comments/edit: Invalid comment _id'
 				})
 			}
 		}
@@ -58,7 +44,7 @@ router.get(
 				message: `/api/comments/edit: Error --> ${err}`,
 			})
 		}
-	},
+	}
 )
 
 

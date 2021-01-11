@@ -42,7 +42,7 @@ router.get(
 			
 			// [TOP-POSTS] //
 			const topPosts = (
-				await postsCollection.c_readSorted(user_id ,1, 5, 0)
+				await postsCollection.c_readSorted(user_id, 1, 5, 0)
 			).posts
 
 			
