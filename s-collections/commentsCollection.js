@@ -93,7 +93,6 @@ const c_create = async (user_id, post_id, text, replyToComment) => {
 // [READ] //
 const c_read = async (user_id, comment_id) => {
 	try {
-		console.log('sdsdf');
 		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
 			return {

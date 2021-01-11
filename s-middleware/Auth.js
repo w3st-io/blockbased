@@ -147,7 +147,7 @@ class Auth {
 										req.decoded.user_id
 									)
 										
-									console.log('3')
+									console.log('userToken')
 									next()
 								}
 								else { res.status(200).send(verified) }

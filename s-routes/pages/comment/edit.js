@@ -16,7 +16,7 @@ const router = express.Router().use(cors())
 // [READ] //
 router.get(
 	'/:comment_id',
-	Auth.userTokenNotRequired,
+	Auth.userToken(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //

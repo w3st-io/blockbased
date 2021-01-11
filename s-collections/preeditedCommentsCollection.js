@@ -9,14 +9,23 @@ const PreeditCommentModel = require('../s-models/PreeditedCommentModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (comment_id) => {
+const c_create = async (user_id, comment_id) => {
 	try {
 		// [VALIDATE] user_id //
-		if (!mongoose.isValidObjectId(user_id, comment_id)) {
+		if (!mongoose.isValidObjectId(user_id)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentsCollection: Invalid user_id',
+				message: 'preeditedCommentsCollection: Invalid user_id',
+			}
+		}
+
+		// [VALIDATE] comment_id //
+		if (!mongoose.isValidObjectId(comment_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'preeditedCommentsCollection: Invalid comment_id',
 			}
 		}
 
@@ -42,7 +51,7 @@ const c_create = async (comment_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `commentsCollection: Error --> ${err}`,
+			message: `preeditedCommentsCollection: Error --> ${err}`,
 		}
 	}
 }
