@@ -13,9 +13,9 @@ module.exports = {
 	MONG_URI: process.env.MONGO_URI || 'mongodb://localhost:27017/blockbased',
 	
 	// [EMAIL] //
-	EMAIL: process.env.EMAIL,
-	EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
-	EMAIL_SERVICE: process.env.EMAIL_SERVICE,
+	EMAIL: process.env.EMAIL || '',
+	EMAIL_PASSWORD: process.env.EMAIL_PASSWORD || '',
+	EMAIL_SERVICE: process.env.EMAIL_SERVICE || '',
 	
 	// [SECRET] //
 	SECRET_KEY: process.env.SECRET_KEY || 'secret',
