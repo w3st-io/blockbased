@@ -15,26 +15,26 @@
 				<BCard
 					v-if="reqData.cryptoQuote.status"
 					bg-variant="dark"
-					class="mb-2 text-primary"
+					class="mb-3 text-primary"
 				>
 					<h6 class="m-0">
 						BTC-USDT :
 						<span class="text-light">
-							{{ reqData.cryptoQuote.btcusdt.last }}
+							{{ parseInt(reqData.cryptoQuote.btcusdt.last).toFixed(2) }}
 						</span>
 					</h6>
 					<h6 class="m-0">
 						ETH-USDT : 
 						<span class="text-light">
-							{{ reqData.cryptoQuote.ethusdt.last }}
+							{{ parseInt(reqData.cryptoQuote.ethusdt.last).toFixed(2) }}
 						</span>
 					</h6>
 				</BCard>
 
-				<TopPosts :topPosts="topPosts" />
-
 				<!-- Adsense -->
 				<Adsense />
+
+				<TopPosts :topPosts="topPosts" />
 			</BCol>
 		</BRow>
 
