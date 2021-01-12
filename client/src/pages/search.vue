@@ -20,7 +20,7 @@
 							/>
 						</BCol>
 
-						<BCol cols="3">
+						<BCol cols="2">
 							<BNav class="flex-column nav-pills">
 								<p
 									class="m-0 nav-link"
@@ -45,16 +45,18 @@
 							</BNav>
 						</BCol>
 
-						<BCol cols="9">
+						<BCol cols="10">
 							<!-- Loading -->
 							<Alert v-if="loading" variant="primary" />
 
+							<!-- Post List -->
 							<PostList
 								v-if="!loading && type == 'posts'"
 								:posts="posts"
 								@refreshPosts="getPageData()"
 							/>
 
+							<!-- User List -->
 							<UserList
 								v-if="!loading && type == 'users'"
 								:users="reqData.userResults"
@@ -64,7 +66,7 @@
 
 					<BRow v-if="error">
 						<BCol cols="12">
-							<!-- [ALERTS] -->
+							<!-- Alert -->
 							<Alert variant="danger" :message="error" class="mt-3" />
 						</BCol>
 					</BRow>

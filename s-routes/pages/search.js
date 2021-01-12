@@ -50,6 +50,7 @@ router.get(
 					skip,
 				)
 
+				// [CALCULATE] Total Pages //
 				const totalPages = Math.ceil(postCount / limit)
 
 				res.send({
@@ -71,6 +72,7 @@ router.get(
 					skip,
 				)
 
+				// [CALCULATE] Total Pages //
 				const totalPages = Math.ceil(userCount / limit)
 
 				res.send({
