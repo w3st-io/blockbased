@@ -2,7 +2,7 @@
 	<BContainer>
 		<BRow v-if="!loading" class="mt-3">
 			<!-- Main Content -->
-			<BCol cols="md-9" class="mb-3 p-0">
+			<BCol cols="lg-9" class="mb-3 p-0">
 				<BCard bg-variant="dark" class="text-light">
 					<CatList :cats="cats1" class="mb-3" />
 					<CatList :cats="cats2" class="mb-3" />
@@ -11,7 +11,7 @@
 			</BCol>
 
 			<!-- Side Content -->
-			<BCol cols="md-3">
+			<BCol cols="lg-3">
 				<BCard
 					v-if="reqData.cryptoQuote.status"
 					bg-variant="dark"

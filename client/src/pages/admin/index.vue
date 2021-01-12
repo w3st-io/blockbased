@@ -2,6 +2,10 @@
 	<BContainer class="mt-3 text-light">
 		<BRow v-if="!loading">
 			<BCol cols="12">
+				<BCard bg-variant="dark" class="mb-3">
+					<FunctionButtons />
+				</BCard>
+
 				<BCard bg-variant="dark">
 					<BRow>
 						<BCol sm="4">
@@ -28,35 +32,6 @@
 								:data="activityValues"
 								:height="350"
 							/>
-						</BCol>
-					</BRow>
-
-					<!-- Buttons -->
-					<BRow class="mt-2">
-						<BCol cols="12"><h3>Functions</h3></BCol>
-
-						<BCol cols="3">
-							<BButton class="w-100" @click="redirectCommentReports()">
-								commentReports
-							</BButton>
-						</BCol>
-
-						<BCol cols="3">
-							<BButton class="w-100" @click="redirectComments()">
-								comments
-							</BButton>
-						</BCol>
-
-						<BCol cols="3">
-							<BButton class="w-100" @click="redirectPosts()">
-								posts
-							</BButton>
-						</BCol>
-
-						<BCol cols="3">
-							<BButton class="w-100" @click="redirectUsers()">
-								users
-							</BButton>
 						</BCol>
 					</BRow>
 
@@ -118,6 +93,7 @@
 
 <script>
 	// [IMPORT] Personal //
+	import FunctionButtons from '@components/admin/FunctionButtons'
 	import WrappedLineChart from '@components/chartjs/WrappedLineChart'
 	import Alert from '@components/misc/Alert'
 	import router from '@router'
@@ -126,6 +102,7 @@
 	// [EXPORT] //
 	export default {
 		components: {
+			FunctionButtons,
 			WrappedLineChart,
 			Alert,
 		},
@@ -185,51 +162,6 @@
 				router.push({
 					name: 'user_profile_lookup',
 					params: { user_id: user_id, }
-				})
-			},
-
-						redirectCommentReports() {
-				router.push({
-					name: 'admin-function-comment-reports',
-					params: {
-						sort: 0,
-						limit: 5,
-						page: 1,
-					}
-				})
-			},
-
-			redirectComments() {
-				router.push({
-					name: 'admin-function-comments',
-					params: {
-						sort: 0,
-						limit: 5,
-						page: 1,
-					}
-				})
-			},
-
-
-			redirectPosts() {
-				router.push({
-					name: 'admin-function-posts',
-					params: {
-						sort: 0,
-						limit: 5,
-						page: 1,
-					}
-				})
-			},
-
-			redirectUsers() {
-				router.push({
-					name: 'admin-function-users',
-					params: {
-						sort: 0,
-						limit: 5,
-						page: 1,
-					}
 				})
 			},
 		}

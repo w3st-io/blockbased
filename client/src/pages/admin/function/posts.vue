@@ -1,6 +1,10 @@
 <template>
-	<BContainer>
-		<BCard bg-variant="dark" class="my-3">
+	<BContainer class="mt-3 text-light">
+		<BCard bg-variant="dark" class="mb-3">
+			<FunctionButtons />
+		</BCard>
+
+		<BCard bg-variant="dark" class="mb-3">
 			<BRow>
 				<!-- Page Nav Buttons -->
 				<BCol cols="12" sm="7" class="py-2">
@@ -44,6 +48,7 @@
 <script>
 	// [IMPORT] Personal //
 	import Posts from '@components/admin/function/Posts'
+	import FunctionButtons from '@components/admin/FunctionButtons'
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import Alert from '@components/misc/Alert'
 	import router from '@router'
@@ -53,8 +58,9 @@
 	export default {
 		components: {
 			Posts,
+			FunctionButtons,
 			PageNavButtons,
-			Alert,
+			Alert
 		},
 
 		data: function() {

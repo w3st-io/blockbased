@@ -3,7 +3,7 @@
 		<!-- Title -->
 		<h3 class="mb-3 text-center">Admin Register</h3>
 
-		<BCard bg-variant="dark" border-variant="danger">
+		<BCard bg-variant="dark" border-variant="warning">
 			<!-- FORM + VEE-VALIDATE -->
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(register)">

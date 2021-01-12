@@ -12,7 +12,7 @@
 			<BCol cols="12">
 				<BCard
 					bg-variant="dark"
-					border-variant="danger"
+					border-variant="warning"
 					class="mx-auto"
 					style="max-width: 350px;"
 				>

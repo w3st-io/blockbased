@@ -15,6 +15,7 @@ const router = express.Router().use(cors())
 // [READ-ALL] Auth Required //
 router.get(
 	'/:sort/:limit/:page',
+	Auth.userTokenNotRequired(),
 	Auth.adminToken(),
 	async (req, res) => {
 		try {
@@ -24,6 +25,7 @@ router.get(
 				Number.isInteger(parseInt(req.params.page))
 			) {
 				// [INIT] //
+				const user_id = (req.decoded) ? req.decoded.user_id : undefined
 				const sort = parseInt(req.params.sort)
 				const limit = parseInt(req.params.limit)
 				const pageIndex = parseInt(req.params.page) - 1
@@ -31,6 +33,7 @@ router.get(
 
 				// [READ-ALL] Sort //
 				const { posts } = await postsCollection.c_readSorted(
+					user_id,
 					sort,
 					limit,
 					skip
@@ -39,6 +42,7 @@ router.get(
 				const { count } = await postsCollection.c_count()
 
 				const totalPages = Math.ceil(count / limit)
+
 
 				res.status(200).send({
 					executed: true,
