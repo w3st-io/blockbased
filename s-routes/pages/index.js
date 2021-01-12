@@ -7,6 +7,7 @@ const express = require('express')
 const postsCollection = require('../../s-collections/postsCollection')
 const Auth = require('../../s-middleware/Auth')
 const cats = require('../../s-defaults/cats')
+const cryptoQuote = require('../../s-utils/crypto-quote')
 
 
 // [EXPRESS + USE] //
@@ -51,6 +52,7 @@ router.get(
 				status: true,
 				cats: cats,
 				topPosts: topPosts,
+				cryptoQuote: cryptoQuote.prices
 			})
 		}
 		catch (err) {
