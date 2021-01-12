@@ -437,6 +437,35 @@ const c_fuzzySearch = async (user_id, query) => {
 		const users = await UserModel.fuzzySearch({ query: query })
 			.select('-password -email')
 			.exec()
+
+		return {
+			executed: true,
+			status: true,
+			users: users,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `usersCollection: Error --> ${err}`,
+			existance: false,
+		}
+	}
+}
+
+
+const c_fuzzySearchCount = async (query) => {
+	try {
+		// [VALIDATE] post_id //
+		if (!validator.isAscii(query)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'usersCollection: Invalid query',
+				existance: false,
+			}
+		}
 		
 		// [COUNT] //
 		const count = await UserModel.fuzzySearch({ query: query }).countDocuments()
@@ -444,7 +473,6 @@ const c_fuzzySearch = async (user_id, query) => {
 		return {
 			executed: true,
 			status: true,
-			users: users,
 			count: count,
 		}
 	}
@@ -566,6 +594,7 @@ module.exports = {
 	c_getIdByEmail,
 	c_updatePassword,
 	c_fuzzySearch,
+	c_fuzzySearchCount,
 	c_verify,
 	c_verifiedStatus,
 	c_count,

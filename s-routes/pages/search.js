@@ -22,14 +22,22 @@ router.get(
 		const user_id = (req.decoded) ? req.decoded.user_id : undefined
 		
 		// Posts //
-		const { posts, count: postCount } = await postsCollection.c_fuzzySearch(
+		const { posts } = await postsCollection.c_fuzzySearch(
 			user_id,
 			req.params.query
 		)
 
+		const { count: postCount } = await postsCollection.c_fuzzySearchCount(
+			req.params.query
+		)
+
 		// Users //
-		const { users, count: userCount } = await usersCollection.c_fuzzySearch(
+		const { users } = await usersCollection.c_fuzzySearch(
 			user_id,
+			req.params.query
+		)
+
+		const { count: userCount } = await usersCollection.c_fuzzySearchCount(
 			req.params.query
 		)
 

@@ -407,9 +407,6 @@ const c_fuzzySearch = async (user_id, query, limit = 5, skip) => {
 			.skip(skip)
 			.exec()
 
-		// [COUNT] //
-		const count = await PostModel.fuzzySearch({ query: query }).countDocuments()
-
 		// [FILL-DATA] //
 		for (let i = 0; i < posts.length; i++) {
 			posts[i] = await c_fillData(user_id, posts[i])
@@ -419,7 +416,6 @@ const c_fuzzySearch = async (user_id, query, limit = 5, skip) => {
 			executed: true,
 			status: true,
 			posts: posts,
-			count: count,
 		}
 	}
 	catch (err) {
