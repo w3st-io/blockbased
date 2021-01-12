@@ -5,7 +5,7 @@
 				<BCard bg-variant="dark">
 					<BRow>
 						<BCol cols="12" class="mb-3">
-							<h3 class="text-center">Search Results for {{ query }}</h3>
+							<h4>Search Results for "{{ query }}"</h4>
 						</BCol>
 
 						<BCol cols="3">

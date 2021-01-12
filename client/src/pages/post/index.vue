@@ -68,11 +68,6 @@
 						@refreshComments="getPageData()"
 					/>
 				</BCol>
-				
-				<!-- [DEFAULT] If No content -->
-				<BCol v-if="!loading && comments == ''" cols="12">
-					<NoContent class="my-3" />
-				</BCol>
 
 				<!-- Botton Page Control -->
 				<BCol cols="12" class="mt-3">
@@ -95,8 +90,6 @@
 				</BCol>
 			</BRow>
 		</BCard>
-
-		
 	</BContainer>
 </template>
 
@@ -105,7 +98,6 @@
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import CommentList from '@components/comment/List'
 	import Alert from '@components/misc/Alert'
-	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import PageService from '@services/PageService'
 	import PostService from '@services/PostService'
@@ -115,7 +107,6 @@
 		components: {
 			Alert,
 			CommentList,
-			NoContent,
 			PageNavButtons,
 		},
 

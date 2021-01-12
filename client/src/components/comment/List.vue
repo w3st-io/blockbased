@@ -157,6 +157,9 @@
 					</BRow>
 				</li>
 			</ul>
+			
+			<!-- [DEFAULT] If No content -->
+			<NoContent v-if="comments == ''" text="No comments" class="my-3" />
 		</BCol>
 	</BRow>
 </template>
@@ -164,6 +167,7 @@
 <script>
 	// [IMPORT] Personal //
 	import DropDownMenuBtn from '@components/controls/DropDownMenuBtn'
+	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import CommentService from '@services/CommentService'
 	import ACommentService from '@services/admin/CommentService'
@@ -173,6 +177,7 @@
 	export default {
 		components: {
 			DropDownMenuBtn,
+			NoContent,
 		},
 		
 		props: {

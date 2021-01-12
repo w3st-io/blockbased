@@ -69,15 +69,19 @@
 
 			<!-- [ALERTS] -->
 			<Alert v-if="error" variant="danger" :message="error" class="mt-3" />
+
+			<!-- [DEFAULT] If No content -->
+			<NoContent v-if="posts == ''" text="No posts" class="my-3" />
 		</BCol>
 	</BRow>
 </template>
 
 <script>
 	// [IMPORT] Personal //
+	import Alert from '@components/misc/Alert'
+	import NoContent from '@components/placeholders/NoContent'
 	import router from '@router'
 	import PostService from '@services/PostService'
-	import Alert from '@components/misc/Alert'
 
 	// [EXPORT] //
 	export default {
@@ -86,7 +90,8 @@
 		},
 
 		components: {
-			Alert
+			Alert,
+			NoContent
 		},
 
 		data: function() {
