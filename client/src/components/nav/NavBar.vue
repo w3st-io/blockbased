@@ -155,7 +155,10 @@
 					router.push({
 						name: 'search',
 						params: {
-							query: this.query
+							type: 'posts',
+							query: this.query,
+							limit: 5,
+							page: 1,
 						}
 					})
 	

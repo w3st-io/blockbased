@@ -349,7 +349,7 @@ const router = new Router ({
 
 		// [SEARCH] //
 		{
-			path: '/search/:query',
+			path: '/search/:query/:type/:limit/:page',
 			name: 'search',
 			component: search,
 			meta: {

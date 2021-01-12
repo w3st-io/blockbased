@@ -8,7 +8,7 @@
 					<!-- Profile -->
 					<BCol cols="12" lg="3" class="mt-2">
 						<BBadge variant="primary" class="w-100 mb-3 p-0 rounded">
-							<h3 class="mb-1">{{ username }}</h3>
+							<h5 class="mb-1">{{ username }}</h5>
 						</BBadge>
 
 						<div class="m-auto" style="max-width: 170px;">

@@ -1,6 +1,7 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
+const validator = require('validator')
 
 
 // [REQUIRE] Personal //
@@ -15,42 +16,77 @@ const router = express.Router().use(cors())
 
 // [SEARCH] //
 router.get(
-	'/:query',
+	'/:query/:type/:limit/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
-		// [INIT] //
-		const user_id = (req.decoded) ? req.decoded.user_id : undefined
-		
-		// [READ] Posts //
-		const { posts } = await postsCollection.c_fuzzySearch(
-			user_id,
-			req.params.query
-		)
-		
-		// [COUNT] Posts //
-		const { count: postCount } = await postsCollection.c_fuzzySearchCount(
-			req.params.query
-		)
+		// [VALIDATE] //
+		if (
+			validator.isAscii(req.params.query) &&
+			Number.isInteger(parseInt(req.params.limit)) &&
+			Number.isInteger(parseInt(req.params.page))
+		) {
+			// [INIT] //
+			const user_id = (req.decoded) ? req.decoded.user_id : undefined
+			const limit = parseInt(req.params.limit)
+			const pageIndex = parseInt(req.params.page) - 1
+			const skip = pageIndex * limit
 
-		// [READ] Users //
-		const { users } = await usersCollection.c_fuzzySearch(
-			user_id,
-			req.params.query
-		)
+			// [COUNT] Posts //
+			const { count: postCount } = await postsCollection.c_fuzzySearchCount(
+				req.params.query
+			)
 
-		// [COUNT] Users //
-		const { count: userCount } = await usersCollection.c_fuzzySearchCount(
-			req.params.query
-		)
+			// [COUNT] Users //
+			const { count: userCount } = await usersCollection.c_fuzzySearchCount(
+				req.params.query
+			)
 
-		res.send({
-			executed: true,
-			status: true,
-			postResults: posts,
-			postCount: postCount,
-			userResults: users,
-			userCount: userCount,
-		})
+			if (req.params.type == 'posts') {
+				// [READ] Posts //
+				const { posts } = await postsCollection.c_fuzzySearch(
+					user_id,
+					req.params.query
+				)
+
+				res.send({
+					executed: true,
+					status: true,
+					postResults: posts,
+					postCount: postCount,
+					userCount: userCount,
+				})
+
+			}
+			else if (req.params.type == 'users') {
+				// [READ] Users //
+				const { users } = await usersCollection.c_fuzzySearch(
+					user_id,
+					req.params.query
+				)
+
+				res.send({
+					executed: true,
+					status: true,
+					userResults: users,
+					postCount: postCount,
+					userCount: userCount,
+				})
+			}
+			else {
+				res.send({
+					executed: true,
+					status: false,
+					message: 'Invalid type'
+				})
+			}
+		}
+		else {
+			res.send({
+				executed: true,
+				status: false,
+				message: 'Invalid Params'
+			})
+		}
 	}
 )
 

@@ -388,11 +388,11 @@ async function s_user_profile_lookup(user_id) {
 }
 
 
-async function s_search(query) {
+async function s_search(query, type, limit, page) {
 	try {
 		const authAxios = await this.authAxios()
 	
-		return (await authAxios.get(`/search/${query}`)).data
+		return (await authAxios.get(`/search/${query}/${type}/${limit}/${page}`)).data
 	}
 	catch (err) {
 		return {

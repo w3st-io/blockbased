@@ -75,7 +75,7 @@
 
 <script>
 	import Alert from '@components/misc/Alert'
-	import Profile from '@components/user/profile'
+	import Profile from '@components/user/Profile'
 	import PageService from '@services/PageService'
 
 	export default {
