@@ -13,6 +13,7 @@
 		<div class="pt-3 pb-5 footer-copyright text-secondary">
 			© Copyright 2020:
 			<a href="https://opall.io/"> opall.io</a>
+			<a href="https://iexcloud.io">Data provided by IEX Cloud</a>
 			<h6><i class="text-dark">"Dare I say it..?"</i></h6>
 		</div>
 	</footer>
