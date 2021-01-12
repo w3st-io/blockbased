@@ -33,7 +33,7 @@ router.get(
 
 			// [COUNT] Posts //
 			const { count: postCount } = await postsCollection.c_fuzzySearchCount(
-				req.params.query
+				req.params.query,
 			)
 
 			// [COUNT] Users //
@@ -45,8 +45,12 @@ router.get(
 				// [READ] Posts //
 				const { posts } = await postsCollection.c_fuzzySearch(
 					user_id,
-					req.params.query
+					req.params.query,
+					limit,
+					skip,
 				)
+
+				const totalPages = Math.ceil(postCount / limit)
 
 				res.send({
 					executed: true,
@@ -54,6 +58,7 @@ router.get(
 					postResults: posts,
 					postCount: postCount,
 					userCount: userCount,
+					totalPages: totalPages,
 				})
 
 			}
@@ -61,8 +66,12 @@ router.get(
 				// [READ] Users //
 				const { users } = await usersCollection.c_fuzzySearch(
 					user_id,
-					req.params.query
+					req.params.query,
+					limit,
+					skip,
 				)
+
+				const totalPages = Math.ceil(userCount / limit)
 
 				res.send({
 					executed: true,
@@ -70,6 +79,7 @@ router.get(
 					userResults: users,
 					postCount: postCount,
 					userCount: userCount,
+					totalPages: totalPages,
 				})
 			}
 			else {

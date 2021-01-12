@@ -435,6 +435,10 @@ const c_deleteByIdAndUser = async (post_id, user_id) => {
 /******************* [FUZZY-SEARCH] *******************/
 const c_fuzzySearch = async (user_id, query, limit = 5, skip) => {
 	try {
+		// [SANITIZE] //
+		limit = parseInt(limit)
+		skip = parseInt(skip)
+
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {

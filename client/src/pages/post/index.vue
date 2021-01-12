@@ -105,9 +105,9 @@
 	// [EXPORT] //
 	export default {
 		components: {
-			Alert,
-			CommentList,
 			PageNavButtons,
+			CommentList,
+			Alert,
 		},
 
 		data: function() {

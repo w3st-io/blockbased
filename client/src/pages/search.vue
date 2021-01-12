@@ -4,8 +4,20 @@
 			<BCol cols="12">
 				<BCard bg-variant="dark">
 					<BRow>
-						<BCol cols="12" class="mb-3">
+						<BCol cols="8" class="mb-3">
 							<h4>Search Results for "{{ query }}"</h4>
+						</BCol>
+
+						<BCol cols="4" class="mb-3">
+							<PageNavButtons
+								:badgeValue="page"
+								@start-btn="startPage()"
+								@prev-btn="prevPage()"
+								@next-btn="nextPage()"
+								@end-btn="endPage()"
+								class="ml-auto"
+								style="max-width: 300px;"
+							/>
 						</BCol>
 
 						<BCol cols="3">
@@ -13,7 +25,7 @@
 								<p
 									class="m-0 nav-link"
 									:class="{ active: type == 'posts' }"
-									@click="searchPostsRedirect('posts')"
+									@click="searchRedirect('posts')"
 								>
 									<span class="float-left">Posts</span>
 									<BBadge variant="light" class="float-right">
@@ -23,7 +35,7 @@
 								<p
 									class="m-0 nav-link"
 									:class="{ active: type == 'users' }"
-									@click="searchUsersRedirect('users')"
+									@click="searchRedirect('users')"
 								>
 									<span class="float-left">Users</span>
 									<BBadge variant="light" class="float-right">
@@ -34,6 +46,9 @@
 						</BCol>
 
 						<BCol cols="9">
+							<!-- Loading -->
+							<Alert v-if="loading" variant="primary" />
+
 							<PostList
 								v-if="!loading && type == 'posts'"
 								:posts="posts"
@@ -46,6 +61,13 @@
 							/>
 						</BCol>
 					</BRow>
+
+					<BRow v-if="error">
+						<BCol cols="12">
+							<!-- [ALERTS] -->
+							<Alert variant="danger" :message="error" class="mt-3" />
+						</BCol>
+					</BRow>
 				</BCard>
 			</BCol>
 		</BRow>
@@ -53,6 +75,8 @@
 </template>
 
 <script>
+	import PageNavButtons from '@components/controls/PageNavButtons'
+	import Alert from '@components/misc/Alert'
 	import PostList from '@components/post/List'
 	import UserList from '@components/user/List'
 	import PageService from '@services/PageService'
@@ -61,6 +85,8 @@
 
 	export default {
 		components: {
+			PageNavButtons,
+			Alert,
 			PostList,
 			UserList
 		},
@@ -111,28 +137,72 @@
 				this.loading = false
 			},
 
-			searchPostsRedirect() {
-				if (this.query) {
-					router.push({
-						name: 'search',
-						params: {
-							type: 'posts',
-							query: this.query,
-							limit: 5,
-							page: 1,
-						}
-					})
+			refreshRoute() {
+				// [REDIRECT] Cat Page //
+				router.push({
+					name: 'search',
+					params: {
+						type: this.type,
+						query: this.query,
+						limit: this.limit,
+						page: this.page,
+					}
+				})
 	
-					EventBus.$emit('force-rerender')
+				EventBus.$emit('force-rerender')
+			},
+
+			async startPage() {
+				if (this.page != 1) {
+					this.loading = true
+					this.page = 1
+
+					this.refreshRoute()
+
+					await this.getPageData()
 				}
 			},
 
-			searchUsersRedirect() {
+			async prevPage() {
+				if (this.page != 1) {
+					this.loading = true
+					this.page--
+
+					this.refreshRoute()
+
+
+					await this.getPageData()
+				}
+			},
+
+			async nextPage() {
+				if (this.page < this.reqData.totalPages) {
+					this.loading = true
+					this.page++
+
+					this.refreshRoute()
+
+					await this.getPageData()
+				}
+			},
+
+			async endPage() {
+				if (this.page != this.reqData.totalPages) {
+					this.loading = true
+					this.page = this.reqData.totalPages
+
+					this.refreshRoute()
+
+					await this.getPageData()
+				}
+			},
+
+			searchRedirect(type) {
 				if (this.query) {
 					router.push({
 						name: 'search',
 						params: {
-							type: 'users',
+							type: type,
 							query: this.query,
 							limit: 5,
 							page: 1,
