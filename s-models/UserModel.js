@@ -59,6 +59,11 @@ module.exports = mongoose.model(
 			default: false,
 		},
 
+		location: {
+			type: String,
+			default: null,
+		},
+
 		friends: {
 			type: Boolean,
 			default: null
