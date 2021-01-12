@@ -12,6 +12,25 @@
 
 			<!-- Side Content -->
 			<BCol cols="md-3">
+				<BCard
+					v-if="reqData.cryptoQuote.status"
+					bg-variant="dark"
+					class="mb-2 text-primary"
+				>
+					<h6 class="m-0">
+						BTC-USDT :
+						<span class="text-light">
+							{{ reqData.cryptoQuote.btcusdt.last }}
+						</span>
+					</h6>
+					<h6 class="m-0">
+						ETH-USDT : 
+						<span class="text-light">
+							{{ reqData.cryptoQuote.ethusdt.last }}
+						</span>
+					</h6>
+				</BCard>
+
 				<TopPosts :topPosts="topPosts" />
 
 				<!-- Adsense -->
@@ -51,7 +70,7 @@
 
 		data: function() {
 			return {
-				returned: [],
+				reqData: [],
 				cats1: [],
 				cats2: [],
 				cats3: [],
@@ -62,19 +81,19 @@
 		},
 
 		created: async function() {
-			try { this.returned = await PageService.s_home() }
+			try { this.reqData = await PageService.s_home() }
 			catch (err) { this.error = err }
 
-			if (this.returned.status) {
-				this.cats1 = this.returned.cats.slice(0, 2)
-				this.cats2 = this.returned.cats.slice(2, 5)
-				this.cats3 = this.returned.cats.slice(5)
+			if (this.reqData.status) {
+				this.cats1 = this.reqData.cats.slice(0, 2)
+				this.cats2 = this.reqData.cats.slice(2, 5)
+				this.cats3 = this.reqData.cats.slice(5)
 
-				this.topPosts = this.returned.topPosts
+				this.topPosts = this.reqData.topPosts
 
 				this.loading = false
 			}
-			else { this.error = this.returned.message }
+			else { this.error = this.reqData.message }
 
 			this.log()
 		},
@@ -82,7 +101,7 @@
 		methods: {
 			log() {
 				console.log('%%% [/] %%%')
-				console.log('returned:', this.returned)
+				console.log('reqData:', this.reqData)
 			}
 		},
 	}

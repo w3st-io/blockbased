@@ -11,6 +11,7 @@
   "author": "aleem ahmed",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.2",
     "cors": "^2.8.4",
