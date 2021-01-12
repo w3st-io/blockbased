@@ -17,7 +17,7 @@
 								>
 									<span class="float-left">Posts</span>
 									<BBadge variant="light" class="float-right">
-										{{ reqData.postCount }}
+										{{ postCount }}
 									</BBadge>
 								</p>
 								<p
@@ -27,7 +27,7 @@
 								>
 									<span class="float-left">Users</span>
 									<BBadge variant="light" class="float-right">
-										{{ reqData.userCount }}
+										{{ userCount }}
 									</BBadge>
 								</p>
 							</BNav>
@@ -73,7 +73,9 @@
 				page: parseInt(this.$route.params.page),
 				reqData: '',
 				posts: [],
+				postCount: 0,
 				users: [],
+				userCount: 0,
 				error: '',
 				loading: true,
 			}
@@ -98,7 +100,9 @@
 
 					if (this.reqData.status) {
 						this.posts = this.reqData.postResults
+						this.postCount = this.reqData.postCount
 						this.users = this.reqData.userResults
+						this.userCount = this.reqData.userCount
 					}
 					else { this.error = this.reqData.message }
 				}
