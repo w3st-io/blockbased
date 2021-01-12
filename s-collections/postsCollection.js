@@ -77,6 +77,15 @@ const c_create = async (user_id, cat_id, title) => {
 // [READ] //
 const c_read = async (user_id, post_id) => {
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid user_id',
+			}
+		}
+
 		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
 			return {
@@ -151,6 +160,15 @@ const c_readSorted = async (user_id, sort = 0, limit, skip) => {
 		limit = parseInt(limit)
 		skip = parseInt(skip)
 
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid user_id',
+			}
+		}
+
 		// [VALIDATE] sort //
 		if (!Number.isInteger(sort)) {
 			return {
@@ -224,6 +242,15 @@ const c_readByCatSorted = async (user_id, cat_id, sort = 0, limit, skip) => {
 		sort = parseInt(sort)
 		limit = parseInt(limit)
 		skip = parseInt(skip)
+
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid user_id',
+			}
+		}
 
 		// [VALIDATE] cat_id //
 		if (!validator.isAscii(cat_id)) {
@@ -303,6 +330,15 @@ const c_readByCatSorted = async (user_id, cat_id, sort = 0, limit, skip) => {
 // [READ-ALL] Pinned Posts //
 const c_readPinned = async (user_id, cat_id, sort = 0) => {
 	try { 
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid user_id',
+			}
+		}
+
 		// [VALIDATE] cat_id //
 		if (!validator.isAscii(cat_id)) {
 			return {
@@ -354,6 +390,15 @@ const c_readPinned = async (user_id, cat_id, sort = 0) => {
 // [DELETE] _id & user //
 const c_deleteByIdAndUser = async (post_id, user_id) => {
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid user_id',
+			}
+		}
+
 		// [VALIDATE] post_id //
 		if (!mongoose.isValidObjectId(post_id)) {
 			return {
@@ -390,6 +435,15 @@ const c_deleteByIdAndUser = async (post_id, user_id) => {
 /******************* [FUZZY-SEARCH] *******************/
 const c_fuzzySearch = async (user_id, query, limit = 5, skip) => {
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'postsCollection: Invalid user_id',
+			}
+		}
+		
 		// [VALIDATE] post_id //
 		if (!validator.isAscii(query)) {
 			return {

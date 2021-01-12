@@ -263,6 +263,7 @@ const c_readSorted = async (sort = 0, limit, skip) => {
 // [READ-ALL] Sorted (No password) //
 const c_readSelect = async (user_id, select = undefined) => {
 	try {
+		
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
@@ -423,6 +424,15 @@ const c_updatePassword = async (user_id, password) => {
 /******************* [FUZZY-SEARCH] *******************/
 const c_fuzzySearch = async (user_id, query) => {
 	try {
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'UserCollection: Invalid user_id'
+			}
+		}
+		
 		// [VALIDATE] post_id //
 		if (!validator.isAscii(query)) {
 			return {
