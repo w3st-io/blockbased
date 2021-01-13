@@ -16,7 +16,7 @@
 					@click="redirectToCatPosts(cat.cat_id)"
 				>
 					<div class="w-100 overflow-auto rounded-circle">
-						<img :src="images[index]" class="w-100 img-padding bg-primary">
+						<img :src="images[cat.index]" class="w-100 img-padding bg-primary">
 					</div>
 				</BCol>
 
@@ -109,6 +109,7 @@
 	export default {
 		props: {
 			cats: { type: Array, required: true, },
+			range: { type: Array, required: true, },
 		},
 
 		data() {

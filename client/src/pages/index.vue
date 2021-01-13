@@ -4,7 +4,9 @@
 			<!-- Main Content -->
 			<BCol cols="lg-9" class="mb-3 p-0">
 				<BCard bg-variant="dark" class="text-light">
-					<CatList :cats="this.reqData.cats" class="mb-3" />
+					<CatList :cats="cats1" class="mb-3" />
+					<CatList :cats="cats2" class="mb-3" />
+					<CatList :cats="cats3" class="mb-3" />
 				</BCard>
 			</BCol>
 
@@ -69,7 +71,9 @@
 		data: function() {
 			return {
 				reqData: [],
-				cats: [],
+				cats1: [],
+				cats2: [],
+				cats3: [],
 				topPosts: [],
 				error: '',
 				loading: true,
@@ -81,7 +85,9 @@
 			catch (err) { this.error = err }
 
 			if (this.reqData.status) {
-				this.cats = this.reqData.cats
+				this.cats1 = this.reqData.cats.slice(0, 2)
+				this.cats2 = this.reqData.cats.slice(2, 5)
+				this.cats3 = this.reqData.cats.slice(5)
 
 				this.topPosts = this.reqData.topPosts
 
