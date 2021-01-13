@@ -90,6 +90,16 @@ const c_read = async (user_id, post_id) => {
 			.populate({ path: 'user', select: 'username email bio profile_img', })
 			.exec()
 
+		// Check if post found //	
+		if (!post) {
+			return {
+				executed: true,
+				status: false,
+				post: post,
+				message: 'postsCollection: No post found'
+			}
+		}
+
 		// [FILL-DATA] //
 		post = await c_fillData(user_id, post)
 		
@@ -565,50 +575,6 @@ const c_decrementLike = async (post_id) => {
 }
 
 
-/******************* [EXISTANCE] *******************/
-const c_existance = async (post_id) => {
-	try {
-		// [VALIDATE] post_id //
-		if (!mongoose.isValidObjectId(post_id)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postsCollection: Invalid post_id',
-				existance: false,
-			}
-		}
-
-		const post = await PostModel.findOne({ _id: post_id })
-
-		if (!post) {
-			return {
-				executed: true,
-				status: false,
-				message: `Post does NOT exist`,
-				existance: false,
-				post: post,
-			}
-		}
-
-		return {
-			executed: true,
-			status: true,
-			message: `Post does exist`,
-			existance: true,
-			post: post,
-		}
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `postsCollection: Error --> ${err}`,
-			existance: false,
-		}
-	}
-}
-
-
 /******************* [OWNERSHIP] *******************/
 const c_ownership = async (post_id, user_id) => {
 	try {
@@ -782,7 +748,6 @@ module.exports = {
 	c_fuzzySearchCount,
 	c_incrementLike,
 	c_decrementLike,
-	c_existance,
 	c_ownership,
 	c_count,
 	c_countByCat,

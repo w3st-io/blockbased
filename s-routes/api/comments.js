@@ -36,20 +36,24 @@ router.post(
 				req.body.text &&
 				(req.body.replyToComment || req.body.replyToComment === null)
 			) {
-				const postExistance = await postsCollection.c_existance(req.body.post_id)
-
-				if (postExistance.existance) {
+				// [READ] Post //
+				const pObj = await postsCollection.c_read(
+					req.decoded.user_id,
+					req.body.post_id
+				)
+				
+				if (pObj.post) {
 					// [CREATE] Comment //
-					const comment = await commentsCollection.c_create(
+					const cObj = await commentsCollection.c_create(
 						req.decoded.user_id,
 						req.body.post_id,
 						req.body.text,
 						req.body.replyToComment,
 					)
 
-					if (comment.status) {
+					if (cObj.status) {
 						// [COUNT] Comments //
-						const commentCount = await commentsCollection.c_countByPost(
+						const cCObj = await commentsCollection.c_countByPost(
 							req.body.post_id
 						)
 
@@ -57,17 +61,18 @@ router.post(
 						const pFObj = await postFollowsCollection.c_readByPost(
 							req.body.post_id
 						)
-						
-						// [CREATE] Notification //
+
+						// [NOTIFCATION] Post Followers //
 						for (let i = 0; i < pFObj.postFollows.length; i++) {
 							if (pFObj.postFollows[i].user != req.decoded.user_id) {
+								// [CREATE] Notification Comment //
 								await notificationsCollection.c_create(
 									pFObj.postFollows[i].user,
-									comment.comment._id,
+									cObj.comment._id,
 									'comment'
 								)
 
-								// Get userSocket by user_id //
+								// [SOCKET-READ] Get userSocket by user_id //
 								const userSocket = userUtils.getUserSocketByUserId(
 									pFObj.postFollows[i].user
 								)
@@ -81,30 +86,54 @@ router.post(
 							}
 						}
 
+						// [NOTIFICATION] If Reply to Comment //
+						if (cObj.comment.replyToComment) {
+							// [READ] Comment  //
+							const repliedToComment = await commentsCollection.c_read(
+								req.decoded.comment,
+								cObj.comment.replyToComment,
+							)
+
+							// [CREATE] Notification Reply //
+							await notificationsCollection.c_create(
+								repliedToComment.comment.user._id,
+								cObj.comment._id,
+								'reply'
+							)
+
+							// [SOCKET-READ] Get userSocket by user_id //
+							const userSocket = userUtils.getUserSocketByUserId(
+								repliedToComment.comment.user._id
+							)
+							
+							if (userSocket) {
+								// [EMIT] //
+								req.app.io.to(userSocket.socket_id).emit(
+									'update-notification'
+								)
+							}
+						}
+
 						// [CREATE] Activity //
-						const activity = await activitiesCollection.c_create(
+						await activitiesCollection.c_create(
 							req.decoded.user_id,
 							'comment',
-							comment.comment.post,
+							cObj.comment.post,
 							undefined,
 							undefined,
-							comment.comment._id
+							cObj.comment._id
 						)
 
-						if (activity.status) {
-							/* Send the comment count to know what the last page is */
-							res.status(200).send({
-								executed: true,
-								status: true,
-								comment: comment,
-								commentCount: commentCount,
-							})
-						}
-						else { res.status(200).send(activity) }
+						res.status(200).send({
+							executed: true,
+							status: true,
+							comment: cObj.comment,
+							cCObj: cCObj.count,
+						})
 					}
-					else { res.status(200).send(comment) }
+					else { res.status(200).send(cObj) }
 				}
-				else { res.status(200).send(postExistance) }
+				else { res.status(200).send(pObj) }
 			}
 			else {
 				res.status(200).send({
@@ -118,7 +147,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/comments: Error --> ${err}`,
+				message: `/api/comments/create: Error --> ${err}`,
 			})
 		}
 	}

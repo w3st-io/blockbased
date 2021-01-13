@@ -87,7 +87,6 @@ router.delete(
 			}
 		}
 		catch (err) {
-			console.log('caught error', err)
 			res.status(200).send({
 				executed: false,
 				status: false,

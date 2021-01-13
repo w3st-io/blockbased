@@ -8,6 +8,7 @@ module.exports = mongoose.model(
 	mongoose.Schema({
 		_id: mongoose.Schema.Types.ObjectId,
 		
+		// User to be Notified.. //
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',

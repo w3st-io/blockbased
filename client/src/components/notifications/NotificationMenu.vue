@@ -38,8 +38,12 @@
 			>
 				<p class="m-0 text-wrap">
 					{{ notification.comment.post.title.replace(/(.{60})..+/, '$1…') }}<br>
-					<span class="text-secondary">
-						{{ notification.comment.user.username }} made a {{ notification.type }}
+					<span v-if="notification.type == 'comment'" class="text-secondary">
+						{{ notification.comment.user.username }} made a comment
+					</span>
+
+					<span v-if="notification.type == 'reply'" class="text-secondary">
+						{{ notification.comment.user.username }} replied to your comment
 					</span>
 				</p>
 				<small class="text-secondary">

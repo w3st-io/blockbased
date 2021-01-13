@@ -153,7 +153,8 @@
 							>Admin-Delete</BButton>
 
 							<span class="ml-1 small text-secondary">
-								{{ comment._id }}
+								comment: {{ comment._id }} -
+								User: {{ comment.user._id }}
 							</span>
 						</BCol>
 					</BRow>

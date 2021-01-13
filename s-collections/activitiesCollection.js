@@ -515,7 +515,7 @@ const c_countTimeFrame = async (timePointA, timePointB) => {
 		return {
 			executed: false,
 			status: false,
-			message: `activitiesCollection: Caught Error --> ${err}`,
+			message: `activitiesCollection: Error --> ${err}`,
 		}
 	}
 }

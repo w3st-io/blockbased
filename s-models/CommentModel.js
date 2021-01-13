@@ -7,17 +7,17 @@ module.exports = mongoose.model(
 	'Comment',
 	mongoose.Schema({
 		_id: mongoose.Schema.Types.ObjectId,
+		
+		user: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'User',
+			required: true,
+		},
 	
 		type: {
 			type: String,
 			enum: ['comment', 'reply'],
 			default: 'comment'
-		},
-	
-		user: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-			required: true,
 		},
 	
 		post: {

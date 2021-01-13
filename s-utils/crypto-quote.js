@@ -56,7 +56,7 @@ if (process.env.NODE_ENV == 'production') {
 		}
 		catch (err) {
 			prices.status = false
-			prices.message = `Caught error --> ${err}`
+			prices.message = `Error --> ${err}`
 		}
 	}, 120000)
 }
@@ -95,7 +95,7 @@ else {
 		}
 		catch (err) {
 			prices.status = false
-			prices.message = `Caught error --> ${err}`
+			prices.message = `Error --> ${err}`
 		}
 	}, 2000)
 }

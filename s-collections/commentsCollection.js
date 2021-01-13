@@ -111,7 +111,7 @@ const c_read = async (user_id, comment_id) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'No comment found',
+				message: 'commentsCollection: No comment found',
 			}
 		}
 
