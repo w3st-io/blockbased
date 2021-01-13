@@ -5,7 +5,7 @@
 				v-if="comments != ''"
 				class="m-0 p-0 border border-bottom-0 border-secondary"
 			>
-				<li v-for="comment in comments" :key="comment._id">
+				<li v-for="comment in comments" :key="comment._id" class="list-unstyled">
 					<BRow class="m-0 comment border-bottom border-secondary text-light">
 						<!-- Profile/Timestamp Bar -->
 						<BCol cols="6" class="p-1 border-bottom border-secondary">
@@ -152,7 +152,9 @@
 								class="mr-1"
 							>Admin-Delete</BButton>
 
-							<span class="ml-1 small text-secondary">{{ comment._id }}</span>
+							<span class="ml-1 small text-secondary">
+								{{ comment._id }}
+							</span>
 						</BCol>
 					</BRow>
 				</li>
@@ -304,7 +306,6 @@
 	// [IMPORT] Personal //
 	@import 'src/assets/styles/sass-variables.scss';
 
-	li { list-style: none; }
 	li:nth-child(even) { background: $backgroundGrey !important; }
 
 	// Make Comments Wordwrapped

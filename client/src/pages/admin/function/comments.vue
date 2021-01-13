@@ -42,6 +42,9 @@
 				</BCol>
 			</BRow>
 		</BCard>
+
+		<!-- Confirm Screen -->
+		<Confirm v-if="confirm" />
 	</BContainer>
 </template>
 
@@ -49,6 +52,7 @@
 	// [IMPORT] Personal //
 	import Comments from '@components/admin/function/Comments'
 	import FunctionButtons from '@components/admin/FunctionButtons'
+	import Confirm from '@components/controls/Confirm'
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import Alert from '@components/misc/Alert'
 	import router from '@router'
@@ -59,6 +63,7 @@
 		components: {
 			Comments,
 			FunctionButtons,
+			Confirm,
 			PageNavButtons,
 			Alert,
 		},
@@ -70,6 +75,7 @@
 				page: parseInt(this.$route.params.page),
 				returned: {},
 				comments: [],
+				confirm: false,
 				error: '',
 			}
 		},

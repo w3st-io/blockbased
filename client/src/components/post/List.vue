@@ -2,11 +2,11 @@
 	<BRow>
 		<BCol cols="12">
 			<ul
-				v-if="!loading && posts != ''"
+				v-if="posts != ''"
 				class="m-0 px-0 border border-secondary"
 			>
-				<li v-for="post in posts" :key="post._id" class="bg-dark">
-					<BRow class="m-0">
+				<li v-for="post in posts" :key="post._id" class="list-unstyled bg-dark">
+					<BRow class="test m-0">
 						<!-- Title --> 
 						<BCol
 							cols="8" lg="9" md="8" sm="8" xs="8"
@@ -64,6 +64,22 @@
 							</h4>
 						</BCol>
 					</BRow>
+
+					<BRow v-if="adminLoggedIn" class="border border-warning m-0">
+						<BCol cols="8" class="p-2">
+							<!-- Edit -->
+							<BButton
+								variant="outline-warning"
+								size="sm"
+								@click="redirectToAdminEdit(post._id)"
+								class="py-0"
+							>Admin-Edit</BButton>
+						
+							<span class="ml-1 small text-secondary">
+								{{ post._id }}
+							</span>
+						</BCol>
+					</BRow>
 				</li>
 			</ul>
 
@@ -96,7 +112,7 @@
 
 		data: function() {
 			return {
-				loading: true,
+				adminLoggedIn: false,
 				disabled: false,
 				returned: '',
 				error: '',
@@ -104,8 +120,7 @@
 		},
 
 		created: async function() {
-			// Disable Loading //
-			this.loading = false
+			if (localStorage.admintoken) { this.adminLoggedIn = true }
 
 			// [LOG] //
 			//this.log()
@@ -141,7 +156,6 @@
 				}
 			},
 
-			/******************* [ROUTER + LOG] *******************/
 			redirectToPost(post_id) {
 				// [REDIRECT] //
 				router.push({
@@ -153,6 +167,8 @@
 					}
 				})
 			},
+
+			redirectToAdminEdit() {},
 
 			log() {
 				console.log('%%% [COMPONENT] PostList %%%')
@@ -168,7 +184,6 @@
 	@import 'src/assets/styles/bootstrap-override.scss';
 
 	li {
-		list-style: none;
 		&:hover { @extend .bg-secondary; }
 	}
 	
