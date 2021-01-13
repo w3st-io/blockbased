@@ -30,7 +30,7 @@ module.exports = [
 	{
 		cat_id: 'prices',
 		title: 'Prices',
-		description: 'Discuss prices here',
+		description: 'Discuss prices here!',
 		index: 3,
 		image: null,
 		recentPost: null,

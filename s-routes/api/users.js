@@ -90,11 +90,7 @@ router.post(
 	async (req, res) => {
 		// [VALIDATE] //
 		try {
-			if (
-				validator.isAscii(req.body.img_url) &&
-				validator.isAscii(req.body.bio) ||
-				req.body.bio == ''
-			) {
+			if (validator.isAscii(req.body.img_url)) {
 				const returned = await usersCollection.c_update(
 					req.decoded.user_id,
 					req.body.img_url,
