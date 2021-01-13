@@ -51,9 +51,17 @@
 											<span v-if ="!notification.read" class="text-primary">
 												&#9679;
 											</span>
-											{{ notification.comment.user.username }} made a 
-											{{ notification.type }} in 
-											{{ notification.comment.post.title }}
+											<span v-if="notification.type == 'comment'">
+												{{ notification.comment.user.username }}
+												made a comment in 
+												{{ notification.comment.post.title }}
+											</span>
+
+											<span v-if="notification.type == 'reply'">
+												{{ notification.comment.user.username }}
+												replied to you comment in  
+												{{ notification.comment.post.title }}
+											</span>
 										</h5>
 
 										<!-- Timestamp -->
