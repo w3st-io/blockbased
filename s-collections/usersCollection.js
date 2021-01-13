@@ -55,16 +55,7 @@ const c_update = async (user_id, img_url, bio) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'UserCollection: Invalid img_url'
-			}
-		}
-
-		// [VALIDATE] bio //
-		if (!validator.isAscii(bio) && bio != '') {
-			return {
-				executed: true,
-				status: false,
-				message: 'UserCollection: Invalid bio',
+				message: 'UserCollection: Invalid URL (Must be URL)'
 			}
 		}
 

@@ -1,7 +1,6 @@
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
-const mongoose = require('mongoose')
 const validator = require('validator')
 
 
@@ -133,10 +132,7 @@ router.post(
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
-			if (
-				validator.isAscii(req.body.comment_id) &&
-				req.body.text
-			) {
+			if (validator.isAscii(req.body.comment_id) && req.body.text) {
 				// [OWNERSHIP] //
 				const ownership = await commentsCollection.c_ownership(
 					req.body.comment_id,
