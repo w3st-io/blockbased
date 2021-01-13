@@ -120,6 +120,7 @@
 					require('../../assets/images/caticons/codesandbox.svg'),
 					require('../../assets/images/caticons/flag.svg'),
 					require('../../assets/images/caticons/book-open.svg'),
+					require('../../assets/images/caticons/dollar-sign.svg'),
 					require('../../assets/images/caticons/archive.svg'),
 				],
 			}

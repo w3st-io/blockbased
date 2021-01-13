@@ -49,6 +49,14 @@ module.exports = [
 		totalPosts: null,
 	},
 	{
+		cat_id: 'prices',
+		title: 'Prices',
+		description: 'Discuss prices here',
+		image: null,
+		recentPost: null,
+		totalPosts: null,
+	},
+	{
 		cat_id: 'misc',
 		title: 'Misc.',
 		description: 'Anything uncategorized',
