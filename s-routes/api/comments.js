@@ -139,7 +139,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/comments: Invalid Params'
+					message: '/api/comments/create: Invalid Params'
 				})
 			}
 		}
@@ -199,7 +199,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/comments: Invalid params'
+					message: '/api/comments/update: Invalid params'
 				})
 			}
 		}
@@ -207,7 +207,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/comments: Error --> ${err}`,
+				message: `/api/comments/update: Error --> ${err}`,
 			})
 		}
 	},
@@ -258,7 +258,7 @@ router.delete(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/comments: Invalid comment_id'
+					message: '/api/comments/delete: Invalid comment_id'
 				})
 			}
 			*/
@@ -267,7 +267,7 @@ router.delete(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/comments: Error --> ${err}`,
+				message: `/api/comments/delete: Error --> ${err}`,
 			})
 		}
 	},
@@ -317,7 +317,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/comments: Invalid params'
+					message: '/api/comments/like: Invalid params'
 				})
 			}
 		}
@@ -325,7 +325,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/comments: Error --> ${err}`,
+				message: `/api/comments/like: Error --> ${err}`,
 			})
 		}
 	},
@@ -353,7 +353,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/comments: Invalid comment _id'
+					message: '/api/comments/unlike: Invalid comment _id'
 				})
 			}
 		}
@@ -361,7 +361,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/comments: Error --> ${err}`,
+				message: `/api/comments/unlike: Error --> ${err}`,
 			})
 		}
 	},
@@ -422,7 +422,7 @@ router.post(
 					res.status(200).send({
 						executed: true,
 						status: false,
-						message: 'Comment doesnt exist.'
+						message: '/api/comments/report: Comment doesnt exist.'
 					})
 				}
 			}
@@ -430,7 +430,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/comments: Invalid params',
+					message: '/api/comments/report: Invalid params',
 				})
 			}
 		}
@@ -438,7 +438,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/comments: Error --> ${err}`,
+				message: `/api/comments/report: Error --> ${err}`,
 			})
 		}
 	},

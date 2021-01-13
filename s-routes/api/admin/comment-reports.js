@@ -39,7 +39,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/admin/comment-reports: Error --> ${err}`,
+				message: `/api/admin/comment-reports/mark-handled: --> ${err}`,
 			})
 		}
 	}

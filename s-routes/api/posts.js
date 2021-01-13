@@ -92,7 +92,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/posts: Invalid Params'
+					message: '/api/posts/create: Invalid Params'
 				})
 			}
 		}
@@ -100,7 +100,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/posts: Error --> ${err}`,
+				message: `/api/posts/create: Error --> ${err}`,
 			})
 		}
 	}
@@ -159,7 +159,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'Invalid post _id'
+					message: '/api/posts/like: Invalid post _id'
 				})
 			}
 		} 
@@ -167,7 +167,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/posts: Error --> ${err}`
+				message: `/api/posts/like: Error --> ${err}`
 			})
 		}
 	},
@@ -215,7 +215,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'Invalid post_id'
+					message: '/api/posts/unlike: Invalid post_id'
 				})
 			}
 		}
@@ -223,7 +223,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/posts: Error --> ${err}`
+				message: `/api/posts/unlike:: Error --> ${err}`
 			})
 		}
 	},
@@ -250,7 +250,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'Invalid post _id',
+					message: '/api/posts/follow: Invalid post _id',
 				})
 			}
 		}
@@ -258,7 +258,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/posts: Error --> ${err}`
+				message: `/api/posts/follow: Error --> ${err}`
 			})
 		}
 	},
@@ -284,7 +284,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'Invalid post _id',
+					message: '/api/posts/unfollow: Invalid post _id',
 				})
 			}
 		}
@@ -292,7 +292,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/posts: Error --> ${err}`
+				message: `/api/posts/unfollow: Error --> ${err}`
 			})
 		}
 	},

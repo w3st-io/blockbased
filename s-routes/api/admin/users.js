@@ -39,7 +39,7 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/admin/users: Invalid user_id'
+					message: '/api/admin/users/ban: Invalid user_id'
 				})
 			}
 		}
@@ -47,7 +47,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/admin/users: Error --> ${err}`,
+				message: `/api/admin/users/ban: Error --> ${err}`,
 			})
 		}
 	}

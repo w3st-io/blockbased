@@ -53,7 +53,7 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/pages/cat: Invalid Params'
+					message: '/api/notifications/read-unread: Invalid Params'
 				})
 			}
 		}
@@ -61,7 +61,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/notifications: Error --> ${err}`,
+				message: `/api/notifications/read-unread: Error --> ${err}`,
 			})
 		}
 	}
@@ -87,7 +87,7 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'Invalid notification_id'
+					message: '/api/notifications/mark-unread: Invalid notification_id'
 				})
 			}
 		}
@@ -95,7 +95,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/notifications: Error --> ${err}`,
+				message: `/api/notifications/mark-unread: Error --> ${err}`,
 			})
 		}
 	}

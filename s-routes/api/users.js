@@ -43,7 +43,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/users: Error --> ${err}`,
+				message: `/api/users/read: Error --> ${err}`,
 			})
 		}
 	}
@@ -68,7 +68,7 @@ router.get(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/users: Invalid user_id'
+					message: '/api/users: Invalid user_id',
 				})
 			}
 		}
@@ -76,7 +76,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/users: Error --> ${err}`,
+				message: `/api/users/read/:user_id: Error --> ${err}`,
 			})
 		}
 	}
@@ -103,7 +103,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/users: Invalid params'
+					message: '/api/users/update: Invalid params',
 				})
 			}
 		}
@@ -111,7 +111,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/users: Error --> ${err}`,
+				message: `/api/users/update: Error --> ${err}`,
 			})
 		}
 	}
@@ -183,7 +183,7 @@ router.post(
 						res.status(200).send({
 							executed: true,
 							status: false,
-							message: '/api/users: Invalid email'
+							message: '/api/users/login: Invalid email',
 						})
 					}
 				}
@@ -191,7 +191,7 @@ router.post(
 					res.status(200).send({
 						executed: true,
 						status: false,
-						message: '/api/users: Invalid password'
+						message: '/api/users/login: Invalid password',
 					})
 				}
 			}
@@ -199,7 +199,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/users: Invalid Params'
+					message: '/api/users/login: Invalid Params',
 				})
 			}
 		}
@@ -207,7 +207,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/users: Error --> ${err}`,
+				message: `/api/users/login: Error --> ${err}`,
 			})
 		}
 	}
@@ -274,7 +274,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/users: Invalid Params'
+					message: '/api/users/register: Invalid Params',
 				})
 			}
 		}
@@ -282,7 +282,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/users: Error --> ${err}`,
+				message: `/api/users/register: Error --> ${err}`,
 			})
 		}
 	}
@@ -316,7 +316,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/users: Invalid params'
+					message: '/api/users/verify: Invalid params',
 				})
 			}
 		}
@@ -324,7 +324,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/users: Error --> ${err}`,
+				message: `/api/users/verify: Error --> ${err}`,
 			})
 		}
 	}
@@ -355,14 +355,14 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: true,
-					message: 'Verification email sent'
+					message: 'Verification email sent',
 				})
 			}
 			else {
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/users: Invalid params'
+					message: '/api/users/resend-verification-email: Invalid params',
 				})
 			}
 		}
@@ -370,7 +370,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/users: Error --> ${err}`,
+				message: `/api/users/resend-verification-email: Error --> ${err}`,
 			})
 		}
 	}
@@ -406,7 +406,7 @@ router.post(
 						res.status(200).send({
 							executed: true,
 							status: false,
-							message: 'Invalid password',
+							message: '/api/users/reset-password: Invalid password',
 						})
 					}
 				}
@@ -418,7 +418,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/users: Invalid Params'
+					message: '/api/users/reset-password: Invalid Params',
 				})
 			}
 		}
@@ -426,7 +426,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/users: Error --> ${err}`,
+				message: `/api/users/reset-password: Error --> ${err}`,
 			})
 		}
 	}
@@ -465,7 +465,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/users: Invalid params'
+					message: '/api/users/reset-password-reset: Invalid params',
 				})
 			}
 		}
@@ -473,7 +473,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/users: Error --> ${err}`,
+				message: `/api/users/reset-password-reset: Error --> ${err}`,
 			})
 		}
 	}
@@ -530,7 +530,7 @@ router.post(
 					res.status(200).send({
 						executed: true,
 						status: false,
-						message: '/api/users: Invalid params'
+						message: '/api/users/not-logged-reset-password: Invalid params',
 					})
 				}
 			}
@@ -538,7 +538,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'You have not made a request to reset your password'
+					message: 'You have not made a request to reset your password',
 				})
 			}
 		}
@@ -546,7 +546,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/users: Error --> ${err}`,
+				message: `/api/users/not-logged-reset-password: Error --> ${err}`,
 			})
 		}
 	}
@@ -599,7 +599,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/users: Invalid params',
+					message: '/api/users/report: Invalid params',
 				})
 			}
 		}
@@ -607,7 +607,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/users: Error --> ${err}`,
+				message: `/api/users/report: Error --> ${err}`,
 			})
 		}
 	},

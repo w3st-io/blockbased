@@ -85,7 +85,7 @@ router.post(
 						res.status(200).send({
 							executed: true,
 							status: false,
-							message: '/api/admins: Invalid email'
+							message: '/api/admins/login: Invalid email'
 						})
 					}
 				}
@@ -93,7 +93,7 @@ router.post(
 					res.status(200).send({
 						executed: true,
 						status: false,
-						message: '/api/admins: Invalid password'
+						message: '/api/admins/login: Invalid password'
 					})
 				}
 			}
@@ -101,7 +101,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/admins: Invalid Params'
+					message: '/api/admins/login: Invalid Params'
 				})
 			}
 		}
@@ -109,7 +109,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/admins: Error --> ${err}`
+				message: `/api/admins/login: Error --> ${err}`
 			})
 		}
 	}
@@ -139,7 +139,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/admins: Invalid Params'
+					message: '/api/admins/register: Invalid Params'
 				})
 			}
 		}
@@ -147,7 +147,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/admins: Error --> ${err}`,
+				message: `/api/admins/register: Error --> ${err}`,
 			})
 		}
 	}
