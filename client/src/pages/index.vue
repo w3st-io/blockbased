@@ -7,6 +7,7 @@
 					<CatList :cats="cats1" class="mb-3" />
 					<CatList :cats="cats2" class="mb-3" />
 					<CatList :cats="cats3" class="mb-3" />
+					<CatList :cats="cats4" class="mb-3" />
 				</BCard>
 			</BCol>
 
@@ -74,6 +75,7 @@
 				cats1: [],
 				cats2: [],
 				cats3: [],
+				cats4: [],
 				topPosts: [],
 				error: '',
 				loading: true,
@@ -86,8 +88,9 @@
 
 			if (this.reqData.status) {
 				this.cats1 = this.reqData.cats.slice(0, 2)
-				this.cats2 = this.reqData.cats.slice(2, 5)
-				this.cats3 = this.reqData.cats.slice(5)
+				this.cats2 = this.reqData.cats.slice(2, 3)
+				this.cats3 = this.reqData.cats.slice(3, 6)
+				this.cats4 = this.reqData.cats.slice(6, 10)
 
 				this.topPosts = this.reqData.topPosts
 

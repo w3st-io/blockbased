@@ -117,8 +117,10 @@
 				images: [
 					require('../../assets/images/caticons/message-square.svg'),
 					require('../../assets/images/caticons/globe.svg'),
+					require('../../assets/images/caticons/globe.svg'),
 					require('../../assets/images/caticons/zap.svg'),
 					require('../../assets/images/caticons/codesandbox.svg'),
+					require('../../assets/images/caticons/zap.svg'),
 					require('../../assets/images/caticons/flag.svg'),
 					require('../../assets/images/caticons/book-open.svg'),
 					require('../../assets/images/caticons/dollar-sign.svg'),
