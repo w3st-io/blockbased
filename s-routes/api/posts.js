@@ -29,8 +29,8 @@ router.post(
 			// [VALIDATE] //
 			if (
 				validator.isAscii(req.body.cat_id) &&
-				validator.isAscii(req.body.title) &&
-				validator.isAscii(req.body.text)
+				req.body.title &&
+				req.body.text
 			) {
 				// [CREATE] Post //
 				const post = await postsCollection.c_create(

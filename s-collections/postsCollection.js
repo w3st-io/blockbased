@@ -41,15 +41,6 @@ const c_create = async (user_id, cat_id, title) => {
 			}
 		}
 
-		// [VALIDATE] title //
-		if (!validator.isAscii(title)) {
-			return {
-				executed: true,
-				status: false,
-				message: 'postsCollection: Invalid title',
-			}
-		}
-
 		// [SAVE] //
 		const createdPost = await new PostModel({
 			_id: mongoose.Types.ObjectId(),

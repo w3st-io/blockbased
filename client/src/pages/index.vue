@@ -4,10 +4,10 @@
 			<!-- Main Content -->
 			<BCol cols="lg-9" class="mb-3 p-0">
 				<BCard bg-variant="dark" class="text-light">
-					<CatList :cats="cats1" class="mb-3" />
-					<CatList :cats="cats2" class="mb-3" />
-					<CatList :cats="cats3" class="mb-3" />
-					<CatList :cats="cats4" class="mb-3" />
+					<CatList :cats="cats1" groupName="General" class="mb-3" />
+					<CatList :cats="cats2" groupName="Trade Token Market Place" class="mb-3" />
+					<CatList :cats="cats3" groupName="Productive" class="mb-3" />
+					<CatList :cats="cats4" groupName="Education" class="mb-3" />
 				</BCard>
 			</BCol>
 
@@ -88,9 +88,9 @@
 
 			if (this.reqData.status) {
 				this.cats1 = this.reqData.cats.slice(0, 2)
-				this.cats2 = this.reqData.cats.slice(2, 3)
-				this.cats3 = this.reqData.cats.slice(3, 6)
-				this.cats4 = this.reqData.cats.slice(6, 10)
+				this.cats2 = this.reqData.cats.slice(2, 4)
+				this.cats3 = this.reqData.cats.slice(4, 7)
+				this.cats4 = this.reqData.cats.slice(7, 10)
 
 				this.topPosts = this.reqData.topPosts
 
