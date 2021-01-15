@@ -114,7 +114,7 @@ const c_readUnhandled = async (sort, limit, skip) => {
 		}
 
 		// [VALIDATE] limit //
-		if (!Number.isInteger(limit) || limit >= 200) {
+		if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
 			return {
 				executed: true,
 				status: false,

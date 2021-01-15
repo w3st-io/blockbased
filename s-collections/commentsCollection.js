@@ -263,7 +263,7 @@ const c_readSorted = async (user_id, sort = 0, limit, skip) => {
 		}
 
 		// [VALDIATE] limit //
-		if (!Number.isInteger(limit) || limit >= 200) {
+		if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
 			return {
 				executed: true,
 				status: false,
@@ -337,7 +337,7 @@ const c_readByPost = async (user_id, post_id, limit, skip) => {
 		}
 
 		// [VALDIATE] limit //
-		if (!Number.isInteger(limit) || limit >= 200) {
+		if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
 			return {
 				executed: true,
 				status: false,

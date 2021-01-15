@@ -95,7 +95,7 @@ const c_readByUserSorted = async (user_id, sort, limit, skip) => {
 		}
 
 		// [VALIDATE] limit //
-		if (!Number.isInteger(limit) || limit >= 200) {
+		if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
 			return {
 				executed: true,
 				status: false,
@@ -172,7 +172,7 @@ const c_readByUserSortedUnread = async (user_id, sort, limit, skip) => {
 		}
 
 		// [VALIDATE] limit //
-		if (!Number.isInteger(limit) || limit >= 200) {
+		if (!Number.isInteger(limit) || limit >= 200 || limit <= -200) {
 			return {
 				executed: true,
 				status: false,
