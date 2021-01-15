@@ -5,7 +5,6 @@
 				no-body
 				bg-variant="dark"
 				text-variant="white"
-				border-variant="secondary"
 				class="m-auto text-center"
 				style="max-width: 300px;"
 			>
@@ -13,9 +12,9 @@
 					<h1 class="mt-2 float-left h5">{{ header }}</h1>
 					<BButton
 						size="sm"
-						variant="outline-secondary"
+						variant="dark"
 						class="float-right"
-					>X</BButton>
+					>✖</BButton>
 				</BCardHeader>
 
 				<BCardBody>
