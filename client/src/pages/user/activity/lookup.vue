@@ -31,7 +31,7 @@
 					<BRow v-show="error" class="mt-3">
 						<BCol cols="12">
 							<!-- Error -->
-							<Alert variant="danger" :message="'Activity Page: ' + error" />
+							<Alert variant="danger" :message="error" />
 						</BCol>
 					</BRow>
 
