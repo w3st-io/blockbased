@@ -31,7 +31,7 @@
 					</div>
 				</BCol>
 
-				<!-- Add Comment -->
+				<!-- PageNumber of totalPages -->
 				<BCol cols="12" sm="6" md="6" lg="6">
 					<BBadge variant="dark" class="m-0 text-secondary">
 						Page {{ pageNumber }} of {{ totalPages }}
@@ -52,7 +52,7 @@
 				</BCol>
 
 				<!-- Add Comment -->
-				<BCol cols="12" sm="6" md="6" lg="6" class="py-2">
+				<BCol cols="12" sm="6" md="6" lg="6" class="mt-3">
 					<BButton
 						:disabled="disabled"
 						variant="primary"
@@ -62,11 +62,11 @@
 				</BCol>
 
 				<!-- Limit Set -->
-				<BCol cols="12" sm="6" md="6" lg="6" class="py-2">
+				<BCol cols="12" sm="6" md="6" lg="6" class="mt-3">
 					<BInputGroup size="sm">
 						<BInputGroupPrepend class="ml-auto bg-dark">
-							<BInputGroupText class="text-dark border-secondary bg-secondary">
-								# Per Page
+							<BInputGroupText class="text-light border-light bg-dark">
+								limit
 							</BInputGroupText>
 						</BInputGroupPrepend>
 						<BFormInput
@@ -76,12 +76,12 @@
 							variant="dark"
 							placeholder="limit"
 							border-variant="secondary"
-							class="border-secondary text-center text-light bg-dark"
+							class="border-light text-center text-light bg-dark"
 							style="max-width: 50px;"
 						/>
-						<BInputGroupAppend border-variant="secondary">
+						<BInputGroupAppend>
 							<BButton
-							variant="outline-primary"
+							variant="light"
 							@click="newLimit()"
 							>Refresh</BButton>
 						</BInputGroupAppend>
