@@ -1,15 +1,15 @@
 <template>
 	<nav class="navbar navbar-dark fixed-bottom bg-warning">
 		<div>
-			<BButton size="sm" @click="redirectAdmin()" class="mr-2">
+			<BButton size="sm" class="mr-2" @click="redirectAdmin()">
 				Admin Dashboard
 			</BButton>
 
-			<BButton size="sm" @click="redirectAdminProfile()" class="mr-2">
+			<BButton size="sm" class="mr-2" @click="redirectAdminProfile()">
 				Admin Profile
 			</BButton>
 
-			<BButton variant="warning" @click="logout()" class="mr-2 btn-sm">
+			<BButton variant="warning" class="mr-2 btn-sm" @click="logout()">
 				Logout
 			</BButton>
 		</div>

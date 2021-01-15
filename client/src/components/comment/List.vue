@@ -20,12 +20,12 @@
 								v-if="comment.replyToComment != null"
 								variant="none"
 								size="sm"
-								@click="toggleOpenRepliedTo(comment._id)"
 								class="dropdown-toggle"
 								:class="{
 									'btn-outline-secondary': openedRepliedTo != comment._id,
 									'btn-outline-primary': openedRepliedTo == comment._id,
 								}"
+								@click="toggleOpenRepliedTo(comment._id)"
 							>In Reply to Comment</BButton>
 						</BCol>
 

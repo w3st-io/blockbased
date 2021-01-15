@@ -15,26 +15,21 @@
 					<BRow class="m-0">
 						<!-- Image Section -->
 						<BCol
-							cols="2"
-							sm="2"
-							md="2"
-							lg="1"
-							xl="1"
+							cols="2" sm="2" md="2" lg="2" xl="1"
 							class="p-3 align-self-center"
 							@click="redirectToCatPosts(cat.cat_id)"
 						>
 							<div class="w-100 overflow-auto rounded-circle">
-								<img :src="images[cat.index]" class="w-100 img-padding bg-primary">
+								<img
+									:src="images[cat.index]"
+									class="w-100 img-padding bg-primary"
+								>
 							</div>
 						</BCol>
 
 						<!-- Title -->
 						<BCol
-							cols="10"
-							sm="10"
-							md="10"
-							lg="7"
-							xl="6"
+							cols="10" sm="10" md="10" lg="6" xl="6"
 							class="py-3"
 							@click="redirectToCatPosts(cat.cat_id)"
 						>
@@ -44,11 +39,7 @@
 
 						<!-- Count -->
 						<BCol
-							cols="2"
-							sm="2"
-							md="2"
-							lg="1"
-							xl="1"
+							cols="2" sm="2" md="2" lg="1" xl="1"
 							class="p-3 text-right d-none d-md-block"
 							@click="redirectToCatPosts(cat.cat_id)"
 						>
@@ -63,11 +54,7 @@
 						<!-- Recent Posts -->
 						<BCol
 							v-if="cat.recentPost"
-							cols="12"
-							sm="12"
-							md="10"
-							lg="3"
-							xl="4"
+							cols="12" sm="12" md="10" lg="3" xl="4"
 							class="rounded"
 						>
 							<BRow>

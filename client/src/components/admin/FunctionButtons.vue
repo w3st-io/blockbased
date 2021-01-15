@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<BRow class="">
+		<BRow>
 			<BCol sm="6" md="3" class="mb-2">
 				<BButton variant="outline-warning" class="w-100" @click="redirectDashboard()">
 					Dashboard
@@ -8,7 +8,7 @@
 			</BCol>
 		</BRow>
 
-		<BRow class="">
+		<BRow>
 			<BCol sm="6" md="3" class="mb-2">
 				<BButton variant="outline-warning" class="w-100" @click="redirectCommentReports()">
 					commentReports

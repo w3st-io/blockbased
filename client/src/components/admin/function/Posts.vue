@@ -19,10 +19,10 @@
 					<td>{{ post.user.username }}</td>
 					<td>{{ new Date(post.created_at).toLocaleString() }}</td>
 					<td class="text-center">
-						<button
+						<BButton
+							variant="danger"
 							@click="deletePost(post._id)"
-							class="btn btn-danger"
-						>Delete</button>
+						>Delete</BButton>
 					</td>
 				</tr>
 			</tbody>

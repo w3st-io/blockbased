@@ -10,10 +10,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr
-					v-for="report in commentReports"
-					:key="report._id"
-				>
+				<tr v-for="report in commentReports" :key="report._id">
 					<td>{{ report.reportType }}</td>
 					<td>{{ report.user.username }}</td>
 					<td>{{ new Date(report.created_at).toLocaleString() }}</td>
@@ -27,7 +24,7 @@
 			</tbody>
 		</table>
 		
-		<!-- [ALERTS] -->
+		<!-- Error -->
 		<Alert v-if="error" variant="danger" :message="error" class="mt-3" />
 	</section>
 </template>

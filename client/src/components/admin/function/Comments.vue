@@ -19,10 +19,10 @@
 					<td>{{ comment.user.username }}</td>
 					<td>{{ new Date(comment.created_at).toLocaleString() }}</td>
 					<td class="text-center">
-						<button
+						<BButton
+							variant="danger"
 							@click="deleteComment(comment._id)"
-							class="btn btn-danger"
-						>Delete</button>
+						>Delete</BButton>
 					</td>
 				</tr>
 			</tbody>

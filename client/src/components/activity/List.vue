@@ -30,10 +30,7 @@
 					<!-- Created Post -->
 					<BRow v-if="activity.type == 'post'">
 						<BCol class="m-0 p-0" style="max-width: 35px;">
-							<img
-								:src="activity.user.profile_img"
-								class="w-100"
-							>
+							<img :src="activity.user.profile_img" class="w-100">
 						</BCol>
 						<BCol>
 							<h5>
@@ -52,15 +49,9 @@
 					</BRow>
 					
 					<!-- Created Comment -->
-					<BRow
-						v-if="activity.type == 'comment'"
-						class="text-light"
-					>
+					<BRow v-if="activity.type == 'comment'">
 						<BCol class="m-0 p-0" style="max-width: 35px;">
-							<img
-								:src="activity.user.profile_img"
-								class="w-100"
-							>
+							<img :src="activity.user.profile_img" class="w-100">
 						</BCol>
 						<BCol>
 							<h5>

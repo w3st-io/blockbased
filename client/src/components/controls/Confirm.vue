@@ -10,7 +10,7 @@
 				style="max-width: 300px;"
 			>
 				<BCardHeader>
-					<h1 class="mt-2 float-left h6">{{ header }}</h1>
+					<h1 class="mt-2 float-left h5">{{ header }}</h1>
 					<BButton
 						size="sm"
 						variant="outline-secondary"
@@ -19,13 +19,19 @@
 				</BCardHeader>
 
 				<BCardBody>
-					<BButton size="lg" variant="outline-danger" class="m-1">
-						Yes
-					</BButton>
+					<BRow>
+						<BCol cols="6" class="px-2">
+							<BButton size="lg" variant="outline-danger" class="w-100">
+								Yes
+							</BButton>
+						</BCol>
 
-					<BButton size="lg" variant="outline-secondary" class="m-1">
-						No
-					</BButton>
+						<BCol cols="6" class="px-2">
+							<BButton size="lg" variant="outline-secondary" class="w-100">
+								No
+							</BButton>
+						</BCol>
+					</BRow>
 				</BCardBody>
 			</BCard>
 		</div>

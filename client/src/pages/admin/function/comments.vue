@@ -44,7 +44,7 @@
 		</BCard>
 
 		<!-- Confirm Screen -->
-		<Confirm v-if="confirm" />
+		<Confirm />
 	</BContainer>
 </template>
 
