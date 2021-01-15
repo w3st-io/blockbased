@@ -180,7 +180,7 @@ const c_readSorted = async (user_id, sort = 0, limit, skip) => {
 		}
 
 		// [VALIDATE] limit //
-		if (!Number.isInteger(limit)) {
+		if (!Number.isInteger(limit) || limit >= 200) {
 			return {
 				executed: true,
 				status: false,
@@ -272,7 +272,7 @@ const c_readByCatSorted = async (user_id, cat_id, sort = 0, limit, skip) => {
 		}
 
 		// [VALIDATE] limit //
-		if (!Number.isInteger(limit)) {
+		if (!Number.isInteger(limit) || limit >= 200) {
 			return {
 				executed: true,
 				status: false,

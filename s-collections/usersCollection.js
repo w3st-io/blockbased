@@ -205,7 +205,7 @@ const c_readSorted = async (sort = 0, limit, skip) => {
 		}
 
 		// [VALDIATE] limit //
-		if (!Number.isInteger(limit)) {
+		if (!Number.isInteger(limit) || limit >= 200) {
 			return {
 				executed: true,
 				status: false,
