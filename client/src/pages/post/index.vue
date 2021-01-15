@@ -7,19 +7,18 @@
 			<BRow>
 				<!-- Title -->
 				<BCol cols="12" sm="10">
-					<h3 v-if="post" class="mb-2 text-light">
+					<h3 v-if="post" class="m-0 text-light">
 						{{ post.title }}
-						<br>
-						<p class="text-secondary" style="font-size: .5em;">
-							Posted by: {{ post.user.username }} -
-							{{ new Date(post.created_at).toLocaleString() }}
-						</p>
 					</h3>
+					<span class="m-0 h6 text-secondary">
+						Posted by: {{ post.user.username }} -
+						{{ new Date(post.created_at).toLocaleString() }}
+					</span>
 				</BCol>
 
 				<!-- Count + Follow -->
-				<BCol sm="2" class="text-right">
-					<div class="mb-3">
+				<BCol sm="2">
+					<div class="mb-3 float-right">
 						<BBadge variant="light" class="ml-2">
 							{{ post.followsCount }}
 						</BBadge>
@@ -34,12 +33,9 @@
 
 				<!-- Add Comment -->
 				<BCol cols="12" sm="6" md="6" lg="6">
-					<BButton
-						:disabled="disabled"
-						variant="primary"
-						size="sm"
-						@click="redirectToPostCommentCreate()"
-					>Add Comment</BButton>
+					<BBadge variant="dark" class="m-0 text-secondary">
+						Page {{ pageNumber }} of {{ totalPages }}
+					</BBadge>
 				</BCol>
 
 				<!-- Page Control -->
@@ -55,8 +51,18 @@
 					/>
 				</BCol>
 
+				<!-- Add Comment -->
+				<BCol cols="12" sm="6" md="6" lg="6" class="py-2">
+					<BButton
+						:disabled="disabled"
+						variant="primary"
+						size="sm"
+						@click="redirectToPostCommentCreate()"
+					>Add Comment</BButton>
+				</BCol>
+
 				<!-- Limit Set -->
-				<BCol cols="12" sm="13" md="14" lg="13" class="py-2">
+				<BCol cols="12" sm="6" md="6" lg="6" class="py-2">
 					<BInputGroup size="sm">
 						<BInputGroupPrepend class="ml-auto bg-dark">
 							<BInputGroupText class="text-dark border-secondary bg-secondary">
