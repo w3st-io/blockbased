@@ -39,9 +39,6 @@
 						</BCol>
 					</BRow>
 
-					<!-- [DEFAULT] If No content -->
-					<NoContent v-if="!loading && posts == ''" class="mt-3" />
-
 					<!-- [LOADING] -->
 					<BRow v-show="loading" class="mt-3">
 						<BCol cols="12">
@@ -65,7 +62,6 @@
 	// [IMPORT] //
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import Alert from '@components/misc/Alert'
-	import NoContent from '@components/placeholders/NoContent'
 	import PostList from '@components/post/List'
 	import pageService from '@services/PageService'
 	import router from '@router'
@@ -75,7 +71,6 @@
 			Alert,
 			PageNavButtons,
 			PostList,
-			NoContent
 		},
 
 		data() {
