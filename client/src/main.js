@@ -5,6 +5,7 @@
 */
 // [IMPORT] //
 import Vue from 'vue'
+import VueAdsense from 'vue-adsense'
 import VueHeadful from 'vue-headful'
 import Ads from 'vue-google-adsense'
 import { BootstrapVue } from 'bootstrap-vue'
@@ -21,9 +22,12 @@ import './vee-validation-rules'
 
 
 // [VUE-USE] //
-Vue.use(BootstrapVue)
 Vue.use(require('vue-script2'))
 Vue.use(Ads.Adsense)
+Vue.use(Ads.InArticleAdsense)
+Vue.use(Ads.InFeedAdsense)
+Vue.use(BootstrapVue)
+Vue.component('adsense', VueAdsense)
 
 
 // [GLOBAL COMPONENTS] //

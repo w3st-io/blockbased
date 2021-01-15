@@ -33,7 +33,7 @@
 				</BCard>
 
 				<!-- Adsense -->
-				<Adsense />
+				<Adsense class="mb-3" />
 
 				<TopPosts :topPosts="topPosts" />
 			</BCol>
