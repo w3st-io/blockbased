@@ -124,7 +124,7 @@
 					name: 'post',
 					params: {
 						post_id: post_id,
-						limit: 5,
+						limit: 20,
 						page: 1,
 					}
 				})

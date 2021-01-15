@@ -86,7 +86,7 @@
 								name: 'post',
 								params: {
 									post_id: this.comment.post,
-									limit: 5,
+									limit: 20,
 									page: 1,
 								}
 							})

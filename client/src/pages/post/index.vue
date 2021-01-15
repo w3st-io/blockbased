@@ -64,15 +64,20 @@
 							</BInputGroupText>
 						</BInputGroupPrepend>
 						<BFormInput
-							variant="dark"
+							v-model="limit"
+							:value="limit"
 							type="text"
+							variant="dark"
 							placeholder="limit"
 							border-variant="secondary"
 							class="border-secondary text-center text-light bg-dark"
 							style="max-width: 50px;"
 						/>
 						<BInputGroupAppend border-variant="secondary">
-							<BButton variant="outline-primary" type="submit">Go</BButton>
+							<BButton
+							variant="outline-primary"
+							@click="newLimit()"
+							>Refresh</BButton>
 						</BInputGroupAppend>
 					</BInputGroup>
 				</BCol>
@@ -182,6 +187,7 @@
 			},
 
 			refreshRoute() {
+				console.log(this.limit);
 				// [REDIRECT] Cat Page //
 				router.push({
 					name: 'post',
@@ -256,6 +262,15 @@
 
 					await this.getPageData()
 				}
+			},
+
+			async newLimit() {
+				this.loading = true
+				this.pageNumber = 1
+
+				this.refreshRoute()
+
+				await this.getPageData()
 			},
 
 			redirectToPostCommentCreate() {
