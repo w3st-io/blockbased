@@ -32,41 +32,18 @@
 				</BCol>
 
 				<!-- PageNumber of totalPages -->
-				<BCol cols="12" sm="6" md="6" lg="6">
+				<BCol cols="12" sm="6">
 					<BBadge variant="dark" class="m-0 text-secondary">
 						Page {{ pageNumber }} of {{ totalPages }}
 					</BBadge>
 				</BCol>
 
-				<!-- Page Control -->
-				<BCol cols="12" sm="6" md="6" lg="6">
-					<PageNavButtons
-						:badgeValue="pageNumber"
-						@start-btn="startPage()"
-						@prev-btn="prevPage()"
-						@next-btn="nextPage()"
-						@end-btn="endPage()"
-						class="ml-auto"
-						style="max-width: 300px;"
-					/>
-				</BCol>
-
-				<!-- Add Comment -->
-				<BCol cols="12" sm="6" md="6" lg="6" class="mt-3">
-					<BButton
-						:disabled="disabled"
-						variant="primary"
-						size="sm"
-						@click="redirectToPostCommentCreate()"
-					>Add Comment</BButton>
-				</BCol>
-
 				<!-- Limit Set -->
-				<BCol cols="12" sm="6" md="6" lg="6" class="mt-3">
+				<BCol cols="12" sm="6">
 					<BInputGroup size="sm">
 						<BInputGroupPrepend class="ml-auto bg-dark">
 							<BInputGroupText class="text-light border-light bg-dark">
-								limit
+								limit:
 							</BInputGroupText>
 						</BInputGroupPrepend>
 						<BFormInput
@@ -81,11 +58,35 @@
 						/>
 						<BInputGroupAppend>
 							<BButton
-							variant="light"
+							variant="outline-light"
+							class="bg-primary font-weight-bold"
 							@click="newLimit()"
-							>Refresh</BButton>
+							>⟳</BButton>
 						</BInputGroupAppend>
 					</BInputGroup>
+				</BCol>
+
+				<!-- Add Comment -->
+				<BCol cols="12" sm="6" class="mt-3">
+					<BButton
+						:disabled="disabled"
+						variant="primary"
+						size="sm"
+						@click="redirectToPostCommentCreate()"
+					>Add Comment</BButton>
+				</BCol>
+
+				<!-- Page Control -->
+				<BCol cols="12" sm="6" class="mt-3">
+					<PageNavButtons
+						:badgeValue="pageNumber"
+						@start-btn="startPage()"
+						@prev-btn="prevPage()"
+						@next-btn="nextPage()"
+						@end-btn="endPage()"
+						class="ml-auto"
+						style="max-width: 300px;"
+					/>
 				</BCol>
 
 				<!-- Loading -->
