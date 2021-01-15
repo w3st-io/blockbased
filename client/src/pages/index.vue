@@ -9,6 +9,9 @@
 					<CatList :cats="cats3" groupName="Productive" class="mb-3" />
 					<CatList :cats="cats4" groupName="Education" class="mb-3" />
 				</BCard>
+
+				<!-- Adsense -->
+				<Adsense class="mt-3" />
 			</BCol>
 
 			<!-- Side Content -->
@@ -31,9 +34,6 @@
 						</span>
 					</h6>
 				</BCard>
-
-				<!-- Adsense -->
-				<Adsense class="mb-3" />
 
 				<TopPosts :topPosts="topPosts" />
 			</BCol>
