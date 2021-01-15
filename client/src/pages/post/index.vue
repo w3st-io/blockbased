@@ -33,7 +33,7 @@
 				</BCol>
 
 				<!-- Add Comment -->
-				<BCol cols="12" sm="6">
+				<BCol cols="12" sm="6" md="6" lg="6">
 					<BButton
 						:disabled="disabled"
 						variant="primary"
@@ -43,7 +43,7 @@
 				</BCol>
 
 				<!-- Page Control -->
-				<BCol cols="12" sm="6">
+				<BCol cols="12" sm="6" md="6" lg="6">
 					<PageNavButtons
 						:badgeValue="pageNumber"
 						@start-btn="startPage()"
@@ -53,6 +53,28 @@
 						class="ml-auto"
 						style="max-width: 300px;"
 					/>
+				</BCol>
+
+				<!-- Limit Set -->
+				<BCol cols="12" sm="13" md="14" lg="13" class="py-2">
+					<BInputGroup size="sm">
+						<BInputGroupPrepend class="ml-auto bg-dark">
+							<BInputGroupText class="text-dark border-secondary bg-secondary">
+								# Per Page
+							</BInputGroupText>
+						</BInputGroupPrepend>
+						<BFormInput
+							variant="dark"
+							type="text"
+							placeholder="limit"
+							border-variant="secondary"
+							class="border-secondary text-center text-light bg-dark"
+							style="max-width: 50px;"
+						/>
+						<BInputGroupAppend border-variant="secondary">
+							<BButton variant="outline-primary" type="submit">Go</BButton>
+						</BInputGroupAppend>
+					</BInputGroup>
 				</BCol>
 
 				<!-- Loading -->
