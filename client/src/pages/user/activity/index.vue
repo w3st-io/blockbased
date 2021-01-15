@@ -3,10 +3,12 @@
 		<BRow class="mt-3">
 			<BCol cols="12">
 				<BCard bg-variant="dark" class="text-light">
-					<h4>Your Activity</h4>
-					
 					<BRow class="mt-3">
-						<BCol cols="12">
+						<BCol cols="6">
+							<h4>Your Activity</h4>
+						</BCol>
+
+						<BCol cols="6">
 							<!-- Page Control -->
 							<PageNavButtons
 								@start-btn="startPage()"
@@ -14,7 +16,7 @@
 								@next-btn="nextPage()"
 								@end-btn="endPage()"
 								:badgeValue="page"
-								class="w-100"
+								class="w-100 ml-auto"
 								style="max-width: 300px;"
 							/>
 						</BCol>
@@ -22,95 +24,20 @@
 
 					<BRow class="mt-3">
 						<BCol cols="12">
-							<!-- Main -->
-							<BListGroup>
-								<li
-									v-for="activity in activities"
-									:key="activity._id"
-									class="card card-body mb-2 border-secondary bg-dark"
-								>
-									<BRow>
-										<BCol cols="sm-8">
-											<!-- Created User -->
-											<BRow
-												v-if="activity.type == 'user'"
-												class="text-success"
-											>
-												<BCol class="m-0 p-0" style="max-width: 35px;">
-													<img
-														:src="activity.created_user.profile_img"
-														class="w-100"
-													>
-												</BCol>
-												<BCol>
-													<h5>
-														{{ activity.created_user.username }}
-														joined the site!
-													</h5>
-												</BCol>
-											</BRow>
-
-											<!-- Created Post -->
-											<BRow
-												v-if="activity.type == 'post'"
-												class="row text-primary"
-											>
-												<BCol class="m-0 p-0" style="max-width: 35px;">
-													<img
-														:src="activity.user.profile_img"
-														class="w-100"
-													>
-												</BCol>
-												<BCol>
-													<h5>
-														{{ activity.user.username }}
-														created post: 
-														{{ activity.created_post.title }}
-													</h5>
-												</BCol>
-											</BRow>
-											
-											<!-- Created Comment -->
-											<BRow
-												v-if="activity.type == 'comment'"
-												class="text-light"
-											>
-												<BCol class="m-0 p-0" style="max-width: 35px;">
-													<img
-														:src="activity.user.profile_img"
-														class="w-100"
-													>
-												</BCol>
-												<BCol>
-													<h5>
-														{{ activity.user.username }}
-														created a comment in
-														{{ activity.post.title }}
-													</h5>
-												</BCol>
-											</BRow>
-										</BCol>
-
-										<!-- Timestamp -->
-										<BCol cols="sm-4" class="text-right text-secondary">
-											{{ new Date(activity.created_at).toLocaleString() }}
-										</BCol>
-									</BRow>
-								</li>
-							</BListGroup>
+							<ActivityList :activities="activities" />
 						</BCol>
 					</BRow>
 
 					<BRow v-show="error" class="mt-3">
 						<BCol cols="12">
-							<!-- [ALERTS] -->
+							<!-- Error -->
 							<Alert variant="danger" :message="'Activity Page: ' + error" />
 						</BCol>
 					</BRow>
 
 					<BRow v-show="loading" class="mt-3">
 						<BCol class="12">
-							<!-- [LOADING] -->
+							<!-- Loading -->
 							<Alert variant="dark" />
 						</BCol>
 					</BRow>
@@ -122,6 +49,7 @@
 
 <script>
 	// [IMPORT] Personal //
+	import ActivityList from '@components/activity/List'
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import Alert from '@components/misc/Alert'
 	import router from '@router'
@@ -129,6 +57,7 @@
 
 	export default {
 		components: {
+			ActivityList,
 			Alert,
 			PageNavButtons,
 		},

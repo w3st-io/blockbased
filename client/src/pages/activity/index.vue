@@ -23,107 +23,20 @@
 
 					<BRow class="mt-3">
 						<BCol cols="12">
-							<!-- Main -->
-							<BListGroup>
-								<li
-									v-for="activity in activities"
-									:key="activity._id"
-									class="card card-body mb-2 border-secondary bg-dark"
-								>
-									<BRow>
-										<BCol cols="sm-8">
-											<!-- Created User -->
-											<BRow v-if="activity.type == 'user'">
-												<BCol class="m-0 p-0" style="max-width: 35px;">
-													<img
-														:src="activity.created_user.profile_img"
-														class="w-100"
-													>
-												</BCol>
-												<BCol>
-													<h5>
-														<a
-															href="#"
-															class="text-success"
-															@click="redirectProfilePage(activity.user._id)"
-														>{{ activity.user.username }}</a>
-														joined the site!
-													</h5>
-												</BCol>
-											</BRow>
-
-											<!-- Created Post -->
-											<BRow v-if="activity.type == 'post'">
-												<BCol class="m-0 p-0" style="max-width: 35px;">
-													<img
-														:src="activity.user.profile_img"
-														class="w-100"
-													>
-												</BCol>
-												<BCol>
-													<h5>
-														<a
-															href="#"
-															class="text-success"
-															@click="redirectProfilePage(activity.user._id)"
-														>{{ activity.user.username }}</a>
-
-														created post: 
-														<a href="#" @click="redirectPost(activity.created_post._id)">
-															{{ activity.created_post.title.replace(/(.{60})..+/, '$1…') }}
-														</a>
-													</h5>
-												</BCol>
-											</BRow>
-											
-											<!-- Created Comment -->
-											<BRow
-												v-if="activity.type == 'comment'"
-												class="text-light"
-											>
-												<BCol class="m-0 p-0" style="max-width: 35px;">
-													<img
-														:src="activity.user.profile_img"
-														class="w-100"
-													>
-												</BCol>
-												<BCol>
-													<h5>
-														<a
-															href="#"
-															class="text-success"
-															@click="redirectProfilePage(activity.user._id)"
-														>{{ activity.user.username }}</a>
-
-														created a comment in
-														<a href="#" @click="redirectPost(activity.post._id)">
-															{{ activity.post.title.replace(/(.{60})..+/, '$1…') }}
-														</a>
-													</h5>
-												</BCol>
-											</BRow>
-										</BCol>
-
-										<!-- Timestamp -->
-										<BCol cols="sm-4" class="text-right text-secondary">
-											{{ new Date(activity.created_at).toLocaleString() }}
-										</BCol>
-									</BRow>
-								</li>
-							</BListGroup>
+							<ActivityList :activities="activities" />
 						</BCol>
 					</BRow>
 
 					<BRow v-show="error" class="mt-3">
 						<BCol cols="12">
-							<!-- [ALERTS] -->
+							<!-- Error -->
 							<Alert variant="danger" :message="'Activity Page: ' + error" />
 						</BCol>
 					</BRow>
 
 					<BRow v-show="loading" class="mt-3">
 						<BCol class="12">
-							<!-- [LOADING] -->
+							<!-- Loading -->
 							<Alert variant="dark" />
 						</BCol>
 					</BRow>
@@ -135,6 +48,7 @@
 
 <script>
 	// [IMPORT] Personal //
+	import ActivityList from '@components/activity/List'
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import Alert from '@components/misc/Alert'
 	import router from '@router'
@@ -143,6 +57,7 @@
 	// [EXPORT] //
 	export default {
 		components: {
+			ActivityList,
 			Alert,
 			PageNavButtons,
 		},
@@ -166,6 +81,22 @@
 		},
 
 		methods: {
+			async getPageData() {
+				try {
+					this.data = await pageService.s_activity(
+						this.sort,
+						this.limit,
+						this.page
+					)
+				}
+				catch (err) { this.error = `This: --> ${err}` }
+
+				if (this.data.status) { this.activities = this.data.activities }
+				else { this.error = this.data.message }
+
+				this.loading = false
+			},
+
 			refreshRoute() {
 				router.push({
 					name: 'activity',
@@ -222,40 +153,6 @@
 
 					await this.getPageData()
 				}
-			},
-
-			redirectProfilePage(user_id) {
-				router.push({
-					name: 'user_profile_lookup',
-					params: { user_id: user_id, }
-				})
-			},
-
-			redirectPost(post_id) {
-				router.push({
-					name: 'post',
-					params: {
-						post_id: post_id,
-						limit: 20,
-						page: 1,
-					}
-				})
-			},
-
-			async getPageData() {
-				try {
-					this.data = await pageService.s_activity(
-						this.sort,
-						this.limit,
-						this.page
-					)
-				}
-				catch (err) { this.error = `This: --> ${err}` }
-
-				if (this.data.status) { this.activities = this.data.activities }
-				else { this.error = this.data.message }
-
-				this.loading = false
 			},
 
 			log() {

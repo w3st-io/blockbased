@@ -2,7 +2,7 @@
 	<BContainer class="my-4 text-light">
 		<!-- Set Page Title -->
 		<VueHeadful :title="`Cat - ${cat.title}`" />
-		<BRow class="row">
+		<BRow>
 			<BCol cols="12">
 				<BCard bg-variant="dark">
 					<!-- Cat Title Header -->
