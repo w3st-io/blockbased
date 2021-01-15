@@ -14,7 +14,10 @@
 							@click="redirectProfile(user._id)"
 						>
 							<div class="w-100 overflow-auto text-center">
-								<img :src="user.profile_img" class="w-100" style="max-width: 50px;">
+								<img
+									:src="user.profile_img" class="w-100"
+									style="max-width: 50px;"
+								>
 							</div>
 						</BCol>
 

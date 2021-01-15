@@ -5,9 +5,9 @@
 	>
 		<!-- Show Button -->
 		<button
-			@click="userShowClicked()"
 			class="ml-auto p-0 btn btn-primary btn-lg rounded-circle shadow"
 			style="width: 50px; height: 50px; font-family: monospace;"
+			@click="userShowClicked()"
 		>
 			<span v-if="!show" style="font-size: 2em;">
 				{{ !userShow ? '+' : '-' }}
@@ -39,15 +39,13 @@
 		>
 			<div class="card-header p-2">
 				<span class="small">
-					{{ notification.comment.post.title.replace(/(.{60})..+/, '$1…')  }}
+					{{ notification.comment.post.title.replace(/(.{60})..+/, '$1…') }}
 				</span>
 				<button
-					@click="closeClicked(notification._id)"
 					type="button"
 					class="ml-2 mb-1 close"
-				>
-					<span aria-hidden="true">&times;</span>
-				</button>
+					@click="closeClicked(notification._id)"
+				><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="card-body p-2">
 				<p class="card-text small">

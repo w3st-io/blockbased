@@ -83,7 +83,7 @@
 				</li>
 			</ul>
 
-			<!-- [ALERTS] -->
+			<!-- Error -->
 			<Alert v-if="error" variant="danger" :message="error" class="mt-3" />
 
 			<!-- [DEFAULT] If No content -->

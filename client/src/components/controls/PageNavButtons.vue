@@ -1,28 +1,26 @@
 <template>
 	<ul class="pagination w-100 m-0">
 		<li class="page-item text-center" style="width: 15%;">
-			<a @click="start()" class="p-1 page-link text-light bg-dark">«</a>
+			<a class="p-1 page-link text-light bg-dark" @click="start()">«</a>
 		</li>
 
 		<!-- Left -->
 		<li class="page-item text-center" style="width: 25%;">
-			<a @click="prev()" class="p-1 page-link text-light bg-dark">⟵</a>
+			<a class="p-1 page-link text-light bg-dark" @click="prev()">⟵</a>
 		</li>
 
 		<!-- Page Number -->
 		<li class="page-item text-center" style="width: 20%;">
-			<a class="p-1 page-link text-light bg-dark">
-				{{ badgeValue }}
-			</a>
+			<a class="p-1 page-link text-light bg-dark">{{ badgeValue }}</a>
 		</li>
 
 		<!-- Right -->
 		<li class="page-item text-center" style="width: 25%;">
-			<a @click="next()" class="p-1 page-link text-light bg-dark">⟶</a>
+			<a class="p-1 page-link text-light bg-dark" @click="next()">⟶</a>
 		</li>
 
 		<li class="page-item text-center" style="width: 15%;">
-			<a @click="end()" class="p-1 page-link text-light bg-dark">»</a>
+			<a class="p-1 page-link text-light bg-dark" @click="end()">»</a>
 		</li>
 	</ul>
 </template>
