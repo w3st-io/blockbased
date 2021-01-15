@@ -33,10 +33,7 @@
 									<BRow>
 										<BCol cols="sm-8">
 											<!-- Created User -->
-											<BRow
-												v-if="activity.type == 'user'"
-												class="text-success"
-											>
+											<BRow v-if="activity.type == 'user'">
 												<BCol class="m-0 p-0" style="max-width: 35px;">
 													<img
 														:src="activity.created_user.profile_img"
@@ -45,17 +42,18 @@
 												</BCol>
 												<BCol>
 													<h5>
-														{{ activity.created_user.username }}
+														<a
+															href="#"
+															class="text-success"
+															@click="redirectProfilePage(activity.user._id)"
+														>{{ activity.user.username }}</a>
 														joined the site!
 													</h5>
 												</BCol>
 											</BRow>
 
 											<!-- Created Post -->
-											<BRow
-												v-if="activity.type == 'post'"
-												class="row text-primary"
-											>
+											<BRow v-if="activity.type == 'post'">
 												<BCol class="m-0 p-0" style="max-width: 35px;">
 													<img
 														:src="activity.user.profile_img"
@@ -64,9 +62,16 @@
 												</BCol>
 												<BCol>
 													<h5>
-														{{ activity.user.username }}
+														<a
+															href="#"
+															class="text-success"
+															@click="redirectProfilePage(activity.user._id)"
+														>{{ activity.user.username }}</a>
+
 														created post: 
-														{{ activity.created_post.title.replace(/(.{60})..+/, '$1…') }}
+														<a href="#" @click="redirectPost(activity.created_post._id)">
+															{{ activity.created_post.title.replace(/(.{60})..+/, '$1…') }}
+														</a>
 													</h5>
 												</BCol>
 											</BRow>
@@ -84,9 +89,16 @@
 												</BCol>
 												<BCol>
 													<h5>
-														{{ activity.user.username }}
+														<a
+															href="#"
+															class="text-success"
+															@click="redirectProfilePage(activity.user._id)"
+														>{{ activity.user.username }}</a>
+
 														created a comment in
-														{{ activity.post.title.replace(/(.{60})..+/, '$1…') }}
+														<a href="#" @click="redirectPost(activity.post._id)">
+															{{ activity.post.title.replace(/(.{60})..+/, '$1…') }}
+														</a>
 													</h5>
 												</BCol>
 											</BRow>
@@ -154,6 +166,17 @@
 		},
 
 		methods: {
+			refreshRoute() {
+				router.push({
+					name: 'activity',
+					params: {
+						sort: this.sort,
+						limit: this.limit,
+						page: this.page,
+					}
+				})
+			},
+
 			async startPage() {
 				// As long as the page is not going into 0 or negative //
 				if (this.page != 1) {
@@ -201,13 +224,20 @@
 				}
 			},
 
-			refreshRoute() {
+			redirectProfilePage(user_id) {
 				router.push({
-					name: 'activity',
+					name: 'user_profile_lookup',
+					params: { user_id: user_id, }
+				})
+			},
+
+			redirectPost(post_id) {
+				router.push({
+					name: 'post',
 					params: {
-						sort: this.sort,
-						limit: this.limit,
-						page: this.page,
+						post_id: post_id,
+						limit: 20,
+						page: 1,
 					}
 				})
 			},
