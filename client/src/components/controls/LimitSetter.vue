@@ -6,8 +6,7 @@
 			</BInputGroupText>
 		</BInputGroupPrepend>
 		<BFormInput
-			v-model="limit"
-			:value="limit"
+			v-model="outputLimit"
 			type="text"
 			variant="dark"
 			placeholder="limit"
@@ -29,13 +28,22 @@
 	export default {
 		props: {
 			limit: {
-				type: Number,
 				required: true,
 			}
 		},
 
+		data: function() {
+			return {
+				outputLimit: 0
+			}
+		},
+
+		created: function() {
+			this.outputLimit = this.limit
+		},
+
 		methods: {
-			newLimit() { this.$emit('new-limit') }
+			newLimit() { this.$emit('new-limit', this.outputLimit) }
 		},
 	}
 </script>

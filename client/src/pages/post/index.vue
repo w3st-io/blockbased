@@ -33,37 +33,14 @@
 
 				<!-- PageNumber of totalPages -->
 				<BCol cols="12" sm="6">
-					<BBadge variant="dark" class="m-0 text-secondary">
+					<BBadge variant="dark" class="mt-3 text-secondary">
 						Page {{ pageNumber }} of {{ totalPages }}
 					</BBadge>
 				</BCol>
 
 				<!-- Limit Set -->
-				<BCol cols="12" sm="6">
-					<BInputGroup size="sm">
-						<BInputGroupPrepend class="ml-auto bg-dark">
-							<BInputGroupText class="text-light border-light bg-dark">
-								limit:
-							</BInputGroupText>
-						</BInputGroupPrepend>
-						<BFormInput
-							v-model="limit"
-							:value="limit"
-							type="text"
-							variant="dark"
-							placeholder="limit"
-							border-variant="secondary"
-							class="border-light text-center text-light bg-dark"
-							style="max-width: 50px;"
-						/>
-						<BInputGroupAppend>
-							<BButton
-							variant="outline-light"
-							class="bg-primary font-weight-bold"
-							@click="newLimit()"
-							>⟳</BButton>
-						</BInputGroupAppend>
-					</BInputGroup>
+				<BCol cols="12" sm="6" class="mt-3">
+					<LimitSetter :limit="limit" @new-limit="newLimit" />
 				</BCol>
 
 				<!-- Add Comment -->
@@ -129,6 +106,7 @@
 
 <script>
 	// [IMPORT] Personal //
+	import LimitSetter from '@components/controls/LimitSetter'
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import CommentList from '@components/comment/List'
 	import Alert from '@components/misc/Alert'
@@ -139,6 +117,7 @@
 	// [EXPORT] //
 	export default {
 		components: {
+			LimitSetter,
 			PageNavButtons,
 			CommentList,
 			Alert,
@@ -271,7 +250,8 @@
 				}
 			},
 
-			async newLimit() {
+			async newLimit(limit) {
+				this.limit = limit
 				this.loading = true
 				this.pageNumber = 1
 

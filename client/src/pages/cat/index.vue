@@ -24,6 +24,22 @@
 							</BBadge>
 						</BCol>
 
+						<!-- PageNumber of totalPages -->
+						<BCol cols="12" sm="6">
+							<BBadge
+								v-if="data.postsObj"
+								variant="dark"
+								class="mt-3 text-secondary"
+							>
+								Page {{ page }} of {{ data.postsObj.totalPages }}
+							</BBadge>
+						</BCol>
+
+						<!-- Limit Set -->
+						<BCol cols="12" sm="6" class="mt-3">
+							<LimitSetter :limit="limit" @new-limit="newLimit" />
+						</BCol>
+
 						<!-- Create Button -->
 						<BCol cols="12" sm="3" md="4" lg="2" class="py-2">
 							<BButton
@@ -45,40 +61,7 @@
 								class="ml-auto"
 								style="max-width: 300px;"
 							/>
-						</BCol>
-
-						<!-- Limit Set -->
-						<BCol cols="12" sm="6"></BCol>
-
-						<!-- Limit Set -->
-						<BCol cols="12" sm="6">
-							<BInputGroup size="sm">
-								<BInputGroupPrepend class="ml-auto bg-dark">
-									<BInputGroupText class="text-light border-light bg-dark">
-										limit:
-									</BInputGroupText>
-								</BInputGroupPrepend>
-								<BFormInput
-									v-model="limit"
-									:value="limit"
-									type="text"
-									variant="dark"
-									placeholder="limit"
-									border-variant="secondary"
-									class="border-light text-center text-light bg-dark"
-									style="max-width: 50px;"
-								/>
-								<BInputGroupAppend>
-									<BButton
-									variant="outline-light"
-									class="bg-primary font-weight-bold"
-									@click="newLimit()"
-									>⟳</BButton>
-								</BInputGroupAppend>
-							</BInputGroup>
-
-							<LimitSetter :limit="limit" @new-limit="newLimit()" />
-						</BCol>
+						</BCol>						
 					</BRow>
 
 					<BRow class="text-center">
@@ -139,7 +122,7 @@
 <script>
 	// [IMPORT] Personal //
 	import ButtonTabs from '@components/controls/ButtonTabs'
-	import LimitSetter from '../../components/controls/LimitSetter'
+	import LimitSetter from '@components/controls/LimitSetter'
 	import PageNavButtons from '@components/controls/PageNavButtons'
 	import Alert from '@components/misc/Alert'
 	import PostList from '@components/post/List'
@@ -272,7 +255,8 @@
 				}
 			},
 
-			async newLimit() {
+			async newLimit(limit) {
+				this.limit = limit
 				this.loading = true
 				this.pageNumber = 1
 
