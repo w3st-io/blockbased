@@ -131,7 +131,7 @@
 						params: {
 							cat_id: this.cat.cat_id,
 							sort: 0,
-							limit: 5,
+							limit: 20,
 							page: 1,
 						}
 					})

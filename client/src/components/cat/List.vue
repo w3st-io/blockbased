@@ -138,7 +138,7 @@
 					params: {
 						cat_id: cat_id,
 						sort: 0,
-						limit: 5,
+						limit: 20,
 						page: 1,
 					}
 				})
