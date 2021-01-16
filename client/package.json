@@ -22,10 +22,8 @@
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.0",
     "vue-click-outside": "^1.1.0",
-    "vue-google-adsense": "^1.9.1",
     "vue-headful": "^2.1.0",
-    "vue-router": "^3.3.4",
-    "vue-script2": "^2.1.0"
+    "vue-router": "^3.3.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",

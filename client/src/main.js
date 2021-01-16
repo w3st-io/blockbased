@@ -6,7 +6,6 @@
 // [IMPORT] //
 import Vue from 'vue'
 import VueHeadful from 'vue-headful'
-import Ads from 'vue-google-adsense'
 import { BootstrapVue } from 'bootstrap-vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -21,10 +20,6 @@ import './vee-validation-rules'
 
 
 // [VUE-USE] //
-Vue.use(require('vue-script2'))
-Vue.use(Ads.Adsense)
-Vue.use(Ads.InArticleAdsense)
-Vue.use(Ads.InFeedAdsense)
 Vue.use(BootstrapVue)
 
 
