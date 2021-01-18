@@ -26,3 +26,20 @@ Anytime you are creating code that will modify the database think from the serve
 ##### 
 ##### Routes check params if they are ascii ( ex. validator.isAscii(param) )
 ##### Collection functions check params if they are specific type ( Ex. validator.isEmail(param) )
+
+
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# %%% TODO LIST FOR DEPLOYMENT %%%
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#
+* Set up base URL in ENV
+* Set up secret in ENV
+* Disable creating an admin account
+* MongoDB password change
+* Prepare mongoDB for more data
+* Uncomment Expiration on tokens
+* Stop user from deleting a comment
+* Save unedited version of comment as well.
+* Increase comment count on pages
+* Increase Post Counts on Page
+* Set encryption key for secrey key in env
