@@ -52,7 +52,8 @@ router.get(
 				status: true,
 				cats: cats,
 				topPosts: topPosts,
-				cryptoQuote: cryptoQuote.prices
+				cryptoQuote: cryptoQuote.prices,
+				directory: __dirname,
 			})
 		}
 		catch (err) {
