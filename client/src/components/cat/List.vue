@@ -21,7 +21,7 @@
 						>
 							<div class="w-100 overflow-auto rounded-circle">
 								<img
-									:src="images[cat.index]"
+									:src="cat.imgSrc"
 									class="w-100 img-padding bg-primary"
 								>
 							</div>
@@ -107,23 +107,6 @@
 		props: {
 			cats: { type: Array, required: true, },
 			groupName: { type: String, required: false, },
-		},
-
-		data() {
-			return {
-				images: [
-					require('../../assets/images/caticons/message-square.svg'),
-					require('../../assets/images/caticons/globe.svg'),
-					require('../../assets/images/caticons/globe.svg'),
-					require('../../assets/images/caticons/dollar-sign.svg'),
-					require('../../assets/images/caticons/zap.svg'),
-					require('../../assets/images/caticons/codesandbox.svg'),
-					require('../../assets/images/caticons/trending-up.svg'),
-					require('../../assets/images/caticons/flag.svg'),
-					require('../../assets/images/caticons/book-open.svg'),
-					require('../../assets/images/caticons/archive.svg'),
-				],
-			}
 		},
 
 		created: async function() {

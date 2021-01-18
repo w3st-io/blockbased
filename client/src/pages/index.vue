@@ -54,7 +54,7 @@
 
 <script>
 	// [IMPORT] //
-	import TopPosts from '../components/home/TopPosts'
+	import TopPosts from '@components/home/TopPosts'
 	import Adsense from '@components/adsense'
 	import CatList from '@components/cat/List'
 	import Alert from '@components/misc/Alert'

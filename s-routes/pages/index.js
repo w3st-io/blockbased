@@ -23,12 +23,12 @@ router.get(
 			const user_id = (req.decoded) ? req.decoded.user_id : undefined
 
 			for (let i = 0; i < cats.length; i++) {
-				// [TOTAL-POSTS] //
+				// [FILL][TOTAL-POSTS] //
 				cats[i].totalPosts = (
 					await postsCollection.c_countByCat(cats[i].cat_id)
 				).count
 
-				// [RECENT-POST] //
+				// [FILL][RECENT-POST] //
 				cats[i].recentPost = (
 					await postsCollection.c_readByCatSorted(
 						user_id,
@@ -53,7 +53,6 @@ router.get(
 				cats: cats,
 				topPosts: topPosts,
 				cryptoQuote: cryptoQuote.prices,
-				directory: __dirname,
 			})
 		}
 		catch (err) {

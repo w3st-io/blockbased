@@ -45,7 +45,6 @@ const p_search = require('./s-routes/pages/search')
 const s_socket = require('./s-socket')
 const config = require('./s-config')
 const rateLimiter = require('./s-rate-limiters')
-const validator = require('validator')
 
 
 // [EXPRESS + SERVER] //
@@ -74,15 +73,15 @@ mongoose.connect(
 )
 
 
-// [USE] //
+// [USE] // Default Stuff // Set static Folder // Rate-Limiter //
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
-
-
-// [USE] Personal - Rate-Limiter / API / Pages //
+app.use(express.static(__dirname + '/s-static'))
 app.use(rateLimiter.limiter)
 
+
+// [USE] Personal // API // Pages //
 app.use('/api', a_)
 app.use('/api/admin/posts', a_admin_posts)
 app.use('/api/admin/comment-reports', a_admin_commentReports)
@@ -124,6 +123,7 @@ if (process.env.NODE_ENV == 'production') {
 		res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
 	})
 }
+
 
 
 // [PORT + LISTEN] //
