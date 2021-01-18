@@ -18,7 +18,7 @@ router.get(
 		res.send({
 			base_url: config.BASE_URL,
 			socket_base_url: config.SOCKET_BASE_URL,
-            directory: __dirname,
+			directory: __dirname,
 		})
 	}
 )
