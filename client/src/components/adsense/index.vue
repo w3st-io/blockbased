@@ -3,16 +3,16 @@
 		<div
 			v-html="adsenseContent"
 			id="ads-goes-here"
-			style="background: #1d1f29; padding-top:60px; text-align: center;"
+			style="background: #1d1f29; padding-top: 60px; text-align: center;"
 		></div>
 	</BCard>
 </template>
 
 <script>
 	export default {
-		data: function() {
+		data() {
 			return {
-				adsenseContent: ''
+				adsenseContent: '',
 			}
 		},
 
