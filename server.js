@@ -9,7 +9,11 @@ const socketIO = require('socket.io')
 require('dotenv').config()
 
 
-// [REQUIRE] Personal - Routes: API / Routes: Pages / Other //
+// [REQUIRE] Personal // Other // API // Pages //
+const s_socket = require('./s-socket')
+const config = require('./s-config')
+const rateLimiter = require('./s-rate-limiters')
+
 const a_ = require('./s-routes/api')
 const a_admin_posts = require('./s-routes/api/admin/posts')
 const a_admin_commentReports = require('./s-routes/api/admin/comment-reports')
@@ -41,10 +45,6 @@ const p_user_notifications = require('./s-routes/pages/user/notifications')
 const p_user_profile = require('./s-routes/pages/user/profile')
 const p_user_profile_lookup = require('./s-routes/pages/user/profile/lookup')
 const p_search = require('./s-routes/pages/search')
-
-const s_socket = require('./s-socket')
-const config = require('./s-config')
-const rateLimiter = require('./s-rate-limiters')
 
 
 // [EXPRESS + SERVER] //
@@ -123,7 +123,6 @@ if (process.env.NODE_ENV == 'production') {
 		res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
 	})
 }
-
 
 
 // [PORT + LISTEN] //
