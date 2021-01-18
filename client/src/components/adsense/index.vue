@@ -2,7 +2,7 @@
 	<BCard bg-variant="dark">
 		<div
 			v-html="adsenseContent"
-			id="adsgoeshere"
+			id="ads-goes-here"
 			style="background: #1d1f29; padding-top:60px; text-align: center;"
 		></div>
 	</BCard>
@@ -18,7 +18,7 @@
 
 		mounted() {
 			this.adsenseContent = document.getElementById(
-				'divadsensedisplaynone'
+				'div-adsense-display-none'
 			).innerHTML
 		}
 	}
