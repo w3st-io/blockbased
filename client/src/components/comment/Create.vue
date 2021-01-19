@@ -65,6 +65,7 @@
 				
 				// [EMIT -->] Editor Text //
 				this.$emit('submit', this.$refs.toastuiEditor.invoke('getHtml'))
+				console.log(this.$refs.toastuiEditor.invoke('getMarkdown'))
 			},
 
 			log() {
