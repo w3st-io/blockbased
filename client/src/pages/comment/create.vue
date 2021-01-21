@@ -7,11 +7,7 @@
 			<Alert variant="info" :message="message" />
 
 			<!-- Comment Create Component -->
-			<CommentCreate
-				v-if="!loading"
-				:post_id="post_id"
-				@submit="submit"
-			/>
+			<CommentCreate v-if="!loading" :post_id="post_id" />
 		</BCard>
 
 		<!-- [ALERTS] -->
@@ -22,7 +18,6 @@
 <script>
 	// [IMPORT] Personal //
 	import CommentCreate from '@components/comment/Create'
-	import CommentService from '@services/CommentService'
 	import Alert from '@components/misc/Alert'
 	import PageService from '@services/PageService'
 	import router from '@router'
@@ -44,10 +39,7 @@
 				data: {},
 
 				// Msssage + Error //
-				message: `
-					Inserting image directly into message will most likely not work
-					due to a cap on comments. Please use a URL for any Images. Thank You!
-				`,
+				message: 'Please past a URL for any images into a text block. Max amount of blocks is 20',
 				error: '',
 			}
 		},
@@ -68,32 +60,6 @@
 		},
 
 		methods: {
-			async submit(editorText) {
-				if (localStorage.usertoken) {
-					try {
-						this.data = await CommentService.s_create(
-							this.post_id,
-							editorText
-						)
-
-						if (this.data.status) {
-							// [REDIRECT] Post Page //
-							router.push({
-								name: 'post',
-								params: {
-									post_id: this.post_id,
-									limit: 20,
-									page: 1,
-								}
-							})
-						}
-						else { this.error = this.data.message }
-					}
-					catch (err) { this.error = err }
-				}
-				else { this.error = 'Error unable to update comment, no token passed' }
-			},
-
 			log() {
 				console.log('%%% [PAGE] PostCommentCreate %%%')
 				console.log('post_id:', this.post_id)

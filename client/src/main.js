@@ -5,6 +5,7 @@
 */
 // [IMPORT] //
 import Vue from 'vue'
+import Editor from 'vue-editor-js/src/index'
 import VueHeadful from 'vue-headful'
 import { BootstrapVue } from 'bootstrap-vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
@@ -21,6 +22,7 @@ import './vee-validation-rules'
 
 // [VUE-USE] //
 Vue.use(BootstrapVue)
+Vue.use(Editor)
 
 
 // [GLOBAL COMPONENTS] //
