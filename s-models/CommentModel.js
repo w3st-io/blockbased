@@ -35,7 +35,7 @@ const comment = mongoose.Schema({
 		maxlength: 6000,
 	},
 
-	cleanJsonText: {
+	cleanJSON: {
 		blocks: [{
 			type: {
 				type: String,
@@ -74,11 +74,21 @@ const comment = mongoose.Schema({
 				},
 			},
 		}],
+		version: {
+			type: String,
+			maxlength: 15
+		}
 	},
 
-	likeCount: { type: Number, default: 0 },
+	likeCount: {
+		type: Number,
+		default: 0
+	},
 	
-	liked: { type: Boolean, default: null },
+	liked: {
+		type: Boolean,
+		default: null
+	},
 
 	created_at: {
 		type: Date,
@@ -89,18 +99,17 @@ const comment = mongoose.Schema({
 
 
 comment.pre('validate', function(next) {
-	if (this.cleanJsonText.blocks.length > 10) {
-		throw ('Error: cleanJsonText.blocks.length > 10')
-	}
+	if (this.cleanJsonText.blocks.length > 10) { throw ('Error: Comment too large') }
 
 	this.cleanJsonText.blocks.forEach(block => {
 		if (block.data.items.length > 10) {
-			throw ('Error: list items < 11')
+			throw ('Error: Total list-items must be less than 11')
 		}
 	});
 	
 	next()
 })
+
 
 // [EXPORT] //
 module.exports = mongoose.model('Comment', comment)
