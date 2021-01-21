@@ -72,6 +72,54 @@ const c_create = async (user_id, post_id, text, replyToComment) => {
 			post: post_id,
 			replyToComment,
 			text,
+			cleanJsonText: {
+				"time":1611210602168,
+				"blocks":[
+				   {
+					  "type":"paragraph",
+					  "data":{
+						 "text":"text here"
+					  }
+				   },
+				   {
+					  "type":"code",
+					  "data":{
+						 "code":"// code here"
+					  }
+				   },
+				   {
+					  "type":"delimiter",
+					  "data":{}
+				   },
+				   {
+					  "type":"header",
+					  "data":{
+						 "text":"heading here",
+						 "level":2
+					  }
+				   },
+				   {
+					  "type":"list",
+					  "data":{
+						 "style":"ordered",
+						 "items":[
+							"list item 1",
+							"list item 2",
+							"list item 3"
+						 ]
+					  }
+				   },
+				   {
+					  "type":"quote",
+					  "data":{
+						 "text":"quote here",
+						 "caption":"caption here",
+						 "alignment":"left"
+					  }
+				   },
+				],
+				"version":"2.19.1"
+			 }
 		}).save()
 		
 		return {
