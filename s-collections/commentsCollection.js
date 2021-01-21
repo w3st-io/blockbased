@@ -72,7 +72,7 @@ const c_create = async (user_id, post_id, text, replyToComment) => {
 			post: post_id,
 			replyToComment,
 			text,
-			cleanJsonText: {
+			cleanJSON: {
 				"time":1611210602168,
 				"blocks":[
 				   {
