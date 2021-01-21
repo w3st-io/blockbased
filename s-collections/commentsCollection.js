@@ -9,7 +9,7 @@ const CommentModel = require('../s-models/CommentModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (user_id, post_id, text, replyToComment) => {
+const c_create = async (user_id, post_id, cleanJSON, replyToComment) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -30,11 +30,11 @@ const c_create = async (user_id, post_id, text, replyToComment) => {
 		}
 
 		// [VALIDATE] text //
-		if (!text) {
+		if (!cleanJSON) {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentsCollection: Invalid text',
+				message: 'commentsCollection: Invalid cleanJSON',
 			}
 		}
 
@@ -47,79 +47,13 @@ const c_create = async (user_id, post_id, text, replyToComment) => {
 			}
 		}
 
-		// [VALIDATE] Text Length //
-		if (text.length >= 6000) {
-			return {
-				executed: true,
-				status: false,
-				message: 'Comment too long',
-			}
-		}
-
-		// [VALIDATE] Text XSS //
-		if (text.includes('<script') || text.includes('</script>')) {
-			return {
-				executed: true,
-				status: false,
-				message: 'XSS not aloud',
-			}
-		}
-
 		// [SAVE] //
 		const comment = await new CommentModel({
 			_id: mongoose.Types.ObjectId(),
 			user: user_id,
 			post: post_id,
-			replyToComment,
-			text,
-			cleanJSON: {
-				"time":1611210602168,
-				"blocks":[
-				   {
-					  "type":"paragraph",
-					  "data":{
-						 "text":"text here"
-					  }
-				   },
-				   {
-					  "type":"code",
-					  "data":{
-						 "code":"// code here"
-					  }
-				   },
-				   {
-					  "type":"delimiter",
-					  "data":{}
-				   },
-				   {
-					  "type":"header",
-					  "data":{
-						 "text":"heading here",
-						 "level":2
-					  }
-				   },
-				   {
-					  "type":"list",
-					  "data":{
-						 "style":"ordered",
-						 "items":[
-							"list item 1",
-							"list item 2",
-							"list item 3"
-						 ]
-					  }
-				   },
-				   {
-					  "type":"quote",
-					  "data":{
-						 "text":"quote here",
-						 "caption":"caption here",
-						 "alignment":"left"
-					  }
-				   },
-				],
-				"version":"2.19.1"
-			 }
+			cleanJSON: cleanJSON,
+			replyToComment: replyToComment,
 		}).save()
 		
 		return {
@@ -183,7 +117,7 @@ const c_read = async (user_id, comment_id) => {
 
 
 // [UPDATE] //
-const c_update = async (comment_id, user_id, text) => {
+const c_update = async (comment_id, user_id, cleanJSON) => {
 	try {
 		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
@@ -206,21 +140,11 @@ const c_update = async (comment_id, user_id, text) => {
 		}
 
 		// [VALIDATE] text //
-		if (!text) {
+		if (!cleanJSON) {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentsCollection: Invalid text',
-			}
-		}
-
-		// Length //
-		if (text.length >= 6000) {
-			return {
-				executed: true,
-				status: false,
-				message: 'Comment too long',
-				updated: false,
+				message: 'commentsCollection: Invalid cleanJSON',
 			}
 		}
 
@@ -240,7 +164,7 @@ const c_update = async (comment_id, user_id, text) => {
 				_id: comment_id,
 				user: user_id
 			},
-			{ $set: { text: text } },
+			{ $set: { cleanJSON: cleanJSON } },
 		)
 
 		return {

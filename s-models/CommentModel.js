@@ -23,18 +23,6 @@ const comment = mongoose.Schema({
 		required: true,
 	},
 
-	replyToComment: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Comment',
-		required: false,
-	},
-
-	text: {
-		type: String,
-		required: true,
-		maxlength: 6000,
-	},
-
 	cleanJSON: {
 		blocks: [{
 			type: {
@@ -68,6 +56,11 @@ const comment = mongoose.Schema({
 					enum: [1, 2, 3, 4, 5, 6],
 				},
 
+				style: {
+					type: String,
+					enum: ['ordered', 'unordered']
+				},
+
 				text: {
 					type: String,
 					maxlength: 3000,
@@ -78,6 +71,12 @@ const comment = mongoose.Schema({
 			type: String,
 			maxlength: 15
 		}
+	},
+
+	replyToComment: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Comment',
+		required: false,
 	},
 
 	likeCount: {
@@ -99,11 +98,11 @@ const comment = mongoose.Schema({
 
 
 comment.pre('validate', function(next) {
-	if (this.cleanJsonText.blocks.length > 10) { throw ('Error: Comment too large') }
+	if (this.cleanJSON.blocks.length > 20) { throw ('Error: Comment too large') }
 
-	this.cleanJsonText.blocks.forEach(block => {
-		if (block.data.items.length > 10) {
-			throw ('Error: Total list-items must be less than 11')
+	this.cleanJSON.blocks.forEach(block => {
+		if (block.data.items.length > 20) {
+			throw ('Error: Too many list-items')
 		}
 	});
 	

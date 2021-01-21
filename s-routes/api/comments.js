@@ -33,7 +33,7 @@ router.post(
 			// [VALIDATE] //
 			if (
 				validator.isAscii(req.body.post_id) &&
-				req.body.text &&
+				req.body.cleanJSON &&
 				(req.body.replyToComment || req.body.replyToComment === null)
 			) {
 				// [READ] Post //
@@ -47,7 +47,7 @@ router.post(
 					const cObj = await commentsCollection.c_create(
 						req.decoded.user_id,
 						req.body.post_id,
-						req.body.text,
+						req.body.cleanJSON,
 						req.body.replyToComment,
 					)
 
@@ -161,7 +161,7 @@ router.post(
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
-			if (validator.isAscii(req.body.comment_id) && req.body.text) {
+			if (validator.isAscii(req.body.comment_id) && req.body.cleanJSON) {
 				// [OWNERSHIP] //
 				const ownership = await commentsCollection.c_ownership(
 					req.body.comment_id,
@@ -180,7 +180,7 @@ router.post(
 						const updatedComment = await commentsCollection.c_update(
 							req.body.comment_id,
 							req.decoded.user_id,
-							req.body.text
+							req.body.cleanJSON,
 						)
 						
 						res.status(200).send(updatedComment)
