@@ -12,7 +12,6 @@
 			>
 				<!-- Editorjs -->
 				<Editor
-					v-if="showEditor"
 					ref="editor"
 					holder="vue-editor-js"
 					:config="{
@@ -79,7 +78,6 @@
 		data: function() {
 			return {
 				loading: false,
-				showEditor: false,
 				error: '',
 				cleanJSON: {},
 			}
@@ -88,10 +86,6 @@
 		created: async function() {
 			// [LOG] //
 			//this.log()
-		},
-
-		mounted() {
-			setInterval( async () => { this.showEditor = true }, 1000)
 		},
 
 		methods: {

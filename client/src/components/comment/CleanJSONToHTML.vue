@@ -16,6 +16,7 @@
 					player-width="100%"
 					style="max-width: 700px;"
 				/>
+				<p>{{ block.data.caption }}</p>
 			</div>
 
 			<!-- Headers -->
