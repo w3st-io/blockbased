@@ -41,10 +41,8 @@
 								{{ new Date(comment.replyToComment.created_at).toLocaleString() }}
 								:
 							</p>
-							<p
-								v-html="comment.replyToComment.cleanJSON"
-								class="m-0 multiline small"
-							></p>
+
+							<CleanJSONToHTML :cleanJSON="comment.replyToComment.cleanJSON" class="small" />
 						</BCol>
 
 						<!-- Profile Section -->
