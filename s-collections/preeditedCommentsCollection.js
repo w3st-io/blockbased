@@ -35,10 +35,13 @@ const c_create = async (user_id, comment_id) => {
 		// [SAVE] //
 		const preeditedComment = await new PreeditCommentModel({
 			_id: mongoose.Types.ObjectId(),
-			comment: comment._id,
 			user: comment.user,
 			post: comment.post,
-			text: comment.text,
+			comment: comment._id,
+			cleanJSON: comment.cleanJSON,
+			replyToComment: comment.replyToComment,
+			likeCount: comment.likeCount,
+			original_comment_created_at: comment.created_at
 		}).save()
 
 		return {

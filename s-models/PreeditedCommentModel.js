@@ -11,6 +11,18 @@ const preeditedComment = mongoose.Schema({
 		required: true,
 	},
 
+	post: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Post',
+		required: true,
+	},
+
+	comment: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Comment',
+		required: true,
+	},
+
 	type: {
 		type: String,
 		enum: ['comment', 'reply'],
@@ -94,11 +106,30 @@ const preeditedComment = mongoose.Schema({
 		default: null
 	},
 
+	original_comment_created_at: {
+		type: Date,
+		default: Date.now,
+		maxlength: 50
+	},
+
 	created_at: {
 		type: Date,
 		default: Date.now,
 		maxlength: 50
 	},
+})
+
+
+preeditedComment.pre('validate', function(next) {
+	if (this.cleanJSON.blocks.length > 20) { throw ('Error: Comment too large') }
+
+	this.cleanJSON.blocks.forEach(block => {
+		if (block.data.items.length > 20) {
+			throw ('Error: Too many list-items')
+		}
+	});
+	
+	next()
 })
 
 
