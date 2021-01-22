@@ -1,55 +1,61 @@
 <template>
 	<div class="">
 		<div v-for="(block, index) in cleanJSON.blocks" :key="index">
-			<!-- Headers -->
-			<h1 v-if="block.type == 'header' && block.data.level == 1">
-				{{ block }}
-			</h1>
-
-			<h2 v-if="block.type == 'header' && block.data.level == 2">
-				{{ block }}
-			</h2>
-
-			<h3 v-if="block.type == 'header' && block.data.level == 3">
-				{{ block }}
-			</h3>
-
-			<h4 v-if="block.type == 'header' && block.data.level == 4">
-				{{ block }}
-			</h4>
-
-			<h5 v-if="block.type == 'header' && block.data.level == 5">
-				{{ block }}
-			</h5>
-
-			<h6 v-if="block.type == 'header' && block.data.level == 6">
-				{{ block }}
-			</h6>
-
-			<!-- Paragraph -->
-			<p v-if="block.type == 'paragraph'">{{ block.data.text }}</p>
+			<!-- Code -->
+			<code v-if="block.type == 'code'">
+				{{ block.data.code }}
+			</code>
 
 			<!-- Delimiter -->
 			<h1 v-if="block.type == 'delimiter'" class="w-100 text-center">***</h1>
 
-			<!-- Unordered List -->
+			<!-- Headers -->
+			<h1 v-if="block.type == 'header' && block.data.level == 1">
+				{{ block.data.text }}
+			</h1>
+
+			<h2 v-if="block.type == 'header' && block.data.level == 2">
+				{{ block.data.text }}
+			</h2>
+
+			<h3 v-if="block.type == 'header' && block.data.level == 3">
+				{{ block.data.text }}
+			</h3>
+
+			<h4 v-if="block.type == 'header' && block.data.level == 4">
+				{{ block.data.text }}
+			</h4>
+
+			<h5 v-if="block.type == 'header' && block.data.level == 5">
+				{{ block.data.text }}
+			</h5>
+
+			<h6 v-if="block.type == 'header' && block.data.level == 6">
+				{{ block.data.text }}
+			</h6>
+
+			<!-- Image -->
+			<div v-if="block.type == 'image'" class="text-center">
+				<img :src="block.data.url" alt="">
+				<p>{{ block.data.caption }}</p>
+			</div>
+
+			<!-- List Unordered -->
 			<ul v-if="block.type == 'list' && block.data.style == 'unordered'">
 				<li v-for="(li, index) in block.data.items" :key="index">
 					{{ li }}
 				</li>
 			</ul>
 
-			<!-- Ordered List -->
+			<!-- List Ordered -->
 			<ol v-if="block.type == 'list' && block.data.style == 'ordered'">
 				<li v-for="(li, index) in block.data.items" :key="index">
 					{{ li }}
 				</li>
 			</ol>
 
-			<!-- Code -->
-			<code v-if="block.type == 'code'">
-				{{ block.data.code }}
-			</code>
+			<!-- Paragraph -->
+			<p v-if="block.type == 'paragraph'">{{ block.data.text }}</p>
 
 			<!-- Quote -->
 			<figure v-if="block.type == 'quote'">
@@ -60,6 +66,11 @@
 			</figure>
 
 			<!-- Table -->
+			<table v-if="block.type == 'table'" class="table table-striped table-dark">
+				<tr v-for="(row, index) in block.data.content" :key="index">
+					<td v-for="(col, index) in row" :key="index">{{ col }}</td>
+				</tr>
+			</table>
 		</div>
 	</div>
 </template>

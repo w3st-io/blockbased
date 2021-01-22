@@ -143,18 +143,22 @@ preeditedComment.pre('validate', function(next) {
 				throw ('Error: Too many list-items')
 			}
 		}
-
+		
 		// [LENGTH-CHECK] Table ROW //
-		if (block.data.content.length > 20) {
-			throw ('Error: Too many Rows')
+		if (block.data.content) {
+			if (block.data.content.length > 20) {
+				throw ('Error: Too many Rows')
+			}
 		}
 
 		// [LENGTH-CHECK] Table COLUMN //
-		block.data.content.forEach(col => {
-			if (col.length > 20) {
-				throw ('Error: Too many Columns')
-			}
-		})
+		if (block.data.content) {
+			block.data.content.forEach(col => {
+				if (col.length > 20) {
+					throw ('Error: Too many Columns')
+				}
+			})
+		}
 	})
 	
 	next()

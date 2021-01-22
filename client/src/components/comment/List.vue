@@ -65,7 +65,6 @@
 
 						<!-- Comment Section -->
 						<BCol cols="12" sm="10" md="10" lg="10" class="px-2 pt-3">
-							<p v-html="comment.cleanJSON" class="m-0 multiline"></p>
 							<CleanJSONToHTML :cleanJSON="comment.cleanJSON" />
 						</BCol>
 					

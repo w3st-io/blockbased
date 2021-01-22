@@ -32,7 +32,7 @@ const comment = mongoose.Schema({
 		blocks: [{
 			type: {
 				type: String,
-				enum: ['paragraph', 'code', 'delimiter', 'header', 'image', 'list', 'quote', 'table'],
+				enum: ['code', 'delimiter', 'header', 'image', 'list', 'paragraph', 'quote', 'table'],
 			},
 		
 			data: {
@@ -125,18 +125,22 @@ comment.pre('validate', function(next) {
 				throw ('Error: Too many list-items')
 			}
 		}
-
-		// [LENGTH-CHECK] <tr> Table ROW //
-		if (block.data.content.length > 20) {
-			throw ('Error: Too many Rows')
+		
+		// [LENGTH-CHECK] Table ROW //
+		if (block.data.content) {
+			if (block.data.content.length > 20) {
+				throw ('Error: Too many Rows')
+			}
 		}
 
-		// [LENGTH-CHECK] <td> Table COLUMN //
-		block.data.content.forEach(col => {
-			if (col.length > 20) {
-				throw ('Error: Too many Columns')
-			}
-		})
+		// [LENGTH-CHECK] Table COLUMN //
+		if (block.data.content) {
+			block.data.content.forEach(col => {
+				if (col.length > 20) {
+					throw ('Error: Too many Columns')
+				}
+			})
+		}
 	})
 	
 	next()
@@ -144,9 +148,8 @@ comment.pre('validate', function(next) {
 
 
 comment.pre('updateOne', function(next) {
-	console.log(this._update.$set.cleanJSON.blocks.length)
 	// [LENGTH-CHECK] Blocks //
-	if (this._update.$set.cleanJSON.blocks.length > 20) {
+	if (this._update.$set.cleanJSON.blocks.ledngth > 20) {
 		throw ('Error: Comment too large')
 	}
 
@@ -159,16 +162,20 @@ comment.pre('updateOne', function(next) {
 		}
 
 		// [LENGTH-CHECK] Table ROW //
-		if (block.data.content.length > 20) {
-			throw ('Error: Too many Rows')
+		if (block.data.content) {
+			if (block.data.content.length > 20) {
+				throw ('Error: Too many Rows')
+			}
 		}
 
 		// [LENGTH-CHECK] Table COLUMN //
-		block.data.content.forEach(col => {
-			if (col.length > 20) {
-				throw ('Error: Too many Columns')
-			}
-		})
+		if (block.data.content) {
+			block.data.content.forEach(col => {
+				if (col.length > 20) {
+					throw ('Error: Too many Columns')
+				}
+			})
+		}
 	})
 	
 	next()
