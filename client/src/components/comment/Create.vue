@@ -101,6 +101,7 @@
 
 				this.$refs.editor._data.state.editor.save()
 					.then((cleanJSON) => {
+						console.log(cleanJSON);
 						this.cleanJSON = cleanJSON
 						this.create()
 					})

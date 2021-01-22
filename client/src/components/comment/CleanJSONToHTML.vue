@@ -9,6 +9,15 @@
 			<!-- Delimiter -->
 			<h1 v-if="block.type == 'delimiter'" class="w-100 text-center">***</h1>
 
+			<!-- Embed -->
+			<div v-if="block.type == 'embed' && block.data.service == 'youtube'">
+				<youtube
+					:video-id="getIdFromURL(block.data.embed)"
+					player-width="100%"
+					class="px-5"
+				/>
+			</div>
+
 			<!-- Headers -->
 			<h1 v-if="block.type == 'header' && block.data.level == 1">
 				{{ block.data.text }}
@@ -76,12 +85,18 @@
 </template>
 
 <script>
+	import { getIdFromURL } from 'vue-youtube-embed'
+
 	export default {
 		props: {
 			cleanJSON: {
 				type: Object,
 				required: true,
 			}
+		},
+
+		methods: {
+			getIdFromURL(url) { return getIdFromURL(url) }
 		},
 	}
 </script>

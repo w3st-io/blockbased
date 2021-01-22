@@ -5,21 +5,16 @@ const mongoose = require('mongoose')
 const preeditedComment = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
-	user: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
-		required: true,
-	},
-
-	post: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Post',
-		required: true,
-	},
-
+	// UNIQUE TO PREEDITEDCOMMENT //
 	comment: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Comment',
+		required: true,
+	},
+
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
 		required: true,
 	},
 
@@ -44,7 +39,7 @@ const preeditedComment = mongoose.Schema({
 		blocks: [{
 			type: {
 				type: String,
-				enum: ['paragraph', 'code', 'delimiter', 'header', 'image', 'list', 'quote', 'table'],
+				enum: ['paragraph', 'code', 'delimiter', 'enum', 'header', 'image', 'list', 'quote', 'table'],
 			},
 		
 			data: {
