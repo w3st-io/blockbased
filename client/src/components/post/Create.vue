@@ -95,12 +95,12 @@
 
 		data: function() {
 			return {
-				reqData: {},
-				cleanJSON: {},
 				disabled: false,
 				loading: false,
-				title: '',
 				error: '',
+				reqData: {},
+				title: '',
+				cleanJSON: {},
 			}
 		},
 
