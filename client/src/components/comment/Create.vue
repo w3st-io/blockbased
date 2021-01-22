@@ -45,17 +45,22 @@
 		</form>
 
 		<!-- Error -->
-		<span v-if="error" class="text-danger">{{ error }}</span>
+		<Alert v-if="error" variant="danger" :message="error" class="mt-3" />
 	</ValidationObserver>
 </template>
 
 <script>
 	// [IMPORT] //
+	import Alert from '@components/misc/Alert'
 	import CommentService from '@services/CommentService'
 	import router from '@router'
 
 	// [EXPORT] //
 	export default {
+		components: {
+			Alert
+		},
+
 		props: {
 			post_id: {
 				type: String,

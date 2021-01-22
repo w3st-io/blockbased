@@ -25,12 +25,13 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.postLimiter,
 	async (req, res) => {
+		console.log(req.body.cleanJSON);
 		try {
 			// [VALIDATE] //
 			if (
 				validator.isAscii(req.body.cat_id) &&
-				req.body.title &&
-				req.body.text
+				validator.isAscii(req.body.title) &&
+				req.body.cleanJSON
 			) {
 				// [CREATE] Post //
 				const post = await postsCollection.c_create(
@@ -55,7 +56,7 @@ router.post(
 						const comment = await commentsCollection.c_create(
 							req.decoded.user_id,
 							post.createdPost._id,
-							req.body.text
+							req.body.cleanJSON
 						)
 
 						if (comment.status) {
