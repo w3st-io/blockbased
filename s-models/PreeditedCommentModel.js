@@ -39,7 +39,7 @@ const preeditedComment = mongoose.Schema({
 		blocks: [{
 			type: {
 				type: String,
-				enum: ['paragraph', 'code', 'delimiter', 'enum', 'header', 'image', 'list', 'quote', 'table'],
+				enum: ['code', 'delimiter', 'embed', 'header', 'image', 'list', 'paragraph', 'quote', 'table'],
 			},
 		
 			data: {
@@ -65,6 +65,16 @@ const preeditedComment = mongoose.Schema({
 					}]
 				],
 
+				embed: {
+					type: String,
+					maxlength: 200,
+				},
+
+				height: {
+					type: Number,
+					maxlength: 5,
+				},
+
 				items: [{
 					type: String,
 					maxlength: 50,
@@ -73,6 +83,16 @@ const preeditedComment = mongoose.Schema({
 				level: {
 					type: Number,
 					enum: [1, 2, 3, 4, 5, 6],
+				},
+
+				service: {
+					type: String,
+					maxlength: 200,
+				},
+
+				service: {
+					type: String,
+					maxlength: 50,
 				},
 
 				style: {
@@ -88,6 +108,11 @@ const preeditedComment = mongoose.Schema({
 				url: {
 					type: String,
 					maxlength: 300,
+				},
+
+				width: {
+					type: Number,
+					maxlength: 5,
 				},
 			},
 		}],
@@ -111,12 +136,6 @@ const preeditedComment = mongoose.Schema({
 	liked: {
 		type: Boolean,
 		default: null
-	},
-
-	original_comment_created_at: {
-		type: Date,
-		default: Date.now,
-		maxlength: 50
 	},
 
 	created_at: {

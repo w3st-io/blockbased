@@ -14,7 +14,7 @@
 				<youtube
 					:video-id="getIdFromURL(block.data.embed)"
 					player-width="100%"
-					class="px-5"
+					style="max-width: 700px;"
 				/>
 			</div>
 
