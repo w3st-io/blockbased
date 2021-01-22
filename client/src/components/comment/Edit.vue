@@ -10,8 +10,9 @@
 				rules=""
 				v-slot="{ errors }"
 			>
-				<!-- ToastUI Editor -->
+				<!-- Editorjs -->
 				<Editor
+					v-if="showEditor"
 					ref="editor"
 					holder="vue-editor-js"
 					:config="{
@@ -67,6 +68,7 @@
 		data: function() {
 			return {
 				loading: false,
+				showEditor: false,
 				error: '',
 				initialEditorText: {},
 				cleanJSON: {},
@@ -79,6 +81,10 @@
 
 			// [LOG] //
 			//this.log()
+		},
+
+		mouted() {
+			setInterval( async () => { this.showEditor = true }, 1000)
 		},
 
 		methods: {
