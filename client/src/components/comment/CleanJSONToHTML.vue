@@ -7,7 +7,7 @@
 			</code>
 
 			<!-- Delimiter -->
-			<h1 v-if="block.type == 'delimiter'" class="w-100 text-center">***</h1>
+			<hr v-if="block.type == 'delimiter'" class="w-100 border-light">
 
 			<!-- Embed -->
 			<div v-if="block.type == 'embed' && block.data.service == 'youtube'">
@@ -55,21 +55,21 @@
 			</viewer>
 
 			<!-- List Unordered -->
-			<ul v-if="block.type == 'list' && block.data.style == 'unordered'">
+			<ul v-if="block.type == 'list' && block.data.style == 'unordered'" class="my-2">
 				<li v-for="(li, index) in block.data.items" :key="index">
 					{{ li }}
 				</li>
 			</ul>
 
 			<!-- List Ordered -->
-			<ol v-if="block.type == 'list' && block.data.style == 'ordered'">
+			<ol v-if="block.type == 'list' && block.data.style == 'ordered'" class="my-2">
 				<li v-for="(li, index) in block.data.items" :key="index">
 					{{ li }}
 				</li>
 			</ol>
 
 			<!-- Paragraph -->
-			<p v-if="block.type == 'paragraph'">{{ block.data.text }}</p>
+			<p v-if="block.type == 'paragraph'" class="mb-2">{{ block.data.text }}</p>
 
 			<!-- Quote -->
 			<figure v-if="block.type == 'quote'">
