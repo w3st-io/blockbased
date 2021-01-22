@@ -12,9 +12,22 @@
 			>
 				<!-- ToastUI Editor -->
 				<Editor
-					initialEditType="wysiwyg"
-					:initialValue="initialEditorText"
-					ref="toastuiEditor"
+					ref="editor"
+					holder="vue-editor-js"
+					:config="{
+						tools: {
+							code: require('@editorjs/code'),
+							delimiter: require('@editorjs/delimiter'),
+							header: require('@editorjs/header'),
+							list: require('@editorjs/list'),
+							quote: require('@editorjs/quote'),
+							image: require('@editorjs/simple-image'),
+							table: require('@editorjs/table'),
+							embed: require('@editorjs/embed'),
+						},
+						data: initialEditorText
+					}"
+					class="bg-white"
 				/>
 
 				<!-- Error -->
@@ -32,46 +45,84 @@
 				<span v-show="loading" class="spinner-grow"></span>
 			</BButton>
 		</form>
+
+		<!-- Error -->
+		<span v-if="error" class="text-danger">{{ error }}</span>
 	</ValidationObserver>
 </template>
 
 <script>
-	// [IMPORT] //
-	import { Editor } from '@toast-ui/vue-editor'
-	import 'codemirror/lib/codemirror.css'
-	import '@toast-ui/editor/dist/toastui-editor.css'
+	import CommentService from '@services/CommentService'
+	import router from '@router'
 
 	// [EXPORT] //
 	export default {
-		components: { Editor },
-
-		props: { comment: { type: Object, required: true, } },
+		props: {
+			comment: {
+				type: Object,
+				required: true,
+			}
+		},
 
 		data: function() {
 			return {
 				loading: false,
-				initialEditorText: '',
+				error: '',
+				initialEditorText: {},
+				cleanJSON: {},
+				reqData: {},
 			}
 		},
 
 		created: async function() {
-			this.initialEditorText = this.comment.text
+			this.initialEditorText = this.comment.cleanJSON
 
 			// [LOG] //
-			this.log()
+			//this.log()
 		},
 
 		methods: {
 			async submit() {
 				this.loading = true
 
-				// [EMIT -->] Editor Text //
-				this.$emit('submit', this.$refs.toastuiEditor.invoke('getHtml'))
+				this.$refs.editor._data.state.editor.save()
+					.then((cleanJSON) => {
+						this.cleanJSON = cleanJSON
+						this.update()
+					})
+					.catch(err => { this.error = err })
+			},
+
+			async update() {
+				try {
+					if (localStorage.usertoken) {
+						this.reqData = await CommentService.s_update(
+							this.comment._id,
+							this.cleanJSON
+						)
+
+						if (this.reqData.status) {
+							// [REDIRECT] Post Page //
+							router.push({
+								name: 'post',
+								params: {
+									post_id: this.comment.post,
+									limit: 20,
+									page: 1,
+								}
+							})
+						}
+						else { this.error = this.reqData.message }
+					}
+					else { this.error = 'Error unable to update comment, not logged in' }
+				}
+				catch (err) { this.error = err }
 			},
 
 			log() {
 				console.log('%%% [COMPONENT] CommentEdit %%%')
 				console.log('comment:', this.comment)
+				console.log('error:', this.error)
 			},
 		},
 	}

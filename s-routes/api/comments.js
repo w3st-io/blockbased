@@ -159,6 +159,7 @@ router.post(
 	'/update',
 	Auth.userToken(),
 	async (req, res) => {
+		console.log((req.body.comment_id), req.body.cleanJSON);
 		try {
 			// [VALIDATE] //
 			if (validator.isAscii(req.body.comment_id) && req.body.cleanJSON) {

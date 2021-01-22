@@ -9,7 +9,6 @@
 			<CommentEdit
 				v-if="!loading && comment != {}"
 				:comment="comment"
-				@submit="submit"
 			/>
 		</BCard>
 
@@ -22,7 +21,6 @@
 	// [IMPORT] Personal //
 	import Alert from '@components/misc/Alert'
 	import CommentEdit from '@components/comment/Edit'
-	import CommentService from '@services/CommentService'
 	import PageService from '@services/PageService'
 	import router from '@router'
 
@@ -69,33 +67,6 @@
 
 				if (this.data.status) { this.comment = this.data.comment }
 				else { this.error = this.data.message }
-				
-			},
-
-			async submit(editorText) {
-				if (localStorage.usertoken) {
-					try {
-						const comment = await CommentService.s_update(
-							this.comment_id,
-							editorText
-						)
-
-						if (comment.updated) {
-							// [REDIRECT] Post Page //
-							router.push({
-								name: 'post',
-								params: {
-									post_id: this.comment.post,
-									limit: 20,
-									page: 1,
-								}
-							})
-						}
-						else { this.error = comment.message }
-					}
-					catch (err) { this.error = err }
-				}
-				else { this.error = 'Error unable to update comment, no token passed' }
 			},
 
 			log() {

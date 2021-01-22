@@ -46,7 +46,6 @@
 
 		<!-- Error -->
 		<span v-if="error" class="text-danger">{{ error }}</span>
-		<h1 class="text-light">{{ cleanJSON }}</h1>
 	</ValidationObserver>
 </template>
 
@@ -54,12 +53,9 @@
 	// [IMPORT] //
 	import CommentService from '@services/CommentService'
 	import router from '@router'
-	import 'codemirror/lib/codemirror.css'
-	import '@toast-ui/editor/dist/toastui-editor.css'
 
 	// [EXPORT] //
 	export default {
-
 		props: {
 			post_id: {
 				type: String,
@@ -131,6 +127,8 @@
 			log() {
 				console.log('%%% [COMPONENT] CommentCreate %%%')
 				console.log('post_id:', this.post_id)
+				console.log('error:', this.error)
+				console.log('replyToComment_id:', this.replyToComment_id)
 			},
 		},
 	}

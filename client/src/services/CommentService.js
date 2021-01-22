@@ -32,11 +32,11 @@ async function s_create(post_id, cleanJSON, replyToComment_id = null) {
 
 
 // [UPDATE] Auth Required //
-async function s_update(comment_id, text) {
+async function s_update(comment_id, cleanJSON) {
 	try {
 		const authAxios = await this.authAxios()
 
-		return (await authAxios.post('/update', { comment_id, text })).data
+		return (await authAxios.post('/update', { comment_id, cleanJSON })).data
 	}
 	catch (err) {
 		return {
