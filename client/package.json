@@ -17,6 +17,7 @@
     "jquery": "^3.5.1",
     "jwt-decode": "^2.2.0",
     "socket.io-client": "^2.3.0",
+    "v-viewer": "^1.5.1",
     "vee-validate": "^3.3.7",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.0",

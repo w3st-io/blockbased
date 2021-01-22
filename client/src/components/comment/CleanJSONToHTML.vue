@@ -44,10 +44,14 @@
 			</h6>
 
 			<!-- Image -->
-			<div v-if="block.type == 'image'" class="text-center">
+			<viewer
+				v-if="block.type == 'image'"
+				:options="{ title: false, transition: false, }"
+				class="text-center"
+			>
 				<img :src="block.data.url" alt="">
 				<p>{{ block.data.caption }}</p>
-			</div>
+			</viewer>
 
 			<!-- List Unordered -->
 			<ul v-if="block.type == 'list' && block.data.style == 'unordered'">

@@ -60,7 +60,7 @@ const comment = mongoose.Schema({
 
 				embed: {
 					type: String,
-					maxlength: 200,
+					maxlength: 300,
 				},
 
 				height: {
