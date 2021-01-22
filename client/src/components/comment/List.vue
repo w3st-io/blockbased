@@ -14,8 +14,8 @@
 							</span>
 						</BCol>
 
+						<!-- replyTo Comment Btn -->
 						<BCol cols="6" class="p-1 border-bottom border-secondary text-right">
-							<!-- In Reply to Comment Btn -->
 							<BButton
 								v-if="comment.replyToComment != null"
 								variant="none"
@@ -29,6 +29,7 @@
 							>In Reply to Comment</BButton>
 						</BCol>
 
+						<!-- replyTo Comment -->
 						<BCol
 							v-if="comment.replyToComment != null"
 							v-show="openedRepliedTo == comment._id"
@@ -41,10 +42,11 @@
 								:
 							</p>
 							<p
-								v-html="comment.replyToComment.text"
+								v-html="comment.replyToComment.cleanJSON"
 								class="m-0 multiline small"
 							></p>
 						</BCol>
+
 						<!-- Profile Section -->
 						<BCol cols="12" sm="2" md="2" lg="2" class="px-0 py-3 border-secondary">
 							<div class="m-auto border border-primary rounded-lg pro-img-holder">
@@ -63,7 +65,7 @@
 
 						<!-- Comment Section -->
 						<BCol cols="12" sm="10" md="10" lg="10" class="px-2 pt-3">
-							<p v-html="comment.text" class="m-0 multiline"></p>
+							<p v-html="comment.cleanJSON" class="m-0 multiline"></p>
 						</BCol>
 					
 						<!-- Bottom Bar -->

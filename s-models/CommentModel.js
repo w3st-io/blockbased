@@ -24,6 +24,11 @@ const comment = mongoose.Schema({
 	},
 
 	cleanJSON: {
+		time: {
+			type: Number,
+			maxlength: 100,
+		},
+
 		blocks: [{
 			type: {
 				type: String,

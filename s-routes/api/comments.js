@@ -34,7 +34,7 @@ router.post(
 			if (
 				validator.isAscii(req.body.post_id) &&
 				req.body.cleanJSON &&
-				(req.body.replyToComment || req.body.replyToComment === null)
+				(req.body.replyToComment_id || req.body.replyToComment_id === null)
 			) {
 				// [READ] Post //
 				const pObj = await postsCollection.c_read(
@@ -48,7 +48,7 @@ router.post(
 						req.decoded.user_id,
 						req.body.post_id,
 						req.body.cleanJSON,
-						req.body.replyToComment,
+						req.body.replyToComment_id,
 					)
 
 					if (cObj.status) {

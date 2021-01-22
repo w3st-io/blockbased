@@ -13,13 +13,12 @@ async function authAxios() {
 
 /******************* [CRUD] *******************/
 // [CREATE] Auth Required //
-async function s_create(post_id, cleanJSON, replyToComment = null) {
-	console.log('commentService', cleanJSON);
+async function s_create(post_id, cleanJSON, replyToComment_id = null) {
 	try {
 		const authAxios = await this.authAxios()
 		
 		return (
-			await authAxios.post('/create', { post_id, cleanJSON, replyToComment })
+			await authAxios.post('/create', { post_id, cleanJSON, replyToComment_id })
 		).data
 	}
 	catch (err) {

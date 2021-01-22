@@ -9,7 +9,7 @@
 			<CommentCreate
 				v-if="!loading && comment != {}"
 				:post_id="comment.post"
-				@submit="submit"
+				:replyToComment_id="comment_id"
 			/>
 		</BCard>
 

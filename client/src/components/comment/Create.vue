@@ -60,7 +60,18 @@
 	// [EXPORT] //
 	export default {
 
-		props: { post_id: { type: String, required: true, }, },
+		props: {
+			post_id: {
+				type: String,
+				required: true,
+			},
+
+			replyToComment_id: {
+				type: String,
+				required: false,
+				default: null,
+			}
+		},
 
 		data: function() {
 			return {
@@ -95,10 +106,10 @@
 						return
 					}
 
-					console.log(this.cleanJSON);
 					this.data = await CommentService.s_create(
 						this.post_id,
-						this.cleanJSON
+						this.cleanJSON,
+						this.replyToComment_id,
 					)
 
 					if (this.data.status) {
