@@ -90,7 +90,7 @@
 			//this.log()
 		},
 
-		mouted() {
+		mounted() {
 			setInterval( async () => { this.showEditor = true }, 1000)
 		},
 

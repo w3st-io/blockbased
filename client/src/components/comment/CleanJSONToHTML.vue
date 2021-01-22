@@ -83,9 +83,5 @@
 				required: true,
 			}
 		},
-
-		data() {
-
-		},
 	}
 </script>

@@ -33,6 +33,7 @@
 					rules=""
 					v-slot="{ errors }"
 				>
+					<h1>{{ showEditor }}</h1>
 					<!-- Editorjs -->
 					<Editor
 						v-if="showEditor"
@@ -59,10 +60,10 @@
 
 				<!-- Submit Button -->
 				<BButton
+					:disabled="disabled"
 					variant="primary"
 					type="submit"
 					class="w-100"
-					:disabled="disabled"
 				>
 					<span v-show="!loading">+ Create</span>
 					<span v-show="loading" class="spinner-grow"></span>
@@ -94,7 +95,7 @@
 			}
 		},
 
-		data: function() {
+		data() {
 			return {
 				disabled: false,
 				loading: false,
@@ -106,12 +107,12 @@
 			}
 		},
 
-		created: async function() {
+		created() {
 			// [LOG] //
 			//this.log()
 		},
 
-		mouted() {
+		mounted() {
 			setInterval( async () => { this.showEditor = true }, 1000)
 		},
 

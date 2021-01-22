@@ -65,7 +65,7 @@
 			}
 		},
 
-		data: function() {
+		data() {
 			return {
 				loading: false,
 				showEditor: false,
@@ -76,14 +76,14 @@
 			}
 		},
 
-		created: async function() {
+		async created() {
 			this.initialEditorText = this.comment.cleanJSON
 
 			// [LOG] //
 			//this.log()
 		},
 
-		mouted() {
+		mounted() {
 			setInterval( async () => { this.showEditor = true }, 1000)
 		},
 
