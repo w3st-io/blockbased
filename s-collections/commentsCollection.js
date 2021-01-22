@@ -38,7 +38,6 @@ const c_create = async (user_id, post_id, cleanJSON, replyToComment) => {
 			}
 		}
 
-		console.log('s', replyToComment);
 		// [VALIDATE] replyToComment //
 		if (!mongoose.isValidObjectId(replyToComment) && replyToComment !== null) {
 			return {

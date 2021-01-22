@@ -44,7 +44,7 @@ const preeditedComment = mongoose.Schema({
 		blocks: [{
 			type: {
 				type: String,
-				enum: ['paragraph', 'code', 'delimiter', 'header', 'list', 'quote', 'table'],
+				enum: ['paragraph', 'code', 'delimiter', 'header', 'image', 'list', 'quote', 'table'],
 			},
 		
 			data: {
@@ -62,6 +62,13 @@ const preeditedComment = mongoose.Schema({
 					type: String,
 					maxlength: 1000,
 				},
+
+				content: [
+					[{
+						type: String,
+						maxlength: 50,
+					}]
+				],
 
 				items: [{
 					type: String,
@@ -81,6 +88,11 @@ const preeditedComment = mongoose.Schema({
 				text: {
 					type: String,
 					maxlength: 3000,
+				},
+
+				url: {
+					type: String,
+					maxlength: 300,
 				},
 			},
 		}],
@@ -121,13 +133,29 @@ const preeditedComment = mongoose.Schema({
 
 
 preeditedComment.pre('validate', function(next) {
+	// [LENGTH-CHECK] Blocks //
 	if (this.cleanJSON.blocks.length > 20) { throw ('Error: Comment too large') }
 
 	this.cleanJSON.blocks.forEach(block => {
-		if (block.data.items.length > 20) {
-			throw ('Error: Too many list-items')
+		// [LENGTH-CHECK] List Items //
+		if (block.data.items) {
+			if (block.data.items.length > 20) {
+				throw ('Error: Too many list-items')
+			}
 		}
-	});
+
+		// [LENGTH-CHECK] Table ROW //
+		if (block.data.content.length > 20) {
+			throw ('Error: Too many Rows')
+		}
+
+		// [LENGTH-CHECK] Table COLUMN //
+		block.data.content.forEach(col => {
+			if (col.length > 20) {
+				throw ('Error: Too many Columns')
+			}
+		})
+	})
 	
 	next()
 })

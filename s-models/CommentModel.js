@@ -32,7 +32,7 @@ const comment = mongoose.Schema({
 		blocks: [{
 			type: {
 				type: String,
-				enum: ['paragraph', 'code', 'delimiter', 'header', 'list', 'quote', 'table'],
+				enum: ['paragraph', 'code', 'delimiter', 'header', 'image', 'list', 'quote', 'table'],
 			},
 		
 			data: {
@@ -50,6 +50,13 @@ const comment = mongoose.Schema({
 					type: String,
 					maxlength: 1000,
 				},
+
+				content: [
+					[{
+						type: String,
+						maxlength: 50,
+					}]
+				],
 
 				items: [{
 					type: String,
@@ -69,6 +76,11 @@ const comment = mongoose.Schema({
 				text: {
 					type: String,
 					maxlength: 3000,
+				},
+
+				url: {
+					type: String,
+					maxlength: 300,
 				},
 			},
 		}],
@@ -103,13 +115,61 @@ const comment = mongoose.Schema({
 
 
 comment.pre('validate', function(next) {
+	// [LENGTH-CHECK] Blocks //
 	if (this.cleanJSON.blocks.length > 20) { throw ('Error: Comment too large') }
 
 	this.cleanJSON.blocks.forEach(block => {
-		if (block.data.items.length > 20) {
-			throw ('Error: Too many list-items')
+		// [LENGTH-CHECK] List Items //
+		if (block.data.items) {
+			if (block.data.items.length > 20) {
+				throw ('Error: Too many list-items')
+			}
 		}
-	});
+
+		// [LENGTH-CHECK] <tr> Table ROW //
+		if (block.data.content.length > 20) {
+			throw ('Error: Too many Rows')
+		}
+
+		// [LENGTH-CHECK] <td> Table COLUMN //
+		block.data.content.forEach(col => {
+			if (col.length > 20) {
+				throw ('Error: Too many Columns')
+			}
+		})
+	})
+	
+	next()
+})
+
+
+comment.pre('updateOne', function(next) {
+	console.log(this._update.$set.cleanJSON.blocks.length)
+	// [LENGTH-CHECK] Blocks //
+	if (this._update.$set.cleanJSON.blocks.length > 20) {
+		throw ('Error: Comment too large')
+	}
+
+	this._update.$set.cleanJSON.blocks.forEach(block => {
+		// [LENGTH-CHECK] List Items //
+		if (block.data.items) {
+			if (block.data.items.length > 20) {
+				throw ('Error: Too many list-items')
+			}
+		}
+
+		// [LENGTH-CHECK] Table ROW //
+		if (block.data.content.length > 20) {
+			throw ('Error: Too many Rows')
+		}
+
+		// [LENGTH-CHECK] Table COLUMN //
+		block.data.content.forEach(col => {
+			if (col.length > 20) {
+				throw ('Error: Too many Columns')
+			}
+		})
+	})
 	
 	next()
 })
