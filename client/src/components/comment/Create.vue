@@ -75,7 +75,7 @@
 			}
 		},
 
-		data: function() {
+		data() {
 			return {
 				loading: false,
 				error: '',
@@ -83,7 +83,7 @@
 			}
 		},
 
-		created: async function() {
+		async created() {
 			// [LOG] //
 			//this.log()
 		},

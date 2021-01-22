@@ -1,5 +1,5 @@
 <template>
-	<div class="">
+	<div>
 		<div v-for="(block, index) in cleanJSON.blocks" :key="index">
 			<!-- Code -->
 			<code v-if="block.type == 'code'">
