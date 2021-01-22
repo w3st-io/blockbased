@@ -25,12 +25,11 @@ router.post(
 	Auth.userToken(),
 	rateLimiter.postLimiter,
 	async (req, res) => {
-		console.log(req.body.cleanJSON);
 		try {
 			// [VALIDATE] //
 			if (
 				validator.isAscii(req.body.cat_id) &&
-				validator.isAscii(req.body.title) &&
+				req.body.title &&
 				req.body.cleanJSON
 			) {
 				// [CREATE] Post //
