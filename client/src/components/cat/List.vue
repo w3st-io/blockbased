@@ -15,31 +15,31 @@
 					<BRow class="m-0">
 						<!-- Image Section -->
 						<BCol
-							cols="2" sm="2" md="2" lg="2" xl="1"
-							class="d-none d-sm-block align-self-center"
+							cols="3" sm="2" md="2" lg="1" xl="1"
+							class=" align-self-center"
 							@click="redirectToCatPosts(cat.cat_id)"
 						>
-							<div class="overflow-auto rounded-circle">
+							<div class="overflow-auto rounded">
 								<img
 									:src="cat.imgSrc"
-									class="w-100 img-padding bg-primary"
+									class="w-100 img-padding bg-secondary"
 								>
 							</div>
 						</BCol>
 
 						<!-- Title -->
 						<BCol
-							cols="10" sm="10" md="10" lg="6" xl="6"
+							cols="9" sm="10" md="10" lg="7" xl="6"
 							class="py-3"
 							@click="redirectToCatPosts(cat.cat_id)"
 						>
-							<h4 class="text-light">{{ cat.title }}</h4>
-							<p class="m-0 text-light">{{ cat.description }}</p>
+							<h4 class="text-primary">{{ cat.title }}</h4>
+							<p class="m-0 d-none d-sm-block text-light">{{ cat.description }}</p>
 						</BCol>
 
 						<!-- Count -->
 						<BCol
-							cols="2" sm="2" md="2" lg="1" xl="1"
+							cols="12" sm="12" md="2" lg="1" xl="1"
 							class="p-3 text-right d-none d-md-block"
 							@click="redirectToCatPosts(cat.cat_id)"
 						>
