@@ -1,15 +1,12 @@
 <template>
 	<BRow>
 		<BCol cols="12">
-			<ul
-				v-if="posts != ''"
-				class="m-0 px-0 border border-secondary"
-			>
+			<ul v-if="posts != ''" class="m-0 px-0 border border-secondary">
 				<li v-for="post in posts" :key="post._id" class="list-unstyled bg-dark">
-					<BRow class="test m-0">
+					<BRow class="m-0">
 						<!-- Title --> 
 						<BCol
-							cols="8" lg="9" md="8" sm="8" xs="8"
+							cols="12" md="8" lg="9"
 							class="p-2"
 							@click="redirectToPost(post._id)"
 						>
@@ -32,8 +29,8 @@
 
 						<!-- Total Comments -->
 						<BCol
-							cols="4" lg="2" md="2" sm="2" xs="3"
-							class="p-2 text-center" 
+							cols="2"
+							class="p-2 d-none d-md-block text-center" 
 							@click="redirectToPost(post._id)"
 						>
 							<p class="pb-0 m-0 align-self-center text-light">
@@ -47,32 +44,32 @@
 						</BCol>
 
 						<!-- Like -->
-						<BCol lg="1" md="2" sm="2"
+						<BCol cols="12" md="2" lg="1"
 							class="p-2 text-center" 
 							@click="redirectToPost(post._id)"
 						>
 							<h4 class="m-0 text-white">
 								<button
 									:disabled="disabled"
-									@click.prevent.stop="likeBtn(post)"
-									class="w-100 btn"
+									class="w-100 btn btn-sm"
 									:class="{
 										'btn-outline-success': post.liked,
 										'btn-outline-light': !post.liked,
 									}"
+									@click.prevent.stop="likeBtn(post)"
 								>{{ post.likeCount }} ▲</button>
 							</h4>
 						</BCol>
 					</BRow>
 
 					<BRow v-if="adminLoggedIn" class="border border-warning m-0">
-						<BCol cols="8" class="p-2">
+						<BCol cols="12" class="p-2">
 							<!-- Edit -->
 							<BButton
 								variant="outline-warning"
 								size="sm"
-								@click="redirectToAdminEdit(post._id)"
 								class="py-0"
+								@click="redirectToAdminEdit(post._id)"
 							>Admin-Edit</BButton>
 						
 							<span class="ml-1 small text-secondary">

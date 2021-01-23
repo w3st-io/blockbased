@@ -16,10 +16,10 @@
 						<!-- Image Section -->
 						<BCol
 							cols="2" sm="2" md="2" lg="2" xl="1"
-							class="p-3 align-self-center"
+							class="d-none d-sm-block align-self-center"
 							@click="redirectToCatPosts(cat.cat_id)"
 						>
-							<div class="w-100 overflow-auto rounded-circle">
+							<div class="overflow-auto rounded-circle">
 								<img
 									:src="cat.imgSrc"
 									class="w-100 img-padding bg-primary"
@@ -55,7 +55,7 @@
 						<BCol
 							v-if="cat.recentPost"
 							cols="12" sm="12" md="10" lg="3" xl="4"
-							class="rounded"
+							class="d-none d-md-block rounded"
 						>
 							<BRow>
 								<BCol cols="12">
