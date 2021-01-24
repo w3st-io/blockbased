@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%
- * %%% UTILS INDEX %%%
- * %%%%%%%%%%%%%%%%%%%
-*/
 // [IMPORT] //
 import axios from 'axios'
 
