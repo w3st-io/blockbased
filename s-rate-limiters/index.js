@@ -78,7 +78,7 @@ const registrationLimiter = rateLimit({
 })
 
 
-// [RATE-LIMIT] Registration //
+// [RATE-LIMIT] report //
 const reportLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000,
 	max: 10,
