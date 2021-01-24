@@ -43,12 +43,12 @@
 		<div class="p-0 bg-dark border-bottom border-dark shadow-sm">
 			<BContainer>
 				<BNavbar class="px-0 py-1">
-					<div class="mr-auto">
+					<div class="mr-auto d-none d-sm-block">
 						<BButton
 							v-if="loggedIn"
 							variant="outline-light"
 							size="sm"
-							class="ml-2"
+							class=""
 							@click="followedRedirect()"
 						>Followed Posts</BButton>
 

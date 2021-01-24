@@ -47,6 +47,10 @@ const p_user_profile_lookup = require('./s-routes/pages/user/profile/lookup')
 const p_search = require('./s-routes/pages/search')
 
 
+// [INIT] Const //
+const port = config.PORT
+
+
 // [EXPRESS + SERVER] //
 const app = express()
 const server = http.createServer(app)
@@ -125,6 +129,5 @@ if (process.env.NODE_ENV == 'production') {
 }
 
 
-// [PORT + LISTEN] //
-const port = config.PORT
+// [LISTEN] //
 server.listen(port, () => { console.log(`Server Running on Port: ${port}`) })
