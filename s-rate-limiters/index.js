@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%%%
- * %%% RATE-LIMITERS %%%
- * %%%%%%%%%%%%%%%%%%%%%
-*/
 // [REQUIRE] Personal //
 const rateLimit = require('express-rate-limit')
 
