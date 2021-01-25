@@ -1,9 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%%%%
- * %%% BLOCK SERVICES %%%
- * %%%%%%%%%%%%%%%%%%%%%%
- * Order by route
-*/
 // [IMPORT] //
 import axios from 'axios'
 

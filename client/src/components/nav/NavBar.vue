@@ -62,7 +62,7 @@
 
 					<div>
 						<!-- Logged In -->
-						<NotificationMenuBtn v-if="loggedIn" />
+						<NotificationMenu v-if="loggedIn" />
 
 						<BButton
 							v-if="loggedIn"
@@ -96,7 +96,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import NotificationMenuBtn from '@components/notifications/NotificationMenu'
+	import NotificationMenu from '@components/notifications/NotificationMenu'
 	import router from '@router'
 	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
@@ -104,7 +104,7 @@
 	// [EXPORT] //
 	export default {
 		components: {
-			NotificationMenuBtn
+			NotificationMenu
 		},
 
 		data: function() {
@@ -118,17 +118,24 @@
 		},
 
 		created: async function() {
-			if (localStorage.usertoken) {
-				this.loggedIn = true
-
-				this.decoded = await UserService.s_getUserTokenDecodeData()
-			}
+			await this.userTasks()
 
 			// [ON-EVENTBUS] //
 			EventBus.$on('logged-in', () => { this.loggedIn = true })
 		},
 
 		methods: {
+			userTasks() {
+				try {
+					if (localStorage.usertoken) {
+						this.loggedIn = true
+
+						this.decoded = await UserService.s_getUserTokenDecodeData()
+					}
+				}
+				catch (err) { console.log(`Navbar: ${err}`) }
+			},
+
 			logInRedirect() { router.push({ name: 'login' }) },
 
 			registerRedirect() { router.push({ name: 'register' }) },

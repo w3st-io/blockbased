@@ -47,7 +47,7 @@ router.get(
 			).posts
 
 			
-			res.send({
+			res.status(200).send({
 				executed: true,
 				status: true,
 				cats: cats,
