@@ -100,42 +100,49 @@
 
 		data: function() {
 			return {
-				decoded: {},
 				submitted: false,
 				email: '',
 				password: '',
-				returned: '',
+				reqData: '',
 				error: '',
 			}
 		},
 
 		created: async function() {
-			// [REDIRECT] Not Logged Required //
+			// [REDIRECT] Logged //
 			if (localStorage.usertoken) { router.push({ name: '/' }) }
 		},
 
 		methods: {
 			async login() {
 				try {
-					// Get Status from Login Function //
-					this.returned = await UserService.s_login(
+					// [VALIDATE] //
+					if (!email || !password)  {
+						this.error = 'Fields are required'
+						return
+					}
+
+					// [LOGIN] //
+					this.reqData = await UserService.s_login(
 						this.email,
 						this.password
 					)
 					
 					// Check Validation Status //
 					if (
-						this.returned.status == true &&
-						this.returned.validation == true
+						this.reqData.status == true &&
+						this.reqData.validation == true
 					) { this.successful() }
-					else { this.error = this.returned.message }
+					else { this.error = this.reqData.message }
 				}
 				catch (err) { this.error = err }
 			},
 
 			async successful() {
-				// [SET TOKEN] // Emit //
-				localStorage.setItem('usertoken', this.returned.token)
+				// [SET TOKEN] //
+				localStorage.setItem('usertoken', this.reqData.token)
+
+				// [EMIT] //
 				EventBus.$emit('logged-in')
 
 				// [REDIRECT] //
