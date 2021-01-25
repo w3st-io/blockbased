@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%%
- * %%% MAILER UTIL %%%
- * %%%%%%%%%%%%%%%%%%%
- */
 // [REQUIRE] //
 const mongoose = require('mongoose')
 const nodemailer = require('nodemailer')

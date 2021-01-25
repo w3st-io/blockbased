@@ -1,9 +1,4 @@
-/**
- * %%%%%%%%%%%%%%%%%%%%%%
- * %%% MESSAGES UTILS %%%
- * %%%%%%%%%%%%%%%%%%%%%%
-*/
-// [F] Format Message //
+// [FORMAT] Message //
 const formatMessage = (user_idFrom, user_idTo, text) => {
 	return {
 		from: user_idFrom,
@@ -14,7 +9,7 @@ const formatMessage = (user_idFrom, user_idTo, text) => {
 }
 
 
-// [F] Format Group Message //
+// [FORMAT] Group Message //
 const formatGroupMessage = (user_idFrom, text) => {
 	return {
 		from: user_idFrom,

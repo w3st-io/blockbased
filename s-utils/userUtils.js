@@ -1,8 +1,3 @@
-/**
- * %%%%%%%%%%%%%%%%%%
- * %%% USER UTILS %%%
- * %%%%%%%%%%%%%%%%%%
-*/
 // [INIT] //
 const userSockets = []
 const userSocketsInRooms = []
