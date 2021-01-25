@@ -1,12 +1,12 @@
 <template>
 	<div id="app" :key="appKey">
-		<!-- Hidden Side Menu -->
-		<SideMenu :sideMenuOpen="sideMenuOpen" @closeMenu="toggle()" />
-
 		<!-- Top Bar -->
 		<NavBar @menu-btn-clicked="toggle()" />
 
-		<!-- Display the router Stuff -->
+		<!-- Hidden Side Menu -->
+		<SideMenu :sideMenuOpen="sideMenuOpen" @closeMenu="toggle()" />
+
+		<!-- Router -->
 		<RouterView :key="$route.name + ($route.params.id || '')" />
 
 		<!-- Bottom Footer -->
@@ -33,7 +33,7 @@
 	import io from 'socket.io-client'
 
 	// [IMPORT] Personal //
-	import utils from './utils'
+	import utils from '@utils'
 	import AdminNavBar from '@components/admin/AdminNavBar'
 	import PopUpNotifications from '@components/notifications/PopUpNotifications'
 	import PopUpBanner from '@components/misc/PopUpBanner'
@@ -56,17 +56,16 @@
 			SideMenu,
 		},
 
-		data: function() {
+		data() {
 			return {
-				// [APP] //
 				appKey: 0,
+				reqData: {},
 				message: '',
 				
 				// [SOCKET] //
-				socket: '',
-				data: {},
+				socket: 5000,
 
-				// [USER] //
+				// [TOKEN] //
 				adminLoggedIn: false,
 				loggedIn: false,
 				decoded: {},
@@ -77,60 +76,27 @@
 		},
 
 		created: async function() {
-			// Set Socket //
 			await this.setSocket()
 
-			// [USER-LOGGEDIN] //
-			if (localStorage.usertoken) {
-				this.loggedIn = true
-				
-				try { this.decoded = await UserService.s_getUserTokenDecodeData() }
-				catch (err) { `App: Error --> ${err}` }
+			await this.userTasks()
 
-				this.socket.emit('join', this.decoded.user_id)
-			}
+			await this.adminTasks()
 
-			// [ADMIN-LOGGEDIN] //
-			if (localStorage.admintoken) {
-				this.adminLoggedIn = true
-
-				this.socket.emit('admin-join')
-			}
-
-			// [EMIT-EVENTBUS] Initial get notifications //
-			EventBus.$emit('update-notification')
+			// Get Initial Notifications //
+			await this.updateNotifications()
 
 			// [ON-SOCKET] //
 			this.socket.on('update-notification', () => {
 				setTimeout(() => { EventBus.$emit('update-notification') }, 1500)
 			})
 
-			EventBus.$on('logged-in', () => {
-				this.socket.emit('join', this.decoded.user_id)
-				this.loggedIn = true
-				
-				this.forceRerender()
-			})
+			EventBus.$on('logged-in', () => { this.userLoggedIn() })
 
-			EventBus.$on('logged-out', () => {
-				this.socket.emit('leave')
-				localStorage.removeItem('usertoken')
-				this.loggedIn = false
+			EventBus.$on('logged-out', () => { this.userLoggedOut() })
 
-				this.forceRerender()
-			})
-
-			EventBus.$on('admin-logged-in', () => {
-				this.adminLoggedIn = true
-
-				this.forceRerender()
-			})
+			EventBus.$on('admin-logged-in', () => { this.adminLoggedIn() })
 			
-			EventBus.$on('admin-logged-out', () => {
-				this.adminLoggedIn = false
-
-				this.forceRerender()
-			})
+			EventBus.$on('admin-logged-out', () => { this.adminLoggedOut() })
 
 			EventBus.$on('force-rerender', () => { this.forceRerender() })
 
@@ -139,29 +105,83 @@
 		},
 
 		methods: {
-			// [SOCKET] //
 			async setSocket() {
-				// [GET-PORT] //
-				try { this.data = await utils.getSocketBaseUrl() }
-				catch (err) { `App: Error --> ${err}` }
+				try {
+					this.reqData = await utils.getSocketBaseUrl()
 
-				if (this.data) { this.socket = io(this.data) }
+					if (this.reqData) { this.socket = io(this.reqData) }
+				}
+				catch (err) { `App: Error --> ${err}` }				
 			},
+
+			async userTasks() {
+				try {
+					// [USER-LOGGEDIN] //
+					if (localStorage.usertoken) {
+						this.loggedIn = true
+					
+						this.decoded = await UserService.s_getUserTokenDecodeData()
+
+						this.socket.emit('join', this.decoded.user_id)
+					}
+				}
+				catch (err) { `App: Error --> ${err}` }
+			},
+
+			async adminTasks() {
+				try {
+					// [ADMIN-LOGGEDIN] //
+					if (localStorage.admintoken) {
+						this.adminLoggedIn = true
+	
+						this.socket.emit('admin-join')
+					}
+				}
+				catch (err) { `App: Error --> ${err}` }
+			},
+
+			userLoggedIn() {
+				this.socket.emit('join', this.decoded.user_id)
+
+				this.loggedIn = true
+				
+				this.forceRerender()
+			},
+
+			userLoggedOut() {
+				this.socket.emit('leave')
+
+				localStorage.removeItem('usertoken')
+
+				this.loggedIn = false
+
+				this.forceRerender()
+			},
+
+			adminLoggedIn() {
+				this.adminLoggedIn = true
+
+				this.forceRerender()
+			},
+
+			adminLoggedOut() {
+				this.adminLoggedIn = false
+
+				this.forceRerender()
+			},
+
+			async updateNotifications() { EventBus.$emit('update-notification') },
 
 			// [SIDE-MENU] //
 			toggle() { this.sideMenuOpen = !this.sideMenuOpen },
 
-			forceRerender() {
-				this.appKey++
-				
-				console.log('Forced rerender')
-			},
+			forceRerender() { this.appKey++ },
 
 			log() {
 				console.log('%%% [APP] %%%')
 				console.log('usertoken:', localStorage.usertoken)
 				console.log('admintoken:', localStorage.admintoken)
-				console.log('data:', this.data)
+				console.log('reqData:', this.reqData)
 			}
 		}
 	}

@@ -1,15 +1,9 @@
-/**
- * %%%%%%%%%%%%%%
- * %%% ROUTER %%%
- * %%%%%%%%%%%%%%
- * Order by path
-*/
 // [IMPORT] //
 import Vue from 'vue'
 import Router from 'vue-router'
 
 
-// [IMPORT] Personal //
+// [IMPORT] Personal (Ordered by path) //
 // [*] //
 import home from '@pages'
 import NotFound from '@pages/404'
