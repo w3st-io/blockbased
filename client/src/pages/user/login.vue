@@ -117,7 +117,7 @@
 			async login() {
 				try {
 					// [VALIDATE] //
-					if (!email || !password)  {
+					if (!this.email || !this.password)  {
 						this.error = 'Fields are required'
 						return
 					}
