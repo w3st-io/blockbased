@@ -90,13 +90,13 @@
 				setTimeout(() => { EventBus.$emit('update-notification') }, 1500)
 			})
 
-			EventBus.$on('logged-in', () => { this.userLoggedIn() })
+			EventBus.$on('logged-in', () => { this.handleUserLoggedIn() })
 
-			EventBus.$on('logged-out', () => { this.userLoggedOut() })
+			EventBus.$on('logged-out', () => { this.handleUserLoggedOut() })
 
-			EventBus.$on('admin-logged-in', () => { this.adminLoggedIn() })
-			
-			EventBus.$on('admin-logged-out', () => { this.adminLoggedOut() })
+			EventBus.$on('admin-logged-in', () => { this.handleAdminLoggedIn() })
+
+			EventBus.$on('admin-logged-out', () => { this.handleAdminLoggedOut() })
 
 			EventBus.$on('force-rerender', () => { this.forceRerender() })
 
@@ -140,7 +140,7 @@
 				catch (err) { `App: Error --> ${err}` }
 			},
 
-			userLoggedIn() {
+			handleUserLoggedIn() {
 				this.socket.emit('join', this.decoded.user_id)
 
 				this.loggedIn = true
@@ -148,7 +148,7 @@
 				this.forceRerender()
 			},
 
-			userLoggedOut() {
+			handleUserLoggedOut() {
 				this.socket.emit('leave')
 
 				localStorage.removeItem('usertoken')
@@ -158,13 +158,13 @@
 				this.forceRerender()
 			},
 
-			adminLoggedIn() {
+			handleAdminLoggedIn() {
 				this.adminLoggedIn = true
 
 				this.forceRerender()
 			},
 
-			adminLoggedOut() {
+			handleAdminLoggedOut() {
 				this.adminLoggedIn = false
 
 				this.forceRerender()
@@ -172,7 +172,6 @@
 
 			async updateNotifications() { EventBus.$emit('update-notification') },
 
-			// [SIDE-MENU] //
 			toggle() { this.sideMenuOpen = !this.sideMenuOpen },
 
 			forceRerender() { this.appKey++ },
