@@ -17,13 +17,9 @@ async function authAxios() {
 
 /******************* [TOKEN-DECODE] *******************/
 async function s_getAdminTokenDecodeData() {
-	let decoded = {}
-
-	if (localStorage.admintoken) {
-		decoded = jwtDecode(localStorage.admintoken)
-	}
+	if (localStorage.admintoken) { return jwtDecode(localStorage.admintoken) }
 	else {
-		decoded = {
+		return {
 			admin_id: '',
 			role: '',
 			email: '',
@@ -32,8 +28,6 @@ async function s_getAdminTokenDecodeData() {
 			last_name: '',
 		}
 	}
-
-	return decoded
 }
 
 
