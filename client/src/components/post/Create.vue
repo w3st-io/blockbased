@@ -50,7 +50,7 @@
 								embed: require('@editorjs/embed'),
 							},
 						}"
-						class="bg-white"
+						class="bg-white border border-primary"
 					/>
 
 					<!-- Error -->

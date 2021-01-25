@@ -2,36 +2,24 @@
 	<!-- [FORM] Create Comment -->
 	<ValidationObserver v-slot="{ handleSubmit }">
 		<form @submit.prevent="handleSubmit(submit)">
-			<!-- Text Area -->
-			<ValidationProvider
-				tag="div"
-				class="form-group" 
-				name="confirmation"
-				rules=""
-				v-slot="{ errors }"
-			>
-				<!-- Editorjs -->
-				<Editor
-					ref="editor"
-					holder="vue-editor-js"
-					:config="{
-						tools: {
-							code: require('@editorjs/code'),
-							delimiter: require('@editorjs/delimiter'),
-							header: require('@editorjs/header'),
-							list: require('@editorjs/list'),
-							quote: require('@editorjs/quote'),
-							image: require('@editorjs/simple-image'),
-							table: require('@editorjs/table'),
-							embed: require('@editorjs/embed'),
-						},
-					}"
-					class="bg-white"
-				/>
-
-				<!-- Error -->
-				<span class="text-danger">{{ errors[0] }}</span>
-			</ValidationProvider>
+			<!-- Editorjs -->
+			<Editor
+				ref="editor"
+				holder="vue-editor-js"
+				:config="{
+					tools: {
+						code: require('@editorjs/code'),
+						delimiter: require('@editorjs/delimiter'),
+						header: require('@editorjs/header'),
+						list: require('@editorjs/list'),
+						quote: require('@editorjs/quote'),
+						image: require('@editorjs/simple-image'),
+						table: require('@editorjs/table'),
+						embed: require('@editorjs/embed'),
+					},
+				}"
+				class="mb-3 bg-white border border-primary"
+			/>
 			
 			<!-- Submit Button -->
 			<BButton
@@ -95,7 +83,6 @@
 
 				this.$refs.editor._data.state.editor.save()
 					.then((cleanJSON) => {
-						console.log(cleanJSON);
 						this.cleanJSON = cleanJSON
 						this.create()
 					})
@@ -105,7 +92,7 @@
 			async create() {
 				try {
 					if (!localStorage.usertoken) {
-						this.error = 'Error unable to update comment, no token passed'
+						this.error = 'Unable to create comment, no token passed'
 						return
 					}
 

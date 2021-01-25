@@ -23,14 +23,14 @@ import '@assets/styles/style.scss'
 import './vee-validation-rules'
 
 
-// [VUE-USE] //
+// [USE] //
 Vue.use(BootstrapVue)
 Vue.use(Editor)
 Vue.use(Viewer)
 Vue.use(VueYouTubeEmbed)
 
 
-// [GLOBAL COMPONENTS] //
+// [GLOBAL-COMPONENTS] //
 Vue.component('VueHeadful', VueHeadful)
 Vue.component('ValidationObserver', ValidationObserver)
 Vue.component('ValidationProvider', ValidationProvider)

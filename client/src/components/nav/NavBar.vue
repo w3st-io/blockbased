@@ -125,7 +125,7 @@
 		},
 
 		methods: {
-			userTasks() {
+			async userTasks() {
 				try {
 					if (localStorage.usertoken) {
 						this.loggedIn = true

@@ -42,8 +42,6 @@ const c_create = async (user_id, comment, post_id, reportType) => {
 		if (
 			!mongoose.isValidObjectId(comment.user_id) &&
 			!mongoose.isValidObjectId(comment.post_id) &&
-			!comment.text &&
-			comment.text.length >= 6000 &&
 			(
 				!mongoose.isValidObjectId(comment.replyToComment) &&
 				comment.replyToComment !== null

@@ -259,7 +259,7 @@ const c_readSorted = async (user_id, sort = 0, limit, skip) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'activitiesCollection: Unknown filter'
+				message: 'commentsCollection: Unknown filter'
 			}
 		}
 
