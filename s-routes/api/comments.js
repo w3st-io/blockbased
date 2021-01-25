@@ -292,7 +292,7 @@ router.post(
 				// [EXISTANCE] commentLike //
 				const existance = await commentLikesCollection.c_existance(
 					req.decoded.user_id,
-					req.body.post_id,
+					req.body.comment_id,
 				)
 
 				if (!existance.existance) {
