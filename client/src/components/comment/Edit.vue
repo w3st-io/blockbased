@@ -5,7 +5,6 @@
 			<!-- Editorjs -->
 			<Editor
 				ref="editor"
-				holder="vue-editor-js"
 				:config="{
 					tools: {
 						code: require('@editorjs/code'),

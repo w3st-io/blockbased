@@ -38,7 +38,7 @@
 				loading: true,
 
 				// Comment //
-				data: {},
+				reqData: {},
 				comment: {},
 
 				// Error //
@@ -62,11 +62,11 @@
 
 		methods: {
 			async getPage() {
-				try { this.data = await PageService.s_comment_edit(this.comment_id) }
+				try { this.reqData = await PageService.s_comment_edit(this.comment_id) }
 				catch (err) { this.error = err }
 
-				if (this.data.status) { this.comment = this.data.comment }
-				else { this.error = this.data.message }
+				if (this.reqData.status) { this.comment = this.reqData.comment }
+				else { this.error = this.reqData.message }
 			},
 
 			log() {

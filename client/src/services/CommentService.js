@@ -21,7 +21,10 @@ async function s_create(post_id, cleanJSON, replyToComment_id = null) {
 		const authAxios = await this.authAxios()
 		
 		return (
-			await authAxios.post('/create', { post_id, cleanJSON, replyToComment_id })
+			await authAxios.post(
+				'/create',
+				{ post_id, cleanJSON, replyToComment_id }
+			)
 		).data
 	}
 	catch (err) {
@@ -52,7 +55,7 @@ async function s_update(comment_id, cleanJSON) {
 
 
 // [DELETE] Auth Required //
-async function  s_delete(comment_id) {
+async function s_delete(comment_id) {
 	try {
 		const authAxios = await this.authAxios()	
 
