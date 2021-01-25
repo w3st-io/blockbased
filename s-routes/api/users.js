@@ -183,7 +183,7 @@ router.post(
 						res.status(200).send({
 							executed: true,
 							status: false,
-							message: '/api/users/login: Invalid email',
+							message: '/api/users/login: Invalid password',
 						})
 					}
 				}
@@ -191,7 +191,7 @@ router.post(
 					res.status(200).send({
 						executed: true,
 						status: false,
-						message: '/api/users/login: Invalid password',
+						message: '/api/users/login: Invalid email',
 					})
 				}
 			}
