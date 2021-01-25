@@ -17,15 +17,14 @@ async function authAxios() {
 
 /******************* [TOKEN-DECODE] *******************/
 async function s_getUserTokenDecodeData() {
-	let decoded = {
-		_id: '',
-		email: '',
-		username: '',
+	if (localStorage.usertoken) { return jwtDecode(localStorage.usertoken) }
+	else {
+		return {
+			_id: '',
+			email: '',
+			username: '',
+		}
 	}
-
-	if (localStorage.usertoken) { decoded = jwtDecode(localStorage.usertoken) }
-
-	return decoded
 }
 
 
