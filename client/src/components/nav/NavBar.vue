@@ -121,7 +121,7 @@
 			await this.userTasks()
 
 			// [ON-EVENTBUS] //
-			EventBus.$on('logged-in', () => { this.loggedIn = true })
+			EventBus.$on('user-logged-in', () => { this.loggedIn = true })
 		},
 
 		methods: {

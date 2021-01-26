@@ -7,7 +7,7 @@ const express = require('express')
 const usersCollection = require('../../../s-collections/usersCollection')
 const activitiesCollection = require('../../../s-collections/activitiesCollection')
 const Auth = require('../../../s-middleware/Auth')
-const userUtil = require('../../../s-utils/userUtils')
+const socketUtil = require('../../../s-utils/socketUtil')
 const timeUtil = require('../../../s-utils/timeUtil')
 
 
@@ -22,7 +22,7 @@ router.get(
 	async (req, res) => {
 		try {
 			// [INIT] Const //
-			const userSockets = userUtil.getAllUserSockets()
+			const userSockets = socketUtil.getAllUserSockets()
 			const timeFrame = 60
 			const timeInterval = 1
 

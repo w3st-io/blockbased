@@ -37,7 +37,7 @@
 		},
 		methods: {
 			logout() {
-				EventBus.$emit('logged-out')
+				EventBus.$emit('user-logged-out')
 				this.loggedIn = false
 
 				router.push({ name: 'login' })

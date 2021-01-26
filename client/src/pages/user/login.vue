@@ -143,7 +143,7 @@
 				localStorage.setItem('usertoken', this.reqData.token)
 
 				// [EMIT] //
-				EventBus.$emit('logged-in')
+				EventBus.$emit('user-logged-in')
 
 				// [REDIRECT] //
 				router.go(-1)

@@ -40,7 +40,7 @@
 	import NavBar from '@components/nav/NavBar'
 	import SideMenu from '@components/nav/SideMenu'
 	import UserService from '@services/UserService'
-	import Service from '@services/Services'
+	import Service from '@services/Service'
 	import { EventBus } from '@main'
 
 	// [EXPORT] //
@@ -89,9 +89,9 @@
 				setTimeout(() => { EventBus.$emit('update-notification') }, 1500)
 			})
 
-			EventBus.$on('logged-in', () => { this.handleUserLoggedIn() })
+			EventBus.$on('user-logged-in', () => { this.handleUserLoggedIn() })
 
-			EventBus.$on('logged-out', () => { this.handleUserLoggedOut() })
+			EventBus.$on('user-logged-out', () => { this.handleUserLoggedOut() })
 
 			EventBus.$on('admin-logged-in', () => { this.handleAdminLoggedIn() })
 
@@ -138,21 +138,22 @@
 			},
 
 			handleUserLoggedIn() {
-				this.socket.emit('join', this.decoded.user_id)
-
 				this.loggedIn = true
-				
+
 				this.forceRerender()
+				
+				console.log(this.decoded.user_id)
+				this.socket.emit('join', this.decoded.user_id)
 			},
 
 			handleUserLoggedOut() {
-				this.socket.emit('leave')
-
 				localStorage.removeItem('usertoken')
-
+				
 				this.loggedIn = false
 
 				this.forceRerender()
+
+				this.socket.emit('leave')
 			},
 
 			handleAdminLoggedIn() {

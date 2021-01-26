@@ -16,7 +16,7 @@ const postFollowsCollection = require('../../s-collections/postFollowsCollection
 const preeditedCommentsCollection = require('../../s-collections/preeditedCommentsCollection')
 const notificationsCollection = require('../../s-collections/notificationsCollection')
 const Auth = require('../../s-middleware/Auth')
-const userUtils = require('../../s-utils/userUtils')
+const socketUtil = require('../../s-utils/socketUtil')
 
 
 // [EXPRESS + USE] //
@@ -74,7 +74,7 @@ router.post(
 								)
 
 								// [SOCKET-READ] Get userSocket by user_id //
-								const userSocket = userUtils.getUserSocketByUserId(
+								const userSocket = socketUtil.getUserSocketByUserId(
 									pFObj.postFollows[i].user
 								)
 								
@@ -103,7 +103,7 @@ router.post(
 							)
 
 							// [SOCKET-READ] Get userSocket by user_id //
-							const userSocket = userUtils.getUserSocketByUserId(
+							const userSocket = socketUtil.getUserSocketByUserId(
 								repliedToComment.comment.user._id
 							)
 							
