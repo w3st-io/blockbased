@@ -68,7 +68,7 @@
 				limit: parseInt(this.$route.params.limit),
 				page: parseInt(this.$route.params.page),
 				loading: true,
-				data: {},
+				reqData: {},
 				activities: [],
 				error: '',
 			}
@@ -83,7 +83,7 @@
 		methods: {
 			async getPageData() {
 				try {
-					this.data = await pageService.s_activity(
+					this.reqData = await pageService.s_activity(
 						this.sort,
 						this.limit,
 						this.page
@@ -91,8 +91,8 @@
 				}
 				catch (err) { this.error = `This: --> ${err}` }
 
-				if (this.data.status) { this.activities = this.data.activities }
-				else { this.error = this.data.message }
+				if (this.reqData.status) { this.activities = this.reqData.activities }
+				else { this.error = this.reqData.message }
 
 				this.loading = false
 			},
@@ -134,7 +134,7 @@
 
 			async nextPage() {
 				// As long as page does not exceed max Number of Pages //
-				if (this.page < this.data.totalPages) {
+				if (this.page < this.reqData.totalPages) {
 					this.loading = true
 					this.page++
 
@@ -145,9 +145,9 @@
 			},
 
 			async endPage() {
-				if (this.page != this.data.totalPages) {
+				if (this.page != this.reqData.totalPages) {
 					this.loading = true
-					this.page = this.data.totalPages
+					this.page = this.reqData.totalPages
 
 					this.refreshRoute()
 
@@ -159,7 +159,7 @@
 				console.log('%%% [PAGE] /activity %%%')
 				console.log('limit:', this.limit)
 				console.log('page:', this.page)
-				console.log('data:', this.data)
+				console.log('reqData:', this.reqData)
 				if (this.error) { console.error('error:', this.error) }
 			},
 		},

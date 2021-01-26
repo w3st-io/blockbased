@@ -83,20 +83,22 @@
 		},
 
 		created: async function() {
-			try { this.reqData = await PageService.s_home() }
-			catch (err) { this.error = err }
+			try {
+				this.reqData = await PageService.s_home()
 
-			if (this.reqData.status) {
-				this.cats1 = this.reqData.cats.slice(0, 2)
-				this.cats2 = this.reqData.cats.slice(2, 4)
-				this.cats3 = this.reqData.cats.slice(4, 7)
-				this.cats4 = this.reqData.cats.slice(7, 10)
+				if (this.reqData.status) {
+					this.cats1 = this.reqData.cats.slice(0, 2)
+					this.cats2 = this.reqData.cats.slice(2, 4)
+					this.cats3 = this.reqData.cats.slice(4, 7)
+					this.cats4 = this.reqData.cats.slice(7, 10)
 
-				this.topPosts = this.reqData.topPosts
+					this.topPosts = this.reqData.topPosts
 
-				this.loading = false
+					this.loading = false
+				}
+				else { this.error = this.reqData.message }
 			}
-			else { this.error = this.reqData.message }
+			catch (err) { this.error = err }
 
 			this.log()
 		},

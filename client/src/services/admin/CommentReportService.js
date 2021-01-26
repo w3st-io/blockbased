@@ -19,13 +19,11 @@ async function authAxios() {
 async function s_markHandled(report_id) {
 	const authAxios = await this.authAxios()
 
-	let result = new Promise ((resolve, reject) => {
+	return new Promise ((resolve, reject) => {
 		authAxios.get(`/mark-handled/${report_id}`)
 			.then((res) => { resolve(res) })
 			.catch((err) => { reject(err) })
 	})
-
-	return result	
 }
 
 
