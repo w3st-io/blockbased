@@ -137,13 +137,17 @@
 				catch (err) { `App: Error --> ${err}` }
 			},
 
-			handleUserLoggedIn() {
+			async handleUserLoggedIn() {
+				this.decoded = await UserService.s_getUserTokenDecodeData()
+
 				this.loggedIn = true
 
 				this.forceRerender()
+
+				this.socket.emit('join', this.decoded.user_id)
 			},
 
-			handleUserLoggedOut() {
+			async handleUserLoggedOut() {
 				localStorage.removeItem('usertoken')
 				
 				this.loggedIn = false
@@ -153,13 +157,13 @@
 				this.socket.emit('leave')
 			},
 
-			handleAdminLoggedIn() {
+			async handleAdminLoggedIn() {
 				this.adminLoggedIn = true
 
 				this.forceRerender()
 			},
 
-			handleAdminLoggedOut() {
+			async handleAdminLoggedOut() {
 				this.adminLoggedIn = false
 
 				this.forceRerender()
