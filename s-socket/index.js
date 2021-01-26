@@ -7,7 +7,7 @@ module.exports = {
 	start: (io) => {
 		io.on('connection', (socket) => {
 			// [LOG] //
-			//console.log('New web-socket Connected')
+			console.log('[WEB-SOCKET] New Connected')
 		
 
 			// [EMIT] User //
@@ -16,20 +16,18 @@ module.exports = {
 		
 			// [ON] User Join //
 			socket.on('join', (user_id) => {
-				console.log('socket-join user_id:', user_id)
-
-				// Check if user_id is not null & user_id isnt already in room
+				// user_id exists & user_id not in room // 
 				if (user_id && !socketUtil.getUserSocketByUserId(user_id)) {
-
 					socketUtil.join(socket.id, user_id)
 		
-					// [EMIT-SOCKET][EMIT-SOCKET-BROADCAST] usersOnline //
+					// [EMIT-SOCKET] //
 					socket.emit('user', socketUtil.getUserSocket(socket.id))
 
+					// [EMIT-SOCKET] Broadcast usersOnline //
 					socket.broadcast.emit('user', socketUtil.getUserSocket(socket.id))
 					
 					// [LOG] //
-					//console.log('Sockets In Room:', socketUtil.getAllUserSockets())
+					console.log('[WEB-SOCKET] Room:', socketUtil.getAllUserSockets())
 				}
 			})
 			
@@ -39,7 +37,7 @@ module.exports = {
 				socketUtil.leave(socket.id)
 
 				// [LOG] //
-				//console.log('Sockets In Room:', socketUtil.getAllUserSockets())
+				console.log('[WEB-SOCKET] Room:', socketUtil.getAllUserSockets())
 			})
 		
 		
