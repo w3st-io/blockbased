@@ -33,7 +33,6 @@
 	import io from 'socket.io-client'
 
 	// [IMPORT] Personal //
-	import utils from '@utils'
 	import AdminNavBar from '@components/admin/AdminNavBar'
 	import PopUpNotifications from '@components/notifications/PopUpNotifications'
 	import PopUpBanner from '@components/misc/PopUpBanner'
@@ -41,6 +40,7 @@
 	import NavBar from '@components/nav/NavBar'
 	import SideMenu from '@components/nav/SideMenu'
 	import UserService from '@services/UserService'
+	import Service from '@services/Services'
 	import { EventBus } from '@main'
 
 	// [EXPORT] //
@@ -82,7 +82,6 @@
 
 			await this.adminTasks()
 
-			// Get Initial Notifications //
 			await this.updateNotifications()
 
 			// [ON-SOCKET] //
@@ -107,7 +106,7 @@
 		methods: {
 			async setSocket() {
 				try {
-					this.reqData = await utils.getSocketBaseUrl()
+					this.reqData = await Service.getSocketBaseUrl()
 
 					if (this.reqData) { this.socket = io(this.reqData) }
 				}
@@ -133,8 +132,6 @@
 					// [ADMIN-LOGGEDIN] //
 					if (localStorage.admintoken) {
 						this.adminLoggedIn = true
-	
-						this.socket.emit('admin-join')
 					}
 				}
 				catch (err) { `App: Error --> ${err}` }

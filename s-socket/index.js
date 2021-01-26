@@ -10,11 +10,11 @@ module.exports = {
 			//console.log('New web-socket Connected')
 		
 
-			// [EMIT] user //
+			// [EMIT] User //
 			socket.emit('user', userUtils.getUserSocket(socket.id))
 		
 		
-			// [ON] join //
+			// [ON] User Join //
 			socket.on('join', (user_id) => {
 				// Check if user_id is not null & user_id isnt already in room
 				if (user_id && !userUtils.getUserSocketByUserId(user_id)) {
@@ -28,13 +28,12 @@ module.exports = {
 			})
 			
 		
-			// [ON] leave //
+			// [ON] User Leave //
 			socket.on('leave', () => { userUtils.leave(socket.id) })
 		
 		
 			// [ON] Disconnect //
 			socket.on('disconnect', () => {
-				// Leave variable
 				userUtils.leave(socket.id)
 
 				// [LOG] //
