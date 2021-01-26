@@ -39,8 +39,8 @@
 	import Footer from '@components/nav/Footer'
 	import NavBar from '@components/nav/NavBar'
 	import SideMenu from '@components/nav/SideMenu'
-	import UserService from '@services/UserService'
 	import Service from '@services/Service'
+	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
 
 	// [EXPORT] //
@@ -141,9 +141,6 @@
 				this.loggedIn = true
 
 				this.forceRerender()
-				
-				console.log(this.decoded.user_id)
-				this.socket.emit('join', this.decoded.user_id)
 			},
 
 			handleUserLoggedOut() {
