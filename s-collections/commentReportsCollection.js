@@ -45,10 +45,6 @@ const c_create = async (user_id, comment, post_id, reportType) => {
 			(
 				!mongoose.isValidObjectId(comment.replyToComment) &&
 				comment.replyToComment !== null
-			) &&
-			(
-				comment.text.includes('<script') ||
-				comment.text.includes('</script>')
 			)
 		) {
 			return {
