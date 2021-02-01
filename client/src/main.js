@@ -11,7 +11,6 @@ import Vue from 'vue'
 import Editor from 'vue-editor-js/src/index'
 import VueHeadful from 'vue-headful'
 import VueYouTubeEmbed from 'vue-youtube-embed'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'viewerjs/dist/viewer.css'
 
 
