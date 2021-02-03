@@ -148,8 +148,6 @@
 			},
 
 			async handleUserLoggedOut() {
-				localStorage.removeItem('usertoken')
-				
 				this.loggedIn = false
 
 				this.forceRerender()

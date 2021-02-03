@@ -88,7 +88,6 @@
 <script>
 	// [IMPORT] Personal //
 	import Alert from '@components/misc/Alert'
-	import { EventBus } from '@main'
 	import router from '@router'
 	import UserService from '@services/UserService'
 
@@ -132,21 +131,10 @@
 					if (
 						this.reqData.status == true &&
 						this.reqData.validation == true
-					) { this.successful() }
+					) { router.go(-1) }
 					else { this.error = this.reqData.message }
 				}
 				catch (err) { this.error = err }
-			},
-
-			async successful() {
-				// [SET TOKEN] //
-				localStorage.setItem('usertoken', this.reqData.token)
-
-				// [EMIT] //
-				EventBus.$emit('user-logged-in')
-
-				// [REDIRECT] //
-				router.go(-1)
 			},
 		}
 	}

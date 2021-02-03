@@ -84,7 +84,6 @@
 	import Alert from '@components/misc/Alert'
 	import router from '@router'
 	import AdminService from '@services/AdminService'
-	import { EventBus } from '@main'
 
 	// [EXPORT] //
 	export default {
@@ -97,7 +96,7 @@
 				submitted: false,
 				email: '',
 				password: '',
-				data: '',
+				reqData: '',
 				error: '',
 			}
 		},
@@ -111,27 +110,16 @@
 			async login() {
 				// Get Status from Login Function //
 				try {
-					this.data = await AdminService.s_login(
+					this.reqData = await AdminService.s_login(
 						this.email,
 						this.password
 					)
 
-					if (this.data.validation) { this.successful() }
-					else { this.error = this.data.message }
-					
+					if (this.reqData.validation) { router.push({ name: 'admin' }) }
+					else { this.error = this.reqData.message }
 				}
 				catch (err) { this.error = err }
 			},
-
-			successful() {
-				// [SET TOKEN] // Emit // [REDIRECT] //
-				localStorage.setItem('admintoken', this.data.token)
-				EventBus.$emit('admin-logged-in')
-				router.push({ name: 'admin' })
-			}
 		}
 	}
 </script>
-
-<style scoped>
-</style>

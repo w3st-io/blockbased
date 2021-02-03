@@ -21,24 +21,21 @@
 
 <script>
 	import router from '@router'
-	import { EventBus } from '@main'
+	import UserService from '@services/UserService'
 
 	export default {
-		data: function() {
+		data() {
 			return {
 				loggedIn: false,
 			}
 		},
 
-		created: async function() {
-			if (localStorage.usertoken) {
-				this.loggedIn = true
-			}
+		created() {
+			if (localStorage.usertoken) { this.loggedIn = true }
 		},
 		methods: {
 			logout() {
-				EventBus.$emit('user-logged-out')
-				this.loggedIn = false
+				UserService.s_logout()
 
 				router.push({ name: 'login' })
 			},

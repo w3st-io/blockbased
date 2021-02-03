@@ -3,6 +3,10 @@ import jwtDecode from 'jwt-decode'
 import axios from 'axios'
 
 
+// [IMPORT] Personal //
+import { EventBus } from '../main'
+
+
 // [AUTH-TOKEN-SETUP] //
 async function authAxios() {
 	return axios.create({
@@ -33,9 +37,19 @@ async function s_getAdminTokenDecodeData() {
 
 // [LOGIN] //
 async function s_login(email, password) {
-	const authAxios = await this.authAxios()
+	try {
+		const authAxios = await this.authAxios()
 	
-	try { return (await authAxios.post('/login', { email, password })).data }
+		const { data } = await authAxios.post('/login', { email, password })
+
+		// [TOKEN] //
+		localStorage.setItem('admintoken', data.token)
+
+		// [EMIT] //
+		EventBus.$emit('admin-logged-in')
+
+		return data
+	}
 	catch (err) {
 		return {
 			executed: true,
@@ -48,8 +62,8 @@ async function s_login(email, password) {
 
 // [REGISTER] //
 async function s_register(username, email, password) {
-	const authAxios = await this.authAxios()
 	try {
+		const authAxios = await this.authAxios()
 		return (
 			await authAxios.post('/register', { username, email, password, })
 		).data
