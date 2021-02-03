@@ -1,30 +1,13 @@
 <template>
 	<div id="app" :key="appKey">
-		<!-- Top Bar -->
-		<NavBar @menu-btn-clicked="toggle()" />
-
-		<!-- Hidden Side Menu -->
-		<SideMenu :sideMenuOpen="sideMenuOpen" @closeMenu="toggle()" />
+		<!-- UI -->
+		<UI />
 
 		<!-- Router -->
 		<RouterView :key="$route.name + ($route.params.id || '')" />
 
 		<!-- Bottom Footer -->
 		<Footer />
-
-		<!-- Admin Bottom Bar -->
-		<AdminNavBar v-if="adminLoggedIn" />
-
-		<!-- Pop Up Notifications -->
-		<PopUpNotifications v-if="loggedIn" />
-
-		<!-- Floating Pop Up Banner -->
-		<PopUpBanner
-			v-if="message"
-			:decoded="decoded"
-			:message="message"
-			BGColor="info"
-		/>
 	</div>
 </template>
 
@@ -33,12 +16,8 @@
 	import io from 'socket.io-client'
 
 	// [IMPORT] Personal //
-	import AdminNavBar from '@components/admin/AdminNavBar'
-	import PopUpNotifications from '@components/notifications/PopUpNotifications'
-	import PopUpBanner from '@components/misc/PopUpBanner'
 	import Footer from '@components/nav/Footer'
-	import NavBar from '@components/nav/NavBar'
-	import SideMenu from '@components/nav/SideMenu'
+	import UI from './components/UI'
 	import Service from '@services/Service'
 	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
@@ -48,30 +27,20 @@
 		name: 'App',
 
 		components: {
-			AdminNavBar,
-			PopUpNotifications,
-			PopUpBanner,
 			Footer,
-			NavBar,
-			SideMenu,
+			UI,
 		},
 
 		data() {
 			return {
 				appKey: 0,
 				reqData: {},
-				message: '',
 				
 				// [SOCKET] //
 				socket: 5000,
 
-				// [TOKEN] //
-				adminLoggedIn: false,
-				loggedIn: false,
+				// [USER] //
 				decoded: {},
-
-				// [MENU] //
-				sideMenuOpen: false
 			}
 		},
 
@@ -79,8 +48,6 @@
 			await this.setSocket()
 
 			await this.userTasks()
-
-			await this.adminTasks()
 
 			await this.updateNotifications()
 
@@ -104,6 +71,8 @@
 		},
 
 		methods: {
+			forceRerender() { this.appKey++ },
+
 			async setSocket() {
 				try {
 					this.reqData = await Service.getSocketBaseUrl()
@@ -115,10 +84,8 @@
 
 			async userTasks() {
 				try {
-					// [USER-LOGGEDIN] //
+					// [USER] //
 					if (localStorage.usertoken) {
-						this.loggedIn = true
-					
 						this.decoded = await UserService.s_getUserTokenDecodeData()
 
 						this.socket.emit('join', this.decoded.user_id)
@@ -127,51 +94,27 @@
 				catch (err) { `App: Error --> ${err}` }
 			},
 
-			async adminTasks() {
-				try {
-					// [ADMIN-LOGGEDIN] //
-					if (localStorage.admintoken) {
-						this.adminLoggedIn = true
-					}
-				}
-				catch (err) { `App: Error --> ${err}` }
-			},
-
 			async handleUserLoggedIn() {
 				this.decoded = await UserService.s_getUserTokenDecodeData()
 
-				this.loggedIn = true
-
 				this.forceRerender()
 
+				// [SOCKET] //
 				this.socket.emit('join', this.decoded.user_id)
 			},
 
 			async handleUserLoggedOut() {
-				this.loggedIn = false
-
 				this.forceRerender()
 
+				// [SOCKET] //
 				this.socket.emit('leave')
 			},
 
-			async handleAdminLoggedIn() {
-				this.adminLoggedIn = true
+			async handleAdminLoggedIn() { this.forceRerender() },
 
-				this.forceRerender()
-			},
-
-			async handleAdminLoggedOut() {
-				this.adminLoggedIn = false
-
-				this.forceRerender()
-			},
+			async handleAdminLoggedOut() { this.forceRerender() },
 
 			async updateNotifications() { EventBus.$emit('update-notification') },
-
-			toggle() { this.sideMenuOpen = !this.sideMenuOpen },
-
-			forceRerender() { this.appKey++ },
 
 			log() {
 				console.log('%%% [APP] %%%')

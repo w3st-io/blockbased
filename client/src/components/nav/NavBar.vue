@@ -10,7 +10,7 @@
 					</RouterLink>
 
 					<!-- Hidden Menu Button -->
-					<button class="navbar-toggler" @click="menuBtnClicked">
+					<button class="navbar-toggler" @click="toggle()">
 						<span class="navbar-toggler-icon"></span>
 					</button>
 
@@ -91,12 +91,16 @@
 				</BNavbar>
 			</BContainer>
 		</div>
+
+		<!-- Hidden Side Menu -->
+		<SideMenu :sideMenuOpen="sideMenuOpen" @closeMenu="toggle()" />
 	</div>
 </template>
 
 <script>
 	// [IMPORT] Personal //
 	import NotificationMenu from '@components/notifications/NotificationMenu'
+	import SideMenu from '@components/nav/SideMenu'
 	import router from '@router'
 	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
@@ -104,7 +108,8 @@
 	// [EXPORT] //
 	export default {
 		components: {
-			NotificationMenu
+			NotificationMenu,
+			SideMenu,
 		},
 
 		data: function() {
@@ -114,6 +119,9 @@
 				query: '',
 				notifications: '',
 				totalNotifications: 0,
+
+				// [MENU] //
+				sideMenuOpen: false,
 			}
 		},
 
@@ -172,8 +180,10 @@
 					EventBus.$emit('force-rerender')
 				}
 			},
-			
-			menuBtnClicked() { this.$emit('menu-btn-clicked') }
+
+			toggle() {
+				console.log('sdf');
+				this.sideMenuOpen = !this.sideMenuOpen },
 		},
 	}
 </script>
