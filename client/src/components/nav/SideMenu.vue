@@ -19,7 +19,6 @@
 </template>
 <script>
 	// [IMPORT] //
-	import { EventBus } from '@main'
 	import router from '@router'
 
 	// [EXPORT] //
@@ -31,17 +30,10 @@
 			}
 		},
 
-		data: function() {
+		data() {
 			return {
 				query: ''
 			}
-		},
-
-		created: async function() {
-			// [ON-EVENTBUS] //
-			EventBus.$on('navBarSideMenuBtnClicked', () => {
-				this.sideMenuOpen = !this.sideMenuOpen
-			})
 		},
 
 		methods: {

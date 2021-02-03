@@ -45,7 +45,7 @@
 				<BNavbar class="px-0 py-1">
 					<div class="mr-auto d-none d-sm-block">
 						<BButton
-							v-if="loggedIn"
+							v-if="userLogged"
 							variant="outline-light"
 							size="sm"
 							class=""
@@ -62,10 +62,10 @@
 
 					<div>
 						<!-- Logged In -->
-						<NotificationMenu v-if="loggedIn" />
+						<NotificationMenu v-if="userLogged" />
 
 						<BButton
-							v-if="loggedIn"
+							v-if="userLogged"
 							variant="outline-primary"
 							size="sm"
 							class="ml-2"
@@ -74,14 +74,14 @@
 
 						<!-- NOT Logged In -->
 						<BButton
-							v-if="!loggedIn"
+							v-if="!userLogged"
 							variant="outline-secondary"
 							size="sm"
-							@click="logInRedirect()"
+							@click="loginRedirect()"
 						>Login</BButton>
 						
 						<BButton
-							v-if="!loggedIn"
+							v-if="!userLogged"
 							variant="outline-primary"
 							size="sm"
 							class="ml-2"
@@ -115,7 +115,7 @@
 		data: function() {
 			return {
 				decoded: {},
-				loggedIn: false,
+				userLogged: false,
 				query: '',
 				notifications: '',
 				totalNotifications: 0,
@@ -128,15 +128,14 @@
 		created: async function() {
 			await this.userTasks()
 
-			// [ON-EVENTBUS] //
-			EventBus.$on('user-logged-in', () => { this.loggedIn = true })
+			if (localStorage.usertoken) { this.userLogged = true }
 		},
 
 		methods: {
 			async userTasks() {
 				try {
 					if (localStorage.usertoken) {
-						this.loggedIn = true
+						this.userLogged = true
 
 						this.decoded = await UserService.s_getUserTokenDecodeData()
 					}
@@ -144,14 +143,17 @@
 				catch (err) { console.log(`Navbar: ${err}`) }
 			},
 
-			logInRedirect() { router.push({ name: 'login' }) },
+			loginRedirect() { router.push({ name: 'login' }) },
 
 			registerRedirect() { router.push({ name: 'register' }) },
 
 			profileRedirect() { router.push({ name: 'profile' }) },
 
 			followedRedirect() {
-				router.push({ name: 'user-followed', params: { page: 1 } })
+				router.push({
+					name: 'user-followed',
+					params: { page: 1 }
+				})
 			},
 
 			allActivityRedirect() {
@@ -181,9 +183,7 @@
 				}
 			},
 
-			toggle() {
-				console.log('sdf');
-				this.sideMenuOpen = !this.sideMenuOpen },
+			toggle() { this.sideMenuOpen = !this.sideMenuOpen },
 		},
 	}
 </script>
