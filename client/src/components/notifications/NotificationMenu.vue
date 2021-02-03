@@ -92,7 +92,7 @@
 			// [UPDATE] //
 			await this.readAllNotifications()
 
-			// [ON-EVENTBUS] //
+			// [EVENTBUS] //
 			EventBus.$on('update-notification', () => { this.readAllNotifications() })
 
 			// [LOG] //

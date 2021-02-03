@@ -2,7 +2,7 @@
 	<!-- Footer -->
 	<footer class="mt-5 pt-4 page-footer font-small bg-dark text-center">
 		<BButton
-			v-if="loggedIn"
+			v-if="userLogged"
 			variant="outline-secondary"
 			size="sm"
 			class="m-auto"
@@ -26,12 +26,12 @@
 	export default {
 		data() {
 			return {
-				loggedIn: false,
+				userLogged: false,
 			}
 		},
 
 		created() {
-			if (localStorage.usertoken) { this.loggedIn = true }
+			if (localStorage.usertoken) { this.userLogged = true }
 		},
 		methods: {
 			logout() {
