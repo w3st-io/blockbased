@@ -17,7 +17,7 @@
 
 	// [IMPORT] Personal //
 	import Footer from '@components/nav/Footer'
-	import UI from './components/UI'
+	import UI from '@components/UI'
 	import Service from '@services/Service'
 	import UserService from '@services/UserService'
 	import { EventBus } from '@main'
@@ -34,13 +34,9 @@
 		data() {
 			return {
 				appKey: 0,
-				reqData: {},
-				
-				// [SOCKET] //
 				socket: 5000,
-
-				// [USER] //
 				decoded: {},
+				reqData: {},
 			}
 		},
 
