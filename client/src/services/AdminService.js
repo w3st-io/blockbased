@@ -42,11 +42,13 @@ async function s_login(email, password) {
 	
 		const { data } = await authAxios.post('/login', { email, password })
 
-		// [TOKEN] //
-		localStorage.setItem('admintoken', data.token)
-
-		// [EMIT] //
-		EventBus.$emit('admin-logged-in')
+		if (data.validation) {
+			// [TOKEN] //
+			localStorage.setItem('admintoken', data.token)
+	
+			// [EMIT] //
+			EventBus.$emit('admin-logged-in')
+		}
 
 		return data
 	}
@@ -57,6 +59,16 @@ async function s_login(email, password) {
 			message: `AdminService: Error --> ${err}`
 		}
 	}
+}
+
+
+// [LOGOUT] //
+async function s_logout() {
+	// [TOKEN] //
+	localStorage.removeItem('admintoken')
+
+	// [EMIT] //
+	EventBus.$emit('admin-logged-out')
 }
 
 
@@ -83,5 +95,6 @@ export default {
 	authAxios,
 	s_getAdminTokenDecodeData,
 	s_login,
+	s_logout,
 	s_register,
 }

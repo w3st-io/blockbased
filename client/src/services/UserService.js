@@ -76,11 +76,14 @@ async function s_login(email, password) {
 		
 		const { data } = await authAxios.post('/login', { email, password })
 		
-		// [TOKEN] //
-		localStorage.setItem('usertoken', data.token)
-
-		// [EMIT] //
-		EventBus.$emit('user-logged-in')
+		
+		if (data.validation) {
+			// [TOKEN] //
+			localStorage.setItem('usertoken', data.token)
+	
+			// [EMIT] //
+			EventBus.$emit('user-logged-in')
+		}
 
 		return data
 	}

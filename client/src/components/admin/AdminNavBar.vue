@@ -19,14 +19,13 @@
 <script>
 	// [IMPORT] Personal //
 	import router from '@router'
-	import { EventBus } from '@main'
+	import AdminService from '@services/AdminService'
 
 	// [EXPORT] //
 	export default {
 		methods: {
 			logout() {
-				localStorage.removeItem('admintoken')
-				EventBus.$emit('admin-logged-out')
+				AdminService.s_logout()
 			},
 
 			redirectAdmin() { router.push({ name: 'admin' }) },
