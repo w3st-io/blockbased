@@ -21,6 +21,7 @@
     "vue-chartjs": "^3.5.0",
     "vue-click-outside": "^1.1.0",
     "vue-editor-js": "^2.0.2",
+    "vue-feather-icons": "^5.1.0",
     "vue-headful": "^2.1.0",
     "vue-router": "^3.3.4",
     "vue-youtube-embed": "^2.2.2"
