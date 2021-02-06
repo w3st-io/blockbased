@@ -379,7 +379,7 @@ router.post(
 
 /******************* [PASSWORD] *******************/
 router.post(
-	'/reset-password',
+	'/change-password',
 	Auth.userToken(),
 	async (req, res) => {
 		try {
@@ -481,7 +481,7 @@ router.post(
 
 
 router.post(
-	'/not-logged-reset-password',
+	'/reset-password',
 	async (req, res) => {
 		try {
 			if (
@@ -530,7 +530,7 @@ router.post(
 					res.status(200).send({
 						executed: true,
 						status: false,
-						message: '/api/users/not-logged-reset-password: Invalid params',
+						message: '/api/users/reset-password: Invalid params',
 					})
 				}
 			}
@@ -546,7 +546,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/users/not-logged-reset-password: Error --> ${err}`,
+				message: `/api/users/reset-password: Error --> ${err}`,
 			})
 		}
 	}

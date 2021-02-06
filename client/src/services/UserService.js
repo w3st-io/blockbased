@@ -163,7 +163,7 @@ async function s_resetPassword(currentPassword, password) {
 		const authAxios = await this.authAxios()
 		
 		return (
-			await authAxios.post('/reset-password', { currentPassword, password })
+			await authAxios.post('/change-password', { currentPassword, password })
 		).data
 	}
 	catch (err) {
@@ -197,7 +197,7 @@ async function s_notLoggedResetPassword(user_id, verificationCode, password) {
 		const authAxios = await this.authAxios()
 		
 		return (
-			await authAxios.post('/not-logged-reset-password', {
+			await authAxios.post('/reset-password', {
 				user_id,
 				verificationCode,
 				password
