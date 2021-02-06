@@ -17,7 +17,7 @@ const router = express.Router().use(cors())
 /******************* [MARK-HANDLED-STATUS] *******************/
 router.get(
 	'/mark-handled/:commentReport_id',
-	Auth.userToken(),
+	Auth.adminToken(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
