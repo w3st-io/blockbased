@@ -201,9 +201,7 @@ async function s_report(reportType, reportedUser) {
 	try {
 		const authAxios = await this.authAxios()
 		
-		return (
-			await authAxios.post('/report', { reportType, reportedUser })
-		).data
+		return (await authAxios.post('/report', { reportType, reportedUser })).data
 	}
 	catch (err) {
 		return {
