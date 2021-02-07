@@ -82,7 +82,7 @@
 
 		created: async function() {
 			// [REDIRECT] Not Log Required //
-			if (!localStorage.usertoken) { router.push({ name: 'login' }) }
+			if (!localStorage.usertoken) { router.push({ name: 'user_login' }) }
 
 			try { this.returned = await await PageService.s_user_profile() }
 			catch (err) { this.error = err }

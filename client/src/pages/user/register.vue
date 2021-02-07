@@ -118,7 +118,7 @@
 
 		created: async function() {
 			// [REDIRECT] Log Required //
-			if (localStorage.usertoken) { router.push({ name: 'profile' }) }
+			if (localStorage.usertoken) { router.push({ name: 'user_profile' }) }
 		},
 
 		methods: {
@@ -131,7 +131,7 @@
 					)
 
 					// Check Status //
-					if (this.data.created) { router.push({ name: 'account-created' }) }
+					if (this.data.created) { router.push({ name: 'user_account_created' }) }
 					else { this.error = this.data.message }
 				}
 				catch (err) { this.error = err }

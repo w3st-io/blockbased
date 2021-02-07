@@ -115,7 +115,7 @@
 				
 				console.log('reqData:', this.reqData)
 
-				setTimeout(() => { router.push({ name: 'login' }) }, 1500)
+				setTimeout(() => { router.push({ name: 'user_login' }) }, 1500)
 			},
 		},
 	}

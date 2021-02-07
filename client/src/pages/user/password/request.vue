@@ -93,7 +93,7 @@
 
 		async created() {
 			// [REDIRECT] Log Required //
-			if (localStorage.usertoken) { router.push({ name: 'profile' }) }
+			if (localStorage.usertoken) { router.push({ name: 'user_profile' }) }
 		},
 
 		methods: {
@@ -111,7 +111,7 @@
 					else {
 						this.success = this.data.message
 
-						setTimeout(() => { router.push({ name: 'login' }) }, 1500)
+						setTimeout(() => { router.push({ name: 'user_login' }) }, 1500)
 					}
 				}
 				catch (err) { this.error = err }

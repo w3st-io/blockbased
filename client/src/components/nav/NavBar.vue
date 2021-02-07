@@ -143,15 +143,15 @@
 				catch (err) { console.log(`Navbar: ${err}`) }
 			},
 
-			loginRedirect() { router.push({ name: 'login' }) },
+			loginRedirect() { router.push({ name: 'user_login' }) },
 
 			registerRedirect() { router.push({ name: 'register' }) },
 
-			profileRedirect() { router.push({ name: 'profile' }) },
+			profileRedirect() { router.push({ name: 'user_profile' }) },
 
 			followedRedirect() {
 				router.push({
-					name: 'user-followed',
+					name: 'user_followed',
 					params: { page: 1 }
 				})
 			},

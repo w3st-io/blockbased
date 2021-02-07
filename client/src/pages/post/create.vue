@@ -37,7 +37,7 @@
 
 		created: async function() {
 			// [REDIRECT] Not Log Needed //
-			if (!localStorage.usertoken) { router.push({ name: 'login' }) }
+			if (!localStorage.usertoken) { router.push({ name: 'user_login' }) }
 
 			this.data = await PageService.s_post_create()
 

@@ -48,7 +48,7 @@
 
 		created: async function() {
 			// [REDIRECT] Log Needed //
-			if (!localStorage.usertoken) { router.push({ name: 'login' }) }
+			if (!localStorage.usertoken) { router.push({ name: 'user_login' }) }
 
 			// Get Comment Details //
 			await this.getPage()

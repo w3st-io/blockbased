@@ -121,7 +121,7 @@
 					
 					// [REDIRECT] Cat Page //
 					router.push({
-						name: 'user-followed',
+						name: 'user_followed',
 						params: { page: this.pageNumber }
 					})
 				}
@@ -137,7 +137,7 @@
 					
 					// [REDIRECT] Cat Page //
 					router.push({
-						name: 'user-followed',
+						name: 'user_followed',
 						params: { page: this.pageNumber }
 					})
 				}

@@ -279,7 +279,7 @@
 				if (!this.disabled) {
 					// [REDIRECT] //
 					router.push({
-						name: 'comment-edit',
+						name: 'comment_edit',
 						params: { comment_id, }
 					})
 				}
@@ -289,7 +289,7 @@
 				if (!this.disabled) {
 					// [REDIRECT] //
 					router.push({
-						name: 'comment-reply',
+						name: 'comment_reply',
 						params: { comment_id, }
 					})
 				}

@@ -262,7 +262,7 @@
 
 			redirectToPostCommentCreate() {
 				router.push({
-					name: 'comment-create',
+					name: 'comment_create',
 					params: { post_id: this.post._id, }
 				})
 			},

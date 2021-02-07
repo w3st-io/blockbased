@@ -37,7 +37,7 @@
 			logout() {
 				UserService.s_logout()
 
-				router.push({ name: 'login' })
+				router.push({ name: 'user_login' })
 			},
 		}
 	}

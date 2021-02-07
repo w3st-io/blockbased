@@ -268,11 +268,11 @@
 
 		methods: {
 			redirectProfileEdit() {
-				router.push({ name: 'edit' })
+				router.push({ name: 'user_profile_edit' })
 			},
 
 			redirectPasswordChange() {
-				router.push({ name: 'password-change', })
+				router.push({ name: 'password_change', })
 			},
 
 			redirectActivity(user_id) {

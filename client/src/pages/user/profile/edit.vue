@@ -106,7 +106,7 @@
 
 				if (this.data.status) {
 					// [REDIRECT] //
-					router.push({ name: 'profile' })
+					router.push({ name: 'user_profile' })
 				}
 				else { this.error = this.data.message }
 			},

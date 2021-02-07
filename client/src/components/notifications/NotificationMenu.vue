@@ -14,7 +14,7 @@
 			<span v-if="notifications.length != 0" class="mr-1 badge badge-danger">
 				{{ reqData.unreadNotificationCount }}
 			</span>
-			
+
 			<BellIcon size="16" />
 		</button>
 
@@ -138,7 +138,7 @@
 			redirectNotifications() {
 				// [REDIRECT] //
 				router.push({
-					name: 'notifications',
+					name: 'user_notifications',
 					params: {
 						sort: 1,
 						limit: 3,

@@ -46,7 +46,7 @@
 
 		created: async function() {
 			// [REDIRECT] Log Needed //
-			if (!localStorage.usertoken) { router.push({ name: 'login' }) }			
+			if (!localStorage.usertoken) { router.push({ name: 'user_login' }) }			
 
 			// Get Post Details // Assign post data //
 			this.pageData = await PageService.s_comment_create(this.post_id)

@@ -132,7 +132,7 @@ const router = new Router ({
 		},
 		{
 			path: '/admin/login',
-			name: 'a-login',
+			name: 'admin_login',
 			component: admin_login,
 			meta: {
 				auth: true,
@@ -141,7 +141,7 @@ const router = new Router ({
 		},
 		{
 			path: '/admin/profile',
-			name: 'admin-profile',
+			name: 'admin_profile',
 			component: admin_profile,
 			meta: {
 				auth: true,
@@ -150,7 +150,7 @@ const router = new Router ({
 		},
 		{
 			path: '/admin/register',
-			name: 'a-register',
+			name: 'admin_register',
 			component: admin_register,
 			meta: {
 				auth: true,
@@ -199,7 +199,7 @@ const router = new Router ({
 		// Comment //
 		{
 			path: '/comment/create/:post_id',
-			name: 'comment-create',
+			name: 'comment_create',
 			component: comment_create,
 			meta: {
 				auth: true,
@@ -208,7 +208,7 @@ const router = new Router ({
 		},
 		{
 			path: '/comment/edit/:comment_id',
-			name: 'comment-edit',
+			name: 'comment_edit',
 			component: comment_edit,
 			meta: {
 				auth: true,
@@ -217,7 +217,7 @@ const router = new Router ({
 		},
 		{
 			path: '/comment/reply/:comment_id',
-			name: 'comment-reply',
+			name: 'comment_reply',
 			component: comment_reply,
 			meta: {
 				auth: true,
@@ -237,7 +237,7 @@ const router = new Router ({
 		},
 		{
 			path: '/post/create/:cat_id',
-			name: 'post-create',
+			name: 'post_create',
 			component: post_create,
 			meta: {
 				auth: true,
@@ -248,7 +248,7 @@ const router = new Router ({
 		// User //
 		{
 			path: '/user/account-created',
-			name: 'account-created',
+			name: 'user_account_created',
 			component: user_accountCreated,
 			meta: {
 				auth: true,
@@ -275,7 +275,7 @@ const router = new Router ({
 		},
 		{
 			path: '/user/followed/:page',
-			name: 'user-followed',
+			name: 'user_followed',
 			component: user_followed,
 			meta: {
 				auth: true,
@@ -284,7 +284,7 @@ const router = new Router ({
 		},
 		{
 			path: '/user/login',
-			name: 'login',
+			name: 'user_login',
 			component: user_login,
 			meta: {
 				auth: true,
@@ -293,7 +293,7 @@ const router = new Router ({
 		},
 		{
 			path: '/user/notifications/:sort/:limit/:page',
-			name: 'notifications',
+			name: 'user_notifications',
 			component: user_notifications,
 			meta: {
 				auth: true,
@@ -302,7 +302,7 @@ const router = new Router ({
 		},
 		{
 			path: '/user/password/change',
-			name: 'password-change',
+			name: 'password_change',
 			component: user_password_change,
 			meta: {
 				auth: true,
@@ -311,7 +311,7 @@ const router = new Router ({
 		},
 		{
 			path: '/user/password/request',
-			name: 'request',
+			name: 'user_request',
 			component: user_password_request,
 			meta: {
 				auth: true,
@@ -320,7 +320,7 @@ const router = new Router ({
 		},
 		{
 			path: '/user/password/reset/:user_id/:verification_code',
-			name: 'reset-password',
+			name: 'user_password_reset',
 			component: user_password_reset,
 			meta: {
 				auth: true,
@@ -329,7 +329,7 @@ const router = new Router ({
 		},
 		{
 			path: '/user/profile',
-			name: 'profile',
+			name: 'user_profile',
 			component: user_profile,
 			meta: {
 				auth: true,
@@ -338,7 +338,7 @@ const router = new Router ({
 		},
 		{
 			path: '/user/profile/edit',
-			name: 'edit',
+			name: 'user_profile_edit',
 			component: user_profile_edit,
 			meta: {
 				auth: true,
@@ -394,7 +394,7 @@ const router = new Router ({
 		// Not-Found //
 		{
 			path: '/**',
-			name: '404',
+			name: 'not_found',
 			component: NotFound,
 			meta: {
 				auth: true,

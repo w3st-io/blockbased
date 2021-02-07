@@ -150,7 +150,7 @@
 			refreshRoute() {
 				// [REDIRECT] Notifications Page //
 				router.push({
-					name: 'notifications',
+					name: 'user_notifications',
 					params: {
 						sort: this.sort,
 						limit: this.limit,
