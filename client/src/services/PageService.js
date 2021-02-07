@@ -366,6 +366,22 @@ async function s_user_profile() {
 }
 
 
+async function s_user_profile_edit() {
+	try {
+		const authAxios = await this.authAxios()
+	
+		return (await authAxios.get(`/user/profile/edit`)).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `UserService: Error --> ${err}`
+		}
+	}
+}
+
+
 async function s_user_profile_lookup(user_id) {
 	try {
 		const authAxios = await this.authAxios()
@@ -417,6 +433,7 @@ export default {
 	s_comment_edit,
 	s_comment_reply,
 	s_user_activity,
+	s_user_profile_edit,
 	s_user_activity_lookup,
 	s_user_followed,
 	s_user_notifications,

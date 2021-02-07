@@ -56,7 +56,7 @@
 	// [IMPORT] Personal //
 	import Alert from '@components/misc/Alert'
 	import router from '@router'
-	import UserService from '@services/UserService'
+	import UserService from '@services/PageService'
 
 	// [EXPORT] //
 	export default {
@@ -80,7 +80,7 @@
 			if (!localStorage.usertoken) { router.push({ name: '/' }) }
 
 			// Retrieve User Profile Data //
-			try { this.data = await UserService.s_read() }
+			try { this.data = await UserService.s_user_profile_edit() }
 			catch (err) { this.error = err }
 
 			if (this.data.status) {

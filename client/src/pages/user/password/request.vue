@@ -81,7 +81,7 @@
 			Alert,
 		},
 
-		data: function() {
+		data() {
 			return {
 				submitted: false,
 				email: '',
@@ -91,7 +91,7 @@
 			}
 		},
 
-		created: async function() {
+		async created() {
 			// [REDIRECT] Log Required //
 			if (localStorage.usertoken) { router.push({ name: 'profile' }) }
 		},

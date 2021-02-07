@@ -33,23 +33,6 @@ async function s_getUserTokenDecodeData() {
 
 
 /******************* [CRUD] *******************/
-// [READ] //
-async function s_read(user_id) {
-	try {
-		const authAxios = await this.authAxios()
-	
-		if (user_id) { return (await authAxios.get(`/read/${user_id}`)).data }
-		else { return (await authAxios.get('/read')).data }
-	}
-	catch (err) {
-		return {
-			executed: false,
-			status: false,
-			message: `UserService: Error --> ${err}`
-		}
-	}
-}
-
 // [UPDATE] Auth Required //
 async function s_update(img_url, bio) {
 	try {
@@ -236,7 +219,6 @@ async function s_report(reportType, reportedUser) {
 export default {
 	authAxios,
 	s_getUserTokenDecodeData,
-	s_read,
 	s_update,
 	s_login,
 	s_logout,
