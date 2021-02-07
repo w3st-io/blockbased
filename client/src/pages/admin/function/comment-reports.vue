@@ -106,7 +106,7 @@
 			refreshRoute() {
 				// [REDIRECT] Cat Page //
 				router.push({
-					name: 'admin-function-comment-reports',
+					name: 'admin_f_comment_reports',
 					params: {
 						sort: this.sort,
 						limit: this.limit,

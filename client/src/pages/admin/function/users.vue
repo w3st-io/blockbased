@@ -102,7 +102,7 @@
 
 			refreshRoute() {
 				router.push({
-					name: 'admin-function-users',
+					name: 'admin_f_users',
 					params: {
 						sort: this.sort,
 						limit: this.limit,

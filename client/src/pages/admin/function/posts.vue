@@ -102,7 +102,7 @@
 
 			refreshRoute() {
 				router.push({
-					name: 'admin-function-posts',
+					name: 'admin_f_posts',
 					params: {
 						sort: this.sort,
 						limit: this.limit,

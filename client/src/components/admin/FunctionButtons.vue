@@ -47,7 +47,7 @@
 
 			redirectCommentReports() {
 				router.push({
-					name: 'admin-function-comment-reports',
+					name: 'admin_f_comment_reports',
 					params: {
 						sort: 0,
 						limit: 5,
@@ -58,7 +58,7 @@
 
 			redirectComments() {
 				router.push({
-					name: 'admin-function-comments',
+					name: 'admin_f_comment',
 					params: {
 						sort: 0,
 						limit: 5,
@@ -70,7 +70,7 @@
 
 			redirectPosts() {
 				router.push({
-					name: 'admin-function-posts',
+					name: 'admin_f_posts',
 					params: {
 						sort: 0,
 						limit: 5,
@@ -81,7 +81,7 @@
 
 			redirectUsers() {
 				router.push({
-					name: 'admin-function-users',
+					name: 'admin_f_users',
 					params: {
 						sort: 0,
 						limit: 5,

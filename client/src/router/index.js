@@ -96,7 +96,7 @@ const router = new Router ({
 		},
 		{
 			path: '/admin/function/comment-reports/:sort/:limit/:page',
-			name: 'admin-function-comment-reports',
+			name: 'admin_f_comment_reports',
 			component: admin_function_commentReports,
 			meta: {
 				auth: true,
@@ -105,7 +105,7 @@ const router = new Router ({
 		},
 		{
 			path: '/admin/function/comments/:sort/:limit/:page',
-			name: 'admin-function-comments',
+			name: 'admin_f_comment',
 			component: admin_function_comments,
 			meta: {
 				auth: true,
@@ -114,7 +114,7 @@ const router = new Router ({
 		},
 		{
 			path: '/admin/function/posts/:sort/:limit/:page',
-			name: 'admin-function-posts',
+			name: 'admin_f_posts',
 			component: admin_function_posts,
 			meta: {
 				auth: true,
@@ -123,7 +123,7 @@ const router = new Router ({
 		},
 		{
 			path: '/admin/function/users/:sort/:limit/:page',
-			name: 'admin-function-users',
+			name: 'admin_f_users',
 			component: admin_function_users,
 			meta: {
 				auth: true,
