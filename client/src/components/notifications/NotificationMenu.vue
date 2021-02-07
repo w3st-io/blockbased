@@ -14,10 +14,8 @@
 			<span v-if="notifications.length != 0" class="mr-1 badge badge-danger">
 				{{ reqData.unreadNotificationCount }}
 			</span>
-			<img
-				:src="require('../../assets/images/icons/bell.svg')"
-				style="width: 16px;"
-			>
+			
+			<BellIcon size="16" />
 		</button>
 
 		<!-- Dropdown Menu -->
@@ -67,6 +65,7 @@
 <script>
 	// [IMPORT] //
 	import ClickOutside from 'vue-click-outside'
+	import { BellIcon } from 'vue-feather-icons'
 
 	// [IMPORT] Personal //
 	import router from '@/router'
@@ -75,7 +74,11 @@
  
 	// [EXPORT] //
 	export default {
-		data: function() {
+		components: {
+			BellIcon,
+		},
+
+		data() {
 			return {
 				showPopper: false,
 				reqData: {},
@@ -83,12 +86,12 @@
 			}
 		},
 
-		mounted: function() {
+		mounted() {
 			// prevent click outside event with popupItem.
 			this.popupItem = this.$el
 		},
 
-		created: async function() {
+		async created() {
 			// [UPDATE] //
 			await this.readAllNotifications()
 

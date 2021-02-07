@@ -6,13 +6,20 @@
 					<h2 class="mb-4 text-success">Account Created!</h2>
 					<h5>Please check your email so you can verify your account</h5>
 						
-					<img
-						:src="require('../../assets/images/icons/mail.svg')"
-						class="m-auto w-100"
-						style="max-width: 250px;"
-					>
+					<MailIcon size="8x" class="text-success" />
 				</BCard>
 			</BCol>
 		</BRow>
 	</BContainer>
 </template>
+
+<script>
+	// [IMPORT] //
+	import { MailIcon } from 'vue-feather-icons'
+
+	export default {
+		components: {
+			MailIcon,
+		}
+	}
+</script>
