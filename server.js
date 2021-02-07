@@ -10,8 +10,9 @@ require('dotenv').config()
 
 
 // [REQUIRE] Personal // Other // API // Pages //
-const s_socket = require('./s-socket')
 const config = require('./s-config')
+const Universal = require('./s-middleware/Universal')
+const s_socket = require('./s-socket')
 const rateLimiter = require('./s-rate-limiters')
 
 const a_ = require('./s-routes/api')
@@ -96,7 +97,7 @@ app.use('/api/admins', a_admins)
 app.use('/api/posts', a_posts)
 app.use('/api/comments', a_comments)
 app.use('/api/notifications', a_notifications)
-app.use('/api/users', a_users)
+app.use('/api/users', Universal.app(), a_users)
 
 app.use('/pages', p_)
 app.use('/pages/activity', p_activity)
