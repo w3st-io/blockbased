@@ -26,6 +26,7 @@ import comment_reply from '@/pages/comment/reply'
 // Components //
 import components from '@/pages/components'
 import components_bcarousel from '@/pages/components/bcarousel'
+import components_conveyor from '../pages/components/conveyor'
 import components_parallax from '@/pages/components/parallax'
 // Post //
 import post from '@/pages/post'
@@ -182,6 +183,15 @@ const router = new Router ({
 			path: '/components/bcarousel',
 			name: 'components_bcarousel',
 			component: components_bcarousel,
+			meta: {
+				auth: true,
+				title: 'Components Carousel'
+			},
+		},
+		{
+			path: '/components/conveyor',
+			name: 'components_conveyor',
+			component: components_conveyor,
 			meta: {
 				auth: true,
 				title: 'Components Carousel'

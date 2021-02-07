@@ -12,6 +12,7 @@ import Editor from 'vue-editor-js/src/index'
 import VueHeadful from 'vue-headful'
 import VueYouTubeEmbed from 'vue-youtube-embed'
 import 'viewerjs/dist/viewer.css'
+import 'tiny-slider/src/tiny-slider.scss'
 
 
 // [IMPORT] Personal //
