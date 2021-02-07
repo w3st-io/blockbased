@@ -16,7 +16,7 @@ import 'viewerjs/dist/viewer.css'
 
 // [IMPORT] Personal //
 import App from './App.vue'
-import router from '@router'
+import router from '@/router'
 import '@assets/styles/bootstrap-override.scss'
 import '@assets/styles/style.scss'
 import './vee-validation-rules'

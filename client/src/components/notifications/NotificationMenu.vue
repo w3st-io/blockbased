@@ -69,9 +69,9 @@
 	import ClickOutside from 'vue-click-outside'
 
 	// [IMPORT] Personal //
-	import router from '@router'
-	import NotificationService from '@services/NotificationService'
-	import { EventBus } from '@main'
+	import router from '@/router'
+	import NotificationService from '@/services/NotificationService'
+	import { EventBus } from '@/main'
  
 	// [EXPORT] //
 	export default {

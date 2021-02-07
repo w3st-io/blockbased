@@ -74,9 +74,9 @@
 </template>
 
 <script>
-	import Alert from '@components/misc/Alert'
-	import Profile from '@components/user/Profile'
-	import PageService from '@services/PageService'
+	import Alert from '@/components/inform/Alert'
+	import Profile from '@/components/user/Profile'
+	import PageService from '@/services/PageService'
 
 	export default {
 		components: {
@@ -87,7 +87,7 @@
 		data: function() {
 			return {
 				user_id: this.$route.params.user_id,
-				profile_img: require('../../../assets/images/DefaultProfileImg.png'),
+				profile_img: require('../../../assets/images/pages/user/profile/lookup/DefaultProfileImg.png'),
 				reqData: {},
 				loading: true,
 				error: '',

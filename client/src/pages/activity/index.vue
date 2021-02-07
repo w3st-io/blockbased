@@ -48,11 +48,11 @@
 
 <script>
 	// [IMPORT] Personal //
-	import ActivityList from '@components/activity/List'
-	import PageNavButtons from '@components/controls/PageNavButtons'
-	import Alert from '@components/misc/Alert'
-	import router from '@router'
-	import pageService from '@services/PageService'
+	import ActivityList from '@/components/activity/List'
+	import PageNavButtons from '@/components/controls/PageNavButtons'
+	import Alert from '@/components/inform/Alert'
+	import router from '@/router'
+	import pageService from '@/services/PageService'
 
 	// [EXPORT] //
 	export default {

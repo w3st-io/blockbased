@@ -50,13 +50,13 @@
 
 <script>
 	// [IMPORT] Personal //
-	import Comments from '@components/admin/function/Comments'
-	import FunctionButtons from '@components/admin/FunctionButtons'
-	import Confirm from '@components/controls/Confirm'
-	import PageNavButtons from '@components/controls/PageNavButtons'
-	import Alert from '@components/misc/Alert'
-	import router from '@router'
-	import PageService from '@services/PageService'
+	import Comments from '@/components/admin/function/Comments'
+	import FunctionButtons from '@/components/admin/FunctionButtons'
+	import Confirm from '@/components/controls/Confirm'
+	import PageNavButtons from '@/components/controls/PageNavButtons'
+	import Alert from '@/components/inform/Alert'
+	import router from '@/router'
+	import PageService from '@/services/PageService'
 
 	// [EXPORT] //
 	export default {

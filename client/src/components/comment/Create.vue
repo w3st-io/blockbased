@@ -39,9 +39,9 @@
 
 <script>
 	// [IMPORT] //
-	import Alert from '@components/misc/Alert'
-	import CommentService from '@services/CommentService'
-	import router from '@router'
+	import Alert from '@/components/inform/Alert'
+	import CommentService from '@/services/CommentService'
+	import router from '@/router'
 
 	// [EXPORT] //
 	export default {

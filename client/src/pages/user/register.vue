@@ -96,9 +96,9 @@
 
 <script>
 	// [IMPORT] Personal //
-	import Alert from '@components/misc/Alert'
-	import router from '@router'
-	import UserService from '@services/UserService'
+	import Alert from '@/components/inform/Alert'
+	import router from '@/router'
+	import UserService from '@/services/UserService'
 
 	// [EXPORT] //
 	export default {

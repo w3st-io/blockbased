@@ -47,12 +47,12 @@
 
 <script>
 	// [IMPORT] Personal //
-	import Users from '@components/admin/function/Users'
-	import FunctionButtons from '@components/admin/FunctionButtons'
-	import PageNavButtons from '@components/controls/PageNavButtons'
-	import Alert from '@components/misc/Alert'
-	import router from '@router'
-	import PageService from '@services/PageService'
+	import Users from '@/components/admin/function/Users'
+	import FunctionButtons from '@/components/admin/FunctionButtons'
+	import PageNavButtons from '@/components/controls/PageNavButtons'
+	import Alert from '@/components/inform/Alert'
+	import router from '@/router'
+	import PageService from '@/services/PageService'
 
 	// [EXPORT] //
 	export default {

@@ -41,8 +41,8 @@
 
 <script>
 	// [IMPORT] Personal //
-	import NoContent from '@components/placeholders/NoContent'
-	import router from '@router'
+	import NoContent from '@/components/placeholders/NoContent'
+	import router from '@/router'
 
 	export default {
 		components: {

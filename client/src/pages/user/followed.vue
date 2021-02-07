@@ -60,11 +60,11 @@
 
 <script>
 	// [IMPORT] //
-	import PageNavButtons from '@components/controls/PageNavButtons'
-	import Alert from '@components/misc/Alert'
-	import PostList from '@components/post/List'
-	import pageService from '@services/PageService'
-	import router from '@router'
+	import PageNavButtons from '@/components/controls/PageNavButtons'
+	import Alert from '@/components/inform/Alert'
+	import PostList from '@/components/post/List'
+	import pageService from '@/services/PageService'
+	import router from '@/router'
 
 	export default {
 		components: {

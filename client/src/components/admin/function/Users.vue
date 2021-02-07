@@ -40,9 +40,9 @@
 
 <script>
 	// [IMPORT] //
-	import router from '@router'
-	import AUserService from '@services/admin/UserService'
-	import Alert from '@components/misc/Alert'
+	import router from '@/router'
+	import AUserService from '@/services/admin/UserService'
+	import Alert from '@/components/inform/Alert'
 
 	// [EXPORT] //
 	export default {

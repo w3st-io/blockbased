@@ -106,13 +106,13 @@
 
 <script>
 	// [IMPORT] Personal //
-	import LimitSetter from '@components/controls/LimitSetter'
-	import PageNavButtons from '@components/controls/PageNavButtons'
-	import CommentList from '@components/comment/List'
-	import Alert from '@components/misc/Alert'
-	import router from '@router'
-	import PageService from '@services/PageService'
-	import PostService from '@services/PostService'
+	import LimitSetter from '@/components/controls/LimitSetter'
+	import PageNavButtons from '@/components/controls/PageNavButtons'
+	import CommentList from '@/components/comment/List'
+	import Alert from '@/components/inform/Alert'
+	import router from '@/router'
+	import PageService from '@/services/PageService'
+	import PostService from '@/services/PostService'
 
 	// [EXPORT] //
 	export default {

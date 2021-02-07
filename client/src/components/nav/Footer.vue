@@ -20,8 +20,8 @@
 </template>
 
 <script>
-	import router from '@router'
-	import UserService from '@services/UserService'
+	import router from '@/router'
+	import UserService from '@/services/UserService'
 
 	export default {
 		data() {

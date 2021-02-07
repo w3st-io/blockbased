@@ -60,8 +60,8 @@
 
 <script>
 	// [IMPORT] Personal //
-	import NotificationService from '@services/NotificationService'
-	import { EventBus } from '@main'
+	import NotificationService from '@/services/NotificationService'
+	import { EventBus } from '@/main'
 
 	// [EXPORT] //
 	export default {

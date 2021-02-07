@@ -178,9 +178,9 @@
 
 <script>
 	// [IMPORT] Personal //
-	import UserService from '@services/UserService'
-	import WrappedLineChart from '@components/chartjs/WrappedLineChart'
-	import router from '@router'
+	import UserService from '@/services/UserService'
+	import WrappedLineChart from '@/components/chartjs/WrappedLineChart'
+	import router from '@/router'
 
 	export default {
 		components: {

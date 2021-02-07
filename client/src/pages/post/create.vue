@@ -15,9 +15,9 @@
 
 <script>
 	// [IMPORT] Personal //
-	import Create from '@components/post/Create'
-	import PageService from '@services/PageService'
-	import router from '@router'
+	import Create from '@/components/post/Create'
+	import PageService from '@/services/PageService'
+	import router from '@/router'
 
 	// [EXPORT] //
 	export default {

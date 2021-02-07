@@ -96,12 +96,12 @@
 
 <script>
 	// [IMPORT] Personal //
-	import PageNavButtons from '@components/controls/PageNavButtons'
-	import Alert from '@components/misc/Alert'
-	import router from '@router'
-	import NotificationService from '@services/NotificationService'
-	import PageService from '@services/PageService'
-	import { EventBus } from '@main'
+	import PageNavButtons from '@/components/controls/PageNavButtons'
+	import Alert from '@/components/inform/Alert'
+	import router from '@/router'
+	import NotificationService from '@/services/NotificationService'
+	import PageService from '@/services/PageService'
+	import { EventBus } from '@/main'
 
 	// [EXPORT] //
 	export default {

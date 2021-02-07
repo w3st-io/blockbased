@@ -36,8 +36,8 @@
 
 <script>
 	// [IMPORT] Personal //
-	import router from '@router'
-	import AdminService from '@services/AdminService'
+	import router from '@/router'
+	import AdminService from '@/services/AdminService'
 
 	// [EXPORT] //
 	export default {

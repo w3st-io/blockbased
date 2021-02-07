@@ -16,11 +16,11 @@
 	import io from 'socket.io-client'
 
 	// [IMPORT] Personal //
-	import Footer from '@components/nav/Footer'
-	import UI from '@components/UI'
-	import Service from '@services/Service'
-	import UserService from '@services/UserService'
-	import { EventBus } from '@main'
+	import Footer from '@/components/nav/Footer'
+	import UI from '@/components/UI'
+	import Service from '@/services/Service'
+	import UserService from '@/services/UserService'
+	import { EventBus } from '@/main'
 
 	// [EXPORT] //
 	export default {

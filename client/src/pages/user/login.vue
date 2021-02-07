@@ -6,7 +6,7 @@
 				<BCol cols="12" md="6" class="d-none d-md-block">
 					<h3 class="m-3 text-center text-light">Welcome Back</h3>
 					<div class="text-center">
-						<img :src="require('../../assets/images/logo.svg')" class="w-50">
+						<LogInIcon size="8x" class="text-light" />
 					</div>
 				</BCol>
 
@@ -86,14 +86,18 @@
 </template>
 
 <script>
+	// [IMPORT] //
+	import { LogInIcon } from 'vue-feather-icons'
+
 	// [IMPORT] Personal //
-	import Alert from '@components/misc/Alert'
-	import router from '@router'
-	import UserService from '@services/UserService'
+	import Alert from '@/components/inform/Alert'
+	import router from '@/router'
+	import UserService from '@/services/UserService'
 
 	// [EXPORT] //
 	export default {
 		components: {
+			LogInIcon,
 			Alert,
 		},
 

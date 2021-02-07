@@ -54,11 +54,11 @@
 
 <script>
 	// [IMPORT] //
-	import TopPosts from '@components/home/TopPosts'
-	import Adsense from '@components/adsense'
-	import CatList from '@components/cat/List'
-	import Alert from '@components/misc/Alert'
-	import PageService from '@services/PageService'
+	import TopPosts from '@/components/home/TopPosts'
+	import Adsense from '@/components/adsense'
+	import CatList from '@/components/cat/List'
+	import Alert from '@/components/inform/Alert'
+	import PageService from '@/services/PageService'
 
 	// [EXPORT] //
 	export default {

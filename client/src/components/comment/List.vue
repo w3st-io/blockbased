@@ -170,12 +170,12 @@
 <script>
 	// [IMPORT] Personal //
 	import CleanJSONToHTML from './CleanJSONToHTML'
-	import DropDownMenuBtn from '@components/controls/DropDownMenuBtn'
-	import NoContent from '@components/placeholders/NoContent'
-	import router from '@router'
-	import CommentService from '@services/CommentService'
-	import ACommentService from '@services/admin/CommentService'
-	import UserService from '@services/UserService'
+	import DropDownMenuBtn from '@/components/controls/DropDownMenuBtn'
+	import NoContent from '@/components/placeholders/NoContent'
+	import router from '@/router'
+	import CommentService from '@/services/CommentService'
+	import ACommentService from '@/services/admin/CommentService'
+	import UserService from '@/services/UserService'
 	
 	// [EXPORT] //
 	export default {

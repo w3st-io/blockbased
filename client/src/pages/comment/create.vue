@@ -17,10 +17,10 @@
 
 <script>
 	// [IMPORT] Personal //
-	import CommentCreate from '@components/comment/Create'
-	import Alert from '@components/misc/Alert'
-	import PageService from '@services/PageService'
-	import router from '@router'
+	import CommentCreate from '@/components/comment/Create'
+	import Alert from '@/components/inform/Alert'
+	import PageService from '@/services/PageService'
+	import router from '@/router'
 
 	// [EXPORT] //
 	export default {

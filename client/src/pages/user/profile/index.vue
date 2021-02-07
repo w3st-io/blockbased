@@ -53,11 +53,11 @@
 
 <script>
 	// [IMPORT] Personal //
-	import Alert from '@components/misc/Alert'
-	import Profile from '@components/user/Profile'
-	import router from '@router'
-	import PageService from '@services/PageService'
-	import UserService from '@services/UserService'
+	import Alert from '@/components/inform/Alert'
+	import Profile from '@/components/user/Profile'
+	import router from '@/router'
+	import PageService from '@/services/PageService'
+	import UserService from '@/services/UserService'
 
 	// [EXPORT] //
 	export default {

@@ -77,13 +77,13 @@
 </template>
 
 <script>
-	import PageNavButtons from '@components/controls/PageNavButtons'
-	import Alert from '@components/misc/Alert'
-	import PostList from '@components/post/List'
-	import UserList from '@components/user/List'
-	import PageService from '@services/PageService'
-	import router from '@router'
-	import { EventBus } from '@main'
+	import PageNavButtons from '@/components/controls/PageNavButtons'
+	import Alert from '@/components/inform/Alert'
+	import PostList from '@/components/post/List'
+	import UserList from '@/components/user/List'
+	import PageService from '@/services/PageService'
+	import router from '@/router'
+	import { EventBus } from '@/main'
 
 	export default {
 		components: {

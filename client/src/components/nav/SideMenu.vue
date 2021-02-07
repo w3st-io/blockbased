@@ -19,7 +19,7 @@
 </template>
 <script>
 	// [IMPORT] //
-	import router from '@router'
+	import router from '@/router'
 
 	// [EXPORT] //
 	export default {

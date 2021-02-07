@@ -99,11 +99,11 @@
 
 <script>
 	// [IMPORT] Personal //
-	import NotificationMenu from '@components/notifications/NotificationMenu'
-	import SideMenu from '@components/nav/SideMenu'
-	import router from '@router'
-	import UserService from '@services/UserService'
-	import { EventBus } from '@main'
+	import NotificationMenu from '@/components/notifications/NotificationMenu'
+	import SideMenu from '@/components/nav/SideMenu'
+	import router from '@/router'
+	import UserService from '@/services/UserService'
+	import { EventBus } from '@/main'
 
 	// [EXPORT] //
 	export default {

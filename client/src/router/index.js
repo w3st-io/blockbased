@@ -4,48 +4,53 @@ import Router from 'vue-router'
 
 
 // [IMPORT] Personal (Ordered by path) //
-// [*] //
-import home from '@pages'
-import NotFound from '@pages/404'
-// [ACTIVITY] //
-import activity from '@pages/activity'
-// [ADMIN] //
-import admin from '@pages/admin'
-import admin_function_commentReports from '@pages/admin/function/comment-reports'
-import admin_function_comments from '@pages/admin/function/comments'
-import admin_function_posts from '@pages/admin/function/posts'
-import admin_function_users from '@pages/admin/function/users'
-import admin_login from '@pages/admin/login'
-import admin_profile from '@pages/admin/profile'
-import admin_register from '@pages/admin/register'
-// [CAT] //
-import cat from '@pages/cat'
-// [COMMENT] //
-import comment_create from '@pages/comment/create'
-import comment_edit from '@pages/comment/edit'
-import comment_reply from '@pages/comment/reply'
-// [POST] //
-import post from '@pages/post'
-import post_create from '@pages/post/create'
-// [USER] //
-import user_activity from '@pages/user/activity'
-import user_activity_lookup from '@pages/user/activity/lookup'
-import user_accountCreated from '@pages/user/account-created'
-import user_followed from '@pages/user/followed'
-import user_login from '@pages/user/login'
-import user_notifications from '@pages/user/notifications'
-import user_password_change from '@pages/user/password/change'
-import user_password_request from '@pages/user/password/request'
-import user_password_reset from '@pages/user/password/reset'
-import user_profile from '@pages/user/profile'
-import user_profile_edit from '@pages/user/profile/edit'
-import user_profile_lookup from '@pages/user/profile/lookup'
-import user_verify from '@pages/user/verify'
-import user_register from '@pages/user/register'
-// [SEARCH] //
-import search from '@pages/search'
-// [Z] //
-import z from '@pages/z'
+// Home //
+import home from '@/pages'
+// Activity //
+import activity from '@/pages/activity'
+// Admin //
+import admin from '@/pages/admin'
+import admin_function_commentReports from '@/pages/admin/function/comment-reports'
+import admin_function_comments from '@/pages/admin/function/comments'
+import admin_function_posts from '@/pages/admin/function/posts'
+import admin_function_users from '@/pages/admin/function/users'
+import admin_login from '@/pages/admin/login'
+import admin_profile from '@/pages/admin/profile'
+import admin_register from '@/pages/admin/register'
+// Cat //
+import cat from '@/pages/cat'
+// Comment //
+import comment_create from '@/pages/comment/create'
+import comment_edit from '@/pages/comment/edit'
+import comment_reply from '@/pages/comment/reply'
+// Components //
+import components from '@/pages/components'
+import components_bcarousel from '@/pages/components/bcarousel'
+import components_parallax from '@/pages/components/parallax'
+// Post //
+import post from '@/pages/post'
+import post_create from '@/pages/post/create'
+// User //
+import user_activity from '@/pages/user/activity'
+import user_activity_lookup from '@/pages/user/activity/lookup'
+import user_accountCreated from '@/pages/user/account-created'
+import user_followed from '@/pages/user/followed'
+import user_login from '@/pages/user/login'
+import user_notifications from '@/pages/user/notifications'
+import user_password_change from '@/pages/user/password/change'
+import user_password_request from '@/pages/user/password/request'
+import user_password_reset from '@/pages/user/password/reset'
+import user_profile from '@/pages/user/profile'
+import user_profile_edit from '@/pages/user/profile/edit'
+import user_profile_lookup from '@/pages/user/profile/lookup'
+import user_verify from '@/pages/user/verify'
+import user_register from '@/pages/user/register'
+// Search //
+import search from '@/pages/search'
+// z //
+import z from '@/pages/z'
+// Not-Found //
+import NotFound from '@/pages/404'
 
 
 // [USE] //
@@ -57,7 +62,7 @@ const router = new Router ({
 	mode: 'history',
 
 	routes: [
-		// [/] //
+		// Home //
 		{
 			path: '/',
 			name: '/',
@@ -68,7 +73,7 @@ const router = new Router ({
 			}
 		},
 
-		// [ACTIVITY] //
+		// Activity //
 		{
 			path: '/activity/:sort/:limit/:page',
 			name: 'activity',
@@ -79,7 +84,7 @@ const router = new Router ({
 			}
 		},
 
-		// [ADMIN] //
+		// Admin //
 		{
 			path: '/admin',
 			name: 'admin',
@@ -153,7 +158,7 @@ const router = new Router ({
 			}
 		},
 
-		// [CAT] //
+		// Cat //
 		{
 			path: '/cat/:cat_id/:sort/:limit/:page',
 			name: 'cat',
@@ -163,8 +168,35 @@ const router = new Router ({
 				title: `Cat -`
 			}
 		},
-
-		// [COMMENT] //
+		// Components //
+		{
+			path: '/components',
+			name: 'components',
+			component: components,
+			meta: {
+				auth: true,
+				title: 'Components'
+			},
+		},
+		{
+			path: '/components/bcarousel',
+			name: 'components_bcarousel',
+			component: components_bcarousel,
+			meta: {
+				auth: true,
+				title: 'Components Carousel'
+			},
+		},
+		{
+			path: '/components/parallax',
+			name: 'components_parallax',
+			component: components_parallax,
+			meta: {
+				auth: true,
+				title: 'Components Parallax'
+			},
+		},
+		// Comment //
 		{
 			path: '/comment/create/:post_id',
 			name: 'comment-create',
@@ -193,7 +225,7 @@ const router = new Router ({
 			}
 		},
 
-		// [POST] //
+		// Post //
 		{
 			path: '/post/:post_id/:limit/:page',
 			name: 'post',
@@ -213,7 +245,7 @@ const router = new Router ({
 			}
 		},
 
-		// [USER] //
+		// User //
 		{
 			path: '/user/account-created',
 			name: 'account-created',
@@ -341,7 +373,7 @@ const router = new Router ({
 			}
 		},
 
-		// [SEARCH] //
+		// Search //
 		{
 			path: '/search/:query/:type/:limit/:page',
 			name: 'search',
@@ -352,14 +384,14 @@ const router = new Router ({
 			}
 		},
 
-		// [MISC.] //
+		// Z //
 		{
 			path: '/z',
 			name: 'z',
 			component: z,
 		},
 
-		// [404] //
+		// Not-Found //
 		{
 			path: '/**',
 			name: '404',

@@ -39,8 +39,8 @@
 </template>
 
 <script>
-	import CommentService from '@services/CommentService'
-	import router from '@router'
+	import CommentService from '@/services/CommentService'
+	import router from '@/router'
 
 	// [EXPORT] //
 	export default {

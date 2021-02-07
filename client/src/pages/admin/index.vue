@@ -93,11 +93,11 @@
 
 <script>
 	// [IMPORT] Personal //
-	import FunctionButtons from '@components/admin/FunctionButtons'
-	import WrappedLineChart from '@components/chartjs/WrappedLineChart'
-	import Alert from '@components/misc/Alert'
-	import router from '@router'
-	import PageService from '@services/PageService'
+	import FunctionButtons from '@/components/admin/FunctionButtons'
+	import WrappedLineChart from '@/components/chartjs/WrappedLineChart'
+	import Alert from '@/components/inform/Alert'
+	import router from '@/router'
+	import PageService from '@/services/PageService'
 
 	// [EXPORT] //
 	export default {
