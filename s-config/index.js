@@ -4,7 +4,7 @@ require('dotenv').config()
 
 // [EXPORT] //
 module.exports = {
-	// [APP] //
+	// [FUNCTIONALITY] //
 	ADMIN_USER_SYSTEM: process.env.ADMIN_USER_SYSTEM || true,
 	PAYMENT_SYSTEM: process.env.PAYMENT_SYSTEM || true,
 

@@ -2,8 +2,14 @@
 Manually clone the repo and then run `npm install` in both the server and the client.
 
 ## .env should look like this:
-##### [URL + PORT]
+##### [FUNCTIONALITY]
+ADMIN_USER_SYSTEM = < true/false >
+PAYMENT_SYSTEM = < true/false > 
+
+##### [URL]
 * BASE_URL = < (PRODUCTION ONLY) Url of Site >
+
+##### [PORT]
 * PORT = < Chosen port here >
 
 ##### [MONGODB]
