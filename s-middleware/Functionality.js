@@ -23,7 +23,7 @@ class Auth {
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'This app does not support payments'
+					message: 'This app does not support a payment system'
 				})
 			}
 		}
