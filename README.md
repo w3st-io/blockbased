@@ -2,8 +2,8 @@
 
 ## ENV File Example
 ##### FUNCTIONALITY
-ADMIN_USER_SYSTEM = < true/false >
-PAYMENT_SYSTEM = < true/false > 
+* ADMIN_USER_SYSTEM = < true/false >
+* PAYMENT_SYSTEM = < true/false > 
 
 ##### URL
 * *BASE_URL = < (PRODUCTION ONLY) Url of Site >
