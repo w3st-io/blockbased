@@ -1,6 +1,6 @@
 # Blockbased.io
 
-## ENV File Example:
+## ENV File Example
 ##### FUNCTIONALITY
 ADMIN_USER_SYSTEM = < true/false >
 PAYMENT_SYSTEM = < true/false > 
