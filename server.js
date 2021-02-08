@@ -11,7 +11,7 @@ require('dotenv').config()
 
 // [REQUIRE] Personal // Other // API // Pages //
 const config = require('./s-config')
-const Universal = require('./s-middleware/Universal')
+const Functionality = require('./s-middleware/Functionality')
 const s_socket = require('./s-socket')
 const rateLimiter = require('./s-rate-limiters')
 
@@ -89,15 +89,15 @@ app.use(rateLimiter.limiter)
 
 // [USE] Personal // API // Pages //
 app.use('/api', a_)
-app.use('/api/admin', Universal.adminUserSystem(), a_admin)
-app.use('/api/admin/comment-reports', Universal.adminUserSystem(), a_admin_commentReports)
-app.use('/api/admin/comments', Universal.adminUserSystem(), a_admin_comments)
-app.use('/api/admin/posts', Universal.adminUserSystem(), a_admin_posts)
-app.use('/api/admin/users', Universal.adminUserSystem(), a_admin_users)
-app.use('/api/comments', Universal.adminUserSystem(), a_comments)
-app.use('/api/notifications', Universal.adminUserSystem(), a_notifications)
-app.use('/api/posts', Universal.adminUserSystem(), a_posts)
-app.use('/api/user', Universal.adminUserSystem(), a_user)
+app.use('/api/admin', Functionality.adminUserSystem(), a_admin)
+app.use('/api/admin/comment-reports', Functionality.adminUserSystem(), a_admin_commentReports)
+app.use('/api/admin/comments', Functionality.adminUserSystem(), a_admin_comments)
+app.use('/api/admin/posts', Functionality.adminUserSystem(), a_admin_posts)
+app.use('/api/admin/users', Functionality.adminUserSystem(), a_admin_users)
+app.use('/api/comments', Functionality.adminUserSystem(), a_comments)
+app.use('/api/notifications', Functionality.adminUserSystem(), a_notifications)
+app.use('/api/posts', Functionality.adminUserSystem(), a_posts)
+app.use('/api/user', Functionality.adminUserSystem(), a_user)
 
 app.use('/pages', p_)
 app.use('/pages/activity', p_activity)
