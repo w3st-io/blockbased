@@ -56,7 +56,8 @@
 	// [IMPORT] Personal //
 	import Alert from '@/components/inform/Alert'
 	import router from '@/router'
-	import UserService from '@/services/PageService'
+	import PageService from '@/services/PageService'
+	import UserService from '@/services/UserService'
 
 	// [EXPORT] //
 	export default {
@@ -75,12 +76,12 @@
 			}
 		},
 
-		created: async function() {
+		async created() {
 			// [REDIRECT] Not Log Required //
 			if (!localStorage.usertoken) { router.push({ name: '/' }) }
 
 			// Retrieve User Profile Data //
-			try { this.data = await UserService.s_user_profile_edit() }
+			try { this.data = await PageService.s_user_profile_edit() }
 			catch (err) { this.error = err }
 
 			if (this.data.status) {
@@ -104,6 +105,7 @@
 				try { this.data = await UserService.s_update(this.imgUrl, this.bio) }
 				catch (err) { this.error = err }
 
+				console.log('ASDFASD', this.data)
 				if (this.data.status) {
 					// [REDIRECT] //
 					router.push({ name: 'user_profile' })
@@ -122,8 +124,6 @@
 
 <style lang="scss" scoped>
 	@media screen and (max-width: 768px) {
-		.hidden-768 {
-			display: none !important;
-		}
+		.hidden-768 { display: none !important; }
 	}
 </style>
