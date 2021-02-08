@@ -12,8 +12,8 @@ require('dotenv').config()
 // [REQUIRE] Personal // Other // API // Pages //
 const config = require('./s-config')
 const Functionality = require('./s-middleware/Functionality')
-const s_socket = require('./s-socket')
 const rateLimiter = require('./s-rate-limiters')
+const s_socket = require('./s-socket')
 
 const a_ = require('./s-routes/api')
 const a_admin = require('./s-routes/api/admin')

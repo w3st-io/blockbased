@@ -120,7 +120,7 @@
 
 		created: async function() {
 			// [REDIRECT] Not Log Required //
-			if (localStorage.admintoken) { router.push({ name: 'a-profile' }) }
+			if (localStorage.admintoken) { router.push({ name: 'admin_profile' }) }
 		},
 
 		methods: {
@@ -140,7 +140,7 @@
 				catch (err) { this.error = err }
 			},
 
-			redirect() { router.push({ name: 'a-login' }) },
+			redirect() { router.push({ name: 'admin_login' }) },
 
 			log() {
 				console.log('%%% [PAGE] Admin Register %%%')

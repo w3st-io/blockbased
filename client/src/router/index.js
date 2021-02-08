@@ -26,7 +26,7 @@ import comment_reply from '@/pages/comment/reply'
 // Components //
 import components from '@/pages/components'
 import components_bcarousel from '@/pages/components/bcarousel'
-import components_conveyor from '../pages/components/conveyor'
+import components_conveyor from '@/pages/components/conveyor'
 import components_parallax from '@/pages/components/parallax'
 // Post //
 import post from '@/pages/post'

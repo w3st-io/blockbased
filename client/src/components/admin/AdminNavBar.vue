@@ -30,7 +30,7 @@
 
 			redirectAdmin() { router.push({ name: 'admin' }) },
 
-			redirectAdminProfile() { router.push({ name: 'admin-profile' }) },
+			redirectAdminProfile() { router.push({ name: 'admin_profile' }) },
 		},
 	}
 </script>

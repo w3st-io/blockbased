@@ -103,7 +103,7 @@
 
 		created: async function() {
 			// [REDIRECT] User Logged In Already //
-			if (localStorage.admintoken) { router.push({ name: 'a-profile' }) }
+			if (localStorage.admintoken) { router.push({ name: 'admin_profile' }) }
 		},
 
 		methods: {

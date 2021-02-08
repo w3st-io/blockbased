@@ -76,7 +76,7 @@
 
 		created: async function() {
 			// [REDIRECT] Not Admin Log Required //
-			if (!localStorage.admintoken) { router.push({ name: 'a-login' }) }
+			if (!localStorage.admintoken) { router.push({ name: 'admin_login' }) }
 
 			await this.getPageData()
 
