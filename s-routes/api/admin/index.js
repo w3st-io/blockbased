@@ -7,9 +7,9 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const config = require('../../s-config')
-const rateLimiters = require('../../s-rate-limiters')
-const adminsCollection = require('../../s-collections/adminsCollection')
+const config = require('../../../s-config')
+const rateLimiters = require('../../../s-rate-limiters')
+const adminsCollection = require('../../../s-collections/adminsCollection')
 
 
 // [INIT] //
@@ -85,7 +85,7 @@ router.post(
 						res.status(200).send({
 							executed: true,
 							status: false,
-							message: '/api/admins/login: Invalid email'
+							message: '/api/admin/login: Invalid email'
 						})
 					}
 				}
@@ -93,7 +93,7 @@ router.post(
 					res.status(200).send({
 						executed: true,
 						status: false,
-						message: '/api/admins/login: Invalid password'
+						message: '/api/admin/login: Invalid password'
 					})
 				}
 			}
@@ -101,7 +101,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/admins/login: Invalid Params'
+					message: '/api/admin/login: Invalid Params'
 				})
 			}
 		}
@@ -109,7 +109,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/admins/login: Error --> ${err}`
+				message: `/api/admin/login: Error --> ${err}`
 			})
 		}
 	}
@@ -139,7 +139,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/admins/register: Invalid Params'
+					message: '/api/admin/register: Invalid Params'
 				})
 			}
 		}
@@ -147,7 +147,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/admins/register: Error --> ${err}`,
+				message: `/api/admin/register: Error --> ${err}`,
 			})
 		}
 	}

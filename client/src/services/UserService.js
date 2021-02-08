@@ -10,7 +10,7 @@ import { EventBus } from '../main'
 // [AUTH-TOKEN-SETUP] //
 async function authAxios() {
 	return axios.create({
-		baseURL: '/api/users',
+		baseURL: '/api/user',
 		headers: {
 			authorization: `Bearer ${localStorage.usertoken}`,
 			authorization2: `Bearer ${localStorage.admintoken}`

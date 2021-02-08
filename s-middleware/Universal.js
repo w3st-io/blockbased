@@ -3,9 +3,9 @@ const config = require('../s-config')
 
 class Auth {
 	/******************* [ADMIN] *******************/
-	static userSystem() {
+	static adminUserSystem() {
 		return (req, res, next) => {
-			console.log(config.USER_SYSTEM)
+			console.log(config.ADMIN_USER_SYSTEM)
 
 			next()
 		}

@@ -27,7 +27,7 @@ router.get(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/users/read: Error --> ${err}`,
+				message: `/api/user/read: Error --> ${err}`,
 			})
 		}
 	}

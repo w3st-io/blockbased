@@ -22,8 +22,8 @@ const router = express.Router().use(cors())
 // [CREATE] Auth Required //
 router.post(
 	'/create',
-	Auth.userToken(),
 	rateLimiter.postLimiter,
+	Auth.userToken(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
@@ -111,8 +111,8 @@ router.post(
 // [LIKE] Auth Required //
 router.post(
 	'/like',
-	Auth.userToken(),
 	rateLimiter.likeLimiter,
+	Auth.userToken(),
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
@@ -234,8 +234,8 @@ router.post(
 // [FOLLOW] Auth Required //
 router.post(
 	'/follow',
-	Auth.userToken(),
 	rateLimiter.followLimiter,
+	Auth.userToken(),
 	async (req, res) => {
 		try {
 			if (validator.isAscii(req.body.post_id)) {
