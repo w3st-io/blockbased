@@ -1,43 +1,47 @@
-## Setup
-Manually clone the repo and then run `npm install` in both the server and the client.
-
-## .env should look like this:
-##### [FUNCTIONALITY]
+## ENV File Example:
+##### FUNCTIONALITY
 ADMIN_USER_SYSTEM = < true/false >
 PAYMENT_SYSTEM = < true/false > 
 
-##### [URL]
-* BASE_URL = < (PRODUCTION ONLY) Url of Site >
+##### URL (ONLY ON PRODUCTION)
+* *BASE_URL = < (PRODUCTION ONLY) Url of Site >
+* *SOCKET_BASE_URL = http://www.website.com
 
-##### [PORT]
+##### PORT
 * PORT = < Chosen port here >
 
-##### [MONGODB]
+##### MONGODB
 * MONGO_URI = < Mongo uri goes here >
 
-##### [EMAIL]
+##### EMAIL
 * EMAIL_PASSWORD = < Email password >
 * EMAIL = < Email to send verification >
 * MAILER_URL = < Url for email >
 
-##### [SECRET]
+##### SECRET
 * SECRET_KEY = < Your secret goes here >
 
+##### IEX
+* IEX_PUBLIC_KEY = < IEX Public Key >
+* IEX_SB_PUBLIC_KEY = < IEX Sandbox Public Key >
+
+
 ## Note to Self..
-##### When developing this appliction:
 Anytime you are creating code that will modify the database think from the server side first. A good application is lite and most of the work should be done by the server.
-#####
+
+
+## Server Status System
+```
 * "executed: false" --> Unexpected Error
 * "status: false" --> Expected Error
-##### 
-##### Routes check params if they are ascii ( ex. validator.isAscii(param) )
-##### Collection functions check params if they are specific type ( Ex. validator.isEmail(param) )
+``` 
+
+## When Designing Server
+* Routes check params if they are ascii ( ex. validator.isAscii(param) )
+* Collection functions check params if they are specific type ( Ex. validator.isEmail(param) )
 
 
-# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-# %%% TODO LIST FOR DEPLOYMENT %%%
-# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#
+## TODO LIST FOR DEPLOYMENT
 * Set up base URL in ENV
 * Set up secret in ENV
 * Disable creating an admin account
