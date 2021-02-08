@@ -5,9 +5,9 @@
 ADMIN_USER_SYSTEM = < true/false >
 PAYMENT_SYSTEM = < true/false > 
 
-##### URL (ONLY ON PRODUCTION)
+##### URL
 * *BASE_URL = < (PRODUCTION ONLY) Url of Site >
-* *SOCKET_BASE_URL = http://www.website.com
+* *SOCKET_BASE_URL = < (PRODUCTION ONLY) Url of Site >
 
 ##### PORT
 * PORT = < Chosen port here >
