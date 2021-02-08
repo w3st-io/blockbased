@@ -16,24 +16,11 @@ router.get(
 	'/',
 	async (req, res) => {
 		res.send({
-			base_url: config.BASE_URL,
-			socket_base_url: config.SOCKET_BASE_URL,
+			executed: true,
+			status: true,
+			node_env: config.NODE_ENV,
 		})
 	}
-)
-
-
-// [BASE-URL] //
-router.get(
-	'/get-base-url',
-	async (req, res) => { res.send(config.BASE_URL) }
-)
-
-	
-// [SOCKET-BASE-URL] //
-router.get(
-	'/get-socket-base-url',
-	async (req, res) => { res.send(config.SOCKET_BASE_URL) }
 )
 
 

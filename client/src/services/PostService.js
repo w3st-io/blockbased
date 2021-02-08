@@ -17,7 +17,6 @@ async function authAxios() {
 /******************* [CRUD] *******************/
 // [CREATE] Auth Required //
 async function s_create(cat_id, title, cleanJSON) {
-	console.log(cleanJSON);
 	try {
 		const authAxios = await this.authAxios()
 		

@@ -8,7 +8,6 @@
 	import io from 'socket.io-client'
 
 	// [IMPORT] Personal //
-	import Service from '@/services/Service'
 	import UserService from '@/services/UserService'
 	import { EventBus } from '@/main'
 
@@ -16,14 +15,16 @@
 	export default {
 		data() {
 			return {
-				socket: null,
+				socket: this.socket = io(),
 				decoded: {},
 				reqData: {},
 			}
 		},
 
 		async created() {
-			await this.initializeSocket()
+			if (localStorage.node_env !== 'production') {
+				this.socket = io('http://localhost:5000')
+			}
 
 			await this.handleUserLoggedIn()
 
@@ -57,16 +58,6 @@
 		},
 
 		methods: {
-			async initializeSocket() {
-				try {
-					this.reqData = await Service.getSocketBaseUrl()
-
-					if (this.reqData) { this.socket = io(this.reqData) }
-					else { console.log(`App: Error --> ${this.reqData.message}`) }
-				}
-				catch (err) { `App: Error --> ${err}` }
-			},
-
 			async handleUserLoggedIn() {
 				try {
 					if (localStorage.usertoken) {
@@ -76,16 +67,33 @@
 						this.socket.emit('join', this.decoded.user_id)
 					}
 				}
-				catch (err) { `App: Error --> ${err}` }
+				catch (err) { `Socket: Error --> ${err}` }
 			},
 
-			async handleUserLoggedOut() { this.socket.emit('leave') },
+			async handleUserLoggedOut() {
+				this.socket.emit('leave')
+			},
 
-			async handleAdminLoggedIn() {},
+			async handleAdminLoggedIn() {
+				try {
+					if (localStorage.usertoken) {
+						this.decoded = await UserService.s_getUserTokenDecodeData()
 
-			async handleAdminLoggedOut() {},
+						// [SOCKET] //
+						this.socket.emit('join', this.decoded.user_id)
+					}
+				}
+				catch (err) { `Socket: Error --> ${err}` }
+			},
 
-			async updateNotifications() { EventBus.$emit('update-notification') },
+			async handleAdminLoggedOut() {
+				this.socket.emit('admin-leave')
+			},
+
+			async updateNotifications() {
+				try { EventBus.$emit('update-notification') }
+				catch (err) { `Socket: Error --> ${err}` }
+			},
 		}
 	}
 </script>

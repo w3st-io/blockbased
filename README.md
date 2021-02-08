@@ -7,7 +7,6 @@
 
 ##### URL
 * *BASE_URL = < (PRODUCTION ONLY) Url of Site >
-* *SOCKET_BASE_URL = < (PRODUCTION ONLY) Url of Site >
 
 ##### PORT
 * PORT = < Chosen port here >

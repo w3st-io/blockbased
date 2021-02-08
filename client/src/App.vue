@@ -17,9 +17,10 @@
 <script>
 	// [IMPORT] Personal //
 	import Footer from '@/components/nav/Footer'
-	import Socket from './components/socket'
+	import Socket from '@/components/socket'
 	import UI from '@/components/UI'
 	import { EventBus } from '@/main'
+	import Service from '@/services/Service'
 
 	// [EXPORT] //
 	export default {
@@ -34,11 +35,14 @@
 		data() {
 			return {
 				appKey: 0,
+				reqData: {},
 			}
 		},
 
 		async created() {
 			this.forceRerender()
+
+			await this.setNodeEnv()
 			
 			EventBus.$on('force-rerender', () => { this.forceRerender() })
 
@@ -48,6 +52,17 @@
 
 		methods: {
 			forceRerender() { this.appKey++ },
+
+			async setNodeEnv() {
+				try {
+					this.reqData = await Service.index()
+
+					if (this.reqData.status) {
+						localStorage.setItem('node_env', this.reqData.node_env)
+					}	
+				}
+				catch (err) { console.log(`App: Error --> ${err}`) }
+			},
 
 			log() {
 				console.log('%%% [APP] %%%')
