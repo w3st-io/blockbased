@@ -25,7 +25,7 @@ module.exports = {
 					// [EMIT-SOCKET] Broadcast usersOnline //
 					socket.broadcast.emit('user', socketUtil.getUserSocket(socket.id))
 					
-					console.log('[SOCKET] Room:', socketUtil.getAllUserSockets())
+					console.log('[SOCKET] Joined Room:', socketUtil.getAllUserSockets())
 				}
 			})
 			
@@ -34,7 +34,7 @@ module.exports = {
 			socket.on('leave', () => {
 				socketUtil.leave(socket.id)
 
-				console.log('[SOCKET] Room:', socketUtil.getAllUserSockets())
+				console.log('[SOCKET] Left Room:', socketUtil.getAllUserSockets())
 			})
 		
 		
