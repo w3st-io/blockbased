@@ -62,7 +62,7 @@
 			PageNavButtons,
 		},
 
-		data: function() {
+		data() {
 			return {
 				user_id: this.$route.params.user_id,
 				sort: parseInt(this.$route.params.sort),

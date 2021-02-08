@@ -250,7 +250,7 @@
 			}
 		},
 
-		data: function() {
+		data() {
 			return {
 				reqData: '',
 				activityLabels: [],

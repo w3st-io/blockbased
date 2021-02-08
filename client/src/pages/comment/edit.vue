@@ -31,7 +31,7 @@
 			CommentEdit
 		},
 
-		data: function() {
+		data() {
 			return {
 				// Default //
 				comment_id: this.$route.params.comment_id,

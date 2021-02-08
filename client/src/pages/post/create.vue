@@ -25,7 +25,7 @@
 			Create
 		},
 
-		data: function() {
+		data() {
 			return {
 				cat_id: this.$route.params.cat_id,
 				data: {},

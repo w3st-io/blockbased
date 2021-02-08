@@ -84,7 +84,7 @@
 			Profile,
 		},
 
-		data: function() {
+		data() {
 			return {
 				user_id: this.$route.params.user_id,
 				profile_img: require('../../../assets/images/pages/user/profile/lookup/DefaultProfileImg.png'),

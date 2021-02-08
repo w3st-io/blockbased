@@ -112,7 +112,7 @@
 			SideMenu,
 		},
 
-		data: function() {
+		data() {
 			return {
 				decoded: {},
 				userLogged: false,

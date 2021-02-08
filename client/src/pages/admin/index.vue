@@ -107,7 +107,7 @@
 			Alert,
 		},
 
-		data: function() {
+		data() {
 			return {
 				returned: {},
 				usersOnline: 0,

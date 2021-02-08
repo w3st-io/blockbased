@@ -21,7 +21,7 @@
 	import UserService from '@/services/UserService'
 
 	export default {
-		data: function() {
+		data() {
 			return {
 				user_id: this.$route.params.user_id,
 				verificationCode: this.$route.params.verification_code,

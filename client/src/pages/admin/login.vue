@@ -91,7 +91,7 @@
 			Alert
 		},
 
-		data: function() {
+		data() {
 			return {
 				submitted: false,
 				email: '',

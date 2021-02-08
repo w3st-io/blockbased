@@ -41,7 +41,7 @@
 
 	// [EXPORT] //
 	export default {
-		data: function() {
+		data() {
 			return {
 				adminDecoded: {},
 			}

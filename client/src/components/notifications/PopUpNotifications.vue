@@ -65,7 +65,7 @@
 
 	// [EXPORT] //
 	export default {
-		data: function() {
+		data() {
 			return {
 				show: true,
 				userShow: false,

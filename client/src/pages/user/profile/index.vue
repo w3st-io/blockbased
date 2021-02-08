@@ -66,7 +66,7 @@
 			Profile,
 		},
 
-		data: function() {
+		data() {
 			return {
 				returned: {},
 				user: {},

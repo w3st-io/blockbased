@@ -123,7 +123,7 @@
 			Alert,
 		},
 
-		data: function() {
+		data() {
 			return {
 				post_id: this.$route.params.post_id,
 				pageNumber: parseInt(this.$route.params.page),

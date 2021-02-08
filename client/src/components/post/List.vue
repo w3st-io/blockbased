@@ -107,7 +107,7 @@
 			NoContent
 		},
 
-		data: function() {
+		data() {
 			return {
 				adminLoggedIn: false,
 				disabled: false,

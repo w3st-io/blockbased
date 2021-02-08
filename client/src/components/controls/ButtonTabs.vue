@@ -25,7 +25,7 @@
 			initialTab: { type: Number, default: 0, }
 		},
 
-		data: function() {
+		data() {
 			return {
 				activeTab: '',
 			}

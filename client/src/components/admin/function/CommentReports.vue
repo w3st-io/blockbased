@@ -43,7 +43,7 @@
 			commentReports: { type: Array, required: true, },
 		},
 
-		data: function() {
+		data() {
 			return {
 				error: '',
 			}

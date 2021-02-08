@@ -190,7 +190,7 @@
 			comments: { type: Array, required: true, },
 		},
 
-		data: function() {
+		data() {
 			return {
 				adminLoggedIn: false,
 				decoded: {},

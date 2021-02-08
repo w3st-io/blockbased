@@ -69,7 +69,7 @@
 			TopPosts,
 		},
 
-		data: function() {
+		data() {
 			return {
 				reqData: [],
 				cats1: [],

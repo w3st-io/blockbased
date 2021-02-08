@@ -62,7 +62,7 @@
 			PageNavButtons,
 		},
 
-		data: function() {
+		data() {
 			return {
 				sort: parseInt(this.$route.params.sort),
 				limit: parseInt(this.$route.params.limit),

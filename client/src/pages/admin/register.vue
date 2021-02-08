@@ -103,7 +103,7 @@
 
 	// [EXPORT] //
 	export default {
-		data: function() {
+		data() {
 			return {
 				username: '',
 				email: '',

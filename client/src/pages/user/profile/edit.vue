@@ -65,7 +65,7 @@
 			Alert,
 		},
 
-		data: function() {
+		data() {
 			return {
 				loading: true,
 				userData: {},

@@ -29,7 +29,7 @@
 			Alert,
 		},
 
-		data: function() {
+		data() {
 			return {
 				// Default //
 				loading: true,

@@ -54,7 +54,7 @@
 			Alert
 		},
 
-		data: function() {
+		data() {
 			return {
 				error: '',
 			}

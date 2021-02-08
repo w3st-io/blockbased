@@ -106,7 +106,7 @@
 			Alert,
 		},
 
-		data: function() {
+		data() {
 			return {
 				username: '',
 				email: '',
@@ -116,7 +116,7 @@
 			}
 		},
 
-		created: async function() {
+		async created() {
 			// [REDIRECT] Log Required //
 			if (localStorage.usertoken) { router.push({ name: 'user_profile' }) }
 		},

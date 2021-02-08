@@ -139,7 +139,7 @@
 			PostList,
 		},
 
-		data: function() {
+		data() {
 			return {
 				cat_id: this.$route.params.cat_id,
 				sort: parseInt(this.$route.params.sort),

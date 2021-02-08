@@ -51,7 +51,7 @@
 			variant: { type: String, default: 'light' },
 		},
 
-		data: function() {
+		data() {
 			return {
 				showPopper: false,
 			}
