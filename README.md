@@ -1,3 +1,5 @@
+# Blockbased.io
+
 ## ENV File Example:
 ##### FUNCTIONALITY
 ADMIN_USER_SYSTEM = < true/false >
@@ -41,7 +43,7 @@ Anytime you are creating code that will modify the database think from the serve
 * Collection functions check params if they are specific type ( Ex. validator.isEmail(param) )
 
 
-## TODO LIST FOR DEPLOYMENT
+## TODO List For Deployment
 * Set up base URL in ENV
 * Set up secret in ENV
 * Disable creating an admin account
