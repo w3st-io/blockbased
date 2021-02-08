@@ -4,6 +4,10 @@ require('dotenv').config()
 
 // [EXPORT] //
 module.exports = {
+	// [APP] //
+	USER_SYSTEM: process.env.USER_SYSTEM || true,
+	PAYMENT_SYSTEM: process.env.PAYMENT_SYSTEM || true,
+
 	// [URL + PORT] //
 	BASE_URL: process.env.BASE_URL || 'http://localhost:8080',
 	SOCKET_BASE_URL: process.env.BASE_URL || 'http://localhost:5000',
