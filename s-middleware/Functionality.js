@@ -1,13 +1,31 @@
 // [REQUIRE] //
 const config = require('../s-config')
 
+
 class Auth {
-	/******************* [ADMIN] *******************/
 	static adminUserSystem() {
 		return (req, res, next) => {
-			console.log(config.ADMIN_USER_SYSTEM)
+			if (config.ADMIN_USER_SYSTEM) { next() }
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
+					message: 'This app does not support a user/admin system'
+				})
+			}
+		}
+	}
 
-			next()
+	static paymentsSystem() {
+		return (req, res, next) => {
+			if (config.PAYMENT_SYSTEM) { next() }
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
+					message: 'This app does not support payments'
+				})
+			}
 		}
 	}
 }
