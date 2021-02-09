@@ -12,12 +12,12 @@ const rateLimiters = require('../../../s-rate-limiters')
 const adminsCollection = require('../../../s-collections/adminsCollection')
 
 
-// [INIT] //
-const secretKey = config.SECRET_KEY
-
-
 // [EXPRESS + USE] //
 const router = express.Router().use(cors())
+
+
+// [INIT] //
+const secretKey = config.SECRET_KEY
 
 
 /******************* [LOGIN/REGISTER] *******************/
@@ -30,10 +30,8 @@ router.post(
 				validator.isAscii(req.body.email) &&
 				validator.isAscii(req.body.password)
 			) {
-
-				// [VALIDATE] email //
+				// [VALIDATE] email // [VALIDATE] password //
 				if (validator.isEmail(req.body.email)) {
-					// [VALIDATE] password //
 					if (validator.isAscii(req.body.password)) {
 						const userObj = await adminsCollection.c_readByEmail(
 							req.body.email
@@ -58,17 +56,19 @@ router.post(
 								res.status(200).send({
 									executed: true,
 									status: true,
-									message: 'success',
 									validation: true,
 									token: token,
+									location: '/api/admin/login',
+									message: 'success',
 								})
 							}
 							else {
 								res.status(200).send({
 									executed: true,
 									status: true,
-									message: 'Invalid password',
 									validation: false,
+									location: '/api/admin/login',
+									message: 'Invalid password',
 								})
 							}
 						}
@@ -76,8 +76,9 @@ router.post(
 							res.status(200).send({
 								executed: true,
 								status: true,
+								validation: false,
+								location: '/api/admin/login',
 								message: 'Invalid email',
-								validation: false
 							})
 						}
 					}
@@ -85,7 +86,8 @@ router.post(
 						res.status(200).send({
 							executed: true,
 							status: false,
-							message: '/api/admin/login: Invalid email'
+							location: '/api/admin/login',
+							message: 'Invalid email'
 						})
 					}
 				}
@@ -93,7 +95,8 @@ router.post(
 					res.status(200).send({
 						executed: true,
 						status: false,
-						message: '/api/admin/login: Invalid password'
+						location: '/api/admin/login',
+						message: 'Invalid password',
 					})
 				}
 			}
@@ -101,7 +104,8 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/admin/login: Invalid Params'
+					location: '/api/admin/login',
+					message: 'Invalid Params'
 				})
 			}
 		}
@@ -109,7 +113,8 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/admin/login: Error --> ${err}`
+				location: '/api/admin/login',
+				message: `Error --> ${err}`,
 			})
 		}
 	}
@@ -139,7 +144,8 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/admin/register: Invalid Params'
+					location: '/api/admin/register',
+					message: 'Invalid Params'
 				})
 			}
 		}
@@ -147,7 +153,8 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/admin/register: Error --> ${err}`,
+				location: '/api/admin/register',
+				message: `Error --> ${err}`,
 			})
 		}
 	}
