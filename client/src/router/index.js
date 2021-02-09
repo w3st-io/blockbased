@@ -27,6 +27,7 @@ import comment_reply from '@/pages/comment/reply'
 import components from '@/pages/components'
 import components_bcarousel from '@/pages/components/bcarousel'
 import components_conveyor from '@/pages/components/conveyor'
+import components_getQuote from '../pages/components/get-quote'
 import components_parallax from '@/pages/components/parallax'
 // Post //
 import post from '@/pages/post'
@@ -197,6 +198,16 @@ const router = new Router ({
 				title: 'Components Carousel'
 			},
 		},
+		{
+			path: '/components/get-quote',
+			name: 'components_get-quote',
+			component: components_getQuote,
+			meta: {
+				auth: true,
+				title: 'Components Get Quote'
+			},
+		},
+		
 		{
 			path: '/components/parallax',
 			name: 'components_parallax',
