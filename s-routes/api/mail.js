@@ -1,6 +1,9 @@
+// ORDER: to, subject, type, user_id, clientEmail, name, message, position, html, attachments
 // [REQUIRE] //
 const cors = require('cors')
 const express = require('express')
+const fs = require('fs')
+const multer = require('multer')
 const validator = require('validator')
 
 
@@ -13,62 +16,53 @@ const config = require('../../s-config')
 const router = express.Router().use(cors())
 
 
+// [MULTER] //
+const upload = multer({
+	storage: multer.diskStorage({
+		destination: function (req, file, callBack) { callBack(null, './s-uploads') },
+	
+		filename: function (req, file, callBack) {
+			callBack(null, `${new Date().toISOString()}-${file.originalname}`)
+		}
+	})
+})
+
+
 // [MAIN-ROUTE] //
 router.post(
 	'/get-quote',
 	async (req, res) => {
 		try {
 			if (
-				validator.isAscii(req.body.type) &&
-				validator.isAscii(req.body.email) &&
-				validator.isAscii(req.body.name) &&
 				validator.isAscii(req.body.subject) &&
-				req.body.message
-			) {
-				if (
+				validator.isAscii(req.body.type) &&
+				(
 					req.body.type == 'designs' ||
 					req.body.type == 'installs' ||
+					req.body.type == 'report' ||
 					req.body.type == 'services'
-				) {
-					// Determin toEmail //
-					let toEmail = null
-					if (req.body.type == 'designs') { toEmail = config.DESIGNS_EMAIL }
-					if (req.body.type == 'installs') { toEmail = config.INSTALLS_EMAIL }
-					if (req.body.type == 'services') { toEmail = config.SERVICES_EMAIL }
-					
-					// [INIT] //
-					const subject = `Get Quote - Customer Subject: ${req.body.subject}`
-					const html = `
-						<h1>Customer Quote Request</h1>
-						<h3 style="margin: 0;">Type: ${req.body.type}</h3>
-						<h3 style="margin: 0;">Email: ${req.body.email}</h3>
-						<h3 style="margin: 0;">Name: ${req.body.name}</h3>
-						<h3 style="margin: 0;">Subject: ${req.body.subject}</h3>
-						
-						<h3 style="margin: 0; margin-top: 20px;">Message:</h3>
-						<p>${req.body.message}</p>
-					`
-
-
-					// [MAIL-UTIL] //
-					const mObj = await mailerUtil.sendMail(toEmail, subject, html)
-			
-					if (mObj.status) {
-						res.status(200).send({
-							executed: true,
-							status: true,
-							message: 'Email sent',
-						})
-					}
-					else { res.status(200).send(mObj) }
-				}
-				else {
+				) &&
+				validator.isAscii(req.body.clientEmail) &&
+				validator.isAscii(req.body.name) &&
+				req.body.message
+			) {
+				// [MAIL-UTIL] //
+				const mObj = await mailerUtil.sendGetQuoteEmail(
+					req.body.subject,
+					req.body.type,
+					req.body.clientEmail,
+					req.body.name,
+					req.body.message,
+				)
+		
+				if (mObj.status) {
 					res.status(200).send({
 						executed: true,
-						status: false,
-						message: `/api/mail/get-quote: Invalid service type`
+						status: true,
+						message: 'Email sent',
 					})
 				}
+				else { res.status(200).send(mObj) }
 			}
 			else {
 				res.status(200).send({
@@ -83,6 +77,109 @@ router.post(
 				executed: false,
 				status: false,
 				message: `/api/admins/get-quote: Error --> ${err}`
+			})
+		}
+	}
+)
+
+
+router.post(
+	'/advanced',
+	upload.single('file'),
+	async (req, res) => {
+		try {
+			if (
+				validator.isAscii(req.body.subject) &&
+				validator.isAscii(req.body.clientEmail) &&
+				validator.isAscii(req.body.name) &&
+				req.body.message &&
+				validator.isAscii(req.body.position) &&
+				(
+					req.body.position == 'option1' ||
+					req.body.position == 'option2' ||
+					req.body.position == 'option3' ||
+					req.body.position == 'option4'
+				)
+			) {
+				// [MAIL-UTIL] //
+				if (req.file) {
+					const mObj = await mailerUtil.sendAdvancedEmail(
+						req.body.subject,
+						req.body.clientEmail,
+						req.body.name,
+						req.body.message,
+						req.body.position,
+						[ { path: req.file.path } ],
+					)
+
+					if (mObj.status) {
+						// [DELETE] //
+						fs.unlink(req.file.path, async (err) => {
+							if (!err) {
+								res.status(200).send({
+									executed: true,
+									status: true,
+									message: mObj.message,
+								})
+							}
+							else {
+								res.status(200).send({
+									executed: true,
+									status: false,
+									location: '/api/mail/careers',
+									message: `/api/mail/careers: Error --> ${err}`,
+								})
+							}
+						})
+					}
+					else {
+						// [DELETE] //
+						fs.unlink(req.file.path, async (err) => {
+							if (!err) {
+								res.status(200).send(mObj)
+							}
+							else {
+								res.status(200).send({
+									executed: true,
+									status: false,
+									location: '/api/mail/careers',
+									message: `/api/mail/careers: Error --> ${err}`,
+								})
+							}
+						})
+					}
+				}
+				else {
+					const mObj = await mailerUtil.sendAdvancedEmail(
+						req.body.subject,
+						req.body.clientEmail,
+						req.body.name,
+						req.body.message,
+						req.body.position,
+					)
+
+					res.status(200).send({
+						executed: true,
+						status: true,
+						message: mObj.message,
+					})
+				}
+			}
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
+					location: `/api/mail/careers`,
+					message: `/api/mail/careers: Invalid params`,
+				})
+			}
+		}
+		catch (err) {
+			res.status(200).send({
+				executed: false,
+				status: false,
+				location: '/api/mail/careers',
+				message: `/api/mail/careers: Error --> ${err}`,
 			})
 		}
 	}

@@ -29,6 +29,8 @@ import components_bcarousel from '@/pages/components/bcarousel'
 import components_conveyor from '@/pages/components/conveyor'
 import components_getQuote from '../pages/components/get-quote'
 import components_parallax from '@/pages/components/parallax'
+// Email //
+import emailSent from '@/pages/email-sent'
 // Post //
 import post from '@/pages/post'
 import post_create from '@/pages/post/create'
@@ -245,7 +247,16 @@ const router = new Router ({
 				title: 'Reply to Comment'
 			}
 		},
-
+		// Email //
+		{
+			path: '/email-sent',
+			name: 'email-sent',
+			component: emailSent,
+			meta: {
+				auth: true,
+				title: 'Email Sent'
+			},
+		},
 		// Post //
 		{
 			path: '/post/:post_id/:limit/:page',

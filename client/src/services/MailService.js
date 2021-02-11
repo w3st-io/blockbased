@@ -15,17 +15,17 @@ async function authAxios() {
 
 
 /******************* [URL + PORT] *******************/
-async function s_getQuote(type, email, name, subject, message) {
+async function s_getQuote(subject, type, clientEmail, name, message) {
 	const authAxios = await this.authAxios()
-
+	console.log(type, clientEmail, name, subject, message);
 	return (
 		await authAxios.post(
 			'/get-quote',
 			{
-				type: type,
-				email: email,
-				name: name,
 				subject: subject,
+				type: type,
+				clientEmail: clientEmail,
+				name: name,
 				message: message,
 			}
 		)
@@ -33,8 +33,25 @@ async function s_getQuote(type, email, name, subject, message) {
 }
 
 
+async function s_careers(formData) {
+	try {
+		const authAxios = await this.authAxios()
+
+		return (await authAxios.post('/careers', formData)).data
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			error: `MailService: Error --> ${err}`,
+		}
+	}
+}
+
+
 // [EXPORT] //
 export default {
 	authAxios,
-	s_getQuote
+	s_getQuote,
+	s_careers,
 }
