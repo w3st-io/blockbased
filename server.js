@@ -6,7 +6,6 @@ const http = require('http')
 const mongoose = require('mongoose')
 const path = require('path')
 const socketIO = require('socket.io')
-require('dotenv').config()
 
 
 // [REQUIRE] Personal // Other // API // Pages //
@@ -125,7 +124,7 @@ app.use('/pages/user/profile/lookup', p_user_profile_lookup)
 
 
 // [HEROKU] Set Static Folder for Heroku //
-if (process.env.NODE_ENV == 'production') {
+if (config.NODE_ENV == 'production') {
 	app.use(express.static('client/dist'))
 
 	app.get('*', (req, res) => {
