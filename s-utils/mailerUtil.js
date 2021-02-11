@@ -25,7 +25,7 @@ function toEmail(type) {
 	switch(type) {
 
 		case 'advanced':
-			return config.CAREERS_EMAIL
+			return config.ADVANCED_EMAIL
 
 		case 'designs':
 			return config.DESIGNS_EMAIL

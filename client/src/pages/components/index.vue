@@ -1,6 +1,6 @@
 <template>
 	<BContainer class="my-5">
-		<BCard bg-variant="white">
+		<BCard bg-variant="dark">
 			<BRow>
 				<BCol cols="12">
 					<h1 class="text-center text-primary">Components Examples</h1>
