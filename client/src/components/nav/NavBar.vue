@@ -125,7 +125,7 @@
 			}
 		},
 
-		created: async function() {
+		async created() {
 			await this.userTasks()
 
 			if (localStorage.usertoken) { this.userLogged = true }

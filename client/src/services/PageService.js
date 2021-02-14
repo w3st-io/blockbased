@@ -295,7 +295,6 @@ async function s_user_activity(sort = 0, limit, page) {
 }
 
 
-// [USER] //
 async function s_user_activity_lookup(user_id, sort = 0, limit, page) {
 	try {
 		const authAxios = await this.authAxios()
