@@ -276,7 +276,6 @@ const router = new Router ({
 				title: 'Create a Post'
 			}
 		},
-
 		// User //
 		{
 			path: '/user/account-created',
@@ -404,7 +403,6 @@ const router = new Router ({
 				title: 'Verfiying your account..'
 			}
 		},
-
 		// Search //
 		{
 			path: '/search/:query/:type/:limit/:page',
@@ -415,14 +413,12 @@ const router = new Router ({
 				title: 'Search'
 			}
 		},
-
 		// Z //
 		{
 			path: '/z',
 			name: 'z',
 			component: z,
 		},
-
 		// Not-Found //
 		{
 			path: '/**',
@@ -433,7 +429,12 @@ const router = new Router ({
 				title: '404 Not Found..'
 			},
 		},
-	]
+	],
+	
+	// [VUE-ROUTER] Scroll Behavior //
+	scrollBehavior () {
+		return { x: 0, y: 0 }
+	}
 })
 
 

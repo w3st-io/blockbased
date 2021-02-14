@@ -27,4 +27,6 @@ module.exports = {
 	facebookLink: '',
 	instagramLink: '',
 	twitterLink: '',
+	youtubeLink: '',
+
 }
