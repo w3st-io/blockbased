@@ -1,6 +1,6 @@
 // [EXPORT] //
 module.exports = {
-	//companyLogo: require('../assets/images/logo.webp'),
+	companyLogo: '',
 	companyName: 'BlockBased.io',
 	companyCaption: 'Caption',
 

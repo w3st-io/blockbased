@@ -4,6 +4,7 @@ import Router from 'vue-router'
 
 
 // [IMPORT] Personal (Ordered by path) //
+import companyInfo from '@/defaults/companyInfo'
 // Home //
 import home from '@/pages'
 // Activity //
@@ -429,15 +430,13 @@ const router = new Router ({
 	],
 	
 	// [VUE-ROUTER] Scroll Behavior //
-	scrollBehavior () {
-		return { x: 0, y: 0 }
-	}
+	scrollBehavior () { return { x: 0, y: 0 } }
 })
 
 
 // [VUE-ROUTER-SET-TITLE] //
 router.beforeEach((to, from, next) => {
-	document.title = to.meta.title
+	document.title = to.meta.title + ' - ' + companyInfo.companyName
 	next()
 })
 
