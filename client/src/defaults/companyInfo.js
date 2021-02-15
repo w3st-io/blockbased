@@ -1,7 +1,7 @@
 // [EXPORT] //
 module.exports = {
 	//companyLogo: require('../assets/images/logo.webp'),
-	companyName: 'Company Inc.',
+	companyName: 'BlockBased.io',
 	companyCaption: 'Caption',
 
 	address: '123 Main St. Teaneck, NJ 07666',
