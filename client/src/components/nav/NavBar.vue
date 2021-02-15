@@ -6,7 +6,9 @@
 				<nav class="px-0 navbar navbar-expand-lg navbar-dark">
 					<!-- Logo -->
 					<RouterLink to="/" class="navbar-brand">
-						<mark class="h4 bg-primary text-light">BlockBased.io</mark>
+						<mark class="h4 bg-primary text-light">
+							{{ defaultData.companyName }}
+						</mark>
 					</RouterLink>
 
 					<!-- Hidden Menu Button -->
@@ -101,6 +103,7 @@
 	// [IMPORT] Personal //
 	import NotificationMenu from '@/components/notifications/NotificationMenu'
 	import SideMenu from '@/components/nav/SideMenu'
+	import defaultData from '../../defaults/companyInfo'
 	import router from '@/router'
 	import UserService from '@/services/UserService'
 	import { EventBus } from '@/main'
@@ -114,6 +117,7 @@
 
 		data() {
 			return {
+				defaultData: defaultData,
 				decoded: {},
 				userLogged: false,
 				query: '',
@@ -125,7 +129,7 @@
 			}
 		},
 
-		created: async function() {
+		async created() {
 			await this.userTasks()
 
 			if (localStorage.usertoken) { this.userLogged = true }

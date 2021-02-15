@@ -76,7 +76,6 @@ const router = new Router ({
 				title: 'BlockBased.io'
 			}
 		},
-
 		// Activity //
 		{
 			path: '/activity/:sort/:limit/:page',
@@ -87,7 +86,6 @@ const router = new Router ({
 				title: 'Activity'
 			}
 		},
-
 		// Admin //
 		{
 			path: '/admin',
@@ -161,7 +159,6 @@ const router = new Router ({
 				title: 'Admin Register'
 			}
 		},
-
 		// Cat //
 		{
 			path: '/cat/:cat_id/:sort/:limit/:page',
