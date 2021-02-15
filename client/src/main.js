@@ -1,9 +1,5 @@
-/**
- * %%%%%%%%%%%%
- * %%% MAIN %%%
- * %%%%%%%%%%%%
-*/
 // [IMPORT] //
+import aos from 'aos'
 import { BootstrapVue } from 'bootstrap-vue'
 import Viewer from 'v-viewer'
 import { ValidationObserver, ValidationProvider } from 'vee-validate'
@@ -11,6 +7,7 @@ import Vue from 'vue'
 import Editor from 'vue-editor-js/src/index'
 import VueHeadful from 'vue-headful'
 import VueYouTubeEmbed from 'vue-youtube-embed'
+import 'aos/dist/aos.css'
 import 'viewerjs/dist/viewer.css'
 import 'tiny-slider/src/tiny-slider.scss'
 
@@ -44,5 +41,6 @@ export const EventBus = new Vue()
 Vue.config.productionTip = false
 new Vue({
   router,
+  created() { aos.init() },
   render: h => h(App),
 }).$mount('#app')
