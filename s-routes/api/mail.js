@@ -47,13 +47,13 @@ router.post(
 				req.body.message
 			) {
 				// [MAIL-UTIL] //
-				const mObj = await mailerUtil.sendGetQuoteEmail(
-					req.body.subject,
-					req.body.type,
-					req.body.clientEmail,
-					req.body.name,
-					req.body.message,
-				)
+				const mObj = await mailerUtil.sendGetQuoteEmail({
+					subject: req.body.subject,
+					type: req.body.type,
+					clientEmail: req.body.clientEmail,
+					name: req.body.name,
+					message: req.body.message,
+				})
 		
 				if (mObj.status) {
 					res.status(200).send({
@@ -103,14 +103,14 @@ router.post(
 			) {
 				// [MAIL-UTIL] //
 				if (req.file) {
-					const mObj = await mailerUtil.sendAdvancedEmail(
-						req.body.subject,
-						req.body.clientEmail,
-						req.body.name,
-						req.body.message,
-						req.body.position,
-						[ { path: req.file.path } ],
-					)
+					const mObj = await mailerUtil.sendAdvancedEmail({
+						subject: req.body.subject,
+						clientEmail: req.body.clientEmail,
+						name: req.body.name,
+						message: req.body.message,
+						position: req.body.position,
+						attachments: [ { path: req.file.path } ],
+					})
 
 					if (mObj.status) {
 						// [DELETE] //
@@ -150,13 +150,13 @@ router.post(
 					}
 				}
 				else {
-					const mObj = await mailerUtil.sendAdvancedEmail(
-						req.body.subject,
-						req.body.clientEmail,
-						req.body.name,
-						req.body.message,
-						req.body.position,
-					)
+					const mObj = await mailerUtil.sendAdvancedEmail({
+						subject: req.body.subject,
+						clientEmail: req.body.clientEmail,
+						name: req.body.name,
+						message: req.body.message,
+						position: req.body.position,
+					})
 
 					res.status(200).send({
 						executed: true,

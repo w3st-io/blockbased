@@ -94,13 +94,13 @@
 
 				this.loading = true
 
-				const mObj = await MailService.s_getQuote(
-					this.subject,
-					this.type,
-					this.clientEmail,
-					this.name,
-					this.message
-				)
+				const mObj = await MailService.s_getQuote({
+					subject: this.subject,
+					type: this.type,
+					clientEmail: this.clientEmail,
+					name: this.name,
+					message: this.message
+				})
 
 				if (mObj.status) { router.push({ name: 'email-sent' }) }
 				else { this.error = mObj.message }

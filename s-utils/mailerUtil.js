@@ -48,12 +48,21 @@ function toEmail(type) {
 // [DEFAULT] //
 async function sendMail(to, subject, html) {
 	try {
-		// [VALIDATE] //
-		if (!validator.isEmail(to) || !validator.isAscii(subject)) {
+		// [VALIDATE] to //
+		if (!validator.isEmail(to)) {
 			return {
 				executed: true,
 				status: false,
-				message: 'mailerUtil: Invalid params'
+				message: 'mailerUtil: Invalid to'
+			}
+		}
+
+		// [VALIDATE] subject //
+		if (!validator.isAscii(subject)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'mailerUtil: Invalid subject',
 			}
 		}
 
@@ -89,7 +98,7 @@ async function sendMail(to, subject, html) {
 
 
 // [GET-QUOTE] //
-async function sendGetQuoteEmail(subject, type, clientEmail, name, message, attachments) {
+async function sendGetQuoteEmail({ subject, type, clientEmail, name, message, attachments }) {
 	try {
 		// [VALIDATE] subject //
 		if (!validator.isAscii(subject)) {
@@ -124,6 +133,15 @@ async function sendGetQuoteEmail(subject, type, clientEmail, name, message, atta
 				executed: true,
 				status: false,
 				message: 'mailerUtil: Invalid name',
+			}
+		}
+
+		// [VALIDATE] message //
+		if (!validator.isAscii(message)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'mailerUtil: Invalid message',
 			}
 		}
 
@@ -181,8 +199,8 @@ async function sendGetQuoteEmail(subject, type, clientEmail, name, message, atta
 }
 
 
-// [GET-QUOTE] //
-async function sendAdvancedEmail(subject, clientEmail, name, message, position, attachments) {
+// [ADVANCED] //
+async function sendAdvancedEmail({ subject, clientEmail, name, message, position, attachments }) {
 	try {
 		// [VALIDATE] subject //
 		if (!validator.isAscii(subject)) {
@@ -208,6 +226,15 @@ async function sendAdvancedEmail(subject, clientEmail, name, message, position, 
 				executed: true,
 				status: false,
 				message: 'mailerUtil: Invalid name',
+			}
+		}
+
+		// [VALIDATE] message //
+		if (!validator.isAscii(message)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'mailerUtil: Invalid message',
 			}
 		}
 
