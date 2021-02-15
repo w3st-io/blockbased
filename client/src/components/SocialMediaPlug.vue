@@ -1,14 +1,14 @@
 <template>
 	<div class="text-center">
-		<a :href="defaultData.facebookLink" class="text-light">
+		<a :href="defaultData.facebookLink" :class="`text-${variant}`">
 			<FacebookIcon :size="size" class="mr-3" />
 		</a>
 
-		<a :href="defaultData.instagramLink" class="text-light">
+		<a :href="defaultData.instagramLink" :class="`text-${variant}`">
 			<InstagramIcon :size="size" class="mr-3" />
 		</a>
 
-		<a :href="defaultData.youtubeLink" class="text-light">
+		<a :href="defaultData.youtubeLink" :class="`text-${variant}`">
 			<YoutubeIcon :size="size" class="" />
 		</a>
 	</div>
@@ -23,7 +23,12 @@
 			size: {
 				type: String,
 				default: "24",
-			}
+			},
+
+			variant: {
+				type: String,
+				default: 'light'
+			},
 		},
 
 		components: {
