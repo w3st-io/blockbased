@@ -74,7 +74,7 @@ const router = new Router ({
 			component: home,
 			meta: {
 				auth: true,
-				title: 'BlockBased.io'
+				title: 'Home'
 			}
 		},
 		// Activity //
