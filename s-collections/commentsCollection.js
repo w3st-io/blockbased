@@ -661,7 +661,10 @@ const c_fillData = async (user_id, comment) => {
 	if (user_id) {
 		// [LIKED-STATE] //
 		comment.liked = (
-			await commentLikesCollection.c_existance(user_id, comment._id)
+			await commentLikesCollection.c_existance({
+				user_id: user_id,
+				comment_id: comment._id
+			})
 		).existance
 	}
 

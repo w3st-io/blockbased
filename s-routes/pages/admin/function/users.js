@@ -30,11 +30,11 @@ router.get(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Sort //
-				const { users } = await usersCollection.c_readSorted(
-					sort,
-					limit,
-					skip
-				)
+				const { users } = await usersCollection.c_readSorted({
+					sort: sort,
+					limit: limit,
+					skip: skip
+				})
 
 				const { count } = await usersCollection.c_count()
 

@@ -31,9 +31,9 @@ router.get(
 
 			let activityData = []
 
-			const userObj = await usersCollection.c_readSelect(
-				req.decoded.user_id
-			)
+			const userObj = await usersCollection.c_readSelect({
+				user_id: req.decoded.user_id
+			})
 			
 			if (userObj.status) {
 				// [COUNT] Posts //

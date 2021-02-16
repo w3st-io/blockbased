@@ -32,10 +32,10 @@ router.get(
 
 			// Users Online //
 			for (let i = 0; i < userSockets.length; i++) {
-				const user = await usersCollection.c_readSelect(
-					userSockets[i].user_id,
-					'username email'
-				)
+				const user = await usersCollection.c_readSelect({
+					user_id: userSockets[i].user_id,
+					select: 'username email'
+				})
 
 				users.push(user.user)
 			}

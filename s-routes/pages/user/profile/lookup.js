@@ -35,10 +35,10 @@ router.get(
 				let activityData = []
 				let adminData = undefined
 
-				const userObj = await usersCollection.c_readSelect(
-					req.params.user_id,
-					'username profile_img bio created_at'
-				)
+				const userObj = await usersCollection.c_readSelect({
+					user_id: req.params.user_id,
+					select: 'username profile_img bio created_at'
+				})
 
 				if (userObj.status) {
 					if (userObj.user) {

@@ -8,7 +8,7 @@ const CommentLikeModel = require('../s-models/CommetLikeModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (user_id, post_id, comment_id, commentUser_id) => {
+const c_create = async ({ user_id, post_id, comment_id, commentUser_id }) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -133,7 +133,7 @@ const c_deleteByComment = async (comment_id) => {
 
 
 // [DELETE] user & comment //
-const c_deleteByUserAndComment = async (user_id, comment_id) => {
+const c_deleteByUserAndComment = async ({ user_id, comment_id }) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -207,7 +207,7 @@ const c_deleteCustom = async (filter) => {
 
 /******************* [EXISTANCE] *******************/
 // [EXISTANCE] //
-const c_existance = async (user_id, comment_id) => {
+const c_existance = async ({ user_id, comment_id }) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {

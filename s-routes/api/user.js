@@ -35,11 +35,11 @@ router.post(
 		try {
 			// [VALIDATE] //
 			if (validator.isAscii(req.body.img_url)) {
-				const returned = await usersCollection.c_update(
-					req.decoded.user_id,
-					req.body.img_url,
-					req.body.bio
-				)
+				const returned = await usersCollection.c_update({
+					user_id: req.decoded.user_id,
+					img_url: req.body.img_url,
+					bio: req.body.bio
+				})
 		
 				res.status(200).send(returned)
 			}
@@ -172,11 +172,11 @@ router.post(
 			) {
 			
 				// [CREATE] Register Account //
-				const user = await usersCollection.c_register(
-					req.body.username,
-					req.body.email,
-					req.body.password,
-				)
+				const user = await usersCollection.c_register({
+					username: req.body.username,
+					email: req.body.email,
+					password: req.body.password,
+				})
 
 				if (user.status && user.created) {
 					// [CREATE] Verification Code //

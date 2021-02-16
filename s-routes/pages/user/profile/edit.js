@@ -17,10 +17,11 @@ router.get(
 	Auth.userTokenByPassVerification(),
 	async (req, res) => {
 		try {
-			const userObj = await usersCollection.c_readSelect(
-				req.decoded.user_id,
-				'_id first_name last_name username bio verified created_at profile_img'
-			)
+			const userObj = await usersCollection.c_readSelect({
+				user_id: req.decoded.user_id,
+				select: '_id first_name last_name username bio verified created_at profile_img'
+			})
+
 			res.status(200).send(userObj)
 		}
 		catch (err) {

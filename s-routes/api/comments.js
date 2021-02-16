@@ -290,19 +290,19 @@ router.post(
 				validator.isAscii(req.body.commentUser_id)
 			) {
 				// [EXISTANCE] commentLike //
-				const existance = await commentLikesCollection.c_existance(
-					req.decoded.user_id,
-					req.body.comment_id,
-				)
+				const existance = await commentLikesCollection.c_existance({
+					user_id: req.decoded.user_id,
+					comment_id: req.body.comment_id,
+				})
 
 				if (!existance.existance) {
 					// [CREATE] CommentLike //
-					const commentLike = await commentLikesCollection.c_create(
-						req.decoded.user_id,
-						req.body.post_id,
-						req.body.comment_id,
-						req.body.commentUser_id
-					)
+					const commentLike = await commentLikesCollection.c_create({
+						user_id: req.decoded.user_id,
+						post_id: req.body.post_id,
+						comment_id: req.body.comment_id,
+						commentUser_id: req.body.commentUser_id
+					})
 
 					res.status(200).send(commentLike)
 				}
@@ -343,10 +343,10 @@ router.post(
 			// [VALIDATE] //
 			if (validator.isAscii(req.body.comment_id)) {
 				// [DELETE] CommentLike //
-				const commentLike = await commentLikesCollection.c_deleteByUserAndComment(
-					req.decoded.user_id,
-					req.body.comment_id,
-				)
+				const commentLike = await commentLikesCollection.c_deleteByUserAndComment({
+					user_id: req.decoded.user_id,
+					comment_id: req.body.comment_id,
+				})
 				
 				res.status(200).send(commentLike)
 			}

@@ -39,7 +39,7 @@ const c_read = async (_id) => {
 
 
 // [UPDATE] Profile Picture //
-const c_update = async (user_id, img_url, bio) => {
+const c_update = async ({ user_id, img_url, bio }) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -98,7 +98,7 @@ const c_update = async (user_id, img_url, bio) => {
 
 /******************* [OTHER-CRUD] *******************/
 // [CREATE] User (with password) //
-const c_register = async (username, email, password) => {
+const c_register = async ({ username, email, password }) => {
 	try {
 		// [VALIDATE] username //
 		if (!validator.isAscii(username)) {
@@ -188,7 +188,7 @@ const c_register = async (username, email, password) => {
 
 
 // [READ-ALL] Sorted (No password) //
-const c_readSorted = async (sort = 0, limit, skip) => {
+const c_readSorted = async ({ sort = 0, limit, skip }) => {
 	try {
 		// [SANTIZE] //
 		sort = parseInt(sort)
@@ -258,9 +258,8 @@ const c_readSorted = async (sort = 0, limit, skip) => {
 
 
 // [READ-ALL] Sorted (No password) //
-const c_readSelect = async (user_id, select = undefined) => {
+const c_readSelect = async ({ user_id, select = undefined }) => {
 	try {
-		
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
 			return {
