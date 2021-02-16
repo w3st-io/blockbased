@@ -30,7 +30,10 @@ const c_create = async (user_id, comment_id) => {
 		}
 
 		// [READ] //
-		const { comment } = await commentsCollection.c_read(user_id, comment_id)
+		const { comment } = await commentsCollection.c_read({
+			user_id: user_id,
+			comment_id: comment_id
+		})
 
 		// [SAVE] //
 		const preeditedComment = await new PreeditCommentModel({

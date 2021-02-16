@@ -22,10 +22,10 @@ router.get(
 			// [VALIDATE] //
 			if (validator.isAscii(req.params.comment_id)) {
 				// [READ] Comment //
-				const returned = await commentsCollection.c_read(
-					req.decoded.user_id,
-					req.params.comment_id
-				)
+				const returned = await commentsCollection.c_read({
+					user_id: req.decoded.user_id,
+					comment_id: req.params.comment_id
+				})
 	
 				res.status(200).send(returned)
 			}

@@ -52,11 +52,11 @@ router.post(
 
 					if (pActivity.status) {
 						// [CREATE] Comment //
-						const comment = await commentsCollection.c_create(
-							req.decoded.user_id,
-							post.createdPost._id,
-							req.body.cleanJSON
-						)
+						const comment = await commentsCollection.c_create({
+							user_id: req.decoded.user_id,
+							post_id: post.createdPost._id,
+							cleanJSON: req.body.cleanJSON,
+						})
 
 						if (comment.status) {
 							// [CREATE] Activity //

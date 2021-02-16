@@ -39,12 +39,12 @@ router.get(
 
 				if (postObj.status) {
 					//// [READ-ALL][COMMENTS] ////
-					const commentsObj = await commentsCollection.c_readByPost(
-						user_id,
-						req.params.post_id,
-						limit,
-						skip
-					)
+					const commentsObj = await commentsCollection.c_readByPost({
+						user_id: user_id,
+						post_id: req.params.post_id,
+						limit: limit,
+						skip: skip
+					})
 
 					if (commentsObj.status) {
 						// [COUNT] Comments //

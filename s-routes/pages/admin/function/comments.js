@@ -30,12 +30,12 @@ router.get(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Sort //
-				const { comments } = await commentsCollection.c_readSorted(
-					undefined,
-					sort,
-					limit,
-					skip
-				)
+				const { comments } = await commentsCollection.c_readSorted({
+					user_id: undefined,
+					sort: sort,
+					limit: limit,
+					skip: skip
+				})
 
 				const { count } = await commentsCollection.c_count()
 

@@ -9,7 +9,7 @@ const CommentModel = require('../s-models/CommentModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (user_id, post_id, cleanJSON, replyToComment) => {
+const c_create = async ({ user_id, post_id, cleanJSON, replyToComment }) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -73,7 +73,7 @@ const c_create = async (user_id, post_id, cleanJSON, replyToComment) => {
 
 
 // [READ] //
-const c_read = async (user_id, comment_id) => {
+const c_read = async ({ user_id, comment_id }) => {
 	try {
 		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
@@ -117,7 +117,7 @@ const c_read = async (user_id, comment_id) => {
 
 
 // [UPDATE] //
-const c_update = async (comment_id, user_id, cleanJSON) => {
+const c_update = async ({ comment_id, user_id, cleanJSON }) => {
 	try {
 		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {
@@ -218,7 +218,7 @@ const c_delete = async (comment_id) => {
 
 /******************* [OTHER-CRUD] *******************/
 // [READ] sorted//
-const c_readSorted = async (user_id, sort = 0, limit, skip) => {
+const c_readSorted = async ({ user_id, sort = 0, limit, skip }) => {
 	try {
 		// [SANTIZE] //
 		sort = parseInt(sort)
@@ -293,7 +293,7 @@ const c_readSorted = async (user_id, sort = 0, limit, skip) => {
 
 
 // [READ] Post //
-const c_readByPost = async (user_id, post_id, limit, skip) => {
+const c_readByPost = async ({ user_id, post_id, limit, skip }) => {
 	try {
 		// [SANTIZE] //
 		limit = parseInt(limit)
@@ -361,7 +361,7 @@ const c_readByPost = async (user_id, post_id, limit, skip) => {
 
 
 // [DELETE] comment & user //
-const c_deleteByIdAndUser = async (comment_id, user_id) => {
+const c_deleteByIdAndUser = async ({ comment_id, user_id }) => {
 	try {
 		// [VALIDATE] comment_id //
 		if (!mongoose.isValidObjectId(comment_id)) {

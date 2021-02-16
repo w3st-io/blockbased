@@ -45,12 +45,12 @@ router.post(
 				
 				if (pObj.post) {
 					// [CREATE] Comment //
-					const cObj = await commentsCollection.c_create(
-						req.decoded.user_id,
-						req.body.post_id,
-						req.body.cleanJSON,
-						req.body.replyToComment_id,
-					)
+					const cObj = await commentsCollection.c_create({
+						user_id: req.decoded.user_id,
+						post_id: req.body.post_id,
+						cleanJSON: req.body.cleanJSON,
+						replyToComment: req.body.replyToComment_id,
+					})
 
 					if (cObj.status) {
 						// [COUNT] Comments //
@@ -89,11 +89,11 @@ router.post(
 
 						// [NOTIFICATION] If Reply to Comment //
 						if (cObj.comment.replyToComment) {
-							// [READ] Comment  //
-							const repliedToComment = await commentsCollection.c_read(
-								req.decoded.comment,
-								cObj.comment.replyToComment,
-							)
+							// [READ] Comment //
+							const repliedToComment = await commentsCollection.c_read({
+								user_id: req.decoded.user_id,
+								comment_id: cObj.comment.replyToComment,
+							})
 
 							// [CREATE] Notification Reply //
 							await notificationsCollection.c_create(
@@ -178,11 +178,11 @@ router.post(
 
 					if (preeditedComment.status) {
 						// [UPDATE] //
-						const updatedComment = await commentsCollection.c_update(
-							req.body.comment_id,
-							req.decoded.user_id,
-							req.body.cleanJSON,
-						)
+						const updatedComment = await commentsCollection.c_update({
+							comment_id: req.body.comment_id,
+							user_id: req.decoded.user_id,
+							cleanJSON: req.body.cleanJSON,
+						})
 						
 						res.status(200).send(updatedComment)
 					}
@@ -226,10 +226,10 @@ router.delete(
 			// [VALIDATE] //
 			if (mongoose.isValidObjectId(req.params.comment_id)) {
 				// [DELETE] //
-				const comment = await commentsCollection.c_deleteByIdAndUser(
-					req.params.comment_id,
-					req.decoded.user_id,
-				)
+				const comment = await commentsCollection.c_deleteByIdAndUser({
+					comment_id: req.params.comment_id,
+					user_id: req.decoded.user_id,
+				})
 					
 				if (comment.status) {
 					// [DELETE] CommentLike //
@@ -387,10 +387,10 @@ router.post(
 				req.body.reportType = req.body.reportType.toLowerCase()
 
 				// [READ] comment //
-				const commentObj = await commentsCollection.c_read(
-					req.decoded.user_id,
-					req.body.comment_id
-				)
+				const commentObj = await commentsCollection.c_read({
+					user_id: req.decoded.user_id,
+					comment_id: req.body.comment_id
+				})
 
 				if (commentObj.status && commentObj.comment) {
 					// [EXISTANCE] Do not double save //
