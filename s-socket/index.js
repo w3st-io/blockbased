@@ -6,7 +6,7 @@ const socketUtil = require('../s-utils/socketUtil')
 module.exports = {
 	start: (io) => {
 		io.on('connection', (socket) => {
-			console.log('[SOCKET] New Connected')
+			//console.log('[SOCKET] New Connected')
 		
 
 			// [EMIT] User //
@@ -25,7 +25,7 @@ module.exports = {
 					// [EMIT-SOCKET] Broadcast usersOnline //
 					socket.broadcast.emit('user', socketUtil.getUserSocket(socket.id))
 					
-					console.log('[SOCKET] Joined Room:', socketUtil.getAllUserSockets())
+					//console.log('[SOCKET] Join Room:', socketUtil.getAllUserSockets())
 				}
 			})
 			
@@ -34,7 +34,7 @@ module.exports = {
 			socket.on('leave', () => {
 				socketUtil.leave(socket.id)
 
-				console.log('[SOCKET] Left Room:', socketUtil.getAllUserSockets())
+				//console.log('[SOCKET] Leave Room:', socketUtil.getAllUserSockets())
 			})
 		
 		
@@ -42,7 +42,7 @@ module.exports = {
 			socket.on('disconnect', () => {
 				socketUtil.leave(socket.id)
 
-				console.log('[SOCKET] Disconnected')
+				//console.log('[SOCKET] Disconnected')
 			})
 		})
 	}

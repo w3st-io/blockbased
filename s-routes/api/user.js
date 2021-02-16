@@ -192,14 +192,14 @@ router.post(
 					)
 
 					// [CREATE] Activity //
-					const activity = await activitiesCollection.c_create(
-						user.user._id,
-						'user',
-						undefined,
-						user.user._id,
-						undefined,
-						undefined,
-					)
+					const activity = await activitiesCollection.c_create({
+						user_id: user.user._id,
+						type: 'user',
+						post_id: undefined,
+						created_user_id: user.user._id,
+						created_post_id: undefined,
+						created_comment_id: undefined,
+					})
 
 					if (activity.status) {
 						res.status(200).send({

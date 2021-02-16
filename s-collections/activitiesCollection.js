@@ -9,7 +9,7 @@ const ActivityModel = require('../s-models/ActivityModel')
 
 /******************* [CRUD] *******************/
 // [CREATE] //
-const c_create = async (user_id, type, post_id, created_user_id, created_post_id, created_comment_id) => {
+const c_create = async ({ user_id, type, post_id, created_user_id, created_post_id, created_comment_id }) => {
 	try {
 		// [VALIDATE] user_id //
 		if (!mongoose.isValidObjectId(user_id)) {
@@ -95,7 +95,7 @@ const c_create = async (user_id, type, post_id, created_user_id, created_post_id
 
 /******************* [OTHER-CRUD] *******************/
 // [READ-ALL] Sort //
-const c_readSorted = async (sort = 0, limit, skip) => {
+const c_readSorted = async ({ sort = 0, limit, skip }) => {
 	try {
 		// [SANITIZE] //
 		sort = parseInt(sort)
@@ -173,7 +173,7 @@ const c_readSorted = async (sort = 0, limit, skip) => {
 
 
 // [READ-ALL] Sort //
-const c_readByUserSorted = async (user_id, sort = 0, limit, skip) => {
+const c_readByUserSorted = async ({ user_id, sort = 0, limit, skip }) => {
 	try {
 		// [SANITIZE] //
 		sort = parseInt(sort)

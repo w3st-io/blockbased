@@ -29,12 +29,12 @@ router.get(
 				const pageIndex = parseInt(req.params.page) - 1
 				const skip = pageIndex * limit
 
-				const activitiesObj = await activitiesCollection.c_readByUserSorted(
-					req.params.user_id,
-					sort,
-					limit,
-					skip
-				)
+				const activitiesObj = await activitiesCollection.c_readByUserSorted({
+					user_id: req.params.user_id,
+					sort: sort,
+					limit: limit,
+					skip: skip
+				})
 				
 				// [COUNT] Activities //
 				activitiesObj.count = (

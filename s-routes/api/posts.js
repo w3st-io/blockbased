@@ -41,14 +41,14 @@ router.post(
 
 				if (post.status) {
 					// [CREATE] Activity //
-					const pActivity = await activitiesCollection.c_create(
-						req.decoded.user_id,
-						'post',
-						post.createdPost._id,
-						undefined,
-						post.createdPost._id,
-						undefined,
-					)
+					const pActivity = await activitiesCollection.c_create({
+						user_id: req.decoded.user_id,
+						type: 'post',
+						post_id: post.createdPost._id,
+						created_user_id: undefined,
+						created_post_id: post.createdPost._id,
+						created_comment_id: undefined,
+					})
 
 					if (pActivity.status) {
 						// [CREATE] Comment //
@@ -60,14 +60,14 @@ router.post(
 
 						if (comment.status) {
 							// [CREATE] Activity //
-							const cActivity = await activitiesCollection.c_create(
-								req.decoded.user_id,
-								'comment',
-								comment.comment.post,
-								undefined,
-								undefined,
-								comment.comment._id,
-							)
+							const cActivity = await activitiesCollection.c_create({
+								user_id: req.decoded.user_id,
+								type: 'comment',
+								post_id: comment.comment.post,
+								created_user_id: undefined,
+								created_post_id: undefined,
+								created_comment_id: comment.comment._id,
+							})
 						
 							if (cActivity.status) {
 								// [SUCCESS] //

@@ -116,14 +116,14 @@ router.post(
 						}
 
 						// [CREATE] Activity //
-						await activitiesCollection.c_create(
-							req.decoded.user_id,
-							'comment',
-							cObj.comment.post,
-							undefined,
-							undefined,
-							cObj.comment._id
-						)
+						await activitiesCollection.c_create({
+							user_id: req.decoded.user_id,
+							type: 'comment',
+							post_id: cObj.comment.post,
+							created_user_id: undefined,
+							created_post_id: undefined,
+							created_comment_id: cObj.comment._id
+						})
 
 						res.status(200).send({
 							executed: true,
