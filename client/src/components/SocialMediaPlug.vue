@@ -15,8 +15,11 @@
 </template>
 
 <script>
-	import defaultData from '../defaults/companyInfo'
+	// [IMPORT] //
 	import { FacebookIcon, InstagramIcon, YoutubeIcon } from 'vue-feather-icons'
+
+	// [IMPORT] Personal //
+	import defaultData from '@/defaults/companyInfo'
 
 	export default {
 		props: {
