@@ -9,7 +9,7 @@ module.exports = {
 
 	// [FUNCTIONALITY] //
 	ADMIN_USER_SYSTEM: process.env.ADMIN_USER_SYSTEM || true,
-	PAYMENT_SYSTEM: process.env.PAYMENT_SYSTEM || true,
+	PAYMENT_SYSTEM: process.env.PAYMENT_SYSTEM || false,
 
 	// [URL] //
 	CLIENT_BASE_URL: process.env.BASE_URL || 'http://localhost:8080',
