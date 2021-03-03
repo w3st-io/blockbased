@@ -8,7 +8,7 @@ module.exports = {
 	NODE_ENV: process.env.NODE_ENV || 'development',
 
 	// [FUNCTIONALITY] //
-	ADMIN_USER_SYSTEM: process.env.ADMIN_USER_SYSTEM || true,
+	ADMIN_USER_SYSTEM: process.env.ADMIN_USER_SYSTEM || false,
 	PAYMENT_SYSTEM: process.env.PAYMENT_SYSTEM || false,
 
 	// [URL] //
