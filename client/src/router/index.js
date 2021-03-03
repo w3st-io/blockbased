@@ -38,7 +38,7 @@ import post_create from '@/pages/post/create'
 // User //
 import user_activity from '@/pages/user/activity'
 import user_activity_lookup from '@/pages/user/activity/lookup'
-import user_accountCreated from '@/pages/user/account-created'
+import user_registered from '@/pages/user/registered'
 import user_followed from '@/pages/user/followed'
 import user_login from '@/pages/user/login'
 import user_notifications from '@/pages/user/notifications'
@@ -276,9 +276,9 @@ const router = new Router ({
 		},
 		// User //
 		{
-			path: '/user/account-created',
-			name: 'user_account_created',
-			component: user_accountCreated,
+			path: '/user/registered',
+			name: 'user_registered',
+			component: user_registered,
 			meta: {
 				auth: true,
 				title: 'Successfully Created Account'

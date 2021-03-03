@@ -131,7 +131,7 @@
 					)
 
 					// Check Status //
-					if (this.data.created) { router.push({ name: 'user_account_created' }) }
+					if (this.data.created) { router.push({ name: 'registered' }) }
 					else { this.error = this.data.message }
 				}
 				catch (err) { this.error = err }
