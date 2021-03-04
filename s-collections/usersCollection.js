@@ -157,7 +157,7 @@ const c_register = async ({ username, email, password }) => {
 			}
 		}
 
-		// Hash Password //
+		// [ENCRYPT] Hash Password //
 		const hashedPassword = await bcrypt.hash(password, 10)
 
 		// [SAVE] //
