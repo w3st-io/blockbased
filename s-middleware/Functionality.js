@@ -5,7 +5,7 @@ const config = require('../s-config')
 class Auth {
 	static adminUserSystem() {
 		return (req, res, next) => {
-			if (config.ADMIN_USER_SYSTEM) { next() }
+			if (config.ADMIN_USER_SYSTEM === true) { next() }
 			else {
 				res.status(200).send({
 					executed: true,
@@ -18,7 +18,7 @@ class Auth {
 
 	static paymentsSystem() {
 		return (req, res, next) => {
-			if (config.PAYMENT_SYSTEM) { next() }
+			if (config.PAYMENT_SYSTEM === true) { next() }
 			else {
 				res.status(200).send({
 					executed: true,
@@ -31,7 +31,7 @@ class Auth {
 
 	static commentsSystem() {
 		return (req, res, next) => {
-			if (config.COMMENT_FUNCTIONALITY) { next() }
+			if (config.COMMENT_FUNCTIONALITY === true) { next() }
 			else {
 				res.status(200).send({
 					executed: true,
@@ -44,12 +44,12 @@ class Auth {
 
 	static postsSystem() {
 		return (req, res, next) => {
-			if (config.POST_FUNCTIONALITY) { next() }
+			if (config.POST_FUNCTIONALITY === true) { next() }
 			else {
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: 'This app does not support a payment system'
+					message: 'Post functionalities are disabled'
 				})
 			}
 		}
