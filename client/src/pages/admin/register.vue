@@ -127,11 +127,11 @@
 			async register() {
 				// [REGISTER] //
 				try {
-					this.data = await AdminService.s_register(
-						this.username,
-						this.email,
-						this.password,
-					)
+					this.data = await AdminService.s_register({
+						username: this.username,
+						email: this.email,
+						password: this.password,
+					})
 
 					// Check Status //
 					if (this.data.created) { this.redirect() }

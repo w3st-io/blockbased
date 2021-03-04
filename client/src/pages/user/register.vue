@@ -124,11 +124,11 @@
 		methods: {
 			async register() {
 				try {
-					this.data = await UserService.s_register(
-						this.username,
-						this.email,
-						this.password,
-					)
+					this.data = await UserService.s_register({
+						username: this.username,
+						email: this.email,
+						password: this.password,
+					})
 
 					// Check Status //
 					if (this.data.created) { router.push({ name: 'registered' }) }

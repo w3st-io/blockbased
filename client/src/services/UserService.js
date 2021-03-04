@@ -91,7 +91,7 @@ async function s_logout() {
 
 
 // [REGISTER] //
-async function s_register(username, email, password) {
+async function s_register({ username, email, password }) {
 	try {
 		const authAxios = await this.authAxios()
 		
