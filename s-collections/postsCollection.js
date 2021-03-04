@@ -145,7 +145,7 @@ const c_delete = async (post_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `postCollections: Error --> ${err}`,
+			message: `postsCollection: Error --> ${err}`,
 			deleted: false,
 		}
 	}
@@ -426,7 +426,7 @@ const c_deleteByIdAndUser = async (post_id, user_id) => {
 		return {
 			executed: false,
 			status: false,
-			message: `postCollections: Error --> ${err}`,
+			message: `postsCollection: Error --> ${err}`,
 			deleted: false,
 		}
 	}

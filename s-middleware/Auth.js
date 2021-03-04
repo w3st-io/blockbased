@@ -183,7 +183,43 @@ class Auth {
 			}
 		}
 	}
-	
+
+
+	// [USER-TOKEN] NOT required //
+	static userTokenNotRequired() {
+		return async (req, res, next) => {
+			// [INIT] //
+			const token = req.headers.authorization
+
+			if (token) {
+				// [SLICE] "Bearer " //
+				const tokenBody = token.slice(7)
+
+				// If a token exists => Validate JWT //
+				if (tokenBody !== 'undefined') {
+					try {
+						const decoded = await jwt.verify(tokenBody, secretKey)
+						
+						// [INIT] Put decoded in req //
+						req.decoded = decoded
+					}
+					catch (err) {
+						console.log('JWT Verify:', err)
+
+						res.status(200).send({
+							executed: true,
+							status: false,
+							message: err
+						})
+					}
+				}
+			}
+			
+			// Since token is not required move on anyways
+			next()
+		}
+	}
+
 
 	// [USER-TOKEN] Verification NOT required //
 	static userTokenByPassVerification() {
@@ -239,42 +275,6 @@ class Auth {
 					auth: false,
 				})
 			}
-		}
-	}
-
-
-	// [USER-TOKEN] NOT required //
-	static userTokenNotRequired() {
-		return async (req, res, next) => {
-			// [INIT] //
-			const token = req.headers.authorization
-
-			if (token) {
-				// [SLICE] "Bearer " //
-				const tokenBody = token.slice(7)
-
-				// If a token exists => Validate JWT //
-				if (tokenBody !== 'undefined') {
-					try {
-						const decoded = await jwt.verify(tokenBody, secretKey)
-						
-						// [INIT] Put decoded in req //
-						req.decoded = decoded
-					}
-					catch (err) {
-						console.log('JWT Verify:', err)
-
-						res.status(200).send({
-							executed: true,
-							status: false,
-							message: err
-						})
-					}
-				}
-			}
-			
-			// Since token is not required move on anyways
-			next()
 		}
 	}
 }
