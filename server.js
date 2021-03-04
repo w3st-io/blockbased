@@ -87,19 +87,20 @@ app.use(express.static(__dirname + '/s-static'))
 app.use(rateLimiter.limiter)
 
 
-// [USE] Personal // API // Pages //
+// [USE] Personal - API //
 app.use('/api', a_)
-app.use('/api/admin', Functionality.adminUserSystem(), a_admin)
-app.use('/api/admin/comment-reports', Functionality.adminUserSystem(), a_admin_commentReports)
-app.use('/api/admin/comments', Functionality.adminUserSystem(), a_admin_comments)
-app.use('/api/admin/posts', Functionality.adminUserSystem(), a_admin_posts)
-app.use('/api/admin/users', Functionality.adminUserSystem(), a_admin_users)
-app.use('/api/comments', Functionality.commentsSystem(), a_comments)
+app.use('/api/admin', Functionality.admin(), a_admin)
+app.use('/api/admin/comment-reports', Functionality.admin(), a_admin_commentReports)
+app.use('/api/admin/comments', Functionality.admin(), a_admin_comments)
+app.use('/api/admin/posts', Functionality.admin(), a_admin_posts)
+app.use('/api/admin/users', Functionality.admin(), a_admin_users)
+app.use('/api/comments', Functionality.comments(), a_comments)
 app.use('/api/mail', a_mail)
-app.use('/api/notifications', Functionality.adminUserSystem(), a_notifications)
-app.use('/api/posts', Functionality.postsSystem(), a_posts)
-app.use('/api/user', Functionality.adminUserSystem(), a_user)
+app.use('/api/notifications', Functionality.user(), a_notifications)
+app.use('/api/posts', Functionality.posts(), a_posts)
+app.use('/api/user', Functionality.user(), a_user)
 
+// [USE] Personal - Pages //
 app.use('/pages', p_)
 app.use('/pages/activity', p_activity)
 app.use('/pages/admin', p_admin)

@@ -2,7 +2,7 @@
 
 ## ENV File Example
 ##### FUNCTIONALITY
-* ADMIN_USER_SYSTEM = < true/false >
+* ADMIN_USER_FUNCTIONALITY = < true/false >
 * PAYMENT_SYSTEM = < true/false >
 * POST_FUNCTIONALITY = < true/false >
 * COMMENT_FUNCTIONALITY = < true/false >
