@@ -33,7 +33,7 @@ class Auth {
 
 	static payments() {
 		return (req, res, next) => {
-			if (config.PAYMENT_SYSTEM === true) { next() }
+			if (config.PAYMENT_FUNCTIONALITY === true) { next() }
 			else {
 				res.status(200).send({
 					executed: true,
