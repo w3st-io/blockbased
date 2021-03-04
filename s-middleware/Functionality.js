@@ -59,7 +59,7 @@ class Auth {
 		}
 	}
 
-	static postsSystem() {
+	static posts() {
 		return (req, res, next) => {
 			if (config.POST_FUNCTIONALITY === true) { next() }
 			else {
