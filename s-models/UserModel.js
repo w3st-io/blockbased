@@ -6,15 +6,16 @@ const mongooseFuzzySearching = require('mongoose-fuzzy-searching')
 // [INIT] //
 const defaultImage = 'https://icon-library.com/images/placeholder-icon/placeholder-icon-17.jpg'
 
+
 // [EXPORT] //
 module.exports = mongoose.model(
 	'User',
 	mongoose.Schema({
 		_id: mongoose.Schema.Types.ObjectId,
 		email: {	
-			type: String,	
-			required: [true, 'This is required'],	
-			maxlength: 50,	
+			type: String,
+			required: [true, 'This is required'],
+			maxlength: 50,
 		},
 
 		username: {

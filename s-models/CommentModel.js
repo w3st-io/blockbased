@@ -109,6 +109,7 @@ const comment = mongoose.Schema({
 				},
 			},
 		}],
+		
 		version: {
 			type: String,
 			maxlength: 15

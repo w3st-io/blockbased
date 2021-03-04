@@ -276,15 +276,6 @@ const router = new Router ({
 		},
 		// User //
 		{
-			path: '/user/registered',
-			name: 'user_registered',
-			component: user_registered,
-			meta: {
-				auth: true,
-				title: 'Successfully Created Account'
-			}
-		},
-		{
 			path: '/user/activity/:sort/:limit/:page',
 			name: 'user_activity',
 			component: user_activity,
@@ -390,6 +381,15 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Register'
+			}
+		},
+		{
+			path: '/user/registered',
+			name: 'user_registered',
+			component: user_registered,
+			meta: {
+				auth: true,
+				title: 'Successfully Created Account'
 			}
 		},
 		{
