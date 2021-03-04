@@ -94,10 +94,10 @@ app.use('/api/admin/comment-reports', Functionality.adminUserSystem(), a_admin_c
 app.use('/api/admin/comments', Functionality.adminUserSystem(), a_admin_comments)
 app.use('/api/admin/posts', Functionality.adminUserSystem(), a_admin_posts)
 app.use('/api/admin/users', Functionality.adminUserSystem(), a_admin_users)
-app.use('/api/comments', Functionality.adminUserSystem(), a_comments)
+app.use('/api/comments', Functionality.commentsSystem(), a_comments)
 app.use('/api/mail', a_mail)
 app.use('/api/notifications', Functionality.adminUserSystem(), a_notifications)
-app.use('/api/posts', Functionality.adminUserSystem(), a_posts)
+app.use('/api/posts', Functionality.postsSystem(), a_posts)
 app.use('/api/user', Functionality.adminUserSystem(), a_user)
 
 app.use('/pages', p_)

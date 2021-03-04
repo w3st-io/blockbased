@@ -60,8 +60,7 @@ const c_update = async ({ user_id, img_url, bio }) => {
 		}
 
 		// [VALIDATE] bio //
-		if (bio.includes('<script') || bio.includes('</script>')
-		) {
+		if (bio.includes('<script') || bio.includes('</script>')) {
 			return {
 				executed: true,
 				status: false,

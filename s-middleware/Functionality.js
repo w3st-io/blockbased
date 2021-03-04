@@ -23,6 +23,32 @@ class Auth {
 				res.status(200).send({
 					executed: true,
 					status: false,
+					message: 'This app does not support a payment system',
+				})
+			}
+		}
+	}
+
+	static commentsSystem() {
+		return (req, res, next) => {
+			if (config.COMMENT_FUNCTIONALITY) { next() }
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
+					message: 'Comment functionalities are disabled',
+				})
+			}
+		}
+	}
+
+	static postsSystem() {
+		return (req, res, next) => {
+			if (config.POST_FUNCTIONALITY) { next() }
+			else {
+				res.status(200).send({
+					executed: true,
+					status: false,
 					message: 'This app does not support a payment system'
 				})
 			}
