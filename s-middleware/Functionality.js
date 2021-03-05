@@ -5,7 +5,7 @@ const config = require('../s-config')
 class Auth {
 	static admin() {
 		return (req, res, next) => {
-			if (config.ADMIN_USER_FUNCTIONALITY === true) { next() }
+			if (config.ADMIN_FUNCTIONALITY === 'true') { next() }
 			else {
 				res.status(200).send({
 					executed: true,
@@ -19,7 +19,7 @@ class Auth {
 
 	static user() {
 		return (req, res, next) => {
-			if (config.ADMIN_USER_FUNCTIONALITY === true) { next() }
+			if (config.USER_FUNCTIONALITY === 'true') { next() }
 			else {
 				res.status(200).send({
 					executed: true,
@@ -33,7 +33,7 @@ class Auth {
 
 	static payments() {
 		return (req, res, next) => {
-			if (config.PAYMENT_FUNCTIONALITY === true) { next() }
+			if (config.PAYMENT_FUNCTIONALITY === 'true') { next() }
 			else {
 				res.status(200).send({
 					executed: true,
@@ -47,7 +47,7 @@ class Auth {
 
 	static comments() {
 		return (req, res, next) => {
-			if (config.COMMENT_FUNCTIONALITY === true) { next() }
+			if (config.COMMENT_FUNCTIONALITY === 'true') { next() }
 			else {
 				res.status(200).send({
 					executed: true,
@@ -61,7 +61,7 @@ class Auth {
 
 	static posts() {
 		return (req, res, next) => {
-			if (config.POST_FUNCTIONALITY === true) { next() }
+			if (config.POST_FUNCTIONALITY === 'true') { next() }
 			else {
 				res.status(200).send({
 					executed: true,
