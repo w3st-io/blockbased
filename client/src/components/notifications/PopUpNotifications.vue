@@ -4,8 +4,10 @@
 		style="max-width: 300px;"
 	>
 		<!-- Show Button -->
-		<button
-			class="ml-auto p-0 btn btn-primary btn-lg rounded-circle shadow"
+		<BButton
+			variant="primary"
+			size="lg"
+			class="ml-auto p-0 rounded-circle shadow"
 			style="width: 50px; height: 50px; font-family: monospace;"
 			@click="userShowClicked()"
 		>
@@ -18,26 +20,18 @@
 				role="status"
 				aria-hidden="true"
 			></span>
-		</button>
-		
-		<div
+		</BButton>
+
+		<BCard
 			v-show="show || userShow"
 			v-for="notification in notifications"
 			:key="notification._id"
-			class="
-				card
-				card-sm
-				flex-card
-				w-100
-				mb-3
-				bg-primary
-				border-primary
-				fade-in
-				shadow
-				text-light
-			"
+			no-body
+			bg-variant="primary"
+			text-variant="light"
+			class="flex-card w-100 mb-3 fade-in shadow"
 		>
-			<div class="card-header p-2">
+			<BCardHeader class="p-2">
 				<span class="small">
 					{{ notification.comment.post.title.replace(/(.{60})..+/, '$1…') }}
 				</span>
@@ -46,15 +40,15 @@
 					class="ml-2 mb-1 close"
 					@click="closeClicked(notification._id)"
 				><span aria-hidden="true">&times;</span></button>
-			</div>
-			<div class="card-body p-2">
+			</BCardHeader>
+			<BCardBody class="p-2">
 				<p class="card-text small">
 					{{ notification.comment.user.username }}
 					posted a
 					{{ notification.type }}
 				</p>
-			</div>
-		</div>
+			</BCardBody>
+		</BCard>
 	</section>
 </template>
 

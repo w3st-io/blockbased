@@ -1,22 +1,18 @@
 <template>
 	<span>
 		<!-- Button -->
-		<button
+		<BButton
+			variant="outline-light"
+			size="sm"
+			class="position-relative z-index-button"
 			@click="showPopper = !showPopper"
-			class="
-				position-relative
-				btn
-				btn-sm
-				btn-outline-light 
-				z-index-button
-			"
 		>
 			<span v-if="notifications.length != 0" class="mr-1 badge badge-danger">
 				{{ reqData.unreadNotificationCount }}
 			</span>
 
 			<BellIcon size="16" />
-		</button>
+		</BButton>
 
 		<!-- Dropdown Menu -->
 		<div

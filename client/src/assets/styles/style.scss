@@ -33,3 +33,10 @@ body {
 
 // Distinct p //
 .comment p { margin: 0; }
+
+// Nav Spacer //
+.nav-spacer { padding-top: 147px; }
+
+@media only screen and (max-width: 991px) { .nav-spacer { padding-top: 178px; } }
+
+@media only screen and (max-width: 768px) { .nav-spacer { padding-top: 186px; } }

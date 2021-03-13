@@ -37,7 +37,7 @@
 					scales: {
 						yAxes: [{
 							ticks: {
-								fontColor: "white",
+								fontColor: 'white',
 								fontSize: 12,
 								stepSize: 1,
 								beginAtZero: false
@@ -45,7 +45,7 @@
 						}],
 						xAxes: [{
 							ticks: {
-								fontColor: "white",
+								fontColor: 'white',
 								fontSize: 10,
 								stepSize: 1,
 								beginAtZero: false

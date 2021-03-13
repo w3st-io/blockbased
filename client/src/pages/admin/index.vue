@@ -1,6 +1,6 @@
 <template>
-	<BContainer class="mt-3 text-light">
-		<BRow v-if="!loading">
+	<BContainer class="my-3">
+		<BRow v-if="!loading" class="text-light">
 			<BCol cols="12">
 				<BCard bg-variant="dark" class="mb-3">
 					<FunctionButtons />

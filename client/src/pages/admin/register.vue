@@ -1,9 +1,9 @@
 <template>
-	<div class="mx-auto my-3 text-light register-terminal">
+	<div class="mx-auto my-3 register-terminal">
 		<!-- Title -->
-		<h3 class="mb-3 text-center">Admin Register</h3>
+		<h3 class="mb-3 text-light text-center">Admin Register</h3>
 
-		<BCard bg-variant="dark" border-variant="warning">
+		<BCard bg-variant="dark" border-variant="warning" text-variant="light">
 			<!-- FORM + VEE-VALIDATE -->
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(register)">

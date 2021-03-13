@@ -10,13 +10,14 @@
 			<BListGroup class="w-100 m-0 px-0">
 				<BListGroupItem
 					v-for="(cat, index) in cats" :key="index"
-					class="p-0 bg-dark border-secondary"
+					class="p-0 border-secondary"
+					bg-variant="dark"
 				>
 					<BRow class="m-0">
 						<!-- Image Section -->
 						<BCol
 							cols="3" sm="2" md="2" lg="1" xl="1"
-							class=" align-self-center"
+							class="align-self-center"
 							@click="redirectToCatPosts(cat.cat_id)"
 						>
 							<div class="overflow-auto rounded">
@@ -34,7 +35,9 @@
 							@click="redirectToCatPosts(cat.cat_id)"
 						>
 							<h4 class="text-primary">{{ cat.title }}</h4>
-							<p class="m-0 d-none d-sm-block text-light">{{ cat.description }}</p>
+							<p class="m-0 d-none d-sm-block text-light">
+								{{ cat.description }}
+							</p>
 						</BCol>
 
 						<!-- Count -->

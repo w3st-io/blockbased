@@ -1,8 +1,7 @@
 <template>
-
-	<BContainer class="text-light">
+	<BContainer class="my-3">
 		<BRow>
-			<BCol cols="12" class="mt-4">
+			<BCol cols="12" class="text-light">
 				<!-- Title -->
 				<h3 class="mb-3 text-center">Admin Login</h3>
 			</BCol>
@@ -13,6 +12,7 @@
 				<BCard
 					bg-variant="dark"
 					border-variant="warning"
+					text-variant="light"
 					class="mx-auto"
 					style="max-width: 350px;"
 				>

@@ -1,8 +1,8 @@
 <template>
-	<BContainer>
-		<BRow class="mt-3">
+	<BContainer class="my-3">
+		<BRow>
 			<BCol cols="12">
-				<BCard bg-variant="dark" class="text-light">
+				<BCard bg-variant="dark" text-variant="light">
 					<BRow>
 						<BCol cols="6">
 							<h4>All Activity</h4>

@@ -2,9 +2,9 @@
 	<BContainer>
 		<BRow class="mt-4">
 			<BCol cols="12">
-				<BCard bg-variant="dark">
+				<BCard bg-variant="dark" text-variant="light">
 					<!-- Title -->
-					<h2 class="text-white">Your Admin Profile</h2>
+					<h2>Your Admin Profile</h2>
 
 					<table class="table table-border table-dark">
 						<tr>

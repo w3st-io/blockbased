@@ -2,35 +2,45 @@
 	<div>
 		<BRow>
 			<BCol sm="6" md="3" class="mb-2">
-				<BButton variant="outline-warning" class="w-100" @click="redirectDashboard()">
-					Dashboard
-				</BButton>
+				<BButton
+					variant="outline-warning"
+					class="w-100"
+					@click="redirectDashboard()"
+				>Dashboard</BButton>
 			</BCol>
 		</BRow>
 
 		<BRow>
 			<BCol sm="6" md="3" class="mb-2">
-				<BButton variant="outline-warning" class="w-100" @click="redirectCommentReports()">
-					commentReports
-				</BButton>
+				<BButton
+					variant="outline-warning"
+					class="w-100"
+					@click="redirectCommentReports()"
+				>commentReports</BButton>
 			</BCol>
 
 			<BCol sm="6" md="3" class="mb-2">
-				<BButton variant="outline-warning" class="w-100" @click="redirectComments()">
-					comments
-				</BButton>
+				<BButton
+					variant="outline-warning"
+					class="w-100"
+					@click="redirectComments()"
+				>comments</BButton>
 			</BCol>
 
 			<BCol sm="6" md="3" class="mb-2">
-				<BButton variant="outline-warning" class="w-100" @click="redirectPosts()">
-					posts
-				</BButton>
+				<BButton
+					variant="outline-warning"
+					class="w-100"
+					@click="redirectPosts()"
+				>posts</BButton>
 			</BCol>
 
 			<BCol sm="6" md="3" class="mb-2">
-				<BButton variant="outline-warning" class="w-100" @click="redirectUsers()">
-					users
-				</BButton>
+				<BButton
+					variant="outline-warning"
+					class="w-100"
+					@click="redirectUsers()"
+				>users</BButton>
 			</BCol>
 		</BRow>
 	</div>

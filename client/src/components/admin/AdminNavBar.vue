@@ -9,7 +9,7 @@
 				Admin Profile
 			</BButton>
 
-			<BButton variant="warning" class="mr-2 btn-sm" @click="logout()">
+			<BButton variant="warning" size="sm" class="mr-2" @click="logout()">
 				Logout
 			</BButton>
 		</div>

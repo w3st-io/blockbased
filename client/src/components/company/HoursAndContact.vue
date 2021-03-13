@@ -1,6 +1,6 @@
 <template>
 	<!-- Operations -->
-	<BCard bg-variant="dark" class="text-light">
+	<BCard bg-variant="dark" text-variant="light">
 		<h3 class="mb-3 text-center text-primary">Hours & Location</h3>
 		<hr class="border-light">
 

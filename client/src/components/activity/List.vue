@@ -10,11 +10,9 @@
 					<!-- Created User -->
 					<BRow v-if="activity.type == 'user'">
 						<BCol class="m-0 p-0" style="max-width: 35px;">
-							<img
-								:src="activity.created_user.profile_img"
-								class="w-100"
-							>
+							<img :src="activity.created_user.profile_img" class="w-100">
 						</BCol>
+
 						<BCol>
 							<h5>
 								<a
@@ -53,6 +51,7 @@
 						<BCol class="m-0 p-0" style="max-width: 35px;">
 							<img :src="activity.user.profile_img" class="w-100">
 						</BCol>
+						
 						<BCol>
 							<h5>
 								<a
