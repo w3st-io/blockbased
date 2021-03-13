@@ -10,12 +10,15 @@
 					<RouterLink to="/components/bcarousel">
 						<BButton class="w-100 mb-3">BCarousel</BButton>
 					</RouterLink>
+
 					<RouterLink to="/components/conveyor">
 						<BButton class="w-100 mb-3">Conveyor</BButton>
 					</RouterLink>
+
 					<RouterLink to="/components/get-quote">
 						<BButton class="w-100 mb-3">Get Quote</BButton>
 					</RouterLink>
+					
 					<RouterLink to="/components/parallax">
 						<BButton class="w-100 mb-3">Parallax</BButton>
 					</RouterLink>

@@ -1,10 +1,15 @@
 <template>
-	<div class="mx-auto my-3 register-terminal">
+	<BContainer class="my-3">
 		<!-- Title -->
 		<h3 class="mb-3 text-light text-center">Admin Register</h3>
 
-		<BCard bg-variant="dark" border-variant="warning" text-variant="light">
-			<!-- FORM + VEE-VALIDATE -->
+		<BCard
+			bg-variant="dark"
+			border-variant="warning"
+			text-variant="light"
+			class="mx-auto"
+			style="max-width: 350px;"
+		>
 			<ValidationObserver v-slot="{ handleSubmit }">
 				<form @submit.prevent="handleSubmit(register)">
 					<!-- Username -->
@@ -16,7 +21,7 @@
 					>
 						<label for="username">Username</label>
 						<input
-							v-model="username"
+							v-model="formData.username"
 							name="username"
 							type="text"
 							class="form-control bg-dark text-white border-secondary"
@@ -38,7 +43,7 @@
 							type="email"
 							class="form-control bg-dark text-white border-secondary"
 							placeholder="Example@example.com"
-							v-model="email"
+							v-model="formData.email"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
 					</ValidationProvider>
@@ -52,10 +57,11 @@
 					>
 						<label for="password">Password</label>
 						<input
-							v-model="password"
+							v-model="formData.password"
 							name="password"
 							type="password"
 							class="form-control bg-dark text-light border-secondary"
+							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="******"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -64,17 +70,17 @@
 					<!-- Confirmed Password -->
 					<ValidationProvider
 						tag="div"
-						class="form-group" 
 						name="confirmation"
 						rules="required"
+						class="form-group" 
 						v-slot="{ errors }"
 					>
 						<label for="confirm">Confirm Password</label>
 						<input
 							v-model="confirm"
-							name="confirm"
 							type="password"
 							class="form-control bg-dark text-light border-secondary"
+							:class="{ 'is-invalid border-danger': errors != '' }"
 							placeholder="******"
 						>
 						<span class="text-danger">{{ errors[0] }}</span>
@@ -92,7 +98,7 @@
 
 		<!-- [ALERTS] -->
 		<Alert v-if="error" variant="danger" :message="error" class="mt-3" />
-	</div>
+	</BContainer>
 </template>
 
 <script>
@@ -105,12 +111,14 @@
 	export default {
 		data() {
 			return {
-				username: '',
-				email: '',
-				password: '',
-				confirm: '',
-				data: '',
 				error: '',
+				reqData: '',
+				formData: {
+					usernmae: '',
+					email: '',
+					password: '',
+				},
+				confirm: '',
 			}
 		},
 
@@ -127,15 +135,15 @@
 			async register() {
 				// [REGISTER] //
 				try {
-					this.data = await AdminService.s_register({
-						username: this.username,
-						email: this.email,
-						password: this.password,
+					this.reqData = await AdminService.s_register({
+						username: this.formData.username,
+						email: this.formData.email,
+						password: this.formData.password,
 					})
 
 					// Check Status //
-					if (this.data.created) { this.redirect() }
-					else { this.error = this.data.message }
+					if (this.reqData.created) { this.redirect() }
+					else { this.error = this.reqData.message }
 				}
 				catch (err) { this.error = err }
 			},
@@ -148,9 +156,3 @@
 		}
 	}
 </script>
-
-<style scoped>
-	.register-terminal { max-width: 350px; }
-
-
-</style>

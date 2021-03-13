@@ -1,9 +1,7 @@
 <template>
-	<BContainer>
-		<BCard bg-variant="dark" class="my-3">
-			<h3 class="mb-3 text-light">
-				Edit Comment "{{ comment_id }}"
-			</h3>
+	<BContainer class="my-3">
+		<BCard bg-variant="dark" text-variant="light">
+			<h3 class="mb-3">Edit Comment "{{ comment_id }}"</h3>
 
 			<!-- Comment Edit Component -->
 			<CommentEdit
@@ -19,16 +17,16 @@
 
 <script>
 	// [IMPORT] Personal //
-	import Alert from '@/components/inform/Alert'
 	import CommentEdit from '@/components/comment/Edit'
+	import Alert from '@/components/inform/Alert'
 	import PageService from '@/services/PageService'
 	import router from '@/router'
 
 	// [EXPORT] //
 	export default {
 		components: {
+			CommentEdit,
 			Alert,
-			CommentEdit
 		},
 
 		data() {
@@ -46,7 +44,7 @@
 			}
 		},
 
-		created: async function() {
+		async created() {
 			// [REDIRECT] Log Needed //
 			if (!localStorage.usertoken) { router.push({ name: 'user_login' }) }
 

@@ -14,7 +14,7 @@
 					>
 						<label>Username</label>
 						<input
-							v-model="username"
+							v-model="formData.username"
 							name="username"
 							type="text"
 							class="form-control bg-dark text-light border-secondary"
@@ -34,7 +34,7 @@
 					>
 						<label>Email</label>
 						<input
-							v-model="email"
+							v-model="formData.email"
 							name="email"
 							type="email"
 							class="form-control bg-dark text-light border-secondary"
@@ -53,7 +53,7 @@
 					>
 						<label>Password</label>
 						<input
-							v-model="password"
+							v-model="formData.password"
 							type="password"
 							class="form-control bg-dark text-light border-secondary"
 							:class="{ 'is-invalid border-danger': errors != '' }"
@@ -70,7 +70,7 @@
 						class="form-group" 
 						v-slot="{ errors }"
 					>
-						<label>Confirm Password</label>
+						<label for="confirm">Confirm Password</label>
 						<input
 							v-model="confirm"
 							type="password"
@@ -108,11 +108,14 @@
 
 		data() {
 			return {
-				username: '',
-				email: '',
-				password: '',
+				formData: {
+					username: '',
+					email: '',
+					password: '',
+				},
 				data: '',
 				error: '',
+				confirm: '',
 			}
 		},
 
@@ -125,13 +128,13 @@
 			async register() {
 				try {
 					this.data = await UserService.s_register({
-						username: this.username,
-						email: this.email,
-						password: this.password,
+						username: this.formData.username,
+						email: this.formData.email,
+						password: this.formData.password,
 					})
 
 					// Check Status //
-					if (this.data.created) { router.push({ name: 'registered' }) }
+					if (this.data.created) { router.push({ name: 'user_registered' }) }
 					else { this.error = this.data.message }
 				}
 				catch (err) { this.error = err }

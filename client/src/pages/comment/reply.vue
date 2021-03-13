@@ -1,7 +1,7 @@
 <template>
-	<BContainer>
-		<BCard bg-variant="dark" class="my-3">
-			<h3 class="mb-3 text-light">
+	<BContainer class="my-3">
+		<BCard bg-variant="dark" text-variant="light">
+			<h3 class="mb-3">
 				In Reply to Comment "{{ comment_id }}"
 			</h3>
 

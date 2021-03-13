@@ -1,7 +1,7 @@
 <template>
 	<BContainer class="my-3">
-		<BCard bg-variant="dark">
-			<h3 class="mb-3 text-light">Create Comment</h3>
+		<BCard bg-variant="dark" text-variant="light">
+			<h3 class="mb-3">Create Comment</h3>
 		
 			<!-- Informative Message -->
 			<Alert variant="info" :message="message" />

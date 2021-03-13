@@ -1,10 +1,11 @@
 <template>
-	<BContainer class="my-4 text-light">
+	<BContainer class="my-3">
 		<!-- Set Page Title -->
 		<VueHeadful :title="`Cat - ${cat.title}`" />
+
 		<BRow>
 			<BCol cols="12">
-				<BCard bg-variant="dark">
+				<BCard bg-variant="dark" text-variant="light">
 					<!-- Cat Title Header -->
 					<BRow>
 						<!-- Title -->

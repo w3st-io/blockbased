@@ -38,7 +38,6 @@ import post_create from '@/pages/post/create'
 // User //
 import user_activity from '@/pages/user/activity'
 import user_activity_lookup from '@/pages/user/activity/lookup'
-import user_registered from '@/pages/user/registered'
 import user_followed from '@/pages/user/followed'
 import user_login from '@/pages/user/login'
 import user_notifications from '@/pages/user/notifications'
@@ -50,6 +49,7 @@ import user_profile_edit from '@/pages/user/profile/edit'
 import user_profile_lookup from '@/pages/user/profile/lookup'
 import user_verify from '@/pages/user/verify'
 import user_register from '@/pages/user/register'
+import user_registered from '@/pages/user/registered'
 // Search //
 import search from '@/pages/search'
 // z //
