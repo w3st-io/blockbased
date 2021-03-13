@@ -5,6 +5,7 @@
 				limit:
 			</BInputGroupText>
 		</BInputGroupPrepend>
+		
 		<BFormInput
 			v-model="outputLimit"
 			type="text"
@@ -14,6 +15,7 @@
 			class="border-light text-center text-light bg-dark"
 			style="max-width: 50px;"
 		/>
+
 		<BInputGroupAppend>
 			<BButton
 			variant="outline-light"
@@ -38,7 +40,7 @@
 			}
 		},
 
-		created: function() {
+		created() {
 			this.outputLimit = this.limit
 		},
 

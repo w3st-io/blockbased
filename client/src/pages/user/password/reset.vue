@@ -1,9 +1,11 @@
 <template>
-	<BContainer class="text-white">
-		<BRow class="mt-3">
+	<BContainer class="my-3">
+		<BRow>
 			<BCol cols="12">
 				<BCard
 					bg-variant="dark"
+					border-variant="secondary"
+					text-variant="white"
 					class="m-auto w-100"
 					style="max-width: 500px;"
 				>

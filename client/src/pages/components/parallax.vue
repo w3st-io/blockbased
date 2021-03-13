@@ -16,8 +16,8 @@
 </template>
 
 <script>
-	import PageData from '../../defaults/pages/components/parallax'
-	import Parallax from '../../components/display/Parallax'
+	import Parallax from '@/components/display/Parallax'
+	import PageData from '@/defaults/pages/components/parallax'
 
 	export default {
 		components: {

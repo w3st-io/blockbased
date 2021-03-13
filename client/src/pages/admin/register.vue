@@ -1,7 +1,7 @@
 <template>
 	<BContainer class="my-3">
 		<!-- Title -->
-		<h3 class="mb-3 text-light text-center">Admin Register</h3>
+		<h3 class="mb-3 text-center text-light">Admin Register</h3>
 
 		<BCard
 			bg-variant="dark"

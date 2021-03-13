@@ -5,9 +5,7 @@
 				<!-- Title -->
 				<h3 class="mb-3 text-center">Admin Login</h3>
 			</BCol>
-		</BRow>
-		
-		<BRow>
+			
 			<BCol cols="12">
 				<BCard
 					bg-variant="dark"

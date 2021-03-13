@@ -1,6 +1,6 @@
 <template>
-	<BContainer>
-		<BRow v-if="!loading" class="my-3">
+	<BContainer class="my-3">
+		<BRow v-if="!loading">
 			<BCol cols="12" sm="8">
 				<BCard bg-variant="dark">
 					<!-- Image Display -->

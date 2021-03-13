@@ -1,5 +1,5 @@
 <template>
-	<BContainer fluid class="my-5">
+	<BContainer fluid class="my-3">
 		<BRow>
 			<Conveyor
 				:images="PageData.cnt1.r1.c1.images"
@@ -12,8 +12,8 @@
 
 <script>
 	// [IMPORT] //
-	import PageData from '../../defaults/pages/components/conveyor'
-	import Conveyor from '../../components/display/Conveyor'
+	import Conveyor from '@/components/display/Conveyor'
+	import PageData from '@/defaults/pages/components/conveyor'
 
 	export default {
 		components: {

@@ -1,6 +1,6 @@
 <template>
-	<BContainer>
-		<BRow v-if="!loading" class="mt-3">
+	<BContainer class="my-3">
+		<BRow v-if="!loading" class="mb-3">
 			<!-- Main Content -->
 			<BCol cols="lg-9" class="mb-3 p-0">
 				<BCard bg-variant="dark" class="text-light">
@@ -15,7 +15,7 @@
 			</BCol>
 
 			<!-- Side Content -->
-			<BCol cols="lg-3">
+			<BCol cols="12" lg="3">
 				<BCard
 					v-if="reqData.cryptoQuote.status"
 					bg-variant="dark"

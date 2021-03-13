@@ -18,7 +18,11 @@
 							cols="12" sm="4" md="4" lg="6"
 							class="text-right d-none d-sm-block"
 						>
-							<BBadge v-if="data.postsObj" variant="dark" class="mb-2 text-secondary">
+							<BBadge
+								v-if="data.postsObj"
+								variant="dark"
+								class="mb-2 text-secondary"
+							>
 								<span class="h5">
 									Total Posts: {{ data.postsObj.postsCount }}
 								</span>

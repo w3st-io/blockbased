@@ -1,10 +1,10 @@
 <template>
-	<BContainer class="mt-3 text-light">
-		<BCard bg-variant="dark" class="mb-3">
+	<BContainer class="my-3">
+		<BCard bg-variant="dark" text-variant="light" class="mb-3">
 			<FunctionButtons />
 		</BCard>
 
-		<BCard bg-variant="dark" class="my-3">
+		<BCard bg-variant="dark" text-variant="light" class="my-3">
 			<BRow>
 				<!-- Page Nav Buttons -->
 				<BCol cols="12" sm="7" class="py-2">

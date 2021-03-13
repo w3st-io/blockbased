@@ -1,9 +1,9 @@
 <template>
-	<BContainer class="mt-3">
-		<BRow class="mt-3">
+	<BContainer class="my-3">
+		<BRow>
 			<BCol cols="12">
-				<BCard bg-variant="dark" class="text-light">
-					<BRow class="mt-3">
+				<BCard bg-variant="dark" text-variant="light">
+					<BRow class="mb-3">
 						<BCol cols="6">
 							<h4>Your Activity</h4>
 						</BCol>
@@ -22,20 +22,20 @@
 						</BCol>
 					</BRow>
 
-					<BRow class="mt-3">
+					<BRow class="mb-3">
 						<BCol cols="12">
 							<ActivityList :activities="activities" />
 						</BCol>
 					</BRow>
 
-					<BRow v-show="error" class="mt-3">
+					<BRow v-show="error" class="mb-3">
 						<BCol cols="12">
 							<!-- Error -->
 							<Alert variant="danger" :message="error" />
 						</BCol>
 					</BRow>
 
-					<BRow v-show="loading" class="mt-3">
+					<BRow v-show="loading" class="mb-3">
 						<BCol class="12">
 							<!-- Loading -->
 							<Alert variant="dark" />
@@ -74,7 +74,7 @@
 			}
 		},
 
-		created: async function() {
+		async created() {
 			await this.getPageData()
 
 			this.log()

@@ -1,5 +1,5 @@
 <template>
-	<BContainer class="my-5">
+	<BContainer class="my-3">
 		<BRow>
 			<BCard bg-variant="dark">
 				<GetQuote />

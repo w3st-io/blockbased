@@ -13,8 +13,8 @@
 </template>
 
 <script>
-	import PageData from '../../defaults/pages/components/bcarousel'
-	import BCaraousel from '../../components/display/BCarousel'
+	import BCaraousel from '@/components/display/BCarousel'
+	import PageData from '@/defaults/pages/components/bcarousel'
 
 	export default {
 		components: {

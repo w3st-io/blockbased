@@ -1,6 +1,6 @@
 <template>
 	<!-- Footer -->
-	<footer class="mt-5 pt-4 page-footer font-small bg-dark text-center">
+	<footer class="pt-4 page-footer font-small bg-dark text-center">
 		<BButton
 			v-if="userLogged"
 			variant="outline-secondary"
@@ -34,6 +34,7 @@
 		created() {
 			if (localStorage.usertoken) { this.userLogged = true }
 		},
+		
 		methods: {
 			logout() {
 				UserService.s_logout()

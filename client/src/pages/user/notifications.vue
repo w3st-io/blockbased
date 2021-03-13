@@ -1,8 +1,8 @@
 <template>
 	<BContainer>
-		<BRow class="mt-3">
+		<BRow class="my-3">
 			<BCol cols="12">
-				<BCard bg-variant="dark" class="text-light">
+				<BCard bg-variant="dark" text-variant="light">
 					<BRow>
 						<!-- Title -->
 						<BCol cols="12" sm="5" md="6" lg="8">

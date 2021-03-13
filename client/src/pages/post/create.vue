@@ -1,6 +1,6 @@
 <template>
-	<BContainer>
-		<BCard bg-variant="dark" class="my-3">
+	<BContainer class="my-3">
+		<BCard bg-variant="dark">
 			<BRow>
 				<BCol cols="12">
 					<h3 class="mb-3 text-light">Create Post in {{ catTitle }}</h3>

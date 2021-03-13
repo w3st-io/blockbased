@@ -1,8 +1,8 @@
 <template>
-	<BContainer>
-		<BRow class="mt-3 text-light">
+	<BContainer class="my-3">
+		<BRow>
 			<BCol cols="12">
-				<BCard bg-variant="dark">
+				<BCard bg-variant="dark" text-variant="light">
 					<BRow>
 						<BCol cols="8" class="mb-3">
 							<h4>Search Results for "{{ query }}"</h4>

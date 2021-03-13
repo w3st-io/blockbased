@@ -1,6 +1,6 @@
 <template>
-	<section class="container">
-		<BCard bg-variant="dark" class="mt-5 mx-auto" style="max-width: 500px;">
+	<BContainer class="my-3">
+		<BCard bg-variant="dark" class="mx-auto" style="max-width: 500px;">
 			<div v-if="success">
 				<h3 class="text-success text-center">{{ success }}</h3>
 				<h1 class="text-success text-center" style="font-size: 6em;">✓</h1>
@@ -13,7 +13,7 @@
 				<p class="mt-3 text-light">{{ error }}</p>
 			</div>
 		</BCard>
-	</section>
+	</BContainer>
 </template>
 
 <script>

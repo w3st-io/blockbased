@@ -1,5 +1,5 @@
 <template>
-	<BContainer class="my-4">
+	<BContainer class="my-3">
 		<!-- Set Page Title -->
 		<VueHeadful :title="`Post - ${postTitle}`" />
 

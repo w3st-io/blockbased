@@ -1,13 +1,13 @@
 <template>
-	<BContainer>
+	<BContainer class="my-3">
 		<BRow>
 			<!-- Loading -->
-			<BCol v-if="loading" cols="12" class="mt-3">
+			<BCol v-if="loading" cols="12">
 				<Alert variant="primary" />
 			</BCol>
 
 			<!-- User Not Verifed -->
-			<BCol v-if="!isVerified" cols="12" class="mt-3">
+			<BCol v-if="!isVerified" cols="12">
 				<BCard bg-variant="danger" class="m-auto">
 					<h5 class="text-center text-light">Account Not Verified!</h5>
 					<BButton

@@ -1,6 +1,11 @@
 <template>
-	<BContainer>
-		<BCard bg-variant="dark" class="mx-auto mt-5" style="max-width: 800px;">
+	<BContainer class="my-3">
+		<BCard
+			bg-variant="dark"
+			border-variant="secondary"
+			class="mx-auto"
+			style="max-width: 800px;"
+		>
 			<BRow>
 				<!-- Welcome Half -->
 				<BCol cols="12" md="6" class="d-none d-md-block">

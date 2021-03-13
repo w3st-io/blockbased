@@ -1,9 +1,10 @@
 <template>
-	<BContainer class="text-white">
-		<BRow class="mt-3">
+	<BContainer class="my-3">
+		<BRow>
 			<BCol cols="12">
 				<BCard
 					bg-variant="dark"
+					text-variant="light"
 					class="m-auto w-100"
 					style="max-width: 500px;"
 				>
@@ -20,7 +21,7 @@
 								v-slot="{ errors }"
 							>
 								<input
-									v-model="currentPassword"
+									v-model="formData.currentPassword"
 									type="password"
 									class="form-control bg-dark text-light border-secondary"
 									:class="{ 'is-invalid border-danger': errors != '' }"
@@ -37,7 +38,7 @@
 								v-slot="{ errors }"
 							>
 								<input
-									v-model="password"
+									v-model="formData.password"
 									type="password"
 									class="form-control bg-dark text-light border-secondary"
 									:class="{ 'is-invalid border-danger': errors != '' }"
@@ -104,39 +105,35 @@
 		data() {
 			return {
 				submitted: false,
-				currentPassword: '',
-				password: '',
-				confirm: '',
 				reqData: '',
 				message: '',
+				formData: {
+					currentPassword: '',
+					password: '',
+				},
+				confirm: '',
 			} 
 		},
 
 		methods: {
 			async submit() {
-				this.submitted = true
-
 				try {
+					this.submitted = true
+
 					this.reqData = await UserService.s_resetPassword(
-						this.currentPassword,
-						this.password
+						this.formData.currentPassword,
+						this.formData.password
 					)
 
 					this.message = this.reqData.message
-
 
 					if (this.reqData.status) {
 						this.submitted = true
 						setTimeout(() => { router.push({ name: 'user_profile' }) }, 1500)
 					}
-
-					this.submitted = false
 				}
-				catch (err) {
-					this.message = err
-
-					this.submitted = false
-				}
+				catch (err) { this.message = err }
+				this.submitted = false
 				
 				console.log('reqData:', this.reqData)
 			},
