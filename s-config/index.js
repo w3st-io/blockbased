@@ -22,7 +22,7 @@ module.exports = {
 	PORT: process.env.PORT || 5000,
 	
 	// [MONGODB] //
-	MONG_URI: process.env.MONGO_URI || '',
+	MONGO_URI: process.env.MONGO_URI || '',
 	
 	// [EMAIL] //
 	EMAIL: process.env.EMAIL || '',

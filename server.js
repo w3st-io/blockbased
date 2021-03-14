@@ -66,7 +66,7 @@ app.io = io
 
 // [MONGOOSE-CONNECTION] //
 mongoose.connect(
-	config.MONG_URI,
+	config.MONGO_URI,
 	{
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
