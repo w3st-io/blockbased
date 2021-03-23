@@ -1,7 +1,7 @@
 <template>
 	<!-- Popular Posts -->
-	<BCard bg-variant="dark" class="text-light">
-		<BListGroup class="">
+	<BCard bg-variant="dark" text-variant="light">
+		<BListGroup>
 			<BListGroupItem class="p-2 text-center bg-dark">
 				<h5>Top Posts</h5>
 			</BListGroupItem>

@@ -30,6 +30,7 @@ import components_bcarousel from '@/pages/components/bcarousel'
 import components_conveyor from '@/pages/components/conveyor'
 import components_getQuote from '../pages/components/get-quote'
 import components_parallax from '@/pages/components/parallax'
+import components_hoursAndContact from '@/pages/components/hours-and-contact'
 // Email //
 import emailSent from '@/pages/email-sent'
 // Post //
@@ -207,7 +208,15 @@ const router = new Router ({
 				title: 'Components Get Quote'
 			},
 		},
-		
+		{
+			path: '/components/hours-and-contact',
+			name: 'components_hours-and-contact',
+			component: components_hoursAndContact,
+			meta: {
+				auth: true,
+				title: 'Components Hours and Contact'
+			},
+		},
 		{
 			path: '/components/parallax',
 			name: 'components_parallax',

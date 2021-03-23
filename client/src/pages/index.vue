@@ -3,7 +3,7 @@
 		<BRow v-if="!loading" class="mb-3">
 			<!-- Main Content -->
 			<BCol cols="lg-9" class="mb-3 p-0">
-				<BCard bg-variant="dark" class="text-light">
+				<BCard bg-variant="dark" text-variant="light">
 					<CatList :cats="cats1" groupName="General" class="mb-3" />
 					<CatList :cats="cats2" groupName="Trade Token Market Place" class="mb-3" />
 					<CatList :cats="cats3" groupName="Productive" class="mb-3" />
