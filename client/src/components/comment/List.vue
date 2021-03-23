@@ -5,7 +5,7 @@
 				v-if="comments != ''"
 				class="m-0 p-0 border border-bottom-0 border-secondary"
 			>
-				<li v-for="comment in comments" :key="comment._id" class="list-unstyled">
+				<li v-for="comment in comments" :key="comment._id" class="list-unstyled li">
 					<BRow class="m-0 comment border-bottom border-secondary text-light">
 						<!-- Profile/Timestamp Bar -->
 						<BCol cols="6" class="p-1 border-bottom border-secondary">
@@ -72,21 +72,43 @@
 								<!-- Left -->
 								<BCol cols="4" class="m-0 small">
 									<!-- [COMPONENT] Drop Down Menu Button -->
-									<DropDownMenuBtn
-										:disabled="disabled"
-										:_id="comment._id"
-										btnName="Report"
+									<BDropdown
 										variant="outline-secondary"
-										:list="[
-											'Innapropiate',
-											'Offensive',
-											'Scam',
-											'Bot',
-											'Spam',
-											'Other'
-										]"
-										@ddmb-clicked="report"
-									/>
+										left
+										text="Report"
+										size="sm"
+										bg-variant="dark"
+									>
+										<BDropdownItemButton
+											:disabled="disabled"
+											@click="report('Innapropiate', comment._id)"
+										>Innapropiate</BDropdownItemButton>
+
+										<BDropdownItemButton
+											:disabled="disabled"
+											@click="report('Offensive', comment._id)"
+										>Offensive</BDropdownItemButton>
+
+										<BDropdownItemButton
+											:disabled="disabled"
+											@click="report('Scam', comment._id)"
+										>Scam</BDropdownItemButton>
+
+										<BDropdownItemButton
+											:disabled="disabled"
+											@click="report('Bot', comment._id)"
+										>Bot</BDropdownItemButton>
+
+										<BDropdownItemButton
+											:disabled="disabled"
+											@click="report('Spam', comment._id)"
+										>Spam</BDropdownItemButton>
+
+										<BDropdownItemButton
+											:disabled="disabled"
+											@click="report('Other', comment._id)"
+										>Other</BDropdownItemButton>
+									</BDropdown>
 
 									<!-- Edit -->
 									<BButton
@@ -170,7 +192,6 @@
 <script>
 	// [IMPORT] Personal //
 	import CleanJSONToHTML from './CleanJSONToHTML'
-	import DropDownMenuBtn from '@/components/controls/DropDownMenuBtn'
 	import NoContent from '@/components/placeholders/NoContent'
 	import router from '@/router'
 	import CommentService from '@/services/CommentService'
@@ -181,7 +202,6 @@
 	export default {
 		components: {
 			CleanJSONToHTML,
-			DropDownMenuBtn,
 			NoContent,
 		},
 		
@@ -271,6 +291,7 @@
 
 			/******************* [REPORT] *******************/
 			report(type, comment_id) {
+				console.log(type, comment_id)
 				CommentService.s_report(this.post_id, comment_id, type)
 			},
 
@@ -309,7 +330,7 @@
 	// [IMPORT] Personal //
 	@import 'src/assets/styles/sass-variables.scss';
 
-	li:nth-child(even) { background: $backgroundGrey !important; }
+	.li:nth-child(even) { background: $backgroundGrey !important; }
 
 	// Make Comments Wordwrapped
 	.multiline { white-space: pre-wrap; }
