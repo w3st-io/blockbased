@@ -4,9 +4,7 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const commentsCollection = require('../../../s-collections/commentsCollection')
 const postsCollection = require('../../../s-collections/postsCollection')
-const postLikesCollection = require('../../../s-collections/postLikesCollection')
 const postFollowsCollection = require('../../../s-collections/postFollowsCollection')
 const Auth = require('../../../s-middleware/Auth')
 
