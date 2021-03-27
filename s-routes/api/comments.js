@@ -2,7 +2,7 @@
 const cors = require('cors')
 const express = require('express')
 const validator = require('validator')
-const mongoose = require('mongoose')
+
 
 
 // [REQUIRE] Personal //
