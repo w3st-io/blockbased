@@ -175,7 +175,7 @@ comment.pre('validate', function(next) {
 
 comment.pre('updateOne', function(next) {
 	// [LENGTH-CHECK] Blocks //
-	if (this._update.$set.cleanJSON.blocks.ledngth > 20) {
+	if (this._update.$set.cleanJSON.blocks.length > 20) {
 		throw ('Error: Comment too large')
 	}
 
