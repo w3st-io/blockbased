@@ -22,6 +22,10 @@
 					<RouterLink to="/components/parallax">
 						<BButton class="w-100 mb-3">Parallax</BButton>
 					</RouterLink>
+
+					<RouterLink to="/components/hours-and-contact">
+						<BButton class="w-100 mb-3">Hours and Contact</BButton>
+					</RouterLink>
 				</BCol>
 			</BRow>
 		</BCard>

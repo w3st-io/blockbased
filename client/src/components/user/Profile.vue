@@ -2,7 +2,7 @@
 	<BRow class="mt-3">
 		<!-- Account Details -->
 		<BCol sm="12" lg="9">
-			<BCard bg-variant="dark" class="mb-4 text-light">
+			<BCard bg-variant="dark" text-variant="light" class="mb-4">
 				<!-- Profile Details -->
 				<BRow>
 					<!-- Profile -->
@@ -117,7 +117,7 @@
 				</BRow>
 			</BCard>
 
-			<BCard bg-variant="dark" class="text-light">
+			<BCard bg-variant="dark" text-variant="light">
 				<BRow>
 					<!-- Wrapped Chart -->
 					<BCol cols="12" lg="12" class="mt-2">
@@ -150,7 +150,7 @@
 
 		<!-- Social -->
 		<BCol sm="12" lg="3">
-			<BCard bg-variant="dark text-light">
+			<BCard bg-variant="dark" text-variant="light">
 				<BBadge
 					variant="dark"
 					class="w-100 py-1 rounded"

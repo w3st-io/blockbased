@@ -29,86 +29,102 @@ const comment = mongoose.Schema({
 			maxlength: 100,
 		},
 
-		blocks: [{
-			type: {
-				type: String,
-				enum: ['code', 'delimiter', 'embed', 'header', 'image', 'list', 'paragraph', 'quote', 'table'],
-			},
-		
-			data: {
-				alignment: {
+		blocks: [
+			{
+				type: {
 					type: String,
-					enum: ['center', 'left']
+					enum: [
+						'code',
+						'delimiter',
+						'embed',
+						'header',
+						'image',
+						'list',
+						'paragraph',
+						'quote',
+						'table'
+					],
 				},
+			
+				data: {
+					alignment: {
+						type: String,
+						enum: ['center', 'left']
+					},
 
-				caption: {
-					type: String,
-					maxlength: 1000,
-				},
+					caption: {
+						type: String,
+						maxlength: 1000,
+					},
 
-				code: {
-					type: String,
-					maxlength: 1000,
-				},
+					code: {
+						type: String,
+						maxlength: 1000,
+					},
 
-				content: [
-					[{
+					content: [
+						[
+							{
+								type: String,
+								maxlength: 50,
+							}
+						]
+					],
+
+					embed: {
+						type: String,
+						maxlength: 300,
+					},
+
+					height: {
+						type: Number,
+						maxlength: 5,
+					},
+
+					items: [
+						{
+							type: String,
+							maxlength: 50,
+						}
+					],
+
+					level: {
+						type: Number,
+						enum: [1, 2, 3, 4, 5, 6],
+					},
+
+					service: {
+						type: String,
+						maxlength: 200,
+					},
+
+					service: {
 						type: String,
 						maxlength: 50,
-					}]
-				],
+					},
 
-				embed: {
-					type: String,
-					maxlength: 300,
+					style: {
+						type: String,
+						enum: ['ordered', 'unordered']
+					},
+
+					text: {
+						type: String,
+						maxlength: 3000,
+					},
+
+					url: {
+						type: String,
+						maxlength: 300,
+					},
+
+					width: {
+						type: Number,
+						maxlength: 5,
+					},
 				},
-
-				height: {
-					type: Number,
-					maxlength: 5,
-				},
-
-				items: [{
-					type: String,
-					maxlength: 50,
-				}],
-
-				level: {
-					type: Number,
-					enum: [1, 2, 3, 4, 5, 6],
-				},
-
-				service: {
-					type: String,
-					maxlength: 200,
-				},
-
-				service: {
-					type: String,
-					maxlength: 50,
-				},
-
-				style: {
-					type: String,
-					enum: ['ordered', 'unordered']
-				},
-
-				text: {
-					type: String,
-					maxlength: 3000,
-				},
-
-				url: {
-					type: String,
-					maxlength: 300,
-				},
-
-				width: {
-					type: Number,
-					maxlength: 5,
-				},
-			},
-		}],
+			}
+		],
 		
 		version: {
 			type: String,
