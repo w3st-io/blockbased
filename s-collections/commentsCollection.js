@@ -454,7 +454,7 @@ const c_deleteCustom = async (filter) => {
 			return {
 				executed: true,
 				status: false,
-				message: 'commentLikesCollection: No filter passed',
+				message: 'commentCollection: No filter passed',
 				updated: false,
 			}
 		}
