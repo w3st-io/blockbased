@@ -19,7 +19,6 @@ const router = express.Router().use(cors())
 
 
 /******************* [USER PROFILE] *******************/
-
 // [READ] Auth Required - Decoded //
 router.get(
 	'/',

@@ -12,12 +12,12 @@ const rateLimiters = require('../../../s-rate-limiters')
 const adminsCollection = require('../../../s-collections/adminsCollection')
 
 
-// [EXPRESS + USE] //
-const router = express.Router().use(cors())
-
-
 // [INIT] //
 const secretKey = config.SECRET_KEY
+
+
+// [EXPRESS + USE] //
+const router = express.Router().use(cors())
 
 
 /******************* [LOGIN/REGISTER] *******************/
