@@ -20,12 +20,12 @@ router.get(
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
-			let customHome = false
-
-			if (config.CUSTOM_HOME == 'true') { customHome = true }
-
 			// [INIT] //
+			let customHome = false
 			const user_id = (req.decoded) ? req.decoded.user_id : undefined
+
+			// Set Custom Home Status //
+			if (config.CUSTOM_HOME == 'true') { customHome = true }
 
 			for (let i = 0; i < cats.length; i++) {
 				// [FILL][TOTAL-POSTS] //
