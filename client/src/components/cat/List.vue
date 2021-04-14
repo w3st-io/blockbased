@@ -108,11 +108,17 @@
 
 	export default {
 		props: {
-			cats: { type: Array, required: true, },
-			groupName: { type: String, required: false, },
+			cats: {
+				type: Array,
+				required: true,
+			},
+			groupName: {
+				type: String,
+				required: false,
+			},
 		},
 
-		created: async function() {
+		async created() {
 			// [LOG] //
 			//this.log()
 		},

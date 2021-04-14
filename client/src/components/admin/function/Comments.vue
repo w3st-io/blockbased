@@ -36,16 +36,19 @@
 <script>
 	// [IMPORT] Personal //
 	import Alert from '@/components/inform/Alert'
-	import ACommentService from '@/services/admin/CommentService'
+	import a_commentService from '@/services/admin/CommentService'
 
 	// [EXPORT] //
 	export default {
 		props: {
-			comments: { type: Array, required: true, },
+			comments: {
+				type: Array,
+				required: true,
+			},
 		},
 
 		components: {
-			Alert
+			Alert,
 		},
 
 		data() {
@@ -54,7 +57,7 @@
 			}
 		},
 
-		created: async function() {
+		async created() {
 			// [LOG] //
 			//this.log()
 		},
@@ -62,7 +65,7 @@
 		methods: {
 			async deleteComment(comment_id) {
 				// Delete Comment //
-				try { await ACommentService.s_delete(comment_id) }
+				try { await a_commentService.s_delete(comment_id) }
 				catch (err) { this.error = err }
 				
 				this.$emit('refreshData')

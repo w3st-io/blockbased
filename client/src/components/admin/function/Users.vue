@@ -46,8 +46,9 @@
 
 	// [EXPORT] //
 	export default {
-		props: {
-			users: { type: Array, required: true, },
+		posts: {
+			type: Array,
+			required: true,
 		},
 
 		components: {
@@ -60,7 +61,7 @@
 			}
 		},
 
-		created: async function() {
+		async created() {
 			// [LOG] //
 			//this.log()
 		},

@@ -15,7 +15,10 @@
 						</BCol>
 
 						<!-- replyTo Comment Btn -->
-						<BCol cols="6" class="p-1 border-bottom border-secondary text-right">
+						<BCol
+							cols="6"
+							class="p-1 border-bottom border-secondary text-right"
+						>
 							<BButton
 								v-if="comment.replyToComment != null"
 								variant="none"
@@ -42,11 +45,17 @@
 								:
 							</p>
 
-							<CleanJSONToHTML :cleanJSON="comment.replyToComment.cleanJSON" class="small" />
+							<CleanJSONToHTML
+								:cleanJSON="comment.replyToComment.cleanJSON"
+								class="small"
+							/>
 						</BCol>
 
 						<!-- Profile Section -->
-						<BCol cols="12" sm="2" md="2" lg="2" class="px-0 py-3 border-secondary">
+						<BCol
+							cols="12" sm="2" md="2" lg="2"
+							class="px-0 py-3 border-secondary"
+						>
 							<div class="m-auto border border-primary rounded-lg pro-img-holder">
 								<img
 									:src="comment.user.profile_img"
@@ -132,7 +141,10 @@
 								</BCol>
 
 								<!-- Right -->
-								<BCol cols="4" class="m-0 text-right small text-secondary">
+								<BCol
+									cols="4"
+									class="m-0 text-right small text-secondary"
+								>
 									<!-- Like Btn -->
 									<BButton
 										variant="none"
@@ -194,8 +206,8 @@
 	import CleanJSONToHTML from './CleanJSONToHTML'
 	import NoContent from '@/components/placeholders/NoContent'
 	import router from '@/router'
-	import CommentService from '@/services/CommentService'
-	import ACommentService from '@/services/admin/CommentService'
+	import a_commentService from '@/services/admin/CommentService'
+	import commentService from '@/services/CommentService'
 	import UserService from '@/services/UserService'
 	
 	// [EXPORT] //
@@ -206,8 +218,15 @@
 		},
 		
 		props: {
-			post_id: { type: String, required: true, },
-			comments: { type: Array, required: true, },
+			post_id: {
+				type: String,
+				required: true,
+			},
+
+			comments: {
+				type: Array,
+				required: true,
+			},
 		},
 
 		data() {
@@ -220,7 +239,7 @@
 			}
 		},
 
-		created: async function() {
+		async created() {
 			if (localStorage.admintoken) { this.adminLoggedIn = true }
 
 			if (localStorage.usertoken) {
@@ -234,65 +253,69 @@
 		methods: {	
 			/******************* [DELETE] *******************/
 			async deleteComment(comment_id) {
-				// [DELETE] Comment //
-				try { await CommentService.s_delete(comment_id) }
-				catch (err) { this.error = err }
+				try {
+					// [DELETE] Comment //
+					await commentService.s_delete(comment_id)
 
-				// [EMIT] Refresh Comments //
-				this.$emit('refreshComments') 
+					// [EMIT] Refresh Comments //
+					this.$emit('refreshComments') 
+				}
+				catch (err) { this.error = err }
 			},
 
 			async adminDelete(comment_id) {
-				// [DELETE] Comment //
-				try { await ACommentService.s_delete(comment_id) }
-				catch (err) { this.error = err }
+				try {
+					// [DELETE] Comment //
+					await a_commentService.s_delete(comment_id)
 
-				// [EMIT] Refresh Comments //
-				this.$emit('refreshComments') 
+					// [EMIT] Refresh Comments //
+					this.$emit('refreshComments') 
+				}
+				catch (err) { this.error = err }
 			},
 			
 			/******************* [BTN] Like *******************/
 			async likeBtn(comment) {
+				try { 
 				// [LOG REQUIRED] //
-				if (localStorage.usertoken) {
-					if (comment.liked) {
-						this.disabled = true
+					if (localStorage.usertoken) {
+						if (comment.liked) {
+							this.disabled = true
 
-						try { await CommentService.s_unlike(comment._id) }
-						catch (err) { this.error = err }
+							await commentService.s_unlike(comment._id)
 
-						this.disabled = false
-					}
-					else {
-						this.disabled = true
+							this.disabled = false
+						}
+						else {
+							this.disabled = true
 
-						try {
-							await CommentService.s_like(
+							await commentService.s_like(
 								this.post_id,
 								comment._id,
 								comment.user._id
 							)
-						}
-						catch (err) { this.error = err }
 
-						this.disabled = false
+							this.disabled = false
+						}
+
+						// [READ] Update Comments //
+						this.$emit('refreshComments')
 					}
 				}
-
-				// [READ] Update Comments //
-				this.$emit('refreshComments') 
+				catch (err) { this.error = err }
 			},
 
 			/******************* [BTN] openRepliedTo *******************/
 			toggleOpenRepliedTo(comment_id) {
-				if (this.openedRepliedTo == comment_id) { this.openedRepliedTo = null }
+				if (this.openedRepliedTo == comment_id) {
+					this.openedRepliedTo = null
+				}
 				else { this.openedRepliedTo = comment_id }
 			},
 
 			/******************* [REPORT] *******************/
 			report(type, comment_id) {
-				console.log(type, comment_id)
-				CommentService.s_report(this.post_id, comment_id, type)
+				commentService.s_report(this.post_id, comment_id, type)
 			},
 
 			/******************* [ROUTER + LOG] *******************/

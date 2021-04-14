@@ -22,14 +22,17 @@
 				required: false,
 				default: 'unset',
 			},
+
 			labels: {
 				type: Array,
 				required: true,
 			},
+
 			data: {
 				type: Array,
 				required: true,
 			},
+			
 			height: {
 				type: Number,
 				required: false,
