@@ -20,17 +20,17 @@ const sideMenuIconConfig = {
 // [EXPORT] //
 module.exports = [
 	{
-		path: '/',
 		text: '',
+		path: '/',
 		navIcon: feather.icons.home.toSvg(navIconConfig),
 		sideMenuIcon: feather.icons.home.toSvg(sideMenuIconConfig),
 	},
 	{
-		path: '/user/followed/1',
 		text: 'Followed Posts',
+		path: '/user/followed/1',
 	},
 	{
-		path: '/activity/1/10/1',
 		text: 'All Activity',
+		path: '/activity/1/10/1',
 	},
 ]
