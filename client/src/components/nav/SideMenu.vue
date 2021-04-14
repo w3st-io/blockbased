@@ -6,22 +6,44 @@
 	>
 		<BButton
 			variant="dark"
-			class="w-100 m-0 p-2 bg-secondary text-center text-primary"
+			class="w-100 m-0 p-4 bg-secondary text-primary"
 			@click="closeMenu"
-		>
-			<span aria-hidden="true" style="font-size: 2em;">&times;</span>
-		</BButton>
+		><XIcon size="36" /></BButton>
 
-		<BButton variant="primary" class="w-100" @click="homeBtn()">
-			Forum
-		</BButton>
+		<RouterLink
+			v-show="sideMenuOpen"
+			v-for="(button, i) in buttons"
+			:key="i"
+			:to="button.path"
+		>
+			<!-- Menu Items -->
+			<BButton
+				variant="outline-seconadry"
+				class="w-100 text-primary"
+				@click="closeMenu()"
+			>
+				<p v-if="button.text" class="h1 my-1">{{ button.text }}</p>
+				<span v-else v-html="button.sideMenuIcon"></span>
+			</BButton>
+		</RouterLink>
+
+		<a v-show="sideMenuOpen" :href="companyInfo.googleMapsLink" class="text-center">
+			<h4 class="m-4 text-light">{{ companyInfo.address }}</h4>
+		</a>
+
+		<SocialMediaPlug v-show="sideMenuOpen" size="2x" variant="light" class="m-4" />
 	</nav>
 </template>
 <script>
 	// [IMPORT] //
+	import { XIcon } from 'vue-feather-icons'
+
+	// [IMPORT] Personal //
+	import SocialMediaPlug from '@/components/SocialMediaPlug'
+	import companyInfo from '@/defaults/companyInfo'
+	import buttons from '@/defaults/pageLinks'
 	import router from '@/router'
 
-	// [EXPORT] //
 	export default {
 		props: {
 			sideMenuOpen: {
@@ -30,8 +52,15 @@
 			}
 		},
 
+		components: {
+			XIcon,
+			SocialMediaPlug,
+		},
+
 		data() {
 			return {
+				companyInfo: companyInfo,
+				buttons: buttons,
 				query: ''
 			}
 		},
@@ -54,7 +83,7 @@
 	.nav-drawer-menu {
 		position: fixed;
 		top: 0;
-		right: 0;
+		left: 0;
 
 		height: 100%;
 		width: 0;
@@ -67,7 +96,7 @@
 		transition: 0.3s;
 		font-size: 2em;
 
-		&:hover { background: #212529; }
+		&:hover { background: rgba(0, 0, 0, 0.2); }
 	}
 	
 	.isOpen { width: 75%; }
