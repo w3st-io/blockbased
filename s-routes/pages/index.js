@@ -8,6 +8,7 @@ const postsCollection = require('../../s-collections/postsCollection')
 const Auth = require('../../s-middleware/Auth')
 const cats = require('../../s-defaults/cats')
 const cryptoQuote = require('../../s-utils/crypto-quote')
+const config = require('../../s-config')
 
 
 // [EXPRESS + USE] //
@@ -19,6 +20,10 @@ router.get(
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
+			let customHome = false
+
+			if (config.CUSTOM_HOME == 'true') { customHome = true }
+
 			// [INIT] //
 			const user_id = (req.decoded) ? req.decoded.user_id : undefined
 
@@ -50,6 +55,7 @@ router.get(
 			res.status(200).send({
 				executed: true,
 				status: true,
+				customHome: customHome,
 				cats: cats,
 				topPosts: topPosts,
 				cryptoQuote: cryptoQuote.prices,
