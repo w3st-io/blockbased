@@ -41,11 +41,14 @@
 	// [EXPORT] //
 	export default {
 		props: {
-			posts: { type: Array, required: true, },
+			posts: {
+				type: Array,
+				required: true,
+			},
 		},
 
 		components: {
-			Alert
+			Alert,
 		},
 
 		data() {
@@ -54,7 +57,7 @@
 			}
 		},
 
-		created: async function() {
+		async created() {
 			// [LOG] //
 			//this.log()
 		},

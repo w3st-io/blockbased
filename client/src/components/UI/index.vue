@@ -23,7 +23,7 @@
 	// [IMPORT] Personal //
 	import AdminNavBar from '@/components/admin/AdminNavBar'
 	import PopUpBanner from '@/components/inform/PopUpBanner'
-	import NavBar from '@/components/nav/NavBar'
+	import NavBar from '@/components/UI/nav/NavBar'
 	import PopUpNotifications from '@/components/notifications/PopUpNotifications'
  
 	export default {

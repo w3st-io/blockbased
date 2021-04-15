@@ -7,12 +7,15 @@ module.exports = {
 	// [APP] //
 	NODE_ENV: process.env.NODE_ENV || 'development',
 
+	// [HOME] //
+	CUSTOM_HOME: process.env.CUSTOM_HOME || 'false',
+
 	// [FUNCTIONALITY] //
-	ADMIN_FUNCTIONALITY: process.env.ADMIN_FUNCTIONALITY || false,
-	USER_FUNCTIONALITY: process.env.USER_FUNCTIONALITY || false,
-	PAYMENT_FUNCTIONALITY: process.env.PAYMENT_FUNCTIONALITY || false,
-	POST_FUNCTIONALITY: process.env.POST_FUNCTIONALITY || false,
-	COMMENT_FUNCTIONALITY: process.env.COMMENT_FUNCTIONALITY || false,
+	ADMIN_FUNCTIONALITY: process.env.ADMIN_FUNCTIONALITY || 'false',
+	USER_FUNCTIONALITY: process.env.USER_FUNCTIONALITY || 'false',
+	PAYMENT_FUNCTIONALITY: process.env.PAYMENT_FUNCTIONALITY || 'false',
+	POST_FUNCTIONALITY: process.env.POST_FUNCTIONALITY || 'false',
+	COMMENT_FUNCTIONALITY: process.env.COMMENT_FUNCTIONALITY || 'false',
 
 	// [URL] //
 	CLIENT_BASE_URL: process.env.BASE_URL || 'http://localhost:8080',

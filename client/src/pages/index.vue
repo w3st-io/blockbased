@@ -58,6 +58,7 @@
 	import Adsense from '@/components/adsense'
 	import CatList from '@/components/cat/List'
 	import Alert from '@/components/inform/Alert'
+	import router from '@/router'
 	import PageService from '@/services/PageService'
 
 	// [EXPORT] //
@@ -82,9 +83,14 @@
 			}
 		},
 
-		created: async function() {
+		async created() {
 			try {
 				this.reqData = await PageService.s_home()
+				
+				// [REDIRECT] Custom Home Page Available //
+				if (this.reqData.customHome == true) {
+					router.push({ name: 'home' })
+				}
 
 				if (this.reqData.status) {
 					this.cats1 = this.reqData.cats.slice(0, 2)

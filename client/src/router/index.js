@@ -5,8 +5,8 @@ import Router from 'vue-router'
 
 // [IMPORT] Personal (Ordered by path) //
 import companyInfo from '@/defaults/companyInfo'
-// Home //
-import home from '@/pages'
+// Index //
+import index from '@/pages'
 // Activity //
 import activity from '@/pages/activity'
 // Admin //
@@ -33,6 +33,8 @@ import components_parallax from '@/pages/components/parallax'
 import components_hoursAndContact from '@/pages/components/hours-and-contact'
 // Email //
 import emailSent from '@/pages/email-sent'
+// Home //
+import home from '@/pages/home'
 // Post //
 import post from '@/pages/post'
 import post_create from '@/pages/post/create'
@@ -68,11 +70,11 @@ const router = new Router ({
 	mode: 'history',
 
 	routes: [
-		// Home //
+		// Index //
 		{
 			path: '/',
 			name: '/',
-			component: home,
+			component: index,
 			meta: {
 				auth: true,
 				title: 'Home'
@@ -262,6 +264,16 @@ const router = new Router ({
 			meta: {
 				auth: true,
 				title: 'Email Sent'
+			},
+		},
+		// Home //
+		{
+			path: '/home',
+			name: 'home',
+			component: home,
+			meta: {
+				auth: true,
+				title: 'Home'
 			},
 		},
 		// Post //

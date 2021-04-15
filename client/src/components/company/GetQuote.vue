@@ -6,7 +6,7 @@
 			<hr>
 
 			<!-- Type -->
-			<select v-model="type" class="form-select w-100 p-2" placeholder="s">
+			<select v-model="type" class="form-select w-100 p-2">
 				<option disabled value="">Please choose service type</option>
 				<option value="designs">Designs</option>
 				<option value="installs">Installs</option>

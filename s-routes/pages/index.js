@@ -8,6 +8,7 @@ const postsCollection = require('../../s-collections/postsCollection')
 const Auth = require('../../s-middleware/Auth')
 const cats = require('../../s-defaults/cats')
 const cryptoQuote = require('../../s-utils/crypto-quote')
+const config = require('../../s-config')
 
 
 // [EXPRESS + USE] //
@@ -20,7 +21,11 @@ router.get(
 	async (req, res) => {
 		try {
 			// [INIT] //
+			let customHome = false
 			const user_id = (req.decoded) ? req.decoded.user_id : undefined
+
+			// Set Custom Home Status //
+			if (config.CUSTOM_HOME == 'true') { customHome = true }
 
 			for (let i = 0; i < cats.length; i++) {
 				// [FILL][TOTAL-POSTS] //
@@ -50,6 +55,7 @@ router.get(
 			res.status(200).send({
 				executed: true,
 				status: true,
+				customHome: customHome,
 				cats: cats,
 				topPosts: topPosts,
 				cryptoQuote: cryptoQuote.prices,

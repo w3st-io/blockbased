@@ -15,10 +15,9 @@
 					<td>{{ report.user.username }}</td>
 					<td>{{ new Date(report.created_at).toLocaleString() }}</td>
 					<td class="text-center">
-						<BButton
-							variant="danger"
-							@click="handleReport(report._id)"
-						>Handle</BButton>
+						<BButton variant="danger" @click="handleReport(report._id)">
+							Handle
+						</BButton>
 					</td>
 				</tr>
 			</tbody>
@@ -36,11 +35,14 @@
 
 	export default {
 		components: {
-			Alert
+			Alert, 
 		},
 
 		props: {
-			commentReports: { type: Array, required: true, },
+			commentReports: {
+				type: Array,
+				required: true,
+			},
 		},
 
 		data() {
@@ -49,7 +51,7 @@
 			}
 		},
 
-		created: async function() {
+		async created() {
 			// [LOG] //
 			//this.log()
 		},

@@ -46,20 +46,16 @@
 			<BContainer>
 				<BNavbar class="px-0 py-1">
 					<div class="mr-auto d-none d-sm-block">
-						<BButton
-							v-if="userLogged"
-							variant="outline-light"
-							size="sm"
-							class=""
-							@click="followedRedirect()"
-						>Followed Posts</BButton>
-
-						<BButton
-							variant="outline-light"
-							size="sm"
-							class="ml-2"
-							@click="allActivityRedirect()"
-						>All Activity</BButton>
+						<RouterLink
+							v-for="(button, i) in buttons"
+							:key="i"
+							:to="button.path"
+						>
+							<BButton variant="outline-light" size="sm" class="ml-2">
+								<span v-if="button.text">{{ button.text }}</span>
+								<span v-else v-html="button.navIcon"></span>
+							</BButton>
+						</RouterLink>
 					</div>
 
 					<div>
@@ -102,8 +98,9 @@
 <script>
 	// [IMPORT] Personal //
 	import NotificationMenu from '@/components/notifications/NotificationMenu'
-	import SideMenu from '@/components/nav/SideMenu'
-	import defaultData from '../../defaults/companyInfo'
+	import SideMenu from '@/components/UI/nav/SideMenu'
+	import defaultData from '@/defaults/companyInfo'
+	import buttons from '@/defaults/pageLinks'
 	import router from '@/router'
 	import UserService from '@/services/UserService'
 	import { EventBus } from '@/main'
@@ -123,6 +120,7 @@
 				query: '',
 				notifications: '',
 				totalNotifications: 0,
+				buttons: buttons,
 
 				// [MENU] //
 				sideMenuOpen: false,
@@ -152,24 +150,6 @@
 			registerRedirect() { router.push({ name: 'register' }) },
 
 			profileRedirect() { router.push({ name: 'user_profile' }) },
-
-			followedRedirect() {
-				router.push({
-					name: 'user_followed',
-					params: { page: 1 }
-				})
-			},
-
-			allActivityRedirect() {
-				router.push({
-					name: 'activity',
-					params: {
-						sort: 1,
-						limit: 10,
-						page: 1
-					}
-				})
-			},
 
 			searchRedirect() {
 				if (this.query) {

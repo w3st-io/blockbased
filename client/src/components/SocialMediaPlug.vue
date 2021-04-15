@@ -25,7 +25,7 @@
 		props: {
 			size: {
 				type: String,
-				default: "24",
+				default: '24',
 			},
 
 			variant: {
