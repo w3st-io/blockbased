@@ -357,7 +357,7 @@ async function sendVerificationMail(to, user_id, VCode) {
 }
 
 
-// [PASSWORD-RESET] //
+// [RESET-PASSWORD] //
 async function sendPasswordResetEmail(to, user_id, VCode) {
 	try {
 		// [VALIDATE] //
