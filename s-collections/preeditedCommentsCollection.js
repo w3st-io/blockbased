@@ -63,7 +63,6 @@ const c_create = async (user_id, comment_id) => {
 }
 
 
-// [EXPORT] //
 module.exports = {
 	c_create,
 }

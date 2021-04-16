@@ -1,6 +1,5 @@
 const companyInfo = require('../companyInfo')
 
-// [EXPORT] //
 module.exports = {
 	cnt1: {
 		// Contact Us //

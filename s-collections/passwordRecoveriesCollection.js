@@ -199,7 +199,6 @@ const c_validateToken = async (user_id, verificationCode) => {
 }
 
 
-// [EXPORT] //
 module.exports = {
 	c_create,
 	c_deleteByUser,

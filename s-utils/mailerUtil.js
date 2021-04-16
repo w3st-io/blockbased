@@ -413,7 +413,6 @@ async function sendPasswordResetEmail(to, user_id, VCode) {
 }
 
 
-// [EXPORT] //
 module.exports = {
 	sendMail,
 	sendGetQuoteEmail,

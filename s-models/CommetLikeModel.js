@@ -2,7 +2,6 @@
 const mongoose = require('mongoose')
 
 
-// [EXPORT] //
 module.exports = mongoose.model(
 	'CommentLike',
 	mongoose.Schema({

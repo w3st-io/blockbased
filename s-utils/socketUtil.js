@@ -73,7 +73,6 @@ function leave(socket_id) {
 }
 
 
-// [EXPORT] //
 module.exports = {
 	join,
 	getUserSocket,

@@ -672,7 +672,6 @@ const c_fillData = async (user_id, comment) => {
 }
 
 
-// [EXPORT] //
 module.exports = {
 	c_create,
 	c_read,

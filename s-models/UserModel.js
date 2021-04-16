@@ -7,7 +7,6 @@ const mongooseFuzzySearching = require('mongoose-fuzzy-searching')
 const defaultImage = 'https://icon-library.com/images/placeholder-icon/placeholder-icon-17.jpg'
 
 
-// [EXPORT] //
 module.exports = mongoose.model(
 	'User',
 	mongoose.Schema({

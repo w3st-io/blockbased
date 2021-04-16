@@ -521,7 +521,6 @@ const c_countTimeFrame = async (timePointA, timePointB) => {
 }
 
 
-// [EXPORT] //
 module.exports = {
 	c_create,
 	c_readSorted,

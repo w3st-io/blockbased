@@ -2,7 +2,6 @@
 require('dotenv').config()
 
 
-// [EXPORT] //
 module.exports = {
 	// [APP] //
 	NODE_ENV: process.env.NODE_ENV || 'development',

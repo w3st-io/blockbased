@@ -280,5 +280,4 @@ class Auth {
 }
 
 
-// [EXPORT] //
 module.exports = Auth

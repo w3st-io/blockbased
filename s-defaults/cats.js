@@ -1,6 +1,5 @@
 const config = require('../s-config')
 
-// [EXPORT] //
 module.exports = [
 	{
 		cat_id: 'general',
