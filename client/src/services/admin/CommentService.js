@@ -7,8 +7,8 @@ async function authAxios() {
 	return axios.create({
 		baseURL: '/api/admin/comments',
 		headers: {
-			authorization: `Bearer ${localStorage.usertoken}`,
-			authorization2: `Bearer ${localStorage.admintoken}`
+			user_authorization: `Bearer ${localStorage.usertoken}`,
+			admin_authorization: `Bearer ${localStorage.admintoken}`
 		}
 	})
 }
