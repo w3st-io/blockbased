@@ -5,8 +5,8 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const notificationsCollection = require('../../s-collections/notificationsCollection')
-const Auth = require('../../s-middleware/Auth')
+const notificationsCollection = require('../../../s-collections/notificationsCollection')
+const Auth = require('../../../s-middleware/Auth')
 
 
 // [EXPRESS + USE] //

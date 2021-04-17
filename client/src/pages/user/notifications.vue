@@ -99,7 +99,7 @@
 	import PageNavButtons from '@/components/controls/PageNavButtons'
 	import Alert from '@/components/inform/Alert'
 	import router from '@/router'
-	import NotificationService from '@/services/NotificationService'
+	import NotificationService from '@/services/user/NotificationService'
 	import PageService from '@/services/PageService'
 	import { EventBus } from '@/main'
 

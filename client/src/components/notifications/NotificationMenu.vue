@@ -65,7 +65,7 @@
 
 	// [IMPORT] Personal //
 	import router from '@/router'
-	import NotificationService from '@/services/NotificationService'
+	import NotificationService from '@/services/user/NotificationService'
 	import { EventBus } from '@/main'
  
 	// [EXPORT] //
