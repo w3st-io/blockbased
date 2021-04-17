@@ -2,7 +2,6 @@
 const socketUtil = require('../s-utils/socketUtil')
 
 
-// [EXPORT] //
 module.exports = {
 	start: (io) => {
 		io.on('connection', (socket) => {

@@ -377,8 +377,9 @@ router.post(
 )
 
 
+// Send the email for the password reset
 router.post(
-	'/request-password-reset',
+	'/request-reset-password',
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
@@ -409,7 +410,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/user/reset-password-reset: Invalid params',
+					message: '/api/user/request-reset-password: Invalid params',
 				})
 			}
 		}
@@ -417,7 +418,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/user/reset-password-reset: Error --> ${err}`,
+				message: `/api/user/request-reset-password: Error --> ${err}`,
 			})
 		}
 	}
@@ -558,5 +559,4 @@ router.post(
 )
 
 
-// [EXPORT] //
 module.exports = router

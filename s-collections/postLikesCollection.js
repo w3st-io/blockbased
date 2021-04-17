@@ -243,7 +243,6 @@ const c_countByPostUser = async (postUser) => {
 }
 
 
-// [EXPORT] //
 module.exports = {
 	c_create,
 	c_deleteByPost,

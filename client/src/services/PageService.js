@@ -7,8 +7,8 @@ const authAxios = async () => {
 	return axios.create({
 		baseURL: '/pages',
 		headers: {
-			authorization: `Bearer ${localStorage.usertoken}`,
-			authorization2: `Bearer ${localStorage.admintoken}`
+			user_authorization: `Bearer ${localStorage.usertoken}`,
+			admin_authorization: `Bearer ${localStorage.admintoken}`
 		}
 	})
 }

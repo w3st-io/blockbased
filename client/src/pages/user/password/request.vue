@@ -102,7 +102,7 @@
 				try {
 					this.submitted = true
 
-					this.data = await UserService.s_requestPasswordReset(this.email)
+					this.data = await UserService.s_requestResetPassword(this.email)
 
 					if (!this.data.status || this.data.existance) {
 						this.error = this.data.message

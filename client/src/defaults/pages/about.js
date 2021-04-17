@@ -1,4 +1,3 @@
-// [EXPORT] //
 module.exports = {
 	cnt1: {
 		// About //

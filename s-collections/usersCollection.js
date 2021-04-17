@@ -588,7 +588,6 @@ const c_count = async () => {
 }
 
 
-// [EXPORT] //
 module.exports = {
 	c_read,
 	c_update,

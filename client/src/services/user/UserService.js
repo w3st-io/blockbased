@@ -12,8 +12,8 @@ async function authAxios() {
 	return axios.create({
 		baseURL: '/api/user',
 		headers: {
-			authorization: `Bearer ${localStorage.usertoken}`,
-			authorization2: `Bearer ${localStorage.admintoken}`
+			user_authorization: `Bearer ${localStorage.usertoken}`,
+			admin_authorization: `Bearer ${localStorage.admintoken}`
 		}
 	})
 }
@@ -159,11 +159,11 @@ async function s_resetPassword(currentPassword, password) {
 }
 
 
-async function s_requestPasswordReset(email) {
+async function s_requestResetPassword(email) {
 	try {
 		const authAxios = await this.authAxios()
 		
-		return (await authAxios.post('/request-password-reset', { email })).data
+		return (await authAxios.post('/request-reset-password', { email })).data
 	}
 	catch (err) {
 		return {
@@ -224,7 +224,7 @@ export default {
 	s_verify,
 	s_resetPassword,
 	s_resendVerificationEmail,
-	s_requestPasswordReset,
+	s_requestResetPassword,
 	s_notLoggedResetPassword,
 	s_report,
 }

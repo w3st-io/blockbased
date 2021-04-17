@@ -186,5 +186,4 @@ preeditedComment.pre('validate', function(next) {
 })
 
 
-// [EXPORT] //
 module.exports = mongoose.model('PreeditedComment', preeditedComment)

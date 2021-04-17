@@ -393,7 +393,6 @@ const c_countUnread = async (user_id) => {
 }
 
 
-// [EXPORT] //
 module.exports = {
 	c_create,
 	c_readByUserSorted,

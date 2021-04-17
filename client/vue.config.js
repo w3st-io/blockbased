@@ -1,4 +1,3 @@
-// [EXPORT] //
 module.exports = {
 	publicPath: '/',
 	devServer: {

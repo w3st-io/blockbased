@@ -1,4 +1,3 @@
-// [EXPORT] //
 module.exports = {
 	companyLogo: '',
 	companyName: 'BlockBased.io',

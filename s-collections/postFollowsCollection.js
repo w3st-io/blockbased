@@ -386,7 +386,6 @@ const c_countAllUser = async (user_id) => {
 }
 
 
-// [EXPORT] //
 module.exports = {
 	c_create,
 	c_readByUserSorted,

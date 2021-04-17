@@ -186,5 +186,4 @@ router.post(
 )
 
 
-// [EXPORT] //
 module.exports = router

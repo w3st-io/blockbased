@@ -19,7 +19,7 @@ class Auth {
 	static adminToken() {
 		return (req, res, next) => {
 			// [INIT] //
-			const token = req.headers.authorization2
+			const token = req.headers.admin_authorization
 
 			// If a token exists =>  Validate JWT //
 			if (token) {
@@ -78,9 +78,9 @@ class Auth {
 	// [USER-TOKEN] NOT required //
 	static adminTokenNotRequired() {
 		return async (req, res, next) => {
-			if (req.headers.authorization2) {
+			if (req.headers.admin_authorization) {
 				// [SLICE] "Bearer " //
-				const tokenBody = req.headers.authorization2.slice(7)
+				const tokenBody = req.headers.admin_authorization.slice(7)
 
 				if (tokenBody !== 'undefined') {
 					// Validate JWT //
@@ -102,7 +102,7 @@ class Auth {
 					
 				}
 			}
-			else { console.log('no req.headers.authorization') }
+			else { console.log('no req.headers.user_authorization') }
 			
 			// Since token is not required move on anyways
 			next()
@@ -115,7 +115,7 @@ class Auth {
 	static userToken() {
 		return (req, res, next) => {
 			// [INIT] //
-			const token = req.headers.authorization	
+			const token = req.headers.user_authorization	
 			
 			// If a token exists => Validate JWT //
 			if (token) {
@@ -189,7 +189,7 @@ class Auth {
 	static userTokenNotRequired() {
 		return async (req, res, next) => {
 			// [INIT] //
-			const token = req.headers.authorization
+			const token = req.headers.user_authorization
 
 			if (token) {
 				// [SLICE] "Bearer " //
@@ -225,7 +225,7 @@ class Auth {
 	static userTokenByPassVerification() {
 		return (req, res, next) => {
 			// [INIT] //
-			const token = req.headers.authorization	
+			const token = req.headers.user_authorization	
 			
 			// If a token exists => Validate JWT //
 			if (token) {
@@ -280,5 +280,4 @@ class Auth {
 }
 
 
-// [EXPORT] //
 module.exports = Auth

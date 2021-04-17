@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const mongooseFuzzySearching = require('mongoose-fuzzy-searching')
 
 
-// [EXPORT] //
 module.exports = mongoose.model(
 	'Admin',
 	mongoose.Schema({

@@ -5,7 +5,6 @@ const pastTimeByMinutes = (t) => {
     return time
 }
 
-// [EXPORT] //
 module.exports = {
     pastTimeByMinutes,
 }

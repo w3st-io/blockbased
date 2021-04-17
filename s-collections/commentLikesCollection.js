@@ -315,7 +315,6 @@ const c_countByCommentUser = async (commentUser_id) => {
 }
 
 
-// [EXPORT] //
 module.exports = {
 	c_create,
 	c_deleteByPost,

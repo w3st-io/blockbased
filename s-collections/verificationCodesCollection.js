@@ -208,7 +208,6 @@ const c_existance = async (user_id) => {
 }
 
 
-// [EXPORT] //
 module.exports = {
 	c_create,
 	c_read,

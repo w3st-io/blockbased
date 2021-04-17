@@ -130,7 +130,6 @@ const c_register = async (username, email, password) => {
 }
 
 
-// [EXPORT] //
 module.exports = {
 	c_readByEmail,
 	c_register,

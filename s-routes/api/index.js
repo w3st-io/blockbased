@@ -24,5 +24,4 @@ router.get(
 )
 
 
-// [EXPORT] //
 module.exports = router

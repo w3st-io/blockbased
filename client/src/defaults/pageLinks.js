@@ -17,7 +17,6 @@ const sideMenuIconConfig = {
 }
 
 
-// [EXPORT] //
 module.exports = [
 	{
 		text: '',
