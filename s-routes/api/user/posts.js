@@ -5,13 +5,13 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const rateLimiter = require('../../s-rate-limiters')
-const activitiesCollection = require('../../s-collections/activitiesCollection')
-const postsCollection = require('../../s-collections/postsCollection')
-const postFollowsCollection = require('../../s-collections/postFollowsCollection')
-const postLikesCollection = require('../../s-collections/postLikesCollection')
-const commentsCollection = require('../../s-collections/commentsCollection')
-const Auth = require('../../s-middleware/Auth')
+const rateLimiter = require('../../../s-rate-limiters')
+const activitiesCollection = require('../../../s-collections/activitiesCollection')
+const postsCollection = require('../../../s-collections/postsCollection')
+const postFollowsCollection = require('../../../s-collections/postFollowsCollection')
+const postLikesCollection = require('../../../s-collections/postLikesCollection')
+const commentsCollection = require('../../../s-collections/commentsCollection')
+const Auth = require('../../../s-middleware/Auth')
 
 
 // [EXPRESS + USE] //

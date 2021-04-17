@@ -112,7 +112,7 @@
 	import Alert from '@/components/inform/Alert'
 	import router from '@/router'
 	import PageService from '@/services/PageService'
-	import PostService from '@/services/PostService'
+	import PostService from '@/services/user/PostService'
 
 	// [EXPORT] //
 	export default {

@@ -94,7 +94,7 @@
 	import Alert from '@/components/inform/Alert'
 	import NoContent from '@/components/placeholders/NoContent'
 	import router from '@/router'
-	import PostService from '@/services/PostService'
+	import PostService from '@/services/user/PostService'
 
 	// [EXPORT] //
 	export default {

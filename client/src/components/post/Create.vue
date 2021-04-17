@@ -78,7 +78,7 @@
 <script>
 	// [IMPORT] Personal //
 	import Alert from '@/components/inform/Alert'
-	import PostService from '@/services/PostService'
+	import PostService from '@/services/user/PostService'
 	import router from '@/router'
 
 	// [EXPORT] //
