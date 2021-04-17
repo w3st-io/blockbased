@@ -207,8 +207,8 @@
 	import NoContent from '@/components/placeholders/NoContent'
 	import router from '@/router'
 	import a_commentService from '@/services/admin/CommentService'
-	import commentService from '@/services/CommentService'
-	import UserService from '@/services/UserService'
+	import commentService from '@/services/user/CommentService'
+	import UserService from '@/services/user/UserService'
 	
 	// [EXPORT] //
 	export default {

@@ -102,7 +102,7 @@
 	import defaultData from '@/defaults/companyInfo'
 	import buttons from '@/defaults/pageLinks'
 	import router from '@/router'
-	import UserService from '@/services/UserService'
+	import UserService from '@/services/user/UserService'
 	import { EventBus } from '@/main'
 
 	// [EXPORT] //

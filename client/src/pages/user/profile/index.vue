@@ -57,7 +57,7 @@
 	import Profile from '@/components/user/Profile'
 	import router from '@/router'
 	import PageService from '@/services/PageService'
-	import UserService from '@/services/UserService'
+	import UserService from '@/services/user/UserService'
 
 	// [EXPORT] //
 	export default {

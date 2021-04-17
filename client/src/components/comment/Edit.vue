@@ -1,7 +1,7 @@
 <template>
 	<!-- [FORM] Edit Comment -->
 	<ValidationObserver v-slot="{ handleSubmit }">
-		<form @submit.prevent="handleSubmit(submit)">
+		<form @submit.prevent="handleSubmit(submit)" class="text-dark">
 			<!-- Editorjs -->
 			<Editor
 				ref="editor"
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-	import CommentService from '@/services/CommentService'
+	import CommentService from '@/services/user/CommentService'
 	import router from '@/router'
 
 	// [EXPORT] //

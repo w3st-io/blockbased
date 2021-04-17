@@ -7,15 +7,15 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const config = require('../../s-config')
-const rateLimiters = require('../../s-rate-limiters')
-const activitiesCollection = require('../../s-collections/activitiesCollection')
-const passwordRecoveriesCollection = require('../../s-collections/passwordRecoveriesCollection')
-const userReportsCollection = require('../../s-collections/userReportsCollection')
-const usersCollection = require('../../s-collections/usersCollection')
-const verificationCodesCollection = require('../../s-collections/verificationCodesCollection')
-const Auth = require('../../s-middleware/Auth')
-const mailerUtil = require('../../s-utils/mailerUtil')
+const config = require('../../../s-config')
+const rateLimiters = require('../../../s-rate-limiters')
+const activitiesCollection = require('../../../s-collections/activitiesCollection')
+const passwordRecoveriesCollection = require('../../../s-collections/passwordRecoveriesCollection')
+const userReportsCollection = require('../../../s-collections/userReportsCollection')
+const usersCollection = require('../../../s-collections/usersCollection')
+const verificationCodesCollection = require('../../../s-collections/verificationCodesCollection')
+const Auth = require('../../../s-middleware/Auth')
+const mailerUtil = require('../../../s-utils/mailerUtil')
 
 
 // [INIT] //

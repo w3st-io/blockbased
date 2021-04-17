@@ -178,7 +178,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import UserService from '@/services/UserService'
+	import UserService from '@/services/user/UserService'
 	import WrappedLineChart from '@/components/chartjs/WrappedLineChart'
 	import router from '@/router'
 

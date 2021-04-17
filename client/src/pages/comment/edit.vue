@@ -1,7 +1,7 @@
 <template>
 	<BContainer class="my-3">
-		<BCard bg-variant="dark" text-variant="light">
-			<h3 class="mb-3">Edit Comment "{{ comment_id }}"</h3>
+		<BCard bg-variant="dark" text-variant="none">
+			<h3 class="mb-3 text-light">Edit Comment "{{ comment_id }}"</h3>
 
 			<!-- Comment Edit Component -->
 			<CommentEdit

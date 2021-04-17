@@ -6,17 +6,17 @@ const validator = require('validator')
 
 
 // [REQUIRE] Personal //
-const rateLimiter = require('../../s-rate-limiters')
-const activitiesCollection = require('../../s-collections/activitiesCollection')
-const postsCollection = require('../../s-collections/postsCollection')
-const commentsCollection = require('../../s-collections/commentsCollection')
-const commentLikesCollection = require('../../s-collections/commentLikesCollection')
-const commentReportsCollection = require('../../s-collections/commentReportsCollection')
-const postFollowsCollection = require('../../s-collections/postFollowsCollection')
-const preeditedCommentsCollection = require('../../s-collections/preeditedCommentsCollection')
-const notificationsCollection = require('../../s-collections/notificationsCollection')
-const Auth = require('../../s-middleware/Auth')
-const socketUtil = require('../../s-utils/socketUtil')
+const rateLimiter = require('../../../s-rate-limiters')
+const activitiesCollection = require('../../../s-collections/activitiesCollection')
+const postsCollection = require('../../../s-collections/postsCollection')
+const commentsCollection = require('../../../s-collections/commentsCollection')
+const commentLikesCollection = require('../../../s-collections/commentLikesCollection')
+const commentReportsCollection = require('../../../s-collections/commentReportsCollection')
+const postFollowsCollection = require('../../../s-collections/postFollowsCollection')
+const preeditedCommentsCollection = require('../../../s-collections/preeditedCommentsCollection')
+const notificationsCollection = require('../../../s-collections/notificationsCollection')
+const Auth = require('../../../s-middleware/Auth')
+const socketUtil = require('../../../s-utils/socketUtil')
 
 
 // [EXPRESS + USE] //

@@ -1,7 +1,7 @@
 <template>
 	<BContainer class="my-3">
-		<BCard bg-variant="dark" text-variant="light">
-			<h3 class="mb-3">In Reply to Comment "{{ comment_id }}"</h3>
+		<BCard bg-variant="dark" text-variant="none">
+			<h3 class="mb-3 text-light">In Reply to Comment "{{ comment_id }}"</h3>
 
 			<!-- Comment Edit Component -->
 			<CommentCreate
@@ -20,7 +20,7 @@
 	// [IMPORT] Personal //
 	import CommentCreate from '@/components/comment/Create'
 	import Alert from '@/components/inform/Alert'
-	import CommentService from '@/services/CommentService'
+	import CommentService from '@/services/user/CommentService'
 	import PageService from '@/services/PageService'
 	import router from '@/router'
 

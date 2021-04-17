@@ -104,7 +104,7 @@
 <script>
 	// [IMPORT] Personal //
 	import router from '@/router'
-	import AdminService from '@/services/AdminService'
+	import AdminService from '@/services/admin/AdminService'
 	import Alert from '@/components/inform/Alert'
 
 	// [EXPORT] //

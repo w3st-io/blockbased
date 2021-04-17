@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 // [IMPORT] Personal //
-import { EventBus } from '../main'
+import { EventBus } from '../../main'
 
 
 // [AUTH-TOKEN-SETUP] //

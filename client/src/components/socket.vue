@@ -8,7 +8,7 @@
 	import io from 'socket.io-client'
 
 	// [IMPORT] Personal //
-	import UserService from '@/services/UserService'
+	import UserService from '../services/user/UserService'
 	import { EventBus } from '@/main'
 
 	// [EXPORT] //

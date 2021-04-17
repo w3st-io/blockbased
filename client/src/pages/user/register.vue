@@ -98,7 +98,7 @@
 	// [IMPORT] Personal //
 	import Alert from '@/components/inform/Alert'
 	import router from '@/router'
-	import UserService from '@/services/UserService'
+	import UserService from '@/services/user/UserService'
 
 	// [EXPORT] //
 	export default {

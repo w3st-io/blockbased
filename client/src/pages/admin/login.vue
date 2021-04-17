@@ -81,7 +81,7 @@
 	// [IMPORT] Personal //
 	import Alert from '@/components/inform/Alert'
 	import router from '@/router'
-	import AdminService from '@/services/AdminService'
+	import AdminService from '@/services/admin/AdminService'
 
 	// [EXPORT] //
 	export default {
