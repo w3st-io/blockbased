@@ -5,10 +5,10 @@ const express = require('express')
 
 // [REQUIRE] Personal //
 const postsCollection = require('../../s-collections/postsCollection')
+const config = require('../../s-config')
 const Auth = require('../../s-middleware/Auth')
 const cats = require('../../s-defaults/cats')
 const cryptoQuote = require('../../s-utils/crypto-quote')
-const config = require('../../s-config')
 
 
 // [EXPRESS + USE] //
