@@ -140,7 +140,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/comments/create: Invalid Params'
+					message: '/api/user/comments/create: Invalid Params'
 				})
 			}
 		}
@@ -148,7 +148,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/comments/create: Error --> ${err}`,
+				message: `/api/user/comments/create: Error --> ${err}`,
 			})
 		}
 	}
@@ -200,7 +200,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/comments/update: Invalid params'
+					message: '/api/user/comments/update: Invalid params'
 				})
 			}
 		}
@@ -208,7 +208,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/comments/update: Error --> ${err}`,
+				message: `/api/user/comments/update: Error --> ${err}`,
 			})
 		}
 	},
@@ -259,7 +259,7 @@ router.delete(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/comments/delete: Invalid comment_id'
+					message: '/api/user/comments/delete: Invalid comment_id'
 				})
 			}
 			*/
@@ -268,7 +268,7 @@ router.delete(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/comments/delete: Error --> ${err}`,
+				message: `/api/user/comments/delete: Error --> ${err}`,
 			})
 		}
 	},
@@ -318,7 +318,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/comments/like: Invalid params'
+					message: '/api/user/comments/like: Invalid params'
 				})
 			}
 		}
@@ -326,7 +326,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/comments/like: Error --> ${err}`,
+				message: `/api/user/comments/like: Error --> ${err}`,
 			})
 		}
 	},
@@ -354,7 +354,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/comments/unlike: Invalid comment _id'
+					message: '/api/user/comments/unlike: Invalid comment _id'
 				})
 			}
 		}
@@ -362,7 +362,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/comments/unlike: Error --> ${err}`,
+				message: `/api/user/comments/unlike: Error --> ${err}`,
 			})
 		}
 	},
@@ -423,7 +423,7 @@ router.post(
 					res.status(200).send({
 						executed: true,
 						status: false,
-						message: '/api/comments/report: Comment doesnt exist.'
+						message: '/api/user/comments/report: Comment doesnt exist.'
 					})
 				}
 			}
@@ -431,7 +431,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
-					message: '/api/comments/report: Invalid params',
+					message: '/api/user/comments/report: Invalid params',
 				})
 			}
 		}
@@ -439,7 +439,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
-				message: `/api/comments/report: Error --> ${err}`,
+				message: `/api/user/comments/report: Error --> ${err}`,
 			})
 		}
 	},
