@@ -116,9 +116,9 @@ router.get(
 					}
 					else {
 						res.status(200).send({
-							executed:true,
-							status:false,
-							message:'User not Found'
+							executed: true,
+							status: false,
+							message: 'User not Found'
 						})
 					}
 				}

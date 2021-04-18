@@ -140,6 +140,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
+					location: '/api/user/comments/create',
 					message: '/api/user/comments/create: Invalid Params'
 				})
 			}
@@ -148,6 +149,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
+				location: '/api/user/comments/create',
 				message: `/api/user/comments/create: Error --> ${err}`,
 			})
 		}
@@ -200,6 +202,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
+					location: '/api/user/comments/update',
 					message: '/api/user/comments/update: Invalid params'
 				})
 			}
@@ -208,6 +211,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
+				location: '/api/user/comments/update',
 				message: `/api/user/comments/update: Error --> ${err}`,
 			})
 		}
@@ -268,6 +272,7 @@ router.delete(
 			res.status(200).send({
 				executed: false,
 				status: false,
+				location: '/api/user/comments/delete',
 				message: `/api/user/comments/delete: Error --> ${err}`,
 			})
 		}
@@ -318,6 +323,7 @@ router.post(
 				res.status(200).send({
 					executed: true,
 					status: false,
+					location: '/api/user/comments/like',
 					message: '/api/user/comments/like: Invalid params'
 				})
 			}
@@ -326,6 +332,7 @@ router.post(
 			res.status(200).send({
 				executed: false,
 				status: false,
+				location: '/api/user/comments/like',
 				message: `/api/user/comments/like: Error --> ${err}`,
 			})
 		}
