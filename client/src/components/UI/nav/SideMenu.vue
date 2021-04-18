@@ -35,7 +35,12 @@
 		</a>
 
 		<!-- Social Media -->
-		<SocialMediaPlug v-show="sideMenuOpen" size="2x" variant="light" class="m-4" />
+		<SocialMediaPlug
+			v-show="sideMenuOpen"
+			size="2x"
+			variant="light"
+			class="m-4"
+		/>
 	</nav>
 </template>
 <script>
