@@ -61,17 +61,17 @@ module.exports = mongoose.model(
 
 		location: {
 			type: String,
-			default: null,
+			default: '',
 		},
 
 		friends: {
 			type: Boolean,
-			default: null
+			default: null,
 		},
 
 		blocked: {
 			type: Boolean,
-			default: null
+			default: null,
 		},
 
 		created_at: {
