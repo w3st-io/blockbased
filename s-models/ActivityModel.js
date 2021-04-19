@@ -21,7 +21,7 @@ module.exports = mongoose.model(
 		type: {
 			type: String,
 			required: true,
-			enum: ['user', 'comment', 'post'],
+			enum: ['comment', 'manager', 'post', 'user'],
 		},
 
 		created_user: {
