@@ -8,7 +8,6 @@ const productVariant = mongoose.Schema({
 	type: {
 		type: String,
 		maxlength: 50,
-		required: false,
 		default: '',
 	},
 
@@ -21,14 +20,12 @@ const productVariant = mongoose.Schema({
 	description: {
 		type: String,
 		maxlength: 500,
-		required: false,
 		default: '',
 	},
 
 	image: {
 		type: String,
 		maxlength: 500,
-		required: false,
 		default: '',
 	},
 

@@ -26,21 +26,18 @@ const product = mongoose.Schema({
 	description: {
 		type: String,
 		maxlength: 500,
-		required: false,
 		description: '',
 	},
 
 	link: {
 		type: String,
 		maxlength: 500,
-		required: false,
 		default: '',
 	},
 
 	image: {
 		type: String,
 		maxlength: 500,
-		required: false,
 		default: '',
 	},
 
@@ -102,15 +99,15 @@ product.pre('validate', function (next) {
 
 product.pre('updateOne', function (next) {
 	// [LENGTH-CHECK] Blocks //
-	if (this._update.$set.productVariants.length > 20) {
+	if (this._update.$set.productVariants.length > 500) {
 		throw ('Error: too many variants')
 	}
 
-	if (this._update.$set.productExtras.length > 20) {
+	if (this._update.$set.productExtras.length > 500) {
 		throw ('Error: too many extras')
 	}
 
-	if (this._update.$set.productAddition.length > 20) {
+	if (this._update.$set.productAddition.length > 500) {
 		throw ('Error: too many additions')
 	}
 	

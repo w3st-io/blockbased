@@ -8,7 +8,6 @@ const productExtra = mongoose.Schema({
 	type: {
 		type: String,
 		maxlength: 50,
-		required: false,
 		default: '',
 	},
 
@@ -21,14 +20,12 @@ const productExtra = mongoose.Schema({
 	description: {
 		type: String,
 		maxlength: 500,
-		required: false,
 		default: '',
 	},
 
 	image: {
 		type: String,
 		maxlength: 500,
-		required: false,
 		default: '',
 	},
 
@@ -58,7 +55,7 @@ productExtra.pre('validate', function (next) {
 
 productExtra.pre('updateOne', function (next) {
 	// [LENGTH-CHECK] Blocks //
-	if (this._update.$set.options.length > 20) { throw ('Error: Too many options') }
+	if (this._update.$set.options.length > 500) { throw ('Error: Too many options') }
 	
 	next()
 })

@@ -30,14 +30,12 @@ module.exports = mongoose.model(
 		
 		first_name: {
 			type: String,
-			required: false,
 			default: '',
 			maxlength: 24,
 		},
 		
 		last_name: {
 			type: String,
-			required: false,
 			default: '',
 			maxlength: 24,
 		},
