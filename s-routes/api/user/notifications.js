@@ -32,14 +32,14 @@ router.get(
 				const skip = pageIndex * limit
 
 				const { notifications } = await notificationsCollection.c_readByUserSortedUnread(
-					req.decoded.user_id,
+					req.user_decoded.user_id,
 					sort,
 					limit,
 					skip,
 				)
 
 				const { count } = await notificationsCollection.c_countUnread(
-					req.decoded.user_id,
+					req.user_decoded.user_id,
 				)
 
 				res.status(200).send({

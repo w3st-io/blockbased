@@ -16,7 +16,7 @@
 		data() {
 			return {
 				socket: this.socket = io(),
-				decoded: {},
+				user_decoded: {},
 				reqData: {},
 			}
 		},
@@ -61,10 +61,10 @@
 			async handleUserLoggedIn() {
 				try {
 					if (localStorage.usertoken) {
-						this.decoded = await UserService.s_getUserTokenDecodeData()
+						this.user_decoded = await UserService.s_getUserTokenDecodeData()
 
 						// [SOCKET] //
-						this.socket.emit('join', this.decoded.user_id)
+						this.socket.emit('join', this.user_decoded.user_id)
 					}
 				}
 				catch (err) { `Socket: Error --> ${err}` }
@@ -77,10 +77,10 @@
 			async handleAdminLoggedIn() {
 				try {
 					if (localStorage.usertoken) {
-						this.decoded = await UserService.s_getUserTokenDecodeData()
+						this.user_decoded = await UserService.s_getUserTokenDecodeData()
 
 						// [SOCKET] //
-						this.socket.emit('join', this.decoded.user_id)
+						this.socket.emit('join', this.user_decoded.user_id)
 					}
 				}
 				catch (err) { `Socket: Error --> ${err}` }

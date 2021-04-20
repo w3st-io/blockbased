@@ -22,7 +22,7 @@ router.get(
 		try {
 			// [INIT] //
 			let customHome = false
-			const user_id = (req.decoded) ? req.decoded.user_id : undefined
+			const user_id = (req.user_decoded) ? req.user_decoded.user_id : undefined
 
 			// Set Custom Home Status //
 			if (config.CUSTOM_HOME == 'true') { customHome = true }

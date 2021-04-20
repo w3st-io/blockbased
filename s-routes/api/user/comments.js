@@ -39,14 +39,14 @@ router.post(
 			) {
 				// [READ] Post //
 				const pObj = await postsCollection.c_read(
-					req.decoded.user_id,
+					req.user_decoded.user_id,
 					req.body.post_id
 				)
 				
 				if (pObj.post) {
 					// [CREATE] Comment //
 					const cObj = await commentsCollection.c_create({
-						user_id: req.decoded.user_id,
+						user_id: req.user_decoded.user_id,
 						post_id: req.body.post_id,
 						cleanJSON: req.body.cleanJSON,
 						replyToComment: req.body.replyToComment_id,
@@ -65,7 +65,7 @@ router.post(
 
 						// [NOTIFCATION] Post Followers //
 						for (let i = 0; i < pFObj.postFollows.length; i++) {
-							if (pFObj.postFollows[i].user != req.decoded.user_id) {
+							if (pFObj.postFollows[i].user != req.user_decoded.user_id) {
 								// [CREATE] Notification Comment //
 								await notificationsCollection.c_create(
 									pFObj.postFollows[i].user,
@@ -91,7 +91,7 @@ router.post(
 						if (cObj.comment.replyToComment) {
 							// [READ] Comment //
 							const repliedToComment = await commentsCollection.c_read({
-								user_id: req.decoded.user_id,
+								user_id: req.user_decoded.user_id,
 								comment_id: cObj.comment.replyToComment,
 							})
 
@@ -117,7 +117,7 @@ router.post(
 
 						// [CREATE] Activity //
 						await activitiesCollection.c_create({
-							user_id: req.decoded.user_id,
+							user_id: req.user_decoded.user_id,
 							type: 'comment',
 							post_id: cObj.comment.post,
 							created_user_id: undefined,
@@ -168,13 +168,13 @@ router.post(
 				// [OWNERSHIP] //
 				const ownership = await commentsCollection.c_ownership(
 					req.body.comment_id,
-					req.decoded.user_id
+					req.user_decoded.user_id
 				)
 
 				if (ownership.status && ownership.ownership) {
 					// [CREATE] PreeditedComment //
 					const preeditedComment = await preeditedCommentsCollection.c_create(
-						req.decoded.user_id,
+						req.user_decoded.user_id,
 						req.body.comment_id
 					)
 
@@ -182,7 +182,7 @@ router.post(
 						// [UPDATE] //
 						const updatedComment = await commentsCollection.c_update({
 							comment_id: req.body.comment_id,
-							user_id: req.decoded.user_id,
+							user_id: req.user_decoded.user_id,
 							cleanJSON: req.body.cleanJSON,
 						})
 						
@@ -232,7 +232,7 @@ router.delete(
 				// [DELETE] //
 				const comment = await commentsCollection.c_deleteByIdAndUser({
 					comment_id: req.params.comment_id,
-					user_id: req.decoded.user_id,
+					user_id: req.user_decoded.user_id,
 				})
 					
 				if (comment.status) {
@@ -296,14 +296,14 @@ router.post(
 			) {
 				// [EXISTANCE] commentLike //
 				const existance = await commentLikesCollection.c_existance({
-					user_id: req.decoded.user_id,
+					user_id: req.user_decoded.user_id,
 					comment_id: req.body.comment_id,
 				})
 
 				if (!existance.existance) {
 					// [CREATE] CommentLike //
 					const commentLike = await commentLikesCollection.c_create({
-						user_id: req.decoded.user_id,
+						user_id: req.user_decoded.user_id,
 						post_id: req.body.post_id,
 						comment_id: req.body.comment_id,
 						commentUser_id: req.body.commentUser_id
@@ -351,7 +351,7 @@ router.post(
 			if (validator.isAscii(req.body.comment_id)) {
 				// [DELETE] CommentLike //
 				const commentLike = await commentLikesCollection.c_deleteByUserAndComment({
-					user_id: req.decoded.user_id,
+					user_id: req.user_decoded.user_id,
 					comment_id: req.body.comment_id,
 				})
 				
@@ -395,21 +395,21 @@ router.post(
 
 				// [READ] comment //
 				const commentObj = await commentsCollection.c_read({
-					user_id: req.decoded.user_id,
+					user_id: req.user_decoded.user_id,
 					comment_id: req.body.comment_id
 				})
 
 				if (commentObj.status && commentObj.comment) {
 					// [EXISTANCE] Do not double save //
 					const existance = await commentReportsCollection.c_existanceByUserAndComment(
-						req.decoded.user_id,
+						req.user_decoded.user_id,
 						commentObj.comment._id
 					)
 
 					if (existance.status && !existance.existance) {
 						// [CREATE] commentReport //
 						const commentReport = await commentReportsCollection.c_create(
-							req.decoded.user_id,
+							req.user_decoded.user_id,
 							commentObj.comment,
 							req.body.post_id,
 							req.body.reportType

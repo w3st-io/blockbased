@@ -36,7 +36,7 @@ router.post(
 			// [VALIDATE] //
 			if (validator.isAscii(req.body.img_url)) {
 				const returned = await usersCollection.c_update({
-					user_id: req.decoded.user_id,
+					user_id: req.user_decoded.user_id,
 					img_url: req.body.img_url,
 					bio: req.body.bio
 				})
@@ -332,7 +332,7 @@ router.post(
 				validator.isAscii(req.body.password)
 			) {
 				const userObj = await usersCollection.c_read(
-					req.decoded.user_id
+					req.user_decoded.user_id
 				)
 				
 				if (userObj.status) {
@@ -340,7 +340,7 @@ router.post(
 					if (bcrypt.compareSync(req.body.currentPassword, userObj.user.password)) {		
 						// [UPDATE] Password //
 						const updatedPwd = await usersCollection.c_updatePassword(
-							req.decoded.user_id,
+							req.user_decoded.user_id,
 							req.body.password
 						)
 
@@ -517,14 +517,14 @@ router.post(
 			
 				// [EXISTANCE] Do not double save //
 				const existance = await userReportsCollection.c_existanceByUserAndReportedUser(
-					req.decoded.user_id,
+					req.user_decoded.user_id,
 					req.body.reportedUser
 				)
 
 				if (existance.status && !existance.existance) {
 					// [CREATE] commentReport //
 					const userReport = await userReportsCollection.c_create(
-						req.decoded.user_id,
+						req.user_decoded.user_id,
 						req.body.reportType,
 						req.body.reportedUser
 					)

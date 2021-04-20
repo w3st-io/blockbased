@@ -34,7 +34,7 @@ router.post(
 			) {
 				// [CREATE] Post //
 				const post = await postsCollection.c_create(
-					req.decoded.user_id,
+					req.user_decoded.user_id,
 					req.body.cat_id,
 					req.body.title
 				)
@@ -42,7 +42,7 @@ router.post(
 				if (post.status) {
 					// [CREATE] Activity //
 					const pActivity = await activitiesCollection.c_create({
-						user_id: req.decoded.user_id,
+						user_id: req.user_decoded.user_id,
 						type: 'post',
 						post_id: post.createdPost._id,
 						created_user_id: undefined,
@@ -53,7 +53,7 @@ router.post(
 					if (pActivity.status) {
 						// [CREATE] Comment //
 						const comment = await commentsCollection.c_create({
-							user_id: req.decoded.user_id,
+							user_id: req.user_decoded.user_id,
 							post_id: post.createdPost._id,
 							cleanJSON: req.body.cleanJSON,
 						})
@@ -61,7 +61,7 @@ router.post(
 						if (comment.status) {
 							// [CREATE] Activity //
 							const cActivity = await activitiesCollection.c_create({
-								user_id: req.decoded.user_id,
+								user_id: req.user_decoded.user_id,
 								type: 'comment',
 								post_id: comment.comment.post,
 								created_user_id: undefined,
@@ -122,14 +122,14 @@ router.post(
 			) {
 				// [EXISTANCE] postLike //
 				const existance = await postLikesCollection.c_existance(
-					req.decoded.user_id,
+					req.user_decoded.user_id,
 					req.body.post_id,
 				)
 
 				if (!existance.existance) {
 					// [CREATE] postLike //
 					const postLikeObj = await postLikesCollection.c_create(
-						req.decoded.user_id,
+						req.user_decoded.user_id,
 						req.body.post_id,
 						req.body.postUser_id
 					)
@@ -183,14 +183,14 @@ router.post(
 		try {
 			if (validator.isAscii(req.body.post_id)) {
 				const existance = await postLikesCollection.c_existance(
-					req.decoded.user_id,
+					req.user_decoded.user_id,
 					req.body.post_id
 				)
 
 				if (existance.existance) {
 					// [CREATE] postLike //
 					const postLikeObj = await postLikesCollection.c_deleteByUserAndPost(
-						req.decoded.user_id,
+						req.user_decoded.user_id,
 						req.body.post_id
 					)
 					
@@ -240,7 +240,7 @@ router.post(
 		try {
 			if (validator.isAscii(req.body.post_id)) {
 				const returned = await postFollowsCollection.c_create(
-					req.decoded.user_id,
+					req.user_decoded.user_id,
 					req.body.post_id
 				)
 				
@@ -274,7 +274,7 @@ router.post(
 		try {
 			if (validator.isAscii(req.body.post_id)) {
 				const pFObj = await postFollowsCollection.c_deleteByUserAndPost(
-					req.decoded.user_id,
+					req.user_decoded.user_id,
 					req.body.post_id
 				)
 				

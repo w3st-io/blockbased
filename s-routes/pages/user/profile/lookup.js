@@ -82,7 +82,7 @@ router.get(
 						}
 
 
-						if (req.decoded2 && req.decoded2.role == 'admin') {
+						if (req.admin_decoded && req.admin_decoded.role == 'admin') {
 							const commentReportCount = await commentReportsCollection.c_countByReportedUser(
 								req.params.user_id
 							)

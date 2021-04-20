@@ -26,7 +26,7 @@ router.get(
 			Number.isInteger(parseInt(req.params.page))
 		) {
 			// [INIT] //
-			const user_id = (req.decoded) ? req.decoded.user_id : undefined
+			const user_id = (req.user_decoded) ? req.user_decoded.user_id : undefined
 			const limit = parseInt(req.params.limit)
 			const pageIndex = parseInt(req.params.page) - 1
 			const skip = pageIndex * limit
