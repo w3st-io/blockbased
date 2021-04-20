@@ -28,13 +28,13 @@ class Auth {
 
 				if (validator.isJWT(tokenBody)) {
 					// [VERIFY] tokenBody //
-					jwt.verify(tokenBody, secretKey, async (err, user_decoded) => {
-						if (user_decoded) {
-							// [INIT] Put user_decoded in req //
-							req.admin_decoded = user_decoded
+					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
+						if (decoded) {
+							// [INIT] Put decoded in req //
+							req.admin_decoded = decoded
 
 							// Check if the role is admin
-							if (user_decoded.role == 'admin') { next() }
+							if (decoded.role == 'admin') { next() }
 							else {
 								res.status(200).send({
 									executed: true,
@@ -85,10 +85,10 @@ class Auth {
 				if (tokenBody !== 'undefined') {
 					// Validate JWT //
 					try {
-						const user_decoded = await jwt.verify(tokenBody, secretKey)
+						const decoded = await jwt.verify(tokenBody, secretKey)
 
 						// Check if the role is admin
-						if (user_decoded.role == 'admin') { req.admin_decoded = user_decoded }
+						if (decoded.role == 'admin') { req.admin_decoded = decoded }
 						else {
 							res.status(200).send({
 								executed: true,
@@ -124,21 +124,21 @@ class Auth {
 
 				if (validator.isJWT(tokenBody)) {
 					// [VERIFY] tokenBody //
-					jwt.verify(tokenBody, secretKey, async (err, user_decoded) => {
+					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
 						try {
-							if (user_decoded) {
-								// [INIT] Put user_decoded in req //
-								req.user_decoded = user_decoded
+							if (decoded) {
+								// [INIT] Put decoded in req //
+								req.user_decoded = decoded
 
 								// Check verified //
 								const verified = await usersCollection.c_verifiedStatus(
-									req.user_decoded.user_id
+									decoded.user_id
 								)
 
 								if (verified.status) {
 									// Check Ban //
 									const ban = await bansCollection.c_existance(
-										req.user_decoded.user_id
+										decoded.user_id
 									)
 									
 									next()
@@ -198,10 +198,10 @@ class Auth {
 				// If a token exists => Validate JWT //
 				if (tokenBody !== 'undefined') {
 					try {
-						const user_decoded = await jwt.verify(tokenBody, secretKey)
+						const decoded = await jwt.verify(tokenBody, secretKey)
 						
-						// [INIT] Put user_decoded in req //
-						req.user_decoded = user_decoded
+						// [INIT] Put decoded in req //
+						req.user_decoded = decoded
 					}
 					catch (err) {
 						console.log('JWT Verify:', err)
@@ -234,10 +234,10 @@ class Auth {
 
 				if (validator.isJWT(tokenBody)) {
 					// [VERIFY] tokenBody //
-					jwt.verify(tokenBody, secretKey, async (err, user_decoded) => {
-						if (user_decoded) {
-							// [INIT] Put user_decoded in req //
-							req.user_decoded = user_decoded
+					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
+						if (decoded) {
+							// [INIT] Put decoded in req //
+							req.user_decoded = decoded
 
 							try { next() }
 							catch (err) {
