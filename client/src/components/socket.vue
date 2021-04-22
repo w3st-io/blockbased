@@ -22,7 +22,7 @@
 		},
 
 		async created() {
-			if (localStorage.node_env !== 'production') {
+			if (localStorage.node_env == 'development') {
 				this.socket = io('http://localhost:5000')
 			}
 
