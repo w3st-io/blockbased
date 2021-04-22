@@ -19,7 +19,7 @@ const router = express.Router().use(cors())
 
 
 /******************* [USER PROFILE] *******************/
-// [READ] Auth Required - Decoded //
+// [READ] Auth Required - user_decoded //
 router.get(
 	'/',
 	Auth.userTokenByPassVerification(),
@@ -31,28 +31,28 @@ router.get(
 			let activityData = []
 
 			const userObj = await usersCollection.c_readSelect({
-				user_id: req.decoded.user_id
+				user_id: req.user_decoded.user_id
 			})
 			
 			if (userObj.status) {
 				// [COUNT] Posts //
 				const postCount = await postsCollection.c_countByUser(
-					req.decoded.user_id
+					req.user_decoded.user_id
 				)
 
 				// [COUNT] postLikes //
 				const pLCount = await postLikesCollection.c_countByPostUser(
-					req.decoded.user_id
+					req.user_decoded.user_id
 				)
 
 				// [COUNT] Comments //
 				const commentCount = await commentsCollection.c_countByUser(
-					req.decoded.user_id
+					req.user_decoded.user_id
 				)
 
 				// [COUNT] commentLikes //
 				const cLCount = await commentLikesCollection.c_countByCommentUser(
-					req.decoded.user_id
+					req.user_decoded.user_id
 				)
 
 				// Activity Order //
@@ -63,7 +63,7 @@ router.get(
 
 					// [READ-ALL] timePointA < Activity < timePointB //
 					const { count: activityCount } = await activitiesCollection.c_countByUserTimeFrame(
-						req.decoded.user_id,
+						req.user_decoded.user_id,
 						timePointA,
 						timePointB
 					)

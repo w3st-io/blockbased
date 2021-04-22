@@ -31,7 +31,7 @@ router.get(
 
 				// [READ-ALL] //
 				const { notifications } = await notificationsCollection.c_readByUserSorted(
-					req.decoded.user_id,
+					req.user_decoded.user_id,
 					sort,
 					limit,
 					skip
@@ -40,7 +40,7 @@ router.get(
 				// [COUNT] postFollows //
 				const {
 					count: totalNotifications
-				} = await notificationsCollection.c_count(req.decoded.user_id)
+				} = await notificationsCollection.c_count(req.user_decoded.user_id)
 				
 
 				// [COUNT] totalPages //

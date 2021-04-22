@@ -12,7 +12,7 @@
 		<!-- Floating Pop Up Banner -->
 		<PopUpBanner
 			v-if="message"
-			:decoded="decoded"
+			:user_decoded="user_decoded"
 			:message="message"
 			BGColor="info"
 		/>

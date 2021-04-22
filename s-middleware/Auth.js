@@ -31,7 +31,7 @@ class Auth {
 					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
 						if (decoded) {
 							// [INIT] Put decoded in req //
-							req.decoded2 = decoded
+							req.admin_decoded = decoded
 
 							// Check if the role is admin
 							if (decoded.role == 'admin') { next() }
@@ -88,7 +88,7 @@ class Auth {
 						const decoded = await jwt.verify(tokenBody, secretKey)
 
 						// Check if the role is admin
-						if (decoded.role == 'admin') { req.decoded2 = decoded }
+						if (decoded.role == 'admin') { req.admin_decoded = decoded }
 						else {
 							res.status(200).send({
 								executed: true,
@@ -128,17 +128,17 @@ class Auth {
 						try {
 							if (decoded) {
 								// [INIT] Put decoded in req //
-								req.decoded = decoded
+								req.user_decoded = decoded
 
 								// Check verified //
 								const verified = await usersCollection.c_verifiedStatus(
-									req.decoded.user_id
+									decoded.user_id
 								)
 
 								if (verified.status) {
 									// Check Ban //
 									const ban = await bansCollection.c_existance(
-										req.decoded.user_id
+										decoded.user_id
 									)
 									
 									next()
@@ -201,7 +201,7 @@ class Auth {
 						const decoded = await jwt.verify(tokenBody, secretKey)
 						
 						// [INIT] Put decoded in req //
-						req.decoded = decoded
+						req.user_decoded = decoded
 					}
 					catch (err) {
 						console.log('JWT Verify:', err)
@@ -237,7 +237,7 @@ class Auth {
 					jwt.verify(tokenBody, secretKey, async (err, decoded) => {
 						if (decoded) {
 							// [INIT] Put decoded in req //
-							req.decoded = decoded
+							req.user_decoded = decoded
 
 							try { next() }
 							catch (err) {

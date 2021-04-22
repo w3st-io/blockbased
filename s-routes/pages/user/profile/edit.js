@@ -18,7 +18,7 @@ router.get(
 	async (req, res) => {
 		try {
 			const userObj = await usersCollection.c_readSelect({
-				user_id: req.decoded.user_id,
+				user_id: req.user_decoded.user_id,
 				select: '_id first_name last_name username bio verified created_at profile_img'
 			})
 

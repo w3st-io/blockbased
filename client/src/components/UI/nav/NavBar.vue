@@ -68,7 +68,7 @@
 							size="sm"
 							class="ml-2"
 							@click="profileRedirect()"
-						>{{ decoded.username }}</BButton>
+						>{{ user_decoded.username }}</BButton>
 
 						<!-- NOT Logged In -->
 						<BButton
@@ -115,7 +115,7 @@
 		data() {
 			return {
 				defaultData: defaultData,
-				decoded: {},
+				user_decoded: {},
 				userLogged: false,
 				query: '',
 				notifications: '',
@@ -139,7 +139,7 @@
 					if (localStorage.usertoken) {
 						this.userLogged = true
 
-						this.decoded = await UserService.s_getUserTokenDecodeData()
+						this.user_decoded = await UserService.s_getUserTokenDecodeData()
 					}
 				}
 				catch (err) { console.log(`Navbar: ${err}`) }

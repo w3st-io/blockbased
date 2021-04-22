@@ -23,7 +23,7 @@ router.get(
 			if (validator.isAscii(req.params.comment_id)) {
 				// [READ] Comment //
 				const returned = await commentsCollection.c_read({
-					user_id: req.decoded.user_id,
+					user_id: req.user_decoded.user_id,
 					comment_id: req.params.comment_id
 				})
 	

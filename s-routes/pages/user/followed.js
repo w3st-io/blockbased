@@ -33,7 +33,7 @@ router.get(
 
 				// [COUNT] postFollows //
 				const totalFollows = (
-					await postFollowsCollection.c_countAllUser(req.decoded.user_id)
+					await postFollowsCollection.c_countAllUser(req.user_decoded.user_id)
 				).count
 
 				// [CALCULATE] totalPages //
@@ -41,7 +41,7 @@ router.get(
 				
 				// [READ-ALL] postFollows for user //
 				const pFObj = await postFollowsCollection.c_readByUserSorted(
-					req.decoded.user_id,
+					req.user_decoded.user_id,
 					sort,
 					limit,
 					skip
@@ -49,7 +49,7 @@ router.get(
 
 				for (let i = 0; i < pFObj.postFollows.length; i++) {
 					const postObj = await postsCollection.c_read(
-						req.decoded.user_id,
+						req.user_decoded.user_id,
 						pFObj.postFollows[i].post
 					)
 					

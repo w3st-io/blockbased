@@ -21,7 +21,7 @@ router.get(
 			if (validator.isAscii(req.params.post_id)) {
 				// [READ] Post //
 				const postObj = await postsCollection.c_read(
-					req.decoded.user_id,
+					req.user_decoded.user_id,
 					req.params.post_id
 				)
 

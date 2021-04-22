@@ -121,7 +121,7 @@
 
 									<!-- Edit -->
 									<BButton
-										v-if="comment.user._id == decoded.user_id"
+										v-if="comment.user._id == user_decoded.user_id"
 										variant="none"
 										size="sm"
 										@click="redirectToEdit(comment._id)"
@@ -232,7 +232,7 @@
 		data() {
 			return {
 				adminLoggedIn: false,
-				decoded: {},
+				user_decoded: {},
 				disabled: false,
 				openedRepliedTo: null,
 				error: '',
@@ -243,7 +243,7 @@
 			if (localStorage.admintoken) { this.adminLoggedIn = true }
 
 			if (localStorage.usertoken) {
-				this.decoded = await UserService.s_getUserTokenDecodeData()
+				this.user_decoded = await UserService.s_getUserTokenDecodeData()
 			}
 
 			// [LOG] //
@@ -341,7 +341,7 @@
 
 			log() {
 				console.log('%%% [COMPONENT] CommentList %%%')
-				console.log('decoded:', this.decoded)
+				console.log('user_decoded:', this.user_decoded)
 				console.log('Comments:', this.comments)
 				if (this.error) { console.error('error:', this.error) }
 			},

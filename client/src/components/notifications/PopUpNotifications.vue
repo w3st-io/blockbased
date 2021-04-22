@@ -11,7 +11,7 @@
 			style="width: 50px; height: 50px; font-family: monospace;"
 			@click="userShowClicked()"
 		>
-			<span v-if="!show" style="font-size: 2em;">
+			<span v-if="!show" style="font-size: 1em;">
 				{{ !userShow ? '+' : '-' }}
 			</span>
 			<span
