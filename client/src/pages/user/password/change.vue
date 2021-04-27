@@ -120,7 +120,7 @@
 				try {
 					this.submitted = true
 
-					this.reqData = await UserService.s_resetPassword(
+					this.reqData = await UserService.s_changePassword(
 						this.formData.currentPassword,
 						this.formData.password
 					)
