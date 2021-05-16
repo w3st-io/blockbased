@@ -25,7 +25,7 @@ async function s_home() {
 		return {
 			executed: false,
 			status: false,
-			error: `PageService: Error --> ${err}`
+			message: `PageService: Error --> ${err}`
 		}
 	}
 }
@@ -42,7 +42,7 @@ async function s_activity(sort = 0, limit, page) {
 		return {
 			executed: false,
 			status: false,
-			error: `PageService: Error --> ${err}`
+			message: `PageService: Error --> ${err}`
 		}
 	}
 }
@@ -59,7 +59,7 @@ async function s_admin() {
 		return {
 			executed: false,
 			status: false,
-			error: `PageService: Error --> ${err}`
+			message: `PageService: Error --> ${err}`
 		}
 	}
 }
@@ -75,7 +75,7 @@ async function s_admin_function() {
 		return {
 			executed: false,
 			status: false,
-			error: `PageService: Error --> ${err}`
+			message: `PageService: Error --> ${err}`
 		}
 	}
 }
@@ -95,7 +95,7 @@ async function s_admin_function_commentReports(sort, limit, page) {
 		return {
 			executed: false,
 			status: false,
-			error: `PageService: Error --> ${err}`
+			message: `PageService: Error --> ${err}`
 		}
 	}
 }
@@ -113,7 +113,7 @@ async function s_admin_function_comments(sort, limit, page) {
 		return {
 			executed: false,
 			status: false,
-			error: `PageService: Error --> ${err}`
+			message: `PageService: Error --> ${err}`
 		}
 	}
 }
@@ -131,7 +131,7 @@ async function s_admin_function_posts(sort, limit, page) {
 		return {
 			executed: false,
 			status: false,
-			error: `PageService: Error --> ${err}`
+			message: `PageService: Error --> ${err}`
 		}
 	}
 }
@@ -149,7 +149,7 @@ async function s_admin_function_users(sort, limit, page) {
 		return {
 			executed: false,
 			status: false,
-			error: `PageService: Error --> ${err}`
+			message: `PageService: Error --> ${err}`
 		}
 	}
 }
@@ -167,7 +167,7 @@ async function s_admin_function_users_record(user_id) {
 		return {
 			executed: false,
 			status: false,
-			error: `PageService: Error --> ${err}`
+			message: `PageService: Error --> ${err}`
 		}
 	}
 }
@@ -184,7 +184,7 @@ async function s_cat(cat_id, sort = 0, limit, page) {
 		return {
 			executed: false,
 			status: false,
-			error: `PageService: Error --> ${err}`
+			message: `PageService: Error --> ${err}`
 		}
 	}
 }
@@ -219,7 +219,7 @@ async function s_post_create() {
 		return {
 			executed: false,
 			status: false,
-			error: `PageService: Error --> ${err}`
+			message: `PageService: Error --> ${err}`
 		}
 	}
 }

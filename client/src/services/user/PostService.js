@@ -44,7 +44,7 @@ async function s_like(post_id, postUser_id) {
 		return {
 			executed: false,
 			status: false,
-			error: `PostService: Error --> ${err}`
+			message: `PostService: Error --> ${err}`
 		}
 	}
 }
@@ -60,7 +60,7 @@ async function s_unlike(post_id) {
 		return {
 			executed: false,
 			status: false,
-			error: `PostService: Error --> ${err}`
+			message: `PostService: Error --> ${err}`
 		}
 	}
 }
@@ -78,7 +78,7 @@ async function s_follow(post_id) {
 		return {
 			executed: false,
 			status: false,
-			error: `PostService: Error --> ${err}`
+			message: `PostService: Error --> ${err}`
 		}
 	}
 }
@@ -93,7 +93,7 @@ async function s_unfollow(post_id) {
 		return {
 			executed: false,
 			status: false,
-			error: `PostService: Error --> ${err}`
+			message: `PostService: Error --> ${err}`
 		}
 	}
 }
