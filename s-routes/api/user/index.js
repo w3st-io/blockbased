@@ -18,10 +18,6 @@ const Auth = require('../../../s-middleware/Auth')
 const mailerUtil = require('../../../s-utils/mailerUtil')
 
 
-// [INIT] //
-const secretKey = config.SECRET_KEY
-
-
 // [EXPRESS + USE] //
 const router = express.Router().use(cors())
 
@@ -47,7 +43,8 @@ router.post(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/user/update: Invalid params',
+					location: '/api/user/update',
+					message: 'Invalid params',
 				})
 			}
 		}
@@ -55,7 +52,8 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/user/update: Error --> ${err}`,
+				location: '/api/user/update',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}
@@ -83,7 +81,12 @@ router.post(
 
 						if (userObj.user) {
 							// [VALIDATE-PASSWORD] //
-							if (bcrypt.compareSync(req.body.password, userObj.user.password)) {
+							if (
+								bcrypt.compareSync(
+									req.body.password,
+									userObj.user.password
+								)
+							) {
 								const token = jwt.sign(
 									{
 										user_id: userObj.user._id,
@@ -93,8 +96,10 @@ router.post(
 										last_name: userObj.user.last_name,
 										verified: userObj.user.verified
 									},
-									secretKey,
-									{/* expiresIn: 7200 */}
+									config.SECRET_KEY,
+									{
+										expiresIn: config.NODE_ENV == 'production' ? 7200 : undefined
+									}
 								)
 						
 								res.send({
@@ -109,6 +114,7 @@ router.post(
 								res.send({
 									executed: true,
 									status: true,
+									location: '/api/user/login',
 									message: 'Invalid email or password',
 									validation: false,
 								})
@@ -118,6 +124,7 @@ router.post(
 							res.send({
 								executed: true,
 								status: true,
+								location: '/api/user/login',
 								message: 'Invalid email or password',
 								validation: false
 							})
@@ -127,7 +134,8 @@ router.post(
 						res.send({
 							executed: true,
 							status: false,
-							message: '/api/user/login: Invalid password',
+							location: '/api/user/login',
+							message: 'Invalid password',
 						})
 					}
 				}
@@ -135,7 +143,8 @@ router.post(
 					res.send({
 						executed: true,
 						status: false,
-						message: '/api/user/login: Invalid email',
+						location: '/api/user/login',
+						message: 'Invalid email',
 					})
 				}
 			}
@@ -143,7 +152,8 @@ router.post(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/user/login: Invalid Params',
+					location: '/api/user/login',
+					message: 'Invalid Params',
 				})
 			}
 		}
@@ -151,7 +161,8 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/user/login: Error --> ${err}`,
+				location: '/api/user/login',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}

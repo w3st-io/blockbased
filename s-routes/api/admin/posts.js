@@ -91,8 +91,8 @@ router.delete(
 			res.send({
 				executed: false,
 				status: false,
-					location: '/api/admin/posts/delete',
-					message: `Caught Error --> ${err}`,
+				location: '/api/admin/posts/delete',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}

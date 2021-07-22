@@ -56,7 +56,7 @@ router.get(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/pages/admin/function/posts',
+					location: '/pages/admin/function/posts',
 					message: 'Invalid Params',
 				})
 			}
@@ -65,7 +65,7 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: '/pages/admin/function/posts',
+				location: '/pages/admin/function/posts',
 				message: `Caught Error --> ${err}`,
 			})
 		}

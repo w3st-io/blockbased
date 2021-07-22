@@ -364,7 +364,8 @@ router.post(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/user/comments/unlike: Invalid comment _id'
+					location: '/api/user/comments/unlike',
+					message: 'Invalid comment _id'
 				})
 			}
 		}
@@ -372,7 +373,8 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/user/comments/unlike: Error --> ${err}`,
+				location: '/api/user/comments/unlike',
+				message: `Caight Error --> ${err}`,
 			})
 		}
 	},
@@ -433,7 +435,8 @@ router.post(
 					res.send({
 						executed: true,
 						status: false,
-						message: '/api/user/comments/report: Comment doesnt exist.'
+						location: '/api/user/comments/report',
+						message: 'Comment doesnt exist.'
 					})
 				}
 			}
@@ -441,7 +444,8 @@ router.post(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/user/comments/report: Invalid params',
+					location: '/api/user/comments/report',
+					message: 'Invalid params',
 				})
 			}
 		}
@@ -449,7 +453,8 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/user/comments/report: Error --> ${err}`,
+					location: '/api/user/comments/report',
+					message: `Caught Error --> ${err}`,
 			})
 		}
 	},

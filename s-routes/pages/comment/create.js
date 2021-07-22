@@ -40,8 +40,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-					location: '/pages/comment/create',
-					message: `Caught Error --> ${err}`
+				location: '/pages/comment/create',
+				message: `Caught Error --> ${err}`
 			})
 		}
 	}

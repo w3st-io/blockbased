@@ -62,7 +62,6 @@ router.get(
 				executed: true,
 				status: true,
 				users: users,
-				location: '/pages/admin',
 				activityData: activityData,
 			})
 		}
