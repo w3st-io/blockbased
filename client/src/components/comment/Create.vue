@@ -78,7 +78,7 @@
 				this.$refs.editor._data.state.editor.save()
 					.then((cleanJSON) => {
 						this.cleanJSON = cleanJSON
-						this.create()
+						this.commentCreate()
 					})
 					.catch((err) => {
 						this.error = err
@@ -86,7 +86,7 @@
 					})
 			},
 
-			async create() {
+			async commentCreate() {
 				try {
 					if (!localStorage.usertoken) {
 						this.error = 'Unable to create a comment, no token passed'

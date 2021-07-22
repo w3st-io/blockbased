@@ -119,13 +119,13 @@
 				this.$refs.editor._data.state.editor.save()
 					.then((cleanJSON) => {
 						this.cleanJSON = cleanJSON
-						this.create()
+						this.postCreate()
 					})
 					.catch(err => { this.error = err })
 			},
 
 			// [CREATE] Create Post Via PostService Function //
-			async create() {
+			async postCreate() {
 				try {
 					if (!localStorage.usertoken) {
 						this.error = 'Error unable to create post, not logged in'
