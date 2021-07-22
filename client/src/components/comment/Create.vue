@@ -45,10 +45,6 @@
 
 	// [EXPORT] //
 	export default {
-		components: {
-			Alert
-		},
-
 		props: {
 			post_id: {
 				type: String,
@@ -70,9 +66,8 @@
 			}
 		},
 
-		async created() {
-			// [LOG] //
-			//this.log()
+		components: {
+			Alert
 		},
 
 		methods: {
@@ -85,13 +80,16 @@
 						this.cleanJSON = cleanJSON
 						this.create()
 					})
-					.catch(err => { this.error = err })
+					.catch((err) => {
+						this.error = err
+						this.loading = false
+					})
 			},
 
 			async create() {
 				try {
 					if (!localStorage.usertoken) {
-						this.error = 'Unable to create comment, no token passed'
+						this.error = 'Unable to create a comment, no token passed'
 						return
 					}
 
@@ -115,13 +113,6 @@
 					else { this.error = this.data.message }
 				}
 				catch (err) { this.error = err }
-			},
-
-			log() {
-				console.log('%%% [COMPONENT] CommentCreate %%%')
-				console.log('post_id:', this.post_id)
-				console.log('error:', this.error)
-				console.log('replyToComment_id:', this.replyToComment_id)
 			},
 		},
 	}

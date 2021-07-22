@@ -24,11 +24,6 @@
 
 	// [EXPORT] //
 	export default {
-		components: {
-			CommentEdit,
-			Alert,
-		},
-
 		data() {
 			return {
 				// Default //
@@ -44,6 +39,29 @@
 			}
 		},
 
+		methods: {
+			async getPage() {
+				try {
+					this.reqData = await PageService.s_comment_edit(this.comment_id)
+
+					if (this.reqData.status) { this.comment = this.reqData.comment }
+					else { this.error = this.reqData.message }
+				}
+				catch (err) { this.error = err }
+			},
+
+			log() {
+				console.log('%%% [PAGE] CommentEdit %%%')
+				console.log('comment:', this.comment)
+				console.log('comment_id:', this.comment_id)
+			},
+		},
+
+		components: {
+			CommentEdit,
+			Alert,
+		},
+
 		async created() {
 			// [REDIRECT] Log Needed //
 			if (!localStorage.usertoken) { router.push({ name: 'user_login' }) }
@@ -57,21 +75,5 @@
 			// [LOG] //
 			this.log()
 		},
-
-		methods: {
-			async getPage() {
-				try { this.reqData = await PageService.s_comment_edit(this.comment_id) }
-				catch (err) { this.error = err }
-
-				if (this.reqData.status) { this.comment = this.reqData.comment }
-				else { this.error = this.reqData.message }
-			},
-
-			log() {
-				console.log('%%% [PAGE] CommentEdit %%%')
-				console.log('comment:', this.comment)
-				console.log('comment_id:', this.comment_id)
-			},
-		}
 	}
 </script>

@@ -62,13 +62,6 @@
 			}
 		},
 
-		async created() {
-			this.initialEditorText = this.comment.cleanJSON
-
-			// [LOG] //
-			//this.log()
-		},
-
 		methods: {
 			async submit() {
 				this.loading = true
@@ -78,7 +71,11 @@
 						this.cleanJSON = cleanJSON
 						this.update()
 					})
-					.catch(err => { this.error = err })
+					.catch((err) => {
+						this.error = err
+
+						this.loading = false
+					})
 			},
 
 			async update() {
@@ -112,6 +109,13 @@
 				console.log('comment:', this.comment)
 				console.log('error:', this.error)
 			},
+		},
+
+		async created() {
+			this.initialEditorText = this.comment.cleanJSON
+
+			// [LOG] //
+			//this.log()
 		},
 	}
 </script>
