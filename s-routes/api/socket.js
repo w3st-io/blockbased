@@ -26,7 +26,7 @@ router.get(
 				executed: false,
 				status: false,
 				location: '/api/socket',
-				message: `Error --> ${err}`,
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}

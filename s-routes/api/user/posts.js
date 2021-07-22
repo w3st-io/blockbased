@@ -92,7 +92,8 @@ router.post(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/user/posts/create: Invalid Params'
+					location: '/api/user/posts/create',
+					message: 'Invalid Params'
 				})
 			}
 		}
@@ -100,7 +101,8 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/user/posts/create: Error --> ${err}`,
+				location: '/api/user/posts/create',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}
@@ -159,7 +161,8 @@ router.post(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/user/posts/like: Invalid post _id'
+					location: '/api/user/posts/like',
+					message: 'Invalid post _id'
 				})
 			}
 		} 
@@ -167,7 +170,8 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/user/posts/like: Error --> ${err}`
+				location: '/api/user/posts/like',
+				message: `Caught Error --> ${err}`
 			})
 		}
 	},
@@ -215,7 +219,8 @@ router.post(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/user/posts/unlike: Invalid post_id'
+					location: '/api/user/posts/unlike',
+					message: 'Invalid post_id',
 				})
 			}
 		}
@@ -223,7 +228,8 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/user/posts/unlike:: Error --> ${err}`
+				location: '/api/user/posts/unlike',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	},
@@ -250,7 +256,8 @@ router.post(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/user/posts/follow: Invalid post _id',
+					location: '/api/user/posts/follow',
+					message: 'Invalid post _id',
 				})
 			}
 		}
@@ -258,7 +265,8 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/user/posts/follow: Error --> ${err}`
+				location: '/api/user/posts/follow',
+				message: `Caught Error --> ${err}`
 			})
 		}
 	},
@@ -284,7 +292,8 @@ router.post(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/user/posts/unfollow: Invalid post _id',
+					location: '/api/user/posts/unfollow',
+					message: 'Invalid post _id',
 				})
 			}
 		}
@@ -292,7 +301,8 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/user/posts/unfollow: Error --> ${err}`
+				location: '/api/user/posts/unfollow',
+				message: `Caught Error --> ${err}`
 			})
 		}
 	},

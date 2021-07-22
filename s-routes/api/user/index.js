@@ -410,7 +410,8 @@ router.post(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/user/request-reset-password: Invalid params',
+					location: '/api/user/request-reset-password',
+					message: 'Invalid params',
 				})
 			}
 		}
@@ -418,7 +419,8 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/user/request-reset-password: Error --> ${err}`,
+				message: '/api/user/request-reset-password',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}
@@ -475,6 +477,7 @@ router.post(
 					res.send({
 						executed: true,
 						status: false,
+						location: '/api/user/reset-password',
 						message: '/api/user/reset-password: Invalid params',
 					})
 				}
@@ -483,6 +486,7 @@ router.post(
 				res.send({
 					executed: true,
 					status: false,
+					location: '/api/user/reset-password',
 					message: 'You have not made a request to reset your password',
 				})
 			}
@@ -491,6 +495,7 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
+				location: '/api/user/reset-password',
 				message: `/api/user/reset-password: Error --> ${err}`,
 			})
 		}
@@ -544,7 +549,8 @@ router.post(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/user/report: Invalid params',
+						location: '/api/user/report',
+						message: 'Invalid params',
 				})
 			}
 		}
@@ -552,7 +558,8 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/user/report: Error --> ${err}`,
+						location: '/api/user/report',
+						message: `Caught Error --> ${err}`,
 			})
 		}
 	},

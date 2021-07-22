@@ -39,7 +39,12 @@ router.post(
 
 						if (userObj.user) {
 							// [VALIDATE-PASSWORD] //
-							if (bcrypt.compareSync(req.body.password, userObj.user.password)) {
+							if (
+								bcrypt.compareSync(
+									req.body.password,
+									userObj.user.password
+								)
+							) {
 								const token = jwt.sign(
 									{
 										admin_id: userObj.user._id,
@@ -114,7 +119,7 @@ router.post(
 				executed: false,
 				status: false,
 				location: '/api/admin/login',
-				message: `Error --> ${err}`,
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}
@@ -154,7 +159,7 @@ router.post(
 				executed: false,
 				status: false,
 				location: '/api/admin/register',
-				message: `Error --> ${err}`,
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}

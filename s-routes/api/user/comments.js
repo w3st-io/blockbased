@@ -144,7 +144,7 @@ router.post(
 					executed: true,
 					status: false,
 					location: '/api/user/comments/create',
-					message: '/api/user/comments/create: Invalid Params'
+					message: 'Invalid Params'
 				})
 			}
 		}
@@ -153,7 +153,7 @@ router.post(
 				executed: false,
 				status: false,
 				location: '/api/user/comments/create',
-				message: `/api/user/comments/create: Error --> ${err}`,
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}

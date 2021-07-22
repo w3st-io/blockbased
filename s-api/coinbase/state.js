@@ -137,7 +137,7 @@ module.exports = {
 				executed: false,
 				status: false,
 				location: '/s-crypto/coinbase/state',
-				message: `Error --> ${err}`,
+				message: `Caught Error --> ${err}`,
 			}
 		}
 	},

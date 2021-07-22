@@ -40,7 +40,7 @@ router.get(
 				executed: false,
 				status: false,
 				location: '/api/coinbase',
-				message: `Error --> ${err}`,
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}

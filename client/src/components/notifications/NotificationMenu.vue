@@ -113,7 +113,7 @@
 
 				// [UPDATE] //
 				try { await this.readAllNotifications() }
-				catch (err) { console.log(`Error --> ${err}`) }
+				catch (err) { console.log(`Caught Error --> ${err}`) }
 
 				// [UPDATE] //
 				EventBus.$emit('update-notification')

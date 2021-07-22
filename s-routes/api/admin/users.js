@@ -39,7 +39,8 @@ router.get(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/admin/users/ban: Invalid user_id'
+					location: '/api/admin/users/ban',
+					message: 'Invalid user_id'
 				})
 			}
 		}
@@ -47,7 +48,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/admin/users/ban: Error --> ${err}`,
+				location: '/api/admin/users/ban',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}

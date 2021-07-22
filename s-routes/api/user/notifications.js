@@ -53,7 +53,8 @@ router.get(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/user/notifications/read-unread: Invalid Params'
+					location: '/api/user/notifications/read-unread',
+					message: 'Invalid Params',
 				})
 			}
 		}
@@ -61,7 +62,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/user/notifications/read-unread: Error --> ${err}`,
+				location: '/api/user/notifications/read-unread',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}
@@ -87,7 +89,8 @@ router.get(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/user/notifications/mark-unread: Invalid notification_id'
+					location: '/api/user/notifications/mark-unread',
+					message: 'Invalid notification_id'
 				})
 			}
 		}
@@ -95,7 +98,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/user/notifications/mark-unread: Error --> ${err}`,
+				location: '/api/user/notifications/mark-unread',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}

@@ -32,6 +32,7 @@ router.get(
 				res.send({
 					executed: true,
 					status: false,
+					location: '/api/admin/comment-reports/mark-handled',
 					message: 'Invalid commentReport_id'
 				})
 			}
@@ -40,7 +41,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/admin/comment-reports/mark-handled: --> ${err}`,
+				location: '/api/admin/comment-reports/mark-handled',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}

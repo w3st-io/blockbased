@@ -82,7 +82,8 @@ router.delete(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/admin/posts/delete: Invalid post_id'
+					location: '/api/admin/posts/delete',
+					message: 'Invalid post_id'
 				})
 			}
 		}
@@ -90,7 +91,8 @@ router.delete(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/admin/posts/delete: Error --> ${err}`,
+					location: '/api/admin/posts/delete',
+					message: `Caught Error --> ${err}`,
 			})
 		}
 	}

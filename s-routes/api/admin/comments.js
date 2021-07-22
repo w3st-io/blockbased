@@ -58,7 +58,8 @@ router.delete(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/admin/comments/delete: Invalid comment_id'
+					location: '/api/admin/comments/delete',
+					message: 'Error --> Invalid comment_id'
 				})
 			}
 		}
@@ -66,7 +67,8 @@ router.delete(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/admin/comments/delete: Error --> ${err}`,
+					location: '/api/admin/comments/delete',
+					message: `Caught Error --> ${err}`,
 			})
 		}
 	}
