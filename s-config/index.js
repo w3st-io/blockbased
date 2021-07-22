@@ -41,7 +41,15 @@ module.exports = {
 	INSTALLS_EMAIL: process.env.INSTALLS_EMAIL || '',
 	SERVICES_EMAIL: process.env.SERVICES_EMAIL || '',
 
+	// [COINBASE] //
+	COINBASE_API_KEY: process.env.COINBASE_API_KEY || '',
+	COINBASE_API_SECRET: process.env.COINBASE_API_SECRET || '',
+	COINBASE_API_PASS_PHRASE: process.env.COINBASE_API_PASS_PHRASE || '',
+	
 	// [IEX] //
 	IEX_PUBLIC_KEY: process.env.IEX_PUBLIC_KEY || '',
 	IEX_SB_PUBLIC_KEY: process.env.IEX_SB_PUBLIC_KEY || '',
+
+	// [FINNHUB] //
+	FINNHUB_KEY: process.env.FINNHUB_KEY
 }

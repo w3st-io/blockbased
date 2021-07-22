@@ -22,10 +22,10 @@ router.get(
 				select: '_id first_name last_name username bio verified created_at profile_img'
 			})
 
-			res.status(200).send(userObj)
+			res.send(userObj)
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/user/read: Error --> ${err}`,

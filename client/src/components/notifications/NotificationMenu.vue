@@ -134,10 +134,10 @@
 			redirectNotifications() {
 				// [REDIRECT] //
 				router.push({
-					name: 'user_notifications',
+					name: 'notification',
 					params: {
 						sort: 1,
-						limit: 3,
+						limit: 5,
 						page: 1,
 					},
 				})

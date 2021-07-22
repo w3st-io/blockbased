@@ -74,7 +74,7 @@ router.get(
 					})
 				}
 
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: true,
 					user: userObj.user,
@@ -85,10 +85,10 @@ router.get(
 					activityData: activityData,
 				})
 			}
-			else { res.status(200).send(userObj) }
+			else { res.send(userObj) }
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/pages/user/profile: Error --> ${err}`

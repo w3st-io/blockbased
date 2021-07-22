@@ -21,8 +21,15 @@
 	// [EXPORT] //
 	export default {
 		props: {
-			tabs: { type: Array, required: true, },
-			initialTab: { type: Number, default: 0, }
+			tabs: {
+				type: Array,
+				required: true,
+			},
+			
+			initialTab: {
+				type: Number,
+				default: 0,
+			}
 		},
 
 		data() {

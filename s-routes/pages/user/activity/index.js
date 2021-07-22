@@ -44,10 +44,10 @@ router.get(
 				// [COUNT] Calculate Pages //
 				activitiesObj.totalPages = Math.ceil(activitiesObj.count / limit)
 
-				res.status(200).send(activitiesObj)
+				res.send(activitiesObj)
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/pages/user/activity: Invalid params'
@@ -55,7 +55,7 @@ router.get(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/pages/activity: Error --> ${err}`

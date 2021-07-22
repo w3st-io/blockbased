@@ -4,7 +4,7 @@
 		<VueHeadful :title="`Post - ${postTitle}`" />
 
 		<BCard bg-variant="dark">
-			<BRow>
+			<BRow v-if="!loading">
 				<!-- Title -->
 				<BCol cols="12" sm="10">
 					<h3 v-if="post" class="m-0 text-light">
@@ -66,13 +66,8 @@
 					/>
 				</BCol>
 
-				<!-- Loading -->
-				<BCol v-if="loading" cols="12" class="my-3">
-					<Alert variant="primary" />
-				</BCol>
-
 				<!-- Comments List -->
-				<BCol v-if="!loading" cols="12" class="mt-3">
+				<BCol cols="12" class="mt-3">
 					<CommentList
 						:comments="comments"
 						:post_id="post_id"
@@ -91,6 +86,13 @@
 						class="m-auto w-100"
 						style="max-width: 300px;"
 					/>
+				</BCol>
+			</BRow>
+
+			<!-- Loading -->
+			<BRow v-if="loading">
+				<BCol cols="12" class="my-3">
+					<Alert variant="primary" />
 				</BCol>
 			</BRow>
 
@@ -125,28 +127,20 @@
 
 		data() {
 			return {
+				loading: true,
+				disabled: false,
+				error: '',
+
 				post_id: this.$route.params.post_id,
 				pageNumber: parseInt(this.$route.params.page),
 				limit: parseInt(this.$route.params.limit),
 				totalPages: 100000000,
-
-				disabled: false,
-				loading: true,
-				error: '',
 
 				returned: {},
 				comments: [],
 				post: {},
 				postTitle: 'unset',
 			}
-		},
-
-		created: async function() {
-			// [INIT-DATA] //
-			await this.getPageData()
-
-			// [LOG] //
-			this.log()
 		},
 
 		methods: {
@@ -172,8 +166,8 @@
 				}
 			},
 
+
 			refreshRoute() {
-				console.log(this.limit);
 				// [REDIRECT] Cat Page //
 				router.push({
 					name: 'post',
@@ -185,26 +179,6 @@
 				})
 			},
 
-			async getPageData() {
-				try {
-					this.returned = await PageService.s_post(
-						this.post_id,
-						this.limit,
-						this.pageNumber
-					)
-				}
-				catch (err) { this.error = `This: --> ${err}` }
-
-				this.loading = false
-
-				if (this.returned.status) {
-					this.post = this.returned.postObj.post
-					this.comments = this.returned.commentsObj.comments
-					this.totalPages = this.returned.commentsObj.totalPages
-					this.postTitle = this.post.title
-				}
-				else { this.error = this.returned.message }
-			},
 
 			async startPage() {
 				if (this.pageNumber != 1) {
@@ -217,6 +191,7 @@
 				}
 			},
 
+
 			async prevPage() {
 				if (this.pageNumber != 1) {
 					this.loading = true
@@ -227,6 +202,7 @@
 					await this.getPageData()
 				}
 			},
+
 
 			async nextPage() {
 				if (this.pageNumber < this.totalPages) {
@@ -239,6 +215,7 @@
 				}
 			},
 
+
 			async endPage() {
 				if (this.pageNumber != this.returned.commentsObj.totalPages) {
 					this.loading = true
@@ -250,6 +227,7 @@
 				}
 			},
 
+
 			async newLimit(limit) {
 				this.limit = limit
 				this.loading = true
@@ -260,11 +238,34 @@
 				await this.getPageData()
 			},
 
+
 			redirectToPostCommentCreate() {
 				router.push({
 					name: 'comment_create',
 					params: { post_id: this.post._id, }
 				})
+			},
+
+
+			async getPageData() {
+				try {
+					this.returned = await PageService.s_post(
+						this.post_id,
+						this.limit,
+						this.pageNumber
+					)
+
+					if (this.returned.status) {
+						this.post = this.returned.postObj.post
+						this.comments = this.returned.commentsObj.comments
+						this.totalPages = this.returned.commentsObj.totalPages
+						this.postTitle = this.post.title
+					}
+					else { this.error = this.returned.message }
+
+					this.loading = false
+				}
+				catch (err) { this.error = `This: --> ${err}` }
 			},
 
 			log() {
@@ -275,6 +276,14 @@
 				console.log('comments:', this.comments)
 				if (this.error) { console.error('error:', this.error) }
 			},
+		},
+
+		created: async function() {
+			// [INIT] //
+			await this.getPageData()
+
+			// [LOG] //
+			//this.log()
 		},
 	}
 </script>

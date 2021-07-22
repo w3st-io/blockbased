@@ -7,23 +7,23 @@
 				</BCol>
 
 				<BCol cols="12" sm="4">
-					<RouterLink to="/components/bcarousel">
+					<RouterLink to="/example/bcarousel">
 						<BButton class="w-100 mb-3">BCarousel</BButton>
 					</RouterLink>
 
-					<RouterLink to="/components/conveyor">
+					<RouterLink to="/example/conveyor">
 						<BButton class="w-100 mb-3">Conveyor</BButton>
 					</RouterLink>
 
-					<RouterLink to="/components/get-quote">
+					<RouterLink to="/example/get-quote">
 						<BButton class="w-100 mb-3">Get Quote</BButton>
 					</RouterLink>
 					
-					<RouterLink to="/components/parallax">
+					<RouterLink to="/example/parallax">
 						<BButton class="w-100 mb-3">Parallax</BButton>
 					</RouterLink>
 
-					<RouterLink to="/components/hours-and-contact">
+					<RouterLink to="/example/hours-and-contact">
 						<BButton class="w-100 mb-3">Hours and Contact</BButton>
 					</RouterLink>
 				</BCol>

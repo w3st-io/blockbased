@@ -58,17 +58,17 @@ router.get(
 						)
 					}
 				
-					res.status(200).send({
+					res.send({
 						executed: true,
 						status: true,
 						postObj: postObj,
 						commentsObj: commentsObj,
 					})
 				}
-				else { res.status(200).send(postObj) }
+				else { res.send(postObj) }
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/pages/post: Invalid params',
@@ -76,7 +76,7 @@ router.get(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/pages/post: Error --> ${err}`

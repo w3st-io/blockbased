@@ -19,6 +19,8 @@ router.get(
 			executed: true,
 			status: true,
 			node_env: config.NODE_ENV,
+			iexKey: config.IEX_PUBLIC_KEY,
+			iexSBKey: config.IEX_SB_PUBLIC_KEY,
 		})
 	}
 )

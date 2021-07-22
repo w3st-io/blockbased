@@ -7,7 +7,7 @@ const express = require('express')
 const usersCollection = require('../../../s-collections/usersCollection')
 const activitiesCollection = require('../../../s-collections/activitiesCollection')
 const Auth = require('../../../s-middleware/Auth')
-const socketUtil = require('../../../s-utils/socketUtil')
+const socketService = require('../../../s-socket/socketService')
 const timeUtil = require('../../../s-utils/timeUtil')
 
 
@@ -22,7 +22,7 @@ router.get(
 	async (req, res) => {
 		try {
 			// [INIT] Const //
-			const userSockets = socketUtil.getAllUserSockets()
+			const userSockets = socketService.getAllUserSockets()
 			const timeFrame = 60
 			const timeInterval = 1
 
@@ -58,7 +58,7 @@ router.get(
 				})
 			}
 
-			res.status(200).send({
+			res.send({
 				executed: true,
 				status: true,
 				users,
@@ -66,7 +66,7 @@ router.get(
 			})
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/pages/admin: Error --> ${err}`

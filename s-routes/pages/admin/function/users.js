@@ -40,7 +40,7 @@ router.get(
 
 				const totalPages = Math.ceil(count / limit)
 
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: true,
 					users: users,
@@ -49,7 +49,7 @@ router.get(
 				})
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/pages/admin/function/users: Invalid Params'
@@ -57,7 +57,7 @@ router.get(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/pages/admin/function/users: Error --> ${err}`

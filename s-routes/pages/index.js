@@ -7,8 +7,9 @@ const express = require('express')
 const postsCollection = require('../../s-collections/postsCollection')
 const config = require('../../s-config')
 const Auth = require('../../s-middleware/Auth')
-const cats = require('../../s-defaults/cats')
+const categories = require('../../s-defaults/categories')
 const cryptoQuote = require('../../s-utils/crypto-quote')
+const finnhub = require('../../s-api/finnhub')
 
 
 // [EXPRESS + USE] //
@@ -24,45 +25,63 @@ router.get(
 			let customHome = false
 			const user_id = (req.user_decoded) ? req.user_decoded.user_id : undefined
 
+			
 			// Set Custom Home Status //
 			if (config.CUSTOM_HOME == 'true') { customHome = true }
+			
+			
+			// [CRYPTO-QUOTE] //
+			const cryptoQuoteObj = cryptoQuote.prices()
 
-			for (let i = 0; i < cats.length; i++) {
-				// [FILL][TOTAL-POSTS] //
-				cats[i].totalPosts = (
-					await postsCollection.c_countByCat(cats[i].cat_id)
-				).count
 
-				// [FILL][RECENT-POST] //
-				cats[i].recentPost = (
-					await postsCollection.c_readByCatSorted(
+			// [FINNHUB] //
+			const news = finnhub.getNews()
+
+
+			// [CATEGORIES] //
+			for (let i = 0; i < categories.length; i++) {
+				const category = categories[i]
+
+				for (let ii = 0; ii < category.cats.length; ii++) {
+					const cat = category.cats[ii]
+					
+					// [FILL][TOTAL-POSTS] //
+					const { count: postCount } = await postsCollection.c_countByCat(
+						cat.cat_id
+					)
+
+					cat.totalPosts = postCount
+
+					// [FILL][RECENT-POST] //
+					const pObj = await postsCollection.c_readByCatSorted(
 						user_id,
-						cats[i].cat_id,
+						cat.cat_id,
 						0,
 						1,
 						0
 					)
-				).posts[0]
 
+					cat.recentPost = pObj.posts[0]
+				}
 			}
 			
 			// [TOP-POSTS] //
-			const topPosts = (
-				await postsCollection.c_readSorted(user_id, 1, 5, 0)
-			).posts
+			const topPObj = await postsCollection.c_readSorted(user_id, 1, 5, 0)
 
+			const topPosts = topPObj.posts
 			
-			res.status(200).send({
+			res.send({
 				executed: true,
 				status: true,
 				customHome: customHome,
-				cats: cats,
+				cryptoQuoteObj: cryptoQuoteObj,
+				categories: categories,
 				topPosts: topPosts,
-				cryptoQuote: cryptoQuote.prices,
+				news: news,
 			})
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/pages: Error --> ${err}`

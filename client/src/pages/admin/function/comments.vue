@@ -55,7 +55,7 @@
 	import Confirm from '@/components/controls/Confirm'
 	import PageNavButtons from '@/components/controls/PageNavButtons'
 	import Alert from '@/components/inform/Alert'
-	import router from '@router'
+	import router from '@/router'
 	import PageService from '@/services/PageService'
 
 	// [EXPORT] //

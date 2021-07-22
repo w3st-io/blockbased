@@ -16,7 +16,7 @@ const postFollowsCollection = require('../../../s-collections/postFollowsCollect
 const preeditedCommentsCollection = require('../../../s-collections/preeditedCommentsCollection')
 const notificationsCollection = require('../../../s-collections/notificationsCollection')
 const Auth = require('../../../s-middleware/Auth')
-const socketUtil = require('../../../s-utils/socketUtil')
+const socketService = require('../../../s-socket/socketService')
 
 
 // [EXPRESS + USE] //
@@ -31,6 +31,9 @@ router.post(
 	rateLimiter.commentLimiter,
 	async (req, res) => {
 		try {
+			// [INIT] //
+			const io = req.app.get('socketio')
+
 			// [VALIDATE] //
 			if (
 				validator.isAscii(req.body.post_id) &&
@@ -74,13 +77,13 @@ router.post(
 								)
 
 								// [SOCKET-READ] Get userSocket by user_id //
-								const userSocket = socketUtil.getUserSocketByUserId(
+								const userSocket = socketService.getSocketUserByUser_id(
 									pFObj.postFollows[i].user
 								)
 								
 								if (userSocket) {
 									// [EMIT] //
-									req.app.io.to(userSocket.socket_id).emit(
+									io.to(userSocket.socket_id).emit(
 										'update-notification'
 									)
 								}
@@ -103,13 +106,13 @@ router.post(
 							)
 
 							// [SOCKET-READ] Get userSocket by user_id //
-							const userSocket = socketUtil.getUserSocketByUserId(
+							const userSocket = socketService.getSocketUserByUser_id(
 								repliedToComment.comment.user._id
 							)
 							
 							if (userSocket) {
 								// [EMIT] //
-								req.app.io.to(userSocket.socket_id).emit(
+								io.to(userSocket.socket_id).emit(
 									'update-notification'
 								)
 							}
@@ -125,19 +128,19 @@ router.post(
 							created_comment_id: cObj.comment._id
 						})
 
-						res.status(200).send({
+						res.send({
 							executed: true,
 							status: true,
 							comment: cObj.comment,
 							cCObj: cCObj.count,
 						})
 					}
-					else { res.status(200).send(cObj) }
+					else { res.send(cObj) }
 				}
-				else { res.status(200).send(pObj) }
+				else { res.send(pObj) }
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					location: '/api/user/comments/create',
@@ -146,7 +149,7 @@ router.post(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				location: '/api/user/comments/create',
@@ -186,12 +189,12 @@ router.post(
 							cleanJSON: req.body.cleanJSON,
 						})
 						
-						res.status(200).send(updatedComment)
+						res.send(updatedComment)
 					}
-					else { res.status(200).send(preeditedComment) }
+					else { res.send(preeditedComment) }
 				}
 				else {
-					res.status(200).send({
+					res.send({
 						executed: true,
 						status: false,
 						message: ownership.message,
@@ -199,7 +202,7 @@ router.post(
 				}
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					location: '/api/user/comments/update',
@@ -208,7 +211,7 @@ router.post(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				location: '/api/user/comments/update',
@@ -251,16 +254,16 @@ router.delete(
 						req.params.comment_id
 					)
 
-					res.status(200).send({
+					res.send({
 						executed: true,
 						status: true,
 						deleted: [comment, commentLikes, notifications, activity],
 					})
 				}
-				else { res.status(200).send(comment) }
+				else { res.send(comment) }
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/api/user/comments/delete: Invalid comment_id'
@@ -269,7 +272,7 @@ router.delete(
 			*/
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				location: '/api/user/comments/delete',
@@ -309,10 +312,10 @@ router.post(
 						commentUser_id: req.body.commentUser_id
 					})
 
-					res.status(200).send(commentLike)
+					res.send(commentLike)
 				}
 				else {
-					res.status(200).send({
+					res.send({
 						executed: true,
 						status: false,
 						message: existance.message
@@ -320,7 +323,7 @@ router.post(
 				}
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					location: '/api/user/comments/like',
@@ -329,7 +332,7 @@ router.post(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				location: '/api/user/comments/like',
@@ -355,10 +358,10 @@ router.post(
 					comment_id: req.body.comment_id,
 				})
 				
-				res.status(200).send(commentLike)
+				res.send(commentLike)
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/api/user/comments/unlike: Invalid comment _id'
@@ -366,7 +369,7 @@ router.post(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/user/comments/unlike: Error --> ${err}`,
@@ -415,10 +418,10 @@ router.post(
 							req.body.reportType
 						)
 
-						res.status(200).send(commentReport)
+						res.send(commentReport)
 					}
 					else {
-						res.status(200).send({
+						res.send({
 							executed: true,
 							status: false,
 							message: existance.message,
@@ -427,7 +430,7 @@ router.post(
 					}
 				}
 				else {
-					res.status(200).send({
+					res.send({
 						executed: true,
 						status: false,
 						message: '/api/user/comments/report: Comment doesnt exist.'
@@ -435,7 +438,7 @@ router.post(
 				}
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/api/user/comments/report: Invalid params',
@@ -443,7 +446,7 @@ router.post(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/user/comments/report: Error --> ${err}`,

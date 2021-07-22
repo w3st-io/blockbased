@@ -190,10 +190,14 @@
 				if (this.data.status) {
 					// Store Posts & Cats //
 					this.posts = this.data.postsObj.posts
-					this.cats = this.data.cats
+					this.categories = this.data.categories
 
 					// Get Cat Details //
-					this.cat = this.cats.find(cat => cat.cat_id === this.cat_id)
+					this.categories.forEach(category => {
+						category.cats.forEach(cat => {
+							if (cat.cat_id === this.cat_id) { this.cat = cat }
+						})
+					})
 				}
 				else { this.error = this.data.message }
 

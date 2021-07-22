@@ -23,11 +23,13 @@
 			this.renderChart(
 				{
 					labels: this.labels,
-					datasets: [{
-						data: this.data,
-						backgroundColor: '#f45d223f',
-						borderColor: '#f45d22',
-					}]
+					datasets: [
+						{
+							data: this.data,
+							backgroundColor: '#f45d223f',
+							borderColor: '#f45d22',
+						}
+					]
 				},
 				{
 					elements: { line: { tension: 0 } },

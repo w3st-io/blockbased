@@ -18,32 +18,36 @@ import admin_function_users from '@/pages/admin/function/users'
 import admin_login from '@/pages/admin/login'
 import admin_profile from '@/pages/admin/profile'
 import admin_register from '@/pages/admin/register'
+// Asset //
+import asset from '@/pages/asset'
 // Cat //
 import cat from '@/pages/cat'
 // Comment //
 import comment_create from '@/pages/comment/create'
 import comment_edit from '@/pages/comment/edit'
 import comment_reply from '@/pages/comment/reply'
-// Components //
-import components from '@/pages/components'
-import components_bcarousel from '@/pages/components/bcarousel'
-import components_conveyor from '@/pages/components/conveyor'
-import components_getQuote from '../pages/components/get-quote'
-import components_parallax from '@/pages/components/parallax'
-import components_hoursAndContact from '@/pages/components/hours-and-contact'
 // Email //
 import emailSent from '@/pages/email-sent'
+// Example //
+import example from '@/pages/example'
+import example_bcarousel from '@/pages/example/bcarousel'
+import example_conveyor from '@/pages/example/conveyor'
+import example_getQuote from '../pages/example/get-quote'
+import example_parallax from '@/pages/example/parallax'
+import example_hoursAndContact from '@/pages/example/hours-and-contact'
+// Followed //
+import followed from '@/pages/followed'
 // Home //
 import home from '@/pages/home'
+// Notification //
+import notification from '@/pages/notification'
 // Post //
 import post from '@/pages/post'
 import post_create from '@/pages/post/create'
 // User //
 import user_activity from '@/pages/user/activity'
 import user_activity_lookup from '@/pages/user/activity/lookup'
-import user_followed from '@/pages/user/followed'
 import user_login from '@/pages/user/login'
-import user_notifications from '@/pages/user/notifications'
 import user_password_change from '@/pages/user/password/change'
 import user_password_request from '@/pages/user/password/request'
 import user_password_reset from '@/pages/user/password/reset'
@@ -163,6 +167,16 @@ const router = new Router ({
 				title: 'Admin Register'
 			}
 		},
+		// Asset //
+		{
+			path: '/asset/:exchange/:product_id/:timeframe',
+			name: 'asset',
+			component: asset,
+			meta: {
+				auth: true,
+				title: 'Asset'
+			}
+		},
 		// Cat //
 		{
 			path: '/cat/:cat_id/:sort/:limit/:page',
@@ -172,61 +186,6 @@ const router = new Router ({
 				auth: true,
 				title: `Cat -`
 			}
-		},
-		// Components //
-		{
-			path: '/components',
-			name: 'components',
-			component: components,
-			meta: {
-				auth: true,
-				title: 'Components'
-			},
-		},
-		{
-			path: '/components/bcarousel',
-			name: 'components_bcarousel',
-			component: components_bcarousel,
-			meta: {
-				auth: true,
-				title: 'Components Carousel'
-			},
-		},
-		{
-			path: '/components/conveyor',
-			name: 'components_conveyor',
-			component: components_conveyor,
-			meta: {
-				auth: true,
-				title: 'Components Carousel'
-			},
-		},
-		{
-			path: '/components/get-quote',
-			name: 'components_get-quote',
-			component: components_getQuote,
-			meta: {
-				auth: true,
-				title: 'Components Get Quote'
-			},
-		},
-		{
-			path: '/components/hours-and-contact',
-			name: 'components_hours-and-contact',
-			component: components_hoursAndContact,
-			meta: {
-				auth: true,
-				title: 'Components Hours and Contact'
-			},
-		},
-		{
-			path: '/components/parallax',
-			name: 'components_parallax',
-			component: components_parallax,
-			meta: {
-				auth: true,
-				title: 'Components Parallax'
-			},
 		},
 		// Comment //
 		{
@@ -266,6 +225,71 @@ const router = new Router ({
 				title: 'Email Sent'
 			},
 		},
+		// Components //
+		{
+			path: '/example',
+			name: 'example',
+			component: example,
+			meta: {
+				auth: true,
+				title: 'Example'
+			},
+		},
+		{
+			path: '/example/bcarousel',
+			name: 'example_bcarousel',
+			component: example_bcarousel,
+			meta: {
+				auth: true,
+				title: 'Example Carousel'
+			},
+		},
+		{
+			path: '/example/conveyor',
+			name: 'example_conveyor',
+			component: example_conveyor,
+			meta: {
+				auth: true,
+				title: 'Example Carousel'
+			},
+		},
+		{
+			path: '/example/get-quote',
+			name: 'example_get-quote',
+			component: example_getQuote,
+			meta: {
+				auth: true,
+				title: 'Example Get Quote'
+			},
+		},
+		{
+			path: '/example/hours-and-contact',
+			name: 'example_hours-and-contact',
+			component: example_hoursAndContact,
+			meta: {
+				auth: true,
+				title: 'Example Hours and Contact'
+			},
+		},
+		{
+			path: '/example/parallax',
+			name: 'example_parallax',
+			component: example_parallax,
+			meta: {
+				auth: true,
+				title: 'Example Parallax'
+			},
+		},
+		// Followed //
+		{
+			path: '/followed/:page',
+			name: 'followed',
+			component: followed,
+			meta: {
+				auth: true,
+				title: 'Posts You Are Following'
+			}
+		},
 		// Home //
 		{
 			path: '/home',
@@ -275,6 +299,16 @@ const router = new Router ({
 				auth: true,
 				title: 'Home'
 			},
+		},
+		// Notifications //
+		{
+			path: '/notification/:sort/:limit/:page',
+			name: 'notification',
+			component: notification,
+			meta: {
+				auth: true,
+				title: 'notification'
+			}
 		},
 		// Post //
 		{
@@ -315,30 +349,12 @@ const router = new Router ({
 			}
 		},
 		{
-			path: '/user/followed/:page',
-			name: 'user_followed',
-			component: user_followed,
-			meta: {
-				auth: true,
-				title: 'Posts You Are Following'
-			}
-		},
-		{
 			path: '/user/login',
 			name: 'user_login',
 			component: user_login,
 			meta: {
 				auth: true,
 				title: 'Login'
-			}
-		},
-		{
-			path: '/user/notifications/:sort/:limit/:page',
-			name: 'user_notifications',
-			component: user_notifications,
-			meta: {
-				auth: true,
-				title: 'notifications'
 			}
 		},
 		{
@@ -424,7 +440,7 @@ const router = new Router ({
 		},
 		// Search //
 		{
-			path: '/search/:query/:type/:limit/:page',
+			path: '/search/:query/:tab/:type/:limit/:page',
 			name: 'search',
 			component: search,
 			meta: {

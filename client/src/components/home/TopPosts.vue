@@ -32,7 +32,10 @@
 
 	export default {
 		props: {
-			topPosts: { type: Array, required: true, },
+			topPosts: {
+				type: Array,
+				required: true,
+			},
 		},
 
 		methods: {

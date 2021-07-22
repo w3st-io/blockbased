@@ -14,6 +14,7 @@
     "chart.js": "^2.9.4",
     "core-js": "^3.6.4",
     "feather-icons": "^4.28.0",
+    "fuzzy-search": "^3.2.1",
     "jquery": "^3.5.1",
     "jwt-decode": "^2.2.0",
     "socket.io-client": "^2.3.0",
@@ -28,7 +29,8 @@
     "vue-rellax": "^0.2.0",
     "vue-router": "^3.3.4",
     "vue-tiny-slider": "^0.1.39",
-    "vue-youtube-embed": "^2.2.2"
+    "vue-youtube-embed": "^2.2.2",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@editorjs/code": "^2.6.0",

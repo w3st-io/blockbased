@@ -26,10 +26,10 @@ router.get(
 					req.params.commentReport_id
 				)
 
-				res.status(200).send(returned)
+				res.send(returned)
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: 'Invalid commentReport_id'
@@ -37,7 +37,7 @@ router.get(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/admin/comment-reports/mark-handled: --> ${err}`,

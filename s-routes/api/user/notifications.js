@@ -42,7 +42,7 @@ router.get(
 					req.user_decoded.user_id,
 				)
 
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: true,
 					notifications: notifications,
@@ -50,7 +50,7 @@ router.get(
 				})
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/api/user/notifications/read-unread: Invalid Params'
@@ -58,7 +58,7 @@ router.get(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/user/notifications/read-unread: Error --> ${err}`,
@@ -81,10 +81,10 @@ router.get(
 					req.params.notification_id
 				)
 
-				res.status(200).send(returned)
+				res.send(returned)
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/api/user/notifications/mark-unread: Invalid notification_id'
@@ -92,7 +92,7 @@ router.get(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/user/notifications/mark-unread: Error --> ${err}`,

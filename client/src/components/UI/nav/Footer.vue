@@ -2,7 +2,7 @@
 	<!-- Footer -->
 	<footer class="pt-4 page-footer font-small bg-dark text-center">
 		<BButton
-			v-if="userLogged"
+			v-if="$store.state.userLogged"
 			variant="outline-secondary"
 			size="sm"
 			class="m-auto"
@@ -25,16 +25,6 @@
 	import UserService from '@/services/user/UserService'
 
 	export default {
-		data() {
-			return {
-				userLogged: false,
-			}
-		},
-
-		created() {
-			if (localStorage.usertoken) { this.userLogged = true }
-		},
-		
 		methods: {
 			logout() {
 				UserService.s_logout()

@@ -33,10 +33,10 @@ router.get(
 					hours
 				)
 
-				res.status(200).send(returned)
+				res.send(returned)
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/api/admin/users/ban: Invalid user_id'
@@ -44,7 +44,7 @@ router.get(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/admin/users/ban: Error --> ${err}`,

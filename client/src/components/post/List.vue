@@ -99,7 +99,10 @@
 	// [EXPORT] //
 	export default {
 		props: {
-			posts: { type: Array, required: true, },
+			posts: {
+				type: Array,
+				required: true,
+			},
 		},
 
 		components: {
@@ -181,12 +184,12 @@
 	@import 'src/assets/styles/bootstrap-override.scss';
 
 	li {
-		&:hover { @extend .bg-secondary; }
+		&:hover { background-color: rgba(255, 255, 255, 0.15) !important; }
 	}
 	
 	li:nth-child(even) {
 		background: $backgroundGrey !important;
-		&:hover { @extend .bg-secondary; }
+		&:hover { background-color: rgba(255, 255, 255, 0.15) !important; }
 	}
 
 	.btn { font-size: 1em; }

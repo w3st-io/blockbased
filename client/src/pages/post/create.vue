@@ -1,7 +1,7 @@
 <template>
 	<BContainer class="my-3">
 		<BCard bg-variant="dark">
-			<BRow>
+			<BRow v-if="!loading">
 				<BCol cols="12">
 					<h3 class="mb-3 text-light">Create Post in {{ catTitle }}</h3>
 
@@ -27,30 +27,13 @@
 
 		data() {
 			return {
+				loading: false,
 				cat_id: this.$route.params.cat_id,
-				data: {},
+				reqData: {},
 				cats: [],
 				cat: {},
 				catTitle: '',
 			}
-		},
-
-		created: async function() {
-			// [REDIRECT] Not Log Needed //
-			if (!localStorage.usertoken) { router.push({ name: 'user_login' }) }
-
-			this.data = await PageService.s_post_create()
-
-			if (this.data.status) {
-				// Store Cats //
-				this.cats = this.data.cats
-				// Get Cat Details //
-				this.cat = this.cats.find(cat => cat.cat_id === this.cat_id)
-				this.catTitle = this.cat.title
-			}
-			
-			// [LOG] //
-			this.log()
 		},
 
 		methods: {
@@ -58,14 +41,51 @@
 				if (localStorage.usertoken) {
 					console.log('submit')
 				}
-				else { this.error = 'Error unable to update comment, no token passed' }
+				else {
+					this.error = 'Error unable to update comment, no token passed'
+				}
 			},
 
 			log() {
 				console.log('%%% [PAGE] CatPostCreate %%%')
-				console.log('data:', this.data)
+				console.log('data:', this.reqData)
 				console.log('cat_id:', this.cat_id)
 			},
-		}
+
+			async getPageData() {
+				this.loading = true
+
+				this.reqData = await PageService.s_post_create()
+
+				if (this.reqData.status) {
+					// Store Cats //
+					this.categories = this.reqData.categories
+					
+					// Get Cat Details //
+					this.categories.forEach(category => {
+						console.log(category)
+
+						category.cats.forEach(cat => {
+							if (cat.cat_id === this.cat_id) { this.cat = cat }
+						})
+					})
+
+					this.catTitle = this.cat.title
+				}
+
+				this.loading = false
+			},
+		},
+
+		created: async function() {
+			// [REDIRECT] Not Log Needed //
+			if (!localStorage.usertoken) { router.push({ name: 'user_login' }) }
+
+			// Get Page Data //
+			await this.getPageData()
+			
+			// [LOG] //
+			this.log()
+		},
 	}
 </script>

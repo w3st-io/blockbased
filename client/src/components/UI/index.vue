@@ -7,7 +7,7 @@
 		<AdminNavBar v-if="adminLogged" />
 
 		<!-- Pop Up Notifications -->
-		<PopUpNotifications v-if="userLogged" />
+		<PopUpNotifications v-if="$store.state.userLogged" />
 
 		<!-- Floating Pop Up Banner -->
 		<PopUpBanner
@@ -36,14 +36,12 @@
 
 		data() {
 			return {
-				userLogged: false,
 				adminLogged: false,
 				message: '',
 			}
 		},
 
 		created() {
-			if (localStorage.usertoken) { this.userLogged = true }
 			if (localStorage.admintoken) { this.adminLogged = true }
 		},
 	}

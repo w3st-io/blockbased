@@ -46,16 +46,16 @@ router.delete(
 						req.params.comment_id
 					)
 	
-					res.status(200).send({
+					res.send({
 						executed: true,
 						status: true,
 						deleted: [comment, commentLikes, notifications, activity],
 					})
 				}
-				else { res.status(200).send(comment) }
+				else { res.send(comment) }
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/api/admin/comments/delete: Invalid comment_id'
@@ -63,7 +63,7 @@ router.delete(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/admin/comments/delete: Error --> ${err}`,

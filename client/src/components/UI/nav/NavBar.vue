@@ -20,21 +20,22 @@
 					<div class="collapse navbar-collapse">
 						<div class="navbar-nav mr-auto"></div>
 						<!-- Search and Button -->
-						<form class="input-group" style="width: 300px;">
-							<input
-								v-model="query"
-								type="text"
-								placeholder="Search"
-								class="form-control border-secondary bg-dark text-light"
-							>
-							<div class="input-group-append">
-								<BButton
-									:disabled="!query"
-									variant="outline-secondary"
-									type="submit"
-									@click="searchRedirect()"
-								>Search</BButton>
-							</div>
+						<form @submit.prevent="searchRedirect()">
+							<BInputGroup style="width: 300px;">
+								<BFormInput
+									v-model="query"
+									type="text"
+									placeholder="Search"
+									class="border-secondary bg-dark text-light"
+								/>
+								<div class="input-group-append">
+									<BButton
+										:disabled="!query"
+										variant="outline-secondary"
+										type="submit"
+									>Search</BButton>
+								</div>
+							</BInputGroup>
 						</form>
 					</div>
 				</nav>
@@ -60,26 +61,26 @@
 
 					<div>
 						<!-- Logged In -->
-						<NotificationMenu v-if="userLogged" />
+						<NotificationMenu v-if="$store.state.userLogged" />
 
 						<BButton
-							v-if="userLogged"
+							v-if="$store.state.userLogged"
 							variant="outline-primary"
 							size="sm"
 							class="ml-2"
 							@click="profileRedirect()"
-						>{{ user_decoded.username }}</BButton>
+						>{{ $store.state.user_decoded.username }}</BButton>
 
 						<!-- NOT Logged In -->
 						<BButton
-							v-if="!userLogged"
+							v-if="!$store.state.userLogged"
 							variant="outline-secondary"
 							size="sm"
 							@click="loginRedirect()"
 						>Login</BButton>
 						
 						<BButton
-							v-if="!userLogged"
+							v-if="!$store.state.userLogged"
 							variant="outline-primary"
 							size="sm"
 							class="ml-2"
@@ -101,9 +102,8 @@
 	import SideMenu from '@/components/UI/nav/SideMenu'
 	import defaultData from '@/defaults/companyInfo'
 	import buttons from '@/defaults/pageLinks'
-	import router from '@/router'
-	import UserService from '@/services/user/UserService'
 	import { EventBus } from '@/main'
+	import router from '@/router'
 
 	// [EXPORT] //
 	export default {
@@ -115,8 +115,6 @@
 		data() {
 			return {
 				defaultData: defaultData,
-				user_decoded: {},
-				userLogged: false,
 				query: '',
 				notifications: '',
 				totalNotifications: 0,
@@ -127,24 +125,7 @@
 			}
 		},
 
-		async created() {
-			await this.userTasks()
-
-			if (localStorage.usertoken) { this.userLogged = true }
-		},
-
 		methods: {
-			async userTasks() {
-				try {
-					if (localStorage.usertoken) {
-						this.userLogged = true
-
-						this.user_decoded = await UserService.s_getUserTokenDecodeData()
-					}
-				}
-				catch (err) { console.log(`Navbar: ${err}`) }
-			},
-
 			loginRedirect() { router.push({ name: 'user_login' }) },
 
 			registerRedirect() { router.push({ name: 'register' }) },
@@ -158,13 +139,14 @@
 						params: {
 							type: 'posts',
 							query: this.query,
+							tab: 0,
 							limit: 5,
 							page: 1,
 						}
 					})
-	
-					EventBus.$emit('force-rerender')
 				}
+
+				EventBus.$emit('force-rerender')
 			},
 
 			toggle() { this.sideMenuOpen = !this.sideMenuOpen },

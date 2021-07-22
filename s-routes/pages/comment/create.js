@@ -25,10 +25,10 @@ router.get(
 					req.params.post_id
 				)
 
-				res.status(200).send(postObj)
+				res.send(postObj)
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: 'Invalid post_id',
@@ -36,7 +36,7 @@ router.get(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/posts: Error --> ${err}`

@@ -121,7 +121,7 @@
 
 									<!-- Edit -->
 									<BButton
-										v-if="comment.user._id == user_decoded.user_id"
+										v-if="comment.user._id == $store.state.user_decoded.user_id"
 										variant="none"
 										size="sm"
 										@click="redirectToEdit(comment._id)"
@@ -208,7 +208,6 @@
 	import router from '@/router'
 	import a_commentService from '@/services/admin/CommentService'
 	import commentService from '@/services/user/CommentService'
-	import UserService from '@/services/user/UserService'
 	
 	// [EXPORT] //
 	export default {
@@ -232,7 +231,6 @@
 		data() {
 			return {
 				adminLoggedIn: false,
-				user_decoded: {},
 				disabled: false,
 				openedRepliedTo: null,
 				error: '',
@@ -241,10 +239,6 @@
 
 		async created() {
 			if (localStorage.admintoken) { this.adminLoggedIn = true }
-
-			if (localStorage.usertoken) {
-				this.user_decoded = await UserService.s_getUserTokenDecodeData()
-			}
 
 			// [LOG] //
 			//this.log()
@@ -341,7 +335,6 @@
 
 			log() {
 				console.log('%%% [COMPONENT] CommentList %%%')
-				console.log('user_decoded:', this.user_decoded)
 				console.log('Comments:', this.comments)
 				if (this.error) { console.error('error:', this.error) }
 			},

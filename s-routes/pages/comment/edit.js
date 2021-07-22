@@ -27,10 +27,10 @@ router.get(
 					comment_id: req.params.comment_id
 				})
 	
-				res.status(200).send(returned)
+				res.send(returned)
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/api/comments/edit: Invalid comment _id'
@@ -38,7 +38,7 @@ router.get(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/comments/edit: Error --> ${err}`,

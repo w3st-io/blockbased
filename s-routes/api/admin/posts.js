@@ -63,7 +63,7 @@ router.delete(
 					comments.status
 				) {
 					// [SUCCESS] //
-					res.status(200).send({
+					res.send({
 						executed: true,
 						status: true,
 						deleted: [
@@ -79,7 +79,7 @@ router.delete(
 
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/api/admin/posts/delete: Invalid post_id'
@@ -87,7 +87,7 @@ router.delete(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/admin/posts/delete: Error --> ${err}`,

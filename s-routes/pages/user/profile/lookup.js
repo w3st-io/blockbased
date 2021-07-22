@@ -102,7 +102,7 @@ router.get(
 							}
 						}
 
-						res.status(200).send({
+						res.send({
 							executed: true,
 							status: true,
 							user: userObj.user,
@@ -115,17 +115,17 @@ router.get(
 						})
 					}
 					else {
-						res.status(200).send({
+						res.send({
 							executed: true,
 							status: false,
 							message: 'User not Found'
 						})
 					}
 				}
-				else { res.status(200).send(userObj) }
+				else { res.send(userObj) }
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: 'Invalid user_id'
@@ -133,7 +133,7 @@ router.get(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/pages/user/profile/lookup: Error --> ${err}`

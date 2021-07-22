@@ -4,7 +4,7 @@ const express = require('express')
 
 
 // [REQUIRE] Personal //
-const cats = require('../../../s-defaults/cats')
+const categories = require('../../../s-defaults/categories')
 const Auth = require('../../../s-middleware/Auth')
 
 
@@ -17,14 +17,14 @@ router.get(
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
-			res.status(200).send({
+			res.send({
 				executed: true,
 				status: true,
-				cats: cats,
+				categories: categories,
 			})
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/pages/post/create: Error --> ${err}`

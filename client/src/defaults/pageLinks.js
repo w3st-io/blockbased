@@ -26,7 +26,7 @@ module.exports = [
 	},
 	{
 		text: 'Followed Posts',
-		path: '/user/followed/1',
+		path: '/followed/1',
 	},
 	{
 		text: 'All Activity',

@@ -94,7 +94,7 @@
 		methods: {
 			async getData() {
 				try {
-					this.data = await pageService.s_user_followed(
+					this.data = await pageService.s_followed(
 						1,
 						this.limit,
 						this.pageNumber
@@ -121,7 +121,7 @@
 					
 					// [REDIRECT] Cat Page //
 					router.push({
-						name: 'user_followed',
+						name: 'followed',
 						params: { page: this.pageNumber }
 					})
 				}
@@ -137,7 +137,7 @@
 					
 					// [REDIRECT] Cat Page //
 					router.push({
-						name: 'user_followed',
+						name: 'followed',
 						params: { page: this.pageNumber }
 					})
 				}

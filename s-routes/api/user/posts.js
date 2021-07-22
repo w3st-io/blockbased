@@ -71,7 +71,7 @@ router.post(
 						
 							if (cActivity.status) {
 								// [SUCCESS] //
-								res.status(200).send({
+								res.send({
 									executed: true,
 									status: true,
 									post: post,
@@ -80,16 +80,16 @@ router.post(
 									commentActivity: cActivity,
 								})
 							}
-							else { res.status(200).send(cActivity) }	
+							else { res.send(cActivity) }	
 						}
-						else { res.status(200).send(comment) }						
+						else { res.send(comment) }						
 					}
-					else { res.status(200).send(pActivity) }
+					else { res.send(pActivity) }
 				}
-				else { res.status(200).send(post) }
+				else { res.send(post) }
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/api/user/posts/create: Invalid Params'
@@ -97,7 +97,7 @@ router.post(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/user/posts/create: Error --> ${err}`,
@@ -140,7 +140,7 @@ router.post(
 							req.body.post_id
 						)
 
-						res.status(200).send({
+						res.send({
 							executed: true,
 							status: true,
 							postLike: postLikeObj,
@@ -149,14 +149,14 @@ router.post(
 					}
 					else { res.send(200).send(postLikeObj) }
 				}
-				else { res.status(200).send({
+				else { res.send({
 					executed: true,
 					status: false,
 					message: existance.message
 				}) }
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/api/user/posts/like: Invalid post _id'
@@ -164,7 +164,7 @@ router.post(
 			}
 		} 
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/user/posts/like: Error --> ${err}`
@@ -200,7 +200,7 @@ router.post(
 							req.body.post_id
 						)
 
-						res.status(200).send({
+						res.send({
 							executed: true,
 							status: true,
 							postLike: postLikeObj,
@@ -209,10 +209,10 @@ router.post(
 					}
 					else { res.send(200).send(postLikeObj) }
 				}
-				else { res.status(200).send(existance) }
+				else { res.send(existance) }
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/api/user/posts/unlike: Invalid post_id'
@@ -220,7 +220,7 @@ router.post(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/user/posts/unlike:: Error --> ${err}`
@@ -244,10 +244,10 @@ router.post(
 					req.body.post_id
 				)
 				
-				res.status(200).send(returned)
+				res.send(returned)
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/api/user/posts/follow: Invalid post _id',
@@ -255,7 +255,7 @@ router.post(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/user/posts/follow: Error --> ${err}`
@@ -278,10 +278,10 @@ router.post(
 					req.body.post_id
 				)
 				
-				res.status(200).send(pFObj)
+				res.send(pFObj)
 			}
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					message: '/api/user/posts/unfollow: Invalid post _id',
@@ -289,7 +289,7 @@ router.post(
 			}
 		}
 		catch (err) {
-			res.status(200).send({
+			res.send({
 				executed: false,
 				status: false,
 				message: `/api/user/posts/unfollow: Error --> ${err}`

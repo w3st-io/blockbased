@@ -7,7 +7,7 @@ class Auth {
 		return (req, res, next) => {
 			if (config.ADMIN_FUNCTIONALITY === 'true') { next() }
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					location: '/s-middleware/Functionality/',
@@ -21,7 +21,7 @@ class Auth {
 		return (req, res, next) => {
 			if (config.USER_FUNCTIONALITY === 'true') { next() }
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					location: '/s-middleware/Functionality/',
@@ -35,7 +35,7 @@ class Auth {
 		return (req, res, next) => {
 			if (config.PAYMENT_FUNCTIONALITY === 'true') { next() }
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					location: '/s-middleware/Functionality/',
@@ -49,7 +49,7 @@ class Auth {
 		return (req, res, next) => {
 			if (config.COMMENT_FUNCTIONALITY === 'true') { next() }
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					location: '/s-middleware/Functionality/',
@@ -63,7 +63,7 @@ class Auth {
 		return (req, res, next) => {
 			if (config.POST_FUNCTIONALITY === 'true') { next() }
 			else {
-				res.status(200).send({
+				res.send({
 					executed: true,
 					status: false,
 					location: '/s-middleware/Functionality/',
