@@ -2,47 +2,71 @@
 const mongoose = require('mongoose')
 
 
-module.exports = mongoose.model(
-	'Activity',
-	mongoose.Schema({
-		_id: mongoose.Schema.Types.ObjectId,
+// [VALIDATOR] //
+function validate({ activity }) {
+	return { status: true }
+}
 
-		user: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-			required: true,
-		},
 
-		post: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Post',
-		},
+const activity = mongoose.Schema({
+	_id: mongoose.Schema.Types.ObjectId,
 
-		type: {
-			type: String,
-			required: true,
-			enum: ['comment', 'manager', 'post', 'user'],
-		},
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+		required: true,
+	},
 
-		created_user: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'User',
-		},
+	post: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Post',
+	},
 
-		created_post: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Post',
-		},
+	type: {
+		type: String,
+		required: true,
+		enum: ['comment', 'manager', 'post', 'user'],
+	},
 
-		created_comment: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Comment',
-		},
+	created_user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+	},
 
-		created_at: {
-			type: Date,
-			default: Date.now,
-			maxlength: 50
-		},
-	})
-)
+	created_post: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Post',
+	},
+
+	created_comment: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Comment',
+	},
+
+	created_at: {
+		type: Date,
+		default: Date.now,
+		maxlength: 50
+	},
+})
+
+
+activity.pre('validate', function (next) {
+	const status = validate({ activity: this })
+
+	if (status.status == false) { throw status.message }
+	
+	next()
+})
+
+
+activity.pre('updateOne', function (next) {
+	const status = validate({ activity: this._update.$set })
+
+	if (status.status == false) { throw status.message }
+	
+	next()
+})
+
+
+module.exports = mongoose.model('Activity', activity)
