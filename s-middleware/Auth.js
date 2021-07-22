@@ -39,6 +39,7 @@ class Auth {
 								res.send({
 									executed: true,
 									status: false,
+									location: '/s-middleware/Auth',
 									message: 'Access Denied: Invalid Token',
 									auth: false,
 								})
@@ -48,6 +49,7 @@ class Auth {
 							res.send({
 								executed: true,
 								status: false,
+								location: '/s-middleware/Auth',
 								message: `Access Denied: JWT Error --> ${err}`,
 								auth: false,
 							})
@@ -58,6 +60,7 @@ class Auth {
 					res.send({
 						executed: true,
 						status: false,
+						location: '/s-middleware/Auth',
 						message: 'Access denied: Not valid JWT',
 						auth: false,
 					})
@@ -67,6 +70,7 @@ class Auth {
 				res.send({
 					executed: true,
 					status: false,
+					location: '/s-middleware/Auth',
 					message: 'Access denied: No token passed',
 					auth: false,
 				})
@@ -93,6 +97,7 @@ class Auth {
 							res.send({
 								executed: true,
 								status: false,
+								location: '/s-middleware/Auth',
 								message: 'Access Denied: Invalid Token',
 								auth: false,
 							})
@@ -150,6 +155,7 @@ class Auth {
 								res.send({
 									executed: true,
 									status: false,
+									location: '/s-middleware/Auth',
 									message: `Access denied: JWT Error --> ${err}`,
 									auth: false,
 								})
@@ -159,6 +165,7 @@ class Auth {
 							res.send({
 								executed: false,
 								status: false,
+								location: '/s-middleware/Auth',
 								message: `Auth: Error --> ${err}`
 							})
 						}
@@ -168,6 +175,7 @@ class Auth {
 					res.send({
 						executed: true,
 						status: false,
+						location: '/s-middleware/Auth',
 						message: 'Access denied: Not valid JWT',
 						auth: false,
 					})
@@ -177,6 +185,7 @@ class Auth {
 				res.send({
 					executed: true,
 					status: false,
+					location: '/s-middleware/Auth',
 					message: 'Access denied: No token passed',
 					auth: false,
 				})
@@ -244,6 +253,7 @@ class Auth {
 								res.send({
 									executed: false,
 									status: false,
+									location: '/s-middleware/Auth',
 									message: `Auth: Error --> ${err}`
 								})
 							}
@@ -252,6 +262,7 @@ class Auth {
 							res.send({
 								executed: true,
 								status: false,
+								location: '/s-middleware/Auth',
 								message: `Access denied: JWT Error --> ${err}`,
 								auth: false,
 							})
@@ -262,6 +273,7 @@ class Auth {
 					res.send({
 						executed: true,
 						status: false,
+						location: '/s-middleware/Auth',
 						message: 'Access denied: Not valid JWT',
 						auth: false,
 					})
@@ -271,6 +283,7 @@ class Auth {
 				res.send({
 					executed: true,
 					status: false,
+					location: '/s-middleware/Auth',
 					message: 'Access denied: No token passed',
 					auth: false,
 				})

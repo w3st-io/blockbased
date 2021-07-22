@@ -10,7 +10,7 @@ class Auth {
 				res.send({
 					executed: true,
 					status: false,
-					location: '/s-middleware/Functionality/',
+					location: '/s-middleware/Functionality',
 					message: 'This app does not support a user/admin system',
 				})
 			}
@@ -24,7 +24,7 @@ class Auth {
 				res.send({
 					executed: true,
 					status: false,
-					location: '/s-middleware/Functionality/',
+					location: '/s-middleware/Functionality',
 					message: 'This app does not support a user/admin system',
 				})
 			}
@@ -38,7 +38,7 @@ class Auth {
 				res.send({
 					executed: true,
 					status: false,
-					location: '/s-middleware/Functionality/',
+					location: '/s-middleware/Functionality',
 					message: 'This app does not support a payment system',
 				})
 			}
@@ -52,7 +52,7 @@ class Auth {
 				res.send({
 					executed: true,
 					status: false,
-					location: '/s-middleware/Functionality/',
+					location: '/s-middleware/Functionality',
 					message: 'Comment functionalities are disabled',
 				})
 			}
@@ -66,7 +66,7 @@ class Auth {
 				res.send({
 					executed: true,
 					status: false,
-					location: '/s-middleware/Functionality/',
+					location: '/s-middleware/Functionality',
 					message: 'Post functionalities are disabled',
 				})
 			}
