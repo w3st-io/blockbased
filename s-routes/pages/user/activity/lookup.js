@@ -50,7 +50,7 @@ router.get(
 				res.send({
 					executed: true,
 					status: false,
-					location: '/pages/user/activity',
+					location: '/pages/user/activity/lookup',
 					message: 'Invalid params',
 				})
 			}
@@ -59,7 +59,7 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				location: '/pages/activity',
+				location: '/pages/user/activity/lookup',
 				message: `Caught Error --> ${err}`
 			})
 		}

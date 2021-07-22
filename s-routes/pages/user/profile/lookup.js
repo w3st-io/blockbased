@@ -136,7 +136,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/pages/user/profile/lookup: Error --> ${err}`
+				location: '/pages/user/profile/lookup',
+				message: `Caught Error --> ${err}`
 			})
 		}
 	}

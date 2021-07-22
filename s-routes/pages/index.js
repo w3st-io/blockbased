@@ -84,7 +84,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/pages: Error --> ${err}`
+				location: '/pages',
+				message: `Caught Error --> ${err}`
 			})
 		}
 	}

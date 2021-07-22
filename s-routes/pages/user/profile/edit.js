@@ -28,7 +28,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/user/read: Error --> ${err}`,
+				location: '/api/user/read',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}
