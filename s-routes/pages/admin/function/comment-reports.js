@@ -52,7 +52,8 @@ router.get(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/pages/admin/function/commentReports: Invalid Params'
+					location: '/pages/admin/function/commentReports',
+					message: 'Invalid Params',
 				})
 			}
 		}
@@ -60,7 +61,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/pages/admin/function/commentReports: Error --> ${err}`
+				location: '/pages/admin/function/commentReports',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}

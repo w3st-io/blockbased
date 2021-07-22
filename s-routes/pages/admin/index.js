@@ -61,15 +61,17 @@ router.get(
 			res.send({
 				executed: true,
 				status: true,
-				users,
-				activityData,
+				users: users,
+				location: '/pages/admin',
+				activityData: activityData,
 			})
 		}
 		catch (err) {
 			res.send({
 				executed: false,
 				status: false,
-				message: `/pages/admin: Error --> ${err}`
+				location: '/pages/admin',
+				message: `/pages/admin: Error --> ${err}`,
 			})
 		}
 	}

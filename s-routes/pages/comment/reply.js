@@ -33,7 +33,8 @@ router.get(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/api/comments/reply: Invalid comment _id'
+					location: '/pages/comment/reply',
+					message: 'Invalid comment _id',
 				})
 			}
 		}
@@ -41,7 +42,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/comments/reply: Error --> ${err}`,
+				location: '/pages/comment/reply',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	},

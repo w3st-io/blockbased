@@ -9,7 +9,6 @@ const validator = require('validator')
 
 // [REQUIRE] Personal //
 const mailerUtil = require('../../s-utils/mailerUtil')
-const config = require('../../s-config')
 
 
 // [EXPRESS + USE] //
@@ -68,7 +67,8 @@ router.post(
 				res.send({
 					executed: true,
 					status: false,
-					message: `/api/mail/get-quote: Invalid params`
+					location: '/api/mail/get-quote',
+					message: 'Invalid params'
 				})
 			}
 		}
@@ -76,7 +76,8 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/admins/get-quote: Error --> ${err}`
+				location: '/api/mail/get-quote',
+				message: `Caught Error --> ${err}`
 			})
 		}
 	}

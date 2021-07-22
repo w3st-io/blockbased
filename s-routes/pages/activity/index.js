@@ -47,7 +47,8 @@ router.get(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/pages/activity: Invalid params'
+					location: '/pages/activity',
+					message: 'Invalid params'
 				})
 			}
 		}
@@ -55,7 +56,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/pages/activity: Error --> ${err}`
+				message: '/pages/activity',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}

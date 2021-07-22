@@ -69,7 +69,8 @@ router.get(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/pages/cat: Invalid Params'
+					location: '/pages/cat',
+					message: 'Invalid Params'
 				})
 			}
 		}
@@ -77,7 +78,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/pages/post/followed: Error --> ${err}`
+				location: '/pages/followed',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	},

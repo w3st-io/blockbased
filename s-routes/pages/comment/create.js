@@ -31,6 +31,7 @@ router.get(
 				res.send({
 					executed: true,
 					status: false,
+					location: '/pages/comment/create',
 					message: 'Invalid post_id',
 				})
 			}
@@ -39,7 +40,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/api/posts: Error --> ${err}`
+					location: '/pages/comment/create',
+					message: `Caught Error --> ${err}`
 			})
 		}
 	}

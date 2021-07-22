@@ -27,7 +27,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/pages/post/create: Error --> ${err}`
+				location: '/pages/post/create',
+				message: `Caught Error --> ${err}`
 			})
 		}
 	}

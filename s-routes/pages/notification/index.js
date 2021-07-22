@@ -59,7 +59,8 @@ router.get(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/pages/notifications: Invalid Params'
+					location: '/pages/notifications',
+					message: 'Invalid Params',
 				})
 			}
 		}
@@ -67,7 +68,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/pages/notifications: Error --> ${err}`
+				location: '/pages/notifications',
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	},

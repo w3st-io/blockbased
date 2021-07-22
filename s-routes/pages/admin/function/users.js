@@ -52,7 +52,8 @@ router.get(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/pages/admin/function/users: Invalid Params'
+					location: '/pages/admin/function/users',
+					message: 'Invalid Params'
 				})
 			}
 		}
@@ -60,7 +61,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/pages/admin/function/users: Error --> ${err}`
+				location: '/pages/admin/function/users',
+				message: `Caught Error --> ${err}`
 			})
 		}
 	}
