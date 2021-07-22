@@ -1,6 +1,6 @@
 module.exports = {
 	companyLogo: '',
-	companyName: 'RpTide',
+	companyName: 'Blockbased.io',
 	companyCaption: 'Caption',
 
 	address: '123 Main St. Teaneck, NJ 07666',
