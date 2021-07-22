@@ -2,6 +2,12 @@
 const mongoose = require('mongoose')
 
 
+// [VALIDATOR] //
+function validate({ commentReport }) {
+	return { status: true }
+}
+
+
 const commentReport = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
@@ -45,6 +51,24 @@ const commentReport = mongoose.Schema({
 		default: Date.now,
 		maxlength: 50
 	},
+})
+
+
+commentReport.pre('validate', function (next) {
+	const status = validate({ commentReport: this })
+
+	if (status.status == false) { throw status.message }
+	
+	next()
+})
+
+
+commentReport.pre('updateOne', function (next) {
+	const status = validate({ commentReport: this._update.$set })
+
+	if (status.status == false) { throw status.message }
+	
+	next()
 })
 
 
