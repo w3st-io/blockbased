@@ -240,7 +240,7 @@ router.get(
 			res.send({
 				executed: true,
 				status: true,
-				location: '/api',
+				location: '/api/database',
 				message: 'created',
 			})
 		}
@@ -248,7 +248,7 @@ router.get(
 			res.send({
 				executed: true,
 				status: true,
-				location: '/api',
+				location: '/api/database',
 				message: `Caught Err --> ${err}`,
 			})
 		}

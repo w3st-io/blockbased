@@ -66,7 +66,7 @@ router.get(
 				executed: false,
 				status: false,
 				message: '/pages/admin/function/posts',
-				message: `/pages/admin/function/posts: Error --> ${err}`,
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}

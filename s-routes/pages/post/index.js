@@ -71,7 +71,8 @@ router.get(
 				res.send({
 					executed: true,
 					status: false,
-					message: '/pages/post: Invalid params',
+					location: '/pages/post',
+					message: 'Invalid params',
 				})
 			}
 		}
@@ -79,7 +80,8 @@ router.get(
 			res.send({
 				executed: false,
 				status: false,
-				message: `/pages/post: Error --> ${err}`
+				location: '/pages/post',
+				message: `Caught Error --> ${err}`
 			})
 		}
 	}

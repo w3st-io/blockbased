@@ -128,7 +128,7 @@ router.post(
 									executed: true,
 									status: false,
 									location: '/api/mail/careers',
-									message: `/api/mail/careers: Error --> ${err}`,
+									message: `Caught Error --> ${err}`,
 								})
 							}
 						})
@@ -144,7 +144,7 @@ router.post(
 									executed: true,
 									status: false,
 									location: '/api/mail/careers',
-									message: `/api/mail/careers: Error --> ${err}`,
+									message: `Caught Error --> ${err}`,
 								})
 							}
 						})
@@ -171,7 +171,7 @@ router.post(
 					executed: true,
 					status: false,
 					location: `/api/mail/careers`,
-					message: `/api/mail/careers: Invalid params`,
+					message: `Invalid params`,
 				})
 			}
 		}
@@ -180,7 +180,7 @@ router.post(
 				executed: false,
 				status: false,
 				location: '/api/mail/careers',
-				message: `/api/mail/careers: Error --> ${err}`,
+				message: `Caught Error --> ${err}`,
 			})
 		}
 	}
