@@ -18,7 +18,7 @@
 
 		mounted() {
 			this.adsenseContent = document.getElementById(
-				'div-adsense-display-none'
+				'div-adsense'
 			).innerHTML
 		}
 	}
