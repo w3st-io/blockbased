@@ -7,6 +7,7 @@
 			:dogeHistoricRate="dogeHistoricRate"
 			:ethHistoricRate="ethHistoricRate"
 		/>
+
 		<!-- IEX News -->
 		<BRow v-if="!loading && newsObj.length > 0">
 			<BCol cols="12" lg="8" xl="9" class="p-0">
@@ -35,6 +36,7 @@
 					no-body
 				>
 					<h6 class="text-center text-secondary">Sponsor</h6>
+					
 					<!-- Adsense -->
 					<Adsense class="mt-3" />
 				</BCard>
