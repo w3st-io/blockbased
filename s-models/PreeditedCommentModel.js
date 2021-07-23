@@ -86,7 +86,17 @@ const preeditedComment = mongoose.Schema({
 			{
 				type: {
 					type: String,
-					enum: ['code', 'delimiter', 'embed', 'header', 'image', 'list', 'paragraph', 'quote', 'table'],
+					enum: [
+						'code',
+						'delimiter',
+						'embed',
+						'header',
+						'image',
+						'list',
+						'paragraph',
+						'quote',
+						'table'
+					],
 				},
 			
 				data: {
