@@ -35,6 +35,8 @@
 					no-body
 				>
 					<h6 class="text-center text-secondary">Sponsor</h6>
+					<!-- Adsense -->
+					<Adsense class="mt-3" />
 				</BCard>
 			</BCol>
 		</BRow>
