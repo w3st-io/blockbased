@@ -2,6 +2,34 @@
 const mongoose = require('mongoose')
 
 
+// [VALIDATOR] //
+function validate({ product }) {
+	// [LENGTH-CHECK] Blocks //
+	if (product.productVariants.length > 20) {
+		return {
+			status: false,
+			message: 'Error: too many variants'
+		}
+	}
+
+	if (product.productExtras.length > 20) {
+		return {
+			status: false,
+			message: 'Error: too many extras'
+		}
+	}
+	
+	if (product.productAdditions.length > 20) {
+		return {
+			status: false,
+			message: 'Error: too many additions'
+		}
+	}
+
+	return { status: true }
+}
+
+
 const product = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	
@@ -86,30 +114,18 @@ const product = mongoose.Schema({
 
 
 product.pre('validate', function (next) {
-	// [LENGTH-CHECK] Blocks //
-	if (this.productVariants.length > 20) { throw ('Error: too many variants') }
+	const status = validate({ product: this })
 
-	if (this.productExtras.length > 20) { throw ('Error: too many extras') }
-	
-	if (this.productAdditions.length > 20) { throw ('Error: too many additions') }
-	
+	if (status.status == false) { throw status.message }
+
 	next()
 })
 
 
 product.pre('updateOne', function (next) {
-	// [LENGTH-CHECK] Blocks //
-	if (this._update.$set.productVariants.length > 500) {
-		throw ('Error: too many variants')
-	}
+	const status = validate({ product: this._update.$set })
 
-	if (this._update.$set.productExtras.length > 500) {
-		throw ('Error: too many extras')
-	}
-
-	if (this._update.$set.productAddition.length > 500) {
-		throw ('Error: too many additions')
-	}
+	if (status.status == false) { throw status.message }
 	
 	next()
 })
