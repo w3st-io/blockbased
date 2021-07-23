@@ -23,7 +23,5 @@
 <style lang="scss" scoped>
 	.adholder {
 		background: #1d1f29;
-		padding-top: 60px;
-		text-align: center;
 	}
 </style>
