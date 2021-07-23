@@ -1,5 +1,12 @@
 <template>
 	<BContainer class="my-3">
+		<BRow class="">
+			<BCol cols="12">
+				<!-- Adsense -->
+				<Adsense class="mb-3 bg-dark" />
+			</BCol>
+		</BRow>
+
 		<!-- Crypto Market -->
 		<CryptoChart
 			v-if="!loading"
@@ -10,7 +17,7 @@
 
 		<!-- IEX News -->
 		<BRow v-if="!loading && newsObj.length > 0">
-			<BCol cols="12" lg="8" xl="9" class="p-0">
+			<BCol cols="12" lg="8" xl="9">
 				<BCard bg-variant="dark" text-variant="light" class="mb-3">
 					<MainArticle :news="newsObj[0]" class="mb-4" />
 					<ArticleConveyor :slides="newsObj.slice(1, 20)" />
@@ -36,9 +43,9 @@
 					no-body
 				>
 					<h6 class="text-center text-secondary">Sponsor</h6>
-					
+
 					<!-- Adsense -->
-					<Adsense class="mt-3" />
+					<AdsenseTall />
 				</BCard>
 			</BCol>
 		</BRow>
@@ -52,10 +59,7 @@
 						groupName="General"
 						class="mb-3"
 					/>
-				</BCard>
-
-				<!-- Adsense -->
-				<Adsense class="mt-3" />
+				</BCard>				
 			</BCol>
 
 			<!-- Side Content -->
@@ -83,6 +87,7 @@
 <script>
 	// [IMPORT] //
 	import Adsense from '@/components/adsense'
+	import AdsenseTall from '@/components/adsense/Tall'
 	import CatList from '@/components/cat/List'
 	import Alert from '@/components/inform/Alert'
 	import ArticleConveyor from '@/components/home/ArticleConveyor'
@@ -113,6 +118,7 @@
 		components: {
 			ArticleConveyor,
 			Adsense,
+			AdsenseTall,
 			CatList,
 			Alert,
 			CryptoChart,

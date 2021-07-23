@@ -15,7 +15,7 @@
 		},
 
 		created() {
-			this.adsenseContent = document.getElementById('div-adsense').innerHTML
+			this.adsenseContent = document.getElementById('div-adsense-square').innerHTML
 		}
 	}
 </script>

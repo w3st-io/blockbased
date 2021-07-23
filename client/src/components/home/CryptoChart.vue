@@ -1,6 +1,6 @@
 <template>
 	<BRow  class="">
-		<BCol cols="12" sm="4" class="pl-0">
+		<BCol cols="12" sm="4" class="">
 			<!-- Bitcoin Hour Chart -->
 			<BCard bg-variant="dark" text-variant="light" no-body class="mb-3 p-2">
 				<h6 class="text-light">
@@ -41,7 +41,7 @@
 			</BCard>
 		</BCol>
 
-		<BCol cols="12" sm="4" class="pl-0">
+		<BCol cols="12" sm="4" class="">
 			<!-- Ethereum Hour Chart -->
 			<BCard bg-variant="dark" text-variant="light" no-body class="mb-3 p-2">
 				<h6 class="text-light">
@@ -82,7 +82,7 @@
 			</BCard>
 		</BCol>
 
-		<BCol cols="12" sm="4" class="pl-0">
+		<BCol cols="12" sm="4" class="">
 			<!-- Doge Hour Chart -->
 			<BCard bg-variant="dark" text-variant="light" no-body class="mb-3 p-2">
 				<h6 class="text-light">
