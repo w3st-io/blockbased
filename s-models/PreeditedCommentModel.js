@@ -2,6 +2,52 @@
 const mongoose = require('mongoose')
 
 
+// [VALIDATOR] //
+function validate({ preeditedComment }) {
+	// [LENGTH-CHECK] Blocks //
+	if (preeditedComment.cleanJSON.blocks.length > 20) {
+		return {
+			status: false,
+			message: 'Error: Comment too large'
+		}
+	}
+		
+	preeditedComment.cleanJSON.blocks.forEach((block) => {
+		// [LENGTH-CHECK] List Items //
+		if (block.data.items) {
+			return {
+				status: false,
+				message: 'Error: Too many list-items'
+			}
+		}
+		
+		// [LENGTH-CHECK] Table ROW //
+		if (block.data.content) {
+			if (block.data.content.length > 20) {
+				return {
+					status: false,
+					message: 'Error: Too many Rows'
+				}
+			}
+		}
+
+		// [LENGTH-CHECK] Table COLUMN //
+		if (block.data.content) {
+			block.data.content.forEach((col) => {
+				if (col.length > 20) {
+					return {
+						status: false,
+						message: 'Error: Too many Columns'
+					}
+				}
+			})
+		}
+	})
+
+	return { status: true }
+}
+
+
 const preeditedComment = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 
@@ -153,34 +199,10 @@ const preeditedComment = mongoose.Schema({
 })
 
 
-preeditedComment.pre('validate', function(next) {
-	// [LENGTH-CHECK] Blocks //
-	if (this.cleanJSON.blocks.length > 20) { throw ('Error: Comment too large') }
+preeditedComment.pre('validate', function (next) {
+	const status = validate({ preeditedComment: this })
 
-	this.cleanJSON.blocks.forEach(block => {
-		// [LENGTH-CHECK] List Items //
-		if (block.data.items) {
-			if (block.data.items.length > 20) {
-				throw ('Error: Too many list-items')
-			}
-		}
-		
-		// [LENGTH-CHECK] Table ROW //
-		if (block.data.content) {
-			if (block.data.content.length > 20) {
-				throw ('Error: Too many Rows')
-			}
-		}
-
-		// [LENGTH-CHECK] Table COLUMN //
-		if (block.data.content) {
-			block.data.content.forEach(col => {
-				if (col.length > 20) {
-					throw ('Error: Too many Columns')
-				}
-			})
-		}
-	})
+	if (status.status == false) { throw status.message }
 	
 	next()
 })
