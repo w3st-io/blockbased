@@ -15,12 +15,20 @@
 			:ethHistoricRate="ethHistoricRate"
 		/>
 
-		<!-- IEX News -->
 		<BRow v-if="!loading && newsObj.length > 0">
 			<BCol cols="12" lg="8" xl="9">
-				<BCard bg-variant="dark" text-variant="light" class="mb-3">
-					<MainArticle :news="newsObj[0]" class="mb-4" />
-					<ArticleConveyor :slides="newsObj.slice(1, 20)" />
+				<!-- [FINNHUB] News -->
+				<BCard
+					no-body
+					bg-variant="dark"
+					text-variant="light"
+					class="mb-3 px-3 py-2 pb-4"
+				>
+					<h6 class="text-center text-light">
+						<span class="bg-primary px-1">Latest News</span>
+					</h6>
+					<MainArticle :news="newsObj[0]" class="d-none d-sm-block mb-4" />
+					<ArticleConveyor :slides="newsObj.slice(0, 15)" />
 				</BCard>
 			</BCol>
 
