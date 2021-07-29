@@ -2,7 +2,7 @@
 	<BContainer fluid class="p-0">
 		<BRow>
 			<!-- Left Button -->
-			<BCol cols="12" sm="2" md="1" class="d-none d-sm-block mb-0 text-left">
+			<BCol cols="2" md="1" class="mb-0 text-left">
 				<BButton
 					variant="outline-primary"
 					id="prevButton"
@@ -12,7 +12,7 @@
 			</BCol>
 
 			<!-- All Sliders -->
-			<BCol cols="12" sm="8" md="10" class="my-slider">
+			<BCol cols="8" md="10" class="my-slider">
 				<!-- Tiny Slider -->
 				<VueTinySlider
 					v-bind="options"
@@ -57,7 +57,7 @@
 			</BCol>
 
 			<!-- Right Button -->
-			<BCol cols="12" sm="2" md="1" class="d-none d-sm-block mb-0 text-right">
+			<BCol cols="2" md="1" class="mb-0 text-right">
 				<BButton
 					variant="outline-primary"
 					id="nextButton"
