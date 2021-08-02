@@ -10,24 +10,24 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state: {
-		node_env: localStorage.node_env == 'development' ?
-		'development' : 'production',
+		node_env: localStorage.node_env == 'development' ? 'development' : 'production',
 
 		showIntro: true,
 		loading: false,
 
-		userLogged: false,
-		adminLogged: false,
+		showMenu: false,
 
+		userLogged: false,
 		user_decoded: {},
+		
+		adminLogged: false,
 		admin_decoded: {},
 
 		iexKey: '',
 		iexSBKey: '',
 		
 		socket:
-			localStorage.node_env == 'development' ?
-				io('http://localhost:5000') : io()
+			localStorage.node_env == 'development' ? io('http://localhost:5000') : io()
 	},
 
 	// Syncrous //

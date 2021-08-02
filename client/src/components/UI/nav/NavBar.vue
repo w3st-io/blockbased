@@ -19,24 +19,8 @@
 					<!-- Top Menu -->
 					<div class="collapse navbar-collapse">
 						<div class="navbar-nav mr-auto"></div>
-						<!-- Search and Button -->
-						<form @submit.prevent="searchRedirect()">
-							<BInputGroup style="width: 300px;">
-								<BFormInput
-									v-model="query"
-									type="text"
-									placeholder="Search"
-									class="border-secondary bg-dark text-light"
-								/>
-								<div class="input-group-append">
-									<BButton
-										:disabled="!query"
-										variant="outline-secondary"
-										type="submit"
-									>Search</BButton>
-								</div>
-							</BInputGroup>
-						</form>
+
+						<SearchForm />
 					</div>
 				</nav>
 			</BContainer>
@@ -92,23 +76,23 @@
 		</div>
 
 		<!-- Hidden Side Menu -->
-		<SideMenu :sideMenuOpen="sideMenuOpen" @closeMenu="toggle()" />
+		<SideMenu />
 	</div>
 </template>
 
 <script>
 	// [IMPORT] Personal //
 	import NotificationMenu from '@/components/notifications/NotificationMenu'
+	import SearchForm from '@/components/search/SearchForm'
 	import SideMenu from '@/components/UI/nav/SideMenu'
 	import defaultData from '@/defaults/companyInfo'
 	import buttons from '@/defaults/pageLinks'
-	import { EventBus } from '@/main'
 	import router from '@/router'
 
-	// [EXPORT] //
 	export default {
 		components: {
 			NotificationMenu,
+			SearchForm,
 			SideMenu,
 		},
 
@@ -119,9 +103,6 @@
 				notifications: '',
 				totalNotifications: 0,
 				buttons: buttons,
-
-				// [MENU] //
-				sideMenuOpen: false,
 			}
 		},
 
@@ -132,24 +113,7 @@
 
 			profileRedirect() { router.push({ name: 'user_profile' }) },
 
-			searchRedirect() {
-				if (this.query) {
-					router.push({
-						name: 'search',
-						params: {
-							type: 'posts',
-							query: this.query,
-							tab: 0,
-							limit: 5,
-							page: 1,
-						}
-					})
-				}
-
-				EventBus.$emit('force-rerender')
-			},
-
-			toggle() { this.sideMenuOpen = !this.sideMenuOpen },
+			toggle() { this.$store.state.showMenu = !this.$store.state.showMenu },
 		},
 	}
 </script>

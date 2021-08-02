@@ -1,7 +1,7 @@
 <template>
 	<nav
 		class="bg-dark shadow opacity-90 nav-drawer-menu"
-		:class="{ isOpen: sideMenuOpen }"
+		:class="{ isOpen: $store.state.showMenu }"
 		style="z-index: 1040;"
 	>
 		<!-- Close Button -->
@@ -11,9 +11,11 @@
 			@click="closeMenu"
 		><XIcon size="36" /></BButton>
 
+		<SearchForm class="mx-2 my-4" />
+
 		<!-- Menu Page Link -->
 		<RouterLink
-			v-show="sideMenuOpen"
+			v-show="$store.state.showMenu"
 			v-for="(button, i) in buttons"
 			:key="i"
 			:to="button.path"
@@ -30,13 +32,15 @@
 		</RouterLink>
 
 		<!-- Address -->
-		<a v-show="sideMenuOpen" :href="companyInfo.googleMapsLink" class="text-center">
-			<h4 class="m-4 text-light">{{ companyInfo.address }}</h4>
-		</a>
+		<a
+			v-show="$store.state.showMenu"
+			:href="companyInfo.googleMapsLink"
+			class="text-center"
+		><h4 class="m-4 text-light">{{ companyInfo.address }}</h4></a>
 
 		<!-- Social Media -->
 		<SocialMediaPlug
-			v-show="sideMenuOpen"
+			v-show="$store.state.showMenu"
 			size="2x"
 			variant="light"
 			class="m-4"
@@ -48,21 +52,16 @@
 	import { XIcon } from 'vue-feather-icons'
 
 	// [IMPORT] Personal //
+	import SearchForm from '@/components/search/SearchForm'
 	import SocialMediaPlug from '@/components/SocialMediaPlug'
 	import companyInfo from '@/defaults/companyInfo'
 	import buttons from '@/defaults/pageLinks'
 	import router from '@/router'
 
 	export default {
-		props: {
-			sideMenuOpen: {
-				type: Boolean,
-				required: true,
-			}
-		},
-
 		components: {
 			XIcon,
+			SearchForm,
 			SocialMediaPlug,
 		},
 
@@ -76,12 +75,12 @@
 
 		methods: {
 			closeMenu() {
-				this.sideMenuOpen = !this.sideMenuOpen
+				this.$store.state.showMenu = !this.$store.state.showMenu
 				this.$emit('closeMenu')
 			},
 
 			homeBtn() {
-				this.sideMenuOpen = !this.sideMenuOpen
+				this.$store.state.showMenu = !this.$store.state.showMenu
 				router.push({ name: '/' })
 			},
 		}
