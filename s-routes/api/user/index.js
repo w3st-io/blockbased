@@ -75,6 +75,7 @@ router.post(
 				if (validator.isEmail(req.body.email)) {
 					// [VALIDATE] password //
 					if (validator.isAscii(req.body.password)) {
+						// [READ] Get user by email //
 						const userObj = await usersCollection.c_readByEmail(
 							req.body.email
 						)

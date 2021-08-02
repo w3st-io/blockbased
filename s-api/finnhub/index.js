@@ -11,7 +11,7 @@ let news = []
 module.exports = {
 	news: news,
 
-	initialize: async function () {
+	updateNews: async function () {
 		const res = await axios.get(
 			`https://finnhub.io/api/v1/news?category=crypto&token=${config.FINNHUB_KEY}`
 		)

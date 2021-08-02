@@ -22,7 +22,7 @@
 							}}
 						</p>
 						<p class="text-secondary">
-							{{ new Date(news.datetime).toLocaleString() }}
+							{{ new Date(news.datetime * 1000).toLocaleString() }}
 						</p>
 					</div>
 				</BCol>

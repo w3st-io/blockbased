@@ -90,7 +90,9 @@ coinbase_WS.start(io)
 
 
 // [FINNHUB] //
-finnhub.initialize()
+finnhub.updateNews()
+setInterval(function () { finnhub.updateNews() }, 1000 * 60 * 5);
+
 
 
 // [MONGOOSE-CONNECTION] //

@@ -46,7 +46,7 @@
 									
 									<h6 class="text-secondary">
 										{{
-											new Date(slide.datetime).toLocaleString()
+											new Date(slide.datetime * 1000).toLocaleString()
 										}}
 									</h6>
 								</BCardText>
