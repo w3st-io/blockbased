@@ -7,12 +7,11 @@
 					v-model="query"
 					type="text"
 					placeholder="Search"
-					class="border-secondary bg-dark text-light"
+					class="border-light bg-dark text-light"
 				/>
 				<div class="input-group-append">
 					<BButton
-						:disabled="!query"
-						variant="outline-primary"
+						variant="outline-light"
 						type="submit"
 					>Search</BButton>
 				</div>
@@ -45,11 +44,11 @@
 							page: 1,
 						}
 					})
+
+					EventBus.$emit('force-rerender')
+
+					this.$store.state.showMenu = false
 				}
-
-				EventBus.$emit('force-rerender')
-
-				this.$store.state.showMenu = false
 			},
 		},
 	}
