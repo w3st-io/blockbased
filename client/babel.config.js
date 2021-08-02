@@ -3,11 +3,14 @@ module.exports = {
 		'@vue/cli-plugin-babel/preset'
 	],
 	plugins: [
-		['module-resolver', {
-			alias: {
-				root: ['./'],
-				'@': './src',
+		[
+			'module-resolver',
+			{
+				alias: {
+					root: ['./'],
+					'@': './src',
+				}
 			}
-		}]
+		]
 	]
 }
