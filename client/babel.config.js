@@ -5,7 +5,7 @@ module.exports = {
 	plugins: [
 		['module-resolver', {
 			alias: {
-            root: ['./'],
+				root: ['./'],
 				'@': './src',
 			}
 		}]
