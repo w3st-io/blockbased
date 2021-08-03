@@ -7,13 +7,13 @@ const navIconConfig = {
 	'stroke-width': 3,
 	width: 18,
 	height: 18,
-	'class': ''
+	class: ''
 }
 const sideMenuIconConfig = {
 	'stroke-width': 2.4,
 	width: 34,
 	height: 34,
-	'class': 'my-2'
+	class: 'my-2'
 }
 
 

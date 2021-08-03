@@ -39,8 +39,8 @@
 									<h6 class="text-primary">
 										{{
 											slide.headline.length > 80 ?
-											slide.headline.substring(0, 80 - 3) + '...' :
-											slide.headline
+												slide.headline.substring(0, 80 - 3) + '...' :
+												slide.headline
 										}}
 									</h6>
 									

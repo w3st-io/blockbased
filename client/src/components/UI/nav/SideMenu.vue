@@ -8,7 +8,7 @@
 		<BButton
 			variant="dark"
 			class="w-100 m-0 p-4 bg-secondary text-primary"
-			@click="closeMenu"
+			@click="closeMenu()"
 		><XIcon size="36" /></BButton>
 
 		<SearchForm class="mx-2 my-4" />

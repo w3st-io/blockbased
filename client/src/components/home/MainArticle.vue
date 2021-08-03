@@ -17,8 +17,8 @@
 						<p class="mb-2 text-light">
 							{{
 								news.summary.length > 200 ?
-								news.summary.substring(0, 200 - 3) + '...' :
-								news.summary
+									news.summary.substring(0, 200 - 3) + '...' :
+									news.summary
 							}}
 						</p>
 						<p class="text-secondary">
