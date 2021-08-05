@@ -8,7 +8,7 @@
 * COMMENT_FUNCTIONALITY = < true/false >
 
 ##### URL
-* *BASE_URL = < (PRODUCTION ONLY) Url of Site >
+* *BASE_URL = https://wwww.< (PRODUCTION ONLY) Url of Site >
 
 ##### PORT
 * PORT = < Chosen port here >
