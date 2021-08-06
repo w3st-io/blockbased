@@ -42,6 +42,7 @@ router.get(
 			for (let i = 0; i < categories.length; i++) {
 				const category = categories[i]
 
+				// [CATS] //
 				for (let ii = 0; ii < category.cats.length; ii++) {
 					const cat = category.cats[ii]
 					
