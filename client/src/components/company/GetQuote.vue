@@ -5,15 +5,6 @@
 			<h3 class="mb-3 text-center text-primary">{{ title }}</h3>
 			<hr>
 
-			<!-- Type -->
-			<select v-model="type" class="form-select w-100 p-2">
-				<option disabled value="">Please choose service type</option>
-				<option value="designs">Designs</option>
-				<option value="installs">Installs</option>
-				<option value="report">Report Bug on Site</option>
-				<option value="services">Services</option>
-			</select>
-
 			<!-- Email -->
 			<input
 				v-model="clientEmail"
@@ -70,7 +61,6 @@
 
 		data() {
 			return {
-				type: '',
 				clientEmail: '',
 				name: '',
 				subject: '',
@@ -82,12 +72,7 @@
 
 		methods: {
 			async submit() {
-				if (this.type == '') {
-					this.error = 'Error: Please Select a service type'
-					return
-				}
-					
-				if (!this.type || !this.clientEmail || !this.name || !this.subject || !this.message) {
+				if (!this.clientEmail || !this.name || !this.subject || !this.message) {
 					this.error = 'Error: Please fill out all fields'
 					return
 				}
@@ -96,7 +81,6 @@
 
 				const mObj = await MailService.s_getQuote({
 					subject: this.subject,
-					type: this.type,
 					clientEmail: this.clientEmail,
 					name: this.name,
 					message: this.message
