@@ -34,12 +34,8 @@ module.exports = {
 	EMAIL_PASSWORD: process.env.EMAIL_PASSWORD || '',
 	EMAIL_SERVICE: process.env.EMAIL_SERVICE || '',
 
-	// [EMAIL-RECEIVERS] //
+	// [EMAIL-RECEIVER] //
 	ADMIN_EMAIL: process.env.ADMIN_EMAIL || '',
-	ADVANCED_EMAIL: process.env.ADVANCED_EMAIL || '',
-	DESIGNS_EMAIL: process.env.DESIGNS_EMAIL || '',
-	INSTALLS_EMAIL: process.env.INSTALLS_EMAIL || '',
-	SERVICES_EMAIL: process.env.SERVICES_EMAIL || '',
 
 	// [COINBASE] //
 	COINBASE_API_KEY: process.env.COINBASE_API_KEY || '',
