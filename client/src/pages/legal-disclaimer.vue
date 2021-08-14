@@ -35,7 +35,7 @@
 						This Privacy Policy is meant to help you understand what information we collect, why we collect it, and how you can update, manage, export, and delete your information. why we collect it, and how you can update, manage, export, and delete your information. why we collect it, and how you can update, manage, export, and delete your information.
 						<br>
 
-						The blockbased.io website located at blockbased.io is a copyrighted work belonging to blockbased.io. Certain features of the Site may be subject to additional guidelines, terms, or rules, which will be posted on the Site in connection with such features.
+						The blockbased.io website located at blockbased.io is a copyrighted work belonging to w3st.io llc. Certain features of the Site may be subject to additional guidelines, terms, or rules, which will be posted on the Site in connection with such features.
 						<br>
 
 						All such additional terms, guidelines, and rules are incorporated by reference into these Terms.
