@@ -35,7 +35,7 @@
 						This Privacy Policy is meant to help you understand what information we collect, why we collect it, and how you can update, manage, export, and delete your information. why we collect it, and how you can update, manage, export, and delete your information. why we collect it, and how you can update, manage, export, and delete your information.
 						<br>
 
-						The americanvinhistory.com website located at americanvinhistory.com is a copyrighted work belonging to americanvinhistory.com. Certain features of the Site may be subject to additional guidelines, terms, or rules, which will be posted on the Site in connection with such features.
+						The blockbased.io website located at blockbased.io is a copyrighted work belonging to blockbased.io. Certain features of the Site may be subject to additional guidelines, terms, or rules, which will be posted on the Site in connection with such features.
 						<br>
 
 						All such additional terms, guidelines, and rules are incorporated by reference into these Terms.
@@ -78,7 +78,7 @@
 						You hereby release and forever discharge the Company and our officers, employees, agents, successors, and assigns from, and hereby waive and relinquish, each and every past, present and future dispute, claim, controversy, demand, right, obligation, liability, action and cause of action of every kind and nature, that has arisen or arises directly or indirectly out of, or that relates directly or indirectly to, the Site. If you are a California resident, you hereby waive California civil code section 1542 in connection with the foregoing, which states: "a general release does not extend to claims which the creditor does not know or suspect to exist in his or her favor at the time of executing the release, which if known by him or her must have materially affected his or her settlement with the debtor."
 						<br>
 
-						Cookies and Web Beacons. Like any other website, americanvinhistory.com uses ‘cookies’. These cookies are used to store information including visitors’ preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users’ experience by customizing our web page content based on visitors’ browser type and/or other information.
+						Cookies and Web Beacons. Like any other website, blockbased.io uses ‘cookies’. These cookies are used to store information including visitors’ preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users’ experience by customizing our web page content based on visitors’ browser type and/or other information.
 					</p>
 
 					<h3>Disclaimers</h3>
@@ -133,13 +133,13 @@
 					<h3>Terms and Conditions</h3>
 
 					<p>
-						Welcome to americanvinhistory.com!
+						Welcome to blockbased.io!
 						<br>
 
-						These terms and conditions outline the rules and regulations for the use of americanvinhistory.com's Website, located at americanvinhistory.com.
+						These terms and conditions outline the rules and regulations for the use of blockbased.io's Website, located at blockbased.io.
 						<br>
 
-						By accessing this website we assume you accept these terms and conditions. Do not continue to use americanvinhistory.com if you do not agree to take all of the terms and conditions stated on this page.
+						By accessing this website we assume you accept these terms and conditions. Do not continue to use blockbased.io if you do not agree to take all of the terms and conditions stated on this page.
 						<br>
 
 						The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: "Client", "You" and "Your" refers to you, the person log on this website and compliant to the Company’s terms and conditions. "The Company", "Ourselves", "We", "Our" and "Us", refers to our Company. "Party", "Parties", or "Us", refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client’s needs in respect of provision of the Company’s stated services, in accordance with and subject to, prevailing law of Netherlands. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.
@@ -148,7 +148,7 @@
 					<h3>Cookies</h3>
 
 					<p>
-						We employ the use of cookies. By accessing americanvinhistory.com, you agreed to use cookies in agreement with the americanvinhistory.com's Privacy Policy.
+						We employ the use of cookies. By accessing blockbased.io, you agreed to use cookies in agreement with the blockbased.io's Privacy Policy.
 						<br>
 
 						Most interactive websites use cookies to let us retrieve the user’s details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our website. Some of our affiliate/advertising partners may also use cookies.
@@ -157,23 +157,23 @@
 					<h3>License</h3>
 
 					<p>
-						Unless otherwise stated, americanvinhistory.com and/or its licensors own the intellectual property rights for all material on americanvinhistory.com. All intellectual property rights are reserved. You may access this from americanvinhistory.com for your own personal use subjected to restrictions set in these terms and conditions.
+						Unless otherwise stated, blockbased.io and/or its licensors own the intellectual property rights for all material on blockbased.io. All intellectual property rights are reserved. You may access this from blockbased.io for your own personal use subjected to restrictions set in these terms and conditions.
 					</p>
 
 					<h3>You must not:</h3>
 
 					<p>
-						Republish material from americanvinhistory.com
-						Sell, rent or sub-license material from americanvinhistory.com
-						Reproduce, duplicate or copy material from americanvinhistory.com
-						Redistribute content from americanvinhistory.com
+						Republish material from blockbased.io
+						Sell, rent or sub-license material from blockbased.io
+						Reproduce, duplicate or copy material from blockbased.io
+						Redistribute content from blockbased.io
 						This Agreement shall begin on the date hereof. Our Terms and Conditions were created with the help of the Terms And Conditions Generator.
 						<br>
 
-						Parts of this website offer an opportunity for users to post and exchange opinions and information in certain areas of the website. americanvinhistory.com does not filter, edit, publish or review Comments prior to their presence on the website. Comments do not reflect the views and opinions of americanvinhistory.com,its agents and/or affiliates. Comments reflect the views and opinions of the person who post their views and opinions. To the extent permitted by applicable laws, americanvinhistory.com shall not be liable for the Comments or for any liability, damages or expenses caused and/or suffered as a result of any use of and/or posting of and/or appearance of the Comments on this website.
+						Parts of this website offer an opportunity for users to post and exchange opinions and information in certain areas of the website. blockbased.io does not filter, edit, publish or review Comments prior to their presence on the website. Comments do not reflect the views and opinions of blockbased.io,its agents and/or affiliates. Comments reflect the views and opinions of the person who post their views and opinions. To the extent permitted by applicable laws, blockbased.io shall not be liable for the Comments or for any liability, damages or expenses caused and/or suffered as a result of any use of and/or posting of and/or appearance of the Comments on this website.
 						<br>
 
-						americanvinhistory.com reserves the right to monitor all Comments and to remove any Comments which can be considered inappropriate, offensive or causes breach of these Terms and Conditions.
+						blockbased.io reserves the right to monitor all Comments and to remove any Comments which can be considered inappropriate, offensive or causes breach of these Terms and Conditions.
 					</p>
 
 					<h3>You warrant and represent that:</h3>
@@ -183,7 +183,7 @@
 						The Comments do not invade any intellectual property right, including without limitation copyright, patent or trademark of any third party;
 						The Comments do not contain any defamatory, libelous, offensive, indecent or otherwise unlawful material which is an invasion of privacy
 						The Comments will not be used to solicit or promote business or custom or present commercial activities or unlawful activity.
-						You hereby grant americanvinhistory.com a non-exclusive license to use, reproduce, edit and authorize others to use, reproduce and edit any of your Comments in any and all forms, formats or media.
+						You hereby grant blockbased.io a non-exclusive license to use, reproduce, edit and authorize others to use, reproduce and edit any of your Comments in any and all forms, formats or media.
 					<p>
 
 					<h3>Hyperlinking to our Content</h3>
@@ -210,18 +210,18 @@
 						internet portals;
 						accounting, law and consulting firms; and
 						educational institutions and trade associations.
-						We will approve link requests from these organizations if we decide that: (a) the link would not make us look unfavorably to ourselves or to our accredited businesses; (b) the organization does not have any negative records with us; (c) the benefit to us from the visibility of the hyperlink compensates the absence of americanvinhistory.com; and (d) the link is in the context of general resource information.
+						We will approve link requests from these organizations if we decide that: (a) the link would not make us look unfavorably to ourselves or to our accredited businesses; (b) the organization does not have any negative records with us; (c) the benefit to us from the visibility of the hyperlink compensates the absence of blockbased.io; and (d) the link is in the context of general resource information.
 
 						These organizations may link to our home page so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products or services; and (c) fits within the context of the linking party’s site.
 
-						If you are one of the organizations listed in paragraph 2 above and are interested in linking to our website, you must inform us by sending an e-mail to americanvinhistory.com. Please include your name, your organization name, contact information as well as the URL of your site, a list of any URLs from which you intend to link to our Website, and a list of the URLs on our site to which you would like to link. Wait 2-3 weeks for a response.
+						If you are one of the organizations listed in paragraph 2 above and are interested in linking to our website, you must inform us by sending an e-mail to blockbased.io. Please include your name, your organization name, contact information as well as the URL of your site, a list of any URLs from which you intend to link to our Website, and a list of the URLs on our site to which you would like to link. Wait 2-3 weeks for a response.
 
 						Approved organizations may hyperlink to our Website as follows:
 
 						By use of our corporate name; or
 						By use of the uniform resource locator being linked to; or
 						By use of any other description of our Website being linked to that makes sense within the context and format of content on the linking party’s site.
-						No use of americanvinhistory.com's logo or other artwork will be allowed for linking absent a trademark license agreement.
+						No use of blockbased.io's logo or other artwork will be allowed for linking absent a trademark license agreement.
 					</p>
 
 					<h4>iFrames</h4>
