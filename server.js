@@ -94,7 +94,6 @@ finnhub.updateNews()
 setInterval(function () { finnhub.updateNews() }, 1000 * 60 * 5);
 
 
-
 // [MONGOOSE-CONNECTION] //
 mongoose.connect(
 	config.MONGO_URI,
