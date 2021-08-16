@@ -81,8 +81,12 @@ const io = socketIO(
 )
 
 
-// [SOCKET] //
+// [SOCKET-IO] //
 s_socket.start(io)
+
+
+// [SET] //
+app.set('socketio', io)
 
 
 // [COINBASE] WS //
@@ -107,10 +111,6 @@ mongoose.connect(
 		else { console.log(`Mongoose Connection Error --> ${err}`) }
 	}
 )
-
-
-// [SET] //
-app.set('socketio', io)
 
 
 // [USE] // Set static Folder // Rate-Limiter //
