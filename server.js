@@ -81,7 +81,7 @@ const io = socketIO(
 )
 
 
-// [SOCKET-IO] //
+// [SOCKET.IO] //
 s_socket.start(io)
 
 
