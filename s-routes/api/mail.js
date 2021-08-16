@@ -34,13 +34,6 @@ router.post(
 		try {
 			if (
 				validator.isAscii(req.body.subject) &&
-				validator.isAscii(req.body.type) &&
-				(
-					req.body.type == 'designs' ||
-					req.body.type == 'installs' ||
-					req.body.type == 'report' ||
-					req.body.type == 'services'
-				) &&
 				validator.isAscii(req.body.clientEmail) &&
 				validator.isAscii(req.body.name) &&
 				req.body.message
@@ -48,7 +41,6 @@ router.post(
 				// [MAIL-UTIL] //
 				const mObj = await mailerUtil.sendGetQuoteEmail({
 					subject: req.body.subject,
-					type: req.body.type,
 					clientEmail: req.body.clientEmail,
 					name: req.body.name,
 					message: req.body.message,
@@ -127,7 +119,7 @@ router.post(
 								res.send({
 									executed: true,
 									status: false,
-									location: '/api/mail/careers',
+									location: '/api/mail/advanced',
 									message: `Caught Error --> ${err}`,
 								})
 							}
@@ -143,7 +135,7 @@ router.post(
 								res.send({
 									executed: true,
 									status: false,
-									location: '/api/mail/careers',
+									location: '/api/mail/advanced',
 									message: `Caught Error --> ${err}`,
 								})
 							}
@@ -170,7 +162,7 @@ router.post(
 				res.send({
 					executed: true,
 					status: false,
-					location: `/api/mail/careers`,
+					location: `/api/mail/advanced`,
 					message: `Invalid params`,
 				})
 			}
@@ -179,7 +171,7 @@ router.post(
 			res.send({
 				executed: false,
 				status: false,
-				location: '/api/mail/careers',
+				location: '/api/mail/advanced',
 				message: `Caught Error --> ${err}`,
 			})
 		}
