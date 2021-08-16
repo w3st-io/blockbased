@@ -363,12 +363,12 @@ export default {
 
 
 	// [NOTIFICATION] //
-	s_notification: async function (sort = 0, limit, page) {
+	s_notifications: async function (sort = 0, limit, page) {
 		try {
 			const authAxios = await this.authAxios()
 	
 			return (
-				await authAxios.get(`/notification/${sort}/${limit}/${page}`)
+				await authAxios.get(`/notifications/${sort}/${limit}/${page}`)
 			).data
 		}
 		catch (err) {
