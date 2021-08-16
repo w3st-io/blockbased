@@ -154,7 +154,6 @@
 						
 						this.cryptoPrices = this.reqData.cryptoQuoteObj.returnVal
 
-						this.newsObj = this.reqData.newsObj
 						this.newsObj = this.reqData.news
 
 						this.categories = this.reqData.categories
