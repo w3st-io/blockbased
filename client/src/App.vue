@@ -13,7 +13,7 @@
 
 <script>
 	// [IMPORT] Personal //
-	import Footer from '@/components/UI/nav/Footer'
+	import Footer from '@/components/UI/Footer'
 	import UI from '@/components/UI'
 	import { EventBus } from '@/main'
 	import Service from '@/services/Service'
