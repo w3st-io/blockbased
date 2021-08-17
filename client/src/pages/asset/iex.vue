@@ -96,7 +96,7 @@
 			const token = this.$store.state.iexKey
 
 			return {
-				baseURL: 'https://sandbox.iexapis.com',
+				baseURL: 'https://sandbox.iexapis.com/stable/stock/',
 				token: token,
 				ticker: this.$route.params.query || 'unknown',
 				assetData: {},
@@ -117,7 +117,7 @@
 					this.loading = true
 
 					this.types = 'chart,quote,news'
-					this.reqURL = `${this.baseURL}/stable/stock/${this.ticker}/batch?types=${this.types}&token=${this.token}`
+					this.reqURL = `${this.baseURL}${this.ticker}/batch?types=${this.types}&token=${this.token}`
 
 					// Request //
 					let { data } = await axios.get(this.reqURL)
