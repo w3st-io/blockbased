@@ -28,8 +28,6 @@ export default {
 			const authAxios = await this.authAxios()
 	
 			const res = await authAxios.get('/')
-			
-			//res.data.newsObj = await iexAPI.iexSPYNews()
 
 			res.data.btcHistoricRate = (
 				await crypto.productHistoricRate({
