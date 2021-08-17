@@ -84,7 +84,7 @@
 	// [IMPORT] Personal //
 	import NotificationMenu from '@/components/notifications/NotificationMenu'
 	import SearchForm from '@/components/search/SearchForm'
-	import SideMenu from '@/components/UI/nav/SideMenu'
+	import SideMenu from '@/components/UI/SideMenu'
 	import defaultData from '@/defaults/companyInfo'
 	import buttons from '@/defaults/pageLinks'
 	import router from '@/router'

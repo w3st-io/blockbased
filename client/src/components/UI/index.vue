@@ -21,9 +21,9 @@
 
 <script>
 	// [IMPORT] Personal //
-	import AdminNavBar from '@/components/admin/AdminNavBar'
 	import PopUpBanner from '@/components/inform/PopUpBanner'
-	import NavBar from '@/components/UI/nav/NavBar'
+	import AdminNavBar from '@/components/UI/AdminNavBar'
+	import NavBar from '@/components/UI/NavBar'
 	import PopUpNotifications from '@/components/notifications/PopUpNotifications'
  
 	export default {

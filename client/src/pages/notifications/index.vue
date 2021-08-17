@@ -131,7 +131,7 @@
 		methods: {
 			async getPageData() {
 				try {
-					this.data = await PageService.s_notification(
+					this.data = await PageService.s_notifications(
 						this.sort,
 						this.limit,
 						this.page
@@ -150,7 +150,7 @@
 			refreshRoute() {
 				// [REDIRECT] Notifications Page //
 				router.push({
-					name: 'notification',
+					name: 'notifications',
 					params: {
 						sort: this.sort,
 						limit: this.limit,

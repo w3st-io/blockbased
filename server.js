@@ -43,7 +43,7 @@ const p_comment_create = require('./s-routes/pages/comment/create')
 const p_comment_edit = require('./s-routes/pages/comment/edit')
 const p_comment_reply = require('./s-routes/pages/comment/reply')
 const p_followed = require('./s-routes/pages/followed')
-const p_notification = require('./s-routes/pages/notification')
+const p_notifications = require('./s-routes/pages/notifications')
 const p_post = require('./s-routes/pages/post')
 const p_post_create = require('./s-routes/pages/post/create')
 const p_search = require('./s-routes/pages/search')
@@ -81,8 +81,12 @@ const io = socketIO(
 )
 
 
-// [SOCKET] //
+// [SOCKET.IO] //
 s_socket.start(io)
+
+
+// [SET] //
+app.set('socketio', io)
 
 
 // [COINBASE] WS //
@@ -107,10 +111,6 @@ mongoose.connect(
 		else { console.log(`Mongoose Connection Error --> ${err}`) }
 	}
 )
-
-
-// [SET] //
-app.set('socketio', io)
 
 
 // [USE] // Set static Folder // Rate-Limiter //
@@ -150,7 +150,7 @@ app.use('/pages/comment/create', p_comment_create)
 app.use('/pages/comment/edit', p_comment_edit)
 app.use('/pages/comment/reply', p_comment_reply)
 app.use('/pages/followed', p_followed)
-app.use('/pages/notification', p_notification)
+app.use('/pages/notifications', p_notifications)
 app.use('/pages/post', p_post)
 app.use('/pages/post/create', p_post_create)
 app.use('/pages/search', p_search)
