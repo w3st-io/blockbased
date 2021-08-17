@@ -4,7 +4,6 @@ import axios from 'axios'
 
 // [IMPORT] Personal //
 import crypto from '@/api/crypto'
-//import iexAPI from '@/api/iex'
 
 
 // [AUTH-TOKEN-SETUP] //
