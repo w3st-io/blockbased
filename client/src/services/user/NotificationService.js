@@ -6,7 +6,7 @@ export default {
 	// [AUTH-TOKEN-SETUP] //
 	authAxios: async function () {
 		return axios.create({
-			baseURL: '/api/user/notifications',
+			baseURL: '/api/user/notification',
 			headers: {
 				user_authorization: `Bearer ${localStorage.usertoken}`,
 				admin_authorization: `Bearer ${localStorage.admintoken}`
