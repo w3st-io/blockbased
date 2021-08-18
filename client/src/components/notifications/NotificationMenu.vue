@@ -52,13 +52,13 @@
 
 			<!-- See All Notifications Page -->
 			<div class="w-100 text-center text-light">
-				<a href="" @click="redirectNotifications()">See All Notifications</a>
+				<a href="" @click="redirectNotification()">See All Notifications</a>
 			</div>
 		</div>
 	</span>
 </template>
- 
 <script>
+ 
 	// [IMPORT] //
 	import ClickOutside from 'vue-click-outside'
 	import { BellIcon } from 'vue-feather-icons'
@@ -89,17 +89,17 @@
 
 		async created() {
 			// [UPDATE] //
-			await this.readAllNotifications()
+			await this.readAllNotification()
 
 			// [EVENTBUS] //
-			EventBus.$on('update-notification', () => { this.readAllNotifications() })
+			EventBus.$on('update-notification', () => { this.readAllNotification() })
 
 			// [LOG] //
 			//this.log()
 		},
 
 		methods: {
-			async readAllNotifications() {
+			async readAllNotification() {
 				this.reqData = await NotificationService.s_readUnread(1, 5, 1)
 
 				if (this.reqData.status) {
@@ -112,7 +112,7 @@
 				NotificationService.s_markRead(notification_id)
 
 				// [UPDATE] //
-				try { await this.readAllNotifications() }
+				try { await this.readAllNotification() }
 				catch (err) { console.log(`Caught Error --> ${err}`) }
 
 				// [UPDATE] //
@@ -134,7 +134,7 @@
 			redirectNotifications() {
 				// [REDIRECT] //
 				router.push({
-					name: 'notifications',
+					name: 'notification',
 					params: {
 						sort: 1,
 						limit: 5,

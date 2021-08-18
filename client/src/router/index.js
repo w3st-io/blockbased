@@ -40,7 +40,7 @@ import followed from '@/pages/followed'
 // Home //
 import home from '@/pages/home'
 // Notification //
-import notifications from '@/pages/notifications'
+import notification from '@/pages/notification'
 // Post //
 import post from '@/pages/post'
 import post_create from '@/pages/post/create'
@@ -300,14 +300,14 @@ const router = new Router ({
 				title: 'Home'
 			},
 		},
-		// Notifications //
+		// Notification //
 		{
-			path: '/notifications/:sort/:limit/:page',
-			name: 'notifications',
-			component: notifications,
+			path: '/notification/:sort/:limit/:page',
+			name: 'notification',
+			component: notification,
 			meta: {
 				auth: true,
-				title: 'notifications'
+				title: 'notification'
 			}
 		},
 		// Post //
