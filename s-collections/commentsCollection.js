@@ -7,6 +7,80 @@ const commentLikesCollection = require('../s-collections/commentLikesCollection'
 const CommentModel = require('../s-models/CommentModel')
 
 
+/******************* [FILL-DATA] *******************/
+async function c_fillData(user_id, comment) {
+	// [COUNT] Likes //
+	comment.likeCount = (
+		await commentLikesCollection.c_countByComment(comment._id)
+	).count
+
+	// [USER-LOGGED] //
+	if (user_id) {
+		// [LIKED-STATE] //
+		comment.liked = (
+			await commentLikesCollection.c_existance({
+				user_id: user_id,
+				comment_id: comment._id
+			})
+		).existance
+	}
+
+	return comment
+}
+
+
+/******************* [OWNERSHIP] *******************/
+async function c_ownership(comment_id, user_id) {
+	try {
+		// [VALIDATE] comment_id //
+		if (!mongoose.isValidObjectId(comment_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid comment_id',
+				updated: false,
+			}
+		}
+
+		// [VALIDATE] user_id //
+		if (!mongoose.isValidObjectId(user_id)) {
+			return {
+				executed: true,
+				status: false,
+				message: 'commentsCollection: Invalid user_id',
+				updated: false,
+			}
+		}
+
+		const comment = await CommentModel.findOne({ _id: comment_id, user: user_id, })
+
+		if (!comment) {
+			return {
+				executed: true,
+				status: true,
+				message: 'You do NOT own this comment',
+				ownership: false,
+			}
+		}
+
+		return {
+			executed: true,
+			status: true,
+			message: 'You do own this comment',
+			ownership: true,
+			comment: comment,
+		}
+	}
+	catch (err) {
+		return {
+			executed: false,
+			status: false,
+			message: `commentsCollection: Error --> ${err}`
+		}
+	}
+}
+
+
 module.exports = {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
@@ -478,58 +552,6 @@ module.exports = {
 	},
 	
 
-	/******************* [OWNERSHIP] *******************/
-	c_ownership: async (comment_id, user_id) => {
-		try {
-			// [VALIDATE] comment_id //
-			if (!mongoose.isValidObjectId(comment_id)) {
-				return {
-					executed: true,
-					status: false,
-					message: 'commentsCollection: Invalid comment_id',
-					updated: false,
-				}
-			}
-	
-			// [VALIDATE] user_id //
-			if (!mongoose.isValidObjectId(user_id)) {
-				return {
-					executed: true,
-					status: false,
-					message: 'commentsCollection: Invalid user_id',
-					updated: false,
-				}
-			}
-	
-			const comment = await CommentModel.findOne({ _id: comment_id, user: user_id, })
-	
-			if (!comment) {
-				return {
-					executed: true,
-					status: true,
-					message: 'You do NOT own this comment',
-					ownership: false,
-				}
-			}
-	
-			return {
-				executed: true,
-				status: true,
-				message: 'You do own this comment',
-				ownership: true,
-				comment: comment,
-			}
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `commentsCollection: Error --> ${err}`
-			}
-		}
-	},
-	
-
 	/******************* [EXISTANCE] *******************/
 	c_existance: async (comment_id) => {
 		try {
@@ -569,6 +591,12 @@ module.exports = {
 				message: `commentsCollection: Error --> ${err}`
 			}
 		}
+	},
+
+
+	/******************* [OWNERSHIP] *******************/
+	c_ownership: async (comment_id, user_id) => {
+		return await c_ownership(comment_id, user_id)
 	},
 
 
@@ -648,27 +676,5 @@ module.exports = {
 				message: `commentsCollection: Error --> ${err}`
 			}
 		}
-	},
-
-
-	/******************* [FILL-DATA] *******************/
-	c_fillData: async (user_id, comment) => {
-		// [COUNT] Likes //
-		comment.likeCount = (
-			await commentLikesCollection.c_countByComment(comment._id)
-		).count
-	
-		// [USER-LOGGED] //
-		if (user_id) {
-			// [LIKED-STATE] //
-			comment.liked = (
-				await commentLikesCollection.c_existance({
-					user_id: user_id,
-					comment_id: comment._id
-				})
-			).existance
-		}
-	
-		return comment
 	},
 }
