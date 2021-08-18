@@ -18,7 +18,7 @@ const s_socket = require('./s-socket')
 
 const a_ = require('./s-routes/api')
 const a_admin = require('./s-routes/api/admin')
-const a_admin_commentReport = require('./s-routes/api/admin/comment-reports')
+const a_admin_commentReport = require('./s-routes/api/admin/comment-report')
 const a_admin_comment = require('./s-routes/api/admin/comment')
 const a_admin_post = require('./s-routes/api/admin/post')
 const a_admin_user = require('./s-routes/api/admin/user')

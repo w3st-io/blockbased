@@ -9,7 +9,7 @@ const BanModel = require('../s-models/BanModel')
 module.exports = {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
-	c_createasync: (user_id, hours) => {
+	c_createasync: async (user_id, hours) => {
 		try {
 			// [VALIDATE] user_id //
 			if (!mongoose.isValidObjectId(user_id)) {
