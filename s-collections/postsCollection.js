@@ -332,7 +332,10 @@ module.exports = {
 				.sort(sort)
 				.limit(limit)
 				.skip(skip)
-				.populate({ path: 'user', select: 'username bio profile_img', })
+				.populate({
+					path: 'user',
+					select: 'username bio profile_img',
+				})
 				.exec()
 	
 			// [FILL-DATA] //
@@ -627,7 +630,10 @@ module.exports = {
 				}
 			}
 	
-			const post = await PostModel.findOne({ _id: post_id, user: user_id })
+			const post = await PostModel.findOne({
+				_id: post_id,
+				user: user_id
+			})
 	
 			if (!post) {
 				return {
