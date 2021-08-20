@@ -187,7 +187,7 @@ const c_register = async ({ username, email, password }) => {
 
 
 // [READ-ALL] Sorted (No password) //
-const c_readSorted = async ({ sort = 0, limit, skip }) => {
+const c_readAllSorted = async ({ sort = 0, limit, skip }) => {
 	try {
 		// [SANTIZE] //
 		sort = parseInt(sort)
@@ -592,7 +592,7 @@ module.exports = {
 	c_read,
 	c_update,
 	c_register,
-	c_readSorted,
+	c_readAllSorted,
 	c_readSelect,
 	c_readByEmail,
 	c_getIdByEmail,

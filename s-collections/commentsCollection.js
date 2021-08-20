@@ -293,7 +293,7 @@ module.exports = {
 
 	/******************* [OTHER-CRUD] *******************/
 	// [READ] sorted//
-	c_readSorted: async ({ user_id, sort = 0, limit, skip }) => {
+	c_readAllSorted: async ({ user_id, sort = 0, limit, skip }) => {
 		try {
 			// [SANTIZE] //
 			sort = parseInt(sort)

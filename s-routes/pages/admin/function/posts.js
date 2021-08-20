@@ -32,7 +32,7 @@ router.get(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Sort //
-				const { posts } = await postsCollection.c_readSorted(
+				const { posts } = await postsCollection.c_readAllSorted(
 					user_id,
 					sort,
 					limit,

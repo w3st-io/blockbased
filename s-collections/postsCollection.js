@@ -182,7 +182,7 @@ module.exports = {
 
 	/******************* [OTHER-CRUD] *******************/
 	// [READ-ALL-SORT] Within Cat //
-	c_readSorted: async (user_id, sort = 0, limit, skip) => {
+	c_readAllSorted: async (user_id, sort = 0, limit, skip) => {
 		try {
 			// [SANITIZE] //
 			sort = parseInt(sort)

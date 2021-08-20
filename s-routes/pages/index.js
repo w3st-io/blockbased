@@ -67,7 +67,7 @@ router.get(
 			}
 			
 			// [TOP-POSTS] //
-			const topPObj = await postsCollection.c_readSorted(user_id, 1, 5, 0)
+			const topPObj = await postsCollection.c_readAllSorted(user_id, 1, 5, 0)
 
 			const topPosts = topPObj.posts
 			

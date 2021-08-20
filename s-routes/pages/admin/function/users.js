@@ -30,7 +30,7 @@ router.get(
 				const skip = pageIndex * limit
 
 				// [READ-ALL] Sort //
-				const { users } = await usersCollection.c_readSorted({
+				const { users } = await usersCollection.c_readAllSorted({
 					sort: sort,
 					limit: limit,
 					skip: skip
