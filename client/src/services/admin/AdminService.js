@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 // [IMPORT] Personal //
-import { EventBus } from '../../main'
+import store from '@/store'
 
 
 // [AUTH-TOKEN-SETUP] //
@@ -19,82 +19,111 @@ async function authAxios() {
 }
 
 
-/******************* [TOKEN-DECODE] *******************/
-async function s_getAdminTokenDecodeData() {
-	if (localStorage.admintoken) { return jwtDecode(localStorage.admintoken) }
-	else {
-		return {
-			admin_id: '',
-			role: '',
-			email: '',
-			username: '',
-			first_name: '',
-			last_name: '',
-		}
-	}
-}
-
-
-// [LOGIN] //
-async function s_login(email, password) {
-	try {
-		const authAxios = await this.authAxios()
-	
-		const { data } = await authAxios.post('/login', { email, password })
-
-		if (data.validation) {
-			// [TOKEN] //
-			localStorage.setItem('admintoken', data.token)
-	
-			// [EMIT] //
-			EventBus.$emit('admin-logged-in')
-		}
-
-		return data
-	}
-	catch (err) {
-		return {
-			executed: true,
-			status: false,
-			message: `AdminService: Error --> ${err}`
-		}
-	}
-}
-
-
-// [LOGOUT] //
-async function s_logout() {
-	// [TOKEN] //
-	localStorage.removeItem('admintoken')
-
-	// [EMIT] //
-	EventBus.$emit('admin-logged-out')
-}
-
-
-// [REGISTER] //
-async function s_register({ username, email, password }) {
-	try {
-		const authAxios = await this.authAxios()
-		return (
-			await authAxios.post('/register', { username, email, password, })
-		).data
-	}
-	catch (err) {
-		return {
-			executed: true,
-			status: false,
-			message: `AdminService: Error --> ${err}`,
-		}
-	}
-}
-
-
-// [EXPORT] //
 export default {
 	authAxios,
-	s_getAdminTokenDecodeData,
-	s_login,
-	s_logout,
-	s_register,
+
+
+	/******************* [TOKEN-DECODE] *******************/
+	s_getAdminTokenDecodeData: async function () {
+		if (localStorage.admintoken) { return jwtDecode(localStorage.admintoken) }
+		else {
+			return {
+				admin_id: '',
+				role: '',
+				email: '',
+				username: '',
+				first_name: '',
+				last_name: '',
+			}
+		}
+	},
+
+
+	/******************* [ADMIN-LOGIN-LOGOUT-REGISTER-CHECKIN] *******************/
+	// [LOGIN] //
+	s_login: async function (email, password) {
+		try {
+			const authAxios = await this.authAxios()
+		
+			const { data } = await authAxios.post('/login', { email, password })
+	
+			if (data.validation) {
+				// [TOKEN] //
+				localStorage.setItem('admintoken', data.token)
+	
+				// [STORE][JWT] Get decoded //
+				store.state.admin_decoded = jwtDecode(localStorage.admintoken)
+		
+				// [STORE] //
+				store.state.adminLogged = true
+	
+				console.log(store.state.admin_decoded);
+	
+				// [STORE][SOCKET] //
+				store.state.socket.emit(
+					'admin-login',
+					store.state.admin_decoded.admin_id
+				)
+			}
+	
+			return data
+		}
+		catch (err) {
+			return {
+				executed: true,
+				status: false,
+				message: `AdminService: Error --> ${err}`
+			}
+		}
+	},
+
+
+	// [LOGOUT] //
+	s_logout: async function () {
+		// [TOKEN] //
+		localStorage.removeItem('admintoken')
+	
+		// [STORE][JWT] Get decoded //
+		store.state.admin_decoded = {}
+		
+		// [STORE] //
+		store.state.adminLogged = false
+	
+		// [EMIT] //
+		store.state.socket.emit('admin-logout')
+	},
+
+
+	// [REGISTER] //
+	s_register: async function ({ username, email, password }) {
+		try {
+			const authAxios = await this.authAxios()
+			return (
+				await authAxios.post('/register', { username, email, password, })
+			).data
+		}
+		catch (err) {
+			return {
+				executed: true,
+				status: false,
+				message: `AdminService: Error --> ${err}`,
+			}
+		}
+	},
+
+
+	// [CHECK-IN] //
+	s_checkIn: async function () {
+		if (localStorage.admintoken) {
+			// [STORE] //
+			store.state.admin_decoded = jwtDecode(localStorage.admintoken)
+			store.state.adminLogged = true
+	
+			// [STORE][SOCKET] //
+			store.state.socket.emit(
+				'admin-login',
+				store.state.admin_decoded.admin_id
+			)
+		}
+	},
 }

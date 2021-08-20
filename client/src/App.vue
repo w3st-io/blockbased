@@ -16,6 +16,7 @@
 	import Footer from '@/components/UI/Footer'
 	import UI from '@/components/UI'
 	import { EventBus } from '@/main'
+	import AdminService from '@/services/admin/AdminService'
 	import Service from '@/services/Service'
 	import UserService from '@/services/user/UserService'
 	import Socket from '@/socket'
@@ -67,6 +68,9 @@
 
 			// [USER] checkIn //
 			UserService.s_checkIn()
+
+			// [ADMIN] checkIn //
+			AdminService.s_checkIn()
 
 			// [SOCKET] //
 			Socket.initialize()

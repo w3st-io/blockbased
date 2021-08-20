@@ -26,6 +26,8 @@
 		methods: {
 			logout() {
 				AdminService.s_logout()
+
+				router.push({ name: 'admin_login' })
 			},
 
 			redirectAdmin() { router.push({ name: 'admin' }) },
