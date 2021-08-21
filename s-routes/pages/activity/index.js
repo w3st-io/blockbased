@@ -12,7 +12,7 @@ const router = express.Router().use(cors())
 
 
 router.get(
-	'/:sort/:limit/:page',
+	'/index/:sort/:limit/:page',
 	async (req, res) => {
 		try {
 			// [VALIDATE] //

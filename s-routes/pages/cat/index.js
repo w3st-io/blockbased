@@ -15,7 +15,7 @@ const router = express.Router().use(cors())
 
 
 router.get(
-	'/:cat_id/:sort/:limit/:page',
+	'/index/:cat_id/:sort/:limit/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {

@@ -72,7 +72,7 @@ export default {
 		try {
 			const authAxios = await this.authAxios()
 
-			return (await authAxios.get(`/activity/${sort}/${limit}/${page}`)).data
+			return (await authAxios.get(`/activity/index/${sort}/${limit}/${page}`)).data
 		}
 		catch (err) {
 			return {
@@ -85,22 +85,6 @@ export default {
 
 
 	// [ADMIN] //
-	s_admin: async function () {
-		try {
-			const authAxios = await this.authAxios()
-	
-			return (await authAxios.get('/admin')).data
-		}
-		catch (err) {
-			return {
-				executed: false,
-				status: false,
-				message: `PageService: Error --> ${err}`
-			}
-		}
-	},
-
-
 	s_admin_function: async function () {
 		try {
 			const authAxios = await this.authAxios()
@@ -241,7 +225,7 @@ export default {
 			const authAxios = await this.authAxios()
 	
 			return (
-				await authAxios.get(`/cat/${cat_id}/${sort}/${limit}/${page}`)
+				await authAxios.get(`/cat/index/${cat_id}/${sort}/${limit}/${page}`)
 			).data
 		}
 		catch (err) {
@@ -259,7 +243,7 @@ export default {
 		try {
 			const authAxios = await this.authAxios()
 	
-			const { data } = await authAxios.get(`/post/${post_id}/${limit}/${page}`)
+			const { data } = await authAxios.get(`/index/post/${post_id}/${limit}/${page}`)
 	
 			return data
 		}

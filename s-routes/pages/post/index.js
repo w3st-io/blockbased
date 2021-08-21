@@ -15,7 +15,7 @@ const router = express.Router().use(cors())
 
 
 router.get(
-	'/:post_id/:limit/:page',
+	'/index/:post_id/:limit/:page',
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
