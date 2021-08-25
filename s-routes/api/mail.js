@@ -27,7 +27,6 @@ const upload = multer({
 })
 
 
-// [MAIN-ROUTE] //
 router.post(
 	'/get-quote',
 	async (req, res) => {

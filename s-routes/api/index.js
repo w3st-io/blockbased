@@ -11,7 +11,6 @@ const config = require('../../s-config')
 const router = express.Router().use(cors())
 
 
-// [MAIN-ROUTE] //
 router.get(
 	'/',
 	async (req, res) => {

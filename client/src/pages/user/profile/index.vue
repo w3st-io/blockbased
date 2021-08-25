@@ -1,7 +1,7 @@
 <template>
 	<BContainer class="my-3">
 		<BRow>
-			<!-- Loading -->
+			<!-- [LOADING] -->
 			<BCol v-if="loading" cols="12">
 				<Alert variant="primary" />
 			</BCol>
@@ -25,26 +25,148 @@
 				</BCard>
 			</BCol>
 		</BRow>
+		
+		<BRow v-if="!error && !loading" class="mt-3">
+			<!-- Account Details -->
+			<BCol sm="12" lg="9">
+				<BCard bg-variant="dark" text-variant="light" class="mb-4">
+					<!-- Profile Details -->
+					<BRow>
+						<!-- Profile -->
+						<BCol cols="12" lg="3" class="mt-2">
+							<BBadge variant="primary" class="w-100 mb-3 p-0 rounded">
+								<h5 class="mb-1">
+									{{ data.user.username }}
+								</h5>
+							</BBadge>
 
-		<Profile
-			v-if="!error && !loading"
-			:personal="true"
-			:user_id="user._id"
-			:email="user.email"
-			:username="user.username"
-			:profile_img="user.profile_img"
-			:bio="user.bio"
-			:created_at="user.created_at"
-			:commentCount="data.commentCount"
-			:commentLikeCount="data.commentLikeCount"
-			:postCount="data.postCount"
-			:postLikeCount="data.postLikeCount"
-			:activityData="data.activityData"
-		/>
+							<div class="m-auto" style="max-width: 170px;">
+								<img
+									:src="data.user.profile_img"
+									alt="Profile Image Not Available"
+									class="w-100 mx-auto border border-primary rounded"
+								>
+							</div>
 
-		<BRow class="mt-3">
-			<!-- Error -->
-			<BCol v-if="error" cols="12">
+							<h6 class="mt-3">
+								<span class="text-secondary">Email:</span><br>
+								{{ data.user.email }}
+							</h6>
+
+							<h6 class="mt-3">
+								<span class="text-secondary">Bio:</span><br>
+								{{ data.user.bio }}
+							</h6>					
+
+							<h6 class="mt-3">
+								<span class="text-secondary">Joined:</span><br>
+								{{ new Date(data.user.created_at).toLocaleString() }}
+							</h6>
+
+							<h6 class="mt-3 small text-secondary">{{ data.user.user_id }}</h6>
+						</BCol>
+
+						<!-- Account Details -->
+						<BCol cols="12" lg="9" class="mt-2">
+							<BRow>
+								<!-- Total Comments -->
+								<BCol cols="12" sm="6" md="6" lg="3">
+									<BBadge
+										variant="dark"
+										class="w-100 mb-2"
+									>
+										<h6>Total Comments</h6>
+										<h4>{{ data.commentCount }}</h4>
+									</BBadge>
+								</BCol>
+
+								<!-- Total Posts -->
+								<BCol cols="12" sm="6" md="6" lg="3">
+									<BBadge variant="dark" class="w-100 mb-2">
+										<h6>Total Posts</h6>
+										<h4>{{ data.postCount }}</h4>
+									</BBadge>
+								</BCol>
+
+								<!-- Post Score -->
+								<BCol cols="12" sm="6" md="6" lg="3">
+									<BBadge variant="dark" class="w-100 mb-2">
+										<h6>Post Score</h6>
+										<h4>{{ data.postLikeCount }}</h4>
+									</BBadge>
+								</BCol>
+
+								<!-- Comment Score -->
+								<BCol cols="12" sm="6" md="6" lg="3">
+									<BBadge variant="dark" class="w-100 mb-2">
+										<h6>Comment Score</h6>
+										<h4>{{ data.commentLikeCount }}</h4>
+									</BBadge>
+								</BCol>
+							</BRow>
+
+							<hr class="border-primary">
+							<BRow>
+								<BCol cols="12">
+									<h3>Awards</h3>
+									<h6 class="py-5 text-center text-secondary">
+										No awards yet
+									</h6>
+								</BCol>
+							</BRow>
+
+							<hr class="mt-4 border-secondary">
+							<BRow>
+								<BCol cols="6">
+									<BButton
+										variant="outline-secondary"
+										class="w-100 mt-3"
+										@click="redirectProfileEdit()"
+									>Edit Profile</BButton>
+								</BCol>
+
+								<BCol cols="6">
+									<BButton
+										variant="outline-secondary"
+										class="w-100 mt-3"
+										@click="redirectPasswordChange()"
+									>Change Password</BButton>
+								</BCol>
+							</BRow>
+						</BCol>
+					</BRow>
+				</BCard>
+
+				<!-- [ACTIVITY] -->
+				<BCard bg-variant="dark" text-variant="light">
+					<BRow>
+						<!-- Wrapped Chart -->
+						<BCol cols="12" lg="12" class="mt-2">
+							<WrappedLineChart
+								:title="'Activity'"
+								:labels="activityLabels"
+								:data="activityValues"
+								:height="350"
+							/>
+						</BCol>
+
+						<BCol cols="12">
+							<BButton
+								variant="outline-primary"
+								class="w-100 mt-3"
+								@click="redirectYourActivity()"
+							>View Your Activity</BButton>
+						</BCol>
+					</BRow>
+				</BCard>
+			</BCol>
+
+			<BCol sm="12" lg="3"></BCol>
+		</BRow>
+
+		<!-- [ERROR] -->
+		<BRow v-if="error" class="mt-3">
+			<BCol cols="12">
 				<Alert variant="danger" :message="error" />
 			</BCol>
 		</BRow>
@@ -53,17 +175,17 @@
 
 <script>
 	// [IMPORT] Personal //
+	import WrappedLineChart from '@/components/chartjs/WrappedLineChart'
 	import Alert from '@/components/inform/Alert'
-	import Profile from '@/components/user/Profile'
 	import router from '@/router'
 	import PageService from '@/services/PageService'
 	import UserService from '@/services/user/UserService'
 
-	// [EXPORT] //
+
 	export default {
 		components: {
+			WrappedLineChart,
 			Alert,
-			Profile,
 		},
 
 		data() {
@@ -80,27 +202,24 @@
 			}
 		},
 
-		created: async function() {
-			// [REDIRECT] Not Log Required //
-			if (!localStorage.usertoken) { router.push({ name: 'user_login' }) }
-
-			try { this.returned = await await PageService.s_user_profile() }
-			catch (err) { this.error = err }
-
-			this.loading = false
-
-			if (this.returned.status) {
-				this.data = this.returned
-				this.user = this.returned.user
-				this.isVerified = this.user.verified
-			}
-			else { this.error = this.returned.message }
-
-			// [LOG] //
-			this.log()
-		},
-
 		methods: {
+			async getPageData() {
+				this.returned = await PageService.s_user_profile()
+
+				this.loading = false
+
+				if (this.returned.status) {
+					this.data = this.returned
+					this.user = this.returned.user
+					this.isVerified = this.user.verified
+
+					// Map Data activityData //
+					this.activityLabels = this.data.activityData.map(d => d.time)
+					this.activityValues = this.data.activityData.map(d => d.count)
+				}
+				else { this.error = this.returned.message }
+			},
+
 			async resendvCodeEmail() {
 				if (this.user) {
 					this.returned = await UserService.s_resendVerificationEmail(
@@ -112,11 +231,39 @@
 				}
 			},
 
+			redirectProfileEdit() { router.push({ name: 'user_profile_edit' }) },
+
+			redirectPasswordChange() { router.push({ name: 'password_change', }) },
+
+			redirectYourActivity() {
+				router.push({
+					name: 'user_activity',
+					params: {
+						sort: 1,
+						limit: 5,
+						page: 1,
+					}
+				})
+			},
+
 			log() {
 				console.log('%%% [PAGE] User Profile %%%')
 				console.log('returned:', this.returned)
 				console.log('user:', this.user)
 			},
+		},
+
+		async created() {
+			try {
+				// [REDIRECT] Not Log Required //
+				if (!localStorage.usertoken) { router.push({ name: 'user_login' }) }
+
+				await this.getPageData()
+
+				// [LOG] //
+				this.log()
+			}
+			catch (err) { this.error = err }
 		},
 	}
 </script>
