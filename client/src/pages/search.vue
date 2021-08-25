@@ -1,5 +1,5 @@
 <template>
-	<BContainer class="my-3">
+	<BContainer class="my-5">
 		<!-- Search Result -->
 		<BRow class="">
 			<BCol cols="12" class="text-primary">
@@ -9,17 +9,18 @@
 			</BCol>
 		</BRow>
 
-		<BCard bg-variant="dark" text-variant="light" no-body>
-			<BTabs pills card>
+		<BCard bg-variant="dark" text-variant="light" class="shadow">
+			<BTabs pills>
+				<!-- Cryptocurrencies -->
 				<BTab
 					title="Cryptocurrencies"
 					v-bind="{ active: $route.params.tab == 0 }"
 				>
 					<BCardText>
-						<hr class="my-4 border-secondary">
 						<BRow>
 							<!-- Coinbase -->
 							<BCol cols="12">
+								<hr class="my-4 border-secondary">
 								<h3>Coinbase Results</h3>
 							</BCol>
 						
@@ -38,8 +39,32 @@
 						</BRow>
 
 						<BRow v-if="coinbaseResults.length  === 0">
-							<!-- [DEFAULT] If No content -->
-							<NoContent text="No Products Found" class="mx-auto my-3" />
+							<BCol cols="12">
+								<!-- [DEFAULT] If No content -->
+								<NoContent text="No Products Found" class="mx-auto my-3" />
+							</BCol>
+
+							<BCol cols="12">
+								<BRow>
+									<BCol cols="12">
+										<h3 class="text-primary">Suggested</h3>
+										<hr class="my-4 bg-secondary">
+									</BCol>
+
+									<BCol
+										v-for="(s, i) in suggested" :key="i"
+										cols="12" md="6" lg="4"
+									>
+										<BCard
+											@click="viewAsset('coinbase', s.id)"
+											bg-variant="dark"
+											text-variant="light"
+											border-variant="primary"
+											class="mb-4 result-option"
+										>{{ s.display_name }}</BCard>
+									</BCol>
+								</BRow>
+							</BCol>
 						</BRow>
 
 						<BRow v-if="error">
@@ -48,6 +73,7 @@
 					</BCardText>
 				</BTab>
 
+				<!-- All Other Searches -->
 				<BTab
 					title="All Other Searches"
 					v-bind="{ active: $route.params.tab == 1 }"
@@ -157,6 +183,21 @@
 
 				loading: true,
 				error: '',
+
+				suggested: [
+					{
+						id: "BTC-USD",
+						display_name: "BTC/USD",
+					},
+					{
+						id: "ETH-USD",
+						display_name: "ETH/USD",
+					},
+					{
+						id: "DOGE-USD",
+						display_name: "DOGE/USD",
+					},
+				]
 			}
 		},
 

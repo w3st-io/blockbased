@@ -1,10 +1,12 @@
 <template>
 	<BContainer class="my-3">
+
+		<h1>{{ loading }}</h1>
 		<!-- Set Page Title -->
 		<VueHeadful :title="`Post - ${postTitle}`" />
 
 		<BCard bg-variant="dark">
-			<BRow v-if="!loading">
+			<BRow v-if="!loading && !error">
 				<!-- Title -->
 				<BCol cols="12" sm="10">
 					<h3 v-if="post" class="m-0 text-light">
@@ -265,7 +267,10 @@
 
 					this.loading = false
 				}
-				catch (err) { this.error = `This: --> ${err}` }
+				catch (err) {
+					this.error = `This: --> ${err}`
+					this.loading = false
+				}
 			},
 
 			log() {

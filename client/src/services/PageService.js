@@ -243,7 +243,7 @@ export default {
 		try {
 			const authAxios = await this.authAxios()
 	
-			const { data } = await authAxios.get(`/index/post/${post_id}/${limit}/${page}`)
+			const { data } = await authAxios.get(`/post/index/${post_id}/${limit}/${page}`)
 	
 			return data
 		}
