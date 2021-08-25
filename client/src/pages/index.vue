@@ -1,5 +1,5 @@
 <template>
-	<BContainer class="my-3">
+	<BContainer class="my-5">
 		<BRow class="">
 			<BCol cols="12">
 				<!-- Adsense -->
