@@ -1,7 +1,5 @@
 <template>
 	<BContainer class="my-3">
-
-		<h1>{{ loading }}</h1>
 		<!-- Set Page Title -->
 		<VueHeadful :title="`Post - ${postTitle}`" />
 
