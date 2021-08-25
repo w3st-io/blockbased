@@ -489,6 +489,9 @@ module.exports = {
 					existance: false,
 				}
 			}
+
+			// [INIT] //
+			exactMatch = []
 	
 			// [READ] //
 			const posts = await PostModel.fuzzySearch({ query: query })
@@ -496,7 +499,16 @@ module.exports = {
 				.limit(limit)
 				.skip(skip)
 				.exec()
-	
+
+			// [EXACT-MATCH] //
+			exactMatch = await PostModel.find({ title: query })
+				.select('-password')
+				.exec()
+
+			if (posts.length == 0 && exactMatch.length == 1) {
+				posts.push(exactMatch[0])
+			}
+
 			// [FILL-DATA] //
 			for (let i = 0; i < posts.length; i++) {
 				posts[i] = await c_fillData(user_id, posts[i])
@@ -523,6 +535,11 @@ module.exports = {
 		try {
 			// [COUNT] //
 			const count = await PostModel.fuzzySearch({ query: query }).countDocuments()
+
+			// [EXACT-MATCH] //
+			exactMatch = await PostModel.find({ title: query }).countDocuments()
+
+			if (count == 0 && exactMatch == 1) { count = 1 }
 	
 			return {
 				executed: true,
