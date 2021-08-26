@@ -1,6 +1,6 @@
 <template>
 	<BContainer class="my-5">
-		<!-- Set Page Title-->
+		<!-- Set Page Title -->
 		<VueHeadful
 			:title="`
 				${graph.closes[graph.closes.length - 1]}
@@ -14,6 +14,14 @@
 				<!-- Exchange & Product ID -->
 				<BCol cols="12" md="8">
 					<h5 class="text-secondary">
+						<span>
+							<!-- Asset Logo Img -->
+							<img
+								:src="assetLogoImg"
+								class="w-100"
+								style="max-width: 20px;"
+							>
+						</span>
 						{{ $route.params.exchange }}: {{ $route.params.product_id }}
 					</h5>
 					<!-- Last -->
@@ -164,6 +172,7 @@
 	export default {
 		data() {
 			return {
+				assetLogoImg: '',
 				chartKey: 0,
 				key: 0,
 				candleCount: 300,
@@ -249,8 +258,6 @@
 					timeFrame: this.$route.params.timeframe,
 					candleCount: this.candleCount,
 				})
-
-				console.log('sdf', this.reqData.graph)
 
 				if (this.reqData.status) {
 					this.graph.labels = this.reqData.graph.labels

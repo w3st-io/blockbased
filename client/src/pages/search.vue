@@ -18,9 +18,14 @@
 				>
 					<BCardText>
 						<BRow>
-							<!-- Coinbase -->
 							<BCol cols="12">
 								<hr class="my-4 border-secondary">
+							</BCol>
+						</BRow>
+
+						<BRow v-if="coinbaseResults.length !== 0" class="mb-5">
+							<!-- Coinbase -->
+							<BCol cols="12">
 								<h3>Coinbase Results</h3>
 							</BCol>
 						
@@ -38,12 +43,14 @@
 							</BCol>
 						</BRow>
 
-						<BRow v-if="coinbaseResults.length  === 0">
+						<BRow v-else class="mb-5">
 							<BCol cols="12">
 								<!-- [DEFAULT] If No content -->
 								<NoContent text="No Products Found" class="mx-auto my-3" />
 							</BCol>
+						</BRow>
 
+						<BRow>
 							<BCol cols="12">
 								<BRow>
 									<BCol cols="12">
@@ -84,24 +91,28 @@
 							<BCol cols="2">
 								<BNav class="flex-column nav-pills">
 									<p
-										class="m-0 nav-link"
+										class="m-0 mb-2 nav-link"
 										:class="{ active: type == 'posts' }"
 										@click="searchRedirect('posts')"
 									>
 										<span class="float-left">Posts</span>
-										<BBadge variant="light" class="float-right">
-											{{ postCount }}
-										</BBadge>
+										<BBadge
+											variant="light"
+											class="float-right"
+											style="font-size: 1em;"
+										>{{ postCount }}</BBadge>
 									</p>
 									<p
-										class="m-0 nav-link"
+										class="m-0 mb-2 nav-link"
 										:class="{ active: type == 'users' }"
 										@click="searchRedirect('users')"
 									>
 										<span class="float-left">Users</span>
-										<BBadge variant="light" class="float-right">
-											{{ userCount }}
-										</BBadge>
+										<BBadge
+											variant="light"
+											class="float-right"
+											style="font-size: 1em;"
+										>{{ userCount }}</BBadge>
 									</p>
 								</BNav>
 							</BCol>
