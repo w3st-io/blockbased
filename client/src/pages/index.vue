@@ -103,7 +103,6 @@
 	import CryptoPrices from '@/components/home/CryptoPrices'
 	import MainArticle from '@/components/home/MainArticle'
 	import TopPosts from '@/components/home/TopPosts'
-	import router from '@/router'
 	import PageService from '@/services/PageService'
 
 	export default {
@@ -139,11 +138,6 @@
 			async getPageData() {
 				try {
 					this.reqData = await PageService.s_home()
-					
-					// [REDIRECT] Custom Home Page Available //
-					if (this.reqData.customHome == true) {
-						router.push({ name: 'home' })
-					}
 
 					if (this.reqData.status) {
 						this.btcHistoricRate = this.reqData.btcHistoricRate

@@ -3,12 +3,13 @@
 		<!-- Set Page Title -->
 		<VueHeadful
 			:title="`
-				${graph.closes[graph.closes.length - 1]}
+				${this.assetData.graph.closes[this.assetData.graph.closes.length - 1]}
 				-
 				${$route.params.product_id}
 			`"
 		/>
 
+		<!-- Asset Details -->
 		<BCard bg-variant="dark" text-variant="light">
 			<BRow>
 				<!-- Exchange & Product ID -->
@@ -17,7 +18,7 @@
 						<span>
 							<!-- Asset Logo Img -->
 							<img
-								:src="assetLogoImg"
+								:src="assetData.assetLogoImg"
 								class="w-100"
 								style="max-width: 20px;"
 							>
@@ -26,12 +27,16 @@
 					</h5>
 					<!-- Last -->
 					<h1 class="text-light">
-						Last: {{ graph.closes[graph.closes.length - 1] }}
+						Last:
+						{{ this.assetData.graph.closes[this.assetData.graph.closes.length - 1] }}
 					</h1>
 				</BCol>
 
+				<!-- Time Frame Selector -->
 				<BCol cols="12" md="4">
-					<h6 class="float-right">Total Candles: {{ candleCount }}</h6>
+					<h6 class="float-right">
+						Total Candles: {{ assetData.candleCount }}
+					</h6>
 				</BCol>
 
 				<!-- Current Candle Stats -->
@@ -39,22 +44,26 @@
 					<BRow>
 						<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
 							<h5 class="text-center text-secondary">
-								Open: {{ graph.opens[graph.opens.length - 1] }}
+								Open:
+								{{ this.assetData.graph.opens[this.assetData.graph.opens.length - 1] }}
 							</h5>
 						</BCol>
 						<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
 							<h5 class="text-center text-success">
-								High: {{ graph.highs[graph.highs.length - 1] }}
+								High:
+								{{ this.assetData.graph.highs[this.assetData.graph.highs.length - 1] }}
 							</h5>
 						</BCol>
 						<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
 							<h5 class="text-center text-danger">
-								Low: {{ graph.lows[graph.lows.length - 1] }}
+								Low:
+								{{ this.assetData.graph.lows[this.assetData.graph.lows.length - 1] }}
 							</h5>
 						</BCol>
 						<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
 							<h5 class="text-center text-light">
-								Close: {{ graph.closes[graph.closes.length - 1] }}
+								Close:
+								{{ this.assetData.graph.closes[this.assetData.graph.closes.length - 1] }}
 							</h5>
 						</BCol>
 					</BRow>
@@ -65,11 +74,11 @@
 					<AssetLineChart
 						v-if="!loading"
 						:key="chartKey"
-						:labels="graph.labels"
-						:opens="graph.opens"
-						:highs="graph.highs"
-						:lows="graph.lows"
-						:closes="graph.closes"
+						:labels="this.assetData.graph.labels"
+						:opens="this.assetData.graph.opens"
+						:highs="this.assetData.graph.highs"
+						:lows="this.assetData.graph.lows"
+						:closes="this.assetData.graph.closes"
 						class="w-100 bg-dark"
 						style="height: 450px;"
 					/>
@@ -96,65 +105,72 @@
 				<BCol :key="key" cols="12">
 					<h6 class="text-primary">labels</h6>
 					<h6>
-						Latest: {{ graph.labels[graph.labels.length - 1] }}
+						Latest:
+						{{ this.assetData.graph.labels[this.assetData.graph.labels.length - 1] }}
 						<br>
-						Array: {{ graph.labels }}
+						Array:{{ this.assetData.graph.labels }}
 						<br>
-						Length: {{ graph.labels.length }}
+						Length: {{ this.assetData.graph.labels.length }}
 					</h6>
 
 					<h6 class="text-primary">times</h6>
 					<h6>
-						Latest: {{ graph.times[graph.times.length - 1] }}
+						Latest:
+						{{ this.assetData.graph.times[this.assetData.graph.times.length - 1] }}
 						<br>
-						Array: {{ graph.times }}
+						Array: {{ this.assetData.graph.times }}
 						<br>
-						Length: {{ graph.times.length }}
+						Length: {{ this.assetData.graph.times.length }}
 					</h6>
 					
 					<h6 class="text-primary">opens</h6>
 					<h6>
-						Latest: {{ graph.opens[graph.opens.length - 1] }}
+						Latest:
+						{{ this.assetData.graph.opens[this.assetData.graph.opens.length - 1] }}
 						<br>
-						Array: {{ graph.opens }}
+						Array: {{ this.assetData.graph.opens }}
 						<br>
-						Length: {{ graph.opens.length }}
+						Length: {{ this.assetData.graph.opens.length }}
 					</h6>
 
 					<h6 class="text-primary">closes</h6>
 					<h6>
-						Latest: {{ graph.closes[graph.closes.length - 1] }}
+						Latest:
+						{{ this.assetData.graph.closes[this.assetData.graph.closes.length - 1] }}
 						<br>
-						Array: {{ graph.closes }}
+						Array: {{ this.assetData.graph.closes }}
 						<br>
-						Length: {{ graph.closes.length }}
+						Length: {{ this.assetData.graph.closes.length }}
 					</h6>
 
 					<h6 class="text-primary">highs</h6>
 					<h6>
-						Latest: {{ graph.highs[graph.highs.length - 1] }}
+						Latest:
+						{{ this.assetData.graph.highs[this.assetData.graph.highs.length - 1] }}
 						<br>
-						Array: {{ graph.highs }}
+						Array: {{ this.assetData.graph.highs }}
 						<br>
-						Length: {{ graph.highs.length }}
+						Length: {{ this.assetData.graph.highs.length }}
 					</h6>
 
 					<h6 class="text-primary">lows</h6>
 					<h6>
-						Latest: {{ graph.lows[graph.lows.length - 1] }}
+						Latest:
+						{{ this.assetData.graph.lows[this.assetData.graph.lows.length - 1] }}
 						<br>
-						Array: {{ graph.lows }}
+						Array: {{ this.assetData.graph.lows }}
 						<br>
-						Length: {{ graph.lows.length }}
+						Length: {{ this.assetData.graph.lows.length }}
 					</h6>
 
 					<h6 class="text-primary">volumes</h6>
 					<h6>
-						Latest: {{ graph.volumes[graph.volumes.length - 1] }}
+						Latest:
+						{{ this.assetData.graph.volumes[this.assetData.graph.volumes.length - 1] }}
 						<br>
-						Array: {{ graph.volumes }}
+						Array: {{ this.assetData.graph.volumes }}
 						<br>
-						Length: {{ graph.volumes.length }}
+						Length: {{ this.assetData.graph.volumes.length }}
 					</h6>
 				</BCol>
 			</BRow>
@@ -172,26 +188,28 @@
 	export default {
 		data() {
 			return {
-				assetLogoImg: '',
-				chartKey: 0,
 				key: 0,
-				candleCount: 300,
+				chartKey: 0,
+
+				assetData: {
+					assetLogoImg: '',
+					candleCount: 300,
+					graph: {
+						labels: [],
+						times: [],
+						opens: [],
+						closes: [],
+						highs: [],
+						lows: [],
+						volumes: [],
+					},
+				},
+
 				loading: true,
 				error: '',
 
 				reqData: {},
 				sockData: {},
-				graphData: [],
-
-				graph: {
-					labels: [],
-					times: [],
-					opens: [],
-					closes: [],
-					highs: [],
-					lows: [],
-					volumes: [],
-				},
 			}
 		},
 
@@ -217,7 +235,7 @@
 
 			async addNewCandle() {
 				const generatedTimeStamp = new Date(
-					this.graph.times[this.graph.times.length - 1].getTime() +
+					this.assetData.graph.times[this.assetData.graph.times.length - 1].getTime() +
 					crypto.getGranularity({
 						exchange: this.$route.params.exchange,
 						timeFrame: this.$route.params.timeframe
@@ -230,22 +248,22 @@
 				)
 
 				// Add current candle to beginning //
-				this.graph.labels.push(generatedLabel)
-				this.graph.times.push(generatedTimeStamp)
-				this.graph.opens.push(this.graph.closes[this.graph.closes.length - 1])
-				this.graph.closes.push(this.graph.closes[this.graph.closes.length - 1])
-				this.graph.highs.push(this.graph.closes[this.graph.closes.length - 1])
-				this.graph.lows.push(this.graph.closes[this.graph.closes.length - 1])
-				this.graph.volumes.push(0)
+				this.assetData.graph.labels.push(generatedLabel)
+				this.assetData.graph.times.push(generatedTimeStamp)
+				this.assetData.graph.opens.push(this.assetData.graph.closes[this.assetData.graph.closes.length - 1])
+				this.assetData.graph.closes.push(this.assetData.graph.closes[this.assetData.graph.closes.length - 1])
+				this.assetData.graph.highs.push(this.assetData.graph.closes[this.assetData.graph.closes.length - 1])
+				this.assetData.graph.lows.push(this.assetData.graph.closes[this.assetData.graph.closes.length - 1])
+				this.assetData.graph.volumes.push(0)
 
 				// Remove last candle from end //
-				this.graph.labels.shift()
-				this.graph.times.shift()
-				this.graph.opens.shift()
-				this.graph.closes.shift()
-				this.graph.highs.shift()
-				this.graph.lows.shift()
-				this.graph.volumes.shift()
+				this.assetData.graph.labels.shift()
+				this.assetData.graph.times.shift()
+				this.assetData.graph.opens.shift()
+				this.assetData.graph.closes.shift()
+				this.assetData.graph.highs.shift()
+				this.assetData.graph.lows.shift()
+				this.assetData.graph.volumes.shift()
 			},
 
 
@@ -256,17 +274,17 @@
 					exchange: this.$route.params.exchange,
 					product_id: this.$route.params.product_id,
 					timeFrame: this.$route.params.timeframe,
-					candleCount: this.candleCount,
+					candleCount: this.assetData.candleCount,
 				})
 
 				if (this.reqData.status) {
-					this.graph.labels = this.reqData.graph.labels
-					this.graph.times = this.reqData.graph.times
-					this.graph.opens = this.reqData.graph.opens
-					this.graph.closes = this.reqData.graph.closes
-					this.graph.highs = this.reqData.graph.highs
-					this.graph.lows = this.reqData.graph.lows
-					this.graph.volumes = this.reqData.graph.volumes
+					this.assetData.graph.labels = this.reqData.graph.labels
+					this.assetData.graph.times = this.reqData.graph.times
+					this.assetData.graph.opens = this.reqData.graph.opens
+					this.assetData.graph.closes = this.reqData.graph.closes
+					this.assetData.graph.highs = this.reqData.graph.highs
+					this.assetData.graph.lows = this.reqData.graph.lows
+					this.assetData.graph.volumes = this.reqData.graph.volumes
 
 					this.addNewCandle()
 				}
@@ -278,7 +296,7 @@
 
 		async created() {
 			if (this.$store.state.node_env == 'development') {
-				this.candleCount = 30
+				this.assetData.candleCount = 30
 			}
 
 			await this.getPageDataLocally()
@@ -306,11 +324,11 @@
 					]
 
 					// [UPDATE] latest candle in data //
-					this.graph.lows[this.graph.lows.length - 1] = candle.low
-					this.graph.opens[this.graph.opens.length - 1] = candle.open
-					this.graph.closes[this.graph.closes.length - 1] = candle.close
-					this.graph.highs[this.graph.highs.length - 1] = candle.high
-					//this.graph.volumes[this.graph.volumes - 1] = candle.volume
+					this.assetData.graph.lows[this.assetData.graph.lows.length - 1] = candle.low
+					this.assetData.graph.opens[this.assetData.graph.opens.length - 1] = candle.open
+					this.assetData.graph.closes[this.assetData.graph.closes.length - 1] = candle.close
+					this.assetData.graph.highs[this.assetData.graph.highs.length - 1] = candle.high
+					//this.assetData.graph.volumes[this.assetData.graph.volumes - 1] = candle.volume
 
 					this.chartKey++
 					this.key++

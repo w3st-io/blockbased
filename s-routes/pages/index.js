@@ -21,13 +21,8 @@ router.get(
 	Auth.userTokenNotRequired(),
 	async (req, res) => {
 		try {
-			// [INIT] //
-			let customHome = false
+			// [INIT] Const //
 			const user_id = (req.user_decoded) ? req.user_decoded.user_id : undefined
-
-			
-			// Set Custom Home Status //
-			if (config.CUSTOM_HOME == 'true') { customHome = true }
 			
 			
 			// [CRYPTO-QUOTE] //
@@ -74,7 +69,6 @@ router.get(
 			res.send({
 				executed: true,
 				status: true,
-				customHome: customHome,
 				cryptoQuoteObj: cryptoQuoteObj,
 				categories: categories,
 				topPosts: topPosts,

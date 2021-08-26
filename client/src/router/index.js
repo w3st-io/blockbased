@@ -37,8 +37,6 @@ import example_parallax from '@/pages/example/parallax'
 import example_hoursAndContact from '@/pages/example/hours-and-contact'
 // Followed //
 import followed from '@/pages/followed'
-// Home //
-import home from '@/pages/home'
 // Notification //
 import notification from '@/pages/notification'
 // Post //
@@ -69,12 +67,11 @@ import NotFound from '@/pages/404'
 Vue.use(Router)
 
 
-// [EXPORT] //
 const router = new Router ({
 	mode: 'history',
 
 	routes: [
-		// Index //
+		// Root //
 		{
 			path: '/',
 			name: '/',
@@ -289,16 +286,6 @@ const router = new Router ({
 				auth: true,
 				title: 'Posts You Are Following'
 			}
-		},
-		// Home //
-		{
-			path: '/home',
-			name: 'home',
-			component: home,
-			meta: {
-				auth: true,
-				title: 'Home'
-			},
 		},
 		// Notification //
 		{
