@@ -12,15 +12,16 @@ module.exports = {
 	news: news,
 
 	updateNews: async function () {
-		const res = await axios.get(
-			`https://finnhub.io/api/v1/news?category=crypto&token=${config.FINNHUB_KEY}`
-		)
-
-		news = res.data
+		try {
+			const res = await axios.get(
+				`https://finnhub.io/api/v1/news?category=crypto&token=${config.FINNHUB_KEY}`
+			)
+	
+			news = res.data
+		}
+		catch (err) { console.log(`Finnhub API Error --> ${err}`) }
 	},
 
 
-	getNews: function () {
-		return news
-	}
+	getNews: function () { return news }
 }

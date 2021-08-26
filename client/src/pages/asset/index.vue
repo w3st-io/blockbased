@@ -12,62 +12,111 @@
 		<!-- Asset Details -->
 		<BCard bg-variant="dark" text-variant="light">
 			<BRow>
-				<!-- Exchange & Product ID -->
+				<!-- Header Left Side -->
 				<BCol cols="12" md="8">
-					<h5 class="text-secondary">
-						<span>
-							<!-- Asset Logo Img -->
-							<img
-								:src="assetData.assetLogoImg"
-								class="w-100"
-								style="max-width: 20px;"
-							>
-						</span>
-						{{ $route.params.exchange }}: {{ $route.params.product_id }}
-					</h5>
-					<!-- Last -->
-					<h1 class="text-light">
-						Last:
-						{{ this.assetData.graph.closes[this.assetData.graph.closes.length - 1] }}
-					</h1>
-				</BCol>
-
-				<!-- Time Frame Selector -->
-				<BCol cols="12" md="4">
-					<h6 class="float-right">
-						Total Candles: {{ assetData.candleCount }}
-					</h6>
-				</BCol>
-
-				<!-- Current Candle Stats -->
-				<BCol cols="12">
 					<BRow>
-						<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
-							<h5 class="text-center text-secondary">
-								Open:
-								{{ this.assetData.graph.opens[this.assetData.graph.opens.length - 1] }}
+						<!-- Exchange & Product ID -->
+						<BCol cols="12">
+							<h5 class="text-secondary">
+								<span>
+									<!-- Asset Logo Img -->
+									<img
+										:src="assetData.assetLogoImg"
+										class="w-100"
+										style="max-width: 20px;"
+									>
+								</span>
+								{{ $route.params.exchange }}: {{ $route.params.product_id }}
 							</h5>
-						</BCol>
-						<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
-							<h5 class="text-center text-success">
-								High:
-								{{ this.assetData.graph.highs[this.assetData.graph.highs.length - 1] }}
-							</h5>
-						</BCol>
-						<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
-							<h5 class="text-center text-danger">
-								Low:
-								{{ this.assetData.graph.lows[this.assetData.graph.lows.length - 1] }}
-							</h5>
-						</BCol>
-						<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
-							<h5 class="text-center text-light">
-								Close:
+							<!-- Last -->
+							<h1 class="text-light">
+								Last:
 								{{ this.assetData.graph.closes[this.assetData.graph.closes.length - 1] }}
-							</h5>
+							</h1>
+						</BCol>
+
+						<!-- Current Candle Stats -->
+						<BCol cols="12">
+							<BRow>
+								<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
+									<h5 class="text-center text-secondary">
+										Open:
+										{{ this.assetData.graph.opens[this.assetData.graph.opens.length - 1] }}
+									</h5>
+								</BCol>
+								<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
+									<h5 class="text-center text-success">
+										High:
+										{{ this.assetData.graph.highs[this.assetData.graph.highs.length - 1] }}
+									</h5>
+								</BCol>
+								<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
+									<h5 class="text-center text-danger">
+										Low:
+										{{ this.assetData.graph.lows[this.assetData.graph.lows.length - 1] }}
+									</h5>
+								</BCol>
+								<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
+									<h5 class="text-center text-light">
+										Close:
+										{{ this.assetData.graph.closes[this.assetData.graph.closes.length - 1] }}
+									</h5>
+								</BCol>
+							</BRow>
 						</BCol>
 					</BRow>
 				</BCol>
+
+				<!-- Time Frame Selector -->
+				<BCol cols="12" md="4" class="">
+					<BRow>
+						<BCol cols="12" class="">
+							<BButtonGroup size="sm" class="w-100">
+								<BButton
+									variant="outline-primary"
+									:class="{
+										'btn-primary text-dark': $route.params.timeframe == '1m'
+									}"
+									@click="timeFrameRedirect('1m')"
+								>1m</BButton>
+
+								<BButton
+									variant="outline-primary"
+									:class="{
+										'btn-primary text-dark': $route.params.timeframe == '5m'
+									}"
+									@click="timeFrameRedirect('5m')"
+								>5m</BButton>
+
+								<BButton
+									variant="outline-primary"
+									:class="{
+										'btn-primary text-dark': $route.params.timeframe == '15m'
+									}"
+									@click="timeFrameRedirect('15m')"
+								>15m</BButton>
+
+								<BButton
+									variant="outline-primary"
+									:class="{
+										'btn-primary text-dark': $route.params.timeframe == '6h'
+									}"
+									@click="timeFrameRedirect('6h')"
+								>6h</BButton>
+
+								<BButton
+									variant="outline-primary"
+									:class="{
+										'btn-primary text-dark': $route.params.timeframe == '1d'
+									}"
+									@click="timeFrameRedirect('1d')"
+								>1d</BButton>
+							</BButtonGroup>
+						</BCol>
+					</BRow>
+				</BCol>
+
+				<BCol cols="12"><hr class="bg-primary"></BCol>
 
 				<BCol cols="12">
 					<!-- CHART -->
@@ -116,7 +165,11 @@
 					<h6 class="text-primary">times</h6>
 					<h6>
 						Latest:
-						{{ this.assetData.graph.times[this.assetData.graph.times.length - 1] }}
+						{{
+							this.assetData.graph.times[
+								this.assetData.graph.times.length - 1
+							]
+						}}
 						<br>
 						Array: {{ this.assetData.graph.times }}
 						<br>
@@ -126,7 +179,11 @@
 					<h6 class="text-primary">opens</h6>
 					<h6>
 						Latest:
-						{{ this.assetData.graph.opens[this.assetData.graph.opens.length - 1] }}
+						{{
+							this.assetData.graph.opens[
+								this.assetData.graph.opens.length - 1
+							]
+						}}
 						<br>
 						Array: {{ this.assetData.graph.opens }}
 						<br>
@@ -136,7 +193,11 @@
 					<h6 class="text-primary">closes</h6>
 					<h6>
 						Latest:
-						{{ this.assetData.graph.closes[this.assetData.graph.closes.length - 1] }}
+						{{
+							this.assetData.graph.closes[
+								this.assetData.graph.closes.length - 1
+							]
+						}}
 						<br>
 						Array: {{ this.assetData.graph.closes }}
 						<br>
@@ -146,7 +207,11 @@
 					<h6 class="text-primary">highs</h6>
 					<h6>
 						Latest:
-						{{ this.assetData.graph.highs[this.assetData.graph.highs.length - 1] }}
+						{{
+							this.assetData.graph.highs[
+								this.assetData.graph.highs.length - 1
+							]
+						}}
 						<br>
 						Array: {{ this.assetData.graph.highs }}
 						<br>
@@ -156,7 +221,11 @@
 					<h6 class="text-primary">lows</h6>
 					<h6>
 						Latest:
-						{{ this.assetData.graph.lows[this.assetData.graph.lows.length - 1] }}
+						{{
+							this.assetData.graph.lows[
+								this.assetData.graph.lows.length - 1
+							]
+						}}
 						<br>
 						Array: {{ this.assetData.graph.lows }}
 						<br>
@@ -166,7 +235,11 @@
 					<h6 class="text-primary">volumes</h6>
 					<h6>
 						Latest:
-						{{ this.assetData.graph.volumes[this.assetData.graph.volumes.length - 1] }}
+						{{
+							this.assetData.graph.volumes[
+								this.assetData.graph.volumes.length - 1
+							]
+						}}
 						<br>
 						Array: {{ this.assetData.graph.volumes }}
 						<br>
@@ -183,6 +256,7 @@
 	import crypto from '@/api/crypto'
 	import cryptoUtil from '@/api/crypto/Util'
 	import AssetLineChart from '@/components/chartjs/AssetLineChart'
+	import router from '@/router'
 	import PageService from '@/services/PageService'
 
 	export default {
@@ -292,6 +366,23 @@
 
 				this.loading = false
 			},
+
+			async timeFrameRedirect(timeframe) {
+				router.push({
+					name: 'asset',
+					params: {
+						exchange: this.$route.params.exchange,
+						product_id: this.$route.params.product_id,
+						timeframe: timeframe,
+					}
+				})
+
+				await this.getPageDataLocally()
+
+				await this.unsubscribe()
+
+				await this.subscribe()
+			}
 		},
 
 		async created() {
