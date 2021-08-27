@@ -5,7 +5,7 @@
 
 		<BRow>
 			<BCol cols="12">
-				<BCard bg-variant="dark" text-variant="light">
+				<BCard bg-variant="dark" text-variant="light" class="shadow">
 					<!-- Cat Title Header -->
 					<BRow>
 						<!-- Title -->
