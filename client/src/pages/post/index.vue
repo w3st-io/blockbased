@@ -3,7 +3,7 @@
 		<!-- Set Page Title -->
 		<VueHeadful :title="`Post - ${postTitle}`" />
 
-		<BCard bg-variant="dark">
+		<BCard bg-variant="dark" class="shadow">
 			<BRow v-if="!loading && !error">
 				<!-- Title -->
 				<BCol cols="12" sm="10">

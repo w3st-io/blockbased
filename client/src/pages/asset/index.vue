@@ -79,7 +79,7 @@
 								<BInputGroup size="sm" class="mb-3">
 									<BInputGroupPrepend class="ml-auto bg-dark">
 										<BInputGroupText class="text-light border-light bg-dark">
-											# of Candles:
+											Number of Candles:
 										</BInputGroupText>
 									</BInputGroupPrepend>
 									

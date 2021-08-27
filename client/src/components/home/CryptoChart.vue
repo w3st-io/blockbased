@@ -2,7 +2,7 @@
 	<BRow  class="">
 		<BCol cols="12" md="4" class="">
 			<!-- Bitcoin Hour Chart -->
-			<BCard bg-variant="dark" text-variant="light" no-body class="mb-md-3 p-2">
+			<BCard bg-variant="dark" text-variant="light" no-body class="mb-md-3 p-2 shadow">
 				<h6 class="m-0 text-light">
 					BTC-USD
 					<span
@@ -43,7 +43,7 @@
 
 		<BCol cols="12" md="4" class="">
 			<!-- Ethereum Hour Chart -->
-			<BCard bg-variant="dark" text-variant="light" no-body class="mb-md-3 p-2">
+			<BCard bg-variant="dark" text-variant="light" no-body class="mb-md-3 p-2 shadow">
 				<h6 class="m-0 text-light">
 					ETH-USD
 					<span
@@ -84,7 +84,7 @@
 
 		<BCol cols="12" md="4" class="">
 			<!-- Doge Hour Chart -->
-			<BCard bg-variant="dark" text-variant="light" no-body class="mb-3 p-2">
+			<BCard bg-variant="dark" text-variant="light" no-body class="mb-3 p-2 shadow">
 				<h6 class="m-0 text-light">
 					DOGE-USD
 					<span

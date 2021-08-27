@@ -15,7 +15,7 @@
 					no-body
 					bg-variant="dark"
 					text-variant="light"
-					class="mb-3 px-3 py-2 pb-4"
+					class="mb-3 px-3 py-2 pb-4 shadow"
 				>
 					<h6 class="text-center text-light">
 						<span class="bg-primary px-1">Latest News</span>
@@ -31,7 +31,7 @@
 					v-if="cryptoPrices.length > 0"
 					bg-variant="dark"
 					no-body
-					class="mb-3 p-2 text-light"
+					class="mb-3 p-2 text-light shadow"
 				>
 					<!-- Crypto Prices -->
 					<CryptoPrices :cryptoPrices="cryptoPrices"/>
@@ -54,7 +54,7 @@
 		<!-- Main Content -->
 		<BRow v-if="!loading" class="mb-3">
 			<BCol cols="lg-9" class="mb-3 p-0">
-				<BCard bg-variant="dark" text-variant="light">
+				<BCard bg-variant="dark" text-variant="light" class="shadow">
 					<CatList
 						:categories="categories"
 						groupName="General"
