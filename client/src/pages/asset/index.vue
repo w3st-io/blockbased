@@ -71,6 +71,24 @@
 				<BCol cols="12" md="4" class="">
 					<BRow>
 						<BCol cols="12" class="">
+							<form @submit.prevent="timeFrameRedirect($route.params.timeframe)">
+								<div class="input-group input-group-sm mb-3">
+									<input
+										v-model="assetData.candleCount"
+										type="text"
+										class="form-control bg-dark border-light text-light"
+									>
+									<div class="input-group-append">
+										<BButton
+											type="submit"
+											variant="outline-light"
+										>Update Number of Candles</BButton>
+									</div>
+								</div>
+							</form>
+						</BCol>
+
+						<BCol cols="12" class="">
 							<BButtonGroup size="sm" class="w-100">
 								<BButton
 									variant="outline-primary"

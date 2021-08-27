@@ -10,6 +10,7 @@ const socketIO = require('socket.io')
 
 // [REQUIRE] Personal // Other // API // Pages //
 const coinbase_WS = require('./s-api/coinbase/webSocket')
+const coingecko = require('./s-api/coingecko')
 const finnhub = require('./s-api/finnhub')
 const config = require('./s-config')
 const Functionality = require('./s-middleware/Functionality')
@@ -92,9 +93,14 @@ app.set('socketio', io)
 coinbase_WS.start(io)
 
 
+// [COINGECKO] //
+coingecko.updateCoins()
+setInterval(function () { coingecko.updateCoins() }, 1000 * 60 * 5)
+
+
 // [FINNHUB] //
 finnhub.updateNews()
-setInterval(function () { finnhub.updateNews() }, 1000 * 60 * 5);
+setInterval(function () { finnhub.updateNews() }, 1000 * 60 * 5)
 
 
 // [MONGOOSE-CONNECTION] //
