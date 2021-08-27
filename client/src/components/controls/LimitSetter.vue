@@ -18,9 +18,9 @@
 
 		<BInputGroupAppend>
 			<BButton
-			variant="outline-light"
-			class="bg-primary font-weight-bold"
-			@click="newLimit()"
+				variant="outline-light"
+				class="bg-primary font-weight-bold"
+				@click="newLimit()"
 			>⟳</BButton>
 		</BInputGroupAppend>
 	</BInputGroup>

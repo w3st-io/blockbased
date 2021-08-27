@@ -71,20 +71,36 @@
 				<BCol cols="12" lg="4" class="">
 					<BRow>
 						<BCol cols="12" class="">
-							<form @submit.prevent="timeFrameRedirect($route.params.timeframe)">
-								<div class="input-group input-group-sm mb-3">
-									<input
+							<form
+								@submit.prevent="timeFrameRedirect($route.params.timeframe)"
+								class="ml-auto"
+								style="max-width: 300px;"
+							>
+								<BInputGroup size="sm" class="mb-3">
+									<BInputGroupPrepend class="ml-auto bg-dark">
+										<BInputGroupText class="text-light border-light bg-dark">
+											# of Candles:
+										</BInputGroupText>
+									</BInputGroupPrepend>
+									
+									<BFormInput
 										v-model="$route.params.candlecount"
 										type="text"
-										class="form-control bg-dark border-light text-light"
-									>
-									<div class="input-group-append">
+										variant="dark"
+										placeholder="limit"
+										border-variant="secondary"
+										class="border-light text-center text-light bg-dark"
+										style="max-width: 50px;"
+									/>
+
+									<BInputGroupAppend>
 										<BButton
-											type="submit"
 											variant="outline-light"
-										>Update Number of Candles</BButton>
-									</div>
-								</div>
+											class="bg-primary font-weight-bold"
+											type="submit"
+										>⟳</BButton>
+									</BInputGroupAppend>
+								</BInputGroup>
 							</form>
 						</BCol>
 
