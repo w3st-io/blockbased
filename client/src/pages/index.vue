@@ -1,12 +1,5 @@
 <template>
 	<BContainer class="my-5">
-		<BRow class="">
-			<BCol cols="12">
-				<!-- Adsense -->
-				<Adsense class="mb-3 bg-dark" />
-			</BCol>
-		</BRow>
-
 		<!-- Crypto Market -->
 		<CryptoChart
 			v-if="!loading"
@@ -94,7 +87,6 @@
 
 <script>
 	// [IMPORT] //
-	import Adsense from '@/components/adsense'
 	import AdsenseTall from '@/components/adsense/Tall'
 	import CatList from '@/components/cat/List'
 	import Alert from '@/components/inform/Alert'
@@ -124,7 +116,6 @@
 
 		components: {
 			ArticleConveyor,
-			Adsense,
 			AdsenseTall,
 			CatList,
 			Alert,
