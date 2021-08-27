@@ -166,7 +166,7 @@ const router = new Router ({
 		},
 		// Asset //
 		{
-			path: '/asset/:exchange/:product_id/:timeframe',
+			path: '/asset/:exchange/:product_id/:timeframe/:candlecount',
 			name: 'asset',
 			component: asset,
 			meta: {

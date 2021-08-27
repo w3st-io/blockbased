@@ -13,7 +13,7 @@
 		<BCard bg-variant="dark" text-variant="light">
 			<BRow>
 				<!-- Header Left Side -->
-				<BCol cols="12" md="8">
+				<BCol cols="12" lg="8">
 					<BRow>
 						<!-- Exchange & Product ID -->
 						<BCol cols="12">
@@ -37,7 +37,7 @@
 
 						<!-- Current Candle Stats -->
 						<BCol cols="12">
-							<BRow>
+							<BRow class="mb-3">
 								<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
 									<h5 class="text-center text-secondary">
 										Open:
@@ -68,13 +68,13 @@
 				</BCol>
 
 				<!-- Time Frame Selector -->
-				<BCol cols="12" md="4" class="">
+				<BCol cols="12" lg="4" class="">
 					<BRow>
 						<BCol cols="12" class="">
 							<form @submit.prevent="timeFrameRedirect($route.params.timeframe)">
 								<div class="input-group input-group-sm mb-3">
 									<input
-										v-model="assetData.candleCount"
+										v-model="$route.params.candlecount"
 										type="text"
 										class="form-control bg-dark border-light text-light"
 									>
@@ -285,7 +285,6 @@
 
 				assetData: {
 					assetLogoImg: '',
-					candleCount: 300,
 					graph: {
 						labels: [],
 						times: [],
@@ -366,7 +365,7 @@
 					exchange: this.$route.params.exchange,
 					product_id: this.$route.params.product_id,
 					timeFrame: this.$route.params.timeframe,
-					candleCount: this.assetData.candleCount,
+					candleCount: this.$route.params.candlecount,
 				})
 
 				if (this.reqData.status) {
@@ -404,10 +403,6 @@
 		},
 
 		async created() {
-			if (this.$store.state.node_env == 'development') {
-				this.assetData.candleCount = 30
-			}
-
 			await this.getPageDataLocally()
 
 			await this.subscribe()

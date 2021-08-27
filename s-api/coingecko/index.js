@@ -14,8 +14,6 @@ module.exports = {
 			)
 	
 			coins = res.data
-
-			console.log(coins);
 		}
 		catch (err) { console.log(`coingecko API Error --> ${err}`) }
 	},

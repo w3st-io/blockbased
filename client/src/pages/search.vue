@@ -219,7 +219,8 @@
 					params: {
 						exchange: exchange,
 						product_id: product_id,
-						timeframe: '1m'
+						timeframe: '1m',
+						candlecount: '100'
 					}
 				})
 			},
