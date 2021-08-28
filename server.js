@@ -124,7 +124,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
 app.use(express.static(__dirname + '/s-static'))
-app.use(rateLimiter.limiter)
+app.use(rateLimiter.global)
 
 
 // [USE] Personal - API //

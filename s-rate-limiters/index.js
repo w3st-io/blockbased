@@ -8,7 +8,7 @@ const defaultMessage = 'Too many requests, please try again later'
 
 module.exports = {
 	// [GLOBAL] //
-	limiter: rateLimit({
+	global: rateLimit({
 		windowMs: 15 * 60 * 1000, // 15 minutes
 		max: 500,
 		message: {
