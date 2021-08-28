@@ -22,7 +22,7 @@
 									<!-- Asset Logo Img -->
 									<img
 										:src="assetData.assetLogoImg"
-										alt="image here"
+										alt=""
 										class="w-100"
 										style="max-width: 20px;"
 									>
@@ -194,6 +194,7 @@
 					<h5>Quote</h5>
 
 					<BRow class="px-3">
+						<!-- Asset Name -->
 						<BCol
 							cols="6" sm="3" md="2" lg="1"
 							class="p-0 px-1 bg-data border border-dark"
@@ -204,6 +205,7 @@
 							class="p-0 px-1 bg-data border border-dark"
 						>{{ assetData.data.name }}</BCol>
 
+						<!-- Circulation Supply -->
 						<BCol
 							cols="6" sm="3" md="2" lg="1"
 							class="p-0 px-1 bg-data border border-dark"
@@ -214,6 +216,7 @@
 							class="p-0 px-1 bg-data border border-dark"
 						>{{ assetData.data.circulating_supply }}</BCol>
 
+						<!-- Total Supply -->
 						<BCol
 							cols="6" sm="3" md="2" lg="1"
 							class="p-0 px-1 bg-data border border-dark"
@@ -224,6 +227,7 @@
 							class="p-0 px-1 bg-data border border-dark"
 						>{{ assetData.data.total_supply }}</BCol>
 
+						<!-- Market Cap -->
 						<BCol
 							cols="6" sm="3" md="2" lg="1"
 							class="p-0 px-1 bg-data border border-dark"
@@ -234,6 +238,7 @@
 							class="p-0 px-1 bg-data border border-dark"
 						>{{ assetData.data.market_cap }}</BCol>
 
+						<!-- Total Volume -->
 						<BCol
 							cols="6" sm="3" md="2" lg="1"
 							class="p-0 px-1 bg-data border border-dark"
@@ -244,6 +249,7 @@
 							class="p-0 px-1 bg-data border border-dark"
 						>{{ assetData.data.total_volume }}</BCol>
 
+						<!-- High 24h -->
 						<BCol
 							cols="6" sm="3" md="2" lg="1"
 							class="p-0 px-1 bg-data border border-dark"
@@ -254,6 +260,7 @@
 							class="p-0 px-1 bg-data border border-dark"
 						>{{ assetData.data.high_24h }}</BCol>
 
+						<!-- Low 24h -->
 						<BCol
 							cols="6" sm="3" md="2" lg="1"
 							class="p-0 px-1 bg-data border border-dark"
@@ -271,113 +278,6 @@
 			<BRow>
 				<BCol cols="12">
 					<h6 class="text-danger">{{ error }}</h6>
-				</BCol>
-			</BRow>
-
-			<!-- [ADMIN] Socket Data -->
-			<BRow
-				v-if="$store.state.node_env == 'development'"
-				class="mt-3 border border-warning"
-			>
-				<BCol cols="12">
-					<h3 class="text-primary">Socket Date:</h3>
-					<h6>{{ sockData }}</h6>
-				</BCol>
-
-				<BCol :key="key" cols="12">
-					<h6 class="text-primary">labels</h6>
-					<h6>
-						Latest:
-						{{ this.assetData.graph.labels[this.assetData.graph.labels.length - 1] }}
-						<br>
-						Array:{{ this.assetData.graph.labels }}
-						<br>
-						Length: {{ this.assetData.graph.labels.length }}
-					</h6>
-
-					<h6 class="text-primary">times</h6>
-					<h6>
-						Latest:
-						{{
-							this.assetData.graph.times[
-								this.assetData.graph.times.length - 1
-							]
-						}}
-						<br>
-						Array: {{ this.assetData.graph.times }}
-						<br>
-						Length: {{ this.assetData.graph.times.length }}
-					</h6>
-					
-					<h6 class="text-primary">opens</h6>
-					<h6>
-						Latest:
-						{{
-							this.assetData.graph.opens[
-								this.assetData.graph.opens.length - 1
-							]
-						}}
-						<br>
-						Array: {{ this.assetData.graph.opens }}
-						<br>
-						Length: {{ this.assetData.graph.opens.length }}
-					</h6>
-
-					<h6 class="text-primary">closes</h6>
-					<h6>
-						Latest:
-						{{
-							this.assetData.graph.closes[
-								this.assetData.graph.closes.length - 1
-							]
-						}}
-						<br>
-						Array: {{ this.assetData.graph.closes }}
-						<br>
-						Length: {{ this.assetData.graph.closes.length }}
-					</h6>
-
-					<h6 class="text-primary">highs</h6>
-					<h6>
-						Latest:
-						{{
-							this.assetData.graph.highs[
-								this.assetData.graph.highs.length - 1
-							]
-						}}
-						<br>
-						Array: {{ this.assetData.graph.highs }}
-						<br>
-						Length: {{ this.assetData.graph.highs.length }}
-					</h6>
-
-					<h6 class="text-primary">lows</h6>
-					<h6>
-						Latest:
-						{{
-							this.assetData.graph.lows[
-								this.assetData.graph.lows.length - 1
-							]
-						}}
-						<br>
-						Array: {{ this.assetData.graph.lows }}
-						<br>
-						Length: {{ this.assetData.graph.lows.length }}
-					</h6>
-
-					<h6 class="text-primary">volumes</h6>
-					<h6>
-						Latest:
-						{{
-							this.assetData.graph.volumes[
-								this.assetData.graph.volumes.length - 1
-							]
-						}}
-						<br>
-						Array: {{ this.assetData.graph.volumes }}
-						<br>
-						Length: {{ this.assetData.graph.volumes.length }}
-					</h6>
 				</BCol>
 			</BRow>
 		</BCard>
