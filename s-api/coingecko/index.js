@@ -5,8 +5,6 @@ const axios = require('axios')
 let coins = []
 
 module.exports = {
-	coins: coins,
-
 	updateCoins: async function () {
 		try {
 			const res = await axios.get(

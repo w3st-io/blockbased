@@ -22,6 +22,7 @@
 									<!-- Asset Logo Img -->
 									<img
 										:src="assetData.assetLogoImg"
+										alt="image here"
 										class="w-100"
 										style="max-width: 20px;"
 									>
@@ -31,7 +32,11 @@
 							<!-- Last -->
 							<h1 class="text-light">
 								Last:
-								{{ this.assetData.graph.closes[this.assetData.graph.closes.length - 1] }}
+								{{
+									this.assetData.graph.closes[
+										this.assetData.graph.closes.length - 1
+									]
+								}}
 							</h1>
 						</BCol>
 
@@ -41,25 +46,41 @@
 								<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
 									<h5 class="text-center text-secondary">
 										Open:
-										{{ this.assetData.graph.opens[this.assetData.graph.opens.length - 1] }}
+										{{
+											this.assetData.graph.opens[
+												this.assetData.graph.opens.length - 1
+											]
+										}}
 									</h5>
 								</BCol>
 								<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
 									<h5 class="text-center text-success">
 										High:
-										{{ this.assetData.graph.highs[this.assetData.graph.highs.length - 1] }}
+										{{
+											this.assetData.graph.highs[
+												this.assetData.graph.highs.length - 1
+											]
+										}}
 									</h5>
 								</BCol>
 								<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
 									<h5 class="text-center text-danger">
 										Low:
-										{{ this.assetData.graph.lows[this.assetData.graph.lows.length - 1] }}
+										{{
+											this.assetData.graph.lows[
+												this.assetData.graph.lows.length - 1
+											]
+										}}
 									</h5>
 								</BCol>
 								<BCol cols="12" sm="6" md="3" class="d-none d-sm-block">
 									<h5 class="text-center text-light">
 										Close:
-										{{ this.assetData.graph.closes[this.assetData.graph.closes.length - 1] }}
+										{{
+											this.assetData.graph.closes[
+												this.assetData.graph.closes.length - 1
+											]
+										}}
 									</h5>
 								</BCol>
 							</BRow>
@@ -72,15 +93,17 @@
 					<BRow>
 						<BCol cols="12" class="">
 							<form
-								@submit.prevent="timeFrameRedirect($route.params.timeframe)"
+								@submit.prevent="
+									timeFrameRedirect($route.params.timeframe)
+								"
 								class="ml-auto"
 								style="max-width: 300px;"
 							>
 								<BInputGroup size="sm" class="mb-3">
 									<BInputGroupPrepend class="ml-auto bg-dark">
-										<BInputGroupText class="text-light border-light bg-dark">
-											Number of Candles:
-										</BInputGroupText>
+										<BInputGroupText
+											class="text-light border-light bg-dark"
+										>Number of Candles:</BInputGroupText>
 									</BInputGroupPrepend>
 									
 									<BFormInput
@@ -153,7 +176,7 @@
 				<BCol cols="12"><hr class="bg-primary"></BCol>
 
 				<BCol cols="12">
-					<!-- CHART -->
+					<!-- [CHART] -->
 					<AssetLineChart
 						v-if="!loading"
 						:key="chartKey"
@@ -165,6 +188,82 @@
 						class="w-100 bg-dark"
 						style="height: 450px;"
 					/>
+				</BCol>
+
+				<BCol cols="12" class="py-4">
+					<h5>Quote</h5>
+
+					<BRow class="px-3">
+						<BCol
+							cols="6" sm="3" md="2" lg="1"
+							class="p-0 px-1 bg-data border border-dark"
+						>Name</BCol>
+
+						<BCol
+							cols="6" sm="3" md="2" lg="1"
+							class="p-0 px-1 bg-data border border-dark"
+						>{{ assetData.data.name }}</BCol>
+
+						<BCol
+							cols="6" sm="3" md="2" lg="1"
+							class="p-0 px-1 bg-data border border-dark"
+						>Circulating Supply</BCol>
+
+						<BCol
+							cols="6" sm="3" md="2" lg="1"
+							class="p-0 px-1 bg-data border border-dark"
+						>{{ assetData.data.circulating_supply }}</BCol>
+
+						<BCol
+							cols="6" sm="3" md="2" lg="1"
+							class="p-0 px-1 bg-data border border-dark"
+						>Total Supply</BCol>
+
+						<BCol
+							cols="6" sm="3" md="2" lg="1"
+							class="p-0 px-1 bg-data border border-dark"
+						>{{ assetData.data.total_supply }}</BCol>
+
+						<BCol
+							cols="6" sm="3" md="2" lg="1"
+							class="p-0 px-1 bg-data border border-dark"
+						>Market Cap</BCol>
+
+						<BCol
+							cols="6" sm="3" md="2" lg="1"
+							class="p-0 px-1 bg-data border border-dark"
+						>{{ assetData.data.market_cap }}</BCol>
+
+						<BCol
+							cols="6" sm="3" md="2" lg="1"
+							class="p-0 px-1 bg-data border border-dark"
+						>Total Volume</BCol>
+
+						<BCol
+							cols="6" sm="3" md="2" lg="1"
+							class="p-0 px-1 bg-data border border-dark"
+						>{{ assetData.data.total_volume }}</BCol>
+
+						<BCol
+							cols="6" sm="3" md="2" lg="1"
+							class="p-0 px-1 bg-data border border-dark"
+						>High 24h</BCol>
+
+						<BCol
+							cols="6" sm="3" md="2" lg="1"
+							class="p-0 px-1 bg-data border border-dark"
+						>{{ assetData.data.high_24h }}</BCol>
+
+						<BCol
+							cols="6" sm="3" md="2" lg="1"
+							class="p-0 px-1 bg-data border border-dark"
+						>Low 24h</BCol>
+
+						<BCol
+							cols="6" sm="3" md="2" lg="1"
+							class="p-0 px-1 bg-data border border-dark"
+						>{{ assetData.data.low_24h }}</BCol>
+					</BRow>
 				</BCol>
 			</BRow>
 
@@ -310,6 +409,7 @@
 						lows: [],
 						volumes: [],
 					},
+					data: {},
 				},
 
 				loading: true,
@@ -394,6 +494,9 @@
 					this.assetData.graph.volumes = this.reqData.graph.volumes
 
 					this.addNewCandle()
+
+					this.assetData.assetLogoImg = this.reqData.apiData.cryptocurrencyData.image
+					this.assetData.data = this.reqData.apiData.cryptocurrencyData
 				}
 				else { this.error = this.reqData.message }
 
@@ -461,3 +564,9 @@
 		},
 	}
 </script>
+
+<style lang="scss" scoped>
+	.bg-data {
+		background-color: rgba(255, 255, 255, 0.15) !important;
+	}
+</style>

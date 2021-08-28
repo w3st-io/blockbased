@@ -196,6 +196,8 @@ export default {
 	// [ASSET] //
 	s_asset: async function ({ exchange, product_id, timeFrame, candleCount }) {
 		try {
+			const authAxios = await this.authAxios()
+
 			const productHistory = await crypto.productHistoricRate({
 				exchange: exchange,
 				product_id: product_id,
@@ -203,10 +205,15 @@ export default {
 				candleCount: candleCount,
 			})
 
+			const res = await authAxios.get(
+				`/asset/index/${exchange}/${product_id}/${timeFrame}/${candleCount}`
+			)
+
 			return {
 				executed: true,
 				status: true,
 				graph: productHistory.graph,
+				apiData: res.data
 			}
 		}
 		catch (err) {
