@@ -25,7 +25,7 @@
 						:key="i"
 						class="h-100"
 					>
-						<a :href="slide.url">
+						<a :href="slide.url" class="text-decoration-none">
 							<BCard
 								:img-src="slide.image"
 								img-alt=""

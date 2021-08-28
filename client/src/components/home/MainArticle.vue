@@ -1,7 +1,7 @@
 <template>
 	<!-- Main Article -->
-	<BCard bg-variant="dark" border-variant="secondary" class="mb-2 card" no-body>
-		<a :href="news.url">
+	<BCard bg-variant="dark" border-variant="secondary" no-body class="mb-2 card">
+		<a :href="news.url" class="text-decoration-none">
 			<BRow>
 				<BCol cols="12" md="7">
 					<img
