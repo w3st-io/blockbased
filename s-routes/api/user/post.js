@@ -22,7 +22,7 @@ const router = express.Router().use(cors())
 // [CREATE] Auth Required //
 router.post(
 	'/create',
-	rateLimiter.postLimiter,
+	rateLimiter.post,
 	Auth.userToken(),
 	async (req, res) => {
 		try {
@@ -113,7 +113,7 @@ router.post(
 // [LIKE] Auth Required //
 router.post(
 	'/like',
-	rateLimiter.likeLimiter,
+	rateLimiter.like,
 	Auth.userToken(),
 	async (req, res) => {
 		try {
@@ -181,7 +181,7 @@ router.post(
 // [UNLIKE] Auth Required //
 router.post(
 	'/unlike',
-	rateLimiter.likeLimiter,
+	rateLimiter.like,
 	Auth.userToken(),
 	async (req, res) => {
 		try {
@@ -240,7 +240,7 @@ router.post(
 // [FOLLOW] Auth Required //
 router.post(
 	'/follow',
-	rateLimiter.followLimiter,
+	rateLimiter.follow,
 	Auth.userToken(),
 	async (req, res) => {
 		try {
@@ -276,7 +276,7 @@ router.post(
 // [UNFOLLOW] Auth Required //
 router.post(
 	'/unfollow',
-	rateLimiter.followLimiter,
+	rateLimiter.follow,
 	Auth.userToken(),
 	async (req, res) => {
 		try {

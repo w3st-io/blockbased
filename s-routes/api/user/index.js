@@ -173,7 +173,7 @@ router.post(
 // [REGISTER] //
 router.post(
 	'/register',
-	rateLimiters.registrationLimiter,
+	rateLimiters.registration,
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
@@ -523,7 +523,7 @@ router.post(
 router.post(
 	'/report',
 	Auth.userToken(),
-	rateLimiters.reportLimiter,
+	rateLimiters.report,
 	async (req, res) => {
 		try {
 			// [VALIDATE] //

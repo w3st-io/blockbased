@@ -20,7 +20,7 @@ module.exports = {
 
 
 	// [POST] //
-	postLimiter: rateLimit({
+	post: rateLimit({
 		windowMs: 60 * 60 * 1000,
 		max: 60,
 		message: {
@@ -32,7 +32,7 @@ module.exports = {
 
 
 	// [COMMENT] //
-	commentLimiter: rateLimit({
+	comment: rateLimit({
 		windowMs: 60 * 60 * 1000,
 		max: 60,
 		message: {
@@ -44,7 +44,7 @@ module.exports = {
 
 
 	// [FOLLOW] //
-	followLimiter: rateLimit({
+	follow: rateLimit({
 		windowMs: 60 * 60 * 1000,
 		max: 100,
 		message: {
@@ -56,7 +56,7 @@ module.exports = {
 
 
 	// [LIKE] //
-	likeLimiter: rateLimit({
+	like: rateLimit({
 		windowMs: 60 * 60 * 1000,
 		max: 200,
 		message: {
@@ -68,7 +68,7 @@ module.exports = {
 
 
 	// [REGISTRATION] //
-	registrationLimiter: rateLimit({
+	registration: rateLimit({
 		windowMs: 60 * 60 * 1000,
 		max: 20,
 		message: {
@@ -80,7 +80,7 @@ module.exports = {
 
 
 	// [REPORT] //
-	reportLimiter: rateLimit({
+	report: rateLimit({
 		windowMs: 60 * 60 * 1000,
 		max: 10,
 		message: {

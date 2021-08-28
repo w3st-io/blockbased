@@ -129,7 +129,7 @@ router.post(
 // [REGISTER] //
 router.post(
 	'/register',
-	rateLimiters.registrationLimiter,
+	rateLimiters.registration,
 	async (req, res) => {
 		try {
 			if (

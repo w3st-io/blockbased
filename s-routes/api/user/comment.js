@@ -28,7 +28,7 @@ const router = express.Router().use(cors())
 router.post(
 	'/create',
 	Auth.userToken(),
-	rateLimiter.commentLimiter,
+	rateLimiter.comment,
 	async (req, res) => {
 		try {
 			// [INIT] //
@@ -288,7 +288,7 @@ router.delete(
 router.post(
 	'/like',
 	Auth.userToken(),
-	rateLimiter.likeLimiter,
+	rateLimiter.like,
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
@@ -347,7 +347,7 @@ router.post(
 router.post(
 	'/unlike',
 	Auth.userToken(),
-	rateLimiter.likeLimiter,
+	rateLimiter.like,
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
@@ -386,7 +386,7 @@ router.post(
 router.post(
 	'/report',
 	Auth.userToken(),
-	rateLimiter.reportLimiter,
+	rateLimiter.report,
 	async (req, res) => {
 		try {
 			// [VALIDATE] //
