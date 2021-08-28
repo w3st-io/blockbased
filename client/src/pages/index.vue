@@ -6,6 +6,7 @@
 			:btcHistoricRate="btcHistoricRate"
 			:dogeHistoricRate="dogeHistoricRate"
 			:ethHistoricRate="ethHistoricRate"
+			class="mb-2"
 		/>
 
 		<BRow v-if="!loading && newsObj.length > 0">
@@ -31,17 +32,17 @@
 					v-if="cryptoPrices.length > 0"
 					bg-variant="dark"
 					no-body
-					class="mb-3 p-2 text-light shadow"
+					class="mb-4 p-2 text-light shadow"
 				>
 					<!-- Crypto Prices -->
-					<CryptoPrices :cryptoPrices="cryptoPrices"/>
+					<CryptoPrices :cryptoPrices="cryptoPrices" />
 				</BCard>
 
 				<!-- Google Adsense -->
 				<BCard
 					bg-variant="dark"
-					class="mb-3 p-1 text-light"
 					no-body
+					class="mb-4 p-1 text-light"
 				>
 					<h6 class="text-center text-secondary">Sponsor</h6>
 
@@ -53,7 +54,7 @@
 
 		<!-- Main Content -->
 		<BRow v-if="!loading" class="mb-3">
-			<BCol cols="lg-9" class="mb-3 p-0">
+			<BCol cols="lg-9" class="mb-3">
 				<BCard bg-variant="dark" text-variant="light" class="shadow">
 					<CatList
 						:categories="categories"
