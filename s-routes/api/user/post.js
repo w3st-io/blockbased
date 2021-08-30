@@ -45,9 +45,9 @@ router.post(
 						user_id: req.user_decoded.user_id,
 						type: 'post',
 						post_id: post.createdPost._id,
-						created_user_id: undefined,
-						created_post_id: post.createdPost._id,
-						created_comment_id: undefined,
+						createdUser_id: undefined,
+						createdPost_id: post.createdPost._id,
+						createdComment_id: undefined,
 					})
 
 					if (pActivity.status) {
@@ -64,9 +64,9 @@ router.post(
 								user_id: req.user_decoded.user_id,
 								type: 'comment',
 								post_id: comment.comment.post,
-								created_user_id: undefined,
-								created_post_id: undefined,
-								created_comment_id: comment.comment._id,
+								createdUser_id: undefined,
+								createdPost_id: undefined,
+								createdComment_id: comment.comment._id,
 							})
 						
 							if (cActivity.status) {

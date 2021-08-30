@@ -208,9 +208,9 @@ router.post(
 						user_id: user.user._id,
 						type: 'user',
 						post_id: undefined,
-						created_user_id: user.user._id,
-						created_post_id: undefined,
-						created_comment_id: undefined,
+						createdUser_id: user.user._id,
+						createdPost_id: undefined,
+						createdComment_id: undefined,
 					})
 
 					if (activity.status) {

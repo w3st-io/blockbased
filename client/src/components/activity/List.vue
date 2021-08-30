@@ -10,7 +10,7 @@
 					<!-- Created User -->
 					<BRow v-if="activity.type == 'user'">
 						<BCol class="m-0 p-0" style="max-width: 35px;">
-							<img :src="activity.created_user.profile_img" class="w-100">
+							<img :src="activity.createdUser.profile_img" class="w-100">
 						</BCol>
 
 						<BCol>
@@ -39,8 +39,8 @@
 								>{{ activity.user.username }}</a>
 
 								created post: 
-								<a href="#" @click="redirectPost(activity.created_post._id)">
-									{{ activity.created_post.title.replace(/(.{60})..+/, '$1…') }}
+								<a href="#" @click="redirectPost(activity.createdPost._id)">
+									{{ activity.createdPost.title.replace(/(.{60})..+/, '$1…') }}
 								</a>
 							</h5>
 						</BCol>

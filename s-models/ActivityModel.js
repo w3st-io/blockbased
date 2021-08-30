@@ -28,17 +28,17 @@ const activity = mongoose.Schema({
 		enum: ['comment', 'manager', 'post', 'user'],
 	},
 
-	created_user: {
+	createdUser: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
 	},
 
-	created_post: {
+	createdPost: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Post',
 	},
 
-	created_comment: {
+	createdComment: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Comment',
 	},

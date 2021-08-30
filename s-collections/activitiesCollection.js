@@ -11,7 +11,7 @@ const ActivityModel = require('../s-models/ActivityModel')
 module.exports = {
 	/******************* [CRUD] *******************/
 	// [CREATE] //
-	c_create: async ({ user_id, type, post_id, created_user_id, created_post_id, created_comment_id }) => {
+	c_create: async ({ user_id, type, post_id, createdUser_id, createdPost_id, createdComment_id }) => {
 		try {
 			// [VALIDATE] user_id //
 			if (!mongoose.isValidObjectId(user_id)) {
@@ -42,30 +42,30 @@ module.exports = {
 				}
 			}
 
-			// [VALIDATE] created_user_id //
-			if (!mongoose.isValidObjectId(created_user_id)) {
+			// [VALIDATE] createdUser_id //
+			if (!mongoose.isValidObjectId(createdUser_id)) {
 				return {
 					executed: true,
 					status: false,
-					message: 'activitiesCollection: Invalid created_user_id',
+					message: 'activitiesCollection: Invalid createdUser_id',
 				}
 			}
 
-			// [VALIDATE] created_post_id //
-			if (!mongoose.isValidObjectId(created_post_id)) {
+			// [VALIDATE] createdPost_id //
+			if (!mongoose.isValidObjectId(createdPost_id)) {
 				return {
 					executed: true,
 					status: false,
-					message: 'activitiesCollection: Invalid created_post_id',
+					message: 'activitiesCollection: Invalid createdPost_id',
 				}
 			}
 
-			// [VALIDATE] created_comment_id //
-			if (!mongoose.isValidObjectId(created_comment_id)) {
+			// [VALIDATE] createdComment_id //
+			if (!mongoose.isValidObjectId(createdComment_id)) {
 				return {
 					executed: true,
 					status: false,
-					message: 'activitiesCollection: Invalid created_comment_id',
+					message: 'activitiesCollection: Invalid createdComment_id',
 				}
 			}
 
@@ -74,9 +74,9 @@ module.exports = {
 				type: type,
 				user: user_id,
 				post: post_id,
-				created_user: created_user_id,
-				created_post: created_post_id,
-				created_comment: created_comment_id,
+				createdUser: createdUser_id,
+				createdPost: createdPost_id,
+				createdComment: createdComment_id,
 			}).save()
 
 			return {
@@ -153,9 +153,9 @@ module.exports = {
 				})
 				.populate({ path: 'post' })
 				.populate({ path: 'comment' })
-				.populate({ path: 'created_comment' })
-				.populate({ path: 'created_user', select: 'username bio profile_img' })
-				.populate({ path: 'created_post' })
+				.populate({ path: 'createdComment' })
+				.populate({ path: 'createdUser', select: 'username bio profile_img' })
+				.populate({ path: 'createdPost' })
 				.exec()
 	
 			return {
@@ -227,9 +227,9 @@ module.exports = {
 				.populate({ path: 'user', select: 'username bio profile_img' })
 				.populate({ path: 'post' })
 				.populate({ path: 'comment' })
-				.populate({ path: 'created_comment' })
-				.populate({ path: 'created_user', select: 'username bio profile_img' })
-				.populate({ path: 'created_post' })
+				.populate({ path: 'createdComment' })
+				.populate({ path: 'createdUser', select: 'username bio profile_img' })
+				.populate({ path: 'createdPost' })
 				.exec()
 	
 			return {

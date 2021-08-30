@@ -123,9 +123,9 @@ router.post(
 							user_id: req.user_decoded.user_id,
 							type: 'comment',
 							post_id: cObj.comment.post,
-							created_user_id: undefined,
-							created_post_id: undefined,
-							created_comment_id: cObj.comment._id
+							createdUser_id: undefined,
+							createdPost_id: undefined,
+							createdComment_id: cObj.comment._id
 						})
 
 						res.send({
