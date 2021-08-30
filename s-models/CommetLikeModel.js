@@ -35,7 +35,7 @@ const commentLike = mongoose.Schema({
 		required: true,
 	},
 
-	created_at: {
+	createdAt: {
 		type: Date,
 		default: Date.now,
 		maxlength: 50

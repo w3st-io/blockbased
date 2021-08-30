@@ -37,7 +37,7 @@ router.get(
 
 				const userObj = await usersCollection.c_readSelect({
 					user_id: req.params.user_id,
-					select: 'username profile_img bio created_at'
+					select: 'username profile_img bio createdAt'
 				})
 
 				if (userObj.status) {

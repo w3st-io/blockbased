@@ -19,7 +19,7 @@ router.get(
 		try {
 			const userObj = await usersCollection.c_readSelect({
 				user_id: req.user_decoded.user_id,
-				select: '_id first_name last_name username bio verified created_at profile_img'
+				select: '_id first_name last_name username bio verified createdAt profile_img'
 			})
 
 			res.send(userObj)

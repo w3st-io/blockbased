@@ -60,7 +60,7 @@
 
 							<h6 class="mt-3">
 								<span class="text-secondary">Joined:</span><br>
-								{{ new Date(data.user.created_at).toLocaleString() }}
+								{{ new Date(data.user.createdAt).toLocaleString() }}
 							</h6>
 
 							<h6 class="mt-3 small text-secondary">{{ data.user.user_id }}</h6>

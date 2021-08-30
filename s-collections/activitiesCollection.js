@@ -133,7 +133,7 @@ module.exports = {
 	
 			// Set Sort //
 			if (sort == 0) { sort = {} }
-			else if (sort == 1) { sort = { created_at: -1 } }
+			else if (sort == 1) { sort = { createdAt: -1 } }
 			else {
 				return {
 					executed: true,
@@ -211,7 +211,7 @@ module.exports = {
 	
 			// Set Sort //
 			if (sort == 0) { sort = {} }
-			else if (sort == 1) { sort = { created_at: -1 } }
+			else if (sort == 1) { sort = { createdAt: -1 } }
 			else {
 				return {
 					executed: true,
@@ -455,7 +455,7 @@ module.exports = {
 	
 			const count = await ActivityModel.countDocuments({
 				user: user_id,
-				created_at: {
+				createdAt: {
 					$gte: timePointA,
 					$lte: timePointB
 				}
@@ -501,7 +501,7 @@ module.exports = {
 	
 			// [READ-ALL] timePointA < Tweets < timePointB //
 			const count = await ActivityModel.countDocuments({
-				created_at: {
+				createdAt: {
 					$gte: timePointA,
 					$lte: timePointB
 				}

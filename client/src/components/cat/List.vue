@@ -84,7 +84,7 @@
 											{{ cat.recentPost.title.replace(/(.{60})..+/, '$1…') }}
 										</a>
 										<p class="mb-1 small text-light">
-											{{ new Date(cat.recentPost.created_at).toLocaleString() }}
+											{{ new Date(cat.recentPost.createdAt).toLocaleString() }}
 										</p>
 									</BCol>
 

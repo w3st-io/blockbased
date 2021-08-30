@@ -41,7 +41,7 @@
 					</span>
 				</p>
 				<small class="text-secondary">
-					{{ new Date(notification.created_at).toLocaleString() }}
+					{{ new Date(notification.createdAt).toLocaleString() }}
 				</small>
 			</a>
 

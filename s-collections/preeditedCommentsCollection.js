@@ -45,7 +45,7 @@ module.exports = {
 				cleanJSON: comment.cleanJSON,
 				replyToComment: comment.replyToComment,
 				likeCount: comment.likeCount,
-				original_comment_created_at: comment.created_at
+				original_comment_createdAt: comment.createdAt
 			}).save()
 	
 			return {

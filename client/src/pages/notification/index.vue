@@ -66,7 +66,7 @@
 
 										<!-- Timestamp -->
 										<small class="col-md-2">
-											{{ new Date(notification.created_at).toLocaleString() }}
+											{{ new Date(notification.createdAt).toLocaleString() }}
 										</small>
 
 										<!-- Text -->

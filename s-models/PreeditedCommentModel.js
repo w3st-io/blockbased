@@ -201,7 +201,7 @@ const preeditedComment = mongoose.Schema({
 		default: null
 	},
 
-	created_at: {
+	createdAt: {
 		type: Date,
 		default: Date.now,
 		maxlength: 50

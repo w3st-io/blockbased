@@ -115,7 +115,7 @@ const c_readByUserSorted = async (user_id, sort, limit, skip) => {
 		}
 
 		if (sort == 0) { sort = {} }
-		else { sort = { created_at: -1 } }
+		else { sort = { createdAt: -1 } }
 
 		const notifications = await NotificationModel.find({ user: user_id })
 			.sort(sort)
@@ -192,7 +192,7 @@ const c_readByUserSortedUnread = async (user_id, sort, limit, skip) => {
 		}
 
 		if (sort == 0) { sort = {} }
-		else { sort = { created_at: -1 } }
+		else { sort = { createdAt: -1 } }
 
 		const notifications = await NotificationModel.find({
 			user: user_id,

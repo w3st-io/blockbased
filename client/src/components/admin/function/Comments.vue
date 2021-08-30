@@ -17,7 +17,7 @@
 					<td>{{ comment.text }}</td>
 					<td>{{ comment.user.email }}</td>
 					<td>{{ comment.user.username }}</td>
-					<td>{{ new Date(comment.created_at).toLocaleString() }}</td>
+					<td>{{ new Date(comment.createdAt).toLocaleString() }}</td>
 					<td class="text-center">
 						<BButton
 							variant="danger"

@@ -58,7 +58,7 @@ const productAddition = mongoose.Schema({
 		default: 0.00,
 	},
 
-	created_at: {
+	createdAt: {
 		type: Date,
 		default: Date.now,
 		maxlength: 50

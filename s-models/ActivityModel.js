@@ -43,7 +43,7 @@ const activity = mongoose.Schema({
 		ref: 'Comment',
 	},
 
-	created_at: {
+	createdAt: {
 		type: Date,
 		default: Date.now,
 		maxlength: 50

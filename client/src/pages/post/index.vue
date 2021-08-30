@@ -12,7 +12,7 @@
 					</h3>
 					<span class="m-0 h6 text-secondary">
 						Posted by: {{ post.user.username }} -
-						{{ new Date(post.created_at).toLocaleString() }}
+						{{ new Date(post.createdAt).toLocaleString() }}
 					</span>
 				</BCol>
 

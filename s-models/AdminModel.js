@@ -49,7 +49,7 @@ const admin = mongoose.Schema({
 		required: [true, 'Password is required'],
 	},
 	
-	created_at: {
+	createdAt: {
 		type: Date,
 		default: Date.now,
 		maxlength: 50

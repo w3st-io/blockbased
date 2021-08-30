@@ -23,7 +23,7 @@
 								<span v-if="post.user.username" class="text-light">
 									{{ post.user.username }}
 								</span>
-								- {{ new Date(post.created_at).toLocaleString() }}
+								- {{ new Date(post.createdAt).toLocaleString() }}
 							</p>
 						</BCol>
 

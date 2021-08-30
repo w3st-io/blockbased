@@ -329,7 +329,7 @@ module.exports = {
 	
 			// Set Sort //
 			if (sort == 0) { sort = {} }
-			else if (sort == 1) { sort = { created_at: -1 } }
+			else if (sort == 1) { sort = { createdAt: -1 } }
 			else {
 				return {
 					executed: true,

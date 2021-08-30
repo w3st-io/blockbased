@@ -13,7 +13,7 @@
 				<tr v-for="report in commentReports" :key="report._id">
 					<td>{{ report.reportType }}</td>
 					<td>{{ report.user.username }}</td>
-					<td>{{ new Date(report.created_at).toLocaleString() }}</td>
+					<td>{{ new Date(report.createdAt).toLocaleString() }}</td>
 					<td class="text-center">
 						<BButton variant="danger" @click="handleReport(report._id)">
 							Handle

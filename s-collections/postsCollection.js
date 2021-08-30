@@ -226,7 +226,7 @@ module.exports = {
 			}
 	
 			// Set Sort //
-			if (sort == 0) { sort = { created_at: -1 } }
+			if (sort == 0) { sort = { createdAt: -1 } }
 			else if (sort == 1) { sort = { likeCount: -1 } }
 			else {
 				return {
@@ -318,7 +318,7 @@ module.exports = {
 			}
 	
 			// Set Sort //
-			if (sort == 0) { sort = { created_at: -1 } }
+			if (sort == 0) { sort = { createdAt: -1 } }
 			else if (sort == 1) { sort = { likeCount: -1 } }
 			else {
 				return {
@@ -390,7 +390,7 @@ module.exports = {
 			}
 	
 			// Set Sort //
-			if (sort == 0) { sort = { created_at: -1 } }
+			if (sort == 0) { sort = { createdAt: -1 } }
 			else if (sort == 0) { sort = { likeCount: -1 } }
 	
 			let posts = await PostModel.find({ cat_id, pinned: true, })

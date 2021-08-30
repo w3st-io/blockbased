@@ -105,7 +105,7 @@ const product = mongoose.Schema({
 		}
 	],
 
-	created_at: {
+	createdAt: {
 		type: Date,
 		default: Date.now,
 		maxlength: 50

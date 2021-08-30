@@ -19,7 +19,7 @@
 				{{ post.user.username }}
 				<span class="text-secondary">
 					-
-					{{ new Date(post.created_at).toLocaleString() }}
+					{{ new Date(post.createdAt).toLocaleString() }}
 				</span>
 			</BListGroupItem>
 		</BListGroup>
