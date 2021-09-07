@@ -47,6 +47,7 @@ function validate({ cleanJSON }) {
 	return { status: true }
 }
 
+
 const comment = mongoose.Schema({
 	_id: mongoose.Schema.Types.ObjectId,
 	
