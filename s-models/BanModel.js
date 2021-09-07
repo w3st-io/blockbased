@@ -2,7 +2,7 @@
 const mongoose = require('mongoose')
 
 
-// [VALIDATOR] //
+// [VALIDATE] //
 function validate({ ban }) {
 	return { status: true }
 }

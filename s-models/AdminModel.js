@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const mongooseFuzzySearching = require('mongoose-fuzzy-searching')
 
 
-// [VALIDATOR] //
+// [VALIDATE] //
 function validate({ admin }) {
 	return { status: true }
 }

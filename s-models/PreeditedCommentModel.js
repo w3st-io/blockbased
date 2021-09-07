@@ -2,7 +2,7 @@
 const mongoose = require('mongoose')
 
 
-// [VALIDATOR] //
+// [VALIDATE] //
 function validate({ preeditedComment }) {
 	// [LENGTH-CHECK] Blocks //
 	if (preeditedComment.cleanJSON.blocks.length > 20) {
