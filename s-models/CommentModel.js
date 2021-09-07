@@ -3,16 +3,16 @@ const mongoose = require('mongoose')
 
 
 // [VALIDATOR] //
-function validate({ comment }) {
+function validate({ cleanJSON }) {
 	// [LENGTH-CHECK] Blocks //
-	if (comment.cleanJSON.blocks.length > 20) {
+	if (cleanJSON.blocks.length > 20) {
 		return {
 			status: false,
 			message: 'Error: Comment too large'
 		}
 	}
 		
-	comment.cleanJSON.blocks.forEach((block) => {
+	cleanJSON.blocks.forEach((block) => {
 		// [LENGTH-CHECK] List Items //
 		if (block.data.items) {
 			return {
@@ -196,13 +196,12 @@ const comment = mongoose.Schema({
 	createdAt: {
 		type: Date,
 		default: Date.now,
-		maxlength: 50
 	},
 })
 
 
 comment.pre('validate', function (next) {
-	const status = validate({ comment: this })
+	const status = validate({ cleanJSON: this.cleanJSON })
 
 	if (status.status == false) { throw status.message }
 	
@@ -211,7 +210,7 @@ comment.pre('validate', function (next) {
 
 
 comment.pre('updateOne', function (next) {
-	const status = validate({ comment: this._update.$set })
+	const status = validate({ cleanJSON: this._update.$set.cleanJSON })
 
 	if (status.status == false) { throw status.message }
 	
