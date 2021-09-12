@@ -15,6 +15,7 @@
 				<BTab
 					title="Cryptocurrencies"
 					v-bind="{ active: $route.params.tab == 0 }"
+					@click="switchTab('0')"
 				>
 					<BCardText>
 						<BRow>
@@ -84,6 +85,7 @@
 				<BTab
 					title="All Other Searches"
 					v-bind="{ active: $route.params.tab == 1 }"
+					@click="switchTab('1')"
 				>
 					<BCardText>
 						<hr class="my-4 border-secondary">
@@ -182,6 +184,7 @@
 		data() {
 			return {
 				type: this.$route.params.type,
+				tab: this.$route.params.tab,
 				limit: parseInt(this.$route.params.limit),
 				page: parseInt(this.$route.params.page),
 				coinbaseResults: [],
@@ -264,7 +267,7 @@
 					name: 'search',
 					params: {
 						query: this.$route.params.query,
-						tab: this.$route.params.tab,
+						tab: this.tab,
 						type: this.type,
 						limit: this.limit,
 						page: this.page,
@@ -336,18 +339,19 @@
 				}
 			},
 
-			log() {
-				console.log('%%% [PAGE] /search %%%')
-				console.log('reqData:', this.reqData)
-			}
+			async switchTab(tab) {
+				this.tab = tab
+
+				this.refreshRoute()
+
+				await this.getPageData()
+			},
 		},
 
 		async created() {
 			await this.getPageData()
 			
 			await this.getPageDataLocally()
-
-			this.log()
 		},
 	}
 </script>
