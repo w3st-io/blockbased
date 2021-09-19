@@ -8,6 +8,10 @@ const config = require('../../s-config')
 const state = require('./state')
 const timeUtil = require('../../s-utils/timeUtil')
 
+// [INIT] //
+const location = '/s-api/coinbase/webSocket'
+
+
 module.exports = {
 	start: async (io) => {
 		// [INIT] //
@@ -65,16 +69,18 @@ module.exports = {
 					}
 				}
 			}
-			catch(e) { console.log(`Caught Error --> ${e}`) }
+			catch(err) { console.log(`${location}: Caught Error --> ${err}`) }
 		})
 
 
 		// [WSS] error //
-		websocket.on('error', (err) => { console.log('Error:', err) })
+		websocket.on('error', (err) => { console.log(`${location}: Error:`, err) })
 
 
 		// [WSS] close //
-		websocket.on('close', () => { console.log('COINBASE WS CLOSED') })
+		websocket.on('close', () => {
+			console.log(`${location}: COINBASE WS CLOSED`)
+		})
 
 
 		// [TIME-OUT][1M] Start on the next minute //
