@@ -79,7 +79,7 @@ module.exports = {
 
 		// [WSS] close //
 		websocket.on('close', () => {
-			console.log(`${location}: COINBASE WS CLOSED`)
+			console.log(`${location}: Coinbase WS Closed`)
 		})
 
 
