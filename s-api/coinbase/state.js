@@ -14,7 +14,7 @@ module.exports = {
 
 	candle_1m: candle_1m,
 
-	
+
 	candle_5m: candle_5m,
 
 
