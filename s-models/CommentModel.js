@@ -143,12 +143,7 @@ const comment = mongoose.Schema({
 						type: String,
 						maxlength: 200,
 					},
-
-					service: {
-						type: String,
-						maxlength: 50,
-					},
-
+					
 					style: {
 						type: String,
 						enum: ['ordered', 'unordered']
